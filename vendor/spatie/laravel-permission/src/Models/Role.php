@@ -22,8 +22,6 @@ class Role extends Model implements RoleContract
 
     public function __construct(array $attributes = [])
     {
-        $attributes['guard_name'] = $attributes['guard_name'] ?? config('auth.defaults.guard');
-
         parent::__construct($attributes);
 
         $this->guarded[] = $this->primaryKey;
@@ -72,7 +70,7 @@ class Role extends Model implements RoleContract
     public function users(): BelongsToMany
     {
         return $this->morphedByMany(
-            getModelForGuard($this->attributes['guard_name']),
+            getModelForGuard($this->attributes['guard_name'] ?? config('auth.defaults.guard')),
             'model',
             config('permission.table_names.model_has_roles'),
             PermissionRegistrar::$pivotRole,
