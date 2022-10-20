@@ -15,87 +15,87 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         /* ADMINISTRACION */
-        Permission::create([    /* VER EN EL SIDEBAR REPORTES GENERALES */
+        Permission::create([
             'name' => 'Reporte_Movimientos_General',
-            'area' => 'Administracion',
-            'descripcion' => 'Reporte de movimientos por Sucursales',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Reporte de Movimientos por Sucursales',
             'guard_name' => 'web'
         ]);
         Permission::create([
             'name' => 'Admin_Views',
-            'area' => 'Administracion',
-            'descripcion' => '',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Permitir ver informacion solo para administadores',
             'guard_name' => 'web'
         ]);
         Permission::create([
             'name' => 'Administracion_Sidebar',
-            'area' => 'Administracion',
-            'descripcion' => 'Ver Administracion en el Sidebar',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ver Adminitración en el Sidebar',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A ROLES */
             'name' => 'Roles_Index',
-            'area' => 'Administracion',
+            'areaspermissions_id' => '1',
             'descripcion' => 'Ingresar a Roles',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A PERMISOS */
             'name' => 'Permission_Index',
-            'area' => 'Administracion',
+            'areaspermissions_id' => '1',
             'descripcion' => 'Ingresar a Permisos',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A ASIGNAR PERMISO */
             'name' => 'Asignar_Index',
-            'area' => 'Administracion',
+            'areaspermissions_id' => '1',
             'descripcion' => 'Ingresar a Asignar Permiso',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A USUARIOS CRUD */
+        Permission::create([    /* INGRESAR A USUARIOS */
             'name' => 'Usuarios_Index',
-            'area' => 'Administracion',
-            'descripcion' => 'Ingresar a Usuarios CRUD',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ingresar a Usuarios',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A CLIENTE CRUD */
+        Permission::create([    /* INGRESAR A CLIENTE */
             'name' => 'Cliente_Index',
-            'area' => 'Administracion',
-            'descripcion' => 'Ingresar a Cliente CRUD',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ingresar a Cliente',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A PROCEDENCIA CRUD */
+        Permission::create([    /* INGRESAR A PROCEDENCIA */
             'name' => 'Procedencia_Index',
-            'area' => 'Administracion',
-            'descripcion' => 'Ingresar a Procedencia Clientes CRUD',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ingresar a Procedencia Clientes',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A EMPRESA CRUD */
+        Permission::create([    /* INGRESAR A EMPRESA */
             'name' => 'Empresa_Index',
-            'area' => 'Administracion',
-            'descripcion' => 'Ingresar a Empresa (Compañía) CRUD',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ingresar a Empresa (Compañía)',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A SUCURSAL CRUD */
+        Permission::create([    /* INGRESAR A SUCURSAL */
             'name' => 'Sucursal_Index',
-            'area' => 'Administracion',
-            'descripcion' => 'Ingresar a Sucursal CRUD',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Ingresar a Sucursal',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A CAJA CRUD */
+        Permission::create([    /* INGRESAR A CAJA */
             'name' => 'Caja_Index',
-            'area' => 'Ventas Supervisor',
-            'descripcion' => 'Ingresar a Caja CRUD',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ingresar a Caja',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A CARTERA CRUD */
+        Permission::create([    /* INGRESAR A CARTERA */
             'name' => 'Cartera_Index',
-            'area' => 'Ventas Supervisor',
-            'descripcion' => 'Ingresar a Cartera CRUD',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ingresar a Cartera',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A CORTE DE CAJA */
             'name' => 'Corte_Caja_Index',
-            'area' => 'Ventas Cajero',
+            'areaspermissions_id' => '3',
             'descripcion' => 'Ingresar a Corte de Caja',
             'guard_name' => 'web'
         ]);
@@ -109,87 +109,95 @@ class PermissionSeeder extends Seeder
 
 
         /* VENTAS */
-        Permission::create([    /* INGRESAR A CATEGORIA CRUD */
-            'name' => 'Category_Index',
-            'area' => 'Inventarios',
-            'descripcion' => '',
-            'guard_name' => 'web'
-        ]);
-        Permission::create([    /* INGRESAR A PRODUCTOS CRUD */
-            'name' => 'Product_Index',
-            'area' => 'Inventarios',
-            'descripcion' => '',
-            'guard_name' => 'web'
-        ]);
-        Permission::create([    /* INGRESAR A COINS CRUD */
+        Permission::create([    /* INGRESAR A COINS */
             'name' => 'Coins_Index',
-            'area' => 'Ventas Supervisor',
+            'areaspermissions_id' => '4',
             'descripcion' => 'Crear Monedas para las Ventas',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A VENTAS */
             'name' => 'Sales_Index',
-            'area' => 'Ventas Cajero',
-            'descripcion' => 'Poder ver la Sección de Nueva Venta',
-            'guard_name' => 'web'
-        ]);
-        Permission::create([    /* INGRESAR A ARQUEOS VENTAS */
-            'name' => 'Cashout_Index',
-            'area' => 'Ventas Supervisor',
-            'descripcion' => 'Ingresar a Arqueos Ventas',
+            'areaspermissions_id' => '3',
+            'descripcion' => 'Poder realizar ventas',
             'guard_name' => 'web'
         ]);
         Permission::create([    /* INGRESAR A REPORTES VENTAS */
             'name' => 'Reportes_Index',
-            'area' => 'Ventas Supervisor',
-            'descripcion' => 'Ingresar a Reportes Ventas',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ingresar a Reporte movimiento Diario Ventas',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* PERMITIR SACAR PDF REPORTE DE VENTAS */
-            'name' => 'Report_Sales_Export',
-            'area' => 'Ventas Supervisor',
-            'descripcion' => 'Permitir sacar Pdf Reporte de Ventas',
+        //Poder filtrar y Anular una devolucion
+        Permission::create([
+            'name' => 'VentasDevolucionesFiltrar',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Poder filtrar y Anular una devolucion',
+            'guard_name' =>'web'
+        ]);
+        //Poder ver el movimiento Diario de Ventas filtrando por sucursal y poder ver la utilidad
+        Permission::create([
+            'name' => 'VentasMovDiaSucursalUtilidad',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ver el movimiento Diario de Ventas + Filtros (Por Sucursal, Ver Utilidad)',
+            'guard_name' =>'web'
+        ]);
+
+        Permission::create([    /* PERMITIR VER REPORTES DE LA CANTIDAD DE VENTAS POR USUARIO */
+            'name' => 'Reportes_Sale_Index',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ver Reportes de Ventas',
             'guard_name' => 'web'
         ]);
 
-        /* SIDEBAR */
-        Permission::create([    /* PERMITIR VER TIGO MONEY EN EL SIDEBAR */
-            'name' => 'Ver_TigoMoney_SideBar',
-            'area' => 'Tigo Money',
-            'descripcion' => '',
-            'guard_name' => 'web'
+        //Poder ver el movimiento Diario de Ventas (Sin poder filtrar por Sucursal y ver Utilidad)
+        Permission::create([
+            'name' => 'VentasMovDia_Index',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Ver el movimiento diario de Ventas',
+            'guard_name' =>'web'
         ]);
 
-        // Inventarios
+        Permission::create([
+            'name' => 'VentasLista_Index',
+            'areaspermissions_id' => '3',
+            'descripcion' => 'Poder Ver Lista de las Ventas realizados por el usuario logeado',
+            'guard_name' =>'web'
+        ]);
 
+        Permission::create([
+            'name' => 'VentasListaMasFiltros',
+            'areaspermissions_id' => '4',
+            'descripcion' => 'Poder ver la lista de Ventas con + Filtros (Ventas por Usuario)',
+            'guard_name' =>'web'
+        ]);
 
         Permission::create([
             'name' => 'Inventarios_Registros',
-            'area' => 'Inventarios',
+            'areaspermissions_id' => '2',
             'descripcion' => '',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Compras_Index',
-            'area' => 'Inventarios',
+            'areaspermissions_id' => '2',
             'descripcion' => '',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Almacen_Index',
-            'area' => 'Inventarios',
+            'areaspermissions_id' => '2',
             'descripcion' => '',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Transferencia_Index',
-            'area' => 'Inventarios',
+            'areaspermissions_id' => '2',
             'descripcion' => '',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Reportes_Inventarios_Export',
-            'area' => 'Inventarios',
+            'areaspermissions_id' => '2',
             'descripcion' => '',
             'guard_name' =>'web'
         ]);

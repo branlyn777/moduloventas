@@ -27,20 +27,14 @@
 
 		<div class="main-panel">
 			<div class="content">
-
-
-
-                @yield('content')
-
-
-
-
-
-
+				<div class="page-inner">
+					@yield('content')
+				</div>
 			</div>
             {{-- @include('layouts.theme.footer') --}}
 		</div>
 	</div>
     @include('layouts.theme.scripts')
+	@yield('javascript')
 </body>
 </html>
