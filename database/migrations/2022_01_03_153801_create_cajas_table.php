@@ -16,10 +16,10 @@ class CreateCajasTable extends Migration
         Schema::create('cajas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255);
+            $table->decimal('monto_base',10,2)->default('0');
             $table->enum('estado',['Abierto','Cerrado','Inactivo'])->default('Cerrado');
             $table->unsignedBigInteger('sucursal_id');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');
-            $table->integer('monto_base');
             $table->timestamps();
         });
     }

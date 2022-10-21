@@ -90,6 +90,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('importar-subcat',[ CategoriesController::class,'importsub'])->name('importar_subcat');
     Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
     Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
+    //Inventarios (Pdsf y Excel)
+    Route::get('productos/export/', [ProductsController::class, 'export']);
 
 
 });

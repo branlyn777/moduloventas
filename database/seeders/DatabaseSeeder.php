@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SucursalUserSeeder ::class);
         $this->call(DestinoSeeder ::class);
         $this->call(DenominationSeeder ::class);
+        $this->call(CajaSeeder ::class);
     }
 }
