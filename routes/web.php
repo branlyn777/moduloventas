@@ -12,6 +12,7 @@ use App\Http\Livewire\ComprasController;
 use App\Http\Livewire\CorteCajaController;
 use App\Http\Livewire\DestinoController;
 use App\Http\Livewire\DestinoProductoController;
+use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Livewire\LocalizacionController;
@@ -31,6 +32,7 @@ use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SucursalController;
 use App\Http\Livewire\TransferenciasController;
+use App\Http\Livewire\TransferirProductoController;
 use App\Http\Livewire\UnidadesController;
 use App\Http\Livewire\UsersController;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('locations', LocalizacionController::class)->name('locations');
     Route::get('unidades', UnidadesController::class)->name('unities');
     Route::get('marcas', MarcasController::class)->name('brands');
+    Route::post('importar-cat',[ CategoriesController::class,'import'])->name('importar_cat');
+    Route::post('importar-subcat',[ CategoriesController::class,'importsub'])->name('importar_subcat');
+    Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
+    Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
 
 
 });
