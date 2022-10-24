@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Areaspermissions;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -27,12 +28,25 @@ class PermisosController extends Component
 
     public function render()
     {
-        if (strlen($this->search) > 0) {
-            $permisos = Permission::where('name', 'like', '%' . $this->search . '%')->paginate($this->pagination);
-        } else {
-            $permisos = Permission::orderBy('name', 'asc')->paginate($this->pagination);
+        if(strlen($this->search) > 0)
+        {
+            $permisos = Permission::join("areaspermissions as a", "a.id", "permissions.areaspermissions_id")
+            ->select("permissions.id as id","permissions.name as name","permissions.descripcion as descripcion","a.name as area")
+            ->orderBy('name', 'asc')
+            ->where('permissions.name', 'like', '%' . $this->search . '%')
+            ->paginate($this->pagination);
+
+
+        }
+        else
+        {
+            $permisos = Permission::join("areaspermissions as a", "a.id", "permissions.areaspermissions_id")
+            ->select("permissions.id as id","permissions.name as name","permissions.descripcion as descripcion","a.name as area")
+            ->orderBy('name', 'asc')
+            ->paginate($this->pagination);
         }
         return view('livewire.permisos.component', [
+            'areas' => Areaspermissions::all(),
             'data' => $permisos,
         ])
             ->extends('layouts.theme.app')
@@ -70,6 +84,9 @@ class PermisosController extends Component
         $this->permissionArea = $permiso->area;
         $this->permissionDescripcion = $permiso->descripcion;
 
+
+        $this->permissionArea = $permiso->areaspermissions_id;
+
         $this->emit('show-modal', 'Show modal ');
     }
 
@@ -87,7 +104,7 @@ class PermisosController extends Component
 
         $role = Permission::find($this->selected_id);
         $role->name = $this->permissionName;
-        $role->area = $this->permissionArea;
+        $role->areaspermissions_id = $this->permissionArea;
         $role->descripcion = $this->permissionDescripcion;
         $role->save();
 

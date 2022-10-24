@@ -1,7 +1,7 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title text-white">
                     <b>{{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
                 </h5>
@@ -23,13 +23,15 @@
                         @error('permissionName')<span class="text-danger er">{{ $message }}</span> @enderror
                         <br>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <span class="fas fa-edit"></span>
-                                </span>
-                            </div>
-                            <input type="text" wire:model.lazy="permissionArea" class="form-control" placeholder="Area a la que pertenece el permiso" maxlength="255">
-                        </div>
+
+                            <select class="form-control" wire:model.lazy="permissionArea" name="" id="">
+                                @foreach($areas as $a)
+                                <option value="{{$a->id}}">{{$a->name}}</option>
+                                @endforeach
+                            </select>
+
+                            
+                           </div>
                         @error('permissionArea')<span class="text-danger er">{{ $message }}</span> @enderror
                     </div>
                     

@@ -155,7 +155,7 @@ class PosController extends Component
             "pd.stock as stock", "products.codigo as barcode")
             ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
             ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
-            ->groupBy('products.id')
+            ->distinct()
             ->paginate($this->paginacion);
         }
         //---------------------------------------------------------------------------------------------------------
@@ -550,6 +550,7 @@ class PosController extends Component
             {
                 $sd = SaleDetail::create([
                     'price' => $p->price,
+                    'cost' => 0,
                     'quantity' => $p->quantity,
                     'product_id' => $p->id,
                     'sale_id' => $sale->id,

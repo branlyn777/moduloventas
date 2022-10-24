@@ -163,6 +163,8 @@
     -ms-transform: translateX(19px);
     transform: translateX(19px);
     }
+
+    
     /* Rounded sliders */
     .slider.round {
     border-radius: 34px;
@@ -577,10 +579,4 @@
 
 
 </script>
-
-<!-- Scripts para el mensaje de confirmacion arriba a la derecha 'Mensaje Toast' de Éxito y Alerta de Eliminacion -->
-<script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-<!-- Fin Scripts -->
-
 @endsection

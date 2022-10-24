@@ -15,48 +15,42 @@ class DestinoSeeder extends Seeder
      */
     public function run()
     {
-        $dd=Destino::create([
-            'nombre'=>'Tienda',
-            'observacion'=>'ninguna',
-            'sucursal_id'=>'1'           
+        $tienda = Destino::create([
+            'nombre' => 'Tienda',
+            'observacion' => 'ninguna',
+            'sucursal_id' => '1'           
         ]);
         Permission::create([
-            'name' => $dd->nombre.'_'.$dd->id,
-            'areaspermissions_id' => '4',
+            'name' => $tienda->nombre . '_' . $tienda->id,
+            'areaspermissions_id' => '2',
             'descripcion' => 'Ingresar a Tienda',
             'guard_name' => 'web'
         ]);
 
 
-
-
-        $ss = Destino::create([
+        $deposito = Destino::create([
             'nombre'=>'Deposito',
             'observacion'=>'ninguna',
             'sucursal_id'=>'1'           
         ]);
         Permission::create([
-            'name' => $ss->nombre.'_'.$ss->id,
-            'areaspermissions_id' => '4',
-            'descripcion' => 'Ingresar a depósito',
+            'name' => $deposito->nombre . '_' . $deposito->id,
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar a Depósito',
             'guard_name' => 'web'
         ]);
-
-       
-        
         
 
-        $pg=Destino::create([
+        $devoluciones = Destino::create([
             'nombre'=>'Almacen Devoluciones',
             'observacion'=>'ninguna',
             'sucursal_id'=>'1'           
         ]);
         Permission::create([
-            'name' => $pg->nombre.'_'.$pg->id,
-            'areaspermissions_id' => '4',
-            'descripcion' => 'Ingresar a almacén devoluciones',
+            'name' => $devoluciones->nombre . '_' . $devoluciones->id,
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar a Almacén Devoluciones',
             'guard_name' => 'web'
         ]);
-
     }
 }

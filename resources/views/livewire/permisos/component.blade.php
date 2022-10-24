@@ -1,64 +1,70 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
-                    
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="Agregar()">Agregar</a>
-                    
-                </ul>
-            </div>
-            @include('common.searchbox')
-
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #02b1ce">
-                            <tr>
-                                <th class="table-th text-withe">ID</th>
-                                <th class="table-th text-withe text-center">NOMBRE</th>                                                         
-                                <th class="table-th text-withe text-center">AREA</th>                                                         
-                                <th class="table-th text-withe text-center">DESCRIPCION</th>                                                         
-                                <th class="table-th text-withe text-center">ACCIONES</th>    
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $permiso)
-                                <tr>
-                                    <td>
-                                        <h6>{{ $permiso->id }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ ($permiso->name) }}</h6>
-                                    </td> 
-                                    <td>
-                                        <h6 class="text-center">{{ ($permiso->area) }}</h6>
-                                    </td> 
-                                    <td>
-                                        <h6 class="text-center">{{ ($permiso->descripcion) }}</h6>
-                                    </td>                           
-                                    
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
-                                            class="btn btn-warning mtmobile" title="Editar registro">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
-                                            class="btn btn-warning" title="Eliminar registro">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
+<div class="">
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
+    </div>
+  
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-4">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <button wire:click="Agregar()" type="button" class="boton-azul-g">Nuevo Permiso</button>
+        </div>
+
+    </div>
+  
+      <br>
+
+      <div class="table-5">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th>NO</th>
+                    <th>NOMBRE</th>                                                         
+                    <th>AREA</th>                                                         
+                    <th>DESCRIPCION</th>                                                         
+                    <th>ACCIONES</th>    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $permiso)
+                    <tr>
+                        <td class="text-center">
+                            {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
+                        </td>
+                        <td>
+                            {{ ($permiso->name) }}
+                        </td> 
+                        <td class="text-center">
+                            {{ ($permiso->area) }}
+                        </td> 
+                        <td>
+                            {{ ($permiso->descripcion) }}
+                        </td>                           
+                        
+                        <td class="text-center">
+                            <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
+                                class="boton-azul" title="Editar registro">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
+                                class="boton-rojo" title="Eliminar registro">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $data->links() }}
     </div>
     @include('livewire.permisos.form')
 </div>

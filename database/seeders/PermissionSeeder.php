@@ -201,5 +201,9 @@ class PermissionSeeder extends Seeder
             'descripcion' => '',
             'guard_name' =>'web'
         ]);
+
+
+
+        //INVENTARIOS
     }
 }

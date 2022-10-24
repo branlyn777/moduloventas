@@ -257,8 +257,8 @@
                     <h3><b>Cliente Anónimo</b></h3>
                     <div class="form-group">
                         <label class="switch">
-                        <input type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
-                        <span class="slider round"></span>
+                            <input type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
+                            <span class="slider round"></span>
                         </label>
                     </div>
                 </div>
@@ -266,8 +266,8 @@
                     <h3><b>Factura</b></h3>
                     <div class="form-group">
                         <label class="switch">
-                        <input type="checkbox" wire:change="facturasino()" {{ $factura ? 'checked' : '' }}>
-                        <span class="slider round"></span>
+                            <input type="checkbox" wire:change="facturasino()" {{ $factura ? 'checked' : '' }}>
+                            <span class="slider round"></span>
                         </label>
                     </div>
                 </div>
@@ -463,9 +463,9 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button title="Ver Precio y Costos por Lotes" wire:click.prevent="modal_lotes({{ $item->id }})" class="btn btn-sm" style="background-color: rgb(0, 156, 135); color:white">
+                                            {{-- <button title="Ver Precio y Costos por Lotes" wire:click.prevent="modal_lotes({{ $item->id }})" class="btn btn-sm" style="background-color: rgb(0, 156, 135); color:white">
                                                 <i class="fas fa-list-ul"></i>
-                                            </button>
+                                            </button> --}}
                                             <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $item->id }}', '{{$item->name}}')" class="btn btn-sm" style="background-color: red; color:white">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
@@ -850,12 +850,6 @@
 
 
 </script>
-
-
-<!-- Scripts para el mensaje de confirmacion arriba a la derecha 'Mensaje Toast' de Éxito y Alerta de Eliminacion -->
-<script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-<!-- Fin Scripts -->
 @endsection
 
 

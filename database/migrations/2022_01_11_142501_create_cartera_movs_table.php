@@ -22,7 +22,7 @@ class CreateCarteraMovsTable extends Migration
             $table->foreign('cartera_id')->references('id')->on('carteras');
             $table->unsignedBigInteger('movimiento_id');
             $table->foreign('movimiento_id')->references('id')->on('movimientos');
-            $table->integer('cartera_mov_categoria_id');
+            $table->integer('cartera_mov_categoria_id')->default(0);
             $table->timestamps();
         });
     }

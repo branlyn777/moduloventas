@@ -36,11 +36,6 @@
 
 
 
-						<li class="nav-item toggle-nav-search hidden-caret">
-							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-								<i class="fa fa-search"></i>
-							</a>
-						</li>
 
 						<livewire:home-controller>
       					</livewire:home-controller>

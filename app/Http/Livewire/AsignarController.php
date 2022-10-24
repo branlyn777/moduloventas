@@ -39,10 +39,21 @@ class AsignarController extends Component
         ->get();
         
         //listar Todos los Permisos
-        $permisos = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
+        if($this->permisosseleccionado == "Todos")
+        {
+            $permisos = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
             ->select('permissions.name', 'permissions.id','a.name as area','permissions.descripcion', DB::raw('0 as checked'))
             ->orderBy('permissions.name', 'asc')
             ->paginate($this->pagination);
+        }
+        else
+        {
+            $permisos = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
+            ->select('permissions.name', 'permissions.id','a.name as area','permissions.descripcion', DB::raw('0 as checked'))
+            ->where("a.id", $this->permisosseleccionado)
+            ->orderBy('permissions.name', 'asc')
+            ->paginate($this->pagination);
+        }
         
         //Listar Todos los Permisos por Area       
             //dd($this->permisosseleccionado);
@@ -62,6 +73,7 @@ class AsignarController extends Component
 
         if ($this->role != 'Elegir')
         {
+            
             foreach ($permisos as $permiso)
             {
                 $role = Role::find($this->role);
