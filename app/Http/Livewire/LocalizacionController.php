@@ -10,6 +10,7 @@ use App\Models\Location;
 use App\Models\LocationProducto;
 use App\Models\Product;
 use App\Models\ProductosDestino;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -284,8 +285,6 @@ class LocalizacionController extends Component
 
         }
 
-  // dd($arr);
-
         
 
     }
@@ -302,6 +301,25 @@ class LocalizacionController extends Component
              $this->col->pull($item);
 
 
+    }
+
+    public function asd(){
+
+
+      
+        $rules = [
+            'tipo' => "required|not_in:Elegir",
+            
+        ];
+        $messages = [
+            'tipo.not_in' => 'Elija una opcion diferente de elegir',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $min=10000;
+        $max= 99999;
+        $this->codigo= substr($this->tipo, 0, 3) ."-".Carbon::now()->format('ymd');
     }
 
 

@@ -56,10 +56,10 @@
         <div class="widget widget-chart-one">
             <div class="widget-heading">
                 <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
+                    <b>{{ $componentName }}{{ $pageTitle }}</b>
                 </h4>
                 <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal" wire:click="$set('selected_id', 0)"
+                    <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
                         data-target="#theModal">Agregar</a>
            
                 </ul>
@@ -140,11 +140,10 @@
             </div>
         </div>
     </div>
-    @include('livewire.localizacion.verproductos') 
-    @include('livewire.localizacion.modal_asignar_mobiliario') 
+    @include('livewire.localizacion.form')
 </div>
-@include('livewire.localizacion.form')
-   
+@include('livewire.localizacion.verproductos')
+@include('livewire.localizacion.modal_asignar_mobiliario')
 </div>
 
 

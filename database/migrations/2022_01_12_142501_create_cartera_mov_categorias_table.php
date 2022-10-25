@@ -18,7 +18,7 @@ class CreateCarteraMovCategoriasTable extends Migration
             $table->string('nombre', 100);
             $table->string('detalle', 255);
             $table->string('tipo', 10);
-            $table->string('subcategoria', 40);
+            $table->string('subcategoria', 100)->default('COSTO');
             $table->string('status', 10)->default('ACTIVO');
             $table->timestamps();
         });
