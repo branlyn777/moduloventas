@@ -1,41 +1,3 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #0148a5;
-        color: white;
-    }
-    .tablainventarios th, td {
-        border: 0.5px solid #064eac94;
-        padding: 4px;
-       
-    }
-    .tablainventarios th {
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-
-   .tablainventarios .tablainventarios .unidad label {
-        text-align: center;
-        color: aliceblue;
-        border: #101216;
-        border-radius: 5px;
-        border-color: #1572e8;
-    }
-        
-
-</style>
-@endsection
-    
-
-
-
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
@@ -44,11 +6,11 @@
                     <b>{{ $componentName }} | {{ $pageTitle }}</b>
                 </h4>
                 <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
+                    <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal"
                         data-target="#theModal"> <i class="fas fa-plus-circle"></i>Agregar Productos</a>
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
+                    <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal"
                         data-target="#modalimport"> <i class="fas fa-arrow-alt-circle-up"></i> Subir Productos</a>
-                    <a href='{{url('productos/export/')}}' class="btn btn-outline-primary" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+                    <a href='{{url('productos/export/')}}' class="boton-azul-g" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                        
                     </ul>
                 </div>
@@ -83,9 +45,9 @@
                             @endforeach
                    
                           </select>
-                        <span class="btn btn-dark pl-2 pr-2">
-                            <a href="javascript:void(0)" class="fas fa-redo-alt text-white" wire:click= "resetCategorias()"></a>
-                        </span>
+                        <button class="boton-azul" wire:click= "resetCategorias()">
+                            <i class="fas fa-redo-alt text-white"></i>
+                        </button>
         
         
                     </div>
@@ -101,9 +63,9 @@
                           @endforeach
                       
                         </select>
-                        <span class="btn btn-dark pl-2 pr-2">
-                            <a href="javascript:void(0)" class="fas fa-redo-alt text-white"  wire:click= "resetSubcategorias()"></a>
-                        </span>
+                        <button wire:click= "resetSubcategorias()" class="boton-azul">
+                            <i class="fas fa-redo-alt text-white"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="col-12 col-lg-2 col-md-3">
@@ -117,14 +79,14 @@
                 </div>
             </div>
             <div class="widget-content">
-                <a href="javascript:void(0)" class="btn btn-dark btn-sm mb-2" wire:click= 'deleteProducts()'>Eliminar Productos seleccionados</a>
-                <div class="table-responsive">
-                    <table class="tablainventarios">
+                <a href="javascript:void(0)" class="btn btn-info btn-sm mb-2" wire:click= 'deleteProducts()'>Eliminar Productos seleccionados</a>
+                <div class="table-5">
+                    <table>
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th> <b>#</b> </th>
                                 <th> Todos <b> <input type="checkbox" class="form-control" wire:model="checkAll"> </b> </th>
-                                <th style="width: 30%"> <b>NOMBRE</b> </th>
+                                <th> <b>NOMBRE</b> </th>
                                 <th> <b>CATEGORIA</b> </th>
                                 <th> <b>CODIGO/<br>CODIGO BARRA</b></th>
                                 <th> <b>PRECIO</b> </th>
@@ -140,8 +102,7 @@
                                         <h6>{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</h6>
                                     </td>
                                     <td>
-                                        <input  type="checkbox" class="form-control" wire:model="selectedProduct" value="{{$products->id}}" >
-                                     
+                                        <input  type="checkbox" class="form-control" wire:model="selectedProduct" value="{{$products->id}}">
                                     </td>
                                     <td>
                                         <h5> <strong>{{$products->nombre}}</strong> </h5>
@@ -183,31 +144,22 @@
                                             <img src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                 alt="imagen de ejemplo" height="40" width="50" class="rounded">
                                         </span>
-
-
-                                        {{-- <span>
-                                            <img src="{{ asset('storage/usuarios/' . $r->imagen) }}" alt="imagen"
-                                                class=" rounded" width="70px" height="70px">
-                                        </span> --}}
-
                                     </td>
                                     <td class="text-center">
                                         <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})"
-                                            class="btn btn-dark mtmobile p-1 m-0" title="Edit">
+                                            class="boton-azul" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
                                         <a href="javascript:void(0)"
                                             onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})"
-                                            class="btn btn-danger p-1 m-0" title="Delete">
+                                            class="boton-rojo" title="Delete">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     
                                     </td>
                                 </tr>
                             @endforeach
-
-                            {{-- {{var_export ($selectedProduct)}} --}}
                         </tbody>
                     </table>
                     {{ $data->links() }}

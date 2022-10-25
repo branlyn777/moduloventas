@@ -9,6 +9,7 @@ use App\Http\Livewire\ClienteController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CompaniesController;
 use App\Http\Livewire\ComprasController;
+use App\Http\Livewire\CorteCaja2Controller;
 use App\Http\Livewire\CorteCajaController;
 use App\Http\Livewire\DestinoController;
 use App\Http\Livewire\DestinoProductoController;
@@ -59,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('carteras', CarteraController::class)->name('cartera')->middleware('permission:Cartera_Index');
     Route::get('carteramovcategoria', CarteraMovCategoriaController::class)->name('carteramovcategoria');
     Route::get('cortecajas', CorteCajaController::class)->name('cortecaja')->middleware('permission:Corte_Caja_Index');
+    Route::get('cortecajas2', CorteCaja2Controller::class)->middleware('permission:Corte_Caja_Index');
 
     Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');

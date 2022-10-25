@@ -31,97 +31,89 @@
 
 
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div>
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="row justify-content-end">
-                   
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click="$set('selected_id','0')" data-toggle="modal"
-                        data-target="#theModal"> <b> <i class="fas fa-plus-circle"></i> Crear Categoria</b> </a>
-                    {{-- <a href="javascript:void(0)" class="btn btn-dark m-1 p-2" wire:click="$set('selected_id','0')" data-toggle="modal"
-                        data-target="#theModal_s"> <b>Crear Subcategoria</b> </a> --}}
-                    {{-- <a href="javascript:void(0)" class="btn btn-dark m-1" data-toggle="modal"
-                        data-target="#modalimportcat">Importar Categorias</a>
-                    <a href="javascript:void(0)" class="btn btn-dark m-1" data-toggle="modal"
-                        data-target="#modalimportsubcat">Importar SubCategorias</a> --}}
-                    
-                </ul>
-            </div>
+<div>
 
-            
-            @include('common.searchbox')
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="tablainventarios">
-                        <thead>
-                            <tr>
-                                <th style="width: 20px;">#</th>
-                                <th> <center>NOMBRE</center> </th>
-                                {{-- <th class="table-th text-withe text-center">DESCRIPCION</th> --}}
-                                <th style="width: 60px;"> <center> SUBCATEGORIAS</center></th>
-                                <th style="width: 150px;"> <center>ACCIONES</center> </th>
-                             
-                            </tr>
-                        </thead>
-                       
-                        <tbody>
-                            @foreach ($categories as $category)
-                                <tr>
-                                    <td>
-                                        
-                                        <h6>{{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}</h6>
-                                    </td>
-                                    <td>
-                                        
-                                        <h6> <b>{{ $category->name }}</b> </h6>
-                                        <label for=""> Descripcion : {{$category->descripcion}}</label>
-                                    </td>
-                                   
-                                
-                                    <td>
-                                       
-                                        <center>
-                                            <a href="javascript:void(0)" wire:click="Ver({{$category->id}})"
-                                            class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
-                                            <i class="fas fa-eye"></i>
-                                            </a>
-                                        </center>
-                                   
-                                    </td>
-                                   
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                            class="btn btn-dark p-1" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        {{-- <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                            class="btn btn-dark p-1" title="Edit">
-                                            <i class="fas fa-plus"></i>
-                                        </a> --}}
 
-                                        <a href="javascript:void(0)" class="btn btn-primary p-1" wire:click="asignarCategoria('{{$category->id}}')" title="Agregar subcategorias"
-                                         <b> <i class="fas fa-plus"></i></b> </a>
-                                 
-                                        <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                                           class="btn btn-danger p-1"
-                                            title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $categories->links() }}
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
     </div>
+
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-4">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+
+            <a href="javascript:void(0)" class="boton-azul-g" wire:click="$set('selected_id','0')" data-toggle="modal"
+                        data-target="#theModal"> <b> <i class="fas fa-plus-circle"></i> Crear Categoria</b> </a>
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="table-5">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>NOMBRE</th>
+                    <th>SUBCATEGORIAS</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+           
+            <tbody>
+                @foreach ($categories as $category)
+                    <tr>
+                        <td class="text-center">
+                            {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
+                        </td>
+                        <td>
+                            <b>{{ $category->name }}</b>
+                            <label for=""> Descripcion : {{$category->descripcion}}</label>
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0)" wire:click="Ver({{$category->id}})"
+                                class="boton-azul" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
+                                <i class="fas fa-eye"></i>
+                                </a>
+                        </td>
+                       
+                        <td class="text-center">
+                            <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                class="boton-azul" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="boton-azul" wire:click="asignarCategoria('{{$category->id}}')" title="Agregar subcategorias">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                            <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
+                               class="boton-rojo"
+                                title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $categories->links() }}
+    </div>
+    
+    
     @include('livewire.category.form')
     @include('livewire.category.form_subcategory')
     @include('livewire.category.subcategories')

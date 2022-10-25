@@ -14,11 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class CorteCajaController extends Component
 {
-    use WithPagination;
-    use WithFileUploads;
+    
     public  $search, $monto, $tipocorte, $caja_id, $user_id, $selected_id;
     public  $pageTitle, $componentName, $data, $habilitado, $carteras;
     private $pagination = 5;
+
+
+    use WithPagination;
+    use WithFileUploads;
 
     public function paginationView()
     {

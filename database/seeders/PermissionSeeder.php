@@ -99,8 +99,14 @@ class PermissionSeeder extends Seeder
             'descripcion' => 'Ingresar a Corte de Caja',
             'guard_name' => 'web'
         ]);
+        Permission::create([    /* INGRESAR A CORTE DE CAJA */
+            'name' => 'Ver_Generar_Ingreso_Egreso_Boton',
+            'areaspermissions_id' => '3',
+            'descripcion' => 'Ingresar a Corte de Caja',
+            'guard_name' => 'web'
+        ]);
 
-
+        
 
     
 

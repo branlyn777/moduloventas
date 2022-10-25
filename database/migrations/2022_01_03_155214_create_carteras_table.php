@@ -16,6 +16,7 @@ class CreateCarterasTable extends Migration
         Schema::create('carteras', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 255);
+            $table->decimal('saldocartera',10,2);
             $table->string('descripcion', 255)->nullable();
             $table->enum('tipo', ['Telefono','Sistema','CajaFisica','Banco','TigoStreaming']);
             $table->integer('telefonoNum')->nullable();
