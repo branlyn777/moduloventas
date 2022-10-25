@@ -513,6 +513,10 @@ class PosController extends Component
         DB::beginTransaction();
         try
         {
+            //verificar que esta venta no tuvo operaciones en caja general
+            
+
+
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
