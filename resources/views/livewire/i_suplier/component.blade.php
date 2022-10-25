@@ -1,45 +1,39 @@
-<div class="row sales layout-top-spacing">
+<div>
+
+
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-3">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-3 text-center">
+            <select wire:model='estados' class="form-control">
+                <option value="null" disabled>Estado</option>
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
+              </select>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-3 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-3 text-center">
+            <b style="color: white;">|</b>
+            <button class="boton-azul-g" data-toggle="modal" data-target="#theModal"> <i class="fas fa-plus-circle"></i> Agregar Proveedor</button>
+        </div>
+
+    </div>
+
+
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }}</b>
-                </h4>
-                <ul class="row justify-content-end">
-                    
-                        <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
-                        data-target="#theModal"> <i class="fas fa-plus-circle"></i> Agregar Proveedor</a>
-                    
-                </ul>
-            </div>
-            <div class="col-12 col-lg-12 col-md-3">
-                <div class="row">
-                    <div class="form-group col-lg-10">
-
-                        <div class="row justify-content-between">
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="input-group mb-4">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text input-gp">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" wire:model="search" placeholder="Buscar Proveedor por nombre, apellido, direccion" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="form-group col-lg-2">
-                        <select wire:model='estados' class="form-control">
-                          <option value="null" disabled>Estado</option>
-                          <option value="ACTIVO">ACTIVO</option>
-                          <option value="INACTIVO">INACTIVO</option>
-                        </select>
-                      </div>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-12 col-lg-12 col-md-4 d-flex flex-lg-wrap flex-wrap flex-md-wrap flex-xl-wrap justify-content-left">
                     @foreach ($data_proveedor as $data)
