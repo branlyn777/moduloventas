@@ -466,13 +466,13 @@
                                             {{-- <button title="Ver Precio y Costos por Lotes" wire:click.prevent="modal_lotes({{ $item->id }})" class="btn btn-sm" style="background-color: rgb(0, 156, 135); color:white">
                                                 <i class="fas fa-list-ul"></i>
                                             </button> --}}
-                                            <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $item->id }}', '{{$item->name}}')" class="btn btn-sm" style="background-color: red; color:white">
+                                            <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $item->id }}', '{{$item->name}}')" class="boton-rojo">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-                                            <button title="Quitar una unidad" wire:click.prevent="decrease({{ $item->id }})" class="btn btn-sm" style="background-color: #7c7a76; color:white">
+                                            <button title="Quitar una unidad" wire:click.prevent="decrease({{ $item->id }})" class="boton-plomo">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" class="btn btn-sm" style="background-color: #006caa; color:white">
+                                            <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" class="boton-azul">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>

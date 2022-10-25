@@ -73,6 +73,14 @@ class CorteCaja2Controller extends Component
             ]);
             $c->save();
         }
+
+
+
+
+
+
+
+
         /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
         $carteras = Cartera::where('caja_id', $idcaja)->get();
         foreach ($carteras as $c)
@@ -91,6 +99,30 @@ class CorteCaja2Controller extends Component
                 'movimiento_id' => $movimiento->id,
             ]);
         }
+
+
+
+        $carteras_generales = Cartera::where('carteras.caja_id', 1)->get();
+        foreach ($carteras_generales as $cg)
+        {
+            $movimiento = Movimiento::create([
+                'type' => 'APERTURA',
+                'status' => 'ACTIVO',
+                'import' => 0,
+                'user_id' => Auth()->user()->id
+            ]);
+            CarteraMov::create([
+                'type' => 'APERTURA',
+                'tipoDeMovimiento' => 'CORTE',
+                'comentario' => '',
+                'cartera_id' => $cg->id,
+                'movimiento_id' => $movimiento->id,
+            ]);
+        }
+
+
+
+
         /* DESABILITAR CAJA */
         $caja = Caja::find($idcaja);
         $caja->update([
