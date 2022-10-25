@@ -28,7 +28,7 @@ class CorteCaja2Controller extends Component
         $caja_especial = Caja::find(1);
 
         $cajas = Caja::join("sucursals as s","s.id","cajas.sucursal_id")
-        ->select("cajas.nombre as nombre","cajas.estado as estado","s.name as nombresucursal")
+        ->select("cajas.nombre as nombre","cajas.id as id","cajas.estado as estado","s.name as nombresucursal")
         ->where("cajas.sucursal_id", $this->idsucursal())
         ->where("cajas.id", "<>" ,1)
         ->get();
@@ -56,7 +56,8 @@ class CorteCaja2Controller extends Component
     }
 
     protected $listeners = [
-        'corte-caja' => 'CorteCaja'
+        'corte-caja' => 'CorteCaja',
+        'cerrar-caja' => 'CerrarCaja'
     ];
 
     public function CorteCaja($idcaja)
@@ -102,6 +103,55 @@ class CorteCaja2Controller extends Component
         session(['sesionCajaID' => $caja->id]);
 
         $this->emit('message-success-toast');
+
+        
+        $this->redirect('cortecajas2');
+    }
+
+    public function CerrarCaja($idcaja)
+    {
+         /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
+         $cortes = Movimiento::where('status', 'ACTIVO')
+         ->where('type', 'APERTURA')
+         ->where('user_id', Auth()->user()->id)->get();
+        foreach ($cortes as $c)
+        {
+            $c->update([
+                'status' => 'INACTIVO',
+            ]);
+            $c->save();
+        }
+        /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+        $carteras = Cartera::where('caja_id', $idcaja)->get();
+        foreach ($carteras as $cart)
+        {
+            $movimiento = Movimiento::create([
+                'type' => 'CIERRE',
+                'status' => 'ACTIVO',
+                'import' => 0,
+                'user_id' => Auth()->user()->id
+            ]);
+            CarteraMov::create([
+                'type' => 'CIERRE',
+                'tipoDeMovimiento' => 'CORTE',
+                'comentario' => '',
+                'cartera_id' => $cart->id,
+                'movimiento_id' => $movimiento->id,
+            ]);
+        }
+        /* HABILITAR CAJA */
+        $caja = Caja::find($idcaja);
+        $caja->update([
+            'estado' => 'Cerrado',
+        ]);
+        $caja->save();
+
+        session(['sesionCaja' => null]);
+        session(['sesionCajaID' => null]);
+
+        $this->emit('message-success-toast');
+
+        $this->redirect('cortecajas2');
     }
 
 }

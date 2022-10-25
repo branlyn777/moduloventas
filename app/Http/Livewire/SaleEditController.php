@@ -805,6 +805,7 @@ class SaleEditController extends Component
         {
             $sd = SaleDetail::create([
                 'price' => $p['price'],
+                'cost' => 0,
                 'quantity' => $p['quantity'],
                 'product_id' => $p['id'],
                 'sale_id' => $venta->id,

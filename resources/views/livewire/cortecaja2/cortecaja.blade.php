@@ -22,7 +22,7 @@
         <div class="col-12 col-sm-12 col-md-3 text-center">
             <b style="color: white">|</b>
             <button wire:click.prevent="" class="boton-azul-g form-control">
-                {{$caja_especial->nombre}}
+                Ver Carteras Compartidas
             </button>
         </div>
 
@@ -42,7 +42,13 @@
 
         @foreach($cajas as $c)
             <div class="col-sm-12 col-md-6">
-                <div class="form-group" style="background-color: rgb(191, 255, 200);">
+
+
+                @if($c->estado == "Abierto")
+                <div class="form-group" style="background-color: rgb(250, 238, 132);">
+                @else
+                <div class="form-group" style="background-color: rgb(189, 197, 212);">
+                @endif
                     <div class="connect-sorting text-center">
                         <p class="h1"><b>{{$c->nombre}}</b></p>
                     </div>
@@ -51,9 +57,16 @@
                     <p class="h3"><b>SUCURSAL:</b> {{$c->nombresucursal}} - {{$c->nombresucursal}}</p>
 
                     <div class="connect-sorting text-center">
-                        <button onclick="Confirmar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
+
+                        @if($c->estado != "Abierto")
+                        <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-verde-g">
                             CORTE DE CAJA
                         </button>
+                        @else
+                        <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
+                            CERRAR CAJA
+                        </button>
+                        @endif
                     </div>
 
                 </div>
@@ -97,8 +110,9 @@
 
 
     // Código para lanzar la Alerta de Confirmación
-    function Confirmar(id, nombrecaja) {
-    swal({
+    function ConfirmarAbrir(id, nombrecaja)
+    {
+        swal({
         title: '¿Realizar Corte de Caja?',
         text: "Realizará la apertura de la caja: " + nombrecaja + " y se habilitarán todas las carteras de esta",
         type: 'warning',
@@ -109,6 +123,23 @@
         }).then(function(result) {
         if (result.value) {
             window.livewire.emit('corte-caja', id)
+            }
+        })
+    }
+    // Código para lanzar la Alerta de Confirmación
+    function ConfirmarCerrar(id, nombrecaja)
+    {
+        swal({
+        title: '¿Cerar esta Caja?',
+        text: "Se realizará el cierre de la caja: " + nombrecaja,
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+        padding: '2em'
+        }).then(function(result) {
+        if (result.value) {
+            window.livewire.emit('cerrar-caja', id)
             }
         })
     }
