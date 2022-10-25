@@ -59,7 +59,7 @@
                     <div class="connect-sorting text-center">
 
                         @if($c->estado != "Abierto")
-                        <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-verde-g">
+                        <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-plomo-g">
                             CORTE DE CAJA
                         </button>
                         @else
@@ -130,7 +130,7 @@
     function ConfirmarCerrar(id, nombrecaja)
     {
         swal({
-        title: '¿Cerar esta Caja?',
+        title: '¿Cerrar esta Caja?',
         text: "Se realizará el cierre de la caja: " + nombrecaja,
         type: 'warning',
         showCancelButton: true,

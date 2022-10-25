@@ -323,6 +323,64 @@
 
 
 
+		.boton-plomo {
+			text-decoration: none !important; 
+			background-color: #6b6b6b;
+			cursor: pointer;
+			color: white;
+			border-color: #6b6b6b;
+			border-radius: 7px;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			padding-left: 5px;
+			padding-right: 5px;
+			box-shadow: none;
+			border-width: 2px;
+			border-style: solid;
+			border-color: #6b6b6b;
+			display: inline-block;
+		}
+		.boton-plomo:hover {
+			background-color: rgb(255, 255, 255);
+			color: #6b6b6b;
+			transition: all 0.4s ease-out;
+			border-color: #6b6b6b;
+			text-decoration: underline;
+			-webkit-transform: scale(1.05);
+			-moz-transform: scale(1.05);
+			-ms-transform: scale(1.05);
+			transform: scale(1.05);
+		}
+
+		.boton-plomo-g {
+			text-decoration: none !important; 
+			background-color: #6b6b6b;
+			cursor: pointer;
+			color: white;
+			border-color: #6b6b6b;
+			border-radius: 7px;
+			padding-top: 7px;
+			padding-bottom: 7px;
+			padding-left: 12px;
+			padding-right: 12px;
+			box-shadow: none;
+			border-width: 2px;
+			border-style: solid;
+			border-color: #6b6b6b;
+			display: inline-block;
+		}
+		.boton-plomo-g:hover {
+			background-color: rgb(255, 255, 255);
+			color: #6b6b6b;
+			transition: all 0.4s ease-out;
+			border-color: #6b6b6b;
+			text-decoration: underline;
+			-webkit-transform: scale(1.05);
+			-moz-transform: scale(1.05);
+			-ms-transform: scale(1.05);
+			transform: scale(1.05);
+		}
+
 
 
 	</style>
