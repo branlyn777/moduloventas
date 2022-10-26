@@ -1,3 +1,21 @@
+@section('css')
+<style>
+    .cajaabierta{
+        background-color: rgb(255, 245, 152);
+        padding: 10px;
+        border-radius: 15px;
+        border: #d87a00 solid 2px;
+    }
+
+    .cajacerrada{
+        background-color: rgb(189, 197, 212);
+        padding: 10px;
+        border-radius: 15px;
+        border: #000000 solid 2px;
+    }
+</style>
+@endsection
+
 <div>
     <div class="row">
         <div class="col-12 text-center">
@@ -12,21 +30,22 @@
         </div>
         <div class="col-12 col-sm-12 col-md-3 text-center">
             <b>Sucursal</b>
-            <select class="form-control" name="" id="">
-                <option value="">
-                    sdgsdg
-                </option>
+            <select wire:model="idsucursal" class="form-control" name="" id="">
+                @foreach($sucursales as $s)
+                <option value="{{$s->id}}">{{$s->name}}</option>
+                @endforeach
+                <option value="Todos">Todas las Sucursales</option>
             </select>
         </div>
 
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <b style="color: white">|</b>
+        <div class="col-12 col-sm-12 col-md-4 text-center">
+            {{-- <b style="color: white">|</b>
             <button wire:click.prevent="" class="boton-azul-g form-control">
                 Ver Carteras Compartidas
-            </button>
+            </button> --}}
         </div>
 
-        <div class="col-12 col-sm-12 col-md-3 text-right">
+        <div class="col-12 col-sm-12 col-md-4 text-right">
             
         </div>
   
@@ -41,35 +60,158 @@
 
 
         @foreach($cajas as $c)
-            <div class="col-sm-12 col-md-6">
-
-
-                @if($c->estado == "Abierto")
-                <div class="form-group" style="background-color: rgb(250, 238, 132);">
-                @else
-                <div class="form-group" style="background-color: rgb(189, 197, 212);">
-                @endif
+            <div class="col-sm-12 col-md-4">
+                <div class="{{ $c->estado == 'Abierto' ? 'cajaabierta' : 'cajacerrada' }}">
                     <div class="connect-sorting text-center">
-                        <p class="h1"><b>{{$c->nombre}}</b></p>
+                        <b class="h1">{{$c->nombre}}</b>
+                        <br>
+                        SUCURSAL:</b> {{$c->nombresucursal}} - {{$c->nombresucursal}}
+                        
                     </div>
-                    <p class="h3"><b>ESTADO:</b> {{$c->estado}} </p>
-                    <p class="h3"><b>ABIERTA POR:</b></p>
-                    <p class="h3"><b>SUCURSAL:</b> {{$c->nombresucursal}} - {{$c->nombresucursal}}</p>
+
+                    @if($c->carteras->count() > 0)
+                        <div class="text-center">
+                            <p class="h4"><b>Abierta por:</b></p>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-12 col-sm-12 col-md-1 text-center">
+                                
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-10 text-center">
+                                <div style="background-color: rgb(225, 242, 255); padding: 12px; border-radius: 15px;">
+                                    @foreach($c->carteras as $car)
+                                    <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
+                                        {{$car->nombre}}:
+                                    </span>
+                                    <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
+                                        {{$car->saldocartera}} Bs
+                                    </span>
+                                    <br>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-1 text-center">
+                                
+                            </div>
+                        </div>
+
+                        <br>
+
+
+
+
+                        <div class="connect-sorting text-center">
+
+                            {{-- @if($c->estado != "Abierto")
+
+                                @if($this->nombre_caja == null)
+                                <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-plomo-g">
+                                    CORTE DE CAJA
+                                </button>
+                                @else
+                                    <p>
+                                        <b>Para usar esta caja cierre la caja "{{$this->nombre_caja}}"</b>
+                                    </p>
+                                @endif
+
+                    
+
+                            @else
+                                <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
+                                    CERRAR CAJA
+                                </button>
+                            @endif --}}
+
+
+
+                           @if($c->estado == "Abierto")
+
+                                @if($this->nombre_caja != null)
+                                
+                                    @if($c->id == $this->id_caja)
+                                        <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
+                                            CERRAR CAJA
+                                        </button>
+                                    @else
+                                    <p>
+                                        <b>Para usar esta caja cierre la caja "{{$this->nombre_caja}}"</b>
+                                    </p>
+                                    @endif
+
+
+                                @else
+
+
+                                <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
+                                    CERRAR CAJA DE OTRO USUARIO
+                                </button>
+
+
+                                    
+                                @endif
+
+                    
+
+                            @else
+
+
+
+                            
+
+
+
+                                @if($this->nombre_caja != null)
+                                    
+                                    <p>
+                                        <b>Para usar esta caja cierre la caja "{{$this->nombre_caja}}"</b>
+                                    </p>
+
+
+                                @else
+
+
+                                <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-plomo-g">
+                                    CORTE DE CAJA
+                                </button>
+
+
+                                    
+                                @endif
+
+
+                            @endif
+
+
+
+
+                            
+
+
+
+
+                        </div>
+                    @else
 
                     <div class="connect-sorting text-center">
-
-                        @if($c->estado != "Abierto")
-                        <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="boton-plomo-g">
-                            CORTE DE CAJA
-                        </button>
-                        @else
-                        <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
-                            CERRAR CAJA
-                        </button>
-                        @endif
+                        <br>
+                        <br>
+                        <p class="h1">Esta caja no tiene carteras</p>
+                        <br>
+                        <br>
+                        <br>
                     </div>
+
+                    @endif
+
+
+
+                    
 
                 </div>
+                <br>
             </div>
         @endforeach
 

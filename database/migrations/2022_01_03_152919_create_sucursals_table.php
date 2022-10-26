@@ -20,6 +20,7 @@ class CreateSucursalsTable extends Migration
             $table->string('telefono', 10)->nullable();
             $table->string('celular', 10)->nullable();
             $table->string('nit_id', 20);
+            $table->enum('estado', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
