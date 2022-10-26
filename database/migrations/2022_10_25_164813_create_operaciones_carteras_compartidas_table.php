@@ -17,9 +17,8 @@ class CreateOperacionesCarterasCompartidasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('caja_id');
             $table->foreign('caja_id')->references('id')->on('cajas');
-            $table->unsignedBigInteger('cartera_compartida_id');
-            $table->foreign('cartera_compartida_id')->references('id')->on('carteras');
-            $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger('cartera_mov_id');
+            $table->foreign('cartera_mov_id')->references('id')->on('cartera_movs');
             $table->timestamps();
         });
     }

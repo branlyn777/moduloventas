@@ -14,6 +14,7 @@ use App\Models\Company;
 use App\Models\Destino;
 use App\Models\Lote;
 use App\Models\Movimiento;
+use App\Models\OperacionesCarterasCompartidas;
 use App\Models\ProcedenciaCliente;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
@@ -193,6 +194,8 @@ class PosController extends Component
 
         //Actualizar los valores de Total Bs y Total Artículos en una Venta
         $this->actualizarvalores();
+
+        //dd($this->listarcarterasg());
 
         return view('livewire.pos.component', [
             'denominations' => Denomination::orderBy('id', 'asc')->get(),
@@ -511,12 +514,12 @@ class PosController extends Component
     public function savesale()
     {
         DB::beginTransaction();
+
         try
         {
-            //verificar que esta venta no tuvo operaciones en caja general
-            
+           
 
-
+          
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
@@ -639,13 +642,26 @@ class PosController extends Component
             }
 
             //Creando Cartera Movimiento
-            CarteraMov::create([
+            $cv=CarteraMov::create([
                 'type' => "INGRESO",
                 'tipoDeMovimiento' => "VENTA",
                 'comentario' => "Venta",
                 'cartera_id' => $cartera->id,
                 'movimiento_id' => $Movimiento->id,
             ]);
+
+             //verificar que caja esta aperturada
+                $cajaId= session('sesionCajaID');
+                
+
+             //verificar que esta venta no tuvo operaciones en caja general
+             if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
+              
+                $op = OperacionesCarterasCompartidas::create([
+                     'caja_id'=>$cajaId,
+                     'cartera_mov_id'=>$cv->id
+                 ]);
+         }
 
 
             $this->resetUI();

@@ -7,6 +7,7 @@ use App\Models\Cartera;
 use App\Models\CarteraMov;
 use App\Models\CarteraMovCategoria;
 use App\Models\Movimiento;
+use App\Models\OperacionesCarterasCompartidas;
 use App\Models\Sucursal;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate,$toDate,$caja,$data,$search,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit;
+    public $fromDate,$toDate,$caja,$data,$search,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal;
     public $cot_dolar = 6.96;
     public $cartera_id_edit,$type_edit;
 
@@ -88,21 +89,21 @@ class IngresoEgresoController extends Component
 
         if ($this->caja== 'TODAS')
         {
-            $carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
+            $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('s.id', $this->sucursal)
             ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo')->get();
         }
         else
         {
-            $carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
+            $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('c.id', $this->caja)
             ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo')->get();
         }
         
 
-        foreach ($carterasSucursal as $c)
+        foreach ($this->carterasSucursal as $c)
         {
             /* SUMAR TODO LOS INGRESOS DE LA CARTERA */
             $INGRESOS = Cartera::join('cartera_movs as cm', 'carteras.id', 'cm.cartera_id')
@@ -429,7 +430,7 @@ class IngresoEgresoController extends Component
             }
         }
 
-        $grouped= $carterasSucursal->groupBy('cajaNombre');
+        $grouped= $this->carterasSucursal->groupBy('cajaNombre');
        // dd($grouped);
      
 
@@ -461,7 +462,7 @@ class IngresoEgresoController extends Component
 
 
         return view('livewire.reportemovimientoresumen.ingresoegreso',[
-            'carterasSucursal'=>$carterasSucursal,
+            'carterasSucursal'=>$this->carterasSucursal,
             'grouped'=>$grouped,
             'cajas2'=> $cajab,
             'data'=>$this->data,
@@ -511,8 +512,8 @@ class IngresoEgresoController extends Component
             'import' => $this->cantidad,
             'user_id' => Auth()->user()->id,
         ]);
-
-        CarteraMov::create([
+        
+        $cv=CarteraMov::create([
             'type' => $this->type,
             'tipoDeMovimiento' => 'EGRESO/INGRESO',
             'comentario' => $this->comentario,
@@ -520,6 +521,16 @@ class IngresoEgresoController extends Component
             'movimiento_id' => $mvt->id,
             'cartera_mov_categoria_id' => $this->categoria_ie_id
         ]);
+   //verificar que caja esta aperturada
+   $cajaId= session('sesionCajaID');
+  // dd($this->carterasSucursal);
+        if ($this->carterasSucursal->contains('id',$this->cartera_id)) {
+              
+            $op = OperacionesCarterasCompartidas::create([
+                 'caja_id'=>$cajaId,
+                 'cartera_mov_id'=>$cv->id
+             ]);
+            }
 
         $this->emit('hide-modal', 'Se generó el ingreso/egreso');
         $this->resetUI();

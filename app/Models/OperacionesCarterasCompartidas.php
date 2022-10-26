@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OperacionesCarterasCompartidas extends Model
 {
     use HasFactory;
-    protected $fillable = ['caja_id','cartera_compartida_id'];
+    protected $fillable = ['caja_id','cartera_mov_id'];
 
 
 }
