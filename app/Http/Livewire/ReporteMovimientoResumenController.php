@@ -48,7 +48,8 @@ class ReporteMovimientoResumenController extends Component
             } else {
                 $cajab = Caja::where('cajas.sucursal_id', $this->sucursal)->where('cajas.nombre', '!=', 'Caja General')->get();
             }
-        } else {
+        } else 
+        {
             $sucursals = User::join('sucursal_users as su', 'su.user_id', 'users.id')
                 ->join('sucursals as s', 's.id', 'su.sucursal_id')
                 ->where('users.id', Auth()->user()->id)
@@ -63,7 +64,8 @@ class ReporteMovimientoResumenController extends Component
         $carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('s.id', $this->sucursal)
-            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'c.id as cid', 'c.monto_base', 'carteras.tipo as tipo', DB::raw('0 as monto'))->get();
+            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'c.id as cid', 'c.monto_base', 'carteras.tipo as tipo', 
+            DB::raw('0 as monto'))->get();
 
 
         $this->allop(Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', $this->sucursal, $this->caja);
@@ -132,7 +134,6 @@ class ReporteMovimientoResumenController extends Component
                     DB::raw('0 as utilidadventa')
                 )
                 ->where('movimientos.status', 'ACTIVO')
-
                 ->where('crms.type', 'INGRESO')
                 ->where('crms.comentario', '<>', 'RECAUDO DEL DIA')
                 ->where('crms.tipoDeMovimiento', 'VENTA')
@@ -317,7 +318,8 @@ class ReporteMovimientoResumenController extends Component
 
 
 
-            $this->totalesIngresosIE = $this->totalesIngresosIE->concat($totalesIngresosIngEg)->concat($totalesIngresosIngEgGeneral);
+            $this->totalesIngresosIE = $this->totalesIngresosIE->concat($totalesIngresosIngEg->where('carteramovtype','INGRESO'))
+            ->concat($totalesIngresosIngEgGeneral->where('carteramovtype','INGRESO'));
 
             //TOTALES EGRESOS
 
@@ -352,7 +354,7 @@ class ReporteMovimientoResumenController extends Component
 
 
             //Totales Egresos (EGRESOS/INGRESOS)
-            // $this->totalesEgresosIE = new \Illuminate\Database\Eloquent\Collection;
+            $this->totalesEgresosIE = new \Illuminate\Database\Eloquent\Collection;
 
             // $totalesEgresosingeg = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
             //     ->join('carteras as c', 'c.id', 'crms.cartera_id')
@@ -403,7 +405,8 @@ class ReporteMovimientoResumenController extends Component
             //     ->get();
 
 
-            // $this->totalesEgresosIE = $this->totalesEgresosIE->concat($totalesEgresosingeg)->concat($totalesIngresosEgGeneral);
+            $this->totalesEgresosIE = $this->totalesEgresosIE->concat($totalesIngresosIngEg->where('carteramovtype','EGRESO'))
+            ->concat($totalesIngresosIngEgGeneral->where('carteramovtype','EGRESO'));
 
             $this->trsbydatecaja();
 

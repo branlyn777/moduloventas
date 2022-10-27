@@ -523,7 +523,7 @@ class IngresoEgresoController extends Component
         ]);
    //verificar que caja esta aperturada
    $cajaId= session('sesionCajaID');
-  // dd($this->carterasSucursal);
+  dd($cajaId);
         if ($this->carterasSucursal->contains('id',$this->cartera_id)) {
               
             $op = OperacionesCarterasCompartidas::create([
