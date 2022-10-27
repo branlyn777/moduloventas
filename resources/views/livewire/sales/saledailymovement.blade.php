@@ -90,36 +90,40 @@
     
                     <br>
     
-                    <div class="table-responsive">
-                        <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                            <thead class="text-white" style="background: #02b1ce">
-                              <tr class="tablehead">
-                                <th class="text-center">N°</th>
+                    <div class="table-5">
+                        <table>
+                            <thead>
+                              <tr class="text-center">
+                                <th>N°</th>
                                 <th>FECHA</th>
                                 <th>CARTERA</th>
                                 <th>CAJA</th>
-                                <th class="text-right">INGRESO (Bs)</th>
-                                <th class="text-right">EGRESO (Bs)</th>
-                                <th class="text-right">MOTIVO</th>
+                                <th>COSTO</th>
+                                <th>INGRESO (Bs)</th>
+                                <th>EGRESO (Bs)</th>
+                                <th>MOTIVO</th>
                                 @if($this->verificarpermiso() == true)
-                                <th class="text-right">UTILIDAD (Bs)</th>
+                                <th>UTILIDAD (Bs)</th>
                                 @endif
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $item)
-                                    <tr class="seleccionar">
+                                    <tr>
                                         <td class="text-center">
                                             {{$loop->iteration}}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ date("d/m/Y h:i A", strtotime($item->fecha)) }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ ucwords(strtolower($item->nombrecartera)) }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ ucwords($item->nombrecaja) }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{$item->costomovimiento}}
                                         </td>
                                        
                                         <td  class="text-right">
@@ -134,7 +138,7 @@
                                         {{ ucwords($item->importe) }}
                                         
                                         @endif
-                                    </td>
+                                        </td>
                                        
                                         <td class="text-right">
                                             {{ ucwords($item->motivo) }}
@@ -147,25 +151,37 @@
                                         </td>
                                         @endif
                                     </tr>
-                                    @endforeach
+                                @endforeach
                                     
 
-                                    <tr>
-                                        <td colspan="8"></td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="9"></td>
+                                </tr>
 
 
                                     @if($this->verificarpermiso() == true)  
                                         <tr>
-                                            <td colspan="7">
+                                            <td colspan="4">
                                                 <b>TOTAL UTILIDAD</b>
+                                            </td>
+                                            <td class="text-center">
+                                                <b>Costo</b>
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
                                             </td>
                                             <td class="text-right">
                                                 <b>{{number_format($utilidad,2)}}</b>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="8">
+                                            <td colspan="9">
 
                                             </td>
                                         </tr>
@@ -174,7 +190,7 @@
 
                                             @if($cartera->totales != 0)
                                             <tr>
-                                                <td colspan="7"><b>Total en Cartera: {{ucwords(strtolower($cartera->nombre))}}</b></td>
+                                                <td colspan="8"><b>Total en Cartera: {{ucwords(strtolower($cartera->nombre))}}</b></td>
                                                 <td class="text-right"><b>{{number_format($cartera->totales,2)}}</b></td>
                                             </tr>
                                             @endif
@@ -189,24 +205,24 @@
 
                                         <tr>
 
-                                            <td colspan="7"><b>TOTAL INGRESOS</b></td>
+                                            <td colspan="8"><b>TOTAL INGRESOS</b></td>
                                             <td class="text-right"> <b>{{number_format($ingreso,2)}}</b> </td>
                                         </tr>
 
                                         <tr>
 
-                                            <td colspan="7"><b>TOTAL EGRESOS</b></td>
+                                            <td colspan="8"><b>TOTAL EGRESOS</b></td>
                                             <td class="text-right"> <b>{{number_format($egreso,2)}}</b> </td>
                                         </tr>
                                         <tr>
 
-                                            <td colspan="7"><b>TOTAL INGRESOS - EGRESOS</b></td>
+                                            <td colspan="8"><b>TOTAL INGRESOS - EGRESOS</b></td>
                                             <td class="text-right"> <b>{{number_format( $ingreso - $egreso,2)}}</b> </td>
                                         </tr>
                                     @else
                                     
                                     <tr>
-                                        <td colspan="7">
+                                        <td colspan="8">
 
                                         </td>
                                     </tr>
@@ -215,7 +231,7 @@
 
                                         @if($cartera->totales != 0)
                                         <tr>
-                                            <td colspan="6"><b>Total en Cartera: {{ucwords(strtolower($cartera->nombre))}}</b></td>
+                                            <td colspan="7"><b>Total en Cartera: {{ucwords(strtolower($cartera->nombre))}}</b></td>
                                             <td class="text-right"><b>{{number_format($cartera->totales,2)}}</b></td>
                                         </tr>
                                         @endif
@@ -230,18 +246,18 @@
 
                                     <tr>
 
-                                        <td colspan="6"><b>TOTAL INGRESOS</b></td>
+                                        <td colspan="7"><b>TOTAL INGRESOS</b></td>
                                         <td class="text-right"> <b>{{number_format($ingreso,2)}}</b> </td>
                                     </tr>
 
                                     <tr>
 
-                                        <td colspan="6"><b>TOTAL EGRESOS</b></td>
+                                        <td colspan="7"><b>TOTAL EGRESOS</b></td>
                                         <td class="text-right"> <b>{{number_format($egreso,2)}}</b> </td>
                                     </tr>
                                     <tr>
 
-                                        <td colspan="6"><b>TOTAL INGRESOS - EGRESOS</b></td>
+                                        <td colspan="7"><b>TOTAL INGRESOS - EGRESOS</b></td>
                                         <td class="text-right"> <b>{{number_format( $ingreso - $egreso,2)}}</b> </td>
                                     </tr>
                                     @endif

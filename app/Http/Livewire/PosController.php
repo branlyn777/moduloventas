@@ -514,12 +514,8 @@ class PosController extends Component
     public function savesale()
     {
         DB::beginTransaction();
-
         try
         {
-           
-
-          
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
@@ -533,6 +529,17 @@ class PosController extends Component
             ]);
             //Para saber toda la informacionde del id de la cartera seleccionada
             $cartera = Cartera::find($this->cartera_id);
+
+            $saldo_cartera = $cartera->saldocartera + $this->total_bs;
+
+            //Actualizamos el saldo de la cartera
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+                ]);
+            $cartera->save();
+
+            
+
             //Creando la venta
             $sale = Sale::create([
                 'total' => $this->total_bs,
@@ -650,17 +657,17 @@ class PosController extends Component
                 'movimiento_id' => $Movimiento->id,
             ]);
 
-             //verificar que caja esta aperturada
-                $cajaId= session('sesionCajaID');
+            //verificar que caja esta aperturada
+            $cajaId= session('sesionCajaID');
                 
 
-             //verificar que esta venta no tuvo operaciones en caja general
-             if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
-              
-                $op = OperacionesCarterasCompartidas::create([
-                     'caja_id'=>$cajaId,
-                     'cartera_mov_id'=>$cv->id
-                 ]);
+            //verificar que esta venta no tuvo operaciones en caja general
+            if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
+            
+            $op = OperacionesCarterasCompartidas::create([
+                    'caja_id'=>$cajaId,
+                    'cartera_mov_id'=>$cv->id
+                ]);
          }
 
 

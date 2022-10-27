@@ -32,10 +32,6 @@ class CorteCaja2Controller extends Component
     }
     public function render()
     {
-
-        //Verifica  si existe alguna caja abierta en su sucursal
-
-
          /* Caja en la cual se encuentra el usuario */
          $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
          ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -48,19 +44,19 @@ class CorteCaja2Controller extends Component
          ->where('mov.status', 'ACTIVO')
          ->where('mov.type', 'APERTURA')
          ->get();
- 
-         if($cajausuario->count() > 0)
-         {
+        //Verificando si el usuario tiene una caja abierta
+        if($cajausuario->count() > 0)
+        {
+            //Si el usuario tiene una caja abierta se actualizaran estas variables
             $this->nombre_caja = $cajausuario->first()->nombre_caja;
             $this->id_caja = $cajausuario->first()->id_caja;
-         }
-        
-        
-
+        }
+        //Listando todas las cajas dependiendo la eleccion de la sucursal
         if($this->idsucursal != "Todos")
         {
             $cajas = Caja::join("sucursals as s","s.id","cajas.sucursal_id")
-            ->select("cajas.nombre as nombre","cajas.id as id","cajas.estado as estado","s.name as nombresucursal",DB::raw('0 as carteras'))
+            ->select("cajas.nombre as nombre","cajas.id as id","cajas.estado as estado","s.name as nombresucursal"
+            ,DB::raw('0 as carteras'),DB::raw('0 as abiertapor'),DB::raw('0 as misucursal'))
             ->where("cajas.sucursal_id", $this->idsucursal)
             ->where("cajas.id", "<>" ,1)
             ->get();
@@ -68,35 +64,59 @@ class CorteCaja2Controller extends Component
         else
         {
             $cajas = Caja::join("sucursals as s","s.id","cajas.sucursal_id")
-            ->select("cajas.nombre as nombre","cajas.id as id","cajas.estado as estado","s.name as nombresucursal",DB::raw('0 as carteras'))
+            ->select("cajas.nombre as nombre","cajas.id as id","cajas.estado as estado","s.name as nombresucursal"
+            ,DB::raw('0 as carteras'),DB::raw('0 as abiertapor'),DB::raw('0 as misucursal'))
             ->where("cajas.id", "<>" ,1)
             ->get();
         }
-
+        //llenando las nuevas columnas añadidas a las cajas DB::raw('0 as carteras') ,etc.
         foreach($cajas as $c)
         {
-            $c->carteras = Cartera::where("carteras.caja_id",$c->id)->get();
+            // Verificando si la caja esta abierta
+            $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+                ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+                ->join('carteras as c', 'c.caja_id', 'cajas.id')
+                ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+                ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+                ->join('users as u', 'u.id', 'm.user_id')
+                ->select('u.name as nombreusuario')
+                ->where('m.status', 'ACTIVO')
+                ->where('m.type', 'APERTURA')
+                ->where('cajas.id', $c->id)
+                ->get()->first();
+            if($cajausuario)
+            {
+                //Si la caja esta abierta se guarda el nombre del usuario que lo abrio
+                $c->abiertapor = $cajausuario->nombreusuario;
+            }
+            else
+            {
+                $c->abiertapor = "Nadie";
+            }
+            //Listando todas las carteras que tenga la caja
+            $c->carteras = Cartera::where("carteras.caja_id",$c->id)
+            ->where("carteras.estado",'ACTIVO')
+            ->get();
+            //Guardando true o false dependiendo si la caja perteneze a la sucursal del usuario
+            $c->misucursal = $this->verificarsucursalcaja($c->id);
+
         }
-
-
-
-        
-
-
         //Obteniendo todas las sucursales activas
         $sucursales = Sucursal::where("sucursals.estado","ACTIVO")->get();
-
+        //Obteniedo todas las carteras que esten en la caja con id 1 (Caja General)
+        $carteras_generales = Caja::join("carteras as c","c.caja_id","cajas.id")
+        ->select("c.nombre as nombrecartera","c.saldocartera as saldocartera")
+        ->where("cajas.id",1)
+        ->where("c.estado",'ACTIVO')
+        ->get();
         return view('livewire.cortecaja2.cortecaja', [
             'cajas' => $cajas,
-            'caja_especial' => Caja::find(1),
+            'carteras_generales' => $carteras_generales,
             'sucursales' => $sucursales,
         ])
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
-
-
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
     {
@@ -108,32 +128,46 @@ class CorteCaja2Controller extends Component
         ->first();
         return $idsucursal->id;
     }
-
+    //Verifica que la caja recibida pertenesca a la sucursal del usuario
+    public function verificarsucursalcaja($idcaja)
+    {
+        $caja = Caja::find($idcaja);
+        if($caja->sucursal_id == $this->idsucursal())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     protected $listeners = [
         'corte-caja' => 'CorteCaja',
-        'cerrar-caja' => 'CerrarCaja'
+        'cerrar-caja' => 'CerrarCaja',
+        'cerrar-caja-usuario' => 'CerrarCajaUsuario'
     ];
-
     public function CorteCaja($idcaja)
     {
-        /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
-        $cortes = Movimiento::where('status', 'ACTIVO')
+        if($this->VerificarCajaAbierta($idcaja) == false)
+        {
+            /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
+            $cortes = Movimiento::where('status', 'ACTIVO')
             ->where('type', 'CIERRE')
             ->where('user_id', Auth()->user()->id)
             ->get();
 
-        foreach ($cortes as $c)
-        {
+            foreach ($cortes as $c)
+            {
             $c->update([
                 'status' => 'INACTIVO',
             ]);
             $c->save();
-        }
+            }
 
-        /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
-        $carteras = Cartera::where('caja_id', $idcaja)->get();
-        foreach ($carteras as $c)
-        {
+            /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
+            $carteras = Cartera::where('caja_id', $idcaja)->get();
+            foreach ($carteras as $c)
+            {
             $movimiento = Movimiento::create([
                 'type' => 'APERTURA',
                 'status' => 'ACTIVO',
@@ -147,146 +181,172 @@ class CorteCaja2Controller extends Component
                 'cartera_id' => $c->id,
                 'movimiento_id' => $movimiento->id,
             ]);
-        }
+            }
 
-        $carteras_generales = Cartera::where('carteras.caja_id', 1)->get();
-        foreach ($carteras_generales as $cg)
-        {
-            $movimiento = Movimiento::create([
-                'type' => 'APERTURA',
-                'status' => 'ACTIVO',
-                'import' => 0,
-                'user_id' => Auth()->user()->id
-            ]);
-            CarteraMov::create([
-                'type' => 'APERTURA',
-                'tipoDeMovimiento' => 'CORTE',
-                'comentario' => '',
-                'cartera_id' => $cg->id,
-                'movimiento_id' => $movimiento->id,
-            ]);
-        }
-
-        /* DESABILITAR CAJA */
-        $caja = Caja::find($idcaja);
-        $caja->update([
+            /* DESABILITAR CAJA */
+            $caja = Caja::find($idcaja);
+            $caja->update([
             'estado' => 'Abierto',
-        ]);
-        $caja->save();
+            ]);
+            $caja->save();
 
-        $this->nombre_caja = $caja->nombre;
+            $this->nombre_caja = $caja->nombre;
 
-        session(['sesionCaja' => $caja->nombre]);
-        session(['sesionCajaID' => $caja->id]);
+            session(['sesionCaja' => $caja->nombre]);
+            session(['sesionCajaID' => $caja->id]);
 
-        $this->emit('message-success-toast');
-        
-        $this->redirect('cortecajas2');
+            $this->emit('message-success-toast');
+
+            $this->redirect('cortecajas2');
+        }
+        else
+        {
+            $this->emit('caja-ocupada');
+        }
+
+       
     }
     //Para cerrar la caja abierta por el mismo usuario
     public function CerrarCaja($idcaja)
     {
-         /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
-         $cortes = Movimiento::where('status', 'ACTIVO')
-         ->where('type', 'APERTURA')
-         ->where('user_id', Auth()->user()->id)->get();
-        foreach ($cortes as $c)
+        if($this->VerificarCajaAbierta($idcaja))
         {
-            $c->update([
-                'status' => 'INACTIVO',
+            /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
+            $cortes = Movimiento::where('status', 'ACTIVO')
+            ->where('type', 'APERTURA')
+            ->where('user_id', Auth()->user()->id)->get();
+            foreach ($cortes as $c)
+            {
+                $c->update([
+                    'status' => 'INACTIVO',
+                ]);
+                $c->save();
+            }
+            /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+            $carteras = Cartera::where('caja_id', $idcaja)->get();
+            foreach ($carteras as $cart)
+            {
+                $movimiento = Movimiento::create([
+                    'type' => 'CIERRE',
+                    'status' => 'ACTIVO',
+                    'import' => 0,
+                    'user_id' => Auth()->user()->id
+                ]);
+                CarteraMov::create([
+                    'type' => 'CIERRE',
+                    'tipoDeMovimiento' => 'CORTE',
+                    'comentario' => '',
+                    'cartera_id' => $cart->id,
+                    'movimiento_id' => $movimiento->id,
+                ]);
+            }
+            /* HABILITAR CAJA */
+            $caja = Caja::find($idcaja);
+            $caja->update([
+                'estado' => 'Cerrado',
             ]);
-            $c->save();
+            $caja->save();
+
+            $this->nombre_caja = "nada";
+
+            session(['sesionCaja' => null]);
+            session(['sesionCajaID' => null]);
+
+            $this->emit('message-success-toast');
+
+            $this->redirect('cortecajas2');
         }
-        /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
-        $carteras = Cartera::where('caja_id', $idcaja)->get();
-        foreach ($carteras as $cart)
+        else
         {
-            $movimiento = Movimiento::create([
-                'type' => 'CIERRE',
-                'status' => 'ACTIVO',
-                'import' => 0,
-                'user_id' => Auth()->user()->id
-            ]);
-            CarteraMov::create([
-                'type' => 'CIERRE',
-                'tipoDeMovimiento' => 'CORTE',
-                'comentario' => '',
-                'cartera_id' => $cart->id,
-                'movimiento_id' => $movimiento->id,
-            ]);
+            $this->emit('caja-cerrada');
         }
-        /* HABILITAR CAJA */
-        $caja = Caja::find($idcaja);
-        $caja->update([
-            'estado' => 'Cerrado',
-        ]);
-        $caja->save();
-
-        $this->nombre_caja = "nada";
-
-        session(['sesionCaja' => null]);
-        session(['sesionCajaID' => null]);
-
-        $this->emit('message-success-toast');
-
-        $this->redirect('cortecajas2');
     }
     //Para cerrar la caja abierta por otro usuario
     public function CerrarCajaUsuario($idcaja)
     {
-
-
-
-
-
-
-
-
-
-         /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
-         $cortes = Movimiento::where('status', 'ACTIVO')
-         ->where('type', 'APERTURA')
-         ->where('user_id', Auth()->user()->id)->get();
-        foreach ($cortes as $c)
+        if($this->VerificarCajaAbierta($idcaja))
         {
+            //Buscando el id usuario que abrio la caja
+            $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as c', 'c.caja_id', 'cajas.id')
+            ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+            ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+            ->join('users as u', 'u.id', 'm.user_id')
+            ->select('u.name as nombreusuario','u.id as idusuario')
+            ->where('m.status', 'ACTIVO')
+            ->where('m.type', 'APERTURA')
+            ->where('cajas.id', $idcaja)
+            ->get()
+            ->first();
+
+
+            /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
+            $cortes = Movimiento::where('status', 'ACTIVO')
+            ->where('type', 'APERTURA')
+            ->where('user_id', $cajausuario->idusuario)->get();
+            foreach ($cortes as $c)
+            {
             $c->update([
-                'status' => 'INACTIVO',
+            'status' => 'INACTIVO',
             ]);
             $c->save();
-        }
-        /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
-        $carteras = Cartera::where('caja_id', $idcaja)->get();
-        foreach ($carteras as $cart)
-        {
+            }
+            /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+            $carteras = Cartera::where('caja_id', $idcaja)->get();
+            foreach ($carteras as $cart)
+            {
             $movimiento = Movimiento::create([
-                'type' => 'CIERRE',
-                'status' => 'ACTIVO',
-                'import' => 0,
-                'user_id' => Auth()->user()->id
+            'type' => 'CIERRE',
+            'status' => 'ACTIVO',
+            'import' => 0,
+            'user_id' => $cajausuario->idusuario
             ]);
             CarteraMov::create([
-                'type' => 'CIERRE',
-                'tipoDeMovimiento' => 'CORTE',
-                'comentario' => '',
-                'cartera_id' => $cart->id,
-                'movimiento_id' => $movimiento->id,
+            'type' => 'CIERRE',
+            'tipoDeMovimiento' => 'CORTE',
+            'comentario' => '',
+            'cartera_id' => $cart->id,
+            'movimiento_id' => $movimiento->id,
             ]);
-        }
-        /* HABILITAR CAJA */
-        $caja = Caja::find($idcaja);
-        $caja->update([
+            }
+            /* HABILITAR CAJA */
+            $caja = Caja::find($idcaja);
+            $caja->update([
             'estado' => 'Cerrado',
-        ]);
-        $caja->save();
+            ]);
+            $caja->save();
 
-        $this->nombre_caja = "nada";
 
-        // session(['sesionCaja' => null]);
-        // session(['sesionCajaID' => null]);
+            $this->emit('message-success-toast');
 
-        $this->emit('message-success-toast');
-
-        $this->redirect('cortecajas2');
+            $this->redirect('cortecajas2');
+        }
+        else
+        {
+            $this->emit('caja-cerrada');
+        }
     }
-
+    //Verifica si una caja esta abierta
+    public function VerificarCajaAbierta($idcaja)
+    {
+        $result = false;
+        //Buscando el id usuario que abrio la caja
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+                ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+                ->join('carteras as c', 'c.caja_id', 'cajas.id')
+                ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+                ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+                ->join('users as u', 'u.id', 'm.user_id')
+                ->select('u.name as nombreusuario','u.id as idusuario')
+                ->where('m.status', 'ACTIVO')
+                ->where('m.type', 'APERTURA')
+                ->where('cajas.id', $idcaja)
+                ->get();
+        if($cajausuario->count() > 0)
+        {
+            $result = true;
+        }
+        return $result;
+    }
 }

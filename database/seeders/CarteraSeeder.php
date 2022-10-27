@@ -15,7 +15,7 @@ class CarteraSeeder extends Seeder
     public function run()
     {
         Cartera::create([
-            'nombre' => 'Banco',
+            'nombre' => 'Banco Central',
             'saldocartera' => 0,
             'descripcion' => 'Cuenta Bancaria',
             'tipo' => 'Banco',
@@ -23,7 +23,7 @@ class CarteraSeeder extends Seeder
             'caja_id' => '1',
         ]);
         Cartera::create([
-            'nombre' => 'Caja Física',
+            'nombre' => 'Dinero Físico',
             'saldocartera' => 0,
             'descripcion' => 'Dinero en Efectivo',
             'tipo' => 'CajaFisica',
@@ -31,7 +31,7 @@ class CarteraSeeder extends Seeder
             'caja_id' => '2',
         ]);
         Cartera::create([
-            'nombre' => 'Cartera 1',
+            'nombre' => 'Cartera X',
             'saldocartera' => 0,
             'descripcion' => 'Dinero en Efectivo',
             'tipo' => 'CajaFisica',
