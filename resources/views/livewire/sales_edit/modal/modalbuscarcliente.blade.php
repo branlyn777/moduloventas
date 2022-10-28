@@ -2,7 +2,7 @@
 <div wire:ignore.self class="modal fade" id="modalbuscarcliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-        <div class="modal-header" style="background-color: rgb(252, 130, 42); color: white;">
+            <div class="modal-header bg-info">
             <h5 class="modal-title" id="exampleModalLongTitle">Buscar Cliente</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -48,25 +48,27 @@
                                 <tr class="text-center">
                                     <td colspan="2">
 
-
+                                        <br>
                                         <div class="row">
 
-                                            <div class="col-8 col-sm-12">
-                                                <button class="btn" wire:click.prevent="crearcliente()" style="background-color: chartreuse;">
-                                                    Crear u Usar: {{$this->buscarcliente}}
+                                            <div class="col-sm-12">
+                                                <button class="boton-azul" wire:click.prevent="crearcliente()">
+                                                    Crear y Usar: {{$this->buscarcliente}}
                                                 </button>
                                             </div>
 
 
-                                            <div class="col-8 col-sm-6">
+                                            <div class="col-sm-6">
                                                 <label for="validationTooltip01"><b>Cédula</b></label>
                                                 <input wire:model.lazy="cliente_ci" class="form-control" type="text" placeholder="Opcional...">
                                             </div>
-                                            <div class="col-4 col-sm-6">
+                                            <div class="col-sm-6">
                                                 <label for="validationTooltipUsername"><b>Celular</b></label>
                                                 <input wire:model.lazy="cliente_celular" class="form-control" type="number" placeholder="Opcional...">
                                             </div>
                                         </div>
+
+                                        <br>
 
                                     </td>
                                 </tr>

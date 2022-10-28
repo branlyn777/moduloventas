@@ -1,73 +1,83 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+
+
+    <div>
+
+        <div class="bg"></div>
+        <div class="bg bg2"></div>
+        <div class="bg bg3"></div>
+
+
+        <div class="login-root">
+            <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+            
+            <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+                <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
+                </div>
+                <div class="formbg-outer">
+                <div class="formbg">
+                    <div class="formbg-inner padding-horizontal--48">
+                    <span class="padding-bottom--15 text-center">
+                        <h1>
+                            Sistema Edsoft
+                        </h1>
+                    </span>
+                    <br>
+                    <form id="stripe-login" method="POST" action="{{ route('login') }}">
                         @csrf
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <div class="field padding-bottom--24">
+                        <label for="email">Usuario</label>
+                        <input id="email" type="email" name="email" placeholder="Ingrese su usuario" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                        </div>
+                        <div class="field padding-bottom--24">
+                        <div class="grid--50-50">
+                            <label for="password">Contraseña</label>
+                            <div class="reset-pass">
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Ingrese su contraseña">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
+                        <div class="field field-checkbox padding-bottom--24 flex-flex align-center">
+                        <label for="checkbox">
+                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            Recordar Sesión
+                        </label>
                         </div>
+                        <div class="field padding-bottom--24">
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                        <input type="submit" name="submit" value="{{ __('Iniciar Sesión') }}">
+                        
+                        </div>
+                        <div class="field">
+                        <a class="ssolink" href="#">Sistema de Ventas (POS) 2022</a>
                         </div>
                     </form>
+                    </div>
                 </div>
+                <div class="footer-link padding-top--24">
+                    <span>¿Nuestra Ubicación? <a href="">Click Aquí</a></span>
+                    <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+                    <span><a href="#">© Facebook</a></span>
+                    <span><a href="#">WhatsApp</a></span>
+                    <span><a href="#">Messenger</a></span>
+                    </div>
+                </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

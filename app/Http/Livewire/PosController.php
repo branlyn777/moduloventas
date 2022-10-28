@@ -74,7 +74,7 @@ class PosController extends Component
     //Variables para el Descuento o Recargo en Venta...
     public $descuento_recargo;
     //Variables para crear un cliente
-    public $cliente_nombre, $cliente_ci, $cliente_celular;
+    public $cliente_ci, $cliente_celular;
     //Para verificar que tenga un corte de caja
     public $corte_caja;
     //Guardar el id de un producto
@@ -743,11 +743,6 @@ class PosController extends Component
     {
         $this->emit('show-buscarcliente');
     }
-    //llama al modal crearcliente
-    public function modalcrearcliente()
-    {
-        $this->emit('show-crearcliente');
-    }
     //Devuelve el nombre de la cartera seleccionada y su tipo
     public function nombrecartera()
     {
@@ -914,48 +909,33 @@ class PosController extends Component
         ->get()->first();
         return $tiendaproducto->precio;
     }
-    //Crear Cliente
+    //Cierra la ventana modal Buscar Cliente y Cambia el id de la variable $cliente_id con un cliente Creado
     public function crearcliente()
     {
-        //Reglas de Validación
-        $rules = [
-            'cliente_nombre' => 'required',
-        ];
-        $messages = [
-            'cliente_nombre.required' => 'Información Requerida',
-        ];
-        $this->validate($rules, $messages);
         if($this->cliente_celular == null)
         {
             $newclient = Cliente::create([
-                'nombre' => $this->cliente_nombre,
+                'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => 0,
-                // 'telefono' => $this->telefono,
-                // 'email' => $this->email,
-                // 'nit' => $this->nit,
-                // 'razon_social' => $this->razon_social,
                 'procedencia_cliente_id' => 1,
             ]);
         }
         else
         {
             $newclient = Cliente::create([
-                'nombre' => $this->cliente_nombre,
+                'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => $this->cliente_celular,
-                // 'telefono' => $this->telefono,
-                // 'email' => $this->email,
-                // 'nit' => $this->nit,
-                // 'razon_social' => $this->razon_social,
                 'procedencia_cliente_id' => 1,
         ]);
         }
         
         $this->cliente_id = $newclient->id;
-        $this->mensaje_toast = "Se selecciono al cliente creado: '" . $newclient->nombre . "'";
+        $this->nombrecliente = $newclient->nombre;
+        $this->message = "Se selecciono al cliente creado: '" . $newclient->nombre . "'";
         //Ocultando ventana modal
-        $this->emit('hide-crearcliente');
+        $this->emit('hide-buscarcliente');
     }
     //Método para mostrar una ventana modal cuando no hay stock en Tienda de un producto
     public function modalstockinsuficiente($idproducto)

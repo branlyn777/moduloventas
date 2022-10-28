@@ -399,20 +399,17 @@
                     </div>
                     @else
                     <div class="row" style="height: 44.2px;">
-                        <div class="col-3 text-center">
+                        <div class="col-4 text-center">
                             
                         </div>
-                        <div class="col-3 text-center">
-                            <button wire:click.prevent="modalbuscarcliente()" type="button" class="btn btn-outline-dark">
-                                Buscar Cliente
+
+                        <div class="col-4 text-center">
+                            <button wire:click="$emit('show-buscarcliente')" type="button" class="boton-azul-g">
+                                Buscar o Crear Cliente
                             </button>
                         </div>
-                        <div class="col-3 text-center">
-                            <button wire:click.prevent="modalcrearcliente()" type="button" class="btn btn-outline-dark">
-                                Crear Cliente
-                            </button>
-                        </div>
-                        <div class="col-3 text-center">
+
+                        <div class="col-4 text-center">
                             
                         </div>
                     </div>
@@ -534,7 +531,6 @@
 
         @include('livewire.pos.modal.modalfinalizarventa')
         @include('livewire.pos.modal.modalbuscarcliente')
-        @include('livewire.pos.modal.modalcrearcliente')
         @include('livewire.pos.modal.modal_stock_insuficiente')
         @include('livewire.pos.modal.modallotesproducto')
 

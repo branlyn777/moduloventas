@@ -396,7 +396,7 @@
                         
                     </div>
                     <div class="col-4 text-center">
-                        <button wire:click="$emit('show-buscarcliente')" type="button" class="btn btn-outline-dark">
+                        <button wire:click="$emit('show-buscarcliente')" type="button" class="boton-azul-g">
                             Buscar o Crear Cliente
                         </button>
                     </div>

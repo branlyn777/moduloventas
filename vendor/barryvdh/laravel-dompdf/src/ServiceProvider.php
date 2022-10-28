@@ -1,5 +1,4 @@
 <?php
-
 namespace Barryvdh\DomPDF;
 
 use Dompdf\Dompdf;
@@ -9,6 +8,7 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -22,40 +22,33 @@ class ServiceProvider extends IlluminateServiceProvider
      * @throws \Exception
      * @return void
      */
-    public function register(): void
+    public function register()
     {
-        $configPath = __DIR__ . '/../config/dompdf.php';
+        $configPath = __DIR__.'/../config/dompdf.php';
         $this->mergeConfigFrom($configPath, 'dompdf');
 
-        $this->app->bind('dompdf.options', function ($app) {
-            $defines = $app['config']->get('dompdf.defines');
+        $this->app->bind('dompdf.options', function(){
+            $defines = $this->app['config']->get('dompdf.defines');
 
             if ($defines) {
                 $options = [];
-                /**
-                 * @var string $key
-                 * @var mixed $value
-                 */
                 foreach ($defines as $key => $value) {
                     $key = strtolower(str_replace('DOMPDF_', '', $key));
                     $options[$key] = $value;
                 }
             } else {
-                $options = $app['config']->get('dompdf.options');
+                $options = $this->app['config']->get('dompdf.options');
             }
 
             return $options;
+
         });
 
-        $this->app->bind('dompdf', function ($app) {
+        $this->app->bind('dompdf', function() {
 
-            $options = $app->make('dompdf.options');
+            $options = $this->app->make('dompdf.options');
             $dompdf = new Dompdf($options);
-            $path = realpath($app['config']->get('dompdf.public_path') ?: base_path('public'));
-            if ($path === false) {
-                throw new \RuntimeException('Cannot resolve public path');
-            }
-            $dompdf->setBasePath($path);
+            $dompdf->setBasePath(realpath(base_path('public')));
 
             return $dompdf;
         });
@@ -64,20 +57,23 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->bind('dompdf.wrapper', function ($app) {
             return new PDF($app['dompdf'], $app['config'], $app['files'], $app['view']);
         });
+
     }
 
     /**
      * Check if package is running under Lumen app
+     *
+     * @return bool
      */
-    protected function isLumen(): bool
+    protected function isLumen()
     {
         return Str::contains($this->app->version(), 'Lumen') === true;
     }
 
-    public function boot(): void
+    public function boot()
     {
         if (! $this->isLumen()) {
-            $configPath = __DIR__ . '/../config/dompdf.php';
+            $configPath = __DIR__.'/../config/dompdf.php';
             $this->publishes([$configPath => config_path('dompdf.php')], 'config');
         }
     }
@@ -85,10 +81,11 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Get the services provided by the provider.
      *
-     * @return array<string>
+     * @return array
      */
-    public function provides(): array
+    public function provides()
     {
-        return ['dompdf', 'dompdf.options', 'dompdf.wrapper'];
+        return array('dompdf', 'dompdf.options', 'dompdf.wrapper');
     }
+
 }

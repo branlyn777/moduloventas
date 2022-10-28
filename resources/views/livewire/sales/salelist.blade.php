@@ -233,7 +233,7 @@
 
                 <div class="col-12 col-sm-12 col-md-4">
                     <ul class="tabs tab-pills text-right">
-                        <a href="{{ url('pos') }}" style="background-color: #11be32; color: white;">Nueva Venta</a>
+                        <a href="{{ url('pos') }}" class="boton-verde">Nueva Venta</a>
                     </ul>
                 </div>
 
@@ -348,17 +348,17 @@
             <div class="table-wrapper table-responsive">
                 <table style="min-width: 900px;">
                     <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">CODIGO</th>
-                            <th class="text-center">FECHA</th>
-                            <th class="text-center">TOTALES BS</th>
-                            <th class="text-center">USUARIO</th>
-                            <th class="text-center">CARTERA</th>
-                            <th class="text-center">SUCURSAL</th>
-                            <th class="text-center">CLIENTE</th>
-                            <th class="text-center">ESTADO</th>
-                            <th class="text-center">ACCIONES</th>
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>CODIGO</th>
+                            <th>FECHA</th>
+                            <th>TOTALES BS</th>
+                            <th>USUARIO</th>
+                            <th>CARTERA</th>
+                            <th>SUCURSAL</th>
+                            <th>CLIENTE</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -432,23 +432,23 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button wire:click="modaldetalle({{ $lv->codigo }})" class="btn btn-sm" title="Ver detalles de la venta" style="background-color: #4894ef; color:white">
+                                        <button wire:click="modaldetalle({{ $lv->codigo }})" class="boton-azul" title="Ver detalles de la venta">
                                             <i class="fas fa-bars"></i>
                                         </button>
                                         @if(Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
                                             @if($lv->estado == "PAID")
-                                            <a href="#" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{$lv->nombrecartera}}')" class="btn btn-sm" title="Anular Venta" style="background-color: red; color:white">
+                                            <a href="#" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{$lv->nombrecartera}}')" class="boton-rojo" title="Anular Venta">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-                                            <button wire:click="editsale({{$lv->codigo}})" class="btn btn-sm" title="Editar Venta" style="background-color: rgb(13, 175, 220); color:white">
+                                            <button wire:click="editsale({{$lv->codigo}})" class="boton-celeste" title="Editar Venta">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button wire:click="modalcambiarusuario({{$lv->codigo}})" class="btn btn-sm" title="Cambiar Usuario Vendedor" style="background: #006c70; color:white">
+                                            <button wire:click="modalcambiarusuario({{$lv->codigo}})" class="boton-plomo" title="Cambiar Usuario Vendedor">
                                                 <i class="fas fa-user-edit"></i>
                                             </button>
                                             @endif
                                         @endif
-                                        <button wire:click="crearcomprobante({{$lv->codigo}})" class="btn btn-sm" title="Crear Comprobante" style="background-color: #11be32; color:white">
+                                        <button wire:click="crearcomprobante({{$lv->codigo}})" class="boton-verde" title="Crear Comprobante">
                                             <i class="fas fa-print"></i>
                                         </button>
                                     </div>
