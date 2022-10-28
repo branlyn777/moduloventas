@@ -323,7 +323,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                @endforeach
+                @endforeach 
 
 
                 @foreach ($totalesEgresosV as $p)
@@ -393,7 +393,6 @@
 
                     </td>
                 </tr>
-
                       {{-- SUBTOTAL OPERACIONES --}}
                       <tr>
                         <td colspan="3">

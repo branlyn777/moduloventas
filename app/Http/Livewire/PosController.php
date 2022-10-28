@@ -538,8 +538,6 @@ class PosController extends Component
                 ]);
             $cartera->save();
 
-            
-
             //Creando la venta
             $sale = Sale::create([
                 'total' => $this->total_bs,
@@ -659,6 +657,8 @@ class PosController extends Component
 
             //verificar que caja esta aperturada
             $cajaId= session('sesionCajaID');
+            //dd($cajaId);
+
                 
 
             //verificar que esta venta no tuvo operaciones en caja general
@@ -666,9 +666,7 @@ class PosController extends Component
             
             $op = OperacionesCarterasCompartidas::create([
                     'caja_id'=>$cajaId,
-                    'cartera_mov_id'=>$cv->id
-                ]);
-         }
+                    'cartera_mov_id'=>$cv->id]);}
 
 
             $this->resetUI();
