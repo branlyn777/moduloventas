@@ -430,7 +430,7 @@
                                     </td>
                                 </tr>
                              
-                                    
+                    
                                 <tr>
                                     <td>
                                         <h5 class="text-dark text-center" ><b> Ingresos por Bancos </b></h5>
@@ -480,7 +480,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h5 class="text-dark text-center mr-1" ><b> Saldo por Operaciones en TigoMoney </b></h5>
+                                        <h5 class="text-dark text-center mr-1"><b> Saldo por Operaciones en TigoMoney </b></h5>
                                     </td>
                                
                                     <td>
