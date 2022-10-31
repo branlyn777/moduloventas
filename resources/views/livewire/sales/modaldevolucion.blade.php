@@ -2,7 +2,7 @@
 <div wire:ignore.self class="modal fade" id="tabsModal" tabindex="-1" role="dialog" aria-labelledby="tabsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info">
           <h5 class="modal-title" id="tabsModalLabel">Nueva Devolución</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -49,26 +49,22 @@
 
                         @if($BuscarProductoNombre != 0)
     
-                        <div class="table-wrapper">
-                            {{-- <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar"> --}}
-                                <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4" style="min-height: 150px;">
+                        <div class="table-1">
+                                <table>
                                     <thead>
-                                        <tr>
-                                            {{-- <th class="table-th text-center text-white">IMAGEN</th> --}}
-                                            <th class="table-th text-left text-white">DESCRIPCIÓN</th>
-                                            <th colspan="2" class="table-th text-center text-white">#</th>
-                                            
+                                        <tr class="text-center">
+                                            <th>DESCRIPCIÓN</th>
+                                            <th colspan="2">#</th>
                                         </tr>
                                     </thead>
                                 <tbody>
                                     @foreach ($datosnombreproducto as $p)
                                     <tr>
-                                        {{-- Descripciòn Producto --}}
                                         <td>
                                             {{ $p->nombre }} - {{ $p->barcode }} :: <b>{{ $p->precio_venta }}Bs</b>
                                         </td>
                                         <td class="text-center">
-                                            <button wire:click="entry({{$p->llaveid}})" class="btn btn-sm" title="Editar Venta" style="background-color: rgb(13, 175, 220); color:white;">
+                                            <button wire:click="entry({{$p->llaveid}})" class="boton-azul" title="Editar Venta">
                                                 <i class="far fa-check-square"></i>
                                             </button>
                                         </td>
@@ -95,7 +91,7 @@
 
 
                         @if($productoentrante == 1)
-                        <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+                        <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:#02b1ce;" />
 
                             <table class="table">
                                 <tbody>
@@ -114,7 +110,7 @@
                                 </tbody>
                             </table>
 
-                        <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+                        <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:#02b1ce;" />
                         
                     
                         
@@ -126,23 +122,25 @@
                             <div class="text-center">
                                 <b>Se descontara una Unidad del Stock de la Tienda del Producto </b>
                             </div>
-                                <table class="table" style="background-color: rgb(34, 211, 255)">
-                                    <tbody>
-                                        @foreach ($ppee as $p)
-                                        <tr>
-                                            {{-- Descripciòn Producto --}}
-                                            <td>
-                                                {{ $p->nombre }}
-                                            </td>
-                                            {{-- Precio Producto--}}
-                                            <td class="text-right">
-                                                {{ $p->precio_venta }} Bs
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+                                <div class="table-1">
+                                    <table>
+                                        <tbody>
+                                            @foreach ($ppee as $p)
+                                            <tr>
+                                                {{-- Descripciòn Producto --}}
+                                                <td>
+                                                    {{ $p->nombre }}
+                                                </td>
+                                                {{-- Precio Producto--}}
+                                                <td class="text-right">
+                                                    {{ $p->precio_venta }} Bs
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:#02b1ce;" />
                                 
                                 <div class="form-row text-center">
 
@@ -163,7 +161,7 @@
 
 
                                 </div>
-                                <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+                                <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:#02b1ce;" />
                             @else
                             <div class="row text-center">
                                 <div class="col-sm-6 col-md-2">
@@ -197,7 +195,7 @@
                                     <textarea class="form-control" placeholder="Ingrese el Motivo de la Devolución..." aria-label="With textarea" wire:model="observaciondevolucion"></textarea>
                                 </div>
                             </div>
-                            <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+                            <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:#02b1ce;" />
                             @endif
                         @endif
 
@@ -274,17 +272,15 @@
                                     <h4>Historial de Ventas del Producto Seleccionado</h4>
                                 </div>
                                 <br>
-                                <div class="table-wrapper2">
-                                    {{-- <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar"> --}}
-                            
-                                        <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4" style="min-height: 150px;">
-                                        <thead style="border-bottom: none; align-items: center;">
-                                            <tr>
-                                                <th>Fecha de la Venta</th>
-                                                <th>Usuario Responsable</th>
-                                                <th colspan="4"> Mostrar Detalles</th>
-                                            </tr>
-                                        </thead>
+                                <div class="table-1">
+                                        <table>
+                                            <thead style="border-bottom: none; align-items: center;">
+                                                <tr>
+                                                    <th>Fecha de la Venta</th>
+                                                    <th>Usuario Responsable</th>
+                                                    <th colspan="4"> Mostrar Detalles</th>
+                                                </tr>
+                                            </thead>
                                         <tbody>
                                             @foreach ($historialventa as $p)
                                             <tr>

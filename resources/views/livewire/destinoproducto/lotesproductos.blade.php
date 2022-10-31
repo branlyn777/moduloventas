@@ -11,53 +11,48 @@
             <div>
                 @if ($loteproducto)
                     <div class="col-lg-12">
-                          <div class="container">                       
-                                            <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                                                    <table class="table table-bordered table-striped mt-1">
-                                                    <thead class="text-white" style="background: #2bda6e">
-                                                        <tr>
-                                                            <th class="table-th text-withe text-center">#</th>
-                                                            <th class="table-th text-withe text-center">Fecha Creacion</th>                              
-                                                            <th class="table-th text-withe text-center">Producto</th>                              
-                                                            <th class="table-th text-withe text-center">Existencia</th>   
-                                                            <th class="table-th text-withe text-center">Costo Lote</th>                                                    
-                                                            <th class="table-th text-withe text-center">p/v Lote</th>                                                    
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($loteproducto as $data)
-                                                        <tr>
+                        <div class="table-1">
+                            <table>
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>#</th>
+                                        <th>Fecha Creacion</th>                              
+                                        <th>Producto</th>                              
+                                        <th>Existencia</th>   
+                                        <th>Costo Lote</th>                                                    
+                                        <th>p/v Lote</th>                                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($loteproducto as $data)
+                                    <tr>
 
 
-                                                            {{-- {{$data}} --}}
+                                        {{-- {{$data}} --}}
 
-                                                            <td>
-                                                                <h6 class="text-center">{{ $loop->iteration}}</h6>
-                                                            </td>
-                                                            <td>
-                                                                <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
-                                                                    <br>
-                                                                    {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
-                                                            </td>
-                                                            <td>
-                                                                <h6>{{$data->productos->nombre}}</h6>
-                                                            </td>
-                                                            <td>
-                                                                <h6>{{$data->existencia}}</h6>
-                                                            </td>                                                        
-                                                            <td>
-                                                                <h6>{{$data->costo}}</h6>
-                                                            </td>                                                        
-                                                            <td>
-                                                                <h6>{{$data->pv_lote}}</h6>
-                                                            </td>                                                        
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            
-                                            </div>
-                            
-
+                                        <td>
+                                            <h6 class="text-center">{{ $loop->iteration}}</h6>
+                                        </td>
+                                        <td>
+                                            <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
+                                                <br>
+                                                {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
+                                        </td>
+                                        <td>
+                                            <h6>{{$data->productos->nombre}}</h6>
+                                        </td>
+                                        <td>
+                                            <h6>{{$data->existencia}}</h6>
+                                        </td>                                                        
+                                        <td>
+                                            <h6>{{$data->costo}}</h6>
+                                        </td>                                                        
+                                        <td>
+                                            <h6>{{$data->pv_lote}}</h6>
+                                        </td>                                                        
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     
                

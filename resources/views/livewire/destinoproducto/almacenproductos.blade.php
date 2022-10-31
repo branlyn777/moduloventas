@@ -107,8 +107,8 @@
 
              
                 <div class="widget-content">
-                    <div class="table-responsive">
-                        <table  class="tablainventarios">
+                    <div class="table-5">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>#</th>

@@ -564,16 +564,6 @@ class SaleDevolutionController extends Component
 
     }
 
-    //Metodo para Verificar si el usuario tiene el Permiso para filtrar transferir y anular una devolucion
-    public function verificarpermiso()
-    {
-        if(Auth::user()->hasPermissionTo('VentasDevolucionesFiltrar'))
-        {
-            return true;
-        }
-        return false;
-    }
-
     public function resetUI()
     {
         $this->observaciondevolucion = "";

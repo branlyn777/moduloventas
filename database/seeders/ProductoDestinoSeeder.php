@@ -20,15 +20,21 @@ class ProductoDestinoSeeder extends Seeder
         ProductosDestino::create([
             'product_id'=> 1,
             'destino_id' => 1,
-            'stock' => '50',
+            'stock' => '110',
         ]);
-        $ip = IngresoProductos::create([
+
+
+
+
+
+
+        $ip1 = IngresoProductos::create([
             'destino' => 1,
             'user_id' => 1,
             'concepto' => 'INICIAL',
             'observacion' => 'Inventario inicial'
         ]);
-        $lote = Lote::create([
+        $lote1 = Lote::create([
             'existencia' => 50,
             'costo' => 60,
             'pv_lote' => 70,
@@ -39,8 +45,38 @@ class ProductoDestinoSeeder extends Seeder
             'product_id' => 1,
             'cantidad' => 50,
             'costo' => 60,
-            'id_entrada' => $ip->id,
-            'lote_id' => $lote->id
+            'id_entrada' => $ip1->id,
+            'lote_id' => $lote1->id
         ]);
+
+
+        $ip2 = IngresoProductos::create([
+            'destino' => 1,
+            'user_id' => 1,
+            'concepto' => 'INGRESO',
+            'observacion' => 'Segundo Lote'
+        ]);
+        $lote2 = Lote::create([
+            'existencia' => 60,
+            'costo' => 70,
+            'pv_lote' => 80,
+            'status' => 'Activo',
+            'product_id' => 1
+        ]);
+        DetalleEntradaProductos::create([
+            'product_id' => 1,
+            'cantidad' => 60,
+            'costo' => 70,
+            'id_entrada' => $ip2->id,
+            'lote_id' => $lote2->id
+        ]);
+
+
+
+
+
+
+
+
     }
 }

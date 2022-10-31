@@ -8,7 +8,7 @@
     }
 
     .cajacerrada{
-        background-color: rgb(189, 197, 212);
+        background-color: rgb(255, 255, 255);
         padding: 10px;
         border-radius: 15px;
         border: #000000 solid 2px;
@@ -90,7 +90,7 @@
                                         <span class="stamp stamp" style="background-color: #1b7488; font-size: 20px; border-radius: 5px;">
                                             {{$cg->nombrecartera}}:
                                         </span>
-                                        <span class="stamp stamp" style="background-color: #8d4400; font-size: 20px; border-radius: 5px;">
+                                        <span class="stamp stamp" style="background-color: #00969b; font-size: 20px; border-radius: 5px;">
                                             {{$cg->saldocartera}} Bs
                                         </span>
                                     </div>
@@ -100,10 +100,10 @@
                                     {{-- Cargando todas las carteras de la caja --}}
                                     @foreach($c->carteras as $car)
                                     <div style="padding-bottom: 3px;">
-                                        <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
+                                        <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
                                             {{$car->nombre}}:
                                         </span>
-                                        <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
+                                        <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
                                             {{$car->saldocartera}} Bs
                                         </span>
                                     </div>

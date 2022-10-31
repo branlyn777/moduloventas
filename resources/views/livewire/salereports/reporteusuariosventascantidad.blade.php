@@ -75,52 +75,46 @@
 
             <h2 class="text-center text-warning" wire:loading>POR FAVOR ESPERE, OBTENIENDO INFORMACION</h2>
          
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover" style="min-width: 1000px;">
-                        <thead class="text-white" style="background: #02b1ce">
+            <div class="table-5">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nombre Usuario</th>
+                            <th>Total Ventas Bs</th>
+                            <th>Total Utilidad Bs</th>
+                            <th>Total Descuento Bs</th>
+                            <th>Total Recargo Bs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($listausuarios as $d)
                             <tr>
-                                <th class="text-withe text-center">No</th>
-                                <th class="text-withe">Nombre Usuario</th>
-                                <th class="text-withe text-right">Total Ventas Bs</th>
-                                <th class="text-withe text-right">Total Utilidad Bs</th>
-                                <th class="text-withe text-right">Total Descuento Bs</th>
-                                <th class="text-withe text-right">Total Recargo Bs</th>
+                                <td class="text-center">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td>
+                                    <button type="button" class="boton-azul" wire:click.prevent="buscar_productos_descuentos({{$d->idusuario}})" title="Mostrar Lista de Productos con Descuentos y Recargos">
+                                        {{ucwords(strtolower($d->nombreusuario))}}
+                                    </button>
+                                </td>
+                                <td class="text-right">
+                                    {{number_format($d->totalbs, 2)}}
+                                </td>
+                                <td class="text-right">
+                                    {{number_format($d->totalutilidad, 2)}}
+                                </td>
+                                <td class="text-right">
+                                    {{number_format(($d->totaldescuento)* -1, 2)}}
+                                </td>
+                                <td class="text-right">
+                                    {{number_format($d->totalrecargo, 2)}}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($listausuarios as $d)
-                                <tr>
-                                    <td class="text-center">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="procesoestilos" wire:click.prevent="buscar_productos_descuentos({{$d->idusuario}})" title="Mostrar Lista de Productos con Descuentos y Recargos">
-                                            {{ucwords(strtolower($d->nombreusuario))}}
-                                        </button>
-                                    </td>
-                                    <td class="text-right">
-                                        {{number_format($d->totalbs, 2)}}
-                                    </td>
-                                    <td class="text-right">
-                                        {{number_format($d->totalutilidad, 2)}}
-                                    </td>
-                                    <td class="text-right">
-                                        {{number_format(($d->totaldescuento)* -1, 2)}}
-                                    </td>
-                                    <td class="text-right">
-                                        {{number_format($d->totalrecargo, 2)}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-
-
-
-            <br>
             <br>
             <br>
             
@@ -139,15 +133,15 @@
                         <table class="table table-hover" style="min-width: 1000px;">
                             <thead class="text-white" style="background: #005eb6">
                                 <tr>
-                                    <th class="text-withe text-center">Código Venta</th>
-                                    <th class="text-withe text-center">Fecha Venta</th>
+                                    <th>Código Venta</th>
+                                    <th>Fecha Venta</th>
                                     <th class="text-withe">Nombre Producto</th>
-                                    <th class="text-withe text-right">Precio Original</th>
-                                    <th class="text-withe text-right">Precio Venta</th>
-                                    <th class="text-withe text-right">Diferencia</th>
-                                    <th class="text-withe text-right">Cantidad</th>
-                                    <th class="text-withe text-right">Descuento Total</th>
-                                    <th class="text-withe text-right">Recargo Total</th>
+                                    <th>Precio Original</th>
+                                    <th>Precio Venta</th>
+                                    <th>Diferencia</th>
+                                    <th>Cantidad</th>
+                                    <th>Descuento Total</th>
+                                    <th>Recargo Total</th>
                                 </tr>
                             </thead>
                             <tbody>
