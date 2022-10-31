@@ -48,6 +48,7 @@ class DestinoProductoController extends Component
         $this->toogle=1;
         $this->selected_mood='todos';
    
+   
     
     }
     public function cerrar()

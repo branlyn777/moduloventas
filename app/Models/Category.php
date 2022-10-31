@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'descripcion','categoria_padre'];
+    protected $fillable = ['name', 'descripcion','categoria_padre','status'];
 
     public function products()
     {
@@ -19,6 +19,9 @@ class Category extends Model
     public function subcategories(){
       return Category::where('categoria_padre',$this->id)
         ->count();
+    }
+    public function detsub(){
+      return Category::where('categoria_padre',$this->id)->get();
     }
     public function getImagenAttribute()
     {

@@ -187,11 +187,13 @@
 
     <div class="col-sm-12 col-md-8">
         <label> <b> Subir Imagen</b></label>
-        <div class="form-group custom-file mt-4 p-1">
-            <input type="file" class="custom-file-input form-control" wire:model="image"
-                accept="image/x-png,image/gif,image/jpeg">
-            <label class="custom-file-label">Imagen{{ $image }}</label>
-            
+        <div class="custom-file mt-4 p-1">
+            <label class="custom-file p-0">
+
+                <input type="file" wire:model="image" class="form-control custom-file" style="padding-top:0.4rem"
+                    accept="image/x-png,image/gif,image/jpeg" class="custom-file-input" id="inputGroupFile03">
+                </label>
+                <div wire:loading wire:target="image" wire:key="image"><i class="fa fa-spinner fa-spin mt-2 ml-2"></i> Subiendo...</div>
         </div>
     </div>
     

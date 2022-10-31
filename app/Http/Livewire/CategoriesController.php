@@ -73,7 +73,7 @@ class CategoriesController extends Component
     {
         $this->selected_id = $category->id;
         //dd($this->data2);
-        $this->emit('modal_sub', 'show modal!');
+        //$this->emit('modal_sub', 'show modal!');
         
     }
 
