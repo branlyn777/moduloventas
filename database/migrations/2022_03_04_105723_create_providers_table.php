@@ -22,6 +22,7 @@ class CreateProvidersTable extends Migration
             $table->string('telefono',100)->nullable();
             $table->string('compañia',100)->nullable();
             $table->string('correo',100)->nullable();
+            $table->string('image',55)->nullable();
             $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->timestamps();
         });

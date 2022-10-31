@@ -13,7 +13,7 @@ class ProvidersController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $search, $nombre_prov,$apellido,$direccion,$telefono,$correo, $selected_id,$nit,$estado,$estados;
-    public  $pageTitle, $componentName;
+    public  $pageTitle, $componentName,$image;
     private $pagination = 5;
     
     public function paginationView()
@@ -25,23 +25,33 @@ class ProvidersController extends Component
         $this->pageTitle = 'Listado';
         $this->componentName = 'Proveedores';
         $this->selected_id = 0;
-        $this->estados='ACTIVO';
+        $this->estados='TODOS';
     }
 
     public function render()
     {
-        
-            if (strlen($this->search) > 0)
+       
                 $suplier = Provider::select('providers.*')
-                ->where('status',$this->estados)
                 ->where(function($querys){
                     $querys->where('nombre_prov', 'like', '%' . $this->search . '%')
-                ->orWhere('apellido','like','%'.$this->search.'%')
-                ->orWhere('direccion','like','%'.$this->search.'%');
+                    ->when($this->estados !='TODOS',function($query){
+                       
+                            return $query->where('status',$this->estados);
+                     
+                     });
                 })->paginate($this->pagination);
-            else
-            $suplier = Provider::where('status',$this->estados)->select('providers.*')
-            ->paginate($this->pagination);
+        
+         
+
+
+
+
+           
+
+
+
+
+
 
             return view('livewire.i_suplier.component', [
                 'data_proveedor' => $suplier
@@ -63,19 +73,32 @@ class ProvidersController extends Component
 
         
 
-        Provider::create([
+        $provider=Provider::create([
 
-            'nombre_prov' => $this->nombre_prov,
-            'apellido'=>$this->apellido,
+            'nombre_prov' => strtoupper($this->nombre_prov),
+            'apellido'=>strtoupper($this->apellido),
             'nit'=>$this->nit,
-            'direccion' => $this->direccion,
+            'direccion' =>strtoupper($this->direccion),
             'telefono'=>$this->telefono,
             'correo'=>$this->correo
             
         ]);
 
+        if ($this->image) {
+            $customFileName = uniqid() . '_.' . $this->image->extension();
+
+            
+            $this->image->storeAs('public/proveedores/', $customFileName);
+            $provider->image = $customFileName;
+            $provider->save();
+        }
+        else{
+            $provider->image='noimage.png';
+            $provider->save();
+        }
+
         $this->resetUI();
-        $this->emit('proveedor-added', 'proveedor Registrada');
+        $this->emit('proveedor-added', 'proveedor Registrado');
     }
     public function Edit(Provider $sup)
     {
@@ -116,6 +139,15 @@ class ProvidersController extends Component
             
         ]);
         $uni->save();
+        if ($this->image) {
+            $customFileName = uniqid() . '_.' . $this->image->extension();
+
+            
+            $this->image->storeAs('public/proveedores/', $customFileName);
+            $uni->image = $customFileName;
+            $uni->save();
+        }
+       
 
         $this->resetUI();
         $this->emit('proveedor-updated', 'proveedor Actualizado');
@@ -137,5 +169,7 @@ class ProvidersController extends Component
         $this->direccion='';
         $this->telefono='';
         $this->correo='';
+        $this->nit=null;
+        $this->image=null;
     }
 }

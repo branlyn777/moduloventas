@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name',255);
             $table->string('descripcion',255)->nullable();
             $table->integer('categoria_padre')->nullable()->default('0');
+            $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
            
       
             $table->timestamps();

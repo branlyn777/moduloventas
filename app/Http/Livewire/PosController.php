@@ -620,10 +620,6 @@ class PosController extends Component
                 }
 
 
-
-
-
-
                 //Decrementando el stock en tienda
                 $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
                 ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
@@ -638,11 +634,6 @@ class PosController extends Component
                 $tiendaproducto->update([
                     'stock' => $tiendaproducto->stock - $p->quantity
                 ]);
-
-
-
-
-
 
             }
 

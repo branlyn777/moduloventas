@@ -523,13 +523,15 @@ class IngresoEgresoController extends Component
         ]);
    //verificar que caja esta aperturada
    $cajaId= session('sesionCajaID');
-  dd($cajaId);
-        if ($this->carterasSucursal->contains('id',$this->cartera_id)) {
-              
+
+
+        if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
+             //dd("holss");
             $op = OperacionesCarterasCompartidas::create([
                  'caja_id'=>$cajaId,
                  'cartera_mov_id'=>$cv->id
              ]);
+             //dd($op);
             }
 
         $this->emit('hide-modal', 'Se generó el ingreso/egreso');
@@ -626,6 +628,15 @@ class IngresoEgresoController extends Component
         $this->cantidad_edit = '';
         $this->comentario_edit = '';
         $this->emit('hide_editar');
+    }
+
+    public function listarcarterasg()
+    {
+        $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
+        ->where('cajas.id', 1)
+        ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc','car.tipo as tipo')
+        ->get();
+        return $carteras;
     }
 
      

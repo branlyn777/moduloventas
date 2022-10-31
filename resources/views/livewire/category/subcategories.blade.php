@@ -6,51 +6,58 @@
            </div>
            <div class="modal-body">
 
-          
-               <div class="table-responsive">
-                   <table class="table table-unbordered table-hover mt-2">
-                       <thead class="text-white" style="background: #eb4569">
-                           <tr>
-                               <th class="table-th text-withe">NOMBRE</th>
-                               <th class="table-th text-withe text-center">DESCRIPCION</th>
-                               <th class="table-th text-withe text-center">ACCIONES</th>
-                            
-                           </tr>
-                       </thead>
-                      
-                       <tbody>
-                           @forelse ($subcat as $category)
-                               <tr>
-                                   <td>
-                                       
-                                       <h6>{{ $category->name }}</h6>
-                                   </td>
-                                   <td>
-                                       <h6>{{ $category->descripcion }}</h6>
-                                   </td>
-                                  
-                                   <td class="text-center">
-                                       <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                           class="btn btn-dark p-1" title="Edit">
-                                           <i class="fas fa-edit"></i>
-                                       </a>
-                                       <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}',
-                                           '{{ $category->products->count() }}')" class="btn btn-danger p-1"
-                                           title="Delete">
-                                           <i class="fas fa-trash"></i>
-                                       </a>
-                                    
-                                       
-                                   </td>
-                               </tr>
-                               @empty 
-                               <p>No tiene categorias que  mostrar</p>
-                           @endforelse
-                       </tbody>
-                   </table>
-                   
-               </div>
+          @if ($subcat->isNotEmpty())
               
+          <div class="table-responsive">
+              <table class="table table-unbordered table-hover mt-2">
+                  <thead class="text-white" style="background: #eb4569">
+                      <tr>
+                          <th class="table-th text-withe">NOMBRE</th>
+                          <th class="table-th text-withe text-center">DESCRIPCION</th>
+                          <th class="table-th text-withe text-center">ACCIONES</th>
+                       
+                      </tr>
+                  </thead>
+                 
+                  <tbody>
+                      @forelse ($subcat as $category)
+                          <tr>
+                              <td>
+                                  
+                                  <h6>{{ $category->name }}</h6>
+                              </td>
+                              <td>
+                                  <h6>{{ $category->descripcion }}</h6>
+                              </td>
+                             
+                              <td class="text-center">
+                                  <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                      class="btn btn-dark p-1" title="Edit">
+                                      <i class="fas fa-edit"></i>
+                                  </a>
+                                  <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}',
+                                      '{{ $category->products->count() }}')" class="btn btn-danger p-1"
+                                      title="Delete">
+                                      <i class="fas fa-trash"></i>
+                                  </a>
+                               
+                                  
+                              </td>
+                          </tr>
+                          @empty 
+                          <p>No tiene categorias que  mostrar</p>
+                      @endforelse
+                  </tbody>
+              </table>
+              
+          </div>
+         @else
+         <div class="row justify-content-center">
+             <button type="button" class="btn btn-warning m-2" wire:click="asignarCategoria('{{$selected_id}}')"
+             data-dismiss="modal" style="background: #3b3f5c"> <i class="fas fa-plus-circle"></i> Agregar Subcategorias</button>
+
+         </div>
+          @endif
         
                    
                 </div>
@@ -65,3 +72,22 @@
             
             
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

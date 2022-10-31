@@ -28,6 +28,7 @@ class HomeController extends Component
             session(['sesionCaja' => null]);
         } else{
             session(['sesionCaja' => $data[0]->nombre]);
+            session(['sesionCajaID' => $data[0]->id]);
         }
        
       

@@ -36,7 +36,7 @@
 
     <div class="row">
         <div class="col-12 text-center">
-          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
+          <p class="h2"><b>CATEGORIAS</b></p>
         </div>
     </div>
 
@@ -76,38 +76,78 @@
            
             <tbody>
                 @foreach ($categories as $category)
-                    <tr>
-                        <td class="text-center">
-                            {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
-                        </td>
-                        <td>
-                            <b>{{ $category->name }}</b>
-                            <label for=""> Descripcion : {{$category->descripcion}}</label>
-                        </td>
-                        <td class="text-center">
-                            <a href="javascript:void(0)" wire:click="Ver({{$category->id}})"
-                                class="boton-azul" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
-                                <i class="fas fa-eye"></i>
-                                </a>
-                        </td>
-                       
-                        <td class="text-center">
-                            <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                class="boton-azul" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="boton-azul" wire:click="asignarCategoria('{{$category->id}}')" title="Agregar subcategorias">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                            <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                               class="boton-rojo"
-                                title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                <tr data-toggle="collapse" data-target="#{{$category->id}}" class="accordion-toggle">
+                
+                    <td>{{$loop->index + 1 }}</td>
+                    <td>{{ $category->name }}  <br> <label for=""> Descripcion : {{$category->descripcion}}</label></td>
+                    <td>    <button type="button" 
+                        class="boton-azul" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    </td>
+                    <td class="text-center">
+                        <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                            class="boton-azul" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="boton-azul" wire:click="asignarCategoria('{{$category->id}}')" title="Agregar subcategorias">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
+                           class="boton-rojo"
+                            title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        
+                    </td>
+                   
+                     
+                </tr>
+                    
+                <tr>
+                    <td colspan="12" class="hiddenRow">
+                                    <div class="accordian-body collapse" id="{{$category->id}}"> 
+                      <table class="table table-striped">
+                              <thead>
+                                <tr class="info">
+                                                            <th>#</th>
+                                                            <th>Nombre</th>
+                                                            <th>Acciones</th>		
+                                                         
+                                </tr>
+                            </thead>
+                                                  
+                                                    <tbody>
+                                                        @foreach ($subcat as $lop)
+
+                                <tr  class="accordion-toggle">
+                                                            <td> <a href="#">Enginner Software</a></td>
+                                                            <td>{{$lop->name}}</td>
+                                                            <td>U$8.00000 </td>
+                                                            <td> 2016/09/27</td>
+                                                            <td> 2017/09/27</td>
+                                                            <td> 
+                                                                <a href="#" class="btn btn-default btn-sm">
+                                                          <i class="glyphicon glyphicon-cog"></i>
+                                                                    </a>
+                                                            </td>
+                                                        </tr>
+                              @endforeach                  
+                                                   
+                                                                                                                
+                              
+                                                        
                             
-                        </td>
-                    </tr>
-                @endforeach
+                                        
+                       
+                              </tbody>
+                           </table>
+                      
+                      </div> 
+                  </td>
+                </tr>
+              
+              @endforeach
             </tbody>
         </table>
         {{ $categories->links() }}
@@ -185,3 +225,102 @@
         })
     }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <div class="container">
+	<div class="col-md-12">
+    	<div class="panel panel-default">
+				<div class="panel-heading">
+					Employee
+				</div>
+        <div class="panel-body">
+					<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+					<th></th>
+                    <th>#</th>
+                    <th>NOMBRE</th>
+                    <th>SUBCATEGORIAS</th>
+                    <th>ACCIONES</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+             @foreach ($categories as $category)
+        <tr data-toggle="collapse" data-target="#{{$category->id}}" class="accordion-toggle">
+           <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+            <td>{{ $category->name }}</td>
+            <td>{{ $category->name }}</td>
+            <td>{{ $category->name }}</td>
+            <td>{{ $category->name }}</td>
+          	<td>{{ $category->name }}</td>
+        </tr>
+			
+        <tr>
+            <td colspan="12" class="hiddenRow">
+							<div class="accordian-body collapse" id="{{$category->id}}"> 
+              <table class="table table-striped">
+                      <thead>
+                        <tr class="info">
+													<th>Job</th>
+													<th>Company</th>
+													<th>Salary</th>		
+													<th>Date On</th>	
+													<th>Date off</th>	
+													<th>Action</th>	
+												</tr>
+											</thead>	
+								  		
+											<tbody>
+												
+                        <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
+													<td> <a href="#">Enginner Software</a></td>
+													<td>Google</td>
+													<td>U$8.00000 </td>
+													<td> 2016/09/27</td>
+													<td> 2017/09/27</td>
+													<td> 
+														<a href="#" class="btn btn-default btn-sm">
+                 								 <i class="glyphicon glyphicon-cog"></i>
+															</a>
+													</td>
+												</tr>
+												
+												 <tr>
+           
+                                 </tr>
+																										
+                      
+												
+					
+								
+               
+                      </tbody>
+               	</table>
+              
+              </div> 
+          </td>
+        </tr>
+      
+      @endforeach
+	
+    </tbody>
+</table>
+            </div>
+        
+          </div> 
+        
+      </div>
+	</div>
+        --}}
