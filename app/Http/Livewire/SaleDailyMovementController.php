@@ -290,8 +290,6 @@ class SaleDailyMovementController extends Component
                         $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
                     }
 
-
-
                 }
                 else
                 {
@@ -377,7 +375,6 @@ class SaleDailyMovementController extends Component
                     ->where('ca.id',$this->caja)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
-                    
                     ->whereBetween('cartera_movs.created_at', [$from, $to])
                     ->whereTime('cartera_movs.created_at', '>=', $this->timeFrom)
                     ->whereTime('cartera_movs.created_at', '<=', $this->timeTo.':59')

@@ -148,60 +148,60 @@
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="{{url('proveedores')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-address-book"></i>
                                     Proveedores </a>
                             </li>
                             <li>
                                 <a href="{{ url('categories') }}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-layer-group"></i>
                                     Categorias </a>
                             </li>
                             <li>
                                 <a href="{{ url('products') }}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i  class="flaticon-box-2 text-dark"></i>
                                     Productos </a>
                             </li>
                             <li>
                                 <a href="{{url('compras')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="flaticon-shopping-bag text-dark"></i>
                                     Compras </a>
                             </li>
                             <li>
                                 <a href="{{url('destino_prod')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-store"></i>
                                     Almacen Producto </a>
                             </li>
                             <li>
                                 <a href="{{url('operacionesinv')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-arrow-circle-right"></i>
                                     Entrada/Salida de Productos </a>
                             </li>
                             <li>
                                 <a href="{{url('all_transferencias')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-exchange-alt"></i>
                                     Transferencia de Productos </a>
                             </li>
                             <li>
                                 <a href="{{url('destino')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-warehouse"></i>
                                     Locacion/Estancia </a>
                             </li>
                             <li>
                                 <a href="{{url('locations')}}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-shapes"></i>
                                     Mobiliario </a>
                             </li>
                             <li>
                                 <a href="{{ url('unidades') }}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="fas fa-weight"></i>
                                     Unidades </a>
                             </li>
                             <li>
                                 <a href="{{ url('marcas') }}">
-                                    <i class="fa fas fa-minus"></i>
+                                    <i class="icon-tag"></i>
                                     Marcas </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a data-toggle="collapse" href="#subnav1">
                                     <span class="sub-item">Level 1</span>
                                     <span class="caret"></span>
@@ -220,8 +220,8 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
-                            <li>
+                            </li> --}}
+                            {{-- <li>
                                 <a data-toggle="collapse" href="#subnav2">
                                     <span class="sub-item">Level 1</span>
                                     <span class="caret"></span>
@@ -240,7 +240,7 @@
                                 <a href="#">
                                     <span class="sub-item">Level 1</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

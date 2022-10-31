@@ -653,17 +653,13 @@ class ReporteMovimientoResumenController extends Component
        
 
         $salelist = SaleDetail::where('sale_id', $idventa)->get();
-
-        foreach ($salelist as $data) {
-
+        foreach ($salelist as $data) 
+        {
             $sl = SaleLote::where('sale_detail_id', $data->id)->get();
-
-            foreach ($sl as $data2) {
-
+            foreach ($sl as $data2) 
+            {
                 $lot = Lote::where('id', $data2->lote_id)->value('costo');
-
                 $auxi = $data->price * $data2->cantidad - $lot * $data2->cantidad;
-
                 $utilidad = $utilidad + $auxi;
                 //dd($lot);
             }
@@ -868,7 +864,7 @@ class ReporteMovimientoResumenController extends Component
                 'diferenciaCaja.not_in' => 'Seleccione un valor distinto a Elegir',
                 'montoDiferencia.required' => 'El monto de la diferenia es requerido',
                 'montoDiferencia.not_in' => 'Ingrese un monto válido diferente de cero',
-                'obsDiferencia.required' => 'Ingrese el motivo de la operacion.',
+                'obsDiferencia.required' => 'Ingrese el motivo de la operacion.'
 
             ];
 

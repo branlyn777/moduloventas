@@ -2,15 +2,18 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
+               
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="h2"><b>PRODUCTOS</b></p>
+        </div>
+    </div>
                 <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal"
-                        data-target="#theModal"> <i class="fas fa-plus-circle"></i>Agregar Productos</a>
-                    <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal"
-                        data-target="#modalimport"> <i class="fas fa-arrow-alt-circle-up"></i> Subir Productos</a>
-                    <a href='{{url('productos/export/')}}' class="boton-azul-g" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+                    <button type="button" class="boton-azul-g m-1" data-toggle="modal"
+                        data-target="#theModal"> <i class="fas fa-plus-circle"></i>Agregar Productos</button>
+                    <button type="button" class="boton-azul-g m-1" data-toggle="modal"
+                        data-target="#modalimport"> <i class="fas fa-arrow-alt-circle-up"></i> Subir Productos</button>
+                    <a href='{{url('productos/export/')}}' class="boton-azul-g m-1" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                        
                     </ul>
                 </div>
