@@ -1,79 +1,4 @@
-@section('css')
-
-<style>
-    .tablep, .thp, .tdp{
-      margin: 0;
-      width: 100%;
-      background-color: rgb(240, 248, 242);
-      border: 8px solid;
-      border: 1px solid white;
-      border-style: hidden;
-     padding: 0%;
-    }
-    
-    .thp, .tdp {
-    
-      text-align: left;
-      border: 0px white !important;
-    
-    }
-    .trp:hover {background-color: rgb(209, 137, 110);}
-
-
-
-
-
-    .estilostable {
-        width: 100%;
-        font-size: 12px;
-        border-spacing: 0px;
-        color: black;
-        }
-        .estilostable .tablehead{
-            background-color: #dbd4d4;
-            font-size: 10px;
-        }
-        .estilostable2 {
-        width: 100%;
-        font-size: 9px;
-        border-spacing: 0px;
-        color: black;
-        padding: 0px;
-        }
-        .estilostable2 .tablehead{
-            background-color: white;
-        }
-        .fnombre{
-            border: 0.5px solid rgb(204, 204, 204);
-        }
-        .filarow{
-            border: 0.5px solid rgb(204, 204, 204);
-            width: 10px;
-            text-align: center;
-        }
-        .filarowpp{
-            border: 0.5px solid rgb(204, 204, 204);
-            width: 20px;
-            text-align: center;
-            font-size: 8px;
-        }
-        .filarownombre{
-            border: 0.5px solid rgb(204, 204, 204);
-            width: 150px;
-        }
-    
-        .filarowx{
-            border: 0.5px solid rgb(255, 255, 255);
-            width: 100%;
-            text-align: center;
-        }
-</style>
-   
-
-@endsection
-   
-   
-   <div class="widget-content">
+<div class="widget-content">
         <h4 class="card-title">
             <b>RESUMEN MOVIMIENTOS</b>
         </h4>
@@ -132,28 +57,28 @@
         <ul class="row justify-content-end">
          
               
-                <a wire:click="viewDetailsR()" class="btn btn-warning">
+                <button wire:click="viewDetailsR()" class="boton-azul-g">
                     Generar Recaudo
-                </a>
+                </button>
                
-                <a wire:click="generarpdf({{$totalesIngresosV}}, {{$totalesIngresosS}}, {{$totalesIngresosIE}}, {{$totalesEgresosV}}, {{$totalesEgresosIE}}, {{$op_sob_falt}})" class="btn btn-warning">
+                <button wire:click="generarpdf({{$totalesIngresosV}}, {{$totalesIngresosS}}, {{$totalesIngresosIE}}, {{$totalesEgresosV}}, {{$totalesEgresosIE}}, {{$op_sob_falt}})" class="boton-verde-g">
                     Generar PDF
-                </a>
+                </button>
          
        
         </ul>
-    <div class="table-responsive">
-            <table class="table table-hover table table-bordered table-bordered-bd-warning">
-                <thead class="text-white" style="background: #02b1ce">
+    <div class="table-5">
+            <table>
+                <thead>
                     <tr>
-                        <th class="table-th text-withe text-center" style="font-size: 100%">#</th>
-                        <th class="table-th text-withe text-center" style="font-size: 100%">FECHA</th>
+                        <th>#</th>
+                        <th>FECHA</th>
                      
-                        <th class="table-th text-withe text-center" style="font-size: 100%">DETALLE</th>
+                        <th>DETALLE</th>
                         
-                        <th class="table-th text-withe text-center" style="font-size: 100%">INGRESO</th>
-                        <th class="table-th text-withe text-center" style="font-size: 100%">EGRESO</th>
-                        <th class="table-th text-withe text-center" style="font-size: 100%">
+                        <th>INGRESO</th>
+                        <th>EGRESO</th>
+                        <th>
                             @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                             UTILIDAD
                             @endif
@@ -163,7 +88,7 @@
                 <tbody>
                     
                     @foreach ($totalesIngresosV as $p)
-                        <tr style="background-color: rgb(247, 239, 236)">
+                        <tr class="text-center">
                             <td>
                                 {{ $loop->iteration }}
                             </td>
@@ -192,54 +117,54 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <table class="estilostable2">
-                                    <thead>
-                                        <tr>
-                                            <td class="fnombre">
+                                <table>
+                                    <thead class="cabeza">
+                                        <tr class="text-center">
+                                            <td>
                                                 Nombre
                                             </td>
-                                            <td class="filarowpp">
+                                            <td>
                                                 Precio Original
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 Desc/Rec
                                             </td>
-                                            <td class="filarowpp">
+                                            <td>
                                                 Precio Venta
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 Cantidad
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 Total
                                             </td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($p->detalle as $item)
-                                        <tr class="">
-                                            <td class="filarownombre">
+                                        <tr class="fila">
+                                            <td>
                                                 {{-- {{rtrim(mb_strimwidth($item['nombre'], 2, 2, '...', 'UTF-8'))}} --}}
                                                 {{-- {{$item['nombre']}} --}}
                                                 {{substr($item->nombre, 0, 17)}}
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 {{number_format($item->po,2)}}
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 @if($item->po - $item->pv == 0)
                                                 {{$item->po - $item->pv}}
                                                 @else
                                                 {{($item->po - $item->pv) * -1}}
                                                 @endif
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 {{number_format($item->pv,2)}}
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 {{$item->cant}}
                                             </td>
-                                            <td class="filarow">
+                                            <td>
                                                 {{number_format($item->pv * $item->cant,2)}}
                                             </td>
                                         </tr>
@@ -389,7 +314,7 @@
       
             <tfoot>
                 <tr>
-                    <td colspan="6" style="background-color: rgb(224, 157, 80)">
+                    <td colspan="6">
 
                     </td>
                 </tr>

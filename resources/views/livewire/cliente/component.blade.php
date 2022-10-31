@@ -1,86 +1,89 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
+<div>
 
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="Agregar()">Agregar</a>
 
-                </ul>
-            </div>
-            @include('common.searchbox')
-
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #02b1ce">
-                            <tr>
-                                <th class="table-th text-withe">NOMBRE</th>
-                                <th class="table-th text-withe text-center">CÉDULA</th>
-                                <th class="table-th text-withe text-center">CELULAR</th>
-                                <th class="table-th text-withe text-center">EMAIL</th>
-                                <th class="table-th text-withe text-center">FECHA NACIM</th>
-                                <th class="table-th text-withe text-center">NIT</th>
-                                <th class="table-th text-withe text-center">DIRECCIÓN</th>
-                                <th class="table-th text-withe text-center">RAZÓN SOCIAL</th>
-                                <th class="table-th text-withe text-center">PROCEDENCIA</th>
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $c)
-                                <tr>
-                                    <td>
-                                        <h6>{{ $c->nombre }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->cedula }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->celular }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->email }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">
-                                            {{$c->fecha_nacim }}
-                                        </h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->nit }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->direccion }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->razon_social }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <h6 class="text-center">{{ $c->procedencia }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $c->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        {{-- <a href="javascript:void(0)"
-                                            onclick="Confirm('{{ $c->id }}','{{ $c->nombre }}')"
-                                            class="btn btn-warning" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
+      </div>
+
+
+      <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-4">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <button wire:click="Agregar()" type="button" class="boton-azul-g">Nuevo Cliente</button>
+        </div>
+
+    </div>
+
+
+    <div class="table-5">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th>NOMBRE</th>
+                    <th>CÉDULA</th>
+                    <th>CELULAR</th>
+                    <th>EMAIL</th>
+                    <th>FECHA NACIM</th>
+                    <th>NIT</th>
+                    <th>DIRECCIÓN</th>
+                    <th>RAZÓN SOCIAL</th>
+                    <th>PROCEDENCIA</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $c)
+                    <tr>
+                        <td>
+                            <h6>{{ $c->nombre }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->cedula }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->celular }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->email }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">
+                                {{$c->fecha_nacim }}
+                            </h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->nit }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->direccion }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->razon_social }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <h6 class="text-center">{{ $c->procedencia }}</h6>
+                        </td>
+                        <td class="text-center">
+                            <button href="javascript:void(0)" wire:click="Edit({{ $c->id }})"
+                                class="boton-celeste" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $data->links() }}
     </div>
     @include('livewire.cliente.form')
 </div>

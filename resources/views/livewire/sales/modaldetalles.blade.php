@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="table-1 table-responsive">
-                <table>
+                <table style="min-width: 600px;">
                     <thead>
                       <tr>
                         <th>No</th>

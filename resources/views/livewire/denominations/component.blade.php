@@ -1,62 +1,72 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
-                    
-                        <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
-                        data-target="#theModal">Agregar</a>
-                    
-                </ul>
-            </div>
-            @include('common.searchbox')
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-unbordered table-hover mt-2">
-                        <thead>
-                            <tr>
-                                <th class="table-th text-withe">TIPO</th>
-                                <th class="table-th text-withe text-center">VALOR</th>
-                                <th class="table-th text-withe text-center">IMAGEN</th>                                
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $coin)
-                                <tr>
-                                    <td>
-                                        <h6 class="text-center">{{ $coin->type }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ number_format($coin->value,2) }}</h6>
-                                    </td>                            
-                                    <td class="text-center">
-                                        <span>
-                                            <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
-                                                alt="imagen de ejemplo" height="70" width="80" class="rounded">
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $coin->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')" 
-                                            class="btn btn-warning" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
+<div>
+
+
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-4">
+            @include('common.searchbox')
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-center">
+            
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 text-right">
+            <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal" data-target="#theModal">Agregar</a>
+        </div>
+
+    </div>
+
+    <br>
+
+
+
+    <div class="table-5">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th>TIPO</th>
+                    <th>VALOR</th>
+                    <th>IMAGEN</th>                                
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $coin)
+                    <tr>
+                        <td>
+                            {{ $coin->type }}
+                        </td>
+                        <td>
+                            {{ number_format($coin->value,2) }}
+                        </td>                            
+                        <td class="text-center">
+                            <span>
+                                <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
+                                    alt="imagen de ejemplo" height="70" width="80" class="rounded">
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <button wire:click="Edit({{ $coin->id }})"
+                                class="boton-celeste" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')" 
+                                class="boton-rojo" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $data->links() }}
     </div>
     @include('livewire.denominations.form')
 </div>

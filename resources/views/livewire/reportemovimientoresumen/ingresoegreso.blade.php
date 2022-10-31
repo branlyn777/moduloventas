@@ -11,12 +11,12 @@
                 </ul>
                 <ul class="row justify-content-end">
                     @can('Ver_Generar_Ingreso_Egreso_Boton')
-                        <a wire:click.prevent="viewDetails()" class="btn btn-dark text-white">
+                        <button wire:click.prevent="viewDetails()" class="boton-blanco-g">
                             <i class="fas fa-arrow-alt-circle-down" ></i>  <i class="fas fa-arrow-alt-circle-up" ></i> Generar Ingreso/Egreso
-                        </a>
-                        <a wire:click.prevent="generarpdf({{$data}})" class="btn btn-warning">
+                        </button>
+                        <button wire:click.prevent="generarpdf({{$data}})" class="boton-verde-g">
                           <i class="fas fa-print" ></i>  Generar PDF
-                        </a>
+                        </button>
                     @endcan
                 </ul>
               
@@ -25,7 +25,7 @@
 
                 <div class="col-sm-12 col-md-12 d-flex">
                     @foreach ($grouped as $key=>$item)
-                    <div class="card m-2 p-2" style="width: 18rem;">
+                    <div class="card m-2 p-2" style="width: 18rem;  border-radius: 7px; border: #a4f9ff solid 2px;">
                     
                         <h6 class="card-title">
                             <b>Caja: {{ $key }},</b>
@@ -110,21 +110,21 @@
 
             </div>
                 <div class="widget-content">
-                    <div class="table-responsive">
-                        <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                            <thead class="text-white" style="background: #02b1ce">
+                    <div class="table-5">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">#</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">FECHA</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">MOVIMIENTO</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">CATEGORIA</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">CAJA</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">CARTERA</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">IMPORTE</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">MOTIVO</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">USUARIO</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">ESTADO</th>
-                                    <th class="table-th text-withe text-center" style="font-size: 100%">ACC.</th>
+                                    <th>#</th>
+                                    <th>FECHA</th>
+                                    <th>MOVIMIENTO</th>
+                                    <th>CATEGORIA</th>
+                                    <th>CAJA</th>
+                                    <th>CARTERA</th>
+                                    <th>IMPORTE</th>
+                                    <th>MOTIVO</th>
+                                    <th>USUARIO</th>
+                                    <th>ESTADO</th>
+                                    <th>ACC.</th>
                                 </tr>
                             </thead>
                             <tbody>

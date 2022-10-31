@@ -345,8 +345,8 @@
             @endif
 
 
-            <div class="table-wrapper table-responsive">
-                <table style="min-width: 900px;">
+            <div class="table-1 table-responsive">
+                <table style="min-width: 1100px;">
                     <thead>
                         <tr class="text-center">
                             <th>#</th>

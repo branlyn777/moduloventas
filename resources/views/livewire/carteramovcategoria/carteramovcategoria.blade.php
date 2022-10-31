@@ -47,7 +47,7 @@
 
     <br>
     <div class="text-right">
-        <button wire:click="modalnuevacategoria()" type="button" class="btn btn-warning">Nueva Categoria</button>
+        <button wire:click="modalnuevacategoria()" type="button" class="boton-azul-g">Nueva Categoria</button>
     </div>
     <br>
 

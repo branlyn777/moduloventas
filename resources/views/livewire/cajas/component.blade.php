@@ -1,60 +1,71 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
+<div>
 
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="Agregar()">Agregar</a>
 
-                </ul>
-            </div>
-            @include('common.searchbox')
 
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #02b1ce">
-                            <tr>
-                                <th class="table-th text-withe text-center">NOMBRE</th>
-                                <th class="table-th text-withe text-center">ESTADO</th>
-                                <th class="table-th text-withe text-center">SUCURSAL</th>
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                                <tr>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->nombre }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->estado }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->sucursal }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
-                                            class="btn btn-warning" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-12 text-center">
+          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
+      </div>
+  
+      <div class="row">
+  
+          <div class="col-12 col-sm-12 col-md-4">
+              @include('common.searchbox')
+          </div>
+  
+          <div class="col-12 col-sm-12 col-md-4 text-center">
+              
+          </div>
+  
+          <div class="col-12 col-sm-12 col-md-4 text-right">
+              <button wire:click="Agregar()" type="button" class="boton-azul-g">Nueva Caja</button>
+          </div>
+  
+      </div>
+  
+      <br>
+
+
+
+      <div class="table-5">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th>NOMBRE</th>
+                    <th>ESTADO</th>
+                    <th>SUCURSAL</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $item)
+                    <tr>
+                        <td>
+                            {{ $item->nombre }}
+                        </td>
+                        <td>
+                            {{ $item->estado }}
+                        </td>
+                        <td>
+                            {{ $item->sucursal }}
+                        </td>
+                        <td class="text-center">
+                            <button wire:click="Edit({{ $item->id }})"
+                                class="boton-celeste" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button
+                                onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
+                                class="boton-rojo" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{ $data->links() }}
     </div>
     @include('livewire.cajas.form')
 </div>

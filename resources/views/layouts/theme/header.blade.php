@@ -30,7 +30,7 @@
 
 						<li class="nav-item dropdown hidden-caret">
 							@if (@Auth::user()->hasPermissionTo('Corte_Caja_Index'))
-							<a href="{{ url('cortecajas') }}" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">CORTE DE CAJA</a>            
+							<a href="{{ url('cortecajas') }}" class="boton-blanco-g" role="button" aria-pressed="true">CORTE DE CAJA</a>            
 							@endif
 						  </li>
 
