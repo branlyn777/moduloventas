@@ -10,9 +10,9 @@
 
     <style>
         .cajaestilo{
-            background-color: #e6e6e6;
+            background-color: #fdfdfd;
             border-radius: 15px;
-            border: 1.5px solid #5a5a5a;
+            border: 1px solid #5a5a5a;
             padding: 10px;
             text-align:center;
             margin:auto;
@@ -27,31 +27,35 @@
     <div class="cajaestilo">
         <table style="width: 100%;">
             <tr class="text-center">
-                <td>
+                <td style="padding-left: 10px;">
                     <img src="{{ asset('storage/iconos/' . $logoempresa) }}" class="invoice-logo" height="70px">
                 </td>
                 <td>
                     <center>
-                        <span style="font-size: 20px; font-weight:bold;">Comprobante de Venta</span>
+                        <span style="font-size: 20px; font-weight:bold;">Comprobante N° {{$idventa}}</span>
                         <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
                     </center>
                 </td>
                 <td>
-                    <p style="font-size: 9px; color: black">{{$datossucursal->nombresucursal}} <br>{{$datossucursal->direccionsucursal}}</p>
+                    <center>
+                        <p style="font-size: 15px; color: black">{{$datossucursal->nombresucursal}} <br>{{$datossucursal->direccionsucursal}}</p>
+                    </center>
                 </td>
             </tr>
             <tr>
                 <td>
-                        Razón Social:{{$datoscliente->razonsocial}}
+                        <b>Nombre Cliente:</b> {{$datoscliente->nombrecliente}}
                         <br>
-                        NIT:{{$datoscliente->nit}}
+                        <b>CI:</b> {{$datoscliente->nit}}
                         <br>
-                        Celular:{{$datoscliente->celular}}
                 </td>
                 <td>
-                    Fecha Emisión:{{$fecha}}
+
+                </td>
+                <td>
+                    <b>Fecha Emisión:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y H:i') }}
                     <br>
-                    Cajero: {{$nombreusuario->name}}
+                    <b>Cajero:</b> {{$nombreusuario->name}}
                 </td>
             </tr>
         </table>

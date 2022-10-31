@@ -161,7 +161,7 @@ class SaleEditController extends Component
             "pd.stock as stock", "products.codigo as barcode")
             ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
             ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
-            ->groupBy('products.id')
+            ->distinct()
             ->paginate($this->paginacion);
         }
         //Lista a todos los clientes que tengan el nombre de la variable $this->buscarcliente
@@ -410,6 +410,15 @@ class SaleEditController extends Component
     //Para verificar que quede stock disponible en la TIENDA para la venta
     public function stocktienda($idproducto, $cantidad)
     {
+        $detalle_venta = SaleDetail::where("sale_details.sale_id", $this->venta_id)
+        ->where("sale_details.product_id", $idproducto)
+        ->first();
+
+        $cantidad_previa = $detalle_venta->quantity;
+
+
+
+
         //Buscando stock dispnible del producto en el destino TIENDA
         $producto = Destino::join("productos_destinos as pd", "pd.destino_id", "destinos.id")
         ->join("products as p", "p.id", "pd.product_id")
@@ -418,7 +427,6 @@ class SaleEditController extends Component
         ->where('destinos.nombre', 'TIENDA')
         ->where('pd.product_id', $idproducto)
         ->where('p.status', 'ACTIVO')
-        ->where('pd.stock','>=', $cantidad)
         ->get();
 
 
@@ -434,7 +442,7 @@ class SaleEditController extends Component
                 $stock_cart = $p->first()['quantity'];
             }
             //Restamos el stock de la tienda con el stock del Carrito de Ventas
-            $stock = $producto->first()->stock - $stock_cart;
+            $stock = $producto->first()->stock - $stock_cart + $cantidad_previa;
             if($stock > 0)
             {
                 return true;
@@ -618,8 +626,6 @@ class SaleEditController extends Component
     {
         //Actualizando la variable $this->cantidad_venta para mostrar cantidad en lotes en la ventana modal lotes productos
         $this->cantidad_venta = $cantidad_nueva;
-
-
         //Guardamos los datos del producto del Carrito de Ventas
         $product_cart = $this->carrito_venta->where('product_id', $idproducto)->first();
         if($this->stocktienda($idproducto, $cantidad_nueva))

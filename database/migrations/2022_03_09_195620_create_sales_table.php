@@ -19,7 +19,7 @@ class CreateSalesTable extends Migration
             $table->integer('items');
             $table->decimal('cash',10,2);
             $table->decimal('change',10,2);
-            $table->enum('status',['PAID','PENDING','CANCELED'])->default('PAID');
+            $table->enum('status',['PAID','RETURNED','CANCELED'])->default('PAID');
             $table->string('tipopago',20);
             $table->string('factura',2);
 

@@ -33,7 +33,7 @@ class ExportSaleController extends Controller
         $datoscliente = Cliente::join("cliente_movs as cm", "cm.cliente_id", "clientes.id")
         ->join("movimientos as m", "m.id", "cm.movimiento_id")
         ->join("sales as s", "s.movimiento_id", "m.id")
-        ->select("s.id as id", "clientes.razon_social as razonsocial", "clientes.nit as nit", "clientes.celular as celular")
+        ->select("s.id as id", "clientes.razon_social as razonsocial", "clientes.nit as nit", "clientes.celular as celular", "clientes.nombre as nombrecliente")
         ->where("s.id", $idventa)
         ->get()
         ->first();
@@ -57,7 +57,7 @@ class ExportSaleController extends Controller
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
 
-        $pdf = PDF::loadView('livewire.pdf.reciboventa', compact('datoscliente','venta','nombreusuario','fecha','total','totalitems','datossucursal','nombreempresa','logoempresa'));
+        $pdf = PDF::loadView('livewire.pdf.reciboventa', compact('idventa','datoscliente','venta','nombreusuario','fecha','total','totalitems','datossucursal','nombreempresa','logoempresa'));
 
         return $pdf->stream('comprobante.pdf');  //visualizar
         /* return $pdf->download('salesReport.pdf');  //descargar  */
