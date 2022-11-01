@@ -59,6 +59,7 @@ class MercanciaController extends Component
 //  $this->limpiarstock();
 // $this->buscarproducto();
 // $this->inactivarlotes();
+        
 
     }
     public function render()

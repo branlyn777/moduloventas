@@ -296,19 +296,19 @@ class CorteCajaController extends Component
             $carteras = Cartera::where('caja_id', $idcaja)->get();
             foreach ($carteras as $cart)
             {
-            $movimiento = Movimiento::create([
-            'type' => 'CIERRE',
-            'status' => 'ACTIVO',
-            'import' => 0,
-            'user_id' => $cajausuario->idusuario
-            ]);
-            CarteraMov::create([
-            'type' => 'CIERRE',
-            'tipoDeMovimiento' => 'CORTE',
-            'comentario' => '',
-            'cartera_id' => $cart->id,
-            'movimiento_id' => $movimiento->id,
-            ]);
+                $movimiento = Movimiento::create([
+                'type' => 'CIERRE',
+                'status' => 'ACTIVO',
+                'import' => 0,
+                'user_id' => $cajausuario->idusuario
+                ]);
+                CarteraMov::create([
+                'type' => 'CIERRE',
+                'tipoDeMovimiento' => 'CORTE',
+                'comentario' => '',
+                'cartera_id' => $cart->id,
+                'movimiento_id' => $movimiento->id,
+                ]);
             }
             /* HABILITAR CAJA */
             $caja = Caja::find($idcaja);

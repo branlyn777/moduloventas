@@ -720,7 +720,7 @@ class SaleEditController extends Component
         ->get()
         ->first();
         $cliente_mov = ClienteMov::find($cliente_mov_id->idclientemov);
-        //Actualizando el id de la cartera movimiento
+        //Actualizando el id del cliente movimiento
         $cliente_mov->update([
             'cliente_id' => $this->cliente_id
         ]);

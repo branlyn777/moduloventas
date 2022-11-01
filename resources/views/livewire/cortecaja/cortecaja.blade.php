@@ -21,6 +21,7 @@
         <div class="col-12 text-center">
           <p class="h1"><b>CAJAS DISPONIBLES EN TU SUCURSAL</b></p>
           <p>Seleccione la caja en la cual va a trabajar</p>
+          <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
         </div>
       </div>
   
