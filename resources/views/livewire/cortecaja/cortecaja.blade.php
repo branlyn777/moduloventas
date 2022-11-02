@@ -89,7 +89,7 @@
                                     @foreach($carteras_generales as $cg)
                                     <div style="padding-bottom: 3px;">
                                         <span class="stamp stamp" style="background-color: #1b7488; font-size: 20px; border-radius: 5px;">
-                                            {{$cg->nombrecartera}}:
+                                            {{ucwords(strtolower($cg->nombrecartera))}}:
                                         </span>
                                         <span class="stamp stamp" style="background-color: #00969b; font-size: 20px; border-radius: 5px;">
                                             {{$cg->saldocartera}} Bs
@@ -102,7 +102,7 @@
                                     @foreach($c->carteras as $car)
                                     <div style="padding-bottom: 3px;">
                                         <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
-                                            {{$car->nombre}}:
+                                            {{ucwords(strtolower($car->nombre))}}:
                                         </span>
                                         <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
                                             {{$car->saldocartera}} Bs
