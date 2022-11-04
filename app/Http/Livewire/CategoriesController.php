@@ -17,7 +17,7 @@ class CategoriesController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $name,$descripcion, $search,$categoryid, $selected_id, $pageTitle, $componentName,$categoria_padre,$data2;
+    public $name,$descripcion, $search,$categoryid, $selected_id, $pageTitle, $componentName,$categoria_padre,$data2,$estado;
     private $pagination = 30;
     public $category_s = 0;
     public $subcat_s=false;
@@ -62,10 +62,12 @@ class CategoriesController extends Component
     public function Edit($id)
     {
         $this->emit('hide_modal_sub');
-        $record = Category::find($id, ['id', 'name', 'descripcion']);
+        $record = Category::find($id, ['id', 'name', 'descripcion','status']);
+    
         $this->selected_id = $record->id;
         $this->name = $record->name;
         $this->descripcion = $record->descripcion;
+        $this->estado=$record->status;
         $this->emit('show-modal');
 
     }
@@ -73,7 +75,7 @@ class CategoriesController extends Component
     {
         $this->selected_id = $category->id;
         //dd($this->data2);
-        //$this->emit('modal_sub', 'show modal!');
+        $this->emit('modal_sub', 'show modal!');
         
     }
 
@@ -98,7 +100,7 @@ class CategoriesController extends Component
         if ($this->categoria_padre) 
         {
             $category = Category::create([
-                'name' => $this->name,
+                'name' =>  strtoupper($this->name),
                 'descripcion'=>$this->descripcion,
                 'categoria_padre'=>$this->categoria_padre
             ]);
@@ -107,7 +109,7 @@ class CategoriesController extends Component
         {
           
             $category = Category::create([
-                'name' => $this->name,
+                'name' =>  strtoupper($this->name),
                 'descripcion'=>$this->descripcion
             ]);
         }
@@ -156,7 +158,8 @@ class CategoriesController extends Component
         $category = Category::find($this->selected_id);
         $category->update([
             'name' => $this->name,
-            'descripcion'=>$this->descripcion
+            'descripcion'=>$this->descripcion,
+            'status'=>$this->estado
         ]);
         $this->resetUI();
         $this->emit('item-updated', 'Categoria Actualizada');

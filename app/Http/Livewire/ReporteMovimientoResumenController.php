@@ -840,7 +840,7 @@ class ReporteMovimientoResumenController extends Component
 
             CarteraMov::create([
                 'type' => 'EGRESO',
-                'tipoDeMovimiento' => 'EGRESO/INGRESO',
+                'tipoDeMovimiento' => 'RECAUDO',
                 'comentario' => 'RECAUDO DEL DIA',
                 'cartera_id' =>  $carterarec,
                 'movimiento_id' => $mvt->id
