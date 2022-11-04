@@ -8,13 +8,14 @@
 
           @if ($subcat->isNotEmpty())
               
-          <div class="table-responsive">
-              <table class="table table-unbordered table-hover mt-2">
-                  <thead class="text-white" style="background: #eb4569">
+          <div class="table-1"style="padding-left: 10%; padding-right:10%; margin-top:2%">
+              <table>
+                  <thead>
                       <tr>
-                          <th class="table-th text-withe">NOMBRE</th>
-                          <th class="table-th text-withe text-center">DESCRIPCION</th>
-                          <th class="table-th text-withe text-center">ACCIONES</th>
+                        <th  style="width: 5%">#</th>
+                        <th> <center>Nombre</center> </th>
+                        <th style="width: 20%"> <center>Descripcion</center> </th>
+                        <th> <center> Acc.</center></th>
                        
                       </tr>
                   </thead>
@@ -24,22 +25,29 @@
                           <tr>
                               <td>
                                   
+                                  <center><h6>{{ $loop->index+1 }}</h6></center>
+                              </td>
+                              <td>
+                                  
                                   <h6>{{ $category->name }}</h6>
                               </td>
                               <td>
-                                  <h6>{{ $category->descripcion }}</h6>
+                                  <h6> {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</h6>
                               </td>
                              
-                              <td class="text-center">
-                                  <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                      class="btn btn-dark p-1" title="Edit">
-                                      <i class="fas fa-edit"></i>
-                                  </a>
-                                  <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}',
-                                      '{{ $category->products->count() }}')" class="btn btn-danger p-1"
-                                      title="Delete">
-                                      <i class="fas fa-trash"></i>
-                                  </a>
+                              <td>
+                                <div class="row justify-content-center">
+
+                                    <button href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                        class="btn btn-dark p-1" title="Editar Subcategoria">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}',
+                                        '{{ $category->products->count() }}')" class="btn btn-danger p-1"
+                                        title="Eliminar subcategoria">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                                
                                   
                               </td>
