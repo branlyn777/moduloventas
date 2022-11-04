@@ -1,51 +1,3 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 50%;
-
-        min-height: 140px;
-    }
-
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-
-    .tablainventarios th,
-    td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-    }
-
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-
-    .project-list-table {
-    border-collapse: separate;
-    border-spacing: 0 12px
-}
-
-.project-list-table tr {
-    background-color: rgba(216, 230, 239, 0.983)
-}
-
-.table-nowrap td, .table-nowrap th {
-    white-space: nowrap;
-}
-.table-borderless>:not(caption)>*>* {
-    border-bottom-width: 0;
-}
-.table>:not(caption)>*>* {
-    padding: 0.75rem 0.75rem;
-    background-color: var(--bs-table-bg);
-    border-bottom-width: 9px;
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-}
-
-
-</style>
-@endsection
 
 <div>
 
@@ -126,26 +78,25 @@
 
                 </tr>
 
-                <tr >
+                <tr>
                     <td colspan="6" class="hiddenRow">
-                        <div class="accordian-body collapse" id="{{$category->id}}" style="padding-left: 20%; padding-right:20%">
+                        <div class="accordian-body collapse" id="{{$category->id}}" style="padding-left: 8%; padding-right:50%">
                             @if ($category->detsub()->isNotEmpty())
-                            <table class="table project-list-table table-nowrap align-middle table-borderless">
+                            <table class="table project-list-table table-nowrap align-middle">
                                     
-                                <thead>
+                                {{-- <thead>
                                     <tr class="info">
                                         <th style="width:5%" class="text-center" >#</th>
                                         <th>Nombre</th>
                                         <th style="width: 20%">Acciones</th>
 
                                     </tr>
-                                </thead>
-                             
-                                <tbody>
+                                </thead> --}}
+                            
                                     @foreach ($category->detsub() as $lop)
 
                                     <tr class="accordion-toggle">
-                                        <td class="text-center" >{{$loop->index+1}}</td>
+                                        {{-- <td class="text-center" >{{$loop->index+1}}</td> --}}
                                         <td>{{$lop->name}} <br>{{$lop->descripcion}}</td>
                                       
                                         <td class="text-center">
@@ -163,7 +114,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                </tbody>
+                              
                             </table>
                             @else
                             <div wire:ignore class="row justify-content-center">
