@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 @section('css')
 <style>
     .tablainventarios {
@@ -22,7 +20,6 @@
 </style>
 @endsection
     
->>>>>>> 3b3c2b47f66ff67521b1f484ae75beb12043293d
 
 <div>
 
@@ -130,72 +127,10 @@
                                class="boton-rojo"
                                 title="Eliminar categoria">
                                 <i class="fas fa-trash"></i>
-<<<<<<< HEAD
-                            </button>
-
-                        </div>
-
-                    </td>
-
-
-                </tr>
-
-                <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="accordian-body collapse" id="{{$category->id}}" style="padding-left: 8%; padding-right:50%">
-                            @if ($category->detsub()->isNotEmpty())
-                            <table class="table project-list-table table-nowrap align-middle">
-                                    
-                                {{-- <thead>
-                                    <tr class="info">
-                                        <th style="width:5%" class="text-center" >#</th>
-                                        <th>Nombre</th>
-                                        <th style="width: 20%">Acciones</th>
-
-                                    </tr>
-                                </thead> --}}
-                            
-                                    @foreach ($category->detsub() as $lop)
-
-                                    <tr class="accordion-toggle">
-                                        {{-- <td class="text-center" >{{$loop->index+1}}</td> --}}
-                                        <td>{{$lop->name}} <br>{{$lop->descripcion}}</td>
-                                      
-                                        <td class="text-center">
-                                            
-                                            <button href="javascript:void(0)" wire:click="Edit({{ $lop->id }})" class="boton-azul"
-                                                title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                       
-                                            <button href="javascript:void(0)"
-                                                onclick="Confirm('{{ $lop->id }}','{{ $lop->name }}','{{$lop->products->count()}}','{{$lop->subcategories()}}')"
-                                                class="boton-rojo" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                              
-                            </table>
-                            @else
-                            <div wire:ignore class="row justify-content-center">
-                                <button type="button" wire:click='asignarCategoria({{$category->id}})' class="boton-verde">
-                                  <i class="fas fa-plus"></i>  Agregar Subcategorias
-                                </button>
-                            </div>
-                            @endif
-
-                        </div>
-                    </td>
-                </tr>
-
-=======
                             </a>
                             
                         </td>
                     </tr>
->>>>>>> 3b3c2b47f66ff67521b1f484ae75beb12043293d
                 @endforeach
             </tbody>
         </table>

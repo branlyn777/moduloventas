@@ -67,8 +67,8 @@
                                                     @endforeach
                                                  </datalist>
                                                    
-                                                         <a href="javascript:void(0)" data-toggle="modal" class="btn btn-dark pl-2 pr-2"
-                                                             data-target="#modal_prov" > <i class="fas fa-plus text-white"></i> </a>
+                                                         <button data-toggle="modal" class="btn btn-dark pl-2 pr-2"
+                                                             data-target="#modal_prov" > <i class="fas fa-plus text-white"></i> </button>
                                                   
                                               </div>
                                              @error('provider')

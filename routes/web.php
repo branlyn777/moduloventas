@@ -10,6 +10,7 @@ use App\Http\Livewire\ClienteController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CompaniesController;
 use App\Http\Livewire\ComprasController;
+use App\Http\Livewire\EditarCompraDetalleController;
 use App\Http\Livewire\CorteCaja2Controller;
 use App\Http\Livewire\CorteCajaController;
 use App\Http\Livewire\DestinoController;
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('importar-subcat',[ CategoriesController::class,'importsub'])->name('importar_subcat');
     Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
     Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
+    Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
     //Inventarios (Pdsf y Excel)
     Route::get('productos/export/', [ProductsController::class, 'export']);
 
