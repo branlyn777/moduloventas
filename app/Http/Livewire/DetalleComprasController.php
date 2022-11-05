@@ -40,8 +40,8 @@ class DetalleComprasController extends Component
     ,$selected_id,$descuento=0,$saldo=0,$subtotal,$cantidad_minima,
     $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra;
 
-    public $nombre_prov, $apellido_prov, $direccion_prov, $correo_prov,
-    $telefono_prov;
+    public $nombre_prov, $apellido, $correo,$direccion,$nit,
+    $telefono;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2,$name,$descripcion;
@@ -82,7 +82,7 @@ class DetalleComprasController extends Component
         $prod = "cero";
 //---------------Select destino de la compra----------------------//
        $data_destino= Sucursal::join('destinos as dest','sucursals.id','dest.sucursal_id')
-       ->whereIn('dest.id',$this->vs)
+                 ->whereIn('dest.id',$this->vs)
        ->select('dest.*','dest.id as destino_id','sucursals.*')
        ->get();
 
@@ -132,10 +132,8 @@ class DetalleComprasController extends Component
         $attributos=[
             'precio'=>$product->precio_venta,
             'codigo'=>$product->codigo,
-            'fecha_compra'=>$this->fecha_compra,
-            
+            'fecha_compra'=>$this->fecha_compra
         ];
-
         $products = array(
             'id'=>$product->id,
             'name'=>$product->nombre,
@@ -143,22 +141,25 @@ class DetalleComprasController extends Component
             'quantity'=>$cant,
             'attributes'=>$attributos
         );
+        //dd($products);
         Compras::add($products);
         // Compras::add($product->id, $product->name, $precio_compra, $cant);
         $this->total = Compras::getTotal();
         $this->itemsQuantity = Compras::getTotalQuantity();
-         $this->subtotal = Compras::getTotal();
-         $this->total_compra= $this->subtotal-$this->dscto;
+        $this->subtotal = Compras::getTotal();
+        $this->total_compra= $this->subtotal-$this->dscto;
 
     }
     public function addProvider()
     {
         $obj= new Prov;
-        $obj->nombre_prov = $this->nombre_prov;
-        $obj->apellido = $this->apellido_prov;
-        $obj->direccion = $this->direccion_prov;
-        $obj->correo = $this->correo_prov;
-        $obj->telefono = $this->telefono_prov;
+        $obj->nombre_prov =strtoupper($this->nombre_prov);
+        $obj->apellido = strtoupper($this->apellido);
+        $obj->direccion = strtoupper($this->direccion);
+        $obj->correo = $this->correo;
+        $obj->telefono = $this->telefono;
+        $obj->nit=$this->nit;
+        $obj->image=$this->image;
 
         $obj->Store();
         $this->resetProv();
@@ -167,7 +168,6 @@ class DetalleComprasController extends Component
     }
     public function GenerateCode()
     {
-        
         $min=10000;
         $max= 99999;
         $this->codigo= Carbon::now()->format('ymd').mt_rand($min,$max);
@@ -318,9 +318,7 @@ class DetalleComprasController extends Component
         $quantitys=$exist->quantity;
         $precio_compra=$exist->price;
         $codigo=$exist->attributes->codigo;
-       
-        
-
+    
         $this->removeItem($productId);
        
         if ($price > 0) 
@@ -349,7 +347,6 @@ class DetalleComprasController extends Component
 
             $this->subtotal = Compras::getTotal();
             $this->itemsQuantity = Compras::getTotalQuantity();
-      
             $this->subtotal = Compras::getTotal();
             $this->total_compra= $this->subtotal-$this->dscto;
     }
@@ -402,11 +399,13 @@ class DetalleComprasController extends Component
     }
     public function resetProv()
     {
-        $this->nombre_prov='';
-        $this->apellido_prov='';
-        $this->direccion_prov='';
-        $this->correo_prov='';
-        $this->telefono_prov='';
+        $this->nombre_prov=null;
+        $this->apellido=null;
+        $this->direccion=null;
+        $this->correo=null;
+        $this->telefono=null;
+        $this->nit=null;
+        $this->image=null;
         $this->resetValidation();
     }
     public function descuento_change()

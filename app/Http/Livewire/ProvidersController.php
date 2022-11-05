@@ -35,59 +35,33 @@ class ProvidersController extends Component
                 ->where(function($querys){
                     $querys->where('nombre_prov', 'like', '%' . $this->search . '%')
                     ->when($this->estados !='TODOS',function($query){
-                       
                             return $query->where('status',$this->estados);
-                     
                      });
                 })->paginate($this->pagination);
         
-         
-
-
-
-
-           
-
-
-
-
-
-
-            return view('livewire.i_suplier.component', [
-                'data_proveedor' => $suplier
-            ])
+            return view('livewire.i_suplier.component', ['data_proveedor' => $suplier])
                 ->extends('layouts.theme.app')
                 ->section('content');
         
     }
     public function Store()
     {
-        $rules = [
-            'nombre_prov' => 'required|unique:providers',
-        ];
-        $messages = [
-            'nombre_prov.required'=> 'El nombre del proveedor es requerido.',
-            'nombre_prov.unique'=> 'Ya existe un proveedor  con ese nombre.'
-        ];
+        $rules = ['nombre_prov' =>'required|unique:providers'];
+        $messages = ['nombre_prov.required'=> 'El nombre del proveedor es requerido.',
+            'nombre_prov.unique'=> 'Ya existe un proveedor  con ese nombre.'];
         $this->validate($rules, $messages);
 
-        
-
         $provider=Provider::create([
-
             'nombre_prov' => strtoupper($this->nombre_prov),
             'apellido'=>strtoupper($this->apellido),
             'nit'=>$this->nit,
             'direccion' =>strtoupper($this->direccion),
             'telefono'=>$this->telefono,
             'correo'=>$this->correo
-            
         ]);
 
         if ($this->image) {
             $customFileName = uniqid() . '_.' . $this->image->extension();
-
-            
             $this->image->storeAs('public/proveedores/', $customFileName);
             $provider->image = $customFileName;
             $provider->save();

@@ -392,6 +392,7 @@
          });
          window.livewire.on('prov_added', msg => {
              $('#modal_prov').modal('hide')
+             $("#im").val('');
              noty(Msg)
          });
          window.livewire.on('dscto_added', msg => {

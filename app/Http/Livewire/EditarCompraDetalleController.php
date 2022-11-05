@@ -535,9 +535,9 @@ class EditarCompraDetalleController extends Component
                             'product_id' => $item->id,
                             'compra_id' => $this->ide,
                             
-                           
                             
                         ]);
+                        dd($cp);
                         
 
                      
@@ -551,6 +551,7 @@ class EditarCompraDetalleController extends Component
                         ProductosDestino::updateOrCreate(['product_id' => $item->id, 'destino_id'=>$this->destino],['stock'=>$q+$item->quantity]);
     
                     }
+                    //dd($items);
                 }
     
                 $auxi2=Compra::find($this->ide);
