@@ -59,7 +59,7 @@ class ExportSaleController extends Controller
 
         $pdf = PDF::loadView('livewire.pdf.reciboventa', compact('idventa','datoscliente','venta','nombreusuario','fecha','total','totalitems','datossucursal','nombreempresa','logoempresa'));
 
-        return $pdf->stream('comprobante.pdf');  //visualizar
+        return $pdf->stream('comprobante N°' . $idventa . '.pdf');  //visualizar
         /* return $pdf->download('salesReport.pdf');  //descargar  */
     }
 }

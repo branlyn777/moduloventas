@@ -15,11 +15,11 @@ class SucursalSeeder extends Seeder
     public function run()
     {
         Sucursal::create([
-            'name' => 'Nombre Sucursal',
-            'adress' => 'Av. XXX',
-            'telefono' => '0000000',
-            'celular' => '0000000',
-            'nit_id' => '111111',
+            'name' => 'Sucursal Central',
+            'adress' => 'Avenida América casi esquina G René Moreno',
+            'telefono' => '4240013',
+            'celular' => '79771777',
+            'nit_id' => '8796546',
             'company_id' => '1'
         ]);
     }

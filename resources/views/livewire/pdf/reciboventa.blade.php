@@ -55,14 +55,14 @@
                 <td>
                     <b>Fecha Emisión:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y H:i') }}
                     <br>
-                    <b>Cajero:</b> {{$nombreusuario->name}}
+                    <b>Atendido por:</b> {{$nombreusuario->name}}
                 </td>
             </tr>
         </table>
     
 
         <div>
-            <table class="text-center" style="width: 100%;">
+            <table style="width: 100%;">
                 <thead class="text-white" style="background: #3d3d3d; color: aliceblue; ">
                     <tr>
                         <th colspan="2">DESCRIPCIÓN</th>
@@ -95,7 +95,7 @@
                         <td class="text-right">
                             
                         </td>
-                        <td class="text-right">
+                        <td  class="text-center">
                             
                         </td>
                         <td class="text-center">

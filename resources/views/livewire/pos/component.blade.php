@@ -262,7 +262,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-2 text-center">
+                {{-- <div class="col-12 col-sm-6 col-md-2 text-center">
                     <h3><b>Factura</b></h3>
                     <div class="form-group">
                         <label class="switch">
@@ -270,7 +270,7 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
-                </div>
+                </div> --}}
         
                 <div class="col-12 col-sm-6 col-md-2 text-center">
                     <h3><b>Tipo de Pago</b></h3>
@@ -301,7 +301,7 @@
                     </div>
                 </div>
         
-                <div class="col-12 col-sm-6 col-md-2 text-center">
+                <div class="col-12 col-sm-6 col-md-4 text-center">
                     <h3><b>Observación</b></h3>
                     <div class="form-group">
                         <textarea class="form-control" aria-label="With textarea" wire:model="observacion"></textarea>

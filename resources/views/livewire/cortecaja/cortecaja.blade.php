@@ -1,10 +1,10 @@
 @section('css')
 <style>
     .cajaabierta{
-        background-color: rgb(158, 239, 250);
+        background-color: rgb(169, 245, 255);
         padding: 10px;
         border-radius: 15px;
-        border: #0ed1df solid 2px;
+        border: #000000 solid 2px;
     }
 
     .cajacerrada{
@@ -12,6 +12,99 @@
         padding: 10px;
         border-radius: 15px;
         border: #000000 solid 2px;
+    }
+
+
+
+
+
+
+
+
+    /* Estilos para el loading */
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        }
+        .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+        }
+        .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #02b1ce;
+        margin: -4px 0 0 -4px;
+        }
+        .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+        }
+        .lds-roller div:nth-child(1):after {
+        top: 63px;
+        left: 63px;
+        }
+        .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+        }
+        .lds-roller div:nth-child(2):after {
+        top: 68px;
+        left: 56px;
+        }
+        .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+        }
+        .lds-roller div:nth-child(3):after {
+        top: 71px;
+        left: 48px;
+        }
+        .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+        }
+        .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+        }
+        .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+        }
+        .lds-roller div:nth-child(5):after {
+        top: 71px;
+        left: 32px;
+        }
+        .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+        }
+        .lds-roller div:nth-child(6):after {
+        top: 68px;
+        left: 24px;
+        }
+        .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+        }
+        .lds-roller div:nth-child(7):after {
+        top: 63px;
+        left: 17px;
+        }
+        .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+        }
+        .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12px;
+        }
+        @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
 @endsection
@@ -21,38 +114,55 @@
         <div class="col-12 text-center">
           <p class="h1"><b>CAJAS DISPONIBLES EN TU SUCURSAL</b></p>
           <p>Seleccione la caja en la cual va a trabajar</p>
-          <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
         </div>
-      </div>
+    </div>
   
-      <div class="row">
-        <div class="col-12 col-sm-3 col-md-4 text-right">
-            
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 text-center">
-            <b>Sucursal</b>
-            <select wire:model="idsucursal" class="form-control" name="" id="">
-                @foreach($sucursales as $s)
-                <option value="{{$s->id}}">{{$s->name}}</option>
-                @endforeach
-                <option value="Todos">Todas las Sucursales</option>
-            </select>
-        </div>
+    <div class="row">
+    <div class="col-12 col-sm-3 col-md-4 text-right">
+        
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 text-center">
+        <b>Sucursal</b>
+        <select wire:model="idsucursal" class="form-control" name="" id="">
+            @foreach($sucursales as $s)
+            <option value="{{$s->id}}">{{$s->name}}</option>
+            @endforeach
+            <option value="Todos">Todas las Sucursales</option>
+        </select>
+    </div>
 
-        <div class="col-12 col-sm-3 col-md-4 text-center">
-            {{-- <b style="color: white">|</b>
-            <button wire:click.prevent="" class="boton-azul-g form-control">
-                Ver Carteras Compartidas
-            </button> --}}
-        </div>
+    <div class="col-12 col-sm-2 col-md-2 text-center">
+        <b style="color: white">|</b>
+        <button wire:click.prevent="cerrartodo()" class="boton-azul-g form-control">
+            Cerrar Todo
+        </button>
+    </div>
+    <div class="col-12 col-sm-2 col-md-2 text-center">
+        <b style="color: white">|</b>
+        <button wire:click.prevent="ajustarcarteras()" class="boton-azul-g form-control">
+            Ajustar
+        </button>
+    </div>
 
-        <div class="col-12 col-sm-12 col-md-4 text-right">
-            
-        </div>
-  
-      </div>
+    <div class="col-12 col-sm-12 col-md-4 text-right">
+        
+    </div>
+
+    </div>
 
       <br>
+
+
+      <center>
+        <div id="preloader_3" wire:loading>
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+        </center>
+
+
+
+
+
 
       <div class="row">
 
@@ -61,7 +171,7 @@
 
 
         @foreach($cajas as $c)
-            <div class="col-sm-12 col-md-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <div class="{{ $c->estado == 'Abierto' ? 'cajaabierta' : 'cajacerrada' }}">
                     <div class="connect-sorting text-center">
                         <b class="h1">{{$c->nombre}}</b>
@@ -76,16 +186,71 @@
                             <p class="h4"><b>Abierta por: {{$c->abiertapor}}</b></p>
                         </div>
 
-
                         <div class="row">
 
                             <div class="col-12 col-sm-12 col-md-1 text-center">
                                 
                             </div>
-                            <div class="col-12 col-sm-12 col-md-10 text-center">
-                                <div style="background-color: rgb(225, 242, 255); padding: 12px; border-radius: 15px;">
+                            <div class="col-12 col-sm-12 col-md-10">
 
-                                    {{-- Cargando todas las carteras compartidas --}}
+
+
+                                <div class="table-1">
+                                    <table>
+                                        <tbody>
+                                            @foreach($carteras_generales as $cg)
+                                            <tr>
+                                                <td class="text-right">
+                                                    <span class="stamp stamp" style="background-color: #1b7488; font-size: 20px; border-radius: 5px;">
+                                                        {{ucwords(strtolower($cg->nombrecartera))}}
+                                                    </span> :
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="stamp stamp" style="background-color: #00969b; font-size: 20px; border-radius: 5px;">
+                                                        {{ number_format($cg->saldocartera, 2, ",", ".")}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="stamp stamp" style="background-color: #00969b; font-size: 20px; border-radius: 5px;">
+                                                        Bs
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                            @foreach($c->carteras as $car)
+                                            <tr>
+                                                <td class="text-right">
+                                                    <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
+                                                        {{ucwords(strtolower($car->nombre))}}
+                                                    </span> :
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
+                                                        {{number_format($car->saldocartera, 2, ",", ".")}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="stamp stamp" style="background-color: #5e7074; font-size: 20px; border-radius: 5px;">
+                                                        Bs
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+
+
+
+
+                                {{-- <div style="background-color: rgb(225, 242, 255); padding: 12px; border-radius: 15px;">
                                     @foreach($carteras_generales as $cg)
                                     <div style="padding-bottom: 3px;">
                                         <span class="stamp stamp" style="background-color: #1b7488; font-size: 20px; border-radius: 5px;">
@@ -96,9 +261,6 @@
                                         </span>
                                     </div>
                                     @endforeach
-
-
-                                    {{-- Cargando todas las carteras de la caja --}}
                                     @foreach($c->carteras as $car)
                                     <div style="padding-bottom: 3px;">
                                         <span class="stamp stamp" style="background-color: #2c2d2e; font-size: 20px; border-radius: 5px;">
@@ -109,7 +271,7 @@
                                         </span>
                                     </div>
                                     @endforeach
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="col-12 col-sm-12 col-md-1 text-center">
                                 
@@ -235,12 +397,12 @@
         //Para mostrar mensaje de caja ya cerrada cuando se desee cerrar una caja
         window.livewire.on('caja-cerrada', msg => {
             swal({
-            title: 'Caja Cerrada',
+            title: 'Caja cerrada anteriormente',
             text: "Un usuario ya cerro la Caja seleccionada antes que usted lo haga",
             type: 'info',
             showCancelButton: false,
             cancelButtonText: 'Aceptar',
-            footer: '<a href="cortecajas2">Recargue la Pagina</a>',
+            footer: '<a href="cortecajas">Recargue la Pagina</a>',
             padding: '2em'
             })
         });

@@ -30,7 +30,7 @@
       <div class="table-5">
         <table>
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th>NOMBRE DE LA SUCURSAL</th>
                     <th>DIRECCIÓN</th>
                     <th>TELÉFONO</th>
@@ -42,7 +42,7 @@
             </thead>
             <tbody>
                 @foreach ($data as $item)
-                    <tr>
+                    <tr class="text-center">
                         <td>
                             {{ $item->name }}
                         </td>
@@ -61,7 +61,7 @@
                         <td>
                             {{ $item->company }}
                         </td>
-                        <td class="text-center">
+                        <td>
                             <button wire:click="Edit({{ $item->id }})"
                                 class="boton-celeste" title="Editar">
                                 <i class="fas fa-edit"></i>

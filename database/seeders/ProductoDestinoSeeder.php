@@ -16,18 +16,14 @@ class ProductoDestinoSeeder extends Seeder
      */
     public function run()
     {
-        //Ingresando Producto 1
+        //Ingresando 100 unidades del Producto Cable USB C
         ProductosDestino::create([
             'product_id'=> 1,
             'destino_id' => 1,
-            'stock' => '110',
+            'stock' => '10',
         ]);
 
-
-
-
-
-
+        // Ingresando lote 1 del producto (Costo de 50 Bs)
         $ip1 = IngresoProductos::create([
             'destino' => 1,
             'user_id' => 1,
@@ -35,21 +31,21 @@ class ProductoDestinoSeeder extends Seeder
             'observacion' => 'Inventario inicial'
         ]);
         $lote1 = Lote::create([
-            'existencia' => 50,
-            'costo' => 60,
+            'existencia' => 3,
+            'costo' => 50,
             'pv_lote' => 70,
             'status' => 'Activo',
             'product_id' => 1
         ]);
         DetalleEntradaProductos::create([
             'product_id' => 1,
-            'cantidad' => 50,
-            'costo' => 60,
+            'cantidad' => 3,
+            'costo' => 50,
             'id_entrada' => $ip1->id,
             'lote_id' => $lote1->id
         ]);
 
-
+        // Ingresando lote 2 del producto (Costo de 55 Bs)
         $ip2 = IngresoProductos::create([
             'destino' => 1,
             'user_id' => 1,
@@ -57,26 +53,18 @@ class ProductoDestinoSeeder extends Seeder
             'observacion' => 'Segundo Lote'
         ]);
         $lote2 = Lote::create([
-            'existencia' => 60,
-            'costo' => 70,
-            'pv_lote' => 80,
+            'existencia' => 7,
+            'costo' => 55,
+            'pv_lote' => 75,
             'status' => 'Activo',
             'product_id' => 1
         ]);
         DetalleEntradaProductos::create([
             'product_id' => 1,
-            'cantidad' => 60,
-            'costo' => 70,
+            'cantidad' => 7,
+            'costo' => 55,
             'id_entrada' => $ip2->id,
             'lote_id' => $lote2->id
         ]);
-
-
-
-
-
-
-
-
     }
 }

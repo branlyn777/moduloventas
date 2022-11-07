@@ -29,21 +29,31 @@ class CorteCajaController extends Component
         $this->idsucursal = $this->idsucursal();
         $this->nombre_caja = null;
         $this->id_caja = null;
-    }
-    public function render()
-    {
-         /* Caja en la cual se encuentra el usuario */
-         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
-         ->join('carteras as car', 'cajas.id', 'car.caja_id')
-         ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
-         ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
-         ->select("cajas.nombre as nombre_caja","cajas.id as id_caja")
-         ->where('cajas.id','<>', 1)
-         ->where('mov.user_id', Auth()->user()->id)
-         ->where('mov.status', 'ACTIVO')
-         ->where('mov.type', 'APERTURA')
-         ->get();
+        // /* Caja en la cual se encuentra el usuario */
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+        ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+        ->join('carteras as car', 'cajas.id', 'car.caja_id')
+        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+        ->select("cajas.nombre as nombre_caja","cajas.id as id_caja")
+        ->where('cajas.id','<>', 1)
+        ->where('mov.user_id', Auth()->user()->id)
+        ->where('mov.status', 'ACTIVO')
+        ->where('mov.type', 'APERTURA')
+        ->get();
+
+
+        /* Caja en la cual se encuentra el usuario */
+        // $cajausuario = Caja::with('carteras','carteras.carteraMovimientos','carteras.carteraMovimientos.movimiento')
+        // ->where('id','<>', 1)
+        // ->whereRelation('carteras.carteraMovimientos.movimiento','user_id', Auth()->user()->id)
+        // ->whereRelation('carteras.carteraMovimientos.movimiento','status', 'ACTIVO')
+        // ->whereRelation('carteras.carteraMovimientos.movimiento','type', 'APERTURA')
+        // ->get();
+
+        // dd($cajausuario);
+
+
         //Verificando si el usuario tiene una caja abierta
         if($cajausuario->count() > 0)
         {
@@ -51,6 +61,10 @@ class CorteCajaController extends Component
             $this->nombre_caja = $cajausuario->first()->nombre_caja;
             $this->id_caja = $cajausuario->first()->id_caja;
         }
+    }
+    public function render()
+    {
+        
         //Listando todas las cajas dependiendo la eleccion de la sucursal
         if($this->idsucursal != "Todos")
         {
@@ -116,6 +130,109 @@ class CorteCajaController extends Component
         ])
             ->extends('layouts.theme.app')
             ->section('content');
+    }
+
+    //Cierra todas las cajas en la empresa
+    public function cerrartodo()
+    {
+
+        $cajas = Caja::all();
+
+        foreach($cajas as $c)
+        {
+            $idcaja = $c->id;
+
+
+            $cortes = Movimiento::where('status', 'ACTIVO')
+            ->where('type', 'APERTURA')
+            ->where('user_id', Auth()->user()->id)->get();
+            foreach ($cortes as $c)
+            {
+                $c->update([
+                    'status' => 'INACTIVO',
+                ]);
+                $c->save();
+            }
+            /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+            $carteras = Cartera::where('caja_id', $idcaja)->get();
+            foreach ($carteras as $cart)
+            {
+                $movimiento = Movimiento::create([
+                    'type' => 'CIERRE',
+                    'status' => 'ACTIVO',
+                    'import' => 0,
+                    'user_id' => Auth()->user()->id
+                ]);
+                CarteraMov::create([
+                    'type' => 'CIERRE',
+                    'tipoDeMovimiento' => 'CORTE',
+                    'comentario' => '',
+                    'cartera_id' => $cart->id,
+                    'movimiento_id' => $movimiento->id,
+                ]);
+            }
+            /* HABILITAR CAJA */
+            $caja = Caja::find($idcaja);
+            $caja->update([
+                'estado' => 'Cerrado',
+            ]);
+            $caja->save();
+
+            session(['sesionCaja' => null]);
+            session(['sesionCajaID' => null]);
+
+            $this->redirect('cortecajas');
+        }
+
+
+        $movimientos = Movimiento::where('movimientos.status', 'ACTIVO')
+        ->where('movimientos.type', 'APERTURA')
+        ->get();
+
+        foreach($movimientos as $m)
+        {
+            $m->update([
+                'status' => 'INACTIVO',
+            ]);
+        }
+
+
+    }
+    //Para ajustar Carteras
+    public function ajustarcarteras()
+    {
+
+
+
+        $carteras = Cartera::all();
+        foreach ($carteras as $c)
+        {
+            /* SUMAR TODO LOS INGRESOS DE LA CARTERA */
+            $ingreso = Cartera::join('cartera_movs as cm', 'carteras.id', 'cm.cartera_id')
+                ->join('movimientos as m', 'm.id', 'cm.movimiento_id')
+                ->where('cm.type', 'INGRESO')
+                ->where('m.status', 'ACTIVO')
+                ->where('carteras.id', $c->id)
+                ->sum('m.import');
+            /* SUMAR TODO LOS EGRESOS DE LA CARTERA */
+            $egreso = Cartera::join('cartera_movs as cm', 'carteras.id', 'cm.cartera_id')
+                ->join('movimientos as m', 'm.id', 'cm.movimiento_id')
+                ->where('cm.type', 'EGRESO')
+                ->where('m.status', 'ACTIVO')
+                ->where('carteras.id', $c->id)
+                ->sum('m.import');
+            /* REALIZAR CALCULO DE INGRESOS - EGRESOS */
+
+            $saldo = $ingreso - $egreso;
+
+            $car = Cartera::find($c->id);
+            $car->update([
+                'saldocartera' => $saldo
+            ]);
+            $car->save();
+
+        }
+
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
@@ -191,13 +308,18 @@ class CorteCajaController extends Component
             $caja->save();
 
             $this->nombre_caja = $caja->nombre;
+            $this->id_caja = $caja->id;
 
             session(['sesionCaja' => $caja->nombre]);
             session(['sesionCajaID' => $caja->id]);
 
+
+
+
+
             $this->emit('message-success-toast');
 
-            $this->redirect('cortecajas');
+            //$this->redirect('cortecajas');
         }
         else
         {
@@ -247,14 +369,15 @@ class CorteCajaController extends Component
             ]);
             $caja->save();
 
-            $this->nombre_caja = "nada";
+            $this->nombre_caja = null;
+            $this->id_caja = null;
 
             session(['sesionCaja' => null]);
             session(['sesionCajaID' => null]);
 
             $this->emit('message-success-toast');
 
-            $this->redirect('cortecajas');
+            //$this->redirect('cortecajas');
         }
         else
         {
@@ -296,19 +419,19 @@ class CorteCajaController extends Component
             $carteras = Cartera::where('caja_id', $idcaja)->get();
             foreach ($carteras as $cart)
             {
-                $movimiento = Movimiento::create([
-                'type' => 'CIERRE',
-                'status' => 'ACTIVO',
-                'import' => 0,
-                'user_id' => $cajausuario->idusuario
-                ]);
-                CarteraMov::create([
-                'type' => 'CIERRE',
-                'tipoDeMovimiento' => 'CORTE',
-                'comentario' => '',
-                'cartera_id' => $cart->id,
-                'movimiento_id' => $movimiento->id,
-                ]);
+            $movimiento = Movimiento::create([
+            'type' => 'CIERRE',
+            'status' => 'ACTIVO',
+            'import' => 0,
+            'user_id' => $cajausuario->idusuario
+            ]);
+            CarteraMov::create([
+            'type' => 'CIERRE',
+            'tipoDeMovimiento' => 'CORTE',
+            'comentario' => '',
+            'cartera_id' => $cart->id,
+            'movimiento_id' => $movimiento->id,
+            ]);
             }
             /* HABILITAR CAJA */
             $caja = Caja::find($idcaja);
@@ -320,7 +443,7 @@ class CorteCajaController extends Component
 
             $this->emit('message-success-toast');
 
-            $this->redirect('cortecajas');
+            //$this->redirect('cortecajas');
         }
         else
         {
@@ -332,9 +455,7 @@ class CorteCajaController extends Component
     {
         $result = false;
         //Buscando el id usuario que abrio la caja
-        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-                ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
-                ->join('carteras as c', 'c.caja_id', 'cajas.id')
+        $cajausuario = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
                 ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
                 ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
                 ->join('users as u', 'u.id', 'm.user_id')
@@ -343,6 +464,7 @@ class CorteCajaController extends Component
                 ->where('m.type', 'APERTURA')
                 ->where('cajas.id', $idcaja)
                 ->get();
+                
         if($cajausuario->count() > 0)
         {
             $result = true;

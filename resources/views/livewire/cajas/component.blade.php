@@ -40,7 +40,7 @@
             </thead>
             <tbody>
                 @foreach ($data as $item)
-                    <tr>
+                    <tr class="text-center">
                         <td>
                             {{ $item->nombre }}
                         </td>
