@@ -61,8 +61,8 @@
           </div>
          @else
          <div class="row justify-content-center">
-             <button type="button" class="btn btn-warning m-2" wire:click="asignarCategoria('{{$selected_id}}')"
-             data-dismiss="modal" style="background: #3b3f5c"> <i class="fas fa-plus-circle"></i> Agregar Subcategorias</button>
+             <button type="button" class="boton-azul-g" wire:click="asignarCategoria('{{$selected_id}}')"
+             data-dismiss="modal" style="background: #3b3f5c"> <i class="fas fa-plus-circle"></i>  Agregar Subcategorias </button>
 
          </div>
           @endif

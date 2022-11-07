@@ -1,52 +1,14 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablainventarios th, td  {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-       
-    }
-    .tablainventarios th {
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-
-   .tablainventarios .tablainventarios .unidad label {
-        text-align: center;
-        color: aliceblue;
-        border: #101216;
-        border-radius: 5px;
-        border-color: #1572e8;
-    }
-        
-
-</style>
-@endsection
-    
-
-
 
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>Compras</b>
-                </h4>
+                <h3 class="text-center">
+                    <b>COMPRAS</b>
+                </h3>
                 <ul class="row justify-content-end">
                         <a href="detalle_compras" class="btn btn-outline-primary" >Registrar Compra</a>
-                        {{-- <a href="{{ url('reporteCompras/pdf' . '/' . $filtro . '/' . $fecha .'/'
-                        . $from. '/' . $to . '/' .$search)}}" class="btn btn-warning m-1" >Imprimir</a> --}}
+           
                 </ul>
                
             </div>
@@ -68,11 +30,11 @@
                                         <option value='fechas'>Entre Fechas</option>
                                 </select>
                             </div>
-                            @if($fecha == 'fechas')
+                      
                         <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Fecha inicial</label>
-                                    <input type="date" wire:model.lazy="fromDate" class="form-control">
+                                    <input type="date" wire:model="fromDate" class="form-control">
                                     @error('fromDate')
                                     <span class="text-danger">{{ $message}}</span>
                                     @enderror
@@ -81,13 +43,13 @@
                         <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Fecha final</label>
-                                    <input type="date" wire:model.lazy="toDate" class="form-control">
+                                    <input type="date" wire:model="toDate" class="form-control">
                                     @error('toDate')
                                     <span class="text-danger">{{ $message}}</span>
                                     @enderror
                                 </div>
                         </div>
-                            @endif
+                     
 
                         </div>
                     </div>
@@ -119,8 +81,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="widget-content">
-                            <div class="table-responsive">
-                                <table class="tablainventarios" >
+                            <div class="table-5">
+                                <table>
                                     <thead>
                                         <tr>
                                            

@@ -36,9 +36,13 @@ class ComprasController extends Component
         $this->nro=1;
         $this->filtro='Contado';
         $this->fecha='hoy';
+        $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
+  
+        $this->toDate =  Carbon::parse(Carbon::now())->format('Y-m-d');
     }
     public function render()
     {
+        
         $this->consultar();
         $this->datas_compras= Compra::join('providers as prov','compras.proveedor_id','prov.id')
         ->join('users','users.id','compras.user_id')
@@ -75,8 +79,7 @@ class ComprasController extends Component
     {
         if ($this->fecha == 'hoy') {
 
-            $this->fromDate = Carbon::now();
-            $this->toDate = Carbon::now();
+    
             $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
             $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
         }

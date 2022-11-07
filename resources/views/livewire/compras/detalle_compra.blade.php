@@ -130,7 +130,7 @@
                                 </div>
                               
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
 
                                         <div class="form-group">
                                             <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
@@ -144,7 +144,7 @@
                                             @enderror                                          
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    {{-- <div class="col-lg-6">
                                         <div class="form-group">
                                             <strong style="color: rgb(74, 74, 74)">Pago:</strong>
 
@@ -163,7 +163,7 @@
                                            <span class="text-danger er">{{ $message }}</span>
                                            @enderror
                                        </div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                              </div>
@@ -270,10 +270,10 @@
                               
 
 
-                                        <div class="contenedortabla">
-                                            <table class="estilostable" style="color: rgb(0, 0, 0)">
+                                        <div class="table-6">
+                                            <table>
 
-                                        <thead class="tablehead">
+                                        <thead>
                                             <tr>
                                                 <th class="text-center" style="width: 12rem; color:#ffffff; font-size:1rem">Producto</th>
                                                 <th class="text-center" style="width: 5rem; color:#ffffff">Codigo</th>
@@ -327,23 +327,23 @@
                                                     <td class="text-center">
                                                         <a href="javascript:void(0)"
                                                         wire:click="removeItem({{ $prod->id }})"
-                                                            class="btn btn-dark mtmobile p-2" title="Edit">
+                                                        class="btn btn-danger p-1" title="Quitar Item">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
 
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                            <tfoot class="text-white text-right" style="background: #fffefd"  >
-                                                    <tr>
+                                            <tfoot>
+                                                    {{-- <tr>
                                                         <td colspan="5">
                                                              <h5 class="text-dark" style="font-size: 1rem!important;">SubTotal.-</h5>
                                                         </td>
                                                         <td>
                                                             <h5 class="text-dark" style="font-size: 1rem!important;" >{{$subtotal}}</h5>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
+                                                    </tr> --}}
+                                                    {{-- <tr>
 
                                                         <td colspan="5">
                                                             <a href="javascript:void(0)" data-toggle="modal"
@@ -354,14 +354,15 @@
                                                         <td>
                                                             <h5 class="text-dark" >{{$dscto}}</h5>
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
                                                     <tr>
                                                         <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">Total.-</h5>
+                                                             <h3 class="text-right">TOTAL.-</h3>
                                                         </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$total_compra}}</h5>
+                                                        <td colspan="2">
+                                                            <h3 class="text-center">{{$total_compra}}</h3>
                                                         </td>
+                                                     
                                                     </tr>
                                             </tfoot>
                                         </tbody>

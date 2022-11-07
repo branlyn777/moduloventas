@@ -312,7 +312,8 @@ class LocalizacionController extends Component
             
         ];
         $messages = [
-            'tipo.not_in' => 'Elija una opcion diferente de elegir',
+            'tipo.required'=>'Elija un mobiliario',
+            'tipo.not_in' =>'Elija una opcion diferente de elegir',
         ];
 
         $this->validate($rules, $messages);

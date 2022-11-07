@@ -1,4 +1,14 @@
-@include('common.modalHead')
+<div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info">
+          <h5 class="modal-title text-white">
+              <b>{{$componentName}}</b> | {{$selected_id > 0 ? 'EDITAR':'CREAR'}}
+          </h5>
+          <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
+        </div>
+        <div class="modal-body">
+
 <div class="row">
    
         <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
@@ -57,7 +67,7 @@
             <div class="custom-file mt-4 p-1">
                 <label class="custom-file p-0">
 
-                    <input type="file" wire:model="image" class="form-control custom-file" style="padding-top:0.4rem"
+                    <input type="file" wire:model="image" id="im" class="form-control custom-file" style="padding-top:0.4rem"
                         accept="image/x-png,image/gif,image/jpeg" class="custom-file-input" id="inputGroupFile03">
                     </label>
                     <div wire:loading wire:target="image" wire:key="image"><i class="fa fa-spinner fa-spin mt-2 ml-2"></i> Subiendo...</div>
@@ -77,4 +87,20 @@
 
     
 </div>
-@include('common.modalFooter')
+</div>
+<div class="modal-footer">
+    <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning close-btn text-info"
+        data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
+    @if ($selected_id < 1)
+        <button type="button" wire:click.prevent="Store()"
+            class="btn btn-warning close-btn text-info">GUARDAR</button>
+    @else
+        <button type="button" wire:click.prevent="Update()"
+            class="btn btn-warning close-btn text-info">ACTUALIZAR</button>
+    @endif
+
+
+</div>
+</div>
+</div>
+</div>

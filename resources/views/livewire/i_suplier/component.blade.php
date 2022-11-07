@@ -1,69 +1,6 @@
 @section('css')
 <style>
 
-.project-list-table {
-    border-collapse: separate;
-    border-spacing: 0 12px
-}
-
-.project-list-table tr {
-    background-color: rgba(27, 154, 228, 0.19)
-}
-
-.table-nowrap td, .table-nowrap th {
-    white-space: nowrap;
-}
-.table-borderless>:not(caption)>*>* {
-    border-bottom-width: 0;
-}
-.table>:not(caption)>*>* {
-    padding: 0.75rem 0.75rem;
-    background-color: var(--bs-table-bg);
-    border-bottom-width: 1px;
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-}
-
-.avatar-sm {
-    height: 3rem;
-    width: 3rem;
-    /* border-width: 0.5rem;
-    border-color: #3b76e1; */
-}
-.rounded-circle {
-    border-radius: 50%;
-  
-}
-.me-2 {
-    margin-right: 0.5rem!important;
-}
-img, svg {
-    vertical-align: middle;
-}
-
-a {
-    color: #3b76e1;
-    text-decoration: none;
-}
-
-.badge-soft-danger {
-    color: #fefefe !important;
-    background-color: rgb(230, 81, 81);
-}
-.badge-soft-success {
-    color: #ffffff !important;
-    background-color: rgba(99, 173, 111, 0.967);
-}
-
-.badge-soft-primary {
-    color: #3b76e1 !important;
-    background-color: rgba(59,118,225,.1);
-}
-
-.badge-soft-info {
-    color: #57c9eb !important;
-    background-color: rgba(87,201,235,.1);
-}
-
 .avatar-title {
     align-items: center;
     background-color: #3b76e1;
@@ -73,9 +10,6 @@ a {
     height: 100%;
     justify-content: center;
     width: 100%;
-}
-.bg-soft-primary {
-    background-color: rgb(30, 52, 95)!important;
 }
 </style>
 @endsection
@@ -88,29 +22,31 @@ a {
           <p class="h2"><b>PROVEEDORES</b></p>
         </div>
     </div>
-    <div class="row" style="padding-left: 1.5%">
+    <div class="container"> 
+        <div class="row">
 
-        <div class="col-12 col-sm-12 col-md-3">
-            @include('common.searchbox')
+            <div class="col-12 col-sm-12 col-md-3">
+                @include('common.searchbox')
+            </div>
+    
+            <div class="col-12 col-sm-12 col-md-3 text-center">
+                <select wire:model='estados' class="form-control">
+                    <option value="null" disabled>Estado</option>
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="INACTIVO">INACTIVO</option>
+                    <option value="TODOS">TODOS</option>
+                  </select>
+            </div>
+    
+            <div class="col-12 col-sm-12 col-md-3 text-center">
+                
+            </div>
+    
+            <div class="col-12 col-sm-12 col-md-3 text-center">
+                <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> <i class="fas fa-plus-circle"></i> Agregar Proveedor</button>
+            </div>
         </div>
-
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <select wire:model='estados' class="form-control">
-                <option value="null" disabled>Estado</option>
-                <option value="ACTIVO">ACTIVO</option>
-                <option value="INACTIVO">INACTIVO</option>
-                <option value="TODOS">TODOS</option>
-              </select>
-        </div>
-
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            
-        </div>
-
-        <div class="col-12 col-sm-12 col-md-3 text-center">
-            <b style="color: white;">|</b>
-            <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> <i class="fas fa-plus-circle"></i> Agregar Proveedor</button>
-        </div>
+ 
 
     </div>
  
@@ -131,14 +67,14 @@ a {
                         <thead>
                             <tr>
                              
-                                <center><th>Nombre</th></center>
-                                  <center><th>Telefono</th></center>
-                                  <center><th>Correo</th></center>
-                                  <center><th>Direccion</th></center>
-                                  <center><th>NIT</th></center>
-                                  <center><th>Estado</th></center>
+                                <th class="text-center" >NOMBRE</th>
+                                  <th class="text-center">TELEFONO</th>
+                                  <th class="text-center">CORREO</th>
+                                  <th class="text-center">DIRECCION</th>
+                                  <th class="text-center">NIT</th>
+                                  <th class="text-center">ESTADO</th>
                               
-                                <th scope="col" style="width: 200px;">Accion</th>
+                                <th  class="text-center">ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,33 +82,27 @@ a {
                                 
                             <tr>
                                
-                                <td><img src="{{ asset('storage/proveedores/' . $data->imagen) }}" alt="" class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body">{{$data->nombre_prov.' '.$data->apellido}}</a></td>
+                                <td><img src="{{ asset('storage/proveedores/' . $data->imagen) }}" alt="proveedor" class="avatar-sm rounded-circle me-2 m-1" />{{$data->nombre_prov.' '.$data->apellido}}</td>
                                 <td>{{$data->telefono ? $data->telefono : "No definido" }}</td>
                                 <td>{{$data->correo ? $data->correo : "No definido" }}</td>
                                 <td>{{$data->direccion ? $data->direccion : "No definido" }}</td>
                                 <td>{{$data->nit ? $data->nit : "No definido" }}</td>
                                 @if ($data->status== 'ACTIVO')
                                     
-                                <td><span class="badge badge-soft-success mb-0">{{$data->status}}</span></td>
+                                <td class="text-center" >
+                                    <span class="badge badge-success mb-0">{{$data->status}}</span>
+                                </td>
                                 @else
-                                <td><span class="badge badge-soft-danger mb-0">{{$data->status}}</span></td>
+                                <td class="text-center" ><span class="badge badge-danger mb-0">{{$data->status}}</span></td>
                                     
                                 @endif
                                 <td>
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void(0);" wire:click="Edit({{ $data->id }})"  title="Editar proveedor" class="boton-azul"><i class="fas fa-edit"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void(0);" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" title="Eliminar proveedor" class="boton-rojo"><i class="fas fa-trash"></i></a>
-                                        </li>
-                                        {{-- <li class="list-inline-item dropdown">
-                                            <a class="text-muted dropdown-toggle font-size-18 px-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="bx bx-dots-vertical-rounded"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Accion</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </li> --}}
-                                    </ul>
+                                    <div class="row justify-content-center">
+
+                                        <button  wire:click="Edit({{ $data->id }})"  title="Editar proveedor" class="boton-azul mr-1"><i class="fas fa-edit"></i></button>
+                                        <button  onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" title="Eliminar proveedor" class="boton-rojo"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                  
                                 </td>
                             </tr>
                             @endforeach
@@ -180,6 +110,7 @@ a {
                         </tbody>
                     </table>
                 </div>
+                {{ $data_proveedor->links() }}
             </div>
         </div>
     </div>
@@ -210,9 +141,33 @@ a {
         });
         window.livewire.on('proveedor-updated', msg => {
             $('#theModal').modal('hide')
+            $("#im").val('');
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
         window.livewire.on('proveedor-deleted', msg => {
-            ///
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
         window.livewire.on('show-modal', msg => {
             $('#theModal').modal('show')

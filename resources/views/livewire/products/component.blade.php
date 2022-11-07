@@ -132,14 +132,12 @@
                                         <h6 class="text-center"> <strong>Costo:</strong> {{ $products->costo}}</h6>
                                         <h6 class="text-center"> <strong>Precio:</strong> {{ $products->precio_venta }}</h6>
                                     </td>
-                                    @if ($products->status == "ACTIVO")
-                                    <td style="background-color: rgb(100, 175, 25)">
-                                        <h6 class=" text-center  text-white"> <strong>{{ $products->status }}</strong> </h6>
-                                    </td>
+                                    @if ($products->status== 'ACTIVO')
+                                    
+                                    <td class="text-center"><span class="badge badge-success mb-0">{{$products->status}}</span></td>
                                     @else
-                                    <td style="background-color: rgb(231, 59, 88)">
-                                        <h6 class=" text-center text-white"> <strong>{{ $products->status }}</strong></h6>
-                                    </td>
+                                    <td class="text-center"><span class="badge badge-danger mb-0">{{$products->status}}</span></td>
+                                        
                                     @endif
                                     
                                     <td class="text-center">
@@ -178,7 +176,8 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         window.livewire.on('product-added', msg => {
-            $('#theModal').modal('hide'),
+            $('#theModal').modal('hide')
+            $("#im").val('');
             noty(msg)
         });
         window.livewire.on('product-updated', msg => {

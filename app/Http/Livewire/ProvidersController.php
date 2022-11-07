@@ -13,8 +13,8 @@ class ProvidersController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $search, $nombre_prov,$apellido,$direccion,$telefono,$correo, $selected_id,$nit,$estado,$estados;
-    public  $pageTitle, $componentName,$image;
-    private $pagination = 5;
+    public  $pageTitle, $componentName,$image,$mensaje_toast;
+    private $pagination = 10;
     
     public function paginationView()
     {
@@ -72,7 +72,8 @@ class ProvidersController extends Component
         }
 
         $this->resetUI();
-        $this->emit('proveedor-added', 'proveedor Registrado');
+        $this->mensaje_toast='Proveedor Registrado';
+        $this->emit('proveedor-added');
     }
     public function Edit(Provider $sup)
     {
@@ -124,6 +125,7 @@ class ProvidersController extends Component
        
 
         $this->resetUI();
+        $this->mensaje_toast='Proveedor Actualizado';
         $this->emit('proveedor-updated', 'proveedor Actualizado');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -132,7 +134,8 @@ class ProvidersController extends Component
     {
         $uni->delete();
         $this->resetUI();
-        $this->emit('proveedor-deleted', 'Unidad Eliminada');
+        $this->mensaje_toast='Proveedor Eliminado con exito';
+        $this->emit('proveedor-deleted');
     }
 
     public function resetUI()
@@ -145,5 +148,6 @@ class ProvidersController extends Component
         $this->correo='';
         $this->nit=null;
         $this->image=null;
+        
     }
 }

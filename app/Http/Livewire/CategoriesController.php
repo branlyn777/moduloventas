@@ -17,8 +17,8 @@ class CategoriesController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $name,$descripcion, $search,$categoryid, $selected_id, $pageTitle, $componentName,$categoria_padre,$data2,$estado;
-    private $pagination = 30;
+    public $name,$descripcion, $search,$categoryid, $selected_id, $pageTitle, $componentName,$categoria_padre,$data2,$estados,$mensaje_toast;
+    private $pagination = 20;
     public $category_s = 0;
     public $subcat_s=false;
 
@@ -29,6 +29,7 @@ class CategoriesController extends Component
         $this->componentName = 'Categorias';
         $this->componentSub = 'Subcategorias';
         $this->subcat_fill= 'Elegir';
+        $this->estados='TODOS';
         
     }
 
@@ -39,14 +40,25 @@ class CategoriesController extends Component
 
     public function render()
     {
-        if (strlen($this->search) > 0)
-            $data = Category::where('name', 'like', '%' . $this->search . '%')
-            ->where('categoria_padre',$this->category_s)->where('name','!=','No definido')
-            ->paginate($this->pagination);
-        else
-            $data = Category::where('categoria_padre',$this->category_s)->where('name','!=','No definido')
-            ->orderBy('id', 'asc')
-            ->paginate($this->pagination);
+
+
+
+        $data = Category::select('categories.*')
+        ->where(function($querys){
+            $querys->where('name', 'like', '%' . $this->search . '%')->where('categoria_padre',0)
+            ->when($this->estados !='TODOS',function($query){
+                    return $query->where('status',$this->estados);
+             });
+        })->paginate($this->pagination);
+
+        // if (strlen($this->search) > 0)
+        //     $data = Category::where('name', 'like', '%' . $this->search . '%')
+        //     ->where('categoria_padre',$this->category_s)->where('name','!=','No definido')
+        //     ->paginate($this->pagination);
+        // else
+        //     $data = Category::where('categoria_padre',$this->category_s)->where('name','!=','No definido')
+        //     ->orderBy('id', 'asc')
+        //     ->paginate($this->pagination);
 
             $this->data2=Category::where('categoria_padre',$this->selected_id)
             ->select('categories.*')->get();
@@ -116,6 +128,7 @@ class CategoriesController extends Component
 
         $category->save();
         $this->resetUI();
+        $this->mensaje_toast='Categoría Registrada';
         $this->emit('item-added', 'Categoría Registrada');
     }
 
@@ -142,6 +155,7 @@ class CategoriesController extends Component
         $category->save();
         $this->resetUI();
         $this->selected_id=0;
+        $this->mensaje_toast='Subcategoria Registrada';
         $this->emit('sub_added');
     }
 
@@ -162,6 +176,7 @@ class CategoriesController extends Component
             'status'=>$this->estado
         ]);
         $this->resetUI();
+        $this->mensaje_toast='Categoria Actualizada';
         $this->emit('item-updated', 'Categoria Actualizada');
     }
 
@@ -175,12 +190,14 @@ class CategoriesController extends Component
             unlink('storage/categorias/' . $imageName);
         }
         $this->resetUI();
+        $this->mensaje_toast='Categoria Eliminada';
         $this->emit('item-deleted', 'Categoria eliminada');
     }
 
     public function resetUI()
     {
         $this->reset('name','descripcion','categoria_padre');
+        $this->selected_id=0;
        
         $this->resetValidation();
     }

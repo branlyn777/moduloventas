@@ -22,10 +22,10 @@
         <div class="form-group row">
             <label class="col-lg-12">Codigo</label>
            
-                <input type="text" wire:model.lazy="codigo" class="form-control col-lg-6" placeholder="ej: 20202225">
-                <a href="javascript:void(0)" wire:click="GenerateCode()" class="btn btn-info m-0 p-l-0 p-r-0 col-lg-6" title="Generar Codigo">
-                   <i class="fas fa-barcode"></i> Generar Codigo
-                </a>
+                <input type="text" wire:model.lazy="codigo" class="form-control col-lg-8" placeholder="ej: 20202225">
+                <button type="button" wire:click="GenerateCode()" class="btn btn-info m-0 p-l-0 p-r-0" title="Generar Codigo">
+                   <i class="fas fa-barcode"></i> 
+                </button>
         
             @error('codigo') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
@@ -173,7 +173,7 @@
         
     @endif
 
-    <div class="col-sm-12 col-md-4">
+    {{-- <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Control Lote</label>
             <select wire:model='cont_lote' class="form-control">
@@ -183,14 +183,14 @@
             </select>
             @error('cont_lote') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-12 col-md-8">
         <label> <b> Subir Imagen</b></label>
         <div class="custom-file mt-4 p-1">
             <label class="custom-file p-0">
 
-                <input type="file" wire:model="image" class="form-control custom-file" style="padding-top:0.4rem"
+                <input type="file" wire:model="image" id="im" class="form-control custom-file" style="padding-top:0.4rem"
                     accept="image/x-png,image/gif,image/jpeg" class="custom-file-input" id="inputGroupFile03">
                 </label>
                 <div wire:loading wire:target="image" wire:key="image"><i class="fa fa-spinner fa-spin mt-2 ml-2"></i> Subiendo...</div>

@@ -88,6 +88,36 @@
 			padding-right: 8px;
 			border-right: 0.3px solid #02b1ce;
 		}
+		.table-6 {
+		width: 100%;/* Anchura de ejemplo */
+	/*Altura de ejemplo*/
+		overflow: auto;
+		}
+		.table-6 table {
+			border-collapse: separate;
+			border-spacing: 0;
+			border-left: 0.3px solid #02b1ce;
+			border-bottom: 0.3px solid #02b1ce;
+			width: 100%;
+		}
+		.table-6 table thead {
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.table-6 table thead tr {
+		background: #02b1ce;
+		color: white;
+		}
+		.table-6 table tbody tr:hover {
+			background-color: #9df4ffa4;
+		}
+		.table-6 table td {
+			border-top: 0.3px solid #02b1ce;
+			padding-left: 8px;
+			padding-right: 8px;
+			border-right: 0.3px solid #02b1ce;
+		}
 	
 	
 		/*Tabla Sin Hover ni colores*/
