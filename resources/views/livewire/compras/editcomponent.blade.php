@@ -46,8 +46,8 @@
                         </div>
                         
                         <div class="col-lg-1 col-sm-1 col-md-1">
-                            <a href="javascript:void(0)" data-toggle="modal"
-                                data-target="#theModal" class="btn btn-primary p-1 m-1" > <strong> Registrar Producto</strong></a>
+                            <button href="javascript:void(0)" data-toggle="modal"
+                                data-target="#theModal" class="btn btn-primary p-1 m-1" > <strong> Registrar Producto</strong></button>
                         </div>
                         
                     </div>
@@ -66,10 +66,10 @@
                                                         <option value="{{$datas->nombre_prov}}">{{$datas->nombre_prov}}</option>
                                                     @endforeach
                                                  </datalist>
-                                                     <span class="input-group-text input-gp">
-                                                         <a href="javascript:void(0)" data-toggle="modal"
-                                                             data-target="#modal_prov" class="fas fa-plus text-white"></a>
-                                                     </span>
+                                                  
+                                                         <button type="button" data-toggle="modal"
+                                                             data-target="#modal_prov" class="btn btn-dark"> <i class="fas fa-plus"></i></button>
+                                                     
                                               </div>
                                              @error('provider')
                                                  <span class="text-danger er">{{ $message }}</span>
@@ -399,6 +399,25 @@
          });
          window.livewire.on('empty_cart', msg => {
             noty(msg)
+        });
+        window.livewire.on('prueba', msg => {
+            const addOption = (arr) => {
+            let optionItems='';
+            arr.forEach(item =>{
+                optionItems += `<option value="${item}">${item}</option>`
+            });
+            return optionItems;
+            }
+
+//in swal 
+
+        swal.fire({
+            title: 'PRECAUCION',
+            icon: 'warning',
+            text:'ssss',
+            html:addOption(@this.col) 
+            })
+            
         });
      });
  

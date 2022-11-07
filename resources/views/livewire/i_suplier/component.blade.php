@@ -30,8 +30,8 @@
     border-color: #3b76e1; */
 }
 .rounded-circle {
-    border-radius: 50%!important;
-    border: 3px solid rgb(117, 113, 113);
+    border-radius: 50%;
+  
 }
 .me-2 {
     margin-right: 0.5rem!important;
@@ -88,7 +88,7 @@ a {
           <p class="h2"><b>PROVEEDORES</b></p>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-left: 1.5%">
 
         <div class="col-12 col-sm-12 col-md-3">
             @include('common.searchbox')
@@ -126,17 +126,17 @@ a {
     <div class="row">
         <div class="col-lg-12">
             <div class="">
-                <div class="table-responsive">
-                    <table class="table project-list-table table-nowrap align-middle table-borderless">
+                <div class="table-5">
+                    <table>
                         <thead>
                             <tr>
                              
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Telefono</th>
-                                <th scope="col">Correo</th>
-                                <th scope="col">Direccion</th>
-                                <th scope="col">NIT</th>
-                                <th scope="col">Estado</th>
+                                <center><th>Nombre</th></center>
+                                  <center><th>Telefono</th></center>
+                                  <center><th>Correo</th></center>
+                                  <center><th>Direccion</th></center>
+                                  <center><th>NIT</th></center>
+                                  <center><th>Estado</th></center>
                               
                                 <th scope="col" style="width: 200px;">Accion</th>
                             </tr>
@@ -161,10 +161,10 @@ a {
                                 <td>
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
-                                            <a href="javascript:void(0);" wire:click="Edit({{ $data->id }})"  title="Editar proveedor" class="px-2 text-primary"><i class="fas fa-edit"></i></a>
+                                            <a href="javascript:void(0);" wire:click="Edit({{ $data->id }})"  title="Editar proveedor" class="boton-azul"><i class="fas fa-edit"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="javascript:void(0);" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" title="Eliminar proveedor" class="px-2 text-danger"><i class="fas fa-trash"></i></a>
+                                            <a href="javascript:void(0);" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" title="Eliminar proveedor" class="boton-rojo"><i class="fas fa-trash"></i></a>
                                         </li>
                                         {{-- <li class="list-inline-item dropdown">
                                             <a class="text-muted dropdown-toggle font-size-18 px-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="bx bx-dots-vertical-rounded"></i></a>

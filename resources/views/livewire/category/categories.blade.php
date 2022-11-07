@@ -31,9 +31,9 @@
     </div>
     <div class="row justify-content-end" >
      
-        <div class="col-12 col-sm-12 col-md-4" style="padding-left: 14%">
+        <div class="col-12 col-sm-12 col-md-4" style="padding-left: 10%">
 
-            <button class="boton-azul-g"  wire:click="$set('selected_id','0')" data-toggle="modal"
+            <button class="boton-azul-g mb-2"  wire:click="$set('selected_id','0')" data-toggle="modal"
                             data-target="#theModal"> <b> <i class="fas fa-plus-circle"></i> Crear Categoria</b> </button>
         </div>
             

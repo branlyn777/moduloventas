@@ -18,6 +18,7 @@ use App\Models\Provider;
 use App\Models\SaleLote;
 use App\Models\SalidaLote;
 use App\Models\Sucursal;
+use App\Models\TransferenciaLotes;
 use App\Models\Unidad;
 use App\Models\User;
 use Carbon\Carbon;
@@ -45,20 +46,22 @@ class EditarCompraDetalleController extends Component
     $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra,$destino1;
 
     public $nombre_prov, $apellido_prov, $direccion_prov, $correo_prov,
-    $telefono_prov;
+    $telefono_prov,$col;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2;
 
     public function mount()
     {
-      
-
         $this->ide=session('id_compra');
         EditarCompra::clear();
         $this->aux=Compra::find($this->ide);
-     
+        //dd($this->ide);
         $this->cargarCarrito();
+        $this->col=collect();
+       
+
+
         
         $this->componentName= "Editar Compras";
         $this->fecha_compra = Compra::where('compras.id',$this->ide)->value('fecha_compra') ;
@@ -196,7 +199,7 @@ class EditarCompraDetalleController extends Component
         
         $this->total = EditarCompra::getTotal();
         $this->itemsQuantity = EditarCompra::getTotalQuantity();
-        $this->emit('scan-ok', $title);
+
          $this->subtotal = EditarCompra::getTotal();
          $this->total_compra= $this->subtotal-$this->descuento;
 
@@ -462,6 +465,8 @@ class EditarCompraDetalleController extends Component
 
     public function guardarCompra()
     {
+        $this->emit('prueba');
+        $this->col->push('product_id','product-name');
         $this->verificarLotes();
             //dd($this->passed);
 
@@ -488,10 +493,7 @@ class EditarCompraDetalleController extends Component
             }
            
              $this->compraCredito();
-        
-            
-    
-                   
+
             DB::beginTransaction();
     
             try {
@@ -534,10 +536,11 @@ class EditarCompraDetalleController extends Component
                             'cantidad' => $item->quantity,
                             'product_id' => $item->id,
                             'compra_id' => $this->ide,
+                            'lote_compra'=>$lot->id
                             
                             
                         ]);
-                        dd($cp);
+                        //dd($cp);
                         
 
                      
@@ -604,16 +607,24 @@ class EditarCompraDetalleController extends Component
 
     public function verificarLotes(){
 
-   $auxi= CompraDetalle::where('compra_detalles.compra_id',$this->ide)
-   ->get();
-  //verificar si la cantidad es menor o igual al lote de ese producto
-     
+        $auxi= CompraDetalle::where('compra_detalles.compra_id',$this->ide)->get();
+        //verificar si la cantidad es menor o igual al lote de ese producto
+
         foreach ($auxi as $data) {
+            //primero se verifica que tenga disponibilidad
+            if (TransferenciaLotes::where('lote_id',$data->lote_compra)->exists()) {
+                
+            }
+
+        }
+
+        foreach ($auxi as $data) {
+        
            
            $lotetotal=SaleLote::where('lote_id',$data->lote_compra)->select('cantidad')->value('cantidad');
     
           
-           // dd($lotetotal);
+           //dd($lotetotal);
             if ($lotetotal>0) 
             {
                 $auxiedit=EditarCompra::get($data->product_id);

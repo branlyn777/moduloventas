@@ -11,11 +11,13 @@ use App\Models\EstadoTrans_Detalle;
 use App\Models\EstadoTransDetalle;
 use App\Models\EstadoTransferencia;
 use App\Models\Location;
+use App\Models\Lote;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Sucursal;
 use App\Models\Transference;
 use App\Models\transferencia_detalle;
+use App\Models\TransferenciaLotes;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -70,6 +72,7 @@ class TransferirProductoController extends Component
                                         ->whereIn('destinos.id',$this->vs)
                                         ->orderBy('suc.name','asc');
                                         $sucursal_ubicacion2=Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+                                        ->where('destinos.id','!=',$this->selected_origen)
                                         ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
                                         ->orderBy('suc.name','asc');
 
@@ -245,17 +248,41 @@ class TransferirProductoController extends Component
 
                     $r=ProductosDestino::where('product_id',$item->id)
                     ->where('destino_id',$this->selected_destino)->value('stock');
-                    
-                  
-                    /*ProductosDestino::where('product_id',$item->id)
-                    ->where('destino_id',$this->selected_destino)
-                    ->update(['stock'=>($r+$item->quantity)]);
 
-                    /*DB::table('productos_destinos')
-                    ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destino]);*/
-  
-                }
+                    $qq=$item->quantity;
+                    $lot=Lote::where('product_id',$item->id)->where('status','Activo')->get();
+                    foreach ($lot as $val) { 
+                      $lotecantidad = $val->existencia;
+                       if($qq>0){
+                      
+                           if ($qq > $lotecantidad) {
+                          
+                            TransferenciaLotes::create([
+                                'detalle_trans_id'=>$ss->id,
+                                'lote_id'=>$val->id,
+                                'cantidad'=>$lotecantidad
+                            ]);
+                           }
+                           else{
+                            TransferenciaLotes::create([
+                                'detalle_trans_id'=>$ss->id,
+                                'lote_id'=>$val->id,
+                                'cantidad'=>$qq
+                            ]);
+                               $qq=0;
+                          
+                           }
+                       }
+ }
 
+
+
+
+
+
+
+                
+               
                    $mm= EstadoTransferencia::create([
                         'estado'=>4,
                         'op'=>1,
@@ -276,12 +303,15 @@ class TransferirProductoController extends Component
             $this->itemsQuantity = Transferencia::getTotalQuantity();
             redirect('/all_transferencias');
         
-        } catch (Exception $e) {
+        }
+     } 
+     catch (Exception $e) {
             DB::rollback();
             dd($e->getMessage());
         }
-       }
+       
        
     }
 
+}
 }

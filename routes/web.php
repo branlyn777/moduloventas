@@ -7,6 +7,8 @@ use App\Http\Livewire\CarteraController;
 use App\Http\Livewire\CarteraMovCategoriaController;
 use App\Http\Livewire\CategoriesController;
 use App\Http\Livewire\ClienteController;
+use App\Http\Controllers\ExportTransferenciaController;
+use App\Http\Controllers\ExportComprasController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CompaniesController;
 use App\Http\Livewire\ComprasController;
@@ -98,7 +100,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
     Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
     //Inventarios (Pdsf y Excel)
-    Route::get('productos/export/', [ProductsController::class, 'export']);
+    Route::group(['middleware' => ['permission:Reportes_Inventarios_Export']], function () {
+        Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
+        Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
+        Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
+        Route::get('productos/export/', [ProductsController::class, 'export']);
+        Route::get('almacen/export/', [DestinoProductoController::class, 'export']);
+        });
+
 
 
 });
