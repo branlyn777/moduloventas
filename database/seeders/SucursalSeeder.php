@@ -16,7 +16,7 @@ class SucursalSeeder extends Seeder
     {
         Sucursal::create([
             'name' => 'Sucursal Central',
-            'adress' => 'Avenida América casi esquina G René Moreno',
+            'adress' => 'Avenida América esq G René Moreno',
             'telefono' => '4240013',
             'celular' => '79771777',
             'nit_id' => '8796546',

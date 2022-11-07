@@ -125,20 +125,12 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
                     ->whereDate('cartera_movs.created_at', date('Y/m/d'))
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
-
-
                 }
                 else
                 {
@@ -152,18 +144,13 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('ca.id',$this->caja)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
                     ->whereDate('cartera_movs.created_at', date('Y/m/d'))
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
             else
@@ -182,18 +169,13 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
                     ->whereDate('cartera_movs.created_at', date('Y/m/d'))
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
                 else
                 {
@@ -209,8 +191,7 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('ca.id',$this->caja)
                     ->where('m.status','<>','INACTIVO')
@@ -218,10 +199,6 @@ class SaleDailyMovementController extends Component
                     ->whereDate('cartera_movs.created_at', date('Y/m/d'))
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
             //Si se selecciona una caja y despues una sucursal que no le corresponde
@@ -240,18 +217,13 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
                     ->whereDate('cartera_movs.created_at', date('Y/m/d'))
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
 
@@ -272,8 +244,7 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
                     
@@ -285,10 +256,9 @@ class SaleDailyMovementController extends Component
                     ->get();
 
 
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
+
+
+
 
                 }
                 else
@@ -303,8 +273,7 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('ca.id',$this->caja)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
@@ -317,10 +286,6 @@ class SaleDailyMovementController extends Component
                     
                     ->orderBy('cartera_movs.created_at', 'asc')
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
             else
@@ -339,8 +304,7 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
@@ -349,11 +313,9 @@ class SaleDailyMovementController extends Component
                     ->whereTime('cartera_movs.created_at', '>=', $this->timeFrom)
                     ->whereTime('cartera_movs.created_at', '<=', $this->timeTo.':59')
                     ->orderBy('cartera_movs.created_at', 'asc')
+
+                    
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
                 else
                 {
@@ -369,21 +331,19 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('ca.id',$this->caja)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
+                    
                     ->whereBetween('cartera_movs.created_at', [$from, $to])
                     ->whereTime('cartera_movs.created_at', '>=', $this->timeFrom)
                     ->whereTime('cartera_movs.created_at', '<=', $this->timeTo.':59')
                     ->orderBy('cartera_movs.created_at', 'asc')
+
+                    
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
             //Si se selecciona una caja y despues una sucursal que no le corresponde
@@ -402,8 +362,7 @@ class SaleDailyMovementController extends Component
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
                     ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
-                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento'
-                    ,DB::raw('0 as costomovimiento'))
+                    'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
                     ->where('m.status','<>','INACTIVO')
                     ->whereIn('cartera_movs.comentario', ['Venta', 'Devolución Venta'])
@@ -412,11 +371,9 @@ class SaleDailyMovementController extends Component
                     ->whereTime('cartera_movs.created_at', '>=', $this->timeFrom)
                     ->whereTime('cartera_movs.created_at', '<=', $this->timeTo.':59')
                     ->orderBy('cartera_movs.created_at', 'asc')
+
+                    
                     ->get();
-                    foreach($data as $d)
-                    {
-                        $d->costomovimiento = $this->obtenercosto($d->idmovimiento);
-                    }
                 }
             }
 
@@ -465,36 +422,7 @@ class SaleDailyMovementController extends Component
     }
 
 
-    //Devuelve le costo de un movimiento por venta
-    public function obtenercosto($idmovimiento)
-    {
-        $costo_venta = 0;
 
-        $idventa = Sale::join("movimientos as m","m.id","sales.movimiento_id")
-        ->select("sales.id as idventa")
-        ->where("m.id",$idmovimiento)
-        ->get()
-        ->first()->idventa;
-
-        $detalle_venta = SaleDetail::where("sale_details.sale_id",$idventa)->get();
-
-
-        foreach($detalle_venta as $d)
-        {
-            if(SaleLote::where("sale_lotes.sale_detail_id",$d->id)->get()->first())
-            {
-                $idlote = SaleLote::where("sale_lotes.sale_detail_id",$d->id)->get()->first()->lote_id;
-                $costo_lote = Lote::find($idlote)->costo;
-                $costo_venta = $costo_venta + ($costo_lote * $d->quantity);
-            }
-
-        }
-
-
-        
-
-        return $costo_venta;
-    }
 
     
 
@@ -509,24 +437,53 @@ class SaleDailyMovementController extends Component
         return $venta;
     }
 
-    //Buscar la utilidad de una venta mediante el idventa
+
+
+
     public function buscarutilidad($idventa)
     {
-        $utilidadventa = Sale::join('sale_details as sd', 'sd.sale_id', 'sales.id')
-        ->join('products as p', 'p.id', 'sd.product_id')
-        ->select('sd.quantity as cantidad','sd.price as precio','p.costo as costoproducto')
-        ->where('sales.id', $idventa)
-        ->get();
+        $auxi = 0;
 
-        $utilidad = 0;
+        $utilidad_total = 0;
 
-        foreach ($utilidadventa as $item)
+        $detalle_venta = SaleDetail::where('sale_id', $idventa)->get();
+        foreach ($detalle_venta as $d) 
         {
-            $utilidad = $utilidad + ($item->cantidad * $item->precio) - ($item->cantidad * $item->costoproducto);
+            $sl = SaleLote::where('sale_detail_id', $d->id)->get();
+            foreach ($sl as $s) 
+            {
+
+                $costo_lote = Lote::where('id', $s->lote_id)->value('costo');
+
+                $auxi = ($d->price * $s->cantidad) - ($costo_lote * $s->cantidad);
+
+                $utilidad_total = $utilidad_total + $auxi;
+            }
         }
 
-        return $utilidad;
+        return $utilidad_total;
     }
+
+
+
+    //Buscar la utilidad de una venta mediante el idventa
+    // public function buscarutilidad($idventa)
+    // {
+    //     $utilidadventa = Sale::join('sale_details as sd', 'sd.sale_id', 'sales.id')
+    //     ->join('products as p', 'p.id', 'sd.product_id')
+    //     ->select('sd.quantity as cantidad','sd.price as precio','p.costo as costoproducto')
+    //     ->where('sales.id', $idventa)
+    //     ->get();
+
+    //     $utilidad = 0;
+
+    //     foreach ($utilidadventa as $item)
+    //     {
+    //         $utilidad = $utilidad + ($item->cantidad * $item->precio) - ($item->cantidad * $item->costoproducto);
+    //     }
+
+    //     return $utilidad;
+    // }
 
     //Buscar caja 
     public function verificar_caja_sucursal($idcaja, $idsucursal)

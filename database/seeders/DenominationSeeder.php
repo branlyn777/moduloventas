@@ -15,51 +15,63 @@ class DenominationSeeder extends Seeder
     {
         Denomination::create([
             'type'=>'BILLETE',
-            'value'=>'200'            
+            'value'=>'200',
+            'image'=>'200.jpg'        
         ]);
         Denomination::create([
             'type'=>'BILLETE',
-            'value'=>'100'            
+            'value'=>'100',
+            'image'=>'100.jpg'           
         ]);
         Denomination::create([
             'type'=>'BILLETE',
-            'value'=>'50'            
+            'value'=>'50',
+            'image'=>'50.jpg'     
         ]);
         Denomination::create([
             'type'=>'BILLETE',
-            'value'=>'20'            
+            'value'=>'20',
+            'image'=>'20.jpg'            
         ]);
         Denomination::create([
             'type'=>'BILLETE',
-            'value'=>'10'            
+            'value'=>'10',
+            'image'=>'10.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'5'            
+            'value'=>'5',
+            'image'=>'5.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'2'            
+            'value'=>'2',
+            'image'=>'2.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'1'            
+            'value'=>'1',
+            'image'=>'1.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'0.50'            
+            'value'=>'0.50',
+            'image'=>'0,50.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'0.20'            
+            'value'=>'0.20',
+            'image'=>'0,20.jpg'            
         ]);
         Denomination::create([
             'type'=>'MONEDA',
-            'value'=>'0.10'            
+            'value'=>'0.10',
+            'image'=>'0,10.png'            
         ]);
         Denomination::create([
             'type'=>'OTRO',
-            'value'=>'0'            
+            'value'=>'0',
+            'image'=>'noimg.jpg'           
         ]);
     }
 }

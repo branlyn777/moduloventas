@@ -9,6 +9,7 @@ use App\Http\Livewire\CategoriesController;
 use App\Http\Livewire\ClienteController;
 use App\Http\Controllers\ExportTransferenciaController;
 use App\Http\Controllers\ExportComprasController;
+use App\Http\Controllers\ExportSaleMovDiaController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CompaniesController;
 use App\Http\Livewire\ComprasController;
@@ -80,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('salemovimientodiario', SaleDailyMovementController::class)->name('salemovimientodiario')->middleware('permission:VentasMovDia_Index');
     //Ventas Pdf
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
+    Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
 
 
     //INVENTARIOS

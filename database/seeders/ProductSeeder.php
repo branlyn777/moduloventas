@@ -27,40 +27,24 @@ class ProductSeeder extends Seeder
             'cantidad_minima' => '10',
             'industria'=>'China',
             'precio_venta' => 70,
-            'image' => 'cable_usb_c.jpg',
+            'image' => 'cable_usb_c.png',
             'category_id' => 1,
         ]);
         //ID=2
-        // Product::create([
-        //     'nombre' => 'Cargador Lapto',
-        //     'costo' => 100,
-        //     'caracteristicas'=>'Usado',
-        //     'codigo' => '251214235',
-        //     'lote'=>'2122',
-        //     'unidad'=>'pieza',
-        //     'marca'=>'no definido',
-        //     'garantia' => '2',
-        //     'cantidad_minima' => '10',
-        //     'industria'=>'China',
-        //     'precio_venta' => 140,
-        //     'image' => 'Cargador_Lapto.png',
-        //     'category_id' => 1,
-        // ]);
-        // //ID=3
-        // Product::create([
-        //     'nombre' => 'Mouse Inalambrico',
-        //     'costo' => 150,
-        //     'caracteristicas'=>'Usado',
-        //     'codigo' => '251214239',
-        //     'lote'=>'2182',
-        //     'unidad'=>'pieza',
-        //     'marca'=>'no definido',
-        //     'garantia' => '2',
-        //     'cantidad_minima' => '10',
-        //     'industria'=>'China',
-        //     'precio_venta' => 200,
-        //     'image' => 'Mouse_Inalambrico.png',
-        //     'category_id' => 1,
-        // ]);
+        Product::create([
+            'nombre' => 'Mouse Inalambrico',
+            'costo' => 100,
+            'caracteristicas'=>'Usado',
+            'codigo' => '251214235',
+            'lote'=>'2122',
+            'unidad'=>'pieza',
+            'marca'=>'no definido',
+            'garantia' => '2',
+            'cantidad_minima' => '10',
+            'industria'=>'China',
+            'precio_venta' => 140,
+            'image' => 'Mouse_Inalambrico.png',
+            'category_id' => 1,
+        ]);
     }
 }

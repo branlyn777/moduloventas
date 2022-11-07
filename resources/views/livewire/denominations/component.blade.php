@@ -39,7 +39,7 @@
             </thead>
             <tbody>
                 @foreach ($data as $coin)
-                    <tr>
+                    <tr class="text-center">
                         <td>
                             {{ $coin->type }}
                         </td>
@@ -49,7 +49,7 @@
                         <td class="text-center">
                             <span>
                                 <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
-                                    alt="imagen de ejemplo" height="70" width="80" class="rounded">
+                                    alt="imagen de ejemplo" height="70" class="rounded">
                             </span>
                         </td>
                         <td class="text-center">

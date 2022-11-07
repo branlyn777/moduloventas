@@ -655,7 +655,6 @@ class SaleListController extends Component
                 ]);
             $movimiento->save();
 
-
             //Devolviento los productos a la tienda
             //Guardando en una variable los productos y sus cantidades de una venta para devolverlos a la Tienda
             $detalleventa = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
@@ -680,26 +679,26 @@ class SaleListController extends Component
                     'stock' => $tiendaproducto->stock + $item->cantidad
                 ]);
             }
-            // foreach($detalleventa as $i)
-            // {
-            //     $lotes = SaleLote::where('sale_detail_id', $i->sid)
-            //     ->get();
+            foreach($detalleventa as $i)
+            {
+                $lotes = SaleLote::where('sale_detail_id', $i->sid)
+                ->get();
 
-            //     foreach($lotes as $j)
-            //     {
+                foreach($lotes as $j)
+                {
 
-            //         $lot=Lote::where('lotes.id',$j->lote_id)->first();
+                    $lot=Lote::where('lotes.id',$j->lote_id)->first();
 
-            //         //dump($lot);
-            //         $lot->update([
-            //             'existencia' => $lot->existencia + $j->cantidad,
-            //             'status'=>'Activo'
-            //         ]);
+                    //dump($lot);
+                    $lot->update([
+                        'existencia' => $lot->existencia + $j->cantidad,
+                        'status'=>'Activo'
+                    ]);
                     
-            //         $lotes = SaleLote::where('sale_detail_id', $i->sid)->delete();
-            //     }
+                    $lotes = SaleLote::where('sale_detail_id', $i->sid)->delete();
+                }
     
-            // }
+            }
             //Anulando la venta
             $venta->update([
                 'status' => 'CANCELED',

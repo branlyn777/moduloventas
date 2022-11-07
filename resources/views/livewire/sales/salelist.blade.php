@@ -1,41 +1,5 @@
 @section('css')
 <style>
-    /* Estilos para las tablas */
-    .table-wrapper {
-    width: 100%;/* Anchura de ejemplo */
-    height: 500px;  /*Altura de ejemplo*/
-    overflow: auto;
-    }
-
-    .table-wrapper table {
-        border-collapse: separate;
-        border-spacing: 0;
-        border-left: 0.3px solid #02b1ce;
-        border-bottom: 0.3px solid #02b1ce;
-        width: 100%;
-    }
-    .table-wrapper table thead {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-    .table-wrapper table thead tr {
-    background: #02b1ce;
-    color: white;
-    }
-    .table-wrapper table tbody tr:hover {
-        background-color: #bbf7ffa4;
-    }
-    .table-wrapper table td {
-        border-top: 0.3px solid #02b1ce;
-        padding-left: 10px;
-        border-right: 0.3px solid #02b1ce;
-    }
-
-
-
-
-
     /* Estilos para el loading */
     .lds-roller {
         display: inline-block;
@@ -122,88 +86,88 @@
         }
     }
 
-    /* Estilos para el Switch Mas Filtros*/
-    .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    }
-    .switch input {display:none;}
-    .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgb(133, 133, 133);
-    -webkit-transition: .4s;
-    transition: .4s;
-    }
-    .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 2px;
-    bottom: 1px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    }
-    input:checked + .slider {
-    background-color: #f59953;
-    }
-    input:focus + .slider {
-    box-shadow: 0 0 1px #f59953;
-    }
-    input:checked + .slider:before {
-    -webkit-transform: translateX(19px);
-    -ms-transform: translateX(19px);
-    transform: translateX(19px);
-    }
+        /* Estilos para el Switch Mas Filtros*/
+        .switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 20px;
+        }
+        .switch input {display:none;}
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgb(133, 133, 133);
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 2px;
+        bottom: 1px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+        input:checked + .slider {
+        background-color: #f59953;
+        }
+        input:focus + .slider {
+        box-shadow: 0 0 1px #f59953;
+        }
+        input:checked + .slider:before {
+        -webkit-transform: translateX(19px);
+        -ms-transform: translateX(19px);
+        transform: translateX(19px);
+        }
 
-    
-    /* Rounded sliders */
-    .slider.round {
-    border-radius: 34px;
-    }
-    .slider.round:before {
-    border-radius: 40%;
-    }
+        
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+        .slider.round:before {
+        border-radius: 40%;
+        }
 
 
     .loader {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: inline-block;
-  border-top: 4px solid #FFF;
-  border-right: 4px solid transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-.loader::after {
-  content: '';  
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border-bottom: 4px solid #FF3D00;
-  border-left: 4px solid transparent;
-}
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        border-top: 4px solid #FFF;
+        border-right: 4px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        }
+        .loader::after {
+        content: '';  
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border-bottom: 4px solid #FF3D00;
+        border-left: 4px solid transparent;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } 
 
 
 
@@ -345,7 +309,7 @@
             @endif
 
 
-            <div class="table-1 table-responsive">
+            <div class="table-5 table-responsive">
                 <table style="min-width: 1100px;">
                     <thead>
                         <tr class="text-center">
