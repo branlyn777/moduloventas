@@ -40,12 +40,10 @@ class CategoriesController extends Component
 
     public function render()
     {
-
-
-
         $data = Category::select('categories.*')
         ->where(function($querys){
             $querys->where('name', 'like', '%' . $this->search . '%')->where('categoria_padre',0)
+            ->where('name','!=','No definido')
             ->when($this->estados !='TODOS',function($query){
                     return $query->where('status',$this->estados);
              });

@@ -24,6 +24,21 @@
             maxlenght="25">
             @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
+
+        @if ($selected_id != 0)
+                  
+        <div class="col-sm-12 col-md-6 form-group">
+            
+                <label>Estado</label>
+                <select wire:model='estado' class="form-control">
+                    <option value="Elegir" disabled>Elegir</option>
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="INACTIVO">INACTIVO</option>
+                </select>
+                @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
+            
+        </div>
+            @endif
     </div>
 </div>
 @include('common.modalFooter')

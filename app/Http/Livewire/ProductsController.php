@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -630,6 +631,11 @@ class ProductsController extends Component
     public function export() 
     {
         return Excel::download(new ExportExcelProductosController, 'productos.xlsx');
+    }
+
+    public function downloadex()
+    {
+        return Storage::disk('public')->download('plantilla_productos.xlsx');
     }
 
 

@@ -9,7 +9,7 @@ class Location extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['codigo','descripcion','tipo','destino_id'];
+    protected $fillable = ['codigo','descripcion','tipo','destino_id','status'];
 
     public function product(){
         return $this->belongsToMany(Product::class,'location_productos','location','id');

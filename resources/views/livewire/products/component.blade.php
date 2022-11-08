@@ -143,7 +143,7 @@
                                     <td class="text-center">
                                         <span>
                                             <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                alt="imagen de ejemplo" height="40" width="50" class="rounded">
+                                                alt="imagen de ejemplo" height="50" width="60" class="rounded">
                                         </span>
                                     </td>
                                     <td class="text-center">

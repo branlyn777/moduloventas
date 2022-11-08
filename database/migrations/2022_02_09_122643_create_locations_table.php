@@ -20,6 +20,7 @@ class CreateLocationsTable extends Migration
             $table->enum('tipo',['VITRINA','MOSTRADOR','ESTANTE','OTRO'])->default('ESTANTE');
             $table->unsignedBigInteger('destino_id');
             $table->foreign('destino_id')->references('id')->on('destinos');
+            $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->timestamps();
         });
     }

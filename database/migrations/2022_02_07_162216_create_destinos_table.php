@@ -19,6 +19,7 @@ class CreateDestinosTable extends Migration
             $table->string('observacion',100)->nullable();
             $table->unsignedBigInteger('sucursal_id');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');
+            $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->timestamps();
         });
     }

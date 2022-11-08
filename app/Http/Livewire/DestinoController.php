@@ -19,7 +19,7 @@ class DestinoController extends Component
     public  $pageTitle, $componentName;
     private $pagination = 5;
 
-public $nombre,$sucursal,$observacion,$selected_id,$search;
+public $nombre,$sucursal,$observacion,$selected_id,$search,$estados;
     
 public function paginationView()
 {
@@ -38,8 +38,17 @@ public function mount()
     public function render()
     {
         
-        $destino= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
-        ->select('destinos.*','suc.name')->orderBy('suc.name','desc')->paginate($this->pagination);
+        // $destino= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+        // ->select('destinos.*','suc.name')->orderBy('suc.name','desc')->paginate($this->pagination);
+
+
+        $destino = Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')->select('destinos.*','suc.name')
+        ->where(function($querys){
+            $querys->where('nombre', 'like', '%' . $this->search . '%')
+            ->when($this->estados !='TODOS',function($query){
+                    return $query->where('status',$this->estados);
+             });
+        })->paginate($this->pagination);
 
        
         return view('livewire.destino.destino-controller',['datas'=>$destino,'data_suc'=>Sucursal::all()])
@@ -87,6 +96,7 @@ public function mount()
         $this->nombre = $unity->nombre;
         $this->observacion = $unity->observacion;
         $this->sucursal = $unity->sucursal_id;
+        $this->estados=$unity->status;
         
        
 
@@ -109,7 +119,8 @@ public function mount()
         $uni->update([
             'nombre' => $this->nombre,
             'observacion'=>$this->observacion,
-            'sucursal_id'=>$this->sucursal
+            'sucursal_id'=>$this->sucursal,
+            'status'=>$this->estados
             
         ]);
         $uni->save();
@@ -132,6 +143,7 @@ public function mount()
         $this->selected_id = 0;
         $this->observacion = '';
         $this->sucursal = '';
+        $this->estados=null;
        
     }
 
