@@ -180,37 +180,37 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Inventarios',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Permite ingresar a la vista de productos,proveedores,categorias,entradas y salidas',
+            'descripcion' => 'Ingresar a la vista de productos,proveedores,categorias,entradas y salidas',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Entradas_Salidas',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Permite ingresar a la vista de Entrada y salida de productos.',
+            'descripcion' => 'Ingresar a la vista de Entrada y salida de productos.',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Compras',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Permite ingresar y visualizar la ruta de las compras.',
+            'descripcion' => 'Ingresar y visualizar la ruta de las compras.',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Almacenes',
             'areaspermissions_id' =>'2',
-            'descripcion' => 'Permite ingresar y visualizar los Almacenes de cada sucursal.',
+            'descripcion' => 'Ingresar y visualizar los Almacenes de cada sucursal.',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Transferencias',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Permite ingresar a la vista de transferencias.',
+            'descripcion' => 'Ingresar a la vista de transferencias.',
             'guard_name' =>'web'
         ]);
         Permission::create([
             'name' => 'Reportes_Inventarios_Export',
             'areaspermissions_id' => '2',
-            'descripcion' => '',
+            'descripcion' => 'Descargar archivos PDF y archivos excel de Inventarios.',
             'guard_name' =>'web'
         ]);
 
