@@ -21,8 +21,8 @@ class CompaniesController extends Component
     }
     public function mount()
     {
-        $this->pageTitle = 'Listado';
-        $this->componentName = 'Empresas';
+        $this->pageTitle = 'Empresa';
+        $this->componentName = 'Datos';
         $this->selected_id = 0;
     }
     public function render()

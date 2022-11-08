@@ -62,18 +62,18 @@
                         
                         </div>
                         <div class="field">
-                        <a class="ssolink" href="#">Sistema de Ventas (POS) 2022</a>
+                        {{-- <a class="ssolink" href="#">Sistema de Ventas (POS) 2022</a> --}}
                         </div>
                     </form>
                     </div>
                 </div>
                 <div class="footer-link padding-top--24">
-                    <span>¿Nuestra Ubicación? <a href="">Click Aquí</a></span>
-                    <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+                    {{-- <span>¿Nuestra Ubicación? <a href="">Click Aquí</a></span> --}}
+                    {{-- <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
                     <span><a href="#">© Facebook</a></span>
                     <span><a href="#">WhatsApp</a></span>
                     <span><a href="#">Messenger</a></span>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
             </div>

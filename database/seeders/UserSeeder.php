@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'profile' => 'Administrador',
             'status' => 'ACTIVE',
             'password' => bcrypt('12345'),
-            'image' => 'user_admin.png'
+            'image' => 'user_admin.jpg'
         ]);
     }
 }
