@@ -178,27 +178,33 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'Inventarios_Registros',
+            'name' => 'Inventarios',
             'areaspermissions_id' => '2',
-            'descripcion' => '',
+            'descripcion' => 'Permite ingresar a la vista de productos,proveedores,categorias,entradas y salidas',
             'guard_name' =>'web'
         ]);
         Permission::create([
-            'name' => 'Compras_Index',
+            'name' => 'Entradas_Salidas',
             'areaspermissions_id' => '2',
-            'descripcion' => '',
+            'descripcion' => 'Permite ingresar a la vista de Entrada y salida de productos.',
             'guard_name' =>'web'
         ]);
         Permission::create([
-            'name' => 'Almacen_Index',
+            'name' => 'Compras',
             'areaspermissions_id' => '2',
-            'descripcion' => '',
+            'descripcion' => 'Permite ingresar y visualizar la ruta de las compras.',
             'guard_name' =>'web'
         ]);
         Permission::create([
-            'name' => 'Transferencia_Index',
+            'name' => 'Almacenes',
+            'areaspermissions_id' =>'2',
+            'descripcion' => 'Permite ingresar y visualizar los Almacenes de cada sucursal.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Transferencias',
             'areaspermissions_id' => '2',
-            'descripcion' => '',
+            'descripcion' => 'Permite ingresar a la vista de transferencias.',
             'guard_name' =>'web'
         ]);
         Permission::create([

@@ -85,22 +85,29 @@ Route::middleware(['auth'])->group(function () {
 
 
     //INVENTARIOS
-    Route::get('proveedores', ProvidersController::class)->name('supliers');
-    Route::get('categories', CategoriesController::class)->name('categorias');
-    Route::get('products', ProductsController::class)->name('productos');
-    Route::get('compras', ComprasController::class)->name('compras');
-    Route::get('destino_prod', DestinoProductoController::class)->name('destination')->middleware('permission:Almacen_Index');
-    Route::get('operacionesinv',MercanciaController::class)->name('operacionesinv');
-    Route::get('all_transferencias', TransferenciasController::class);
-    Route::get('destino', DestinoController::class)->name('dest');
-    Route::get('locations', LocalizacionController::class)->name('locations');
-    Route::get('unidades', UnidadesController::class)->name('unities');
-    Route::get('marcas', MarcasController::class)->name('brands');
-    Route::post('importar-cat',[ CategoriesController::class,'import'])->name('importar_cat');
-    Route::post('importar-subcat',[ CategoriesController::class,'importsub'])->name('importar_subcat');
-    Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
-    Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
-    Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
+    Route::group(['middleware' => ['permission:Inventarios']], function () {
+        Route::get('proveedores', ProvidersController::class)->name('supliers');
+        Route::get('categories', CategoriesController::class)->name('categorias');
+        Route::get('products', ProductsController::class)->name('productos');
+        Route::get('destino', DestinoController::class)->name('dest');
+        Route::get('locations', LocalizacionController::class)->name('locations');
+        Route::get('unidades', UnidadesController::class)->name('unities');
+        Route::get('marcas', MarcasController::class)->name('brands');
+        
+    });
+    Route::group(['middleware' => ['permission:Transferencias']], function () {
+        Route::get('all_transferencias', TransferenciasController::class);
+        Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
+        
+    });
+    Route::get('operacionesinv',MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
+    Route::get('destino_prod', DestinoProductoController::class)->name('destination')->middleware('permission:Almacenes');
+
+    Route::group(['middleware' => ['permission:Compras']], function () {
+        Route::get('compras', ComprasController::class)->name('compras');
+        Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
+        Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
+    });
     //Inventarios (Pdsf y Excel)
     Route::group(['middleware' => ['permission:Reportes_Inventarios_Export']], function () {
         Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
