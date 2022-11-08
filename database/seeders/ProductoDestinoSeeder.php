@@ -66,5 +66,77 @@ class ProductoDestinoSeeder extends Seeder
             'id_entrada' => $ip2->id,
             'lote_id' => $lote2->id
         ]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        //Ingresando 100 unidades del Producto Mouse Inalambrico
+        ProductosDestino::create([
+            'product_id'=> 2,
+            'destino_id' => 1,
+            'stock' => '10',
+        ]);
+
+        // Ingresando lote 1 del producto (Costo de 50 Bs)
+        $mouse1 = IngresoProductos::create([
+            'destino' => 1,
+            'user_id' => 1,
+            'concepto' => 'INICIAL',
+            'observacion' => 'Inventario inicial'
+        ]);
+        $mouse_lote1 = Lote::create([
+            'existencia' => 5,
+            'costo' => 100,
+            'pv_lote' => 110,
+            'status' => 'Activo',
+            'product_id' => 2
+        ]);
+        DetalleEntradaProductos::create([
+            'product_id' => 2,
+            'cantidad' => 5,
+            'costo' => 100,
+            'id_entrada' => $mouse1->id,
+            'lote_id' => $mouse_lote1->id
+        ]);
+
+        // Ingresando lote 2 del producto (Costo de 55 Bs)
+        $mouse2 = IngresoProductos::create([
+            'destino' => 1,
+            'user_id' => 1,
+            'concepto' => 'INGRESO',
+            'observacion' => 'Segundo Lote'
+        ]);
+        $mouse_lote2 = Lote::create([
+            'existencia' => 5,
+            'costo' => 90,
+            'pv_lote' => 105,
+            'status' => 'Activo',
+            'product_id' => 2
+        ]);
+        DetalleEntradaProductos::create([
+            'product_id' => 2,
+            'cantidad' => 5,
+            'costo' => 90,
+            'id_entrada' => $mouse2->id,
+            'lote_id' => $mouse_lote2->id
+        ]);
     }
 }

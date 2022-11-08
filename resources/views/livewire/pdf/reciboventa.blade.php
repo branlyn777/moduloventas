@@ -27,32 +27,32 @@
     <div class="cajaestilo">
         <table style="width: 100%;">
             <tr class="text-center">
-                <td style="padding-left: 10px;">
+                <td style="padding-left: 10px; width: 33%;">
                     <img src="{{ asset('storage/iconos/' . $logoempresa) }}" class="invoice-logo" height="70px">
                 </td>
-                <td>
+                <td colspan="2" style="width: 34%;">
                     <center>
                         <span style="font-size: 20px; font-weight:bold;">Comprobante N° {{$idventa}}</span>
                         <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
                     </center>
                 </td>
-                <td>
+                <td style="width: 33%;">
                     <center>
-                        <p style="font-size: 15px; color: black">{{$datossucursal->nombresucursal}} <br>{{$datossucursal->direccionsucursal}}</p>
+                        <p style="font-size: 15px; color: black"><b>{{$datossucursal->nombresucursal}}</b> <br>{{$datossucursal->direccionsucursal}}</p>
                     </center>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                         <b>Nombre Cliente:</b> {{$datoscliente->nombrecliente}}
                         <br>
-                        <b>CI:</b> {{$datoscliente->nit}}
+                        <b>CI:</b> {{$datoscliente->cedula}}
                         <br>
                 </td>
                 <td>
 
                 </td>
-                <td>
+                <td style="width: 35%;">
                     <b>Fecha Emisión:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y H:i') }}
                     <br>
                     <b>Atendido por:</b> {{$nombreusuario->name}}
@@ -77,14 +77,14 @@
                         <td colspan="2">
                             {{ $item->nombre }}
                         </td>
-                        <td class="text-right">
-                            {{ number_format($item->precio, 2) }}
+                        <td style="text-align:right;">
+                            {{ number_format($item->precio, 2, ",", ".")}}
                         </td>
-                        <td class="text-center">
+                        <td style="text-align:center;">
                             {{ $item->cantidad }}
                         </td>
-                        <td class="text-right">
-                            {{ number_format($item->precio *  $item->cantidad, 2) }} Bs
+                        <td style="text-align:right;">
+                            {{ number_format($item->precio *  $item->cantidad, 2, ",", ".")}} Bs
                         </td>
                     </tr>
                     @endforeach
@@ -98,11 +98,11 @@
                         <td  class="text-center">
                             
                         </td>
-                        <td class="text-center">
+                        <td style="text-align:center;">
                             <b>{{$totalitems}}</b>
                         </td>
-                        <td class="text-right">
-                            <b>{{ number_format($total,2) }} Bs</b>
+                        <td style="text-align:right;">
+                            <b>{{ number_format($total, 2, ",", ".")}} Bs</b>
                         </td>
                     </tr>
                 </tbody>

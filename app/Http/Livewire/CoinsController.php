@@ -14,7 +14,7 @@ class CoinsController extends Component
     
     public  $search, $image, $selected_id, $type, $value;
     public  $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 50;
 
     public function paginationView()
     {

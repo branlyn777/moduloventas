@@ -9,6 +9,8 @@ use App\Models\Cliente;
 use App\Models\ClienteMov;
 use App\Models\Destino;
 use App\Models\Lote;
+use App\Models\Movimiento;
+use App\Models\ProcedenciaCliente;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
@@ -16,7 +18,9 @@ use App\Models\SaleDetail;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
+use Exception;
 use Facade\FlareClient\Http\Client;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -410,11 +414,23 @@ class SaleEditController extends Component
     //Para verificar que quede stock disponible en la TIENDA para la venta
     public function stocktienda($idproducto, $cantidad)
     {
+        //Buscando el producto en el carrito de ventas
         $detalle_venta = SaleDetail::where("sale_details.sale_id", $this->venta_id)
         ->where("sale_details.product_id", $idproducto)
-        ->first();
+        ->get();
+        //Si el producto existe en el carrito de ventas obtenemos su cantidad precia
+        if($detalle_venta->count() > 0)
+        {
+            //Obteniendo la cantidad que existe en el carrito de ventas
+            $cantidad_previa = $detalle_venta->first()->quantity;
+        }
+        else
+        {
+            $cantidad_previa = 0;
+        }
 
-        $cantidad_previa = $detalle_venta->quantity;
+
+        
 
 
 
@@ -520,7 +536,7 @@ class SaleEditController extends Component
             $newclient = Cliente::create([
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
-                'celular' => 0,
+                'nit' => $this->cliente_ci,
                 'procedencia_cliente_id' => 1,
             ]);
         }
@@ -676,208 +692,196 @@ class SaleEditController extends Component
     //Actualiza la venta
     public function update_sale()
     {
-        //Buscando la venta
-        $venta = Sale::find($this->venta_id);
-
-        $f = "Si";
-
-        if($this->factura == false)
+        DB::beginTransaction();
+        try
         {
-            $f = "No";
-        }
-        
-        //Actualizando Venta
-        $venta->update([
-            'tipopago' => Cartera::find($this->cartera_id)->nombre,
-            'factura' => $f,
-            'cartera_id' => $this->cartera_id,
-            'observacion' => $this->observacion,
-        ]);
-        $venta->save();
-
-        //ACTUALIZANDO EL TIPO DE PAGO
-        //Buscando el id de la cartera movimiento
-        $cartera_mov_id = CarteraMov::join("movimientos as m","m.id","cartera_movs.movimiento_id")
-        ->join("sales as s","s.movimiento_id","m.id")
-        ->select("cartera_movs.id as idcarteramov")
-        ->where("s.id",$this->venta_id)
-        ->get()
-        ->first();
-        $cartera_mov = CarteraMov::find($cartera_mov_id->idcarteramov);
-        //Actualizando el id de la cartera movimiento
-        $cartera_mov->update([
-            'cartera_id' => $this->cartera_id
-        ]);
-        $cartera_mov->save();
-        //-------------------------------------
-
-
-        //ACTUALIZANDO EL ID DEL CLIENTE
-        $cliente_mov_id = ClienteMov::join("movimientos as m","m.id","cliente_movs.movimiento_id")
-        ->join("sales as s","s.movimiento_id","m.id")
-        ->where("s.id",$this->venta_id)
-        ->select("cliente_movs.id as idclientemov")
-        ->get()
-        ->first();
-        $cliente_mov = ClienteMov::find($cliente_mov_id->idclientemov);
-        //Actualizando el id del cliente movimiento
-        $cliente_mov->update([
-            'cliente_id' => $this->cliente_id
-        ]);
-        $cliente_mov->save();
-        //-----------------------------------
-
-
-
-
-
-
-
-
-
-        //ACTUALIZANDO DETALLE DE VENTA
-        //Obteniendo los detalles de la venta
-        $detalle_venta = SaleDetail::where("sale_details.sale_id", $this->venta_id)->get();
-
-
-
-
-
-        //Eliminando todos los detalles de venta y lote venta
-        foreach($detalle_venta as $d)
-        {
-
-            //INCREMENTANDO LOTES
-
-
-            //Obteniendo todos los registros de la tabla sale lotes que tengan el id detalle venta
-            $sale_lote_i = SaleLote::where("sale_lotes.sale_detail_id", $d->id)->get();
-
-            foreach($sale_lote_i as $l_i)
-            {
-                //Buscando el lote
-                $lote_i = Lote::find($l_i->lote_id);
-
-                //Obteniendo la existencia actual del lote
-                $existencia_i = $lote_i->existencia;
-
-                //Incrementando la existencia en el lote, sumando la existencia con la cantidad registrada en sale_lote
-                $existencia_i = $existencia_i + $l_i->cantidad;
-
-                //Actualizando el lote con la nueva existencia
-                $lote_i->update([
-                    'existencia' => $existencia_i,
-                    'status' => 'ACTIVO'
-                    ]);
-                $lote_i->save();
-
-
-                //Eliminando Sale Lotes
-                $l_i->delete();
-            }
-
-
-
-
-            //INCREMENTANDO STOCK EN TIENDA
-            $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-            ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-            ->select("productos_destinos.id as id","p.nombre as name",
-            "productos_destinos.stock as stock")
-            ->where("p.id", $d->product_id)
-            ->where("des.nombre", 'TIENDA')
-            ->where("des.sucursal_id", $this->idsucursal())
-            ->get()->first();
-
-
-            $tiendaproducto->update([
-                'stock' => $tiendaproducto->stock + $d->quantity
+            //Buscando la venta
+            $venta = Sale::find($this->venta_id);
+            //Devolviendo el saldo a la cartera antes de la venta
+            $cartera = Cartera::find($venta->cartera_id);
+            $cartera->update([
+                'saldocartera' => $cartera->saldocartera - $venta->total,
             ]);
-            
+            $cartera->save();
 
-            //Eliminando Detalle de ventas
-            $d->delete();
-
-
-
-        }
-
-
-
-
-
-        //Creando nuevos detalles de venta y lotes venta
-        foreach($this->carrito_venta as $p)
-        {
-            $sd = SaleDetail::create([
-                'price' => $p['price'],
-                'cost' => 0,
-                'quantity' => $p['quantity'],
-                'product_id' => $p['id'],
-                'sale_id' => $venta->id,
+            //ACTUALIZANDO EL TIPO DE PAGO
+            //Buscando el id de la cartera movimiento
+            $cartera_mov_id = CarteraMov::join("movimientos as m","m.id","cartera_movs.movimiento_id")
+            ->join("sales as s","s.movimiento_id","m.id")
+            ->select("cartera_movs.id as idcarteramov")
+            ->where("s.id",$this->venta_id)
+            ->get()
+            ->first();
+            $cartera_mov = CarteraMov::find($cartera_mov_id->idcarteramov);
+            //Actualizando el id de la cartera movimiento
+            $cartera_mov->update([
+                'cartera_id' => $this->cartera_id
             ]);
+            $cartera_mov->save();
+            //-------------------------------------
+
+
+            //ACTUALIZANDO EL ID DEL CLIENTE
+            $cliente_mov_id = ClienteMov::join("movimientos as m","m.id","cliente_movs.movimiento_id")
+            ->join("sales as s","s.movimiento_id","m.id")
+            ->where("s.id",$this->venta_id)
+            ->select("cliente_movs.id as idclientemov")
+            ->get()
+            ->first();
+            $cliente_mov = ClienteMov::find($cliente_mov_id->idclientemov);
+            //Actualizando el id del cliente movimiento
+            $cliente_mov->update([
+                'cliente_id' => $this->cliente_id
+            ]);
+            $cliente_mov->save();
+            //-----------------------------------
 
 
 
 
 
-            //DECREMENTANDO LOTES
 
-            //Para obtener la cantidad del producto que se va a vender
-            $cantidad_producto_venta = $p['quantity'];
 
-            //Buscamos todos los lotes que tengan ese producto oredenados por fecha de creación
-            $lotes_d = Lote::where('lotes.product_id', $p['id'])->where('status','Activo')->orderBy('lotes.created_at','asc')->get();
 
-            //Recorremos todos los lotes que tengan ese producto
-            foreach($lotes_d as $l_d)
+
+            //ACTUALIZANDO DETALLE DE VENTA
+            //Obteniendo los detalles de la venta
+            $detalle_venta = SaleDetail::where("sale_details.sale_id", $this->venta_id)->get();
+
+
+
+
+
+            //Eliminando todos los detalles de venta y lote venta
+            foreach($detalle_venta as $d)
             {
-                //Obtenemos la cantidad de existencia que tenga ese lote de ese producto
-                $cantidad_producto_lote = $l_d->existencia;
 
-                //Si la cantidad del producto para la venta supera la existencia en el lote
-                //Vaciamos toda la existencia de ese lote y lo inactivamos
-                if($cantidad_producto_venta > $cantidad_producto_lote)
+                //INCREMENTANDO LOTES
+
+
+                //Obteniendo todos los registros de la tabla sale lotes que tengan el id detalle venta
+                $sale_lote_i = SaleLote::where("sale_lotes.sale_detail_id", $d->id)->get();
+
+                foreach($sale_lote_i as $l_i)
                 {
-                    //Creamos un registro en la tabla SaleLote con la cantidad total del producto en el lote
-                    $sale_lote = SaleLote::create([
-                        'sale_detail_id' => $sd->id,
-                        'lote_id' => $l_d->id,
-                        'cantidad' => $cantidad_producto_lote
-                    ]);
-                    //Dismunuimos la cantidad del producto para la venta por el total cantidad del producto en el lote
-                    $cantidad_producto_venta = $cantidad_producto_venta - $cantidad_producto_lote;
+                    //Buscando el lote
+                    $lote_i = Lote::find($l_i->lote_id);
 
+                    //Obteniendo la existencia actual del lote
+                    $existencia_i = $lote_i->existencia;
 
-                    //Actualizamos el lote
-                    $l_d->update([
-                        'existencia' => 0,
-                        'status' => 'Inactivo'
+                    //Incrementando la existencia en el lote, sumando la existencia con la cantidad registrada en sale_lote
+                    $existencia_i = $existencia_i + $l_i->cantidad;
+
+                    //Actualizando el lote con la nueva existencia
+                    $lote_i->update([
+                        'existencia' => $existencia_i,
+                        'status' => 'ACTIVO'
                         ]);
-                    $l_d->save();
-                }
-                else
-                {
-                    //Si la cantidad del producto para la venta no supera la existencia en el lote
-                    //Reducimos la existencia de ese lote por la cantidad del producto para la venta
-                    SaleLote::create([
-                        'sale_detail_id' => $sd->id,
-                        'lote_id' => $l_d->id,
-                        'cantidad' => $cantidad_producto_venta
-                    ]);
+                    $lote_i->save();
 
-                    $l_d->update([ 
-                        'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta
-                    ]);
-                    $l_d->save();
-                    $cantidad_producto_venta = 0;
+
+                    //Eliminando Sale Lotes
+                    $l_i->delete();
                 }
+
+
+
+
+                //INCREMENTANDO STOCK EN TIENDA
+                $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                ->select("productos_destinos.id as id","p.nombre as name",
+                "productos_destinos.stock as stock")
+                ->where("p.id", $d->product_id)
+                ->where("des.nombre", 'TIENDA')
+                ->where("des.sucursal_id", $this->idsucursal())
+                ->get()->first();
+
+
+                $tiendaproducto->update([
+                    'stock' => $tiendaproducto->stock + $d->quantity
+                ]);
+                
+
+                //Eliminando Detalle de ventas
+                $d->delete();
+
+
+
             }
 
 
 
 
 
+            //Creando nuevos detalles de venta y lotes venta
+            foreach($this->carrito_venta as $p)
+            {
+                $sd = SaleDetail::create([
+                    'price' => $p['price'],
+                    'cost' => 0,
+                    'quantity' => $p['quantity'],
+                    'product_id' => $p['id'],
+                    'sale_id' => $venta->id,
+                ]);
+
+
+
+
+
+                //DECREMENTANDO LOTES
+
+                //Para obtener la cantidad del producto que se va a vender
+                $cantidad_producto_venta = $p['quantity'];
+
+                //Buscamos todos los lotes que tengan ese producto oredenados por fecha de creación
+                $lotes_d = Lote::where('lotes.product_id', $p['id'])->where('status','Activo')->orderBy('lotes.created_at','asc')->get();
+
+                //Recorremos todos los lotes que tengan ese producto
+                foreach($lotes_d as $l_d)
+                {
+                    //Obtenemos la cantidad de existencia que tenga ese lote de ese producto
+                    $cantidad_producto_lote = $l_d->existencia;
+
+                    //Si la cantidad del producto para la venta supera la existencia en el lote
+                    //Vaciamos toda la existencia de ese lote y lo inactivamos
+                    if($cantidad_producto_venta > $cantidad_producto_lote)
+                    {
+                        //Creamos un registro en la tabla SaleLote con la cantidad total del producto en el lote
+                        $sale_lote = SaleLote::create([
+                            'sale_detail_id' => $sd->id,
+                            'lote_id' => $l_d->id,
+                            'cantidad' => $cantidad_producto_lote
+                        ]);
+                        //Dismunuimos la cantidad del producto para la venta por el total cantidad del producto en el lote
+                        $cantidad_producto_venta = $cantidad_producto_venta - $cantidad_producto_lote;
+
+
+                        //Actualizamos el lote
+                        $l_d->update([
+                            'existencia' => 0,
+                            'status' => 'Inactivo'
+                            ]);
+                        $l_d->save();
+                    }
+                    else
+                    {
+                        //Si la cantidad del producto para la venta no supera la existencia en el lote
+                        //Reducimos la existencia de ese lote por la cantidad del producto para la venta
+                        SaleLote::create([
+                            'sale_detail_id' => $sd->id,
+                            'lote_id' => $l_d->id,
+                            'cantidad' => $cantidad_producto_venta
+                        ]);
+
+                        $l_d->update([ 
+                            'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta
+                        ]);
+                        $l_d->save();
+                        $cantidad_producto_venta = 0;
+                    }
+                }
 
 
 
@@ -895,35 +899,102 @@ class SaleEditController extends Component
 
 
 
-            //DECREMENTANDO STOCK EN TIENDA
-            $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-            ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-            ->select("productos_destinos.id as id","p.nombre as name",
-            "productos_destinos.stock as stock")
-            ->where("p.id", $p['id'])
-            ->where("des.nombre", 'TIENDA')
-            ->where("des.sucursal_id", $this->idsucursal())
-            ->get()->first();
 
 
-            $tiendaproducto->update([
-                'stock' => $tiendaproducto->stock - $p['quantity']
+
+
+
+                //DECREMENTANDO STOCK EN TIENDA
+                $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                ->select("productos_destinos.id as id","p.nombre as name",
+                "productos_destinos.stock as stock")
+                ->where("p.id", $p['id'])
+                ->where("des.nombre", 'TIENDA')
+                ->where("des.sucursal_id", $this->idsucursal())
+                ->get()->first();
+
+
+                $tiendaproducto->update([
+                    'stock' => $tiendaproducto->stock - $p['quantity']
+                ]);
+
+            }
+
+
+            $f = "Si";
+
+            if($this->factura == false)
+            {
+                $f = "No";
+            }
+
+
+            //Obteniendo la cantidad total de los productos de una venta
+            $detalle = SaleDetail::select('sale_details.*')
+            ->where('sale_details.sale_id', $venta->id)
+            ->get();
+            $totalcantidad = 0;
+            $totalbs = 0;
+            foreach($detalle as $d)
+            {
+                $totalcantidad = $d->quantity + $totalcantidad;
+                $totalbs = ($d->quantity * $d->price) + $totalbs;
+            }
+
+
+
+        
+            //Actualizando Venta
+            $venta->update([
+                'total' => $totalbs,
+                'items' => $totalcantidad,
+                'tipopago' => Cartera::find($this->cartera_id)->nombre,
+                'factura' => $f,
+                'cartera_id' => $this->cartera_id,
+                'observacion' => $this->observacion,
             ]);
+            $venta->save();
 
+
+            //Actualizando el importe de la tabla movimiento
+            $movimiento_actualizar = Movimiento::find($venta->movimiento_id);
+            $movimiento_actualizar->update([
+                'import' => $venta->total,
+            ]);
+            $movimiento_actualizar->save();
+
+
+            //Descontando el saldo a la cartera despues de actualizar esta
+            $cartera_actualizar = Cartera::find($venta->cartera_id);
+            $cartera_actualizar->update([
+                'saldocartera' => $cartera_actualizar->saldocartera + $venta->total,
+            ]);
+            $cartera_actualizar->save();
+
+
+
+
+
+
+
+
+
+            $this->redirect('salelist');
+
+
+
+
+
+
+            DB::commit();
         }
-
-
-
-
-
-
-
-
-
-
-
-        $this->redirect('salelist');
-
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $this->message = ": ".$e->getMessage();
+            $this->emit('message-error');
+        }
 
     }
     //Escucha los eventos JavaScript de la vista (saleedit.blade.php)

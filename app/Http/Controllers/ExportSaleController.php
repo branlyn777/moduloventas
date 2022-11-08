@@ -33,7 +33,7 @@ class ExportSaleController extends Controller
         $datoscliente = Cliente::join("cliente_movs as cm", "cm.cliente_id", "clientes.id")
         ->join("movimientos as m", "m.id", "cm.movimiento_id")
         ->join("sales as s", "s.movimiento_id", "m.id")
-        ->select("s.id as id", "clientes.razon_social as razonsocial", "clientes.nit as nit", "clientes.celular as celular", "clientes.nombre as nombrecliente")
+        ->select("s.id as id", "clientes.razon_social as razonsocial", "clientes.cedula as cedula", "clientes.celular as celular", "clientes.nombre as nombrecliente")
         ->where("s.id", $idventa)
         ->get()
         ->first();

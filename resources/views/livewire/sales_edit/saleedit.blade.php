@@ -255,7 +255,7 @@
                     </label>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-2 text-center">
+            {{-- <div class="col-12 col-sm-6 col-md-2 text-center">
                 <h3><b>Factura</b></h3>
                 <div class="form-group">
                     <label class="switch">
@@ -263,7 +263,7 @@
                     <span class="slider round"></span>
                     </label>
                 </div>
-            </div>
+            </div> --}}
     
             <div class="col-12 col-sm-6 col-md-2 text-center">
                 <h3><b>Tipo de Pago</b></h3>
@@ -294,7 +294,7 @@
                 </div>
             </div>
     
-            <div class="col-12 col-sm-6 col-md-2 text-center">
+            <div class="col-12 col-sm-6 col-md-4 text-center">
                 <h3><b>Observación</b></h3>
                 <div class="form-group">
                     <textarea class="form-control" aria-label="With textarea" wire:model="observacion"></textarea>
@@ -335,7 +335,7 @@
                                     {{ $p->precio_venta }} Bs
                                 </td>
                                 <td>
-                                    <button  wire:click="insert({{ $p->id }})" class="btn btn-sm" style="background-color: rgb(10, 137, 235); color:aliceblue">
+                                    <button  wire:click="insert({{ $p->id }})" class="boton-azul">
                                         <i class="fas fa-plus"></i>
                                 </td>
                             </tr>
@@ -458,13 +458,13 @@
                                         {{-- <button title="Ver Precio y Costos por Lotes" wire:click.prevent="modal_lotes({{ $c['id'] }})" class="btn btn-sm" style="background-color: rgb(0, 156, 135); color:white">
                                             <i class="fas fa-list-ul"></i>
                                         </button> --}}
-                                        <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $c['id'] }}', '{{$c['name']}}')" class="btn btn-sm" style="background-color: red; color:white">
+                                        <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $c['id'] }}', '{{$c['name']}}')" class="boton-rojo">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
-                                        <button title="Quitar una unidad" wire:click.prevent="decrease({{ $c['id'] }})" class="btn btn-sm" style="background-color: #7c7a76; color:white">
+                                        <button title="Quitar una unidad" wire:click.prevent="decrease({{ $c['id'] }})" class="boton-plomo">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                        <button title="Incrementar una unidad" wire:click.prevent="increase({{ $c['id'] }})" class="btn btn-sm" style="background-color: #006caa; color:white">
+                                        <button title="Incrementar una unidad" wire:click.prevent="increase({{ $c['id'] }})" class="boton-azul">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -681,6 +681,16 @@
                     '¡El Carrito de Ventas fue vaciado exitosamente!',
                     'Se eliminaron todos los productos correctamente',
                     'success'
+                    )
+            });
+
+
+        //Mostrar Mensaje a ocurrido un error en la venta
+        window.livewire.on('message-error', event => {
+                swal(
+                    '¡A ocurrido un error!',
+                    'Detalle del error'+ @this.mensaje_toast,
+                    'error'
                     )
             });
 
