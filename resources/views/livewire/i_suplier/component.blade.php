@@ -22,7 +22,7 @@
           <p class="h2"><b>PROVEEDORES</b></p>
         </div>
     </div>
-    <div class="container"> 
+   
         <div class="row">
 
             <div class="col-12 col-sm-12 col-md-3">
@@ -48,9 +48,9 @@
         </div>
  
 
-    </div>
+
  
-<div class="container">
+
     <div class="row align-items-center">
         <div class="col-md-6">
         
@@ -61,7 +61,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="">
+     
                 <div class="table-5">
                     <table>
                         <thead>
@@ -111,11 +111,11 @@
                     </table>
                 </div>
                 {{ $data_proveedor->links() }}
-            </div>
+         
         </div>
     </div>
 
-</div>
+
 
         @include('livewire.i_suplier.form')
     </div>

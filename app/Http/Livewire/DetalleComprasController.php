@@ -73,6 +73,7 @@ class DetalleComprasController extends Component
         if (strlen($this->search) > 0)
         $prod = Product::select('products.*')
         ->where('nombre', 'like', '%' . $this->search . '%')
+        ->where('status','ACTIVO')
         ->orWhere('codigo','like','%'.$this->search.'%')
         ->orWhere('marca','like','%'.$this->search.'%')
         ->orWhere('id','like','%'.$this->search.'%')
@@ -137,7 +138,7 @@ class DetalleComprasController extends Component
         $products = array(
             'id'=>$product->id,
             'name'=>$product->nombre,
-            'price'=>$precio_compra,
+            'price'=>$precio_compra==null?$product->costo:$precio_compra,
             'quantity'=>$cant,
             'attributes'=>$attributos
         );

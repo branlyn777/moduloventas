@@ -1,32 +1,4 @@
 
-@section('css')
-
-<style>
-
-.contenedortabla{
-        /* overflow:scroll; */
-        overflow-x:auto;
-        /* max-height: 100%; */
-        /* min-height:200px; */
-        /* max-width: 100%; */
-        /* min-width:100px; */
-    }
-
-    .estilostable {
-    width: 100%;
-   
-    }
-    .tablehead{
-        background-color: #383938;
-        color: aliceblue;
-    }
-    .tableheadprod{
-        background-color: rgb(230, 152, 64);
-        color: rgb(229, 229, 230);
-        
-    }
-</style>
-@endsection
 
 
 <div class="row sales layout-top-spacing">
@@ -219,7 +191,7 @@
                                 </div>
                          
                                    @if(strlen($search) > 0)
-                                   <div class="contenedortabla">
+                                   <div class="table-6">
                                     <table class="estilostable" style="color: rgb(6, 5, 5)">
                                         <thead class="tableheadprod">
                                              <tr>
@@ -262,10 +234,10 @@
                               
 
 
-                                        <div class="contenedortabla">
-                                            <table class="estilostable" style="color: rgb(0, 0, 0)">
+                                        <div class="table-6">
+                                            <table>
 
-                                        <thead class="tablehead">
+                                        <thead>
                                             <tr>
                                                 <th class="text-center" style="width: 12rem; color:#ffffff; font-size:1rem">Producto</th>
                                                 <th class="text-center" style="width: 5rem; color:#ffffff">Codigo</th>
@@ -317,42 +289,23 @@
                                                         <h6 style="font-size: 0.8rem!important;" class="text-center" >{{$prod->getPriceSum()}}</h6>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="javascript:void(0)"
+                                                        <button 
                                                         wire:click="removeItem({{ $prod->id }})"
-                                                            class="btn btn-dark mtmobile p-2" title="Edit">
+                                                            class="boton-rojo" title="Eliminar Item">
                                                             <i class="fas fa-trash"></i>
-                                                        </a>
+                                                        </button>
 
                                                     </td>
                                                 </tr>
                                             @endforeach
                                             <tfoot class="text-white text-right" style="background: #fffefd"  >
+                                                   
                                                     <tr>
                                                         <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">SubTotal.-</h5>
+                                                             <h5 class="text-dark" style="font-size: 1rem!important;">TOTAL.-</h5>
                                                         </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$subtotal}}</h5>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-
                                                         <td colspan="5">
-                                                            <a href="javascript:void(0)" data-toggle="modal"
-                                                            data-target="#modal_desc"
-                                                            class="btn btn-dark mtmobile p-1 m-1 rounded-pill"><strong>%</strong> </i></a>
-                                                            <label class="text-dark" style="font-size: 1rem!important;"><strong>Descuento</strong> .-</label>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" >{{$dscto}}</h5>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">Total.-</h5>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$total_compra}}</h5>
+                                                            <h5 class="text-dark text-center" style="font-size: 1rem!important;" >{{$total_compra}}</h5>
                                                         </td>
                                                     </tr>
                                             </tfoot>

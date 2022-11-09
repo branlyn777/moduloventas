@@ -40,8 +40,7 @@ class ProductsController extends Component
     }
     public function mount()
     {
-        $this->pageTitle = 'Listado';
-        $this->componentName ='Productos';
+
         
         $this->estados ='Activo';
         
@@ -137,7 +136,7 @@ class ProductsController extends Component
                         ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                         ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');    
             })
-            ->orderBy('products.id', 'desc');
+            ->orderBy('products.created_at', 'desc');
         }
         else{
            
@@ -154,7 +153,7 @@ class ProductsController extends Component
                         ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
             })
             
-            ->orderBy('products.id', 'desc');
+            ->orderBy('products.created_at', 'desc');
            
         }
         }
@@ -175,7 +174,7 @@ class ProductsController extends Component
         })
         
         
-        ->orderBy('products.id', 'desc');
+        ->orderBy('products.created_at', 'desc');
      }
 
 
@@ -184,7 +183,8 @@ class ProductsController extends Component
                 $prod = Product::join('categories as c', 'products.category_id','c.id')
                 ->select('products.*', 'c.name as cate')
                 ->where('products.status',$this->estados)
-                ->orderBy('products.nombre', 'desc');}
+                ->orderBy('products.created_at', 'desc');
+            }
             
         
         $this->sub= Category::select('categories.*')
@@ -193,7 +193,7 @@ class ProductsController extends Component
         
 
         $ss = Category::select('categories.*')
-        ->where('categories.categoria_padre',$this->selected_id2)->get();
+        ->where('categories.categoria_padre',$this->selected_id2)->where('status','ACTIVO')->get();
      
         if (count($this->searchData)>0) {
             //dd($this->searchData);
@@ -210,13 +210,13 @@ class ProductsController extends Component
                 })
                 
                 
-                ->orderBy('products.id', 'desc');;
+                ->orderBy('products.created_at', 'desc');
             }
         }
       
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
-            'categories'=>Category::where('categories.categoria_padre',0)->orderBy('name', 'asc')->get(),
+            'categories'=>Category::where('categories.categoria_padre',0)->where('status','ACTIVO')->where('name','!=','No definido')->orderBy('name', 'asc')->get(),
             'unidades'=>Unidad::orderBy('nombre','asc')->get(),
             'marcas'=>Marca::select('nombre')->orderBy('nombre','asc')->get(),
             'subcat'=>$ss

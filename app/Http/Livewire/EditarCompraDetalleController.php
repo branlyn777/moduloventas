@@ -247,8 +247,9 @@ class EditarCompraDetalleController extends Component
 
     }
 
-    public function UpdateQty($productId, $cant = 3)
+    public function UpdateQty($productId, $cant)
     {
+      
      
         $product = Product::select('products.*')
         ->where('products.id',$productId)->first();
@@ -465,9 +466,10 @@ class EditarCompraDetalleController extends Component
 
     public function guardarCompra()
     {
-        $this->emit('prueba');
-        $this->col->push('product_id','product-name');
+        //$this->emit('prueba');
+        //$this->col->push('product_id','product-name');
         $this->verificarLotes();
+        $this->verificarTransferencias();
             //dd($this->passed);
 
         if($this->passed == true){

@@ -55,11 +55,9 @@ class ComprasController extends Component
         $this->totales = $this->datas_compras->sum('importe_total');
 
         if (strlen($this->search) > 0){
-            $this->datas_compras = Compra::join('movimiento_compras as mov_compra','compras.id','mov_compra.id')
-            ->join('movimientos as mov','mov_compra.id','mov.id')
-            ->join('users','mov.user_id','users.id')
+            $this->datas_compras = Compra::join('users','compras.user_id','users.id')
             ->join('providers as prov','compras.proveedor_id','prov.id')
-            ->select('compras.*','compras.status as status_compra','mov.*','prov.nombre_prov as nombre_prov','users.name')
+            ->select('compras.*','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name')
             ->whereBetween('compras.created_at',[$this->from,$this->to])
             ->where('compras.transaccion',$this->filtro)
             ->where('nombre_prov', 'like', '%' . $this->search . '%')
