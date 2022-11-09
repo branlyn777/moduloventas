@@ -39,9 +39,9 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>Transferencia Productos</b>
-                </h4>
+                <h3 class="text-center">
+                    <b>TRANSFERENCIA PRODUCTOS</b>
+                </h3>
               
             </div>
           
@@ -113,14 +113,14 @@
                     <div class="col-lg-12 col-md-12 col-12">
 
                     @if($selected_origen !== 0 && strlen($search) > 0 )
-                    <div class="contenedortabla">
-                        <table class="estilostable" style="color: rgb(6, 5, 5)">
-                            <thead class="tableheadprod">
+                    <div class="table-6">
+                        <table>
+                            <thead>
                                     <tr>
-                                        <th class="table-th text-withe text-center">ITEM</th>
-                                        <th class="table-th text-withe text-center">PRODUCTO</th>                    
-                                        <th class="table-th text-withe text-center">STOCK</th>                         
-                                        <th class="table-th text-withe text-center">ACCION</th>                         
+                                        <th class="text-withe text-center">ITEM</th>
+                                        <th class="text-withe text-center">PRODUCTO</th>                    
+                                        <th class="text-withe text-center">STOCK</th>                         
+                                        <th class="text-withe text-center">ACCION</th>                         
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -164,16 +164,15 @@
 
                             <div class="col-lg-12 col-md-12 col-12 widget mr-2 mb-2 mt-2">
                                   
-                                <div class="contenedortabla">
-                                    <table class="estilostable" style="color: rgb(6, 5, 5)">
-                                        <thead class="tablehead">
+                                <div class="table-6">
+                                    <table>
+                                        <thead>
                                             <tr>
-                                                <th class="table-th text-withe text-center">#</th>
-                                                <th class="table-th text-withe text-center">Producto</th>
-                                              
-                                                <th class="table-th text-withe text-center">Cantidad</th>
-
-                                                <th class="table-th text-withe text-center">Acc.</th>
+                                                <th class="text-withe text-center">#</th>
+                                                <th class="text-withe text-center">Producto</th>
+                                                <th class="text-withe text-center">Codigo</th>
+                                                <th class="text-withe text-center">Cantidad</th>
+                                                <th class="text-withe text-center">Acc.</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -184,6 +183,9 @@
                                                     </td>
                                                     <td>
                                                         {{$prod->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$prod->codigo}}
                                                     </td>
                                                     <td>
                                                          <input type="number" 

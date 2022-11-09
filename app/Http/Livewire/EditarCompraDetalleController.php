@@ -43,10 +43,10 @@ class EditarCompraDetalleController extends Component
     public  $nro_compra,$search,$provider,$fecha_compra,$vs=[],$auxi,$erroresedicion=[],
     $usuario,$metodo_pago,$pago_parcial=0,$tipo_documento,$nro_documento,$observacion
     ,$selected_id,$descuento=0,$saldo=0,$subtotal,$cantidad_minima,$passed,
-    $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra,$destino1;
+    $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra,$destino1,$datalistcarrito;
 
     public $nombre_prov, $apellido_prov, $direccion_prov, $correo_prov,
-    $telefono_prov,$col;
+    $telefono_prov,$col,$mensaje_toast;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2;
@@ -139,7 +139,7 @@ class EditarCompraDetalleController extends Component
          $this->datalistcarrito=Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
          ->join('products','products.id','compra_detalles.product_id')
          ->join('lotes','lotes.id','compra_detalles.lote_compra')
-->select('compras.*','products.id as product_id','products.codigo as codigo_prod','products.nombre as product_nombre','compra_detalles.cantidad as cantidad','compra_detalles.precio as precio','lotes.pv_lote','lotes.costo')
+         ->select('compras.*','products.id as product_id','products.codigo as codigo_prod','products.nombre as product_nombre','compra_detalles.cantidad as cantidad','compra_detalles.precio as precio','lotes.pv_lote','lotes.costo')
          ->where('compras.id',$this->ide)
          ->get();
          //$bn =EditarTransferencia::getContent();
@@ -251,9 +251,41 @@ class EditarCompraDetalleController extends Component
     {
         //si la cantidad es menor a lo que se ha distribuido ya sea en transferencias y ventas no deja editar la cantidad de ese item.
         //primera red flag: Si la cantidad a actualizarse es menor a
-      if ($cant>0) {
+        //que la cantidad sea menor o igual a la suma de las transferencias
 
-      }
+        //que la cantidad sea menor o igual a la suma de las unidades vendidas
+
+        $tt=Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+        ->where('compras.id',$this->ide)
+        ->where('compra_detalles.product_id',$productId)
+        ->first()->lote_compra;
+
+        if ($tt != null) {
+            //dd($tt);
+            $cant_trans=TransferenciaLotes::where('lote_id',$tt)->sum('cantidad');
+            $cant_vend=SaleLote::where('lote_id',$tt)->sum('cantidad');
+           //dd($cant_trans,$cant_vend);
+           if ($cant<$cant_vend) {
+                $this->mensaje_toast='La cantidad editada del producto esta incorrecta por que ya fue distribuido.';
+                $this->emit('error-item');
+                return;
+           }
+
+
+        }
+
+    
+        foreach ($this->datalistcarrito as $data) {
+            dump($data->compradetalle()->get());
+        }
+        
+        $productos_trans=$this->datalistcarrito->where('product_id',$productId);
+
+        $this->mensaje_toast='Proveedor Registrado';
+        if ($cant>0) 
+        {
+
+        }
      
         $product = Product::select('products.*')
         ->where('products.id',$productId)->first();

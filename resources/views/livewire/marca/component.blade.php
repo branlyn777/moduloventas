@@ -2,25 +2,30 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
+                <h3 class="text-center">
+                    <b>MARCAS</b>
+                </h3>
                 <ul class="row justify-content-end">
                     
-                        <a href="javascript:void(0)" class="btn btn-dark" data-toggle="modal"
+                        <a href="javascript:void(0)" class="boton-azul" data-toggle="modal"
                         data-target="#theModal">Agregar Marca</a>
                     
                 </ul>
             </div>
-            @include('common.searchbox')
+            <div class="row">
+                <div class="col-lg-4">
+
+                    @include('common.searchbox')
+                </div>
+            </div>
 
             <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-unbordered table-hover mt-2">
-                        <thead class="text-white" style="background: #3B3F5C">
+                <div class="table-6">
+                    <table>
+                        <thead>
                             <tr>
-                                <th class="table-th text-withe text-center">NOMBRE</th>                                
-                                <th class="table-th text-withe text-center">ACCIONES</th>
+                                <th class="text-center">NOMBRE</th>                                
+                                <th class="text-center">ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>

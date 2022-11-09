@@ -30,7 +30,7 @@
         <div class="col-sm-12 col-md-6 form-group">
             
                 <label>Estado</label>
-                <select wire:model='estado' class="form-control">
+                <select wire:model='estados' class="form-control">
                     <option value="Elegir" disabled>Elegir</option>
                     <option value="ACTIVO">ACTIVO</option>
                     <option value="INACTIVO">INACTIVO</option>

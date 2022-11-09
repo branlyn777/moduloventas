@@ -1,43 +1,4 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablainventarios th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-       
-    }
-    .tablainventarios th {
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-.tablaservicios {
-        width: 90%;
-       
-    }
-    .tablaservicios thead {
-        background-color: #0d4da0;
-        color: white;
-    }
-    .tablaservicios th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-    }
-    .tablaservicios tr:hover {
-        background-color: rgba(175, 180, 250, 0.336);
-    }
-</style>
 
-@endsection
 
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
@@ -68,9 +29,9 @@
                 <div class="row pl-2">
                     <div class="col-lg-12">
                         <div class="widget-content">
-                            <div class="table-responsive">
-                                <table class="tablainventarios">
-                                    <thead class="thead-light">
+                            <div class="table-6">
+                                <table>
+                                    <thead>
                                         <tr>
                                             <th>#</th>                                
                                             <th>Fecha de Registro</th>                                                

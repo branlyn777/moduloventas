@@ -12,13 +12,13 @@
 
                         @if($datalist_destino!=null)
                          
-                        <div class="table-responsive">
-                            <table class="table table-unbordered table-hover mt-2">
-                                <thead class="text-white" style="background: #3B3F5C">
+                        <div class="table-6">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th class="table-th text-withe text-center">#</th>
-                                        <th class="table-th text-withe text-center">Descripcion</th>                              
-                                        <th class="table-th text-withe text-center">Cantidad</th>
+                                        <th class="text-withe text-center">#</th>
+                                        <th class="text-withe text-center">Descripcion</th>                              
+                                        <th class="text-withe text-center">Cantidad</th>
                                        
                                     </tr>
                                 </thead>

@@ -34,16 +34,16 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane {{$show1}} {{$estado_lista_tr}}" wire:click="$set('show2','')" wire:click="$set('$estado_lista_tr','active')"  id="pills-tr" role="tabpanel">
-                        <div class="table-responsive">
-                            <table class="table table-unbordered table-hover mt-2">
-                                <thead class="text-white" style="background: #3849c4">
+                        <div class="table-6">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th class="table-th text-withe text-center">#</th>
-                                        <th class="table-th text-withe text-center">Cod</th>                              
-                                        <th class="table-th text-withe text-center">Transferencia</th>
-                                        <th class="table-th text-withe text-center">Estado</th>
-                                        <th class="table-th text-withe text-center">Usuario</th>
-                                        <th class="table-th text-withe text-center">Acciones</th>
+                                        <th class="text-withe text-center">#</th>
+                                        <th class="text-withe text-center">Cod</th>                              
+                                        <th class="text-withe text-center">Transferencia</th>
+                                        <th class="text-withe text-center">Estado</th>
+                                        <th class="text-withe text-center">Usuario</th>
+                                        <th class="text-withe text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,17 +65,17 @@
     
                                             @if($data_td->estado_tr =="En transito")
                                             <td>
-                                                <h6 class="text-center btn text-white btn-primary p-1">{{ $data_td->estado_tr }}</h6>
+                                                <h6 class="text-center">{{ $data_td->estado_tr }}</h6>
                                             </td>
     
                                             @elseif($data_td->estado_tr =="Recibido")
                                             <td>
-                                                <h6 class="text-center btn text-white btn-success p-1">{{ $data_td->estado_tr }}</h6>
+                                                <h6 class="text-center">{{ $data_td->estado_tr }}</h6>
                                             </td>
     
                                             @else
                                             <td>
-                                                <h6 class="text-center btn text-white btn-danger p-1">{{ $data_td->estado_tr }}</h6>
+                                                <h6 class="text-center">{{ $data_td->estado_tr }}</h6>
                                             </td>
                                 
                                             @endif
@@ -85,20 +85,24 @@
                                             </td>
                                             
                                             @if ($data_td->estado_tr =='Recibido' or $data_td->estado_tr =='Rechazado' or !(in_array($data_td->orih, $vs)))
-                                            <td class="text-center">
-                                                <a href="javascript:void(0)" wire:key="foo" wire:click="ver({{$data_td->t_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
-                                                    <i class="fas fa-list"></i>
-                                                </a>
-                                                <a href="javascript:void(0)" wire:click="imprimir({{$data_td->t_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
-                                                    <i class="fas fa-print"></i>
-                                                </a>
+                                            <td>
+                                                <div class="row justify-content-center">
+
+                                                    <a href="javascript:void(0)" wire:key="foo" wire:click="ver({{$data_td->t_id}})" 
+                                                        class="btn btn-dark p-1 m-0" title="Ver">
+                                                        <i class="fas fa-list"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)" wire:click="imprimir({{$data_td->t_id}})" 
+                                                        class="btn btn-dark p-1 m-0" title="Ver">
+                                                        <i class="fas fa-print"></i>
+                                                    </a>
+                                                </div>
                                                 
                                             
                                             </td>
                                             @else
                                                 <td>
+                                                    <div class="row justify-content-center">
                                                 <a href="javascript:void(0)" onclick="Confirm({{$data_td->t_id}})"
                                                     class="btn btn-dark mtmobile p-1 m-0" title="Edit">
                                                     <i class="fas fa-edit"></i>
@@ -113,6 +117,7 @@
                                                     class="btn btn-dark p-1 m-0" title="Ver">
                                                     <i class="fas fa-list"></i>
                                                 </a>
+                                                </div>
                                             </td>
                                             @endif
                                         </tr>
@@ -123,16 +128,16 @@
                         </div>
                     </div>
                     <div class="tab-pane  {{$show2}} {{$estado_lista_te}}" id="pills-tr-apr" wire:click="$set('show1', '')" wire:click="$set('$estado_lista_tr','active')"  role="tabpanel">
-                        <div class="table-responsive">
-                            <table class="table table-unbordered table-hover mt-2">
-                                <thead class="text-white" style="background: #3B3F5C">
+                        <div class="table-6">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th class="table-th text-withe text-center">#</th>
-                                        <th class="table-th text-withe text-center">Cod</th>                              
-                                        <th class="table-th text-withe text-center">Transferencia</th>
-                                        <th class="table-th text-withe text-center">Estado</th>
-                                        <th class="table-th text-withe text-center">Usuario</th>
-                                        <th class="table-th text-withe text-center">Acciones</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Cod</th>                              
+                                        <th class="text-center">Transferencia</th>
+                                        <th class="text-center">Estado</th>
+                                        <th class="text-center">Usuario</th>
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -155,17 +160,17 @@
                                        
                                             @if($data2->estado_te =="En transito")
                                             <td>
-                                                <h6 class="text-center btn text-white btn-primary p-1">{{ $data2->estado_te }}</h6>
+                                                <h6 class="text-center">{{ $data2->estado_te }}</h6>
                                             </td>
     
                                             @elseif($data2->estado_te =="Recibido")
                                             <td>
-                                                <h6 class="text-center btn text-white btn-success p-1">{{ $data2->estado_te }}</h6>
+                                                <h6 class="text-center">{{ $data2->estado_te }}</h6>
                                             </td>
     
                                             @else
                                             <td>
-                                                <h6 class="text-center btn text-white btn-danger p-1">{{ $data2->estado_te }}</h6>
+                                                <h6 class="text-center">{{ $data2->estado_te }}</h6>
                                             </td>
                                 
                                             @endif

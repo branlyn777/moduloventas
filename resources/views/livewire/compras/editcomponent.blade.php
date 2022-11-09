@@ -19,7 +19,7 @@
                         
                         <div class="col-lg-1 col-sm-1 col-md-1">
                             <button href="javascript:void(0)" data-toggle="modal"
-                                data-target="#theModal" class="btn btn-primary p-1 m-1" > <strong> Registrar Producto</strong></button>
+                                data-target="#theModal" class="btn btn-primary p-1 m-1" ><strong>Registrar Producto</strong></button>
                         </div>
                         
                     </div>
@@ -192,8 +192,8 @@
                          
                                    @if(strlen($search) > 0)
                                    <div class="table-6">
-                                    <table class="estilostable" style="color: rgb(6, 5, 5)">
-                                        <thead class="tableheadprod">
+                                    <table>
+                                        <thead>
                                              <tr>
                                                  <th class="table-th text-withe text-left">Producto</th>                              
                                                  <th class="table-th text-withe text-left">Accion</th>
@@ -205,14 +205,14 @@
                                                      <td>
                                                          
                                                             <strong>{{$prod->nombre}}</strong>
-                                                            <p>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</p>
-                                                            <p>{{ $prod->caracteristicas }}</p>
+                                                            <label>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</label>
+                                                            <label>{{ $prod->caracteristicas }}</label>
                                                         
                                                      </td>
                                                    
                                                      <td class="text-center">
                                                          <a href="javascript:void(0)" wire:click="increaseQty({{ $prod->id }})"
-                                                             class="btn btn-dark mtmobile p-2">
+                                                             class="boton-azul">
                                                              <i class="fas fa-plus"></i>
                                                          </a>
                                                         
@@ -353,6 +353,24 @@
          window.livewire.on('empty_cart', msg => {
             noty(msg)
         });
+
+
+        window.livewire.on('error-item', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'error',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+
+
         window.livewire.on('prueba', msg => {
             const addOption = (arr) => {
             let optionItems='';
