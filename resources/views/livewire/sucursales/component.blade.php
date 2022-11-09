@@ -17,10 +17,10 @@
           <div class="col-12 col-sm-12 col-md-4 text-center">
               
           </div>
-  
+{{--   
           <div class="col-12 col-sm-12 col-md-4 text-right">
               <button wire:click="Agregar()" type="button" class="boton-azul-g">Nueva Sucursal</button>
-          </div>
+          </div> --}}
   
       </div>
   

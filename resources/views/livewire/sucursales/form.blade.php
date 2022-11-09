@@ -4,7 +4,7 @@
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Nombre de la empresa</h6>
+            <h6>Nombre de la sucursal</h6>
             <input type="text" wire:model.lazy="name" class="form-control">
             @error('name')
                 <span class="text-danger er">{{ $message }}</span>
@@ -47,7 +47,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Empresa</h6>
             <select wire:model='company_id' class="form-control">
@@ -60,7 +60,7 @@
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
 
 </div>

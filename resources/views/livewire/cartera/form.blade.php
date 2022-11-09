@@ -23,8 +23,6 @@
             <h6>Tipo</h6>
             <select wire:model='tipo' class="form-control">
                 <option value="Elegir" disabled selected>Elegir</option>
-                <option value="Telefono">Telefono</option>
-                <option value="Sistema">Sistema</option>
                 <option value="CajaFisica">Caja Fisica</option>
                 <option value="Banco">Banco</option>
             </select>

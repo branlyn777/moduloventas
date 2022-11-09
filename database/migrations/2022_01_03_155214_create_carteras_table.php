@@ -18,7 +18,7 @@ class CreateCarterasTable extends Migration
             $table->string('nombre', 255);
             $table->decimal('saldocartera',10,2)->default(0);
             $table->string('descripcion', 255)->nullable();
-            $table->enum('tipo', ['Telefono','Sistema','CajaFisica','Banco','TigoStreaming']);
+            $table->enum('tipo', ['CajaFisica','Banco']);
             $table->enum('estado', ['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->integer('telefonoNum')->nullable();
             $table->unsignedBigInteger('caja_id');

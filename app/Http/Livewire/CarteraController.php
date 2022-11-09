@@ -106,7 +106,7 @@ class CarteraController extends Component
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'tipo' => $this->tipo,
-            'telefonoNum' => $this->telefonoNum,
+            'telefonoNum' => 0,
             'caja_id' => $this->caja_id
         ]);
 

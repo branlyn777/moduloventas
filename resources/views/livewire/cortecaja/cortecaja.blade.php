@@ -180,7 +180,7 @@
                         
                     </div>
 
-                    @if($c->carteras->count() > 0)
+                    @if($c->carteras->count() > 0 || $carteras_generales->count() > 0)
 
                         <div class="text-center">
                             <p class="h4"><b>Abierta por: {{$c->abiertapor}}</b></p>

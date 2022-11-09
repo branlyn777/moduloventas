@@ -124,8 +124,7 @@
     @include('livewire.category.form')
     @include('livewire.category.form_subcategory')
     @include('livewire.category.subcategories')
-    @include('livewire.category.importarcategorias')
-    @include('livewire.category.importarsubcategorias')
+  
 </div>
 
 <script>

@@ -20,17 +20,17 @@ class CajaSeeder extends Seeder
             'estado' => 'Cerrado',
             'sucursal_id' => '1',
         ]);
-        Caja::create([
-            'nombre' => 'Caja 1',
-            'monto_base' => 100,
-            'estado' => 'Cerrado',
-            'sucursal_id' => '1',
-        ]);
-        Caja::create([
-            'nombre' => 'Caja 2',
-            'monto_base' => 100,
-            'estado' => 'Cerrado',
-            'sucursal_id' => '1',
-        ]);
+        // Caja::create([
+        //     'nombre' => 'Caja 1',
+        //     'monto_base' => 100,
+        //     'estado' => 'Cerrado',
+        //     'sucursal_id' => '1',
+        // ]);
+        // Caja::create([
+        //     'nombre' => 'Caja 2',
+        //     'monto_base' => 100,
+        //     'estado' => 'Cerrado',
+        //     'sucursal_id' => '1',
+        // ]);
     }
 }

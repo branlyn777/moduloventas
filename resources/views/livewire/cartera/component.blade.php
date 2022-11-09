@@ -35,7 +35,7 @@
                     <th>NOMBRE</th>
                     <th>DESCRIPCION</th>
                     <th>TIPO</th>
-                    <th>NÚMERO TELEFONO</th>
+                    {{-- <th>NÚMERO TELEFONO</th> --}}
                     <th>CAJA</th>
                     <th>ACCIONES</th>
                 </tr>
@@ -52,9 +52,9 @@
                         <td>
                             {{ $item->tipo }}
                         </td>
-                        <td>
+                        {{-- <td>
                             {{ $item->telefonoNum }}
-                        </td>
+                        </td> --}}
                         <td>
                             {{ $item->caja->nombre }}
                         </td>
