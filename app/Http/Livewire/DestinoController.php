@@ -17,7 +17,7 @@ class DestinoController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 20;
 
 public $nombre,$sucursal,$observacion,$selected_id,$search,$estados;
     
@@ -30,6 +30,7 @@ public function mount()
     $this->pageTitle = 'Listado';
     $this->componentName = 'Estancias';
     $this->selected_id = 0;
+    $this->estados='TODOS';
     
 
     $this->fecha = Carbon::now();
@@ -58,6 +59,7 @@ public function mount()
 
     public function Store()
     {
+        
         $rules = [
             'nombre' => 'required|unique:unidads',
             'sucursal' => 'required'
@@ -74,6 +76,7 @@ public function mount()
             'nombre' => $this->nombre,
             'observacion'=>$this->observacion,
             'sucursal_id'=>$this->sucursal
+          
         ]);
 
         
@@ -81,7 +84,9 @@ public function mount()
         
         Permission::create([
             'name' => $destino->nombre .'_'. $destino->id ,
-            'guard_name' => 'web'
+            'guard_name' => 'web',
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar al destino',
         ]);
 
         $this->resetUI();

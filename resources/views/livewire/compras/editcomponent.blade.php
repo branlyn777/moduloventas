@@ -1,32 +1,4 @@
 
-@section('css')
-
-<style>
-
-.contenedortabla{
-        /* overflow:scroll; */
-        overflow-x:auto;
-        /* max-height: 100%; */
-        /* min-height:200px; */
-        /* max-width: 100%; */
-        /* min-width:100px; */
-    }
-
-    .estilostable {
-    width: 100%;
-   
-    }
-    .tablehead{
-        background-color: #383938;
-        color: aliceblue;
-    }
-    .tableheadprod{
-        background-color: rgb(230, 152, 64);
-        color: rgb(229, 229, 230);
-        
-    }
-</style>
-@endsection
 
 
 <div class="row sales layout-top-spacing">
@@ -47,7 +19,7 @@
                         
                         <div class="col-lg-1 col-sm-1 col-md-1">
                             <button href="javascript:void(0)" data-toggle="modal"
-                                data-target="#theModal" class="btn btn-primary p-1 m-1" > <strong> Registrar Producto</strong></button>
+                                data-target="#theModal" class="btn btn-primary p-1 m-1" ><strong>Registrar Producto</strong></button>
                         </div>
                         
                     </div>
@@ -219,9 +191,9 @@
                                 </div>
                          
                                    @if(strlen($search) > 0)
-                                   <div class="contenedortabla">
-                                    <table class="estilostable" style="color: rgb(6, 5, 5)">
-                                        <thead class="tableheadprod">
+                                   <div class="table-6">
+                                    <table>
+                                        <thead>
                                              <tr>
                                                  <th class="table-th text-withe text-left">Producto</th>                              
                                                  <th class="table-th text-withe text-left">Accion</th>
@@ -233,14 +205,14 @@
                                                      <td>
                                                          
                                                             <strong>{{$prod->nombre}}</strong>
-                                                            <p>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</p>
-                                                            <p>{{ $prod->caracteristicas }}</p>
+                                                            <label>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</label>
+                                                            <label>{{ $prod->caracteristicas }}</label>
                                                         
                                                      </td>
                                                    
                                                      <td class="text-center">
                                                          <a href="javascript:void(0)" wire:click="increaseQty({{ $prod->id }})"
-                                                             class="btn btn-dark mtmobile p-2">
+                                                             class="boton-azul">
                                                              <i class="fas fa-plus"></i>
                                                          </a>
                                                         
@@ -262,10 +234,10 @@
                               
 
 
-                                        <div class="contenedortabla">
-                                            <table class="estilostable" style="color: rgb(0, 0, 0)">
+                                        <div class="table-6">
+                                            <table>
 
-                                        <thead class="tablehead">
+                                        <thead>
                                             <tr>
                                                 <th class="text-center" style="width: 12rem; color:#ffffff; font-size:1rem">Producto</th>
                                                 <th class="text-center" style="width: 5rem; color:#ffffff">Codigo</th>
@@ -317,42 +289,23 @@
                                                         <h6 style="font-size: 0.8rem!important;" class="text-center" >{{$prod->getPriceSum()}}</h6>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="javascript:void(0)"
+                                                        <button 
                                                         wire:click="removeItem({{ $prod->id }})"
-                                                            class="btn btn-dark mtmobile p-2" title="Edit">
+                                                            class="boton-rojo" title="Eliminar Item">
                                                             <i class="fas fa-trash"></i>
-                                                        </a>
+                                                        </button>
 
                                                     </td>
                                                 </tr>
                                             @endforeach
                                             <tfoot class="text-white text-right" style="background: #fffefd"  >
+                                                   
                                                     <tr>
                                                         <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">SubTotal.-</h5>
+                                                             <h5 class="text-dark" style="font-size: 1rem!important;">TOTAL.-</h5>
                                                         </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$subtotal}}</h5>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-
                                                         <td colspan="5">
-                                                            <a href="javascript:void(0)" data-toggle="modal"
-                                                            data-target="#modal_desc"
-                                                            class="btn btn-dark mtmobile p-1 m-1 rounded-pill"><strong>%</strong> </i></a>
-                                                            <label class="text-dark" style="font-size: 1rem!important;"><strong>Descuento</strong> .-</label>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" >{{$dscto}}</h5>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">Total.-</h5>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$total_compra}}</h5>
+                                                            <h5 class="text-dark text-center" style="font-size: 1rem!important;" >{{$total_compra}}</h5>
                                                         </td>
                                                     </tr>
                                             </tfoot>
@@ -400,6 +353,24 @@
          window.livewire.on('empty_cart', msg => {
             noty(msg)
         });
+
+
+        window.livewire.on('error-item', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'error',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+
+
         window.livewire.on('prueba', msg => {
             const addOption = (arr) => {
             let optionItems='';

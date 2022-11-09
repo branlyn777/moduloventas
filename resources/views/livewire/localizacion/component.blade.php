@@ -1,63 +1,12 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablainventarios th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-    }
-
-    .tablainventarios th{
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-
-    .tablamodal {
-        width: 90%;
-    
-        min-height: 2rem;
-    
-    }
-    .tablamodal thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablamodal th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-    }
-
-    .tablamodal th{
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-        
-
-</style>
-@endsection
-    
-
-
 
 
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }}{{ $pageTitle }}</b>
-                </h4>
+                <h3 class="text-center">
+                    <b>MOBILIARIOS</b>
+                </h3>
                 <ul class="row justify-content-end">
                     <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
                         data-target="#theModal">Agregar</a>
@@ -66,13 +15,18 @@
 
 
             </div>
-            @include('common.searchbox')
+            <div class="row">
+                <div class="col-lg-4">
+
+                    @include('common.searchbox')
+                </div>
+            </div>
 
             <div class="widget-content">
                 <center>
 
-                    <div class="table-responsive">
-                        <table class="tablainventarios">
+                    <div class="table-6">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>#</th>

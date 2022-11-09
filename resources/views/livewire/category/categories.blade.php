@@ -10,7 +10,7 @@
     </div>
  
 
-    <div class="container"> 
+   
         <div class="row">
 
             <div class="col-12 col-sm-12 col-md-3">
@@ -36,9 +36,9 @@
         </div>
  
 
-    </div>
 
-    <div class="container">
+
+
 
         <div class="table-5">
             <table>
@@ -46,9 +46,9 @@
                     <tr class="text-center">
                         <th  style="width: 5%">#</th>
                         <th>NOMBRE</th>
-                        <th style="width: 15%">SUBCATEGORIAS</th>
-                        <th style="width: 15%">ESTADO</th>
-                        <th style="width: 15%">ACCIONES</th>
+                        <th>SUBCATEGORIAS</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
                     </tr>
                 </thead>
                
@@ -118,7 +118,7 @@
             {{ $categories->links()}}
         </div>
         
-    </div>
+  
 
     
     @include('livewire.category.form')

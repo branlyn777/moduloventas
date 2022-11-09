@@ -2,33 +2,43 @@
 @section('css')
 
 <style>
-
-.contenedortabla{
-        /* overflow:scroll; */
-        overflow-x:auto;
-        /* max-height: 100%; */
-        /* min-height:200px; */
-        /* max-width: 100%; */
-        /* min-width:100px; */
+  .table-wrapper {
+    width: 100%;/* Anchura de ejemplo */
+    height: 350px; /* Altura de ejemplo */
+    overflow: auto;
     }
 
-    .estilostable {
-    width: 100%;
-   
+    .table-wrapper table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-left: 0.3px solid #02b1ce;
+        border-bottom: 0.3px solid #02b1ce;
+        width: 100%;
     }
-    .tablehead{
-        background-color: #383938;
-        color: aliceblue;
+
+    .table-wrapper table thead {
+        position: -webkit-sticky; /* Safari... */
+        position: sticky;
+        top: 0;
+        left: 0;
     }
-    .tableheadprod{
-        background-color: rgb(230, 152, 64);
-        color: rgb(229, 229, 230);
-        
+    .table-wrapper table thead tr {
+    background: #02b1ce;
+    color: white;
+    }
+    /* .table-wrapper table tbody tr {
+        border-top: 0.3px solid rgb(0, 0, 0);
+    } */
+    .table-wrapper table tbody tr:hover {
+        background-color: #ffdf76a4;
+    }
+    .table-wrapper table td {
+        border-top: 0.3px solid #02b1ce;
+        padding-left: 10px;
+        border-right: 0.3px solid #02b1ce;
     }
 </style>
 @endsection
-
-
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12" >
 
@@ -222,17 +232,17 @@
                                 
                                     
                                     @if(strlen($search) > 0)
-                                    <div class="col-lg-12 col-12 col-md-4 col-sm-12">
+                                    <div class="col-lg-12 col-12 col-sm-12">
                                         <h6 class="rounded">
                                             <b>Elementos encontrados:</b> {{$data_prod->count()}}
                                         </h6>
                                     </div>
-                                   <div class="contenedortabla">
-                                    <table class="estilostable" style="color: rgb(6, 5, 5)">
-                                        <thead class="tableheadprod">
+                                   <div class="table-wrapper">
+                                    <table>
+                                        <thead>
                                              <tr>
-                                                 <th class="table-th text-withe text-left">Producto</th>                              
-                                                 <th class="table-th text-withe text-left">Accion</th>
+                                                 <th>Producto</th>                              
+                                                 <th>Accion</th>
                                              </tr>
                                          </thead>
                                          <tbody>
@@ -240,17 +250,17 @@
                                                  <tr>
                                                      <td>
                                                          
-                                                            <strong>{{$prod->nombre}}</strong>
-                                                            <p>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</p>
-                                                            <p>{{ $prod->caracteristicas }}</p>
+                                                            <strong>{{$prod->nombre}}({{$prod->codigo}})</strong>
+                                                            <label>{{ $prod->unidad}}|{{ $prod->marca}}|{{ $prod->industria }}</label>
+                                                            <label>|{{ $prod->caracteristicas }}</label>
                                                         
                                                      </td>
                                                    
                                                      <td class="text-center">
-                                                         <a href="javascript:void(0)" wire:click="increaseQty({{ $prod->id }})"
-                                                             class="btn btn-dark mtmobile p-2">
+                                                         <button wire:click="increaseQty({{ $prod->id }})"
+                                                             class="boton-azul">
                                                              <i class="fas fa-plus"></i>
-                                                         </a>
+                                                         </button>
                                                         
                                                      </td>
                                                  </tr>

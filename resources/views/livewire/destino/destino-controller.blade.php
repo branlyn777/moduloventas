@@ -1,26 +1,3 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablainventarios th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
-        
-
-</style>
-@endsection
-    
 
 
 <div>
@@ -112,9 +89,9 @@
                     {{ $datas->links() }}
                 </div>
             
+                @include('livewire.destino.form')
         </div>
     </div>
-    @include('livewire.destino.form')
 </div>
 
 <script>

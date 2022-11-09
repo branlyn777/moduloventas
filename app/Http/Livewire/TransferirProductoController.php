@@ -54,7 +54,7 @@ class TransferirProductoController extends Component
                                         ->where('dest.id',$this->selected_origen)
                                         ->where('productos_destinos.stock','>',0)
                                         ->where(function($query){
-                                            $query->where('prod.nombre', 'like', '%' . $this->search . '%')
+                                            $query->where('prod.nombre', 'like', '%' . $this->search .'%')
                                             ->orWhere('prod.codigo','like','%'.$this->search.'%')
                                             ->orWhere('prod.marca','like','%'.$this->search.'%')
                                             ->orWhere('prod.id','like','%'.$this->search.'%');

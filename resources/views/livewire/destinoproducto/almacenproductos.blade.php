@@ -1,37 +1,7 @@
-@section('css')
-<style>
-    .tablainventarios {
-        width: 100%;
-    
-        min-height: 140px;
-    }
-    .tablainventarios thead {
-        background-color: #1572e8;
-        color: white;
-    }
-    .tablainventarios th, td {
-        border: 0.5px solid #1571e894;
-        padding: 4px;
-       
-    }
-    .tablainventarios th {
-        text-align: center;
-    }
-    tr:hover {
-        background-color: rgba(99, 216, 252, 0.336);
-    }
 
-   .tablainventarios .tablainventarios .unidad label {
-        text-align: center;
-        color: aliceblue;
-        border: #101216;
-        border-radius: 5px;
-        border-color: #1572e8;
-    }
-        
 
-</style>
-@endsection
+
+
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
