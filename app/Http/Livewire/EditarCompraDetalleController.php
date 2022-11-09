@@ -249,7 +249,11 @@ class EditarCompraDetalleController extends Component
 
     public function UpdateQty($productId, $cant)
     {
-      
+        //si la cantidad es menor a lo que se ha distribuido ya sea en transferencias y ventas no deja editar la cantidad de ese item.
+        //primera red flag: Si la cantidad a actualizarse es menor a
+      if ($cant>0) {
+
+      }
      
         $product = Product::select('products.*')
         ->where('products.id',$productId)->first();
