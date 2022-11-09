@@ -85,6 +85,10 @@ class PosController extends Component
     public $precio_promedio;
     //Guarda la candidad de un producto para la venta
     public $cantidad_venta;
+    //Lista la tabla procedencias de clientes
+    public $procedencias;
+    //Guarda el id de la tabla procedencia clientes
+    public $procedencia_cliente_id;
 
 
     use WithPagination;
@@ -123,7 +127,6 @@ class PosController extends Component
     }
     public function render()
     {
-
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -252,8 +255,7 @@ class PosController extends Component
         }
         else
         {
-            $procedencia = ProcedenciaCliente::select('procedencia_clientes.procedencia as procedencia')
-            ->where('procedencia_clientes.procedencia','VENTA DE PRODUCTOS')
+            $procedencia = ProcedenciaCliente::where('procedencia_clientes.procedencia','Venta')
             ->get();
             if($procedencia->count() > 0)
             {
@@ -266,7 +268,7 @@ class PosController extends Component
             else
             {
                 $procedencia = ProcedenciaCliente::create([
-                    'procedencia' => "Venta de Productos"
+                    'procedencia' => "Venta"
                 ]);
                 $cliente_anonimo = Cliente::create([
                     'nombre' => "Cliente Anónimo",
@@ -732,6 +734,7 @@ class PosController extends Component
     //llama al modal buscarcliente
     public function modalbuscarcliente()
     {
+        $this->procedencias = ProcedenciaCliente::where("estado","ACTIVO")->get();
         $this->emit('show-buscarcliente');
     }
     //Devuelve el nombre de la cartera seleccionada y su tipo
@@ -903,13 +906,24 @@ class PosController extends Component
     //Cierra la ventana modal Buscar Cliente y Cambia el id de la variable $cliente_id con un cliente Creado
     public function crearcliente()
     {
+        $rules = [
+            'procedencia_cliente_id' => 'required|not_in:Elegir',
+            'procedencia_cliente_id' => 'required'
+        ];
+        $messages = [
+            'procedencia_cliente_id.not_in' => 'Elegir un tipo diferente de elegir',
+            'procedencia_cliente_id.required' => 'Elegir un tipo diferente de elegir',            
+        ];
+
+        $this->validate($rules, $messages);
+
         if($this->cliente_celular == null)
         {
             $newclient = Cliente::create([
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => 0,
-                'procedencia_cliente_id' => 1,
+                'procedencia_cliente_id' => $this->procedencia_cliente_id,
             ]);
         }
         else
@@ -918,7 +932,7 @@ class PosController extends Component
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => $this->cliente_celular,
-                'procedencia_cliente_id' => 1,
+                'procedencia_cliente_id' => $this->procedencia_cliente_id,
         ]);
         }
         

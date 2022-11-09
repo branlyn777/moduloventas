@@ -25,10 +25,11 @@ class DatabaseSeeder extends Seeder
         $this->call(DestinoSeeder ::class);
         $this->call(DenominationSeeder ::class);
         $this->call(CajaSeeder ::class);
-        // $this->call(CarteraSeeder ::class);
+        $this->call(CarteraSeeder ::class);
         $this->call(CategorySeeder ::class);
         $this->call(ProductSeeder ::class);
         $this->call(ProductoDestinoSeeder ::class);
         $this->call(CarteraMovCategoriaSeeder ::class);
+        $this->call(ProcedenciaClienteSeeder ::class);
     }
 }

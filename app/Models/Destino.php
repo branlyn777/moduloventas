@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Destino extends Model
 {
     use HasFactory;
-    protected $fillable = ['nombre','observacion','sucursal_id','status'];
+    protected $fillable = ['nombre','observacion','status','sucursal_id'];
 
     public function productos()
     {

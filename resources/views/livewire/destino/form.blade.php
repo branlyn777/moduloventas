@@ -1,44 +1,49 @@
 @include('common.modalHead')
 <div class="row">
-    <div class="col-lg-12 col-md-6">
+
+    <div class="col-12 col-sm-6 col-md-12">
         <div class="form-group">
-            <label>Estancia</label>
+            <label>Destino</label>
             <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="Nombre de la estancia deposito, tienda, almacen, bodega"
             maxlenght="25">
             @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-12">
+        <div class="form-group">
+            <label>Observacion</label>
+            <textarea wire:model.lazy="observacion" placeholder="Ingrese las caracteristicas de la categoria" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-6">
         <div class="form-group">
             <label>Sucursal</label>
             <select wire:model='sucursal' class="form-control">
                 <option value="Elegir">Elegir</option>
-                @foreach ($data_suc as $data)
+                @foreach ($sucursales as $s)
                 
-                    <option value="{{$data->id}}">{{$data->name}}</option>
+                    <option value="{{$s->id}}">{{$s->name}}</option>
                 @endforeach
-              
             </select>
         </div>
-        <div class="form-group">
-            <label>Observacion</label>
-            <input type="text" wire:model.lazy="observacion" class="form-control" placeholder="Describa alguna observacion"
-            maxlenght="25">
-            @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
-        </div>
-
-        @if ($selected_id != 0)
-                  
-        <div class="col-sm-12 col-md-6 form-group">
-            
-                <label>Estado</label>
-                <select wire:model='estados' class="form-control">
-                    <option value="Elegir" disabled>Elegir</option>
-                    <option value="ACTIVO">ACTIVO</option>
-                    <option value="INACTIVO">INACTIVO</option>
-                </select>
-                @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
-            
-        </div>
-            @endif
     </div>
+
+    <div class="col-12 col-sm-6 col-md-6">
+        <div class="form-group">
+            @if ($selected_id != 0)
+            <label>Estado</label>
+            <select wire:model='estadosmodal' class="form-control">
+                <option value="Elegir" disabled>Elegir</option>
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
+            </select>
+            @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
+    @endif
+        </div>
+    </div>
+        
 </div>
 @include('common.modalFooter')

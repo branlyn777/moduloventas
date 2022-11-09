@@ -22,7 +22,7 @@
                         <input type="text" wire:model="buscarcliente" placeholder="Buscar o Crear Cliente..." class="form-control">
                     </div>
                     <br>
-                    <div class="table-wrapper">
+                    <div class="table-1">
                         @if(strlen($this->buscarcliente) > 0)
                         <table>
                             <thead>
@@ -47,7 +47,6 @@
 
                                 <tr class="text-center">
                                     <td colspan="2">
-
                                         <br>
                                         <div class="row">
 
@@ -57,14 +56,23 @@
                                                 </button>
                                             </div>
 
-
                                             <div class="col-sm-6">
-                                                <label for="validationTooltip01"><b>Cédula</b></label>
+                                                <label for="validationTooltip01"><b>CI</b></label>
                                                 <input wire:model.lazy="cliente_ci" class="form-control" type="text" placeholder="Opcional...">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="validationTooltipUsername"><b>Celular</b></label>
                                                 <input wire:model.lazy="cliente_celular" class="form-control" type="number" placeholder="Opcional...">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label for="validationTooltipUsername"><b>Procedencia Cliente</b></label>
+                                                <select wire:model="procedencia_cliente_id" class="form-control">
+                                                    <option value="Elegir">Elegir</option>
+                                                    @foreach($this->procedencias as $p)
+                                                    <option value="{{$p->id}}">{{$p->procedencia}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('procedencia_cliente_id') <span class="text-danger er">{{ $message }}</span>@enderror
                                             </div>
                                         </div>
 
@@ -87,7 +95,7 @@
             </div>
         </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Ventana</button>
+                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Ventana</button> --}}
             </div>
             <br>
         </div>

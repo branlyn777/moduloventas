@@ -17,9 +17,9 @@ class DestinoController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $pageTitle, $componentName;
-    private $pagination = 20;
+    private $pagination;
 
-public $nombre,$sucursal,$observacion,$selected_id,$search,$estados;
+public $nombre,$sucursal,$observacion,$selected_id,$search,$estados,$estadosmodal;
     
 public function paginationView()
 {
@@ -27,39 +27,57 @@ public function paginationView()
 }
 public function mount()
 {
-    $this->pageTitle = 'Listado';
-    $this->componentName = 'Estancias';
     $this->selected_id = 0;
-    $this->estados='TODOS';
-    
-
+    $this->estados = 'ACTIVO';
     $this->fecha = Carbon::now();
-
+    $this->pagination = 50;
+    $this->pageTitle = 'Listado';
+    $this->componentName = 'DESTINOS';
 }
     public function render()
     {
+        if (strlen($this->search) == 0)
+        {
+            if($this->estados == 'TODOS')
+            {
+                $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
+                'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                ->paginate($this->pagination);
+            }
+            else
+            {
+                $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
+                'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                ->where('destinos.status', $this->estados)
+                ->paginate($this->pagination);
+            }
+        }
+        else
+        {
+            $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+            ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
+            'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+            ->where('destinos.nombre', 'like', '%' . $this->search . '%')
+            ->paginate($this->pagination);
+        }
+
         
-        // $destino= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
-        // ->select('destinos.*','suc.name')->orderBy('suc.name','desc')->paginate($this->pagination);
 
-
-        $destino = Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')->select('destinos.*','suc.name')
-        ->where(function($querys){
-            $querys->where('nombre', 'like', '%' . $this->search . '%')
-            ->when($this->estados !='TODOS',function($query){
-                    return $query->where('status',$this->estados);
-             });
-        })->paginate($this->pagination);
+        $sucursales = Sucursal::where("sucursals.estado","ACTIVO")->get();
 
        
-        return view('livewire.destino.destino-controller',['datas'=>$destino,'data_suc'=>Sucursal::all()])
+        return view('livewire.destino.destino',[
+            'destinos'=> $destinos,
+            'sucursales'=> $sucursales
+            ])
         ->extends('layouts.theme.app')
         ->section('content');
     }
 
     public function Store()
     {
-        
         $rules = [
             'nombre' => 'required|unique:unidads',
             'sucursal' => 'required'
@@ -95,17 +113,15 @@ public function mount()
         
 
     }
-    public function Edit(Destino $unity)
+    public function Edit(Destino $destino)
     {
-        $this->selected_id = $unity->id;
-        $this->nombre = $unity->nombre;
-        $this->observacion = $unity->observacion;
-        $this->sucursal = $unity->sucursal_id;
-        $this->estados=$unity->status;
+        $this->selected_id = $destino->id;
+        $this->nombre = $destino->nombre;
+        $this->observacion = $destino->observacion;
+        $this->sucursal = $destino->sucursal_id;
+        $this->estadosmodal = $destino->status;
         
-       
-
-        $this->emit('show-modal', 'show modal!');
+        $this->emit('show-modal');
     }
     public function Update()
     {
@@ -120,36 +136,45 @@ public function mount()
         
         ];
         $this->validate($rules, $messages);
-        $uni = Destino::find($this->selected_id);
-        $uni->update([
+        $destino = Destino::find($this->selected_id);
+        $destino->update([
             'nombre' => $this->nombre,
             'observacion'=>$this->observacion,
             'sucursal_id'=>$this->sucursal,
-            'status'=>$this->estados
-            
+            'status'=>$this->estadosmodal
         ]);
-        $uni->save();
-
+        $destino->save();
         $this->resetUI();
         $this->emit('unidad-updated', 'Estancia Actualizada');
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
 
-    public function Destroy(Destino $uni)
+    public function modalestancia()
     {
-        $uni->delete();
+        $this->resetUI();
+        $this->emit("show-modal");
+    }
+
+
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'seleccionar' => 'seleccionardestino',
+    ];
+    public function Destroy(Destino $destino)
+    {
+        $destino->update([
+            'status' => "INACTIVO"
+        ]);
+        $destino->save();
+
         $this->resetUI();
         $this->emit('unidad-deleted', 'Estancia Eliminada');
     }
-
     public function resetUI()
     {
         $this->nombre = '';
         $this->selected_id = 0;
         $this->observacion = '';
         $this->sucursal = '';
-        $this->estados=null;
-       
     }
 
 

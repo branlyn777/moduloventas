@@ -254,7 +254,7 @@
         <div class="form-group caja">
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Cliente Anónimo</b></h3>
+                    <h3><b>Cliente Anónimos</b></h3>
                     <div class="form-group">
                         <label class="switch">
                             <input type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
@@ -404,8 +404,8 @@
                         </div>
 
                         <div class="col-4 text-center">
-                            <button wire:click="$emit('show-buscarcliente')" type="button" class="boton-azul-g">
-                                Buscar o Crear Cliente
+                            <button wire:click=modalbuscarcliente()" type="button" class="boton-azul-g">
+                                Buscar/Crear
                             </button>
                         </div>
 

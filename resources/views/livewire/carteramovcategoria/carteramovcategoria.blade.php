@@ -56,14 +56,14 @@
     <div class="table-wrapper">
         <table>
             <thead>
-                <tr>
-                    <th class="text-center">No</th>
-                    <th class="text-center">Nombre Categoria</th>
-                    <th class="text-center">Detalles</th>
-                    <th class="text-center">Tipo</th>
-                    <th class="text-center">Estado</th>
-                    <th class="text-center">Fecha Creación</th>
-                    <th class="text-center">Acciones</th>
+                <tr class="text-center">
+                    <th>No</th>
+                    <th>Nombre Categoria</th>
+                    <th>Detalles</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Fecha Creación</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,14 +98,14 @@
                     <td class="text-center">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             @if($p->status == "ACTIVO")
-                            <button wire:click.prevent="modaleditar({{$p->id}})" title="Editar Categoria" type="button" class="btn btn-outline-primary">
+                            <button wire:click.prevent="modaleditar({{$p->id}})" title="Editar Categoria" type="button" class="boton-celeste">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button" class="btn btn-outline-danger">
+                            <button onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button" class="boton-rojo">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                             @else
-                            <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria" class="btn btn-outline-info">
+                            <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria" class="boton-plomo">
                                 <i class="fab fa-phabricator"></i>
                             </button>
                             @endif
