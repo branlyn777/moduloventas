@@ -15,19 +15,6 @@ class DestinoSeeder extends Seeder
      */
     public function run()
     {
-        $tienda = Destino::create([
-            'nombre' => 'Tienda',
-            'observacion' => 'ninguna',
-            'sucursal_id' => '1'           
-        ]);
-        Permission::create([
-            'name' => $tienda->nombre . '_' . $tienda->id,
-            'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar a Tienda',
-            'guard_name' => 'web'
-        ]);
-
-
         $deposito = Destino::create([
             'nombre'=>'Deposito',
             'observacion'=>'ninguna',

@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Company;
+use App\Models\Destino;
+use App\Models\DestinoSucursal;
 use App\Models\Sucursal;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -49,30 +51,45 @@ class SucursalController extends Component
     public function Agregar()
     {
         $this->resetUI();
-        $this->emit('show-modal', 'show modal!');
+        $this->emit('show-modal');
     }
 
     public function Store()
     {
         $rules = [
-            'name' => 'required|unique:sucursals',
-            'company_id' => 'required|not_in:Elegir'
+            'name' => 'required|unique:sucursals'
         ];
         $messages = [
             'name.required' => 'El nombre de la empresa es requerido.',
-            'name.unique' => 'Ya existe una empresa con ese nombre.',
-            'company_id.not_in' => 'Seleccione un nombre de Empresa diferente de Elegir',
+            'name.unique' => 'Ya existe una empresa con ese nombre.'
         ];
         $this->validate($rules, $messages);
 
-        Sucursal::create([
+
+        $sucursal = Sucursal::create([
             'name' => $this->name,
             'adress' => $this->adress,
             'telefono' => $this->telefono,
             'celular' => $this->celular,
             'nit_id' => $this->nit_id,
-            'company_id' => $this->company_id
+            'company_id' => 1
         ]);
+        $sucursal->save();
+
+        //Creando el destino que servira para realizar las ventas de la sucursal recien creada
+        $destino = Destino::create([
+            'nombre' => "Tienda " . $this->name,
+            'observacion' => "Destino donde se almacenarán todos los productos para la venta de la sucursal " . $this->name,
+            'sucursal_id' => $sucursal->id
+        ]);
+        $destino->save();
+
+        DestinoSucursal::create([
+            'destino_id' => $destino->id,
+            'sucursal_id' => $sucursal->id
+        ]);
+
+
 
         $this->resetUI();
         $this->emit('item-added', 'Sucursal Registrada');

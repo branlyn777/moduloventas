@@ -21,7 +21,7 @@
           <div class="col-12 col-sm-12 col-md-4 text-right">
               
               
-              {{-- <button wire:click="Agregar()" type="button" class="boton-azul-g">Nueva Sucursal</button> --}}
+              <button wire:click="Agregar()" type="button" class="boton-azul-g">Nueva Sucursal</button>
               <a href="cajas" type="button" class="boton-atajo-g">
                 Ir a Cajas
                 <i>
@@ -49,7 +49,6 @@
                     <th>TELÉFONO</th>
                     <th>CELULAR</th>
                     <th>NÚMERO NIT</th>
-                    <th>EMPRESA</th>
                     <th>ACCIONES</th>
                 </tr>
             </thead>
@@ -70,9 +69,6 @@
                         </td>
                         <td>
                             {{ $item->nit_id }}
-                        </td>
-                        <td>
-                            {{ $item->company }}
                         </td>
                         <td>
                             <button wire:click="Edit({{ $item->id }})"
