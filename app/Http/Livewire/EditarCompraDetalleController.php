@@ -268,11 +268,12 @@ class EditarCompraDetalleController extends Component
            if ($cant<$cant_vend) {
                 $this->mensaje_toast='La cantidad editada del producto esta incorrecta por que ya fue distribuido.';
                 $this->emit('error-item');
+                $this->passed = false;
+
                 return;
            }
-
-
         }
+
 
     
         foreach ($this->datalistcarrito as $data) {
@@ -315,7 +316,6 @@ class EditarCompraDetalleController extends Component
                 'quantity'=>$cant,
                 'attributes'=>$attributos
             );
-    
 
             EditarCompra::add($products);
             $this->subtotal = EditarCompra::getTotal();
