@@ -102,7 +102,7 @@
                                 </div>
                               
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
 
                                         <div class="form-group">
                                             <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
@@ -116,7 +116,7 @@
                                             @enderror                                          
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    {{-- <div class="col-lg-6">
                                         <div class="form-group">
                                             <strong style="color: rgb(74, 74, 74)">Pago:</strong>
 
@@ -135,7 +135,7 @@
                                            <span class="text-danger er">{{ $message }}</span>
                                            @enderror
                                        </div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                              </div>

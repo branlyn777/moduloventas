@@ -93,7 +93,6 @@
                                             <th>Tipo<br>Compra</br></th>                                
                                             <th>Total<br>Compra</br></th>                                
                                             <th>Saldo</th>                                
-  
                                             <th>Estado</th>
                                             <th>Usuario</th>
                                             <th>Acciones</th>

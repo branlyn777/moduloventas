@@ -49,7 +49,7 @@ class ComprasController extends Component
         ->select('compras.*','compras.id as compra_id','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name')
         ->whereBetween('compras.created_at',[$this->from,$this->to])
         ->where('compras.transaccion',$this->filtro)
-        ->orderBy('compras.fecha_compra')
+        ->orderBy('compras.created_at','desc')
         ->get();
 
         $this->totales = $this->datas_compras->sum('importe_total');
@@ -65,6 +65,7 @@ class ComprasController extends Component
             ->orWhere('compras.id', 'like', '%' . $this->search . '%')
             ->orWhere('compras.created_at', 'like', '%' . $this->search . '%')
             ->orWhere('compras.status', 'like', '%' . $this->search . '%')
+            ->orderBy('compras.created_at','desc')
             ->get();
             $this->totales = $this->datas_compras->sum('importe_total');
         }
