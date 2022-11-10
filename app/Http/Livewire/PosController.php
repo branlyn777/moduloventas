@@ -12,6 +12,7 @@ use App\Models\Cliente;
 use App\Models\ClienteMov;
 use App\Models\Company;
 use App\Models\Destino;
+use App\Models\DestinoSucursal;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\OperacionesCarterasCompartidas;
@@ -89,6 +90,8 @@ class PosController extends Component
     public $procedencias;
     //Guarda el id de la tabla procedencia clientes
     public $procedencia_cliente_id;
+    //Guarda el id Destino de donde se sacaran las ventas
+    public $destino_id;
 
 
     use WithPagination;
@@ -98,6 +101,10 @@ class PosController extends Component
     }
     public function mount()
     {
+
+        $this->destino_id = DestinoSucursal::where("destino_sucursals.sucursal_id",$this->idsucursal())->first()->destino_id;
+
+
         $this->paginacion = 10;
         $this->descuento_recargo = 0;
         // $this->total_bs = Cart::getTotal();
@@ -116,7 +123,6 @@ class PosController extends Component
                 $this->cartera_id = $list->idcartera;
                 break;
             }
-            
         }
         $this->cliente_id = $this->clienteanonimo_id();
         $this->listadestinos = [];
@@ -362,7 +368,7 @@ class PosController extends Component
         ->join("products as p", "p.id", "pd.product_id")
         ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
         ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.nombre', 'TIENDA')
+        ->where('destinos.id', $this->destino_id)
         ->where('pd.product_id', $idproducto)
         ->where('p.status', 'ACTIVO')
         ->where('pd.stock','>=', $cantidad)
@@ -439,7 +445,7 @@ class PosController extends Component
         ->select("products.id as id","products.image as image","des.sucursal_id as sucursal_id","products.nombre as name",
         "products.precio_venta as price","products.codigo", "pd.stock as stock")
         ->where("products.codigo", $barcode)
-        ->where("des.nombre", 'TIENDA')
+        ->where("des.id", $this->destino_id)
         ->where("des.sucursal_id", $this->idsucursal())
         ->get()->first();
         
@@ -628,7 +634,7 @@ class PosController extends Component
                 ->select("productos_destinos.id as id","p.nombre as name",
                 "productos_destinos.stock as stock")
                 ->where("p.id", $p->id)
-                ->where("des.nombre", 'TIENDA')
+                ->where("des.id", $this->destino_id)
                 ->where("des.sucursal_id", $this->idsucursal())
                 ->get()->first();
 
@@ -956,7 +962,7 @@ class PosController extends Component
         ->join("products as p", "p.id", "pd.product_id")
         ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
         ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.nombre', '<>' ,'TIENDA')
+        ->where('destinos.id', '<>' ,$this->destino_id)
         ->where('pd.product_id', $this->producto_id)
         ->where('p.status', 'ACTIVO')
         ->get();

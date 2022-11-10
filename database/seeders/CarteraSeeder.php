@@ -18,7 +18,7 @@ class CarteraSeeder extends Seeder
             'nombre' => 'Banco Central',
             'saldocartera' => 0,
             'descripcion' => 'Cuenta Bancaria',
-            'tipo' => 'Banco',
+            'tipo' => 'digital',
             'telefonoNum' => null,
             'caja_id' => '1',
         ]);
@@ -26,7 +26,7 @@ class CarteraSeeder extends Seeder
             'nombre' => 'Efectivo',
             'saldocartera' => 0,
             'descripcion' => 'Dinero en Efectivo',
-            'tipo' => 'CajaFisica',
+            'tipo' => 'efectivo',
             'telefonoNum' => null,
             'caja_id' => '2',
         ]);
@@ -34,7 +34,7 @@ class CarteraSeeder extends Seeder
             'nombre' => 'Efectivo',
             'saldocartera' => 0,
             'descripcion' => 'Dinero en Efectivo',
-            'tipo' => 'CajaFisica',
+            'tipo' => 'efectivo',
             'telefonoNum' => null,
             'caja_id' => '3',
         ]);

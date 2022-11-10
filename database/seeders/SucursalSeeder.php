@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Destino;
+use App\Models\DestinoSucursal;
 use App\Models\Sucursal;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +16,7 @@ class SucursalSeeder extends Seeder
      */
     public function run()
     {
-        Sucursal::create([
+        $sucursal = Sucursal::create([
             'name' => 'Sucursal Central',
             'adress' => 'Avenida América esq G René Moreno',
             'telefono' => '4240013',
@@ -22,5 +24,21 @@ class SucursalSeeder extends Seeder
             'nit_id' => '8796546',
             'company_id' => '1'
         ]);
+        $sucursal->save();
+
+        //Creando el destino que servira para realizar las ventas de la sucursal recien creada
+        $destino = Destino::create([
+            'nombre' => "Tienda Sucursal Central",
+            'observacion' => "Destino donde se almacenarán todos los productos para la venta de la sucursal Sucursal Central",
+            'sucursal_id' => $sucursal->id
+        ]);
+        $destino->save();
+
+        DestinoSucursal::create([
+            'destino_id' => $destino->id,
+            'sucursal_id' => $sucursal->id
+        ]);
+
+
     }
 }

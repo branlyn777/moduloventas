@@ -3,14 +3,18 @@
 namespace App\Http\Livewire;
 
 use App\Models\Destino;
+use App\Models\DestinoSucursal;
 use App\Models\Location;
 use Spatie\Permission\Models\Permission;
 use App\Models\Sucursal;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use Database\Seeders\DestinoSeeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DestinoController extends Component
 {
@@ -19,7 +23,7 @@ class DestinoController extends Component
     public  $pageTitle, $componentName;
     private $pagination;
 
-public $nombre,$sucursal,$observacion,$selected_id,$search,$estados,$estadosmodal;
+public $nombre,$sucursal,$observacion,$selected_id,$search,$estados,$estadosmodal,$sucursal_id, $verificar;
     
 public function paginationView()
 {
@@ -33,34 +37,75 @@ public function mount()
     $this->pagination = 50;
     $this->pageTitle = 'Listado';
     $this->componentName = 'DESTINOS';
+    $this->sucursal_id = "Todos";
+    $this->verificar = false;
 }
     public function render()
     {
         if (strlen($this->search) == 0)
         {
-            if($this->estados == 'TODOS')
+            if($this->sucursal_id != "Todos")
             {
-                $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
-                ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
-                'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
-                ->paginate($this->pagination);
+                if($this->estados == 'TODOS')
+                {
+                    $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                    ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado', DB::raw('0 as venta'),
+                    'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                    ->where("destinos.sucursal_id", $this->sucursal_id)
+                    ->paginate($this->pagination);
+                }
+                else
+                {
+                    $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                    ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado', DB::raw('0 as venta'),
+                    'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                    ->where("destinos.sucursal_id", $this->sucursal_id)
+                    ->where('destinos.status', $this->estados)
+                    ->paginate($this->pagination);
+                }
             }
             else
             {
-                $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
-                ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
-                'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
-                ->where('destinos.status', $this->estados)
-                ->paginate($this->pagination);
+                if($this->estados == 'TODOS')
+                {
+                    $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                    ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado', DB::raw('0 as venta'),
+                    'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                    ->paginate($this->pagination);
+                }
+                else
+                {
+                    $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
+                    ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado', DB::raw('0 as venta'),
+                    'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
+                    ->where('destinos.status', $this->estados)
+                    ->paginate($this->pagination);
+                }
             }
         }
         else
         {
             $destinos = Destino::join('sucursals as s','s.id','destinos.sucursal_id')
-            ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado',
+            ->select('destinos.id as iddestino','destinos.nombre as nombredestino','destinos.status as estado', DB::raw('0 as venta'),
             'destinos.created_at as creacion','destinos.updated_at as actualizacion','destinos.observacion as observacion','s.name as nombresucursal')
             ->where('destinos.nombre', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
+        }
+
+
+        foreach($destinos as $d)
+        {
+            $verificar = DestinoSucursal::where("destino_sucursals.destino_id", $d->iddestino)->get();
+
+            if($verificar->count() == 0)
+            {
+                $d->venta = "No";
+            }
+            else
+            {
+                $d->venta = "Si";
+            }
+
         }
 
         
@@ -115,6 +160,17 @@ public function mount()
     }
     public function Edit(Destino $destino)
     {
+        $verificar = DestinoSucursal::where("destino_sucursals.destino_id", $destino->id)->get();
+
+        if($verificar->count() == 0)
+        {
+            $this->verificar = true;
+        }
+        else
+        {
+            $this->verificar = false;
+        }
+
         $this->selected_id = $destino->id;
         $this->nombre = $destino->nombre;
         $this->observacion = $destino->observacion;
@@ -122,6 +178,17 @@ public function mount()
         $this->estadosmodal = $destino->status;
         
         $this->emit('show-modal');
+    }
+    //Obtener el Id de la Sucursal donde esta el Usuario
+    public function idsucursal()
+    {
+        $idsucursal = User::join("sucursal_users as su","su.user_id","users.id")
+        ->select("su.sucursal_id as id","users.name as n")
+        ->where("users.id",Auth()->user()->id)
+        ->where("su.estado","ACTIVO")
+        ->get()
+        ->first();
+        return $idsucursal->id;
     }
     public function Update()
     {

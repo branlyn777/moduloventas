@@ -18,6 +18,8 @@
         </div>
     </div>
 
+    @if($this->verificar)
+
     <div class="col-12 col-sm-6 col-md-6">
         <div class="form-group">
             <label>Sucursal</label>
@@ -40,10 +42,10 @@
                 <option value="ACTIVO">ACTIVO</option>
                 <option value="INACTIVO">INACTIVO</option>
             </select>
-            @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
-    @endif
+                @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
+            @endif
         </div>
     </div>
-        
+    @endif 
 </div>
 @include('common.modalFooter')
