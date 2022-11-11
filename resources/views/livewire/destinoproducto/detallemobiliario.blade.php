@@ -20,15 +20,15 @@
                             <blockquote class="blockquote media-object">
                                 <div class="media">
                                     <div class="media-body">
-                                        <center><h5>{{$key}}</h5></center>
-                                            <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                                                <table class="table table-bordered table-striped mt-1">
-                                                    <thead class="text-white" style="background: #2aab5b">
+                                        <center><h3>{{$key}}</h3></center>
+                                            <div class="table-6">
+                                                <table>
+                                                    <thead>
                                                         <tr>
-                                                            <th class="table-th text-withe text-center">ITEM</th>
-                                                            <th class="table-th text-withe text-center">ESTANCIA</th>                              
-                                                            <th class="table-th text-withe text-center">STOCK</th>   
-                                                            <th class="table-th text-withe text-center">MOBILIARIO</th>                                       
+                                                            <th class="text-center">ITEM</th>
+                                                            <th class="text-center">ESTANCIA</th>                              
+                                                            <th class="text-center">STOCK</th>   
+                                                            <th class="text-center">MOBILIARIO</th>                                       
                                                         
                                                                             
                                                         </tr>

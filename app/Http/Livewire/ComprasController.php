@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Compra;
+use App\Models\CompraDetalle;
 use App\Models\ProductosDestino;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -25,7 +26,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado;
+            $aprobado,$detalleCompra,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva;
 
     public function paginationView()
     {
@@ -152,6 +153,43 @@ class ComprasController extends Component
 
        
     
+    }
+
+    public function VerDetalleCompra(Compra $id){
+        $this->compraTotal=$id->importe_total;
+        $this->totalitems=$id->compradetalle()->sum('cantidad');
+        $this->observacion=$id->observacion;
+        
+        if ($id->tipo_doc == 'FACTURA') {
+            
+            $mm=$id->compradetalle()->get();
+            $this->totalIva=$mm->sum(function($cp) {
+                return (($cp->cantidad*$cp->precio)/0.87)*0.13;
+            });
+        }
+        $this->detalleCompra= $id->compradetalle()->get();
+        $this->emit('verDetalle');
+
+
+   
+        //dd($this->detalleCompra);
+    }
+
+    public function Confirm(){
+        
+        if ($this->verificardistribucion()) {
+            
+            $this->emit('erroreliminarCompra');
+        }
+        else{
+            
+            $this->emit('preguntareliminarCompra');
+           
+        }
+    }
+
+    public function verificardistribucion(){
+        return true;
     }
   
 }

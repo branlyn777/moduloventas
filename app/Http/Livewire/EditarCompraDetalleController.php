@@ -64,7 +64,7 @@ class EditarCompraDetalleController extends Component
 
         
         $this->componentName= "Editar Compras";
-        $this->fecha_compra = Compra::where('compras.id',$this->ide)->value('fecha_compra') ;
+        $this->fecha_compra = Compra::where('compras.id',$this->ide)->value('created_at') ;
         $this->usuario = $this->aux->user->name;
         $this->estado_compra = "finalizada";
         $this->selected_id = 0;
@@ -265,7 +265,8 @@ class EditarCompraDetalleController extends Component
             $cant_trans=TransferenciaLotes::where('lote_id',$tt)->sum('cantidad');
             $cant_vend=SaleLote::where('lote_id',$tt)->sum('cantidad');
            //dd($cant_trans,$cant_vend);
-           if ($cant<$cant_vend) {
+           if ($cant<$cant_vend) 
+           {
                 $this->mensaje_toast='La cantidad editada del producto esta incorrecta por que ya fue distribuido.';
                 $this->emit('error-item');
                 $this->passed = false;
@@ -274,9 +275,12 @@ class EditarCompraDetalleController extends Component
            }
         }
 
+        //compro 5 un. transfiero 3 un. me quedan en mi tienda 2 un. edito una compra a 2 unidades, el lote tendra 2 un.
+        //tengo que verificar que al descontar cuadre la suma de lotes y la de productos destinos. si no cuadra quiere decir que hubo una transferencia y que debe debe devolver la cantidad
+        //de los productos o anular la transferencia.
 
-    
-        foreach ($this->datalistcarrito as $data) {
+        foreach ($this->datalistcarrito as $data) 
+        {
             dump($data->compradetalle()->get());
         }
         
@@ -713,10 +717,10 @@ class EditarCompraDetalleController extends Component
 
     }
 
-  
-
-
-
-  
-
+    public function exit()
+    {
+        EditarCompra::clear();
+        $this->resetUI();
+        redirect('/compras');
+    }
 }

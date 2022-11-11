@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\Sucursal;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -59,19 +61,51 @@ class ExportComprasController extends Controller
       
        $nro= $this->nro;
        $totales=$this->totales;
+       $nombreempresa = Company::find(1)->name;
+       $logoempresa = Company::find(1)->image;
 
-        $pdf = PDF::loadView('livewire.pdf.reporteCompras', compact('data', 'filtro', 'fecha','dateFrom', 'dateTo', 'dateTo','nro','totales'));
+       $datossucursal = Sucursal::join("sucursal_users as su", "su.sucursal_id", "sucursals.id")
+       ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal", "su.user_id")
+       ->where("su.user_id", Auth()->user()->id)
+       ->get()
+       ->first();
+
+        $pdf = PDF::loadView('livewire.pdf.reporteCompras', compact('data', 'filtro', 'fecha','dateFrom', 'dateTo', 'dateTo','nro','totales','datossucursal','nombreempresa','logoempresa'));
 
         return $pdf->stream('ComprasReport.pdf');  //visualizar
         /* return $pdf->download('salesReport.pdf');  //descargar  */
     }
 
     public function PrintCompraPdf($id){
+        $datossucursal = Sucursal::join("sucursal_users as su", "su.sucursal_id", "sucursals.id")
+        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal", "su.user_id")
+        ->where("su.user_id", Auth()->user()->id)
+        ->get()
+        ->first();
+        $cp=Compra::find($id);
+
+        
+        $totalitems=$cp->compradetalle()->sum('cantidad');
+        $observacion=$cp->observacion;
+        $totaliva=0;
+        $totales=$cp->importe_total;
+        
+        if ($cp->tipo_doc == 'FACTURA') {
+            
+            $mm=$cp->compradetalle()->get();
+            $totaliva=$mm->sum(function($cp) {
+                return (($cp->cantidad*$cp->precio)/0.87)*0.13;
+            });
+        }
+
+ 
+        $nombreempresa = Company::find(1)->name;
+        $logoempresa = Company::find(1)->image;
             $data= Compra::join('providers as prov','compras.proveedor_id','prov.id')->select('compras.*','compras.id as compra_id','prov.*')->where('compras.id',$id)->first();
             $detalle=CompraDetalle::join('products as prod','compra_detalles.product_id','prod.id')->select('compra_detalles.*','prod.*')->where('compra_id',$id)->get();
             $nro= $this->nro+1;
    
-            $pdf = PDF::loadView('livewire.pdf.ImprimirCompra',compact('data','detalle','nro'));
+            $pdf = PDF::loadView('livewire.pdf.ImprimirCompra',compact('data','detalle','nro','logoempresa','nombreempresa','datossucursal','totalitems','totales','totaliva'));
 
             return $pdf->stream('CompraDetalle.pdf');  //visualizar
             /* return $pdf->download('salesReport.pdf');  //descargar  */

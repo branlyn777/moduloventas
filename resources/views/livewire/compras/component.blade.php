@@ -7,7 +7,7 @@
                     <b>COMPRAS</b>
                 </h3>
                 <ul class="row justify-content-end">
-                        <a href="detalle_compras" class="btn btn-outline-primary" >Registrar Compra</a>
+                        <a href="detalle_compras" class="btn btn-outline-primary">Registrar Compra</a>
            
                 </ul>
                
@@ -70,7 +70,7 @@
                           
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-12 mt-3">
+                    <div class="col-lg-4 col-md-12 col-12 mt-3">
 
                         @include('common.searchbox')
                     </div>
@@ -129,12 +129,12 @@
                                                 </td>
                                               
                                                 @if( $data->status_compra == 'ACTIVO')
-                                                <td>
-                                                    <h6 class="text-center card text-white bg-primary">{{ $data->status_compra }}</h6>
+                                                <td class="text-center" >
+                                               <span class="badge badge-success mb-0">{{$data->status_compra}}</span>
                                                 </td>
                                                 @else
-                                                <td>
-                                                    <h6 class="text-center card text-white bg-danger">{{ $data->status_compra }}</h6>
+                                                <td class="text-center">
+                                                  <span class="badge badge-success mb-0">{{$data->status_compra}}</span>
                                                 </td>
                                                 @endif
                                                 <td>
@@ -143,6 +143,10 @@
                                               
                                                 
                                                 <td class="text-center">
+                                                    <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
+                                                        class="boton-celeste p-1" title="Listar compra">
+                                                        <i class="fas fa-list"></i>
+                                                    </a>
                                                     <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
                                                         class="btn btn-dark p-1" title="Editar compra">
                                                         <i class="fas fa-edit"></i>
@@ -151,7 +155,7 @@
                                                         class="btn btn-success p-1" title="Imprimir detalle compra">
                                                         <i class="fas fa-print"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" wire:click="Destroy('{{ $data->id }}')" 
+                                                    <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
                                                         class="btn btn-danger p-1" title="Borrar compra">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
@@ -159,15 +163,18 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                        <tfoot class="text-white text-right" style="background: #fffefd"  >
+                                        <tfoot class="text-white text-right">
                                             <tr>
-                                                <td colspan="4">
+                                                <td colspan="5">
                                                      <h5 class="text-dark">Total Bs.-</h5>
                                                      <h5 class="text-dark">Total $us.-</h5>
                                                 </td>
                                                 <td>
                                                     <h5 class="text-dark text-center">{{$totales}}</h5>
                                                     <h5 class="text-dark text-center">{{round($totales/6.96,2)}}</h5>
+                                                </td>
+                                                <td  colspan="4">
+
                                                 </td>
                                             </tr>
                                             
@@ -184,6 +191,7 @@
 
         </div>
     </div>
+    @include('livewire.compras.verDetallecompra')
    </div>
 
    <script>
@@ -195,6 +203,31 @@
         window.livewire.on('purchase-error', msg => {
             noty(msg)
         });
-     
+        window.livewire.on('verDetalle', msg => {
+            $('#detalleCompra').modal('show')
+        });
+        window.livewire.on('erroreliminarCompra', msg => {
+            swal.fire({
+                title: 'ERROR',
+                icon: 'warning',
+                text: 'La compra no puede ser eliminada por que uno de los items ya ha sido distribuido.'              
+            })
+        });
+        window.livewire.on('preguntareliminarCompra', msg => {
+            swal.fire({
+                title: 'PRECAUCION',
+                icon: 'warning',
+                text: '¿Esta seguro de eliminar la compra?',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar'
+                
+            }).then(function(result){
+                if(result.value){
+                    window.livewire.emit('deleteRowPermanently',id).Swal.close()
+                }
+            })
+        });
     })
+
+
     </script>

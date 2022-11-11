@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
+use App\Models\Permission;
 use App\Models\Sucursal;
 use Illuminate\Database\Seeder;
 
@@ -33,6 +34,13 @@ class SucursalSeeder extends Seeder
             'sucursal_id' => $sucursal->id
         ]);
         $destino->save();
+
+        Permission::create([
+            'name' => $destino->nombre .'_'. $destino->id ,
+            'guard_name' => 'web',
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar al destino',
+        ]);
 
         DestinoSucursal::create([
             'destino_id' => $destino->id,

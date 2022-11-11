@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Company;
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
+use App\Models\Permission;
 use App\Models\Sucursal;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -83,6 +84,14 @@ class SucursalController extends Component
             'sucursal_id' => $sucursal->id
         ]);
         $destino->save();
+
+        Permission::create([
+            'name' => $destino->nombre .'_'. $destino->id ,
+            'guard_name' => 'web',
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar al destino',
+        ]);
+
 
         DestinoSucursal::create([
             'destino_id' => $destino->id,

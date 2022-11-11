@@ -11,6 +11,16 @@
             <div>
                 @if ($loteproducto)
                     <div class="col-lg-12">
+
+                        <div class="col-12 col-lg-6 col-md-3">
+                            <div class="form-group">
+                                <select wire:model='estados' class="form-control mt--2">
+                                  <option value="null" disabled>Estado</option>
+                                  <option value="ACTIVO">ACTIVO</option>
+                                  <option value="INACTIVO">INACTIVO</option>
+                                </select>
+                              </div>
+                        </div>
                         <div class="table-1">
                             <table>
                                 <thead>
@@ -19,6 +29,7 @@
                                         <th>Fecha Creacion</th>                              
                                         <th>Producto</th>                              
                                         <th>Existencia</th>   
+                                        <th>Estado</th>   
                                         <th>Costo Lote</th>                                                    
                                         <th>p/v Lote</th>                                                    
                                     </tr>
@@ -40,6 +51,9 @@
                                         </td>
                                         <td>
                                             <h6>{{$data->productos->nombre}}</h6>
+                                        </td>
+                                        <td>
+                                            <h6>{{$data->status}}</h6>
                                         </td>
                                         <td>
                                             <h6>{{$data->existencia}}</h6>
