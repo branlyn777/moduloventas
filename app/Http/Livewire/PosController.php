@@ -118,7 +118,7 @@ class PosController extends Component
         $this->precio_promedio = 0;
         foreach($this->listarcarteras() as $list)
         {
-            if($list->tipo == 'CajaFisica')
+            if($list->tipo == 'efectivo')
             {
                 $this->cartera_id = $list->idcartera;
                 break;

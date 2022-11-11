@@ -434,23 +434,10 @@ class SaleListController extends Component
         return view('livewire.sales.salelist', [
             'listaventas' => $listaventas,
             'listasucursales' => Sucursal::all(),
-            'listausuarios' => $this->listausuarios(),
             'usuarios' => $usuarios
         ])
         ->extends('layouts.theme.app')
         ->section('content');
-    }
-    //Listar a todos los usuarios que hayan realizado ventas en las fechas y sucursales seleccionadas
-    public function listausuarios()
-    {
-        $listausuarios = User::join("sales as s", "s.user_id", "users.id")
-        ->select("users.*")
-        ->where("s.status","PAID")
-        ->where("s.status","PAID")
-        ->where("users.status","ACTIVE")
-        ->groupBy("users.id")
-        ->get();
-        return $listausuarios;
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()

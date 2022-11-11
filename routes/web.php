@@ -37,6 +37,7 @@ use App\Http\Livewire\SaleDevolutionController;
 use App\Http\Livewire\SaleEditController;
 use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleReporteCantidadController;
+use App\Http\Livewire\SaleReportProductController;
 use App\Http\Livewire\SucursalController;
 use App\Http\Livewire\TransferenciasController;
 use App\Http\Livewire\TransferirProductoController;
@@ -78,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('editarventa', SaleEditController::class)->name('editarventa');
     Route::get('devolucionventa', SaleDevolutionController::class)->name('devolucionventa');
     Route::get('devolucionventa2', SaleDevolucionController::class)->name('devolucionventa2');
+    Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
     Route::get('salemovimientodiario', SaleDailyMovementController::class)->name('salemovimientodiario')->middleware('permission:VentasMovDia_Index');
     //Ventas Pdf
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);

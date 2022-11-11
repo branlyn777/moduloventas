@@ -244,7 +244,7 @@
                     <div class="form-group">
                         <select wire:model="user_id" class="form-control">
                             <option value="Todos" selected>Todos</option>
-                            @foreach ($listausuarios as $u)
+                            @foreach ($usuarios as $u)
                                 <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
                             @endforeach
                         </select>
