@@ -45,8 +45,7 @@
                                         <tr>
                                             <td>
 
-                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index
-                                                    + 1 }}</h6>
+                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index + 1 }}</h6>
 
                                             </td>
                                             <td>
