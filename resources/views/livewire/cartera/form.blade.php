@@ -23,8 +23,8 @@
             <h6>Tipo</h6>
             <select wire:model='tipo' class="form-control">
                 <option value="Elegir" disabled selected>Elegir</option>
-                <option value="CajaFisica">Caja Fisica</option>
-                <option value="Banco">Banco</option>
+                <option value="efectivo">EFECTIVO</option>
+                <option value="digital">DIGITAL</option>
             </select>
             @error('tipo')
                 <span class="text-danger er">{{ $message }}</span>

@@ -19,7 +19,7 @@
                             <select wire:model='cartera_id' class="form-control">
                                 <option value=null selected>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
-                                @if($item->tipo=="CajaFisica")
+                                @if($item->tipo=="efectivo")
                                     <option value="{{ $item->cid }}">{{ $item->cajaNombre }},
                                         {{ $item->carteraNombre }}
                                     </option>
@@ -65,7 +65,7 @@
                             <select wire:model='cartera_id2' class="form-control">
                                 <option value=null selected>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
-                                @if($item->tipo=="CajaFisica")
+                                @if($item->tipo=="efectivo")
                                     <option value="{{ $item->cid }}">{{ $item->cajaNombre }},
                                         {{ $item->carteraNombre }}
                                     </option>

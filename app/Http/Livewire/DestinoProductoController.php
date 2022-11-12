@@ -30,7 +30,7 @@ class DestinoProductoController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $selected_id,$search,$selected_mood,$selected_ubicacion,$loteproducto,$filtro_stock,$componentName,$title,$sql,$prod,$grouped,$stocks,$productoajuste,$cant_operacion,$opcion_operacion,$obs_operacion,$cantidad,$productid,$productstock,$mobiliario,$mobs,$mop_prod, $active,$toogle,$qq;
+    public $selected_id,$search,$selected_mood,$selected_ubicacion,$loteproducto,$estados,$filtro_stock,$componentName,$title,$sql,$prod,$grouped,$stocks,$productoajuste,$cant_operacion,$opcion_operacion,$obs_operacion,$cantidad,$productid,$productstock,$mobiliario,$mobs,$mop_prod, $active,$toogle,$qq,$nombre_prodlote;
     private $pagination = 50;
    
     public function paginationView()
@@ -47,6 +47,7 @@ class DestinoProductoController extends Component
         $this->pr=20;
         $this->toogle=1;
         $this->selected_mood='todos';
+        $this->estados= 'Activo';
    
    
     
@@ -116,6 +117,13 @@ class DestinoProductoController extends Component
              $sucursal_ubicacion=Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
                                         ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id')
                                         ->orderBy('suc.name','asc');
+                                        //dd($this->productid);
+            if ($this->productid != null) {
+                
+                $this->loteproducto= Lote::where('product_id',$this->productid)->where('status',$this->estados)->get();
+
+            
+            }
         
             
 
@@ -309,7 +317,6 @@ class DestinoProductoController extends Component
                         'cantidad'=>$val->existencia
                         
                     ]);
-                   
 
                     $val->update([
                         
@@ -532,12 +539,12 @@ dd($e->getMessage());
     public function lotes($id){
 
         //dd($id);
-        $this->loteproducto= Lote::where('product_id',$id)->get();
+      $this->productid= $id;
+        $this->nombre_prodlote=Product::find($id)->nombre;
+      
         //dd($this->loteproducto);
         $this->emit('show-modal-lotes');
     }
-
-
     public function export() 
     {
         return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');

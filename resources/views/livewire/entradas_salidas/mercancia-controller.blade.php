@@ -1,19 +1,17 @@
-
-
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
                 <h4 class="card-title">
-                  <center> <b>Control Entrada y Salida de Productos</b></center> 
+                    <center> <b>Control Entrada y Salida de Productos</b></center>
                 </h4>
                 <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal" wire:click= 'resetui()'
-                    data-target="#operacion">Registrar Operacion</a>
-      
-                     
+                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
+                        wire:click='resetui()' data-target="#operacion">Registrar Operacion</a>
+
+
                 </ul>
-               
+
             </div>
 
             <div class="widget-body">
@@ -24,7 +22,7 @@
                         <option value="Salida">Salida</option>
                     </select>
                 </div>
-              
+
 
                 <div class="row pl-2">
                     <div class="col-lg-12">
@@ -33,9 +31,9 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>#</th>                                
-                                            <th>Fecha de Registro</th>                                                
-                                            <th>Ubicacion</th>                                
+                                            <th>#</th>
+                                            <th>Fecha de Registro</th>
+                                            <th>Ubicacion</th>
                                             <th>Tipo Operacion</th>
                                             <th>Observacion</th>
                                             <th>Usuario</th>
@@ -43,49 +41,55 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       @foreach ($ingprod as $data2)
-                                           <tr>
-                                                <td>
-                                                    
-                                                    <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index + 1 }}</h6>
-                                                    
-                                                </td>
-                                                <td> <center>
+                                        @foreach ($ingprod as $data2)
+                                        <tr>
+                                            <td>
+
+                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index
+                                                    + 1 }}</h6>
+
+                                            </td>
+                                            <td>
+                                                <center>
 
                                                     {{\Carbon\Carbon::parse($data2->created_at)->format('d-m-Y')}}
                                                     <br>
                                                     {{\Carbon\Carbon::parse($data2->created_at)->format('h:i:s a')}}
                                                 </center>
-                                                </td>
-                                             
-                                                <td>
-                                                   Sucursal {{$data2->destinos->sucursals->name}}
-                                                    {{$data2->destinos->nombre}}
-                                                  
-                                                </td>
-                                                <td>
-                                                    {{$data2->concepto}}
-                                                </td>
-                                                <td>
-                                                    {{$data2->observacion}}
-                                                </td>
-                                                <td>
-                                                    {{$data2->usuarios->name}}
-                                                </td>
-                                                <td>
-                                                    <center>
-                                                    <button wire:click="ver({{ $data2->id }})" type="button" class="btn btn-secondary p-1" style="background-color: rgb(12, 100, 194)">
-                                                       
+                                            </td>
+
+                                            <td>
+                                                Sucursal {{$data2->destinos->sucursals->name}}
+                                                {{$data2->destinos->nombre}}
+
+                                            </td>
+                                            <td>
+                                                {{$data2->concepto}}
+                                            </td>
+                                            <td>
+                                                {{$data2->observacion}}
+                                            </td>
+                                            <td>
+                                                {{$data2->usuarios->name}}
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <button wire:click="ver({{ $data2->id }})" type="button"
+                                                        class="btn btn-secondary p-1"
+                                                        style="background-color: rgb(12, 100, 194)">
+
                                                         <i class="fas fa-list"></i>
                                                     </button>
-                                                    <button wire:click="verifySale({{ $data2->id }})" type="button" class="btn btn-danger p-1" style="background-color: rgb(12, 100, 194)">
+                                                    <button wire:click="verifySale({{ $data2->id }})" type="button"
+                                                        class="btn btn-danger p-1"
+                                                        style="background-color: rgb(12, 100, 194)">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </center>
-                                                  </td>
+                                            </td>
 
-                                           </tr>
-                                       @endforeach
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                                 {{ $ingprod->links() }}
@@ -98,13 +102,14 @@
         </div>
     </div>
     @include('livewire.entradas_salidas.operacion')
+    @include('livewire.entradas_salidas.buscarproducto')
 
-   </div>
+</div>
 
 
-   @section('javascript')
+@section('javascript')
 
-   <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
 
         window.livewire.on('product-added', msg => {
@@ -189,8 +194,7 @@
      });
   
     })
-    </script>
-        <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
-        <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-    @endsection
-    
+</script>
+<script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+@endsection

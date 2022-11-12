@@ -403,7 +403,7 @@
                                         <h5 class="text-dark text-center m-0" > <b>{{ number_format($operacionesefectivas,2)}}</b> </h5>
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td>
                                         <h5 class="text-dark text-center mr-1"><b> Saldo por Operaciones en TigoMoney </b></h5>
                                     </td>
@@ -412,7 +412,7 @@
                                         <h5 class="text-dark text-center mr-1" >{{ number_format($total,2)}} </h5>
                                     </td>
                                   
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td>
                                         <h5 class="text-dark text-left" ><b> Apertura Caja Fisica </b></h5>

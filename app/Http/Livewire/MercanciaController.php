@@ -806,7 +806,14 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
     }
 public function ver($id){
 
-    $this->detalle= DetalleEntradaProductos::where('id_entrada',$id)->get();
+    if ($this->tipo_de_operacion == 'Entrada') {
+        
+        $this->detalle= DetalleEntradaProductos::where('id_entrada',$id)->get();
+    }
+    else{
+        $this->detalle= DetalleSalidaProductos::where('id_salida',$id)->get();
+
+    }
     $this->emit('show-detail');
 
 }

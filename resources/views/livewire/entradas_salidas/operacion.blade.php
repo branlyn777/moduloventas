@@ -214,22 +214,22 @@
                 @endif
                
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="table-6 col-lg-12 p-4">
 
                         @if (count($col)>0)
                             <center>
 
-                                <table class="tablaservicios">
+                                <table>
                                     <thead>
                                         <tr>
-                                            <th class="table-th text-withe text-center">#</th>
-                                            <th class="table-th text-withe text-center">PRODUCTO</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">PRODUCTO</th>
                                             @if ($tipo_proceso != 'Salida')
                                                 
-                                            <th class="table-th text-withe text-center">COSTO</th>                              
+                                            <th class="text-center">COSTO</th>                              
                                             @endif                            
-                                            <th class="table-th text-withe text-center">CANTIDAD</th>
-                                            <th class="table-th text-withe text-center">Acc.</th>
+                                            <th class="text-center">CANTIDAD</th>
+                                            <th class="text-center">Acc.</th>
                                           
                                         </tr>
                                     </thead>
