@@ -232,21 +232,21 @@
                                     <i class="fas fa-money-bill-alt"></i>
                                     Denominaciones </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('devolucionventa') }}">
                                     <i class="fas fa-sync-alt"></i>
                                     Devolución Ventas </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="{{ url('salemovimientodiario') }}">
                                     <i class="fas fa-calendar-alt"></i>
                                     Movimiento Diario Ventas</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('ventasreportecantidad') }}">
                                     <i class="fas fa-chart-pie"></i>
                                     Reporte Ventas Usuarios</a>
-                            </li>
+                            </li> --}}
 
                             <li>
                                 <a data-toggle="collapse" href="#subnav1">
