@@ -512,6 +512,10 @@ class IngresoEgresoController extends Component
             'import' => $this->cantidad,
             'user_id' => Auth()->user()->id,
         ]);
+
+
+
+
         
         $cv=CarteraMov::create([
             'type' => $this->type,
@@ -521,8 +525,38 @@ class IngresoEgresoController extends Component
             'movimiento_id' => $mvt->id,
             'cartera_mov_categoria_id' => $this->categoria_ie_id
         ]);
-   //verificar que caja esta aperturada
-   $cajaId= session('sesionCajaID');
+
+
+        if($this->type == "INGRESO")
+        {
+            $cartera = Cartera::find($this->cartera_id);
+
+            $saldo_cartera = Cartera::find($this->cartera_id)->saldocartera + $this->cantidad;
+    
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+        else
+        {
+            $cartera = Cartera::find($this->cartera_id);
+
+            $saldo_cartera = Cartera::find($this->cartera_id)->saldocartera - $this->cantidad;
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+
+
+       
+
+
+
+
+        //verificar que caja esta aperturada
+        $cajaId= session('sesionCajaID');
 
 
         if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
@@ -545,9 +579,10 @@ class IngresoEgresoController extends Component
         $this->cantidad = '';
         $this->comentario = '';
         $this->emit('hide-modal');
+        $this->categoria_ie_id = "Elegir";
     }
-
-    public function usuarioSucursal(){
+    public function usuarioSucursal()
+    {
         $SucursalUsuario = User::join('sucursal_users as su', 'su.user_id', 'users.id')
         ->join('sucursals as s', 's.id', 'su.sucursal_id')
         ->where('users.id', Auth()->user()->id)
@@ -557,8 +592,6 @@ class IngresoEgresoController extends Component
 
         return $SucursalUsuario->id;
     }
-
-
     public function generarpdf($data)
     {
         session(['ingresos' => $data]);
@@ -575,9 +608,7 @@ class IngresoEgresoController extends Component
 
         $this->emit('openothertap');
     }
-
     protected $listeners= ['eliminar_operacion'=>'anularOperacion'];
-
     public function anularOperacion(Movimiento $mov)
     {
 
@@ -587,8 +618,7 @@ class IngresoEgresoController extends Component
             ]);
         $mov->save();
 
-    }
-        
+    }   
     public function editarOperacion(Movimiento $mov)
     {
 
@@ -597,11 +627,11 @@ class IngresoEgresoController extends Component
     
         $this->cartera_id_edit=$mov->cartmov[0]->cartera_id;
         $this->type_edit=$mov->cartmov[0]->type;
+
         $this->comentario_edit=$mov->cartmov[0]->comentario;
         $this->mov_selected=$mov;
         $this->emit('editar-movimiento');
     }
-
     public function guardarEdicion()
     {
 
@@ -617,10 +647,34 @@ class IngresoEgresoController extends Component
             'comentario'=>$this->comentario_edit
         ]);
 
+        if($this->type_edit == "INGRESO")
+        {
+            $cartera = Cartera::find($this->cartera_id_edit);
+
+            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera + $this->cantidad_edit;
+
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+        else
+        {
+            $cartera = Cartera::find($this->cartera_id_edit);
+
+            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera - $this->cantidad_edit;
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+
+        
+
+
+
         $this->resetUIedit();
 
     }
-
     public function resetUIedit()
     {
         $this->cartera_id_edit = 'Elegir';
@@ -629,7 +683,6 @@ class IngresoEgresoController extends Component
         $this->comentario_edit = '';
         $this->emit('hide_editar');
     }
-
     public function listarcarterasg()
     {
         $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
@@ -638,9 +691,6 @@ class IngresoEgresoController extends Component
         ->get();
         return $carteras;
     }
-
-     
-
 }
 
 //datos de apertura

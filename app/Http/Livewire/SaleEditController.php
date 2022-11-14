@@ -8,6 +8,7 @@ use App\Models\CarteraMov;
 use App\Models\Cliente;
 use App\Models\ClienteMov;
 use App\Models\Destino;
+use App\Models\DestinoSucursal;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\ProcedenciaCliente;
@@ -72,6 +73,16 @@ class SaleEditController extends Component
     public $paginacion;
     //Carrito de Ventas
     public $carrito_venta;
+
+
+    //Lista la tabla procedencias de clientes
+    public $procedencias;
+    //Guarda el id de la tabla procedencia clientes
+    public $procedencia_cliente_id;
+    //Guarda el id Destino de donde se sacaran las ventas
+    public $destino_id;
+
+
     use WithPagination;
     public function paginationView()
     {
@@ -79,6 +90,10 @@ class SaleEditController extends Component
     }
     public function mount()
     {
+        $this->destino_id = DestinoSucursal::where("destino_sucursals.sucursal_id",$this->idsucursal())->first()->destino_id;
+
+
+
         //Obteniendo el id de la venta por la variable de sesión
         $this->venta_id = session('venta_id');
         //Obteniendo detalles generales de la venta
@@ -202,6 +217,12 @@ class SaleEditController extends Component
         ])
         ->extends('layouts.theme.app')
         ->section('content');
+    }
+    //llama al modal buscarcliente
+    public function modalbuscarcliente()
+    {
+        $this->procedencias = ProcedenciaCliente::where("estado","ACTIVO")->get();
+        $this->emit('show-buscarcliente');
     }
     //Buscar el Precio Original de un Producto
     public function buscarprecio($id)
@@ -440,7 +461,7 @@ class SaleEditController extends Component
         ->join("products as p", "p.id", "pd.product_id")
         ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
         ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.nombre', 'TIENDA')
+        ->where('destinos.id', $this->destino_id)
         ->where('pd.product_id', $idproducto)
         ->where('p.status', 'ACTIVO')
         ->get();
@@ -488,7 +509,7 @@ class SaleEditController extends Component
         ->join("products as p", "p.id", "pd.product_id")
         ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
         ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.nombre', '<>' ,'TIENDA')
+        ->where('destinos.id', '<>' ,$this->destino_id)
         ->where('pd.product_id', $this->producto_id)
         ->where('p.status', 'ACTIVO')
         ->get();
@@ -531,13 +552,25 @@ class SaleEditController extends Component
     //Cierra la ventana modal Buscar Cliente y Cambia el id de la variable $cliente_id con un cliente Creado
     public function crearcliente()
     {
+        $rules = [
+            'procedencia_cliente_id' => 'required|not_in:Elegir',
+            'procedencia_cliente_id' => 'required'
+        ];
+        $messages = [
+            'procedencia_cliente_id.not_in' => 'Elegir un tipo diferente de elegir',
+            'procedencia_cliente_id.required' => 'Elegir un tipo diferente de elegir',            
+        ];
+
+        $this->validate($rules, $messages);
+
+
         if($this->cliente_celular == null)
         {
             $newclient = Cliente::create([
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
-                'nit' => $this->cliente_ci,
-                'procedencia_cliente_id' => 1,
+                'celular' => 0,
+                'procedencia_cliente_id' => $this->procedencia_cliente_id,
             ]);
         }
         else
@@ -546,8 +579,8 @@ class SaleEditController extends Component
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => $this->cliente_celular,
-                'procedencia_cliente_id' => 1,
-        ]);
+                'procedencia_cliente_id' => $this->procedencia_cliente_id,
+            ]);
         }
         
         $this->cliente_id = $newclient->id;
@@ -794,7 +827,7 @@ class SaleEditController extends Component
                 ->select("productos_destinos.id as id","p.nombre as name",
                 "productos_destinos.stock as stock")
                 ->where("p.id", $d->product_id)
-                ->where("des.nombre", 'TIENDA')
+                ->where("des.id", $this->destino_id)
                 ->where("des.sucursal_id", $this->idsucursal())
                 ->get()->first();
 
@@ -910,7 +943,7 @@ class SaleEditController extends Component
                 ->select("productos_destinos.id as id","p.nombre as name",
                 "productos_destinos.stock as stock")
                 ->where("p.id", $p['id'])
-                ->where("des.nombre", 'TIENDA')
+                ->where("des.id", $this->destino_id)
                 ->where("des.sucursal_id", $this->idsucursal())
                 ->get()->first();
 

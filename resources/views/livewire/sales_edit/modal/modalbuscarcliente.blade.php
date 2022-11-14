@@ -66,6 +66,16 @@
                                                 <label for="validationTooltipUsername"><b>Celular</b></label>
                                                 <input wire:model.lazy="cliente_celular" class="form-control" type="number" placeholder="Opcional...">
                                             </div>
+                                            <div class="col-sm-12">
+                                                <label for="validationTooltipUsername"><b>Procedencia Cliente</b></label>
+                                                <select wire:model="procedencia_cliente_id" class="form-control">
+                                                    <option value="Elegir">Elegir</option>
+                                                    @foreach($this->procedencias as $p)
+                                                    <option value="{{$p->id}}">{{$p->procedencia}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('procedencia_cliente_id') <span class="text-danger er">{{ $message }}</span>@enderror
+                                            </div>
                                         </div>
 
                                         <br>

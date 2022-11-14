@@ -396,8 +396,8 @@
                         
                     </div>
                     <div class="col-4 text-center">
-                        <button wire:click="$emit('show-buscarcliente')" type="button" class="boton-azul-g">
-                            Buscar o Crear Cliente
+                        <button wire:click=modalbuscarcliente()" type="button" class="boton-azul-g">
+                            Buscar/Crear
                         </button>
                     </div>
                     <div class="col-4 text-center">
