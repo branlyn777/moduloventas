@@ -3,9 +3,9 @@
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
-                <h3 class="text-center">
-                    <b>COMPRAS</b>
-                </h3>
+                <h2 class="text-center">
+                    <b>LISTA DE COMPRAS</b>
+                </h2>
                 <ul class="row justify-content-end">
                         <a href="detalle_compras" class="btn btn-outline-primary">Registrar Compra</a>
            
@@ -15,66 +15,86 @@
 
             <div class="widget-body">
 
-                <div class="row m-1">
-                    <div class="col-12 col-lg-5 col-md-4 card">
-                        <h5 class="mt-2">Fecha de Compra</h5>
+                <div class="row">
 
-                        <div class="row align-items-center mt-1">
-
-                            <div class="col-lg-8">
-
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b wire:click="limpiarsearch()" style="cursor: pointer;">Buscar...</b>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text input-gp">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b>Seleccionar Sucursal</b>
+                        <div class="form-group">
+                            <select wire:model="sucursal_id" class="form-control">
+                                @foreach($listasucursales as $sucursal)
+                                <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                @endforeach
+                                <option value="Todos">Todas las Sucursales</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b>Estado</b>
+                        <div class="form-group">
+                            <select wire:model="estado" class="form-control">
+                                <option value='activo' selected>Activo</option>
+                                <option value='anulado'>Anulado</option>
+                                <option value='todos'>Todos</option>
+                            </select>
+                        </div>
+                    </div>
+    
+               
+                    <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <b>Tipo de Fecha</b>
+                        <div class="form-group">                              
                                 <select wire:model="fecha" class="form-control">
-                                        <option value='hoy' selected>Hoy</option>
-                                        <option value='ayer'>Ayer</option>
-                                        <option value='semana'>Semana</option>
-                                        <option value='fechas'>Entre Fechas</option>
-                                </select>
-                            </div>
-                      
-                        <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Fecha inicial</label>
-                                    <input type="date" wire:model="fromDate" class="form-control">
-                                    @error('fromDate')
-                                    <span class="text-danger">{{ $message}}</span>
-                                    @enderror
-                                 </div>
-                             </div>
-                        <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Fecha final</label>
-                                    <input type="date" wire:model="toDate" class="form-control">
-                                    @error('toDate')
-                                    <span class="text-danger">{{ $message}}</span>
-                                    @enderror
-                                </div>
-                        </div>
-                     
-
+                                    <option value='hoy' selected>Hoy</option>
+                                    <option value='ayer'>Ayer</option>
+                                    <option value='semana'>Semana</option>
+                                    <option value='fechas'>Entre Fechas</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-5 col-md-4 card ml-3">
-                        <h5 class="mt-2">Filtrar Transaccion</h5>
-                        <div class="row mt-1">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <select wire:model="filtro" class="form-control">
-                                            <option value ='Contado' selected>Contado</option>
-                                            <option value='Credito'>Credito</option>
-                                    </select>
-                                    @error('filtro')
-                                    <span class="text-danger">{{ $message}}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                          
+                    <div class="col-12 col-sm-6 col-md-1 text-center">
+                        <b>Reportes</b>
+                        <div class="form-group">                              
+                           <button type="button" class="btn" ><i class="fas fa-ellipsis-v"></i></button> 
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 col-12 mt-3">
-
-                        @include('common.searchbox')
-                    </div>
+    
                 </div>
+                @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
+
+                <div class="row">
+    
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b>Fecha Inicio</b>
+                        <div class="form-group">
+                            <input type="date" wire:model="fromDate" class="form-control flatpickr" >
+                        </div>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b>Fecha Fin</b>
+                        <div class="form-group">
+                            <input type="date" wire:model="toDate" class="form-control flatpickr" >
+                        </div>
+                    </div>
+                
+                </div>
+    
+                @endif
+    
 
     {{--tabla que muestra todas las compras--}}
 
@@ -86,22 +106,22 @@
                                     <thead>
                                         <tr>
                                            
-                                            <th>#</th>                                
-                                            <th>Fecha</th>                                
-                                            <th>Proveedor</th>                                
-                                            <th>Documento</th>                                
-                                            <th>Tipo<br>Compra</br></th>                                
-                                            <th>Total<br>Compra</br></th>                                
-                                            <th>Saldo</th>                                
-                                            <th>Estado</th>
-                                            <th>Usuario</th>
-                                            <th>Acciones</th>
+                                            <th class="text-center">#</th>                                
+                                            <th class="text-center">FECHA</th>                                
+                                            <th class="text-center">PROVEEDOR</th>                                
+                                            <th class="text-center">DOCUMENTO</th>                                
+                                            <th class="text-center">TIPO<br>COMPRA</br></th>                                
+                                            <th class="text-center">TOTAL<br>COMPRA</br></th>                                
+                                                          
+                                            <th class="text-center">ESTADO</th>
+                                            <th class="text-center">USUARIO</th>
+                                            <th class="text-center">ACC.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data_compras as $data)
                                             <tr>
-                                                <td>
+                                                <td class="text-center" >
                                                     <h6>{{ $loop->index+1}}</h6>
                                                 </td>
                                                 <td>
@@ -124,9 +144,7 @@
                                                 <td>
                                                     <h6 class="text-center">{{ $data->importe_total }}</h6>
                                                 </td>
-                                                <td>
-                                                    <h6 class="text-center">{{ $data->saldo }}</h6>
-                                                </td>
+                                           
                                               
                                                 @if( $data->status_compra == 'ACTIVO')
                                                 <td class="text-center" >
@@ -156,8 +174,8 @@
                                                         <i class="fas fa-print"></i>
                                                     </a>
                                                     <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
-                                                        class="btn btn-danger p-1" title="Borrar compra">
-                                                        <i class="fas fa-trash"></i>
+                                                        class="btn btn-danger p-1" title="Anular compra">
+                                                        <i class="fas fa-minus-circle"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -217,13 +235,13 @@
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
-                text: '¿Esta seguro de eliminar la compra?',
+                text: '¿Esta seguro de anular la compra?',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar'
                 
             }).then(function(result){
                 if(result.value){
-                    window.livewire.emit('deleteRowPermanently',id).Swal.close()
+                    window.livewire.emit('deleteRow',id).Swal.close()
                 }
             })
         });

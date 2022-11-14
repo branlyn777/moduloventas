@@ -192,8 +192,6 @@ class EditarCompraDetalleController extends Component
             'attributes'=>$attributos
         );
 
-        
-        
         EditarCompra::add($products);
         // Compras::add($product->id, $product->name, $precio_compra, $cant);
         

@@ -4,7 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Compra;
 use App\Models\CompraDetalle;
+use App\Models\Lote;
 use App\Models\ProductosDestino;
+use App\Models\SaleLote;
+use App\Models\SalidaLote;
+use App\Models\Sucursal;
+use App\Models\TransferenciaLotes;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -26,7 +32,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva;
+            $aprobado,$detalleCompra,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha;
 
     public function paginationView()
     {
@@ -58,28 +64,34 @@ class ComprasController extends Component
         if (strlen($this->search) > 0){
             $this->datas_compras = Compra::join('users','compras.user_id','users.id')
             ->join('providers as prov','compras.proveedor_id','prov.id')
-            ->select('compras.*','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name')
+            ->select('compras.*','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name as username')
             ->whereBetween('compras.created_at',[$this->from,$this->to])
-            ->where('compras.transaccion',$this->filtro)
             ->where('nombre_prov', 'like', '%' . $this->search . '%')
+            ->orWhere('nro_documento', 'like', '%' . $this->search . '%')
             ->orWhere('users.name', 'like', '%' . $this->search . '%')
-            ->orWhere('compras.id', 'like', '%' . $this->search . '%')
-            ->orWhere('compras.created_at', 'like', '%' . $this->search . '%')
-            ->orWhere('compras.status', 'like', '%' . $this->search . '%')
             ->orderBy('compras.created_at','desc')
             ->get();
             $this->totales = $this->datas_compras->sum('importe_total');
         }
-        return view('livewire.compras.component',['data_compras'=>$this->datas_compras, 'totales'=>$this->totales])
+
+        
+        $usuarios = User::select("users.*")
+        ->where("users.status","ACTIVE")
+        ->get();
+        return view('livewire.compras.component',
+        ['data_compras'=>$this->datas_compras, 
+        'totales'=>$this->totales,
+        'listasucursales' => Sucursal::all(),
+        'usuarios' => $usuarios])
         ->extends('layouts.theme.app')
         ->section('content');
     }
-
+    
     public function consultar()
     {
         if ($this->fecha == 'hoy') {
-
-    
+            $this->fromDate = Carbon::now();
+            $this->toDate = Carbon::now();
             $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
             $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
         }
@@ -91,68 +103,44 @@ class ComprasController extends Component
             $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
         }
         if ($this->fecha == 'semana') 
-        {
-
-            $this->toDate = Carbon::now();
+        {   $this->toDate = Carbon::now();
             $this->fromDate = $this->toDate->subWeeks(1);
             $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
             $this->to = Carbon::parse(Carbon::now())->format('Y-m-d')     . ' 23:59:59';
-
         }
 
         else{
-
             $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
             $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
         }
   
     }
 
-    protected $listeners = ['deleteRow' => 'Destroy','editarcompras'=>'editarCompra'];
-
+    
     public function editarCompra($id)
     {
         session(['id_compra' => null]);
         session(['id_compra' => $id]);
         return redirect()->route('editcompra');
     }
-    public function Destroy(Compra $compra_edit)
+    protected $listeners = ['deleteRow' => 'Destroy'];
+    public function Destroy($compra_edit)
     {
-        
-        foreach ($compra_edit->compradetalle as $data) {
-            
-           $mm= ProductosDestino::where('destino_id',$compra_edit->destino_id)
-            ->where('product_id',$data->product_id)
-            ->select('productos_destinos.*')
-            ->value('stock');            
-
-            if ($mm >= $data->cantidad) 
+        dd("borrar");
+        //si el lote de la compra de un producto ha tenido una venta, ha sido transferido o ha tenido una salida del producto de ese lote no se puede anular la compra
+            foreach ($compra_edit->compradetalle as $data) 
             {
-                $this->aprobado=true;
-            }
-            else{
-                $this->aprobado=false;
-            }
-   
-        }
-       
-        if ($this->aprobado == true) {
-            foreach ($compra_edit->compradetalle as $data) {
                 ProductosDestino::where('destino_id',$compra_edit->destino_id)
                 ->where('product_id',$data->product_id)
                 ->decrement('stock',$data->cantidad);
-    
+
+                $lot=Lote::join('compra_detalles','compra_detalles.lote_compra','lotes.id')
+                ->where('compra_detalles.id',$data->id)
+                ->delete();
+                
             }
-            $compra_edit->delete();
-            $this->emit('purchase-deleted', 'Compra eliminada');
-        }
-
-        else{
-            $this->emit('purchase-error', 'No puede eliminar la compra, Uno o varios de los productos acaban de ser distribuidos.');
-        }
-
-       
-    
+            $compra_edit->update(['status'=>'INACTIVO']);
+            $this->emit('purchase-deleted', 'Compra Anulada');
     }
 
     public function VerDetalleCompra(Compra $id){
@@ -175,9 +163,9 @@ class ComprasController extends Component
         //dd($this->detalleCompra);
     }
 
-    public function Confirm(){
+    public function Confirm($compra_edit){
         
-        if ($this->verificardistribucion()) {
+        if ($this->verificardistribucion($compra_edit)) {
             
             $this->emit('erroreliminarCompra');
         }
@@ -188,8 +176,22 @@ class ComprasController extends Component
         }
     }
 
-    public function verificardistribucion(){
-        return true;
+    public function verificardistribucion($compra_edit){
+
+        $lotes=CompraDetalle::where('compra_id',$compra_edit)->get('lote_compra');
+        $ventas= SaleLote::whereIn('lote_id',$lotes)->get();
+        $salidas=SalidaLote::whereIn('lote_id',$lotes)->get();
+        $transferencias=TransferenciaLotes::whereIn('lote_id',$lotes)->get();
+     
+
+        if (!$ventas->isEmpty() or !$salidas->isEmpty() or !$transferencias->isEmpty()) {
+            return true;
+        }
+        else{
+            return false;
+        }
+
+        //dd($ventas);
     }
   
 }
