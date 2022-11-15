@@ -939,7 +939,7 @@ class PosController extends Component
                 'cedula' => $this->cliente_ci,
                 'celular' => $this->cliente_celular,
                 'procedencia_cliente_id' => $this->procedencia_cliente_id,
-        ]);
+            ]);
         }
         
         $this->cliente_id = $newclient->id;
