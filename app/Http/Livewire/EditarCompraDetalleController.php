@@ -86,6 +86,13 @@ class EditarCompraDetalleController extends Component
         $this->verPermisos();
                 
  }
+
+    public function updatingDestino()
+    {
+        $this->resetPage();
+        $this->searchData=[];
+        
+    }
     public function render()
     {
         if (strlen($this->search) > 0)
@@ -302,8 +309,6 @@ class EditarCompraDetalleController extends Component
         $this->removeItem($productId);
        
         if ($cant > 0) {
-
-          
             //Compras::add($product->id, $product->name,$prices, $cant);
             $attributos=[
                 'precio'=>$precio_venta,
@@ -339,12 +344,7 @@ class EditarCompraDetalleController extends Component
         $quantitys=$exist->quantity;
         $precio_venta=$exist->attributes->precio;
         $codigo=$exist->attributes->codigo;
-       
-        if ($exist) {
-            $title = "cantidad actualizada";
-        } else {
-            $title = "producto agregado";
-        }
+      
 
         $this->removeItem($productId);
        
@@ -386,11 +386,7 @@ class EditarCompraDetalleController extends Component
         $precio_compra=$exist->price;
         $codigo=$exist->attributes->codigo;
        
-        if ($exist) {
-            $title = "cantidad actualizada";
-        } else {
-            $title = "producto agregado";
-        }
+       
 
         $this->removeItem($productId);
        
@@ -421,28 +417,72 @@ class EditarCompraDetalleController extends Component
 
             $this->subtotal = EditarCompra::getTotal();
             $this->itemsQuantity = EditarCompra::getTotalQuantity();
-            $this->emit('scan-ok', $title);
+           
             $this->subtotal = EditarCompra::getTotal();
             $this->total_compra= $this->subtotal-$this->descuento;
+            $this->mensaje_toast='Se actualizo el detalle de este item con exito.';
+            $this->emit('modificiacion_exitosa');
     }
     }
 
 
     public function removeItem($productId)
     {
-        EditarCompra::remove($productId);
+       
+           
+            EditarCompra::remove($productId);
+    
+            $this->subtotal = EditarCompra::getTotal();
+            $this->itemsQuantity = EditarCompra::getTotalQuantity();
+    
+            $this->subtotal = EditarCompra::getTotal();
+            $this->total_compra= $this->subtotal-$this->descuento;
+  
+  
+    }
 
-        $this->subtotal = EditarCompra::getTotal();
-        $this->itemsQuantity = EditarCompra::getTotalQuantity();
+    public function deleteItem($productId)
+    {
+        //verificar si es un producto que no estaba antes en el detalle de compra
+        //$prod=CompraDetalle::where('compra_id',$this->aux->id)->get();
+        $prod=$this->aux->compradetalle()->get();
+        $prod2=$prod->where('product_id',$productId);
+        if (!$prod2->isEmpty()) {
 
-        $this->subtotal = EditarCompra::getTotal();
-        $this->total_compra= $this->subtotal-$this->descuento;
-        $this->descuento_change();
-        if ( $this->descuento>0) {
-            
-            $this->porcentaje= (round($this->descuento/$this->subtotal,2))*100;
+            $lotes=CompraDetalle::where('compra_id',$this->aux->id)->get('lote_compra');
+            $ventas= SaleLote::whereIn('lote_id',$lotes)->get();
+            $salidas=SalidaLote::whereIn('lote_id',$lotes)->get();
+            $transferencias=TransferenciaLotes::whereIn('lote_id',$lotes)->get();
+
+            if (!$ventas->isEmpty() or !$salidas->isEmpty() or !$transferencias->isEmpty()) {
+                $this->mensaje_toast='No puede modificar ni eliminar este producto.';
+                $this->emit('error-item');
+                return;
+            }
+            else{
+                EditarCompra::remove($productId);
+                $this->mensaje_toast='Se actualizo el detalle de este item con exito.';
+                $this->emit('modificiacion_exitosa');
+            }
+     
+
         }
+        else{
+            $this->mensaje_toast='Se actualizo el detalle de este item con exito.';
+            $this->emit('modificiacion_exitosa');
+            EditarCompra::remove($productId);
+    
+            $this->subtotal = EditarCompra::getTotal();
+            $this->itemsQuantity = EditarCompra::getTotalQuantity();
+    
+            $this->subtotal = EditarCompra::getTotal();
+            $this->total_compra= $this->subtotal-$this->descuento;
+        }
+        
 
+
+
+       
     }
 
     public function resetUI()

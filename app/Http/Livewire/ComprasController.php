@@ -124,9 +124,9 @@ class ComprasController extends Component
         return redirect()->route('editcompra');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
-    public function Destroy($compra_edit)
+    public function Destroy(Compra $compra_edit)
     {
-        dd("borrar");
+        //dd($compra_edit);
         //si el lote de la compra de un producto ha tenido una venta, ha sido transferido o ha tenido una salida del producto de ese lote no se puede anular la compra
             foreach ($compra_edit->compradetalle as $data) 
             {
@@ -171,7 +171,7 @@ class ComprasController extends Component
         }
         else{
             
-            $this->emit('preguntareliminarCompra');
+            $this->emit('preguntareliminarCompra',$compra_edit);
            
         }
     }

@@ -290,7 +290,7 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <button 
-                                                        wire:click="removeItem({{ $prod->id }})"
+                                                        wire:click="deleteItem({{ $prod->id }})"
                                                             class="boton-rojo" title="Eliminar Item">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
@@ -365,6 +365,20 @@
             });
             toast({
                 type: 'error',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+        window.livewire.on('modificiacion_exitosa', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
                 title: @this.mensaje_toast,
                 padding: '2em',
             })

@@ -152,7 +152,7 @@
                                                 </td>
                                                 @else
                                                 <td class="text-center">
-                                                  <span class="badge badge-success mb-0">{{$data->status_compra}}</span>
+                                                  <span class="badge badge-warning mb-0">ANULADO</span>
                                                 </td>
                                                 @endif
                                                 <td>
@@ -232,6 +232,7 @@
             })
         });
         window.livewire.on('preguntareliminarCompra', msg => {
+            //console.log(msg);
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
@@ -241,7 +242,8 @@
                 
             }).then(function(result){
                 if(result.value){
-                    window.livewire.emit('deleteRow',id).Swal.close()
+                    console.log(msg);
+                    window.livewire.emit('deleteRow',msg).Swal.close()
                 }
             })
         });
