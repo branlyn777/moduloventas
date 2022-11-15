@@ -383,9 +383,37 @@
                 padding: '2em',
             })
         });
+        // window.livewire.on('error-destino', msg => {
+        //     const toast = swal.mixin({
+        //     toast: true,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 5000,
+        //     padding: '2em'
+        //     });
+        //     toast({
+        //         type: 'error',
+        //         title: @this.mensaje_toast,
+        //         padding: '2em',
+        //     })
+        // });
+        window.livewire.on('destino_actualizado', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
 
 
-        window.livewire.on('prueba', msg => {
+        window.livewire.on('error-destino', msg => {
             const addOption = (arr) => {
             let optionItems='';
             arr.forEach(item =>{
@@ -397,9 +425,9 @@
 //in swal 
 
         swal.fire({
-            title: 'PRECAUCION',
-            icon: 'warning',
-            text:'ssss',
+            title: 'Error',
+            icon: 'error',
+            text:'No puede modificar el destino de la compra por los siguientes productos:',
             html:addOption(@this.col) 
             })
             

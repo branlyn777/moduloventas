@@ -46,7 +46,7 @@ class EditarCompraDetalleController extends Component
     $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra,$destino1,$datalistcarrito;
 
     public $nombre_prov, $apellido_prov, $direccion_prov, $correo_prov,
-    $telefono_prov,$col,$mensaje_toast;
+    $telefono_prov,$col,$mensaje_toast,$descripcion;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2;
@@ -89,8 +89,8 @@ class EditarCompraDetalleController extends Component
 
     public function updatingDestino()
     {
-        $this->resetPage();
-        $this->searchData=[];
+        $this->col=collect();
+        $this->cambioDestino();
         
     }
     public function render()
@@ -544,15 +544,7 @@ class EditarCompraDetalleController extends Component
 
     public function guardarCompra()
     {
-        //$this->emit('prueba');
-        //$this->col->push('product_id','product-name');
-        $this->verificarLotes();
-        $this->verificarTransferencias();
-            //dd($this->passed);
-
-        if($this->passed == true){
-           // dd("si pasa");
-
+       
             $rules = [
                 'provider'=>'required',
                 'destino'=>'required|not_in:Elegir'
@@ -581,35 +573,35 @@ class EditarCompraDetalleController extends Component
     
                 if ($this->ide)
                 {
-                    $bn = CompraDetalle::where('compra_id',$this->ide)->get();
-    
-                    foreach ($bn as $b) {
-                        $q=ProductosDestino::where('product_id',$b->product_id)
+                    foreach ($this->aux->compradetalle as $comp) {
+                        $q=ProductosDestino::where('product_id',$comp->product_id)
                         ->where('destino_id',$this->destino2)->value('stock');
     
-                        ProductosDestino::updateOrCreate(['product_id' => $b->product_id, 'destino_id'=>$this->destino2],['stock'=>$q-$b->cantidad]);
-    
+                        ProductosDestino::updateOrCreate(['product_id' => $comp->product_id, 'destino_id'=>$this->destino2],['stock'=>$q-$comp->cantidad]);
+                        $lot= Lote::find($comp->lote_compra)->delete();
+
                     }
     
-                    $bn = CompraDetalle::where('compra_id',$this->ide);
-                    $lt=Lote::join('compra_detalles','compra_detalles.lote_compra','lotes.id')
-                    ->join('compras as comp','comp.id','compra_detalles.compra_id')->where('comp.id',$this->ide)->delete();
-
-                    //dd($this->ide,$lt);
-                    $bn->forceDelete();
-                
-                  
                     $items = EditarCompra::getContent();
                     foreach ($items as $item) {
+                            $lot= Lote::create([
+                                'existencia'=>$item->quantity,
+                                'costo'=>$item->price,
+                                'status'=>'Activo',
+                                'product_id'=>$item->id,
+                                'pv_lote'=>$item->attributes->precio
+                            ]);
+                            $mr=CompraDetalle::where('product_id',$item->id)->first();
+                          
 
-
-                        $lot= Lote::create([
-                            'existencia'=>$item->quantity,
-                            'costo'=>$item->price,
-                            'status'=>'Activo',
-                            'product_id'=>$item->id,
-                            'pv_lote'=>$item->attributes->precio
-                        ]);
+                            if ($mr != null) {
+                                $lot->update([
+                                    'created_at'=>$mr->created_at,
+                                    'updated_at'=>$mr->created_at
+                                ]);
+                            }
+                            $mr->forceDelete();
+                        
                         
                         $cp=CompraDetalle::create([
                             'precio' => $this->tipo_documento== 'FACTURA'?$item->price*0.87:$item->price,
@@ -676,13 +668,7 @@ class EditarCompraDetalleController extends Component
                 dd($e->getMessage());
                 
             }
-        }
-
-        else{
-
-            $this->emit('errores');
-          
-        }
+     
     }
 
     public function verificarLotes(){
@@ -760,5 +746,33 @@ class EditarCompraDetalleController extends Component
         EditarCompra::clear();
         $this->resetUI();
         redirect('/compras');
+    }
+
+    public function cambioDestino(){
+        $detalles=$this->aux->compradetalle()->get();
+        //dd($detalles);
+
+        foreach ($detalles as $detalle) {
+            
+            $lotes=CompraDetalle::where('id',$detalle->id)->get('lote_compra');
+            $ventas= SaleLote::whereIn('lote_id',$lotes)->get();
+            $salidas=SalidaLote::whereIn('lote_id',$lotes)->get();
+            $transferencias=TransferenciaLotes::whereIn('lote_id',$lotes)->get();
+
+            if (!$ventas->isEmpty() or !$salidas->isEmpty() or !$transferencias->isEmpty()) {
+                $this->col->push('El item '.$detalle->productos->nombre. ' tiene operaciones realizadas.');
+                //$this->col=$detalle->productos()->nombre;
+                $this->emit('error-destino');
+                return;
+            }
+            else{
+               
+                $this->mensaje_toast='Destino de la compra actualizado.';
+                $this->emit('destino_actualizado');
+            }
+        }
+
+
+
     }
 }
