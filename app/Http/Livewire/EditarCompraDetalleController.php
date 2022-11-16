@@ -254,83 +254,134 @@ class EditarCompraDetalleController extends Component
 
     public function UpdateQty($productId, $cant)
     {
-        //si la cantidad es menor a lo que se ha distribuido ya sea en transferencias y ventas no deja editar la cantidad de ese item.
-        //primera red flag: Si la cantidad a actualizarse es menor a
-        //que la cantidad sea menor o igual a la suma de las transferencias
+        $ss=$this->aux->compraDetalle;
 
-        //que la cantidad sea menor o igual a la suma de las unidades vendidas
-
-        $tt=Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
-        ->where('compras.id',$this->ide)
-        ->where('compra_detalles.product_id',$productId)
-        ->first()->lote_compra;
-
-        if ($tt != null) {
-            //dd($tt);
-            $cant_trans=TransferenciaLotes::where('lote_id',$tt)->sum('cantidad');
-            $cant_vend=SaleLote::where('lote_id',$tt)->sum('cantidad');
-           //dd($cant_trans,$cant_vend);
-           if ($cant<$cant_vend) 
-           {
+        if ($ss->where('product_id',$productId)->isNotEmpty()) {
+            $lote=$ss->where('product_id',$productId)->first()->lote_compra;
+            //dd($lote);
+            $ventas= SaleLote::where('lote_id',$lote)->get();
+            $salidas=SalidaLote::where('lote_id',$lote)->get();
+            $transferencias=TransferenciaLotes::where('lote_id',$lote)->get();
+            if (!$ventas->isEmpty() or !$salidas->isEmpty() or !$transferencias->isEmpty()) {
                 $this->mensaje_toast='La cantidad editada del producto esta incorrecta por que ya fue distribuido.';
                 $this->emit('error-item');
-                $this->passed = false;
-
                 return;
-           }
+            }
+            else{
+                $product = Product::select('products.*')
+                ->where('products.id',$productId)->first();
+               
+                $exist = EditarCompra::get($productId);
+                $prices=$exist->price;
+                $precio_venta=$exist->attributes->precio;
+                $codigo=$exist->attributes->codigo;
+            
+               
+                $this->removeItem($productId);
+               
+                if ($cant > 0) {
+                    //Compras::add($product->id, $product->name,$prices, $cant);
+                    $attributos=[
+                        'precio'=>$precio_venta,
+                        'codigo'=>$codigo,
+                        'fecha_compra'=>$this->fecha_compra
+                    ];
+            
+                    $products = array(
+                        'id'=>$product->id,
+                        'name'=>$product->nombre,
+                        'price'=>$prices,
+                        'quantity'=>$cant,
+                        'attributes'=>$attributos
+                    );
+        
+                    EditarCompra::add($products);
+                    $this->subtotal = EditarCompra::getTotal();
+                    $this->itemsQuantity = EditarCompra::getTotalQuantity();
+                   
+                    $this->subtotal = EditarCompra::getTotal();
+                    $this->total_compra= $this->subtotal-$this->descuento;
+        
+               
+                $this->mensaje_toast='Cantidad actualizada';
+                $this->emit('item-updated');
+            }
+
         }
+
+        // if ($tt != null) {
+        //     //dd($tt);
+        //     $cant_trans=TransferenciaLotes::where('lote_id',$tt)->sum('cantidad');
+        //     $cant_vend=SaleLote::where('lote_id',$tt)->sum('cantidad');
+        //    //dd($cant_trans,$cant_vend);
+        //    if ($cant<$cant_vend) 
+        //    {
+        //         $this->mensaje_toast='La cantidad editada del producto esta incorrecta por que ya fue distribuido.';
+        //         $this->emit('error-item');
+        //         $this->passed = false;
+
+        //         return;
+        //    }
+        // }
 
         //compro 5 un. transfiero 3 un. me quedan en mi tienda 2 un. edito una compra a 2 unidades, el lote tendra 2 un.
         //tengo que verificar que al descontar cuadre la suma de lotes y la de productos destinos. si no cuadra quiere decir que hubo una transferencia y que debe debe devolver la cantidad
         //de los productos o anular la transferencia.
 
-        foreach ($this->datalistcarrito as $data) 
-        {
-            dump($data->compradetalle()->get());
-        }
+        // foreach ($this->datalistcarrito as $data) 
+        // {
+        //     dump($data->compradetalle()->get());
+        // }
         
-        $productos_trans=$this->datalistcarrito->where('product_id',$productId);
+        // $productos_trans=$this->datalistcarrito->where('product_id',$productId);
 
-        $this->mensaje_toast='Proveedor Registrado';
-        if ($cant>0) 
-        {
+        // $this->mensaje_toast='Proveedor Registrado';
+        // if ($cant>0) 
+        // {
 
-        }
+        // }
      
-        $product = Product::select('products.*')
-        ->where('products.id',$productId)->first();
        
-        $exist = EditarCompra::get($productId);
-        $prices=$exist->price;
-        $precio_venta=$exist->attributes->precio;
-        $codigo=$exist->attributes->codigo;
-    
-       
-        $this->removeItem($productId);
-       
-        if ($cant > 0) {
-            //Compras::add($product->id, $product->name,$prices, $cant);
-            $attributos=[
-                'precio'=>$precio_venta,
-                'codigo'=>$codigo,
-                'fecha_compra'=>$this->fecha_compra
-            ];
-    
-            $products = array(
-                'id'=>$product->id,
-                'name'=>$product->nombre,
-                'price'=>$prices,
-                'quantity'=>$cant,
-                'attributes'=>$attributos
-            );
-
-            EditarCompra::add($products);
-            $this->subtotal = EditarCompra::getTotal();
-            $this->itemsQuantity = EditarCompra::getTotalQuantity();
+        }
+        else{
+            $product = Product::select('products.*')
+            ->where('products.id',$productId)->first();
            
-            $this->subtotal = EditarCompra::getTotal();
-            $this->total_compra= $this->subtotal-$this->descuento;
-
+            $exist = EditarCompra::get($productId);
+            $prices=$exist->price;
+            $precio_venta=$exist->attributes->precio;
+            $codigo=$exist->attributes->codigo;
+        
+           
+            $this->removeItem($productId);
+           
+            if ($cant > 0) {
+                //Compras::add($product->id, $product->name,$prices, $cant);
+                $attributos=[
+                    'precio'=>$precio_venta,
+                    'codigo'=>$codigo,
+                    'fecha_compra'=>$this->fecha_compra
+                ];
+        
+                $products = array(
+                    'id'=>$product->id,
+                    'name'=>$product->nombre,
+                    'price'=>$prices,
+                    'quantity'=>$cant,
+                    'attributes'=>$attributos
+                );
+    
+                EditarCompra::add($products);
+                $this->subtotal = EditarCompra::getTotal();
+                $this->itemsQuantity = EditarCompra::getTotalQuantity();
+               
+                $this->subtotal = EditarCompra::getTotal();
+                $this->total_compra= $this->subtotal-$this->descuento;
+    
+           
+            $this->mensaje_toast='Cantidad actualizada';
+            $this->emit('item-updated');
+        }
         }
     }
 
@@ -578,7 +629,9 @@ class EditarCompraDetalleController extends Component
                         ->where('destino_id',$this->destino2)->value('stock');
     
                         ProductosDestino::updateOrCreate(['product_id' => $comp->product_id, 'destino_id'=>$this->destino2],['stock'=>$q-$comp->cantidad]);
-                        $lot= Lote::find($comp->lote_compra)->delete();
+                        
+                        $lot=Lote::where('id',$comp->lote_compra)->delete();
+                        //$lot->delete();
 
                     }
     
@@ -591,16 +644,20 @@ class EditarCompraDetalleController extends Component
                                 'product_id'=>$item->id,
                                 'pv_lote'=>$item->attributes->precio
                             ]);
-                            $mr=CompraDetalle::where('product_id',$item->id)->first();
+                            $mr=CompraDetalle::where('product_id',$item->id);
                           
-
-                            if ($mr != null) {
+                            if ($mr->get()->isNotEmpty()) {
                                 $lot->update([
-                                    'created_at'=>$mr->created_at,
-                                    'updated_at'=>$mr->created_at
+                                    'created_at'=>$mr->first()->created_at,
+                                    'updated_at'=>$mr->first()->created_at
                                 ]);
                             }
-                            $mr->forceDelete();
+                            //dd("ss");
+                            $cpid=CompraDetalle::where('product_id',$item->id)->first()->id;
+                            //dd($cpid);
+                            $cpidelete=CompraDetalle::where('id',$cpid);
+                           // dd("sss",$cpidelete);
+                            $cpidelete->delete();
                         
                         
                         $cp=CompraDetalle::create([
@@ -608,9 +665,7 @@ class EditarCompraDetalleController extends Component
                             'cantidad' => $item->quantity,
                             'product_id' => $item->id,
                             'compra_id' => $this->ide,
-                            'lote_compra'=>$lot->id
-                            
-                            
+                            'lote_compra'=>$lot->id 
                         ]);
                         //dd($cp);
                         

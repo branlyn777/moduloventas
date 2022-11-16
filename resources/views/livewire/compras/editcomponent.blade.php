@@ -369,6 +369,20 @@
                 padding: '2em',
             })
         });
+        window.livewire.on('item-updated', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
         window.livewire.on('modificiacion_exitosa', msg => {
             const toast = swal.mixin({
             toast: true,

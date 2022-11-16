@@ -19,4 +19,8 @@ class Sucursal extends Model
     {
         return $this->hasMany(SucursalUser::class);
     }
+    public function destinos()
+    {
+        return $this->hasMany(Destino::class);
+    }
 }
