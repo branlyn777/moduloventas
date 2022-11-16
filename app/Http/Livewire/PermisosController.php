@@ -22,6 +22,7 @@ class PermisosController extends Component
 
     public function mount()
     {
+        $this->permissionArea = "Elegir";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Permisos';
     }
@@ -45,8 +46,12 @@ class PermisosController extends Component
             ->orderBy('name', 'asc')
             ->paginate($this->pagination);
         }
+
+        $areas = Areaspermissions::OrderBy("areaspermissions.id","asc")->get();
+
+
         return view('livewire.permisos.component', [
-            'areas' => Areaspermissions::all(),
+            'areas' => $areas,
             'data' => $permisos,
         ])
             ->extends('layouts.theme.app')
@@ -61,9 +66,13 @@ class PermisosController extends Component
 
     public function CreatePermission()
     {
-        $rules = ['permissionName' => 'required|min:2|unique:permissions,name'];
+        $rules = [
+            'permissionArea' => 'required|not_in:Elegir',
+            'permissionName' => 'required|min:2|unique:permissions,name'
+        ];
 
         $messages = [
+            'permissionArea.not_in' => 'Elegir un tipo diferente de elegir',
             'permissionName.required' => 'El nombre del permiso es requerido',
             'permissionName.unique' => 'El permiso ya existe',
             'permissionName.min' => 'El nombre del permiso debe tener al menos 2 caracteres'
@@ -71,7 +80,12 @@ class PermisosController extends Component
 
         $this->validate($rules, $messages);
 
-        Permission::create(['name' => $this->permissionName,'area' => $this->permissionArea,'descripcion' => $this->permissionDescripcion]);
+
+        Permission::create([
+            'name' => $this->permissionName,
+            'areaspermissions_id' => $this->permissionArea,
+            'descripcion' => $this->permissionDescripcion
+        ]);
 
         $this->emit('item-added', 'Se registró el permiso con éxito');
         $this->resetUI();
@@ -118,35 +132,19 @@ class PermisosController extends Component
     {
         $rolesCount = Permission::find($id)->getRoleNames()->count();
 
-        if ($rolesCount > 0) {
-            $this->emit('item-error', 'No se puede eliminar el permiso por que tiene roles asociados');
+        if ($rolesCount > 0)
+        {
+            $this->emit('message-toast');
             return;
         }
 
         Permission::find($id)->delete();
         $this->emit('item-deleted', 'Se eliminó el permiso con exito');
     }
-
-    //poner en el componente users
-
-    /* public function AisgnarRoles($rolesList)
-    {
-        if($this->userSelected > 0)
-        {
-            $user = User::find($this->userSelected);
-            if($user)
-            {
-                $user->syncRoles($rolesList);
-                $this->emit('msg-ok', 'Roles asignados correctamente');
-                $this->resetInput();  
-            } 
-        }
-    } */
-
     public function resetUI()
     {
         $this->permissionName = '';
-        $this->permissionArea = '';
+        $this->permissionArea = "Elegir";
         $this->permissionDescripcion = '';
         $this->search = '';
         $this->selected_id = 0;

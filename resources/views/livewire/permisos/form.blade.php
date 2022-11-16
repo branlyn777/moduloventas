@@ -24,10 +24,11 @@
                         <br>
                         <div class="input-group">
 
-                            <select class="form-control" wire:model.lazy="permissionArea" name="" id="">
+                            <select class="form-control" wire:model.lazy="permissionArea">
                                 @foreach($areas as $a)
                                 <option value="{{$a->id}}">{{$a->name}}</option>
                                 @endforeach
+                                <option value="Elegir">Elegir</option>
                             </select>
 
                             

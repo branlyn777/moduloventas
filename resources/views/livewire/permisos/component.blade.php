@@ -1,4 +1,4 @@
-<div class="">
+<div>
     <div class="row">
         <div class="col-12 text-center">
           <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
@@ -94,7 +94,30 @@
         })
         window.livewire.on('modal-hide', Msg => {
             $('#theModal').modal('hide')
-        })      
+        })    
+        
+        
+
+
+        //Cerrar Ventana Modal Cambiar Usuario Vendedor y Mostrar Toast Cambio Exitosamente
+        window.livewire.on('message-toast', msg => {
+        const toast = swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        padding: '2em'
+        });
+        toast({
+            type: 'info',
+            title: "El permiso no se puede eliminar porque tiene roles asignados a este",
+            padding: '2em',
+        })
+        });
+
+
+
+
               
 
     });
