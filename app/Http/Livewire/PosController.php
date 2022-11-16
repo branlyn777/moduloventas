@@ -209,7 +209,7 @@ class PosController extends Component
         return view('livewire.pos.component', [
             'denominations' => Denomination::orderBy('id', 'asc')->get(),
             'listaproductos' => $listaproductos,
-            'cart' => Cart::getContent()->sortBy('order'),
+            'cart' => Cart::getContent()->sortBy('name'),
             'carteras' => $this->listarcarteras(),
             'carterasg' => $this->listarcarterasg(),
             'listaclientes' => $listaclientes,

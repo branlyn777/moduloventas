@@ -247,49 +247,11 @@
                                     <i class="fas fa-chart-pie"></i>
                                     Reporte Ventas Usuarios</a>
                             </li> --}}
-
-                            <li>
-                                <a data-toggle="collapse" href="#subnav1">
-                                    <span class="sub-item">Reportes</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="subnav1">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="{{ url('productosvendidos') }}">
-                                                <span class="sub-item">Productos Mas Vendidos</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Productos Menos Vendidos</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> 
-
                             {{-- <li>
-                                <a data-toggle="collapse" href="#subnav2">
-                                    <span class="sub-item">Level 1</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="subnav2">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Level 1</span>
-                                </a>
-                            </li>--}}
-
+                                <a href="{{ url('productosvendidos') }}">
+                                    <i class="fas fa-chart-pie"></i>
+                                    Productos Mas Vendidos</a>
+                            </li> --}}
                             @endcan
                             
                         </ul>

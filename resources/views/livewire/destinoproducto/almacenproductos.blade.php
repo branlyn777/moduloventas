@@ -80,7 +80,7 @@
                     <div class="table-5">
                         <table>
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>#</th>
                                     <th>IMAGEN</th>                              
                                     <th>PRODUCTO</th>                              

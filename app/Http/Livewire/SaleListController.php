@@ -6,6 +6,7 @@ use App\Models\Caja;
 use App\Models\Cartera;
 use App\Models\Category;
 use App\Models\Cliente;
+use App\Models\DestinoSucursal;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\ProductosDestino;
@@ -466,13 +467,11 @@ class SaleListController extends Component
     //Devuelve el id de la sucursal de una venta
     public function idsucursalventa($idventa)
     {
-        $venta = Sale::find($idventa);
-
-        $cartera = Cartera::find($venta->cartera_id);
-
-        $sucursal_id = Caja::find($cartera->caja_id)->sucursal_id;
-
-        $idsucursal = Sucursal::find($sucursal_id)->id;
+        $idsucursal = Caja::join("carteras as car","car.caja_id","cajas.id")
+        ->join("sales as s","s.cartera_id","car.id")
+        ->select("cajas.sucursal_id as sucursal_id")
+        ->where("s.id",$idventa)
+        ->first()->sucursal_id;
 
         return $idsucursal;
     }
@@ -642,6 +641,20 @@ class SaleListController extends Component
                 ]);
             $movimiento->save();
 
+
+
+            //Buscando la cartera y disminuyendo su saldo
+            $cartera = Cartera::find($venta->cartera_id);
+            $cartera->update([
+                'saldocartera' => $cartera->saldocartera - $venta->total
+                ]);
+            $cartera->save();
+
+
+            //Buscando el id de destino de donde salieron los productos para la Venta
+            $destinoid = DestinoSucursal::where("destino_sucursals.sucursal_id", $this->idsucursalventa($idventa))->first()->destino_id; 
+
+
             //Devolviento los productos a la tienda
             //Guardando en una variable los productos y sus cantidades de una venta para devolverlos a la Tienda
             $detalleventa = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
@@ -659,7 +672,7 @@ class SaleListController extends Component
                 ->select("productos_destinos.id as id","p.nombre as name",
                 "productos_destinos.stock as stock")
                 ->where("p.id", $item->idproducto)
-                ->where("des.nombre", 'TIENDA')
+                ->where("des.id", $destinoid)
                 ->where("des.sucursal_id", $this->idsucursal())
                 ->get()->first();
                 $tiendaproducto->update([
