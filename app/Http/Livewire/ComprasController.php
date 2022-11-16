@@ -155,7 +155,7 @@ class ComprasController extends Component
                 return (($cp->cantidad*$cp->precio)/0.87)*0.13;
             });
         }
-        $this->detalleCompra= $id->compradetalle()->get();
+        $this->detalleCompra= $id->compradetalle()->where('deleted_at','!=','')->get();
         $this->emit('verDetalle');
 
 
