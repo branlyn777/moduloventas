@@ -11,8 +11,8 @@
 
 
 
-    @include('layouts.theme.styles')
     @yield('css')
+    @include('layouts.theme.styles')
 
 </head>
 <body>
@@ -34,7 +34,7 @@
             {{-- @include('layouts.theme.footer') --}}
 		</div>
 	</div>
-    @include('layouts.theme.scripts')
 	@yield('javascript')
+    @include('layouts.theme.scripts')
 </body>
 </html>

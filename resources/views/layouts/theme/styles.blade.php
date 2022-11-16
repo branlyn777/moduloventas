@@ -3,7 +3,7 @@
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../assets/css/fonts.min.css']},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['assets/css/fonts.min.css']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -17,11 +17,6 @@
 
 
 	<style>
-
-
-		/* ESTILOS PARA LAS TABLAS */
-	
-		/* Tabla Pequeña */
 		.table-1 {
 		width: 100%;/* Anchura de ejemplo */
 		height: 250px;  /*Altura de ejemplo*/
@@ -90,7 +85,7 @@
 		}
 		.table-6 {
 		width: 100%;/* Anchura de ejemplo */
-	/*Altura de ejemplo*/
+		/*Altura de ejemplo*/
 		overflow: auto;
 		}
 		.table-6 table {
