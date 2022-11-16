@@ -46,9 +46,9 @@
                         <b>Estado</b>
                         <div class="form-group">
                             <select wire:model="estado" class="form-control">
-                                <option value='activo' selected>Activo</option>
-                                <option value='anulado'>Anulado</option>
-                                <option value='todos'>Todos</option>
+                                <option value='ACTIVO' selected>Activo</option>
+                                <option value='INACTIVO'>Anulado</option>
+                                <option value='Todos'>Todos</option>
                             </select>
                         </div>
                     </div>
@@ -66,10 +66,17 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-1 text-center">
-                        <b>Reportes</b>
-                        <div class="form-group">                              
-                           <button type="button" class="btn" ><i class="fas fa-ellipsis-v"></i></button> 
-                        </div>
+                        <b>Otros</b>
+                        <div class="btn-group form-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                              Ver
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
+                              <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
+
+                            </div>
+                          </div>
                     </div>
     
                 </div>
@@ -142,13 +149,13 @@
                                                     <h6 class="text-center">{{ $data->transaccion }}</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="text-center">{{ $data->importe_total }}</h6>
+                                                    <h6 class="text-center">{{ $data->imp_tot }}</h6>
                                                 </td>
                                            
                                               
-                                                @if( $data->status_compra == 'ACTIVO')
+                                                @if( $data->status == 'ACTIVO')
                                                 <td class="text-center" >
-                                               <span class="badge badge-success mb-0">{{$data->status_compra}}</span>
+                                               <span class="badge badge-success mb-0">{{$data->status}}</span>
                                                 </td>
                                                 @else
                                                 <td class="text-center">
@@ -156,7 +163,7 @@
                                                 </td>
                                                 @endif
                                                 <td>
-                                                    <h6 class="text-center">{{ $data->name }}</h6>
+                                                    <h6 class="text-center">{{ $data->username }}</h6>
                                                 </td>
                                               
                                                 
@@ -169,7 +176,7 @@
                                                         class="btn btn-dark p-1" title="Editar compra">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <a href="{{ url('Compras/pdf' . '/' . $data->compra_id)}}"  
+                                                    <a href="{{ url('Compras/pdf' . '/' . $data->id)}}"  
                                                         class="btn btn-success p-1" title="Imprimir detalle compra">
                                                         <i class="fas fa-print"></i>
                                                     </a>
@@ -210,6 +217,8 @@
         </div>
     </div>
     @include('livewire.compras.verDetallecompra')
+    @include('livewire.compras.compra_producto')
+    @include('livewire.compras.producto_proveedor')
    </div>
 
    <script>
@@ -223,6 +232,12 @@
         });
         window.livewire.on('verDetalle', msg => {
             $('#detalleCompra').modal('show')
+        });
+        window.livewire.on('comprasproducto', msg => {
+            $('#compraprod').modal('show')
+        });
+        window.livewire.on('productoproveedor', msg => {
+            $('#prodprov').modal('show')
         });
         window.livewire.on('erroreliminarCompra', msg => {
             swal.fire({

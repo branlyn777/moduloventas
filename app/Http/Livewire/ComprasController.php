@@ -9,9 +9,11 @@ use App\Models\ProductosDestino;
 use App\Models\SaleLote;
 use App\Models\SalidaLote;
 use App\Models\Sucursal;
+use App\Models\SucursalUser;
 use App\Models\TransferenciaLotes;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -32,7 +34,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha;
+            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$searchProducto;
 
     public function paginationView()
     {
@@ -46,40 +48,65 @@ class ComprasController extends Component
         $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
   
         $this->toDate =  Carbon::parse(Carbon::now())->format('Y-m-d');
+        $this->sucursal_id=SucursalUser::where('user_id',Auth()->user()->id)->first()->sucursal_id;
+        $this->estado='ACTIVO';
     }
     public function render()
     {
         
         $this->consultar();
-        $this->datas_compras= Compra::join('providers as prov','compras.proveedor_id','prov.id')
-        ->join('users','users.id','compras.user_id')
-        ->select('compras.*','compras.id as compra_id','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name')
+        $datas_compras= Compra::join('users','compras.user_id','users.id')
+        ->join('providers as prov','compras.proveedor_id','prov.id')
+        ->select('compras.transaccion','compras.importe_total as imp_tot','compras.status'
+        ,'prov.nombre_prov as nombre_prov',
+        'users.name as username',
+        'compras.nro_documento','compras.id')
         ->whereBetween('compras.created_at',[$this->from,$this->to])
-        ->where('compras.transaccion',$this->filtro)
-        ->orderBy('compras.created_at','desc')
-        ->get();
-
-        $this->totales = $this->datas_compras->sum('importe_total');
-
-        if (strlen($this->search) > 0){
-            $this->datas_compras = Compra::join('users','compras.user_id','users.id')
-            ->join('providers as prov','compras.proveedor_id','prov.id')
-            ->select('compras.*','compras.status as status_compra','prov.nombre_prov as nombre_prov','users.name as username')
-            ->whereBetween('compras.created_at',[$this->from,$this->to])
-            ->where('nombre_prov', 'like', '%' . $this->search . '%')
+        ->where(function ($query){
+            $query->where('nombre_prov', 'like', '%' . $this->search . '%')
             ->orWhere('nro_documento', 'like', '%' . $this->search . '%')
-            ->orWhere('users.name', 'like', '%' . $this->search . '%')
-            ->orderBy('compras.created_at','desc')
-            ->get();
-            $this->totales = $this->datas_compras->sum('importe_total');
-        }
-
+            ->orWhere('users.name', 'like', '%' . $this->search . '%');
+        })
+        ->when($this->sucursal_id != 'Todos', function($query){
+            $mn=[];
+            $arr=Sucursal::find($this->sucursal_id);
+            foreach ($arr->destinos as $data) {
+                array_push($mn,$data->id);
+            }
+            //dd($mn);
+            return $query->whereIn('compras.destino_id',$mn);
+        })
+        ->when($this->estado != 'Todos', function($query){
+            return $query->where('compras.status',$this->estado);
+        });
         
+       // dd($datas_compras->get());
+
+        $this->totales = $datas_compras->sum('compras.importe_total');
+        
+
+
+
+        //$this->compraProducto= 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $usuarios = User::select("users.*")
         ->where("users.status","ACTIVE")
         ->get();
         return view('livewire.compras.component',
-        ['data_compras'=>$this->datas_compras, 
+        ['data_compras'=>$datas_compras->paginate($this->pagination), 
         'totales'=>$this->totales,
         'listasucursales' => Sucursal::all(),
         'usuarios' => $usuarios])
@@ -155,7 +182,7 @@ class ComprasController extends Component
                 return (($cp->cantidad*$cp->precio)/0.87)*0.13;
             });
         }
-        $this->detalleCompra= $id->compradetalle()->where('deleted_at','!=','')->get();
+        $this->detalleCompra= $id->compradetalle()->where('deleted_at','=',null)->get();
         $this->emit('verDetalle');
 
 
@@ -192,6 +219,13 @@ class ComprasController extends Component
         }
 
         //dd($ventas);
+    }
+
+    public function VerComprasProducto(){
+        $this->emit('comprasproducto');
+    }
+    public function VerProductosProveedor(){
+        $this->emit('productoproveedor');
     }
   
 }

@@ -646,17 +646,17 @@ class EditarCompraDetalleController extends Component
                             ]);
                             $mr=CompraDetalle::where('product_id',$item->id);
                           
-
                             if ($mr->get()->isNotEmpty()) {
                                 $lot->update([
                                     'created_at'=>$mr->first()->created_at,
                                     'updated_at'=>$mr->first()->created_at
                                 ]);
                             }
+                            //dd("ss");
                             $cpid=CompraDetalle::where('product_id',$item->id)->first()->id;
                             //dd($cpid);
-                            $cpidelete=CompraDetalle::find($cpid);
-                            //dd($cpidelete);
+                            $cpidelete=CompraDetalle::where('id',$cpid);
+                           // dd("sss",$cpidelete);
                             $cpidelete->delete();
                         
                         
@@ -665,9 +665,7 @@ class EditarCompraDetalleController extends Component
                             'cantidad' => $item->quantity,
                             'product_id' => $item->id,
                             'compra_id' => $this->ide,
-                            'lote_compra'=>$lot->id
-                            
-                            
+                            'lote_compra'=>$lot->id 
                         ]);
                         //dd($cp);
                         

@@ -82,7 +82,6 @@ class DestinoProductoController extends Component
                         $query->where('p.nombre', 'like', '%' . $this->search . '%')
                                 ->orWhere('p.codigo', 'like', '%' . $this->search . '%');    
                     })
-                    
                     //->select('productos_destinos.stock','p.*')
                     ->when($this->selected_id =='General',function($query){
                        return $query->select('p.*','p.cantidad_minima as cant',DB::raw("SUM(productos_destinos.stock) as stock_s"))->groupBy('p.id');
