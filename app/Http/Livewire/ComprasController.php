@@ -22,7 +22,7 @@ class ComprasController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    private $pagination = 5;
+    private $pagination = 15;
     public $fromDate,$toDate,
             $from,
             $to,
@@ -34,7 +34,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$searchProducto;
+            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$search2;
 
     public function paginationView()
     {
@@ -83,6 +83,10 @@ class ComprasController extends Component
        // dd($datas_compras->get());
 
         $this->totales = $datas_compras->sum('compras.importe_total');
+
+        if ($this->search2 != null) {
+            
+        }
         
 
 

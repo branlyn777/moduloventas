@@ -183,7 +183,7 @@ class EditarCompraDetalleController extends Component
         $product = Product::select('products.*')
         ->where('products.id',$productId)->first();
        
-        $exist = EditarCompra::get($product->id);
+        
 
         $attributos=[
             'precio'=>$product->precio_venta,
@@ -268,6 +268,7 @@ class EditarCompraDetalleController extends Component
                 return;
             }
             else{
+             
                 $product = Product::select('products.*')
                 ->where('products.id',$productId)->first();
                
@@ -344,6 +345,7 @@ class EditarCompraDetalleController extends Component
        
         }
         else{
+           
             $product = Product::select('products.*')
             ->where('products.id',$productId)->first();
            
@@ -634,8 +636,11 @@ class EditarCompraDetalleController extends Component
                         //$lot->delete();
 
                     }
+
     
                     $items = EditarCompra::getContent();
+
+                    //sdd("hola",$items);
                     foreach ($items as $item) {
                             $lot= Lote::create([
                                 'existencia'=>$item->quantity,
@@ -644,20 +649,22 @@ class EditarCompraDetalleController extends Component
                                 'product_id'=>$item->id,
                                 'pv_lote'=>$item->attributes->precio
                             ]);
-                            $mr=CompraDetalle::where('product_id',$item->id);
+                            $hj=$this->aux->compradetalle;
+                            //dd($hj);
+                            $mr=$hj->where('product_id',$item->id)->where('compra_id',$this->aux->id);
                           
-                            if ($mr->get()->isNotEmpty()) {
+                            if ($mr->isNotEmpty()) {
                                 $lot->update([
                                     'created_at'=>$mr->first()->created_at,
                                     'updated_at'=>$mr->first()->created_at
                                 ]);
+                                $cpid=CompraDetalle::where('product_id',$item->id)->where('compra_id',$this->aux->id)->first()->id;
+                    
+                                $cpidelete=CompraDetalle::where('id',$cpid);
+                   
+                                $cpidelete->forceDelete();
                             }
-                            //dd("ss");
-                            $cpid=CompraDetalle::where('product_id',$item->id)->first()->id;
-                            //dd($cpid);
-                            $cpidelete=CompraDetalle::where('id',$cpid);
-                           // dd("sss",$cpidelete);
-                            $cpidelete->delete();
+                    
                         
                         
                         $cp=CompraDetalle::create([
@@ -686,7 +693,7 @@ class EditarCompraDetalleController extends Component
     
                 $auxi2=Compra::find($this->ide);
                 $auxi2->importe_total=$this->total_compra;
-                $auxi2->descuento=$this->descuento;
+                //$auxi2->descuento=$this->descuento;
                 $auxi2->transaccion=$this->tipo_transaccion;
                 $auxi2->tipo_doc=$this->tipo_documento;
                 $auxi2->nro_documento=$this->nro_documento;

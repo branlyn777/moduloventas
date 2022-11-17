@@ -18,7 +18,7 @@
                 <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-3 text-center">
-                        <b wire:click="limpiarsearch()" style="cursor: pointer;">Buscar...</b>
+                        <b wire:click="limpiarsearch()" style="cursor: pointer;">Buscar</b>
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <div class="input-group-prepend">

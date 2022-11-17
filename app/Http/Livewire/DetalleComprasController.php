@@ -163,7 +163,9 @@ class DetalleComprasController extends Component
         $obj->image=$this->image;
 
         $obj->Store();
+        $this->provider=Provider::where('nombre_prov',$this->nombre_prov)->first()->nombre_prov;
         $this->resetProv();
+        
         $this->emit('prov_added', 'Proveedor Registrado');
 
     }
