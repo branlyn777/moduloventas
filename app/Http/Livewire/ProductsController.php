@@ -115,9 +115,6 @@ class ProductsController extends Component
     public function render()
     {
      /**sssssssss */
-     
-   
-
        if ($this->selected_categoria !== null ) {
           
         if ($this->selected_sub == null) {

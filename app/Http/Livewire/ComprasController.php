@@ -34,7 +34,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$search2;
+            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$search2,$tipo_search,$productoProveedor,$search3;
 
     public function paginationView()
     {
@@ -46,10 +46,10 @@ class ComprasController extends Component
         $this->filtro='Contado';
         $this->fecha='hoy';
         $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
-  
         $this->toDate =  Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->sucursal_id=SucursalUser::where('user_id',Auth()->user()->id)->first()->sucursal_id;
         $this->estado='ACTIVO';
+        $this->tipo_search='codigo';
     }
     public function render()
     {
@@ -62,10 +62,17 @@ class ComprasController extends Component
         'users.name as username',
         'compras.nro_documento','compras.id')
         ->whereBetween('compras.created_at',[$this->from,$this->to])
-        ->where(function ($query){
-            $query->where('nombre_prov', 'like', '%' . $this->search . '%')
-            ->orWhere('nro_documento', 'like', '%' . $this->search . '%')
-            ->orWhere('users.name', 'like', '%' . $this->search . '%');
+        ->when($this->tipo_search == 'codigo',function($query){
+                return $query->where('compras.id', 'like', '%' . $this->search . '%');
+        })
+        ->when($this->tipo_search == 'proveedor',function($query){
+                return $query->where('nombre_prov', 'like', '%' . $this->search . '%');
+        })
+        ->when($this->tipo_search == 'usuario',function($query){
+                return $query->where('users.name', 'like', '%' . $this->search . '%');
+        })
+        ->when($this->tipo_search == 'documento',function($query){
+                return $query->where('nro_documento', 'like', '%' . $this->search . '%');
         })
         ->when($this->sucursal_id != 'Todos', function($query){
             $mn=[];
@@ -85,27 +92,23 @@ class ComprasController extends Component
         $this->totales = $datas_compras->sum('compras.importe_total');
 
         if ($this->search2 != null) {
-            $this->compraProducto=
+            $this->compraProducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+            ->join('products','products.id','compra_detalles.product_id')
+            ->where('products.nombre', 'like', '%' . $this->search2 . '%')
+            ->select('products.nombre','compra_detalles.cantidad','compras.id','compras.created_at')
+            ->get();
+            //dd($this->compraProducto);
         }
-        
-
-
-
-        //$this->compraProducto= 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if ($this->search3 != null) {
+     
+            $this->productoProveedor = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+            ->join('products','products.id','compra_detalles.product_id')
+            ->join('providers','providers.id','compras.proveedor_id')
+            ->where('products.nombre', 'like', '%' . $this->search3 . '%')
+            ->select('providers.nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
+            ->get();
+            //dd($this->compraProducto);
+        }
         $usuarios = User::select("users.*")
         ->where("users.status","ACTIVE")
         ->get();
@@ -226,6 +229,7 @@ class ComprasController extends Component
     }
 
     public function VerComprasProducto(){
+        $this->search2=null;
         $this->emit('comprasproducto');
     }
     public function VerProductosProveedor(){

@@ -1,137 +1,79 @@
 <div wire:ignore.self class="modal fade" id="prodprov" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Detalle de Compra Código: </h5>
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Productos por Proveedor </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
-            <div class="table-1 table-responsive">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6">
+                    <b wire:click="limpiarsearch()" class="ml-3 mt-1" style="cursor: pointer;">Buscar Producto</b>
+                    <div class="form-group">
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="text" wire:model="search3" placeholder="Buscar Producto" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-1 p-2">
                 <table style="min-width: 600px;">
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>Nombre</th>
-                        <th class="text-center">Precio (Bs)</th>
-                        <th class="text-center">IVA%</th>
+                        <th>N°</th>
+                     
+                        <th class="text-center">Proveedor</th>
                         <th class="text-center">Cantidad</th>
-                        <th class="text-center">Total (Bs)</th>
+                        <th class="text-center">Cod. Compra</th>
+                        <th class="text-center">Fecha Compra</th>
+                       
                       </tr>
                     </thead>
                     
                     <tbody>
-                        @if ($detalleCompra != null)
-                        @foreach ($detalleCompra as $dc)
+                        @if ($search3 != null)
+                        @foreach ($productoProveedor as $prp)
                             
                         <tr>
                             <td class="text-center">
                                 {{$loop->index+1}}
                             </td>
                             <td class="text-left">
-                                {{ $dc->productos->nombre}}
+                                {{ $prp->nombre_prov}}
                             </td>
                             <td class="text-right">
-                                {{ number_format($dc->precio, 2) }}
+                                {{ $prp->cantidad}}
                             </td>
-                            @if ($dc->compra->tipo_doc == 'FACTURA')
                             <td class="text-right">
-                                {{ number_format(($dc->precio/0.87)*0.13*$dc->cantidad, 2) }}
+                                {{ $prp->id}}
                             </td>
-                            
-                            @else
                             <td class="text-right">
-                                {{ number_format(0, 2) }}
+                                {{ $prp->created_at}}
                             </td>
-                                
-                            @endif
-                            <td class="text-center">
-                                {{ $dc->cantidad }}
-                            </td>
-                           @if ($dc->compra->tipo_doc == 'FACTURA')
-                               
-                           <td class="text-right">
-                               {{ number_format(($dc->precio * $dc->cantidad)/0.87, 2) }}
-                           </td>
-                           @else
-                           <td class="text-right">
-                               {{ number_format($dc->precio * $dc->cantidad,2)}}
-                           </td>
-                               
-                           @endif
+                          
                         </tr>
                         @endforeach
                             
                         @else
-                            <p>nada</p>
+                            <p></p>
                         @endif
                        
                     </tbody>
-                    <tfoot>
-                      <tr>
-                     
-                   
-                        <td class="text-center">
-                           
-                        </td>
-                        <td class="text-center">
-                            <b class="text-center">
-                                Totales
-                            </b>
-                        </td>
-                        <td class="table-th text-withe text-right">
-                            <b>
-                                --------
-                            </b>
-                        </td>
-
-                        @if ($totalIva != null)
-                            
-                        <td class="table-th text-withe text-right">
-                            <b>
-                                {{number_format($totalIva,2)}}
-                            </b>
-                        </td>
-                        @else
-                            
-                        <td class="table-th text-withe text-right">
-                            <b>
-                                {{ number_format(0, 2) }}
-                            </b>
-                        </td>
-                        @endif
-                        <td class="text-center">
-                            <b>
-                                {{$totalitems}}
-                            </b>
-                        </td>
-                       
-                        <td class="text-right">
-                        
-                            <b>
-                                {{number_format( $compraTotal, 2) }}
-                            </b>
-                      
-                        </td>
-                      </tr>
-                    </tfoot>
+                
                   </table>
             
             
             
             
             </div>
-            <div class="text-center" style="color: black">
+          
        
-            
-           
-          
-           
-                    <b>Observación: {{$observacion==null?'Ninguna observacion':$observacion}}</b>
-          
-             
-         
-            </div>
             <br>
         </div>
     </div>

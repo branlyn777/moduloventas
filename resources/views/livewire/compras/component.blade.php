@@ -27,6 +27,13 @@
                                     </span>
                                 </div>
                                 <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" class="form-control">
+                                <select wire:model="tipo_search">
+                                   
+                                    <option value="codigo">Cod. Compra</option>
+                                    <option value="proveedor">Proveedor</option>
+                                    <option value="usuario">Usuario</option>
+                                    <option value="documento">Documento</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -113,13 +120,13 @@
                                     <thead>
                                         <tr>
                                            
-                                            <th class="text-center">#</th>                                
-                                            <th class="text-center">FECHA</th>                                
+                                            <th class="text-center" style="width: 2%">#</th>                                
+                                            <th class="text-center" style="width: 5%">COD.</th>                                
+                                            <th class="text-center">FECHA</th>                 
                                             <th class="text-center">PROVEEDOR</th>                                
                                             <th class="text-center">DOCUMENTO</th>                                
                                             <th class="text-center">TIPO<br>COMPRA</br></th>                                
-                                            <th class="text-center">TOTAL<br>COMPRA</br></th>                                
-                                                          
+                                            <th class="text-center">TOTAL<br>COMPRA</br></th>                                   
                                             <th class="text-center">ESTADO</th>
                                             <th class="text-center">USUARIO</th>
                                             <th class="text-center">ACC.</th>
@@ -130,6 +137,9 @@
                                             <tr>
                                                 <td class="text-center" >
                                                     <h6>{{ $loop->index+1}}</h6>
+                                                </td>
+                                                <td class="text-center" >
+                                                    <span class="badge badge-secondary mb-0">{{ $data->id}}</span>
                                                 </td>
                                                 <td>
                                                    
@@ -142,7 +152,7 @@
                                                 </td>
                                                 <td>
                                                     <center><h6>{{$data->tipo_doc}}</h6>
-                                                        <h6 class="text-center">{{ $data->nro_documento }}</h6></center>
+                                                        <h6 class="text-center">{{ $data->nro_documento ?$data->nro_documento:'S/N' }}</h6></center>
                                                     
                                                 </td>
                                                 <td>
