@@ -85,7 +85,7 @@ class ComprasController extends Component
         $this->totales = $datas_compras->sum('compras.importe_total');
 
         if ($this->search2 != null) {
-            
+            $this->compraProducto=
         }
         
 
