@@ -109,6 +109,11 @@
                                     title="Eliminar categoria">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
+                                   class="boton-celeste "
+                                    title="Cambiar Estado">
+                                    <i class="fas fa-times-circle"></i>
+                                </a>
                                 
                             </td>
                         </tr>

@@ -21,7 +21,7 @@
         </div>
         @error('descripcion')<span class="text-danger er">{{ $message }}</span> @enderror
     </div>
-    @if ($selected_id !=0)
+    {{-- @if ($selected_id !=0)
                 
     <div class="col-lg-12">
         <div class="form-group">
@@ -34,7 +34,7 @@
             @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
     </div>
-    @endif
+    @endif --}}
 </div>
 
 @include('common.modalFooter')

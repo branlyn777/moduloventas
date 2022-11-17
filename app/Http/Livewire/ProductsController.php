@@ -499,6 +499,7 @@ class ProductsController extends Component
         
         $marca->save();
         $this->reset('newmarca');
+        $this->marca=$marca->nombre;
         $this->emit('marca-added');
     }
 
@@ -520,6 +521,7 @@ class ProductsController extends Component
         
              $unidad->save();
         $this->reset('newunidad');
+        $this->unidad=$unidad->nombre;
         $this->emit('unidad-added');
     }
 

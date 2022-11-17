@@ -164,10 +164,34 @@
                                     Productos </a>
                             </li>
                             <li>
-                                <a href="{{url('compras')}}">
+                                <a  data-toggle="collapse" href="#subnav1"> 
                                     <i class="flaticon-shopping-bag text-dark"></i>
                                     Compras </a>
+                                    <div class="collapse" id="subnav1">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li>
+                                                <a href="{{url('compras')}}">
+                                                    <span class="sub-item">Lista Compras</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{url('orden_compras')}}">
+                                                    <span class="sub-item">Orden Compra</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                             </li>
+
+
+
+
+
+
+
+
+
+
                             <li>
                                 <a href="{{url('destino_prod')}}">
                                     <i class="fas fa-store"></i>

@@ -13,6 +13,8 @@ use App\Http\Controllers\ExportSaleMovDiaController;
 use App\Http\Livewire\CoinsController;
 use App\Http\Livewire\CompaniesController;
 use App\Http\Livewire\ComprasController;
+use App\Http\Livewire\OrdenCompraController;
+use App\Http\Livewire\OrdenCompraDetalleController;
 use App\Http\Livewire\EditarCompraDetalleController;
 use App\Http\Livewire\CorteCaja2Controller;
 use App\Http\Livewire\CorteCajaController;
@@ -24,6 +26,7 @@ use App\Http\Livewire\InicioController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
+use App\Http\Livewire\OrdenCompra;
 use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\PosController;
 use App\Http\Livewire\ProcedenciaController;
@@ -109,6 +112,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('compras', ComprasController::class)->name('compras');
         Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
         Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
+        Route::get('orden_compras', OrdenCompraController::class)->name('orden_compra');
+        Route::get('detalle_orden_compras', OrdenCompraDetalleController::class)->name('orden_compra_detalle');
     });
     //Inventarios (Pdsf y Excel)
     Route::group(['middleware' => ['permission:Reportes_Inventarios_Export']], function () {
