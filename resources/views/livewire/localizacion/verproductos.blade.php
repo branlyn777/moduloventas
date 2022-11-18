@@ -1,17 +1,14 @@
-<div wire:ignore.self class="modal fade" id="verproductos" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="verproductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Lista Mobiliario Producto</h5>
-
             </div>
             <div class="modal-body">
-
-                @if ($listaproductos and $listaproductos->count()>0)
-                <div class="table-responsive">
-                    <table class="tablamodal">
-                        <thead class="text-white">
+                @if ($listaproductos != null and $listaproductos->count()>0)
+                <div class="table-1">
+                    <table>
+                        <thead>
                             <tr>
                                 <th>ITEM</th>
                                 <th>NOMBRE</th>
@@ -19,12 +16,10 @@
                             </tr>
                         </thead>
                         <tbody>
-
-
                             @foreach ($listaproductos as $data)
                             <tr>
                                 <td>
-                                    <h6 class="text-center">{{ $loop->iteration }}</h6>
+                                    <h6 class="text-center">{{ $loop->index+1 }}</h6>
                                 </td>
 
                                 <td>
@@ -39,15 +34,12 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                            <div>
-                                Este mobiliario no tiene ningun producto asignado
-                            </div>
-                            @endif
+                        
                         </tbody>
                     </table>
-
+                    
                 </div>
+                @endif
                 <div class="tabs tab-pills text-right m-2">
 
                     <button type="button" class="btn btn-warning" data-dismiss="modal">CERRAR</button>

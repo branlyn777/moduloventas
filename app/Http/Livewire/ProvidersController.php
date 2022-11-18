@@ -46,9 +46,23 @@ class ProvidersController extends Component
     }
     public function Store()
     {
-        $rules = ['nombre_prov' =>'required|unique:providers'];
+        $rules = ['nombre_prov' =>'required|alpha|max:50|unique:providers',
+                  'correo'=> 'sometimes|email',
+                  'apellido'=>'alpha',
+                  'direccion'=>'sometimes|alpha',
+                  'nit'=>'numeric',
+                  'telefono'=>'numeric'
+];
         $messages = ['nombre_prov.required'=> 'El nombre del proveedor es requerido.',
-            'nombre_prov.unique'=> 'Ya existe un proveedor  con ese nombre.'];
+            'nombre_prov.unique'=> 'Ya existe un proveedor  con ese nombre.',
+            'nombre_prov.alpha'=>'Nombre no valido, solamente puede ingresar letras.',
+            'apellido.alpha'=>'Apellido no valido, solamente puede ingresar letras.',
+            'direccion.alpha'=>'Direccion no valida, solamente puede ingresar letras.',
+            'correo.email'=>'Ingrese un correo valido.',
+            'nit.numeric'=>'El numero de nit solamente puede ser numeros.',
+            'telefono.numeric'=>'El numero de telefono debe contener solamente numeros.'
+
+    ];
         $this->validate($rules, $messages);
 
         $provider=Provider::create([

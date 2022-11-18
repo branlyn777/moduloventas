@@ -10,6 +10,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-6">
                     <b wire:click="limpiarsearch()"  class="ml-3 mt-1" style="cursor: pointer;">Buscar Producto</b>
+               
                     <div class="form-group">
                         <div class="input-group mb-4">
                             <div class="input-group-prepend ml-3">

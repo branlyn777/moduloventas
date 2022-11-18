@@ -319,18 +319,22 @@ class ProductsController extends Component
             $this->categoryid = $this->selected_id2;
         }
         $rules = [
-            'nombre' => "required|min:3|unique:products,nombre,{$this->selected_id}",
+            'nombre' => "required|min:2|unique:products,nombre,{$this->selected_id}",
             'codigo'=>"required|min:3|unique:products,codigo,{$this->selected_id}",
-            'costo' => 'required',
-            'precio_venta' => 'required',
-            'categoryid' => 'required|not_in:Elegir'
+            'costo' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
+            'categoryid' => 'required|not_in:Elegir',
+            'cantidad_minima'=>'sometimes|numeric'
         ];
         $messages = [
             'nombre.required' => 'Nombre del producto requerido',
             'nombre.unique' => 'Ya existe el nombre del producto',
-            'nombre.min' => 'El nombre debe  contener al menos 5 caracteres',
+            'nombre.min' => 'El nombre debe  contener al menos 2 caracteres',
             'costo.required' =>'El costo es requerido',
             'precio_venta.required'=> 'El precio es requerido',
+            'costo.numeric'=>'El costo tiene que ser un numero',
+            'cantidad_minima.numeric'=>'La cantidad minima solamente puede ser numerico',
+            'precio_venta.numeric'=>'El precio de venta tiene que ser un numero',
             'categoryid.required' => 'La categoria es requerida',
             'categoryid.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
         ];

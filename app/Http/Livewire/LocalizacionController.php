@@ -21,7 +21,7 @@ class LocalizacionController extends Component
     use WithPagination;
     use WithFileUploads;
     public $sucursal, $codigo, $descripcion,$ubicacion, $tipo,$product,$product_name,
-    $selected_id, $categoria,$subcategoria,$location, $pageTitle, $componentName,$search,$search2,$destino,$listaproductos,$auxi=[],$arr;
+    $selected_id, $categoria,$subcategoria,$location, $pageTitle, $componentName,$search,$search2,$destino,$listaproductos,$auxi=[],$arr,$vista,$data_prod_mob;
     private $pagination = 20;
     public $col,$selectedmob;
     public function paginationView()
@@ -68,10 +68,9 @@ class LocalizacionController extends Component
      
         if (strlen($this->search2) > 0)
         {
+            dd($this->search2);
 
-            $data_prod_mob = Product::
-                            join('productos_destinos','productos_destinos.product_id','products.id')
-                            
+            $this->data_prod_mob = Product::join('productos_destinos','productos_destinos.product_id','products.id')
                             ->whereNotIn('products.id',$this->arr)
                             ->where('nombre', 'like', '%' . $this->search2 . '%')
                             ->orWhere('codigo','like','%'.$this->search2.'%')
@@ -82,7 +81,7 @@ class LocalizacionController extends Component
         }
         else{
 
-            $data_prod_mob=false;
+            $this->data_prod_mob=true;
         }
             $data_subcategoria= Category::where('categories.categoria_padre',$this->categoria)
                                 ->where('categories.categoria_padre','!=','Elegir')
@@ -107,7 +106,7 @@ class LocalizacionController extends Component
                     'data_subcategoria'=> $data_subcategoria,
                     'data_destino'=>$data_destino,
                     'data_mobiliario'=> $data_mobiliario,
-                    'data_mob'=> $data_prod_mob,
+                  
                     'data_producto'=>$data_producto
 
            
@@ -284,6 +283,7 @@ class LocalizacionController extends Component
             array_push($this->arr, $data->product);
 
         }
+        $this->emit('show-modal');
 
         
 

@@ -1,11 +1,10 @@
-
-
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget widget-chart-one">
             <div class="widget-heading">
                 <h3 class="text-center">
                     <b>MOBILIARIOS</b>
+                    {{$search2}}
                 </h3>
                 <ul class="row justify-content-end">
                     <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
@@ -73,8 +72,7 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             
-                                            <a href="javascript:void(0)" data-toggle="modal"
-                                            data-target="#asignar_mobiliario" wire:click="asignaridmob({{$location->id}})" 
+                                            <a href="javascript:void(0)" wire:click="asignaridmob({{$location->id}})" 
                                                 class="btn btn-warning p-1 m-0" title="Agregar Productos a este mobiliario">
                                                 <i class="fas fa-plus"></i>
                                             </a>
@@ -95,13 +93,13 @@
         </div>
     </div>
     @include('livewire.localizacion.form')
+    @include('livewire.localizacion.verproductos')
+    @include('livewire.localizacion.modal_asignar_mobiliario')
 </div>
-@include('livewire.localizacion.verproductos')
-@include('livewire.localizacion.modal_asignar_mobiliario')
-</div>
 
 
 
+@section('javascript')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -163,3 +161,4 @@
         })
     }
 </script>
+@endsection

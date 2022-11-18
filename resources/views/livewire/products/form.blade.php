@@ -42,7 +42,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Garantia(en dias)</label>
-            <input type="text" wire:model.lazy="garantia" class="form-control" placeholder="introducir dias">
+            <input type="number" wire:model="garantia" class="form-control" placeholder="introducir dias">
             @error('garantia') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Costo</label>
-            <input type="text" wire:model.lazy="costo" class="form-control" placeholder="ej: 12">
+            <input type="number" min="1" wire:model.lazy="costo" class="form-control" placeholder="ej: 12">
             @error('costo') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
     </div>
@@ -106,7 +106,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Precio de venta</label>
-            <input type="text" wire:model.lazy="precio_venta" class="form-control" placeholder="ej: 24">
+            <input type="number"  min="1" wire:model.lazy="precio_venta" class="form-control" placeholder="ej: 24">
             @error('precio_venta') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
     </div>
@@ -152,7 +152,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Cantidad Minima</label>
-                <input type="text" wire:model.lazy="cantidad_minima" class="form-control" placeholder="ej: 5">
+                <input type="number" min="1" wire:model.lazy="cantidad_minima" class="form-control" placeholder="ej: 5">
             @error('cantidad_minima') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
     </div>

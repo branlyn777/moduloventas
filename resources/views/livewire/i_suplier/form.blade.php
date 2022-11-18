@@ -19,19 +19,19 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6 form-group">
             <label>Apellidos</label>
-            <input type="text" wire:model.lazy="apellido" class="form-control" placeholder=""
+            <input type="text" wire:model="apellido" class="form-control" placeholder=""
             maxlenght="25">
             @error('apellido') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
         <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
             <label>Direccion</label>
-            <input type="text" wire:model.lazy="direccion" class="form-control" placeholder=""
+            <input type="text" wire:model="direccion" class="form-control" placeholder=""
             maxlenght="25">
             @error('direccion') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
         <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
             <label>NIT</label>
-            <input type="text" wire:model.lazy="nit" class="form-control" placeholder=""
+            <input type="text" wire:model="nit" class="form-control" placeholder=""
             maxlenght="25">
             @error('nit') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
@@ -43,7 +43,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6 form-group">
             <label>Telefono</label>
-            <input type="text" wire:model.lazy="telefono" class="form-control" placeholder=""
+            <input type="text" wire:model="telefono" class="form-control" placeholder=""
             maxlenght="25">
             @error('telefono') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>
