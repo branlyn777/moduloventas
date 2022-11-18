@@ -505,15 +505,15 @@
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @if($this->total_items > 0)
                             <button onclick="ConfirmarLimpiar()" class="btn btn-button" style="background-color: #373839; color: white; border-color: black;">
-                                Vaciar Todo
+                                Vaciar
                             </button>
                             @endif
                             <a href="{{ url('salelist') }}" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
-                                <b>Cancelar Editar Venta</b>
+                                <b>Cancelar</b>
                             </a>
                             @if($this->total_items > 0)
                             <button wire:click.prevent="update_sale()" class="btn btn-button" style="background-color: #7b00a0; color: white;">
-                                Actualizar Venta
+                                Actualizar
                             </button>
                             @endif
                         </div>

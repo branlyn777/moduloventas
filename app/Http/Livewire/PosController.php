@@ -342,23 +342,35 @@ class PosController extends Component
     //Decrementar Items en el Carrito de Ventas
     public function decrease(Product $producto)
     {
-        //Guardamos los datos del producto en Carrito de Ventas
-        $product_cart = Cart::get($producto->id);
-        //Elimnamos el producto del Carrito de Ventas
-        Cart::remove($producto->id);
-        //Obtenmos la cantidad que existia del producto en el Carrito de Ventas
-        $cant = $product_cart->quantity - 1;
-        //Volvemos a añadir el produto al Carrito de Ventas pero con la cantidad actualizada
-        if ($cant > 0)
+        try
         {
-            Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cant, $product_cart->image);
-            // $this->total = Cart::getTotal();
-            $this->total = $this->gettotalcart();
-            $this->itemsQuantity = Cart::getTotalQuantity();
-            $this->emit('scan-ok', 'Cantidad actualizada');
+            //Guardamos los datos del producto en Carrito de Ventas
+            $product_cart = Cart::get($producto->id);
+            //Elimnamos el producto del Carrito de Ventas
+            Cart::remove($producto->id);
+            //Obtenmos la cantidad que existia del producto en el Carrito de Ventas
+            $cant = $product_cart->quantity - 1;
+            //Volvemos a añadir el produto al Carrito de Ventas pero con la cantidad actualizada
+            if ($cant > 0)
+            {
+                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cant, $product_cart->image);
+                // $this->total = Cart::getTotal();
+                $this->total = $this->gettotalcart();
+                $this->itemsQuantity = Cart::getTotalQuantity();
+                $this->emit('scan-ok', 'Cantidad actualizada');
+            }
+            //Actualizamos Valores (Unidades y Bs de la Venta)
+            $this->actualizarvalores();
         }
-        //Actualizamos Valores (Unidades y Bs de la Venta)
-        $this->actualizarvalores();
+        catch (Exception $e)
+        {
+            $this->mensaje_toast = "Por favor no realize tantos clicks";
+            $this->emit('message-error-sale');
+        }
+
+
+
+
     }
     //Para verificar que quede stock disponible en la TIENDA para la venta
     public function stocktienda($idproducto, $cantidad)
