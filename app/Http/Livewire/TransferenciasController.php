@@ -238,7 +238,8 @@ class TransferenciasController extends Component
     public function imprimir($id){
         
         session(['id_transf' =>$id]);
+        $this->emit('opentap');
 
-        return redirect()->route('transferencia.pdf');
+        
     } 
 }

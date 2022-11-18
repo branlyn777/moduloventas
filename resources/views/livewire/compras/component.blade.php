@@ -256,6 +256,13 @@
                 text: 'La compra no puede ser eliminada por que uno de los items ya ha sido distribuido.'              
             })
         });
+        window.livewire.on('opentap', Msg => {
+         
+         var win = window.open('Compras/pdf/{id}');
+         // Cambiar el foco al nuevo tab (punto opcional)
+         // win.focus();
+
+     });
         window.livewire.on('preguntareliminarCompra', msg => {
             //console.log(msg);
             swal.fire({

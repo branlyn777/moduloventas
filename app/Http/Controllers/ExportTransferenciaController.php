@@ -43,8 +43,14 @@ class ExportTransferenciaController extends Controller
        
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
+        $datossucursal = Sucursal::join("sucursal_users as su", "su.sucursal_id", "sucursals.id")
+        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal", "su.user_id")
+        ->where("su.user_id", Auth()->user()->id)
+        ->get()
+        ->first();
+        
       
-        $pdf = PDF::loadView('livewire.pdf.ImprimirTransferencia', compact('ide','origen','destino','userrecepcion','fecha','datalist_destino','nombreempresa','logoempresa'));
+        $pdf = PDF::loadView('livewire.pdf.ImprimirTransferencia', compact('ide','origen','destino','datossucursal','userrecepcion','fecha','datalist_destino','nombreempresa','logoempresa'));
 
         return $pdf->stream('transferencia.pdf');  
     }

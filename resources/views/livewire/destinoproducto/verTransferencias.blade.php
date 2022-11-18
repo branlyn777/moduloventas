@@ -1,21 +1,21 @@
 
 
-<div class="row pt-2">
-    <div class="col-lg-12 col-12 layout-spacing">
-        <div class="statbox widget box box-shadow">
-          
+<div class="row sales layout-top-spacing">
+    <div class="col-sm-12">
+       
+        <div class="widget widget-chart-one">
                
            
-            <div class="widget-content widget-content-area icon-pill">
+            <div class="widget-content">
                 <div class="row mt-3 text-center">
-                    <div class="col-xl-12 col-md-12 col-sm-12 col-lg-12">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
                         <h2>TRANSFERENCIAS</h2>
                     </div>
                 </div>
                 <div class="d-flex flex-row-reverse">
            
                     
-                        <a href="transferencia" class="btn btn-success m-1" >Transferir Productos</a>
+                        <a href="transferencia" class="boton-azul" >Transferir Productos</a>
                        
                        
                   
@@ -24,11 +24,15 @@
                 <ul  class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
                     
                     <li class="nav-item">
-                        <a class="nav-link true" id="listar-transferencias" data-toggle="pill" href="#pills-tr" role="tab" aria-controls="pills-tr" aria-selected="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>  Listar Transferencias</a>
+                        <a class="nav-link true" id="listar-transferencias" data-toggle="pill" 
+                        href="#pills-tr" role="tab" aria-controls="pills-tr" aria-selected="true"> <i class="fas fa-list"></i> Listar Transferencias
+                      </a>
                         
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="listar-transferencias-pendientes" data-toggle="pill" href="#pills-tr-apr" role="tab" aria-controls="pills-tr-apr" aria-selected="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>Transferencias pendientes de aprobacion</a>
+                        <a class="nav-link" id="listar-transferencias-pendientes" data-toggle="pill" 
+                        href="#pills-tr-apr" role="tab" aria-controls="pills-tr-apr" aria-selected="true"> <i class="fas fa-arrow-circle-right"></i>
+                      Transferencias Entrantes</a>
                     </li>
                     
                 </ul>
@@ -38,12 +42,12 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="text-withe text-center">#</th>
-                                        <th class="text-withe text-center">Cod</th>                              
-                                        <th class="text-withe text-center">Transferencia</th>
-                                        <th class="text-withe text-center">Estado</th>
-                                        <th class="text-withe text-center">Usuario</th>
-                                        <th class="text-withe text-center">Acciones</th>
+                                        <th style="width: 3%" class="text-center">#</th>
+                                        <th class="text-center">COD.</th>                              
+                                        <th class="text-center">DETALLE</th>
+                                        <th class="text-center">ESTADO</th>
+                                        <th class="text-center">USUARIO</th>
+                                        <th class="text-center">ACC.</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -205,7 +209,7 @@
                          
                         </div>
                     </div>
-                </div>
+                
            
     
             </div>
@@ -228,6 +232,14 @@
         window.livewire.on('close2', msg => {
             $('#detailtranferencete').modal('hide')
         });  
+
+        window.livewire.on('opentap', Msg => {
+         
+            var win = window.open('Transferencia/pdf');
+            // Cambiar el foco al nuevo tab (punto opcional)
+            // win.focus();
+
+        });
     });
     function Confirm(id) {
         swal.fire({

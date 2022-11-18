@@ -86,7 +86,7 @@
 		.table-6 {
 		width: 100%;/* Anchura de ejemplo */
 		/*Altura de ejemplo*/
-		overflow: auto;
+		/* overflow: auto; */
 		}
 		.table-6 table {
 			border-collapse: separate;

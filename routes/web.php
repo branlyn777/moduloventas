@@ -8,6 +8,7 @@ use App\Http\Livewire\CarteraMovCategoriaController;
 use App\Http\Livewire\CategoriesController;
 use App\Http\Livewire\ClienteController;
 use App\Http\Controllers\ExportTransferenciaController;
+use App\Http\Livewire\EditTransferenceController;
 use App\Http\Controllers\ExportComprasController;
 use App\Http\Controllers\ExportSaleMovDiaController;
 use App\Http\Livewire\CoinsController;
@@ -103,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['permission:Transferencias']], function () {
         Route::get('all_transferencias', TransferenciasController::class);
         Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
+        Route::get('trans', EditTransferenceController::class)->name('editdest');
         
     });
     Route::get('operacionesinv',MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
