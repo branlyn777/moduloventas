@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class EstadoTransferencia extends Model
 {
     use HasFactory;
-    protected $fillable= ['estado','id_transferencia','id_usuario'];
+    protected $fillable= ['estado','op','id_transferencia','id_usuario'];
 }

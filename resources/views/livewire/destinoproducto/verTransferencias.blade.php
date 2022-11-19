@@ -13,12 +13,7 @@
                     </div>
                 </div>
                 <div class="d-flex flex-row-reverse">
-           
-                    
-                        <a href="transferencia" class="boton-azul" >Transferir Productos</a>
-                       
-                       
-                  
+                        <a href="transferencia" class="boton-azul">Transferir Productos</a>
                 </div>
                 
                 <ul  class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
