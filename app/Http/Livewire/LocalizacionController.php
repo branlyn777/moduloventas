@@ -68,7 +68,7 @@ class LocalizacionController extends Component
      
         if (strlen($this->search2) > 0)
         {
-            dd($this->search2);
+           
 
             $this->data_prod_mob = Product::join('productos_destinos','productos_destinos.product_id','products.id')
                             ->whereNotIn('products.id',$this->arr)
@@ -79,10 +79,7 @@ class LocalizacionController extends Component
     
             //dd($this->arr);
         }
-        else{
-
-            $this->data_prod_mob=true;
-        }
+       
             $data_subcategoria= Category::where('categories.categoria_padre',$this->categoria)
                                 ->where('categories.categoria_padre','!=','Elegir')
                                 ->get();
@@ -203,34 +200,32 @@ class LocalizacionController extends Component
     public function asignarMobiliario()
     {
         
-        
-        $rules = [
-            'product' => "required|not_in:Elegir|unique:location_productos,product,NULL,NULL,location,{$this->location}",
-            'location' => "required|not_in:Elegir|unique:location_productos,location,NULL,NULL,product,{$this->product}"
-        ];
-        $messages = [
-            'product.not_in' => 'Elija una opcion diferente de elegir',
-            'product.unique' => 'Este producto ya esta asignado a este mobiliario.',
-            'location.unique' => 'Este mobiliario ya esta asignado a este producto',
-            'location.required' => 'El nombre de tipo aparador es requerido'
-        ];
+        // $rules = [
+        //     'product' => "required|not_in:Elegir|unique:location_productos,product,NULL,NULL,location,{$this->location}",
+        //     'location' => "required|not_in:Elegir|unique:location_productos,location,NULL,NULL,product,{$this->product}"
+        // ];
+        // $messages = [
+        //     'product.not_in' => 'Elija una opcion diferente de elegir',
+        //     'product.unique' => 'Este producto ya esta asignado a este mobiliario.',
+        //     'location.unique' => 'Este mobiliario ya esta asignado a este producto',
+        //     'location.required' => 'El nombre de tipo aparador es requerido'
+        // ];
 
-        foreach ($this->col as $key => $value) {
-            
-            
+       
 
+        // $this->validate($rules, $messages);
 
 
+         foreach ($this->col as $data) {
+           
+
+             LocationProducto::create([
+                 'product'=>$data['product_id'],
+                 'location'=>$this->location
+             ]);
         }
 
-        $this->validate($rules, $messages);
-
-        LocationProducto::create([
-            'product'=>$this->product,
-            'location'=>$this->location
-        ]);
         $this->resetUI();
-
         $this->emit('localizacion-assigned', 'Mobiliario asignado Exitosamente');
     }
     public function resetUI()
@@ -268,7 +263,9 @@ class LocalizacionController extends Component
     public function addProd( Product $id){  
 
     $this->col->push(['product_id'=> $id->id,'product_name'=>$id->nombre,'product_codigo'=>$id->codigo]);
-    //dd($this->col);
+    array_push($this->arr, $id->id);
+    $this->search2=null;
+   
 
     }
 
@@ -276,6 +273,7 @@ class LocalizacionController extends Component
 
         $this->arr=[];
         $this->selectedmob=$id;
+        $this->location=$id;
         $loc=LocationProducto::where('location',$this->selectedmob)->get('product');
         
         foreach ($loc as $data) {

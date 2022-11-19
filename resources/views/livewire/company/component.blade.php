@@ -10,9 +10,9 @@
   
       <div class="row">
   
-          <div class="col-12 col-sm-12 col-md-4">
+          {{-- <div class="col-12 col-sm-12 col-md-4">
               @include('common.searchbox')
-          </div>
+          </div> --}}
   
           <div class="col-12 col-sm-12 col-md-4 text-center">
               
@@ -76,10 +76,10 @@
                                 class="boton-celeste" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="javascript:void(0)" onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
+                            {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
                             '{{ $item->relacionados->count() }}')" class="boton-rojo" title="Borrar">
                                 <i class="fas fa-trash"></i>
-                            </a>
+                            </a> --}}
                         </td>
                     </tr>
                 @endforeach

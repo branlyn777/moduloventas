@@ -171,7 +171,7 @@ class TransferirProductoController extends Component
 
     public function exit(){
         $this->resetUI();
-        redirect('/destino_prod');
+        redirect('/all_transferencias');
     }
    
     public function verificarDestino(){

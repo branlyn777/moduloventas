@@ -55,10 +55,10 @@
                                 class="boton-azul" title="Editar registro">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
+                            {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
                                 class="boton-rojo" title="Eliminar registro">
                                 <i class="fas fa-trash"></i>
-                            </a>
+                            </a> --}}
                         </td>
                     </tr>
                 @endforeach

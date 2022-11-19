@@ -24,6 +24,7 @@
                     <table>
                         <thead>
                             <tr>
+                                <th class="text-center" style="width: 4%">ITEM</th>                                
                                 <th class="text-center">NOMBRE</th>                                
                                 <th class="text-center">ACCIONES</th>
                             </tr>
@@ -32,16 +33,19 @@
                             @foreach ($marcas as $data)
                                 <tr>
                                     <td>
+                                        <h6 class="text-center">{{ $loop->index+1 }}</h6>
+                                    </td>
+                                    <td>
                                         <h6 class="text-center">{{ $data->nombre }}</h6>
                                     </td>
                                     
                                     <td class="text-center">
                                         <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
+                                            class="boton-azul" title="Editar marca">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0)" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')" 
-                                            class="btn btn-warning" title="Delete">
+                                            class="boton-rojo" title="Eliminar marca">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

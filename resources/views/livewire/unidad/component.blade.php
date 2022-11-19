@@ -41,11 +41,11 @@
                                     
                                     <td class="text-center">
                                         <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
+                                            class="boton-azul" title="Editar Unidad">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0)" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')" 
-                                            class="btn btn-warning" title="Delete">
+                                            class="boton-rojo" title="Eliminar unidad">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

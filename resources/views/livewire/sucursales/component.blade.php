@@ -75,11 +75,11 @@
                                 class="boton-celeste" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
+                            {{-- <button onclick="Confirm('{{ $item->id }}','{{ $item->name }}',
                                 '{{ $item->cajas->count() }}','{{ $item->usuarios->count() }}')"
                                 class="boton-rojo" title="Borrar">
                                 <i class="fas fa-trash"></i>
-                            </button>
+                            </button> --}}
                         </td>
                     </tr>
                 @endforeach

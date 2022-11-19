@@ -4,7 +4,7 @@
             <div class="widget-heading">
                 <h3 class="text-center">
                     <b>MOBILIARIOS</b>
-                    {{$search2}}
+              
                 </h3>
                 <ul class="row justify-content-end">
                     <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
@@ -92,8 +92,8 @@
             </div>
         </div>
     </div>
-    @include('livewire.localizacion.form')
-    @include('livewire.localizacion.verproductos')
+        @include('livewire.localizacion.form')
+        @include('livewire.localizacion.verproductos')
     @include('livewire.localizacion.modal_asignar_mobiliario')
 </div>
 
