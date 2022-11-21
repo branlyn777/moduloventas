@@ -256,11 +256,11 @@
                                     <i class="fas fa-money-bill-alt"></i>
                                     Denominaciones </a>
                             </li>
-                            {{-- <li>
+                            <li>
                                 <a href="{{ url('devolucionventa') }}">
                                     <i class="fas fa-sync-alt"></i>
                                     Devolución Ventas </a>
-                            </li> --}}
+                            </li>
                             <li>
                                 <a href="{{ url('salemovimientodiario') }}">
                                     <i class="fas fa-calendar-alt"></i>

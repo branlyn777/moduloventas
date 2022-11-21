@@ -11,14 +11,14 @@ en otros destinos dentro de la misma sucursal --}}
                 </button>
             </div>
             <div class="modal-body">
-                <h4 style="color: rgb(0, 0, 0)" class="modal-heading mb-4 mt-2">Stock insuficiente en el destino Tienda</h4>
+                <h4 style="color: rgb(0, 0, 0)" class="modal-heading mb-4 mt-2">Stock Insuficiente</h4>git
 
 
 
 
                 
                     <h6 class="modal-text" style="color: rgb(0, 0, 0)">
-                        No existe mas stock disponible del producto <b>"{{$this->nombreproducto}}"</b> en tu "TIENDA"
+                        No existe mas stock disponible del producto <b>"{{$this->nombreproducto}}"</b>
                         , a continuacion se muestran todas las sucursales y el stock con el que cuentan de este producto
                     </h6>
                     <div style="background-color: rgb(0, 148, 234); color: white;">

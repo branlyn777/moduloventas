@@ -7,7 +7,7 @@
     
     <div class="row">
         <div class="col-12 col-sm-12 col-md-4">
-            {{-- @include('common.searchbox') --}}
+            
         </div>
     
         <div class="col-12 col-sm-12 col-md-4 text-center">
@@ -16,8 +16,8 @@
     
         <div class="col-12 col-sm-12 col-md-4 text-right">
             <button wire:click.prevent="modaldevolucion()" class="boton-azul-g">
-            Nueva Devolución
-        </button>
+                Nueva Devolución
+            </button>
         </div>
     </div>
     @include('livewire.sales.modaldev')
