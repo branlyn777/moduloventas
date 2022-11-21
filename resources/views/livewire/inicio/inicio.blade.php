@@ -98,7 +98,18 @@
             </div>
         </div>
 
+        <div class="row">
+            <div style="width: 1000px; margin: auto;">
+                <canvas id="myChart"></canvas>
+            </div>
+            
+            
+          
+        </div>
 
     </div>
 
 </div>
+@section('javascript')
+<script src="{{ mix('/js/app.js') }}"></script>
+@endsection

@@ -7,7 +7,7 @@
                     <b>ORDENES DE COMPRA</b>
                 </h2>
                 <ul class="row justify-content-end">
-                        <a href="detalle_orden_compras" class="btn btn-outline-primary">Registrar Ordedsdn</a>
+                        <a href="detalle_orden_compras" class="btn btn-outline-primary">Registrar Orden</a>
            
                 </ul>
                
@@ -23,7 +23,9 @@
                         <b>Seleccionar Sucursal</b>
                         <div class="form-group">
                             <select wire:model="sucursal_id" class="form-control">
-                              
+                                @foreach($listasucursales as $sucursal)
+                                <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                @endforeach
                                 <option value="Todos">Todas las Sucursales</option>
                             </select>
                         </div>
@@ -54,7 +56,7 @@
                    
     
                 </div>
-                @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
+                @if($this->fecha=='fechas')
 
                 <div class="row">
     
@@ -90,13 +92,15 @@
                                             <th class="text-center" style="width: 2%">#</th>                                
                                             <th class="text-center" style="width: 5%">COD.</th>                                
                                             <th class="text-center">FECHA</th>                                                                               
+                                            <th class="text-center">PROVEEDORS</th>                                                                               
                                             <th class="text-center">ESTADO</th>
                                             <th class="text-center">USUARIO</th>
+                                            <th class="text-center">TOTAL</th>
                                             <th class="text-center">ACC.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($data_compras as $data)
+                                        @foreach ($data_orden_compras as $data)
                                             <tr>
                                                 <td class="text-center" >
                                                     <h6>{{ $loop->index+1}}</h6>
@@ -111,19 +115,11 @@
                                                         {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
                                                 </td>
                                                 <td>
-                                                    <h6 class="text-center" wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</h6>
+                                                    <h6 class="text-center" wire:key="{{ $loop->index }}">{{ $data->proveedor->nombre_prov}}</h6>
                                                 </td>
-                                                <td>
-                                                    <center><h6>{{$data->tipo_doc}}</h6>
-                                                        <h6 class="text-center">{{ $data->nro_documento ?$data->nro_documento:'S/N' }}</h6></center>
-                                                    
-                                                </td>
-                                                <td>
-                                                    <h6 class="text-center">{{ $data->transaccion }}</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="text-center">{{ $data->imp_tot }}</h6>
-                                                </td>
+                                          
+                                             
+                                              
                                            
                                               
                                                 @if( $data->status == 'ACTIVO')
@@ -136,7 +132,10 @@
                                                 </td>
                                                 @endif
                                                 <td>
-                                                    <h6 class="text-center">{{ $data->username }}</h6>
+                                                    <h6 class="text-center">{{ $data->usuario->name }}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="text-center">{{ $data->importe_total }}</h6>
                                                 </td>
                                               
                                                 
@@ -159,7 +158,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                                         {{-- <tfoot class="text-white text-right">
                                             <tr>

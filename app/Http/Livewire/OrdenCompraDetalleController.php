@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Destino;
+use App\Models\DetalleOrdenCompra;
 use App\Models\Lote;
+use App\Models\OrdenCompra;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\SaleDetail;
@@ -14,8 +16,13 @@ use Livewire\Component;
 
 class OrdenCompraDetalleController extends Component
 {
-    public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$observacion,$tipo,$dias,$fromDate,$toDate,$ult_dias,$calculado;
+
+public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$observacion,$tipo,$dias,$fromDate,$toDate,$ult_dias,$calculado,$mensaje_toast;
     public $exp,$prod_exp;
+    public function updatingTipo(){
+        $this->ult_dias=null;
+        $this->dias=null;
+    }
     public function mount()
     {
      
@@ -39,19 +46,38 @@ class OrdenCompraDetalleController extends Component
         $data_provider= Provider::where('status','ACTIVO')->select('providers.*')->get();
         $data_destino= Sucursal::join('destinos as dest','sucursals.id','dest.sucursal_id')
         ->whereIn('dest.id',$this->vs)
-->select('dest.*','dest.id as destino_id','sucursals.*')
-->get();
-if ($this->ult_dias != null) {
-    
-    //dd($this->prod_exp);
-    $this->exp= SaleDetail::where('product_id',$this->prod_exp)
-    ->when($this->tipo == 'xdias',function($query){
+        ->select('dest.*','dest.id as destino_id','sucursals.*')
+        ->get();
+        if ($this->ult_dias != null and $this->dias != null) {
+            
+            //dd($this->prod_exp);
+            $this->exp= SaleDetail::where('product_id',$this->prod_exp)
+            ->when($this->tipo == 'xdias',function($query){
+                return $query->whereBetween('created_at', [ Carbon::now()->subDays($this->ult_dias),
+            Carbon::now()
+                ]);
+            })->sum('quantity');
+            $unidxdia=$this->exp/$this->ult_dias;
 
-        return $query->whereBetween('created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00',
-         Carbon::parse(Carbon::now()->subDays($this->ult_dias))->format('Y-m-d') . ' 23:59:59']);
-     })->sum('quantity');
-     dd($this->exp);
-}
+            $this->calculado=round($unidxdia*$this->dias);
+        
+        
+        }
+        if ($this->fromDate != null and $this->toDate!=null) {
+            $this->exp= SaleDetail::where('product_id',$this->prod_exp)
+            ->when($this->tipo == 'rango_fechas',function($query){
+                return $query->whereBetween('created_at', [ Carbon::parse($this->fromDate)->format('Y-m-d'),
+           Carbon::parse($this->toDate)->format('Y-m-d')  . ' 23:59:59'
+                ]);
+            })->sum('quantity');
+            $from=Carbon::parse($this->fromDate);
+            $to=Carbon::parse($this->toDate);
+
+       
+            $unidxdia=$this->exp/$from->diffInDays($to);
+
+            $this->calculado=round($unidxdia*$this->dias);
+        }
 
         return view('livewire.compras.orden-compra-detalle',[
             'data_prov'=>$data_provider,
@@ -183,6 +209,51 @@ if ($this->ult_dias != null) {
       $this->prod_exp=$id->id;
         $this->emit('show-modal');
 
+    }
+
+    public function aplicarPronostico(Product $prod){
+      
+       
+        $this->actualizarCantidad($prod,$this->calculado);
+        $this->mensaje_toast="Cantidad aplicada con exito.";
+        $this->emit('cantidad_ok');
+        $this->resetCalculo();
+    }
+
+    public function resetCalculo(){
+        $this->calculado=null;
+        $this->dias=null;
+        $this->ult_dias=null;
+        $this->tipo=null;
+    }
+
+    public function resetOrdenCompra(){
+        $this->total=null;
+        $this->observacion=null;
+        $this->provider=null;
+        $this->destino=null;
+    }
+
+    public function guardarOrdenCompra(){
+
+       $orcompra= OrdenCompra::create([
+            'importe_total'=>$this->total,
+            'observacion'=>$this->observacion,
+            'proveedor_id'=>Provider::where('nombre_prov',$this->provider)->first()->id,
+            'status'=>'Activo',
+            'destino_id'=>$this->destino,
+            'user_id'=>Auth()->user()->id
+        ]);
+        foreach ($this->cart as $data) {
+            DetalleOrdenCompra::create([
+                'orden_compra'=>$orcompra->id,
+                'product_id'=>$data['product_id'],
+                'precio'=>$data['price'],
+                'cantidad'=>$data['quantity']
+            ]);
+        }
+        $this->resetOrdenCompra();
+        redirect('/orden_compras');
     }
 
 

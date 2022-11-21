@@ -88,13 +88,13 @@
            </div>
            <div class="row justify-content-center m-auto">
             <h4 class="col-lg-12">Pronostico del proximo pedido</h4>
-                <h2>{{$exp}} Uds.</h2>
+                <h2>{{$calculado}} Uds.</h2>
                 
                
 
            </div>
            <div class="row justify-content-center m-auto">
-                <button class="boton-azul mb-4" type="button">Aplicar Cantidad</button>
+                <button  class="boton-azul mb-4" type="button"  wire:click="aplicarPronostico({{ $prod_exp}})">Aplicar Cantidad</button>
            </div>
             
         </div>

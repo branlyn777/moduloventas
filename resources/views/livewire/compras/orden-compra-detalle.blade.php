@@ -260,7 +260,7 @@
                             <a wire:click="exit()" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
                                 <b>Ir Orden Compras</b>
                             </a>
-                            <button wire:click="guardarCompra()" class="btn btn-button" style="background-color: #11be32; color: white;">
+                            <button wire:click="guardarOrdenCompra()" class="btn btn-button" style="background-color: #11be32; color: white;">
                                 Finalizar
                             </button>
                         </div>
@@ -278,8 +278,20 @@
          });
        
          window.livewire.on('cantidad_ok', msg => {
-             $('#modal_calculadora').modal('hide')
-   
+             $('#modal_calculadora').modal('hide');
+
+             const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
          });
      
      });
