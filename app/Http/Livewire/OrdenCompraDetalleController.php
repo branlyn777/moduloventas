@@ -46,7 +46,7 @@ if ($this->ult_dias != null) {
     //dd($this->prod_exp);
     $this->exp= SaleDetail::where('product_id',$this->prod_exp)
     ->when($this->tipo == 'xdias',function($query){
-        dd($query->get());
+
         return $query->whereBetween('created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00',
          Carbon::parse(Carbon::now()->subDays($this->ult_dias))->format('Y-m-d') . ' 23:59:59']);
      })->sum('quantity');
