@@ -15,6 +15,10 @@ class Provider extends Model
     {
         return $this->hasMany(Compra::class,'proveedor_id','id');
     }
+    public function ordencompras()
+    {
+        return $this->hasMany(OrdenCompra::class);
+    }
     public function getImagenAttribute()
     {
         if ($this->image == null) {

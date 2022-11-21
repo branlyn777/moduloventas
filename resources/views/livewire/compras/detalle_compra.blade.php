@@ -1,44 +1,4 @@
 
-@section('css')
-
-<style>
-  .table-wrapper {
-    width: 100%;/* Anchura de ejemplo */
-    height: 350px; /* Altura de ejemplo */
-    overflow: auto;
-    }
-
-    .table-wrapper table {
-        border-collapse: separate;
-        border-spacing: 0;
-        border-left: 0.3px solid #02b1ce;
-        border-bottom: 0.3px solid #02b1ce;
-        width: 100%;
-    }
-
-    .table-wrapper table thead {
-        position: -webkit-sticky; /* Safari... */
-        position: sticky;
-        top: 0;
-        left: 0;
-    }
-    .table-wrapper table thead tr {
-    background: #02b1ce;
-    color: white;
-    }
-    /* .table-wrapper table tbody tr {
-        border-top: 0.3px solid rgb(0, 0, 0);
-    } */
-    .table-wrapper table tbody tr:hover {
-        background-color: #ffdf76a4;
-    }
-    .table-wrapper table td {
-        border-top: 0.3px solid #02b1ce;
-        padding-left: 10px;
-        border-right: 0.3px solid #02b1ce;
-    }
-</style>
-@endsection
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12" >
 
@@ -47,19 +7,20 @@
                 <div class="col-12 col-lg-12 col-md-10 mt-3">
                     <div class="row mb-3" >
                         <div class="col-lg-11" >
-                            <h5 class="mb-2 mt-2">DETALLE DE COMPRA</h5>
-                            <b style="color: rgb(74, 74, 74)">Fecha: </b>
+                       
+                            <b style="color: rgb(0, 0, 0)">Fecha: </b>
                             {{$fecha_compra}}<br/>  
-                            <b style="color: rgb(74, 74, 74)">Registrado por: </b> 
+                            <b style="color: rgb(0, 0, 0)">Registrado por: </b> 
                             {{$usuario}}<br/>
                             
                         </div>
+                    
                         
-                        <div class="col-lg-1 col-sm-1 col-md-1">
-                            <a href="javascript:void(0)" data-toggle="modal"
-                                data-target="#theModal" class="btn btn-primary p-1 m-1" > <strong> Registrar Producto</strong></a>
-                        </div>
+                    </div>
                         
+                    <div class="row justify-content-end">
+                        <button data-toggle="modal"
+                            data-target="#theModal" class="boton-azul">Registrar Producto</button>
                     </div>
                     <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(229, 140, 40);" />
                         <div class="row">
@@ -214,9 +175,11 @@
                     </a>
                 </ul>--}}  
             </div>
+
             <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
 
-            <div class="widget-content">
+
+        
                 <div class="row">
                     <div class="col-lg-4 col-12 col-md-12">
                             <div class="ml-2 mt-2 mb-2 mr-0 p-2">
@@ -232,11 +195,7 @@
                                 
                                     
                                     @if(strlen($search) > 0)
-                                    <div class="col-lg-12 col-12 col-sm-12">
-                                        <h6 class="rounded">
-                                            <b>Elementos encontrados:</b> {{$data_prod->count()}}
-                                        </h6>
-                                    </div>
+                                  
                                    <div class="table-wrapper">
                                     <table>
                                         <thead>
@@ -276,10 +235,15 @@
                     </div>
                
                     <div class="col-lg-8 col-12  col-md-12">
-                        <div class="widget mr-2 mb-2 mt-2">
-                              
-
-
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12 widget mr-2 mb-2 mt-2">
+                                
+                                <div class="row justify-content-center mt-3 mb-4">
+                                    <h3><b>Detalle Compra</b></h3>
+                                </div>
+                                @if ($cart->isNotEmpty())
+                                    <div class="row">
+                                            
                                         <div class="table-6">
                                             <table>
 
@@ -345,26 +309,7 @@
                                                 </tr>
                                             @endforeach
                                             <tfoot>
-                                                    {{-- <tr>
-                                                        <td colspan="5">
-                                                             <h5 class="text-dark" style="font-size: 1rem!important;">SubTotal.-</h5>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" style="font-size: 1rem!important;" >{{$subtotal}}</h5>
-                                                        </td>
-                                                    </tr> --}}
-                                                    {{-- <tr>
-
-                                                        <td colspan="5">
-                                                            <a href="javascript:void(0)" data-toggle="modal"
-                                                            data-target="#modal_desc"
-                                                            class="btn btn-dark mtmobile p-1 m-1 rounded-pill"><strong>%</strong> </i></a>
-                                                            <label class="text-dark" style="font-size: 1rem!important;"><strong>Descuento</strong> .-</label>
-                                                        </td>
-                                                        <td>
-                                                            <h5 class="text-dark" >{{$dscto}}</h5>
-                                                        </td>
-                                                    </tr> --}}
+                                                
                                                     <tr>
                                                         <td colspan="5">
                                                              <h3 class="text-right">TOTAL.-</h3>
@@ -378,17 +323,47 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            
-                        </div>
-                        <div class="row align-items-center justify-content-center">
+                                    </div>
+                                @else
+                                <div class="table-wrapper row align-items-center m-auto">
+                                    <div class="col-lg-12">
+                                        <div class="row justify-content-center">AGREGAR ITEMS</div>
+                                    </div>
+                                </div>
+                                @endif
 
-                                <button class="btn btn-info m-3 p-2"  wire:click.prevent="guardarCompra()">GUARDAR</button>
-                                <button class="btn btn-danger m-3 p-2"  wire:click.prevent="exit()" > CANCELAR</button>
+                            </div>
+
+
                             
                         </div>
+
+                        <div class="row justify-content-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                @if($this->itemsQuantity > 0)
+                                <button  wire:click="resetUI()" class="btn btn-button" style="background-color: #373839; color: white; border-color: black;">
+                                    Vaciar
+                                </button>
+                                @endif
+                                <a wire:click="exit()" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
+                                    <b>Ir Compras</b>
+                                </a>
+                                <button wire:click="guardarCompra()" class="btn btn-button" style="background-color: #11be32; color: white;">
+                                    Finalizar
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+             
                     </div>
                 </div>
-             </div>
+             
          </div>
     </div>
     @include('livewire.compras.provider_info')

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Livewire;
+
+use App\Models\Destino;
 use App\Models\DetalleTransferencia;
 use App\Models\Estado_Transferencia;
 use App\Models\EstadoTrans_Detalle;
@@ -21,15 +23,14 @@ use Livewire\WithPagination;
 
 use Darryldecode\Cart\Facades\EditarTransferenciaFacade as EditarTransferencia;
 use Exception;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class EditTransferenceController extends Component
 {
     
     use WithPagination;
     public $selected_id,$search,
-    $itemsQuantity,$selected_3,$selected_origen,$selected_destino,$observacion,$tipo_tr,$estado,$ide,$datalist_destino;
+    $itemsQuantity,$selected_3,$selected_origen,$selected_destino,$observacion,$tipo_tr,$estado,$ide,$datalist_destino,$vs=[];
     private $pagination = 10;
 
     public function paginationView()
@@ -40,8 +41,11 @@ class EditTransferenceController extends Component
 
         $this->ide=session('id_transferencia');
         EditarTransferencia::clear();
-        $rm=Transference::where('transferences.id',$this->ide)->value('id_origen');
-        $this->selected_origen= $rm;
+        $tr_edit=Transference::where('transferences.id',$this->ide)->first();
+        $this->selected_origen=  $tr_edit->id_origen;
+        $this->selected_destino=$tr_edit->id_destino;
+        $this->observacion=$tr_edit->observacion;
+        $this->verPermisos();
         $this->cargarCarrito();
     }
   
@@ -59,17 +63,26 @@ class EditTransferenceController extends Component
                                             ->orWhere('prod.marca','like','%'.$this->search.'%')
                                             ->orWhere('prod.id','like','%'.$this->search.'%');
                                         })
-                                        ->select('prod.nombre as name','dest.nombre as nombre_destino','dest.id as dest_id','prod.id as prod_id','productos_destinos.stock as stock')
+                                        ->select('prod.nombre as name','prod.id as prod_id','dest.nombre as nombre_destino','dest.id as dest_id','prod.id as prod_id','productos_destinos.stock as stock')
                                         ->orderBy('prod.nombre','desc')
                                         ->paginate($this->pagination);
                                         }
                                         else{
                                          $almacen=null;
                                         }
-                                    
+                                        $sucursal_ubicacion=Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+                                        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
+                                        ->whereIn('destinos.id',$this->vs)
+                                        ->orderBy('suc.name','asc');
+                                        $sucursal_ubicacion2=Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+                                        ->where('destinos.id','!=',$this->selected_origen)
+                                        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
+                                        ->orderBy('suc.name','asc');
+
 
                                                                              
-        return view('livewire.transferencia.editartransferencia',['destinos_almacen'=>$almacen,
+        return view('livewire.transferencia.editartransferencia',['destinos_almacen'=>$almacen,'data_origen' =>  $sucursal_ubicacion->get(),
+        'data_destino' =>  $sucursal_ubicacion2->get(),
         'cart' => EditarTransferencia::getContent()
         ])
         ->extends('layouts.theme.app')
@@ -160,7 +173,7 @@ class EditTransferenceController extends Component
 
     public function exit(){
         $this->resetUI();
-        redirect('/destino_prod');
+        redirect('/all_transferencias');
     }
 
 
@@ -168,59 +181,27 @@ class EditTransferenceController extends Component
     {
       $auxi=[];
         $carrito= EditarTransferencia::getContent();
-        $keyed = $this->datalist_destino->map(function ($item) {
-            return ['id'=>$item->product_id,'cantidad'=>$item->cantidad];
-        })->keyBy('id');
-        
-
-        $keyed2=$carrito->map(function ($item) use($keyed) {
-            if ($keyed->contains('id',$item->id)) {
-                return [
-                    'id'=>$item->id,
-                    'cantidad'=>$item->quantity-$keyed[$item->id]['cantidad']
-                ];
-            }
-            else{
-                return [
-                    'id'=>$item->id,
-                    'cantidad'=>$item->quantity
-                ];
-            }
-        });
-
-      
-       
         DB::beginTransaction();
         try {
 
             foreach ($this->datalist_destino as $data) {
-                EstadoTransDetalle::where('detalle_id',$data->id)->delete();
+                //obtenemos 
+                $tr_old=EstadoTransDetalle::where('detalle_id',$data->id)->delete();
+                //devolvemos las cantidad de cada detalle de la transferencia al origen de la trasnferencia
+                ProductosDestino::where('destino_id',$this->selected_origen)->where('product_id',$data->product_id)->increment('stock',$data->cantidad);
                 $data->delete();
             }
+
             foreach ($carrito as $value) {
                 $ss=DetalleTransferencia::create([
                     'product_id' => $value->id,
                     'cantidad' => $value->quantity,
                     'estado'=>1//***tiene que depender de modificar la transferencia, esta pendiente
                 ]);
-
                 $cc[]=$ss->id;
             }
 
-            foreach ($keyed2 as $item) 
-            {
-                   // dd($this->selected_origen);
-                    $q=ProductosDestino::where('product_id',$item['id'])
-                    ->where('destino_id',$this->selected_origen)->value('stock');
-
-                    ProductosDestino::where('product_id',$item['id'])
-                    ->where('destino_id',$this->selected_origen)
-                    ->update(['stock'=>($q+$item['cantidad'])]);
-            }
-
             $kl=EstadoTransferencia::where('id_transferencia',$this->ide)->pluck('id');
-            
-            
             foreach ($cc as $item) {
                 EstadoTransDetalle::create([
                     'estado_id'=>$kl[0],
@@ -232,11 +213,27 @@ class EditTransferenceController extends Component
             $this->resetUI();
            
             $this->itemsQuantity = EditarTransferencia::getTotalQuantity();
-            redirect('/transferencias');
+            redirect('/all_transferencias');
         
         } catch (Exception $e) {
             DB::rollback();
             dd($e->getMessage());
         }
+    }
+
+    public function verPermisos(){
+       
+        $ss= Destino::select('destinos.id','destinos.nombre')->get();
+        $arr=[];
+        foreach ($ss as $item){
+            $arr[$item->nombre.'_'.$item->id]=($item->id);
+            
+        }
+
+       foreach ($arr as $key => $value) {
+        if (Auth::user()->hasPermissionTo($key)) {
+            array_push($this->vs,$value);
+        }
+       }
     }
 }

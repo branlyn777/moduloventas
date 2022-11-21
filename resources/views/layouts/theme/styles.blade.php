@@ -113,6 +113,126 @@
 			padding-right: 8px;
 			border-right: 0.3px solid #02b1ce;
 		}
+
+
+
+		.table-7 {
+		width: 100%;/* Anchura de ejemplo */
+		/*Altura de ejemplo*/
+		/* overflow: auto; */
+		}
+		.table-7 table {
+			border-collapse: separate;
+			border-spacing: 0;
+			border-left: 0.3px solid #02b1ce;
+			border-bottom: 0.3px solid #02b1ce;
+			border-top: 0.3px solid #02b1ce;
+			border-right: 0.3px solid #02b1ce;
+			width: 100%;
+		}
+		.table-7 table thead {
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.table-7 table thead tr {
+		background: #02b1ce;
+		color: white;
+		}
+		.table-7 table tbody tr:hover {
+			background-color: #9df4ffa4;
+		}
+		.table-7 table td {
+			border-top: 0.3px solid #02b1ce;
+			padding-left: 8px;
+			padding-right: 8px;
+			border-right: 0.3px solid #02b1ce;
+			height: 2rem;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		.table-wrapper {
+    width: 100%;/* Anchura de ejemplo */
+    height: 350px; /* Altura de ejemplo */
+    overflow: auto;
+    }
+
+    .table-wrapper table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-left: 0.3px solid #02b1ce;
+        border-bottom: 0.3px solid #02b1ce;
+        width: 100%;
+    }
+
+    .table-wrapper table thead {
+        position: -webkit-sticky; /* Safari... */
+        position: sticky;
+        top: 0;
+        left: 0;
+    }
+    .table-wrapper table thead tr {
+    background: #02b1ce;
+    color: white;
+    }
+    /* .table-wrapper table tbody tr {
+        border-top: 0.3px solid rgb(0, 0, 0);
+    } */
+    .table-wrapper table tbody tr:hover {
+        background-color: #ffdf76a4;
+    }
+    .table-wrapper table td {
+        border-top: 0.3px solid #02b1ce;
+        padding-left: 10px;
+        border-right: 0.3px solid #02b1ce;
+    }
+
+
+
+
+	
+
 	
 	
 		/*Tabla Sin Hover ni colores*/

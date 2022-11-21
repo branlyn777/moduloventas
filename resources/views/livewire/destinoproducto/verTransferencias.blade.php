@@ -13,12 +13,7 @@
                     </div>
                 </div>
                 <div class="d-flex flex-row-reverse">
-           
-                    
-                        <a href="transferencia" class="boton-azul" >Transferir Productos</a>
-                       
-                       
-                  
+                        <a href="transferencia" class="boton-azul">Transferir Productos</a>
                 </div>
                 
                 <ul  class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
@@ -93,11 +88,11 @@
                                                 <div class="row justify-content-center">
 
                                                     <a href="javascript:void(0)" wire:key="foo" wire:click="ver({{$data_td->t_id}})" 
-                                                        class="btn btn-dark p-1 m-0" title="Ver">
+                                                        class="boton-azul p-1 m-0" title="Ver">
                                                         <i class="fas fa-list"></i>
                                                     </a>
                                                     <a href="javascript:void(0)" wire:click="imprimir({{$data_td->t_id}})" 
-                                                        class="btn btn-dark p-1 m-0" title="Ver">
+                                                        class="boton-verde p-1 m-0" title="Imprimir">
                                                         <i class="fas fa-print"></i>
                                                     </a>
                                                 </div>
@@ -108,17 +103,17 @@
                                                 <td>
                                                     <div class="row justify-content-center">
                                                 <a href="javascript:void(0)" onclick="Confirm({{$data_td->t_id}})"
-                                                    class="btn btn-dark mtmobile p-1 m-0" title="Edit">
+                                                    class="boton-celeste p-1 m-0" title="Editar">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                
-                                                <a href="javascript:void(0)" onclick="Confirmarborrado('{{ $data_td->id }}')" 
-                                                    class="btn btn-dark p-1 m-0" title="Delete">
+                                                <a href="javascript:void(0)" onclick="Confirmarborrado('{{ $data_td->t_id }}')" 
+                                                    class="boton-rojo p-1 m-0" title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
 
                                                 <a href="javascript:void(0)" wire:key="do" wire:click="ver({{$data_td->t_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
+                                                    class="boton-azul p-1 m-0" title="Ver">
                                                     <i class="fas fa-list"></i>
                                                 </a>
                                                 </div>
@@ -186,17 +181,17 @@
                                             <td class="text-center">
                                                 @if ($data2->estado_te ==='Recibido' or $data2->estado_te === 'Rechazado')
                                                 <a href="javascript:void(0)" wire:click="visualizardestino({{$data2->tr_des_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
+                                                    class="boton-azul p-1 m-0" title="Ver">
                                                     <i class="fas fa-list"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" wire:click="imprimir({{$data2->tr_des_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
+                                                    class="boton-verde p-1 m-0" title="Imprimir">
                                                     <i class="fas fa-print"></i>
                                                 </a>
                                                 @else
                                          
                                                 <a href="javascript:void(0)" wire:click="visualizardestino({{$data2->tr_des_id}})" 
-                                                    class="btn btn-dark p-1 m-0" title="Ver">
+                                                    class="boton-azul p-1 m-0" title="Ver">
                                                     <i class="fas fa-list"></i>
                                                 </a>
                                                 
@@ -239,6 +234,21 @@
             // Cambiar el foco al nuevo tab (punto opcional)
             // win.focus();
 
+        });
+
+        window.livewire.on('transferencia_eliminada', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
     });
     function Confirm(id) {

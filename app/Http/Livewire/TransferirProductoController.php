@@ -171,7 +171,7 @@ class TransferirProductoController extends Component
 
     public function exit(){
         $this->resetUI();
-        redirect('/destino_prod');
+        redirect('/all_transferencias');
     }
    
     public function verificarDestino(){
@@ -228,7 +228,7 @@ class TransferirProductoController extends Component
             if ($Transferencia_encabezado)
             {
                 $items = Transferencia::getContent();
-                foreach ($items as $item) 
+                foreach ($items as $item)
                 {
                    $ss=DetalleTransferencia::create([
                         'product_id' => $item->id,
@@ -244,45 +244,34 @@ class TransferirProductoController extends Component
                     ProductosDestino::where('product_id',$item->id)
                     ->where('destino_id',$this->selected_origen)
                     ->update(['stock'=>($q-$item->quantity)]);
-                    
+         
 
-                    $r=ProductosDestino::where('product_id',$item->id)
-                    ->where('destino_id',$this->selected_destino)->value('stock');
-
-                    $qq=$item->quantity;
-                    $lot=Lote::where('product_id',$item->id)->where('status','Activo')->get();
-                    foreach ($lot as $val) { 
-                      $lotecantidad = $val->existencia;
-                       if($qq>0){
+                    // $qq=$item->quantity;
+                    // $lot=Lote::where('product_id',$item->id)->where('status','Activo')->get();
+                    // foreach ($lot as $val) { 
+                    //   $lotecantidad = $val->existencia;
+                    //    if($qq>0){
                       
-                           if ($qq > $lotecantidad) {
+                    //        if ($qq > $lotecantidad) {
                           
-                            TransferenciaLotes::create([
-                                'detalle_trans_id'=>$ss->id,
-                                'lote_id'=>$val->id,
-                                'cantidad'=>$lotecantidad
-                            ]);
-                           }
-                           else{
-                            TransferenciaLotes::create([
-                                'detalle_trans_id'=>$ss->id,
-                                'lote_id'=>$val->id,
-                                'cantidad'=>$qq
-                            ]);
-                               $qq=0;
-                          
-                           }
-                       }
- }
+                    //         TransferenciaLotes::create([
+                    //             'detalle_trans_id'=>$ss->id,
+                    //             'lote_id'=>$val->id,
+                    //             'cantidad'=>$lotecantidad
+                    //         ]);
+                    //        }
+                    //        else{
+                    //         TransferenciaLotes::create([
+                    //             'detalle_trans_id'=>$ss->id,
+                    //             'lote_id'=>$val->id,
+                    //             'cantidad'=>$qq
+                    //         ]);
+                    //            $qq=0;
+                    //        }
+                    //    }
+                    // }
 
-
-
-
-
-
-
-                
-               
+                }
                    $mm= EstadoTransferencia::create([
                         'estado'=>4,
                         'op'=>1,
@@ -296,7 +285,7 @@ class TransferirProductoController extends Component
                             'detalle_id'=>$item
                         ]);
                     }    
-            }
+       
             DB::commit();
             $this->resetUI();
            
