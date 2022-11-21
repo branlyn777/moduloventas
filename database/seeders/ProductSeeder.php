@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
             'garantia' => '2',
             'cantidad_minima' => '3',
             'industria'=>'China',
-            'precio_venta' => 70,
+            'precio_venta' => 60,
             'image' => 'cable_usb_c.png',
             'category_id' => 1,
         ]);
@@ -42,7 +42,7 @@ class ProductSeeder extends Seeder
             'garantia' => '2',
             'cantidad_minima' => '2',
             'industria'=>'China',
-            'precio_venta' => 140,
+            'precio_venta' => 110,
             'image' => 'Mouse_Inalambrico.png',
             'category_id' => 1,
         ]);

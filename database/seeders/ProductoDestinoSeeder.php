@@ -33,7 +33,7 @@ class ProductoDestinoSeeder extends Seeder
         $lote1 = Lote::create([
             'existencia' => 3,
             'costo' => 50,
-            'pv_lote' => 70,
+            'pv_lote' => 60,
             'status' => 'Activo',
             'product_id' => 1
         ]);
@@ -55,7 +55,7 @@ class ProductoDestinoSeeder extends Seeder
         $lote2 = Lote::create([
             'existencia' => 7,
             'costo' => 55,
-            'pv_lote' => 75,
+            'pv_lote' => 65,
             'status' => 'Activo',
             'product_id' => 1
         ]);

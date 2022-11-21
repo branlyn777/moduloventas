@@ -250,17 +250,22 @@
                                     <i class="fas fa-clipboard-list"></i>
                                     Lista de Ventas </a>
                             </li>
+                            <li>
+                                <a href="{{ url('ventalistaproductos') }}">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    Lista Productos</a>
+                            </li>
                             @can('VentasMovDia_Index')
                             <li>
                                 <a href="{{ url('coins') }}">
                                     <i class="fas fa-money-bill-alt"></i>
                                     Denominaciones </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('devolucionventa') }}">
                                     <i class="fas fa-sync-alt"></i>
                                     Devolución Ventas </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="{{ url('salemovimientodiario') }}">
                                     <i class="fas fa-calendar-alt"></i>
@@ -271,11 +276,11 @@
                                     <i class="fas fa-chart-pie"></i>
                                     Reporte Ventas Usuarios</a>
                             </li> --}}
-                            {{-- <li>
+                            <li>
                                 <a href="{{ url('productosvendidos') }}">
                                     <i class="fas fa-chart-pie"></i>
                                     Productos Mas Vendidos</a>
-                            </li> --}}
+                            </li>
                             @endcan
                             
                         </ul>
