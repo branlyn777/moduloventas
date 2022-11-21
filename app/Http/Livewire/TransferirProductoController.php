@@ -246,30 +246,30 @@ class TransferirProductoController extends Component
                     ->update(['stock'=>($q-$item->quantity)]);
          
 
-                    $qq=$item->quantity;
-                    $lot=Lote::where('product_id',$item->id)->where('status','Activo')->get();
-                    foreach ($lot as $val) { 
-                      $lotecantidad = $val->existencia;
-                       if($qq>0){
+                    // $qq=$item->quantity;
+                    // $lot=Lote::where('product_id',$item->id)->where('status','Activo')->get();
+                    // foreach ($lot as $val) { 
+                    //   $lotecantidad = $val->existencia;
+                    //    if($qq>0){
                       
-                           if ($qq > $lotecantidad) {
+                    //        if ($qq > $lotecantidad) {
                           
-                            TransferenciaLotes::create([
-                                'detalle_trans_id'=>$ss->id,
-                                'lote_id'=>$val->id,
-                                'cantidad'=>$lotecantidad
-                            ]);
-                           }
-                           else{
-                            TransferenciaLotes::create([
-                                'detalle_trans_id'=>$ss->id,
-                                'lote_id'=>$val->id,
-                                'cantidad'=>$qq
-                            ]);
-                               $qq=0;
-                           }
-                       }
-                    }
+                    //         TransferenciaLotes::create([
+                    //             'detalle_trans_id'=>$ss->id,
+                    //             'lote_id'=>$val->id,
+                    //             'cantidad'=>$lotecantidad
+                    //         ]);
+                    //        }
+                    //        else{
+                    //         TransferenciaLotes::create([
+                    //             'detalle_trans_id'=>$ss->id,
+                    //             'lote_id'=>$val->id,
+                    //             'cantidad'=>$qq
+                    //         ]);
+                    //            $qq=0;
+                    //        }
+                    //    }
+                    // }
 
                 }
                    $mm= EstadoTransferencia::create([

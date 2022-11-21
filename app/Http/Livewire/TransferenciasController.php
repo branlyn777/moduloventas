@@ -19,7 +19,7 @@ use Darryldecode\Cart\Facades\EditarTransferenciaFacade as EditarTransferencia;
 
 class TransferenciasController extends Component
 {
-    public $nro,$nro_det,$detalle,$estado,$estado_destino,$vs=[], $datalist_destino,$selected_id1,$class1,$class,$selected_id2,$data_origen,$estado_lista_tr,$estado_lista_te,$show1,$show2;
+    public $nro,$nro_det,$detalle,$estado,$estado_destino,$vs=[], $datalist_destino,$selected_id1,$class1,$class,$selected_id2,$data_origen,$estado_lista_tr,$estado_lista_te,$show1,$show2,$mensaje_toast;
     public function mount(){
         $this->nro=1;
         $this->nro_det=1;
@@ -39,7 +39,7 @@ class TransferenciasController extends Component
         ->join('sucursals as suc_origen','suc_origen.id','origen.sucursal_id')
         ->join('destinos as destino1','destino1.id','transferences.id_destino')
         ->join('sucursals as suc_destino','suc_destino.id','destino1.sucursal_id')
-        ->select('transferences.created_at as fecha_tr','transferences.id as t_id',
+        ->select('transferences.created_at as fecha_tr','transferences.id as t_id','transferences.estado',
         'users.*','suc_origen.name as origen_name','origen.id as orih',
         'suc_destino.name as destino_name','estado_transferencias.estado as estado_tr','estado_transferencias.op',
         'origen.nombre as origen','destino1.nombre as dst')
@@ -47,7 +47,7 @@ class TransferenciasController extends Component
         ->OrWhereIn('destino1.id',$this->vs)
         ->orderBy('fecha_tr','desc')
         ->get();
-        $this->data_origen= $data_or->where('op','Activo');
+        $this->data_origen= $data_or->where('op','Activo')->where('estado','Activo');
         
 
         $data_destino= Transference::join('estado_transferencias','transferences.id','estado_transferencias.id_transferencia')
@@ -56,10 +56,11 @@ class TransferenciasController extends Component
         ->join('sucursals as suc_origen','suc_origen.id','origen.sucursal_id')
         ->join('destinos as destino2','destino2.id','transferences.id_destino')
         ->join('sucursals as suc_destino','suc_destino.id','destino2.sucursal_id')
-        ->select('transferences.created_at as fecha_tr','transferences.id as tr_des_id',
+        ->select('transferences.created_at as fecha_tr','transferences.id as tr_des_id','transferences.estado',
         'users.*','suc_origen.name as origen_name',
         'suc_destino.name as destino_name','estado_transferencias.estado as estado_te',
         'origen.nombre as origen','destino2.nombre as dst2')
+        ->where('transferences.estado','Activo')
         ->where('estado_transferencias.op','Activo')
         ->where('estado_transferencias.estado','En Transito')
         ->whereIn('destino2.id',$this->vs)
@@ -80,8 +81,9 @@ class TransferenciasController extends Component
         ->join('estado_trans_detalles','detalle_transferencias.id','estado_trans_detalles.detalle_id')
         ->join('estado_transferencias','estado_trans_detalles.estado_id','estado_transferencias.id')
         ->join('transferences','estado_transferencias.id_transferencia','transferences.id')
-        ->select('detalle_transferencias.*','transferences.id as tr')
+        ->select('detalle_transferencias.*','transferences.id as tr','transferences.estado')
         ->where('transferences.id',$id)
+        ->where('transferences.estado','Activo')
         ->where('estado_transferencias.op','Activo')
         ->get();
         $this->estado= Transference::join('estado_transferencias','transferences.id','estado_transferencias.id_transferencia')
@@ -101,8 +103,9 @@ class TransferenciasController extends Component
         ->join('estado_trans_detalles','detalle_transferencias.id','estado_trans_detalles.detalle_id')
         ->join('estado_transferencias','estado_trans_detalles.estado_id','estado_transferencias.id')
         ->join('transferences','estado_transferencias.id_transferencia','transferences.id')
-        ->select('detalle_transferencias.*','transferences.id as tr','estado_transferencias.estado as esty')
+        ->select('detalle_transferencias.*','transferences.id as tr','estado_transferencias.estado as esty','transferences.estado')
         ->where('transferences.id',$id2)
+        ->where('transferences.estado','Activo')
         ->where('estado_transferencias.op','Activo')
         ->get();
         
@@ -128,7 +131,7 @@ class TransferenciasController extends Component
         }
        }
     }
-    protected $listeners = ['editRow' => 'editar'];
+    protected $listeners = ['editRow' => 'editar','deleteRow'=>'eliminarTransferencia'];
     public function editar($id)
     {
         session(['id_transferencia' => null]);
@@ -241,5 +244,36 @@ class TransferenciasController extends Component
         $this->emit('opentap');
 
         
-    } 
+    }
+
+    public function eliminarTransferencia(Transference $id){
+
+        $datalist_destino=DetalleTransferencia::join('products','detalle_transferencias.product_id','products.id')
+        ->join('estado_trans_detalles','detalle_transferencias.id','estado_trans_detalles.detalle_id')
+        ->join('estado_transferencias','estado_trans_detalles.estado_id','estado_transferencias.id')
+        ->join('transferences','estado_transferencias.id_transferencia','transferences.id')
+        ->select('detalle_transferencias.*','transferences.id as tr','estado_transferencias.estado as esty')
+        ->where('transferences.id',$id->id)
+        ->where('estado_transferencias.op','Activo')
+        ->get();
+
+        foreach ($datalist_destino as $data) {
+            
+           // dd($data);
+            ProductosDestino::where('destino_id',$id->id_origen)
+            ->where('product_id',$data->product_id)
+            ->increment('stock',$data->cantidad);
+        
+        }
+
+
+             $id->update(['estado'=>'Inactivo']);
+            $this->mensaje_toast='Transferencia eliminada con exito';
+             $this->emit('transferencia_eliminada');
+    }
+
+
+
+    
+    
 }

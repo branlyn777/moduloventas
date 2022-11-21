@@ -5,7 +5,7 @@
                 <h2 class="text-center">
                     <b>Editar Transferencia Productos</b>
                 </h2>
-              <h2>N° de Transferencia: {{$ide}}</h2>
+              <h3 class="text-center" >N° de Transferencia: {{$ide}}</h3>
             </div>
 
             {{--SELECT DE LAS SUCURSALES--}}
@@ -21,10 +21,10 @@
                                 <select wire:model='selected_origen' {{ ($itemsQuantity>0)? 'disabled':""}}
                                     class="form-control">
                                     <option value=0>Elegir Origen</option>
-                                    {{-- @foreach ($data_origen as $data)
+                                    @foreach ($data_origen as $data)
                                     <option value="{{ $data->destino_id }}">{{ $data->sucursal }}-{{$data->destino}}
                                     </option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -34,10 +34,10 @@
                                 <label> <strong style="color: black">Destino de transferencia:</strong> </label>
                                 <select wire:model='selected_destino' class="form-control">
                                     <option value=null>Elegir Destino</option>
-                                    {{-- @foreach ($data_destino as $data)
+                                    @foreach ($data_destino as $data)
                                     <option value="{{ $data->destino_id }}">{{ $data->sucursal }}-{{$data->destino}}
                                     </option>
-                                    @endforeach --}}
+                                    @endforeach
 
                                 </select>
                             </div>
@@ -96,7 +96,7 @@
                                                 <h6 class="text-center">{{ $loop->iteration}}</h6>
                                             </td>
                                             <td>
-                                                <h6 class="text-center">{{ $destino->name }}</h6>
+                                                <h6 class="text-center">{{ $destino->name }}(COD:{{$destino->prod_id}})</h6>
                                             </td>
 
                                             <td>

@@ -107,7 +107,7 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                
-                                                <a href="javascript:void(0)" onclick="Confirmarborrado('{{ $data_td->id }}')" 
+                                                <a href="javascript:void(0)" onclick="Confirmarborrado('{{ $data_td->t_id }}')" 
                                                     class="boton-rojo p-1 m-0" title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
@@ -234,6 +234,21 @@
             // Cambiar el foco al nuevo tab (punto opcional)
             // win.focus();
 
+        });
+
+        window.livewire.on('transferencia_eliminada', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
     });
     function Confirm(id) {
