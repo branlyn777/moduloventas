@@ -8,15 +8,14 @@
         width: 200px;
         height: 100px;
         margin: 0 auto;
-        border-radius: 15px;
+        border-radius: 10px;
         border: #ffffff solid 2px;
         color: white;
         /* text-align: center; */
         cursor: pointer;
 
-        display:flex;
-        justify-content: center;
-        align-items: center;
+   
+       
         }
 
         .zoom:hover {
@@ -28,39 +27,43 @@
 <div>
 
     <br>
-    <br>
-    <br>
+
 
 
     <div class="row">
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-3">
             {{-- <div class="zoom" style="background-color: #ff0083;"> --}}
-            <div class="zoom" style="background-color: #02b1ce;">
-                <h2><b>VENTAS</b></h2>
+            <div class="zoom" style="background-color: #00b749c5;">
+                <h3><b>Total Ventas Mes: </b></h3>
+          
+                <h3>Bs. 0</h3>
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-3">
+            {{-- <div class="zoom" style="background-color: #972300;"> --}}
+            <div class="zoom" style="background-color: #7095f2;">
+                <h3><b>Total Compras Mes:</b></h3>
+                <h3>Bs. 0</h3>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
             {{-- <div class="zoom" style="background-color: #009721;"> --}}
-            <div class="zoom" style="background-color: #02b1ce;">
-                <h2><b>INVENTARIOS</b></h2>
+            <div class="zoom" style="background-color: #4923d1c2;">
+                <h3><b>Ingresos:</b></h3>
+                <h3>Bs. 0</h3>
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
+        <div class="col-12 col-sm-6 col-md-3">
             {{-- <div class="zoom" style="background-color: #972300;"> --}}
-            <div class="zoom" style="background-color: #02b1ce;">
-                <h2><b>CORTE DE CAJA</b></h2>
+            <div class="zoom" style="background-color: #a791a992;">
+                <h3><b>Egresos:</b></h3>
+                <h3>Bs. 0</h3>
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
-            {{-- <div class="zoom" style="background-color: #972300;"> --}}
-            <div class="zoom" style="background-color: #02b1ce;">
-                <h2><b>COMPRAS</b></h2>
-            </div>
-        </div>
 
 
     </div>
@@ -98,20 +101,27 @@
             </div>
         </div> --}}
 
-        <div class="row">
+        <div class="row justify-content-center">
+            <div class="col-lg-12"></div>
+            <div class="row">
+                <h2>Ventas</h2>
+            </div>
+            <div class="row">
+
+            <canvas id="myChart" height="300px"></canvas>
+            </div>
+        
+
+            
+          
+        </div>
+        {{-- <div class="row">
             <h1>Ventas</h1>
             <canvas id="myChart" height="100px"></canvas>
 
             
           
-        </div>
-        <div class="row">
-            <h1>Ventas</h1>
-            <canvas id="myChart" height="100px"></canvas>
-
-            
-          
-        </div>
+        </div> --}}
 
     </div>
 
@@ -126,9 +136,9 @@
     const data = {
         labels: labels,
         datasets: [{
-            label: 'My First dataset',
+            label: 'Venta Bs.',
             backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 60, 100)',
             data: users,
         }]
     };

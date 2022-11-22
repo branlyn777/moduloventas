@@ -14,9 +14,9 @@ class InicioController extends Component
     {
 
         $variable = "";
+        $ventas= 
         $users = User::select(DB::raw("COUNT(*) as count"))
         ->whereYear('created_at', date('Y'))
-
         ->orderBy('id','ASC')
         ->pluck('count');
 
