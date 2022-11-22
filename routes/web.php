@@ -24,6 +24,8 @@ use App\Http\Livewire\DestinoProductoController;
 use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
+use App\Http\Controllers\ChartJSController;
+
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
@@ -127,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('productos/export/', [ProductsController::class, 'export']);
         Route::get('almacen/export/', [DestinoProductoController::class, 'export']);
         });
-
+        Route::get('chart', [ChartJSController::class, 'index']);
 
 
 });

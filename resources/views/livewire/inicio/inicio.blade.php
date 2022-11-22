@@ -70,39 +70,45 @@
 
     <div class="row">
 
-        <div class="col-12 col-sm-6 col-md-3 text-center">
-            {{-- <div class="zoom" style="background-color: #ff0083;"> --}}
+        {{-- <div class="col-12 col-sm-6 col-md-3 text-center">
+          
             <div class="zoom" style="background-color: #02b1ce;">
                 <h2><b>LISTA VENTAS</b></h2>
             </div>
         </div>
 
         <div class="col-12 col-sm-6 col-md-3 text-center">
-            {{-- <div class="zoom" style="background-color: #009721;"> --}}
+          
             <div class="zoom" style="background-color: #02b1ce;">
                 <h2><b>PERMISOS</b></h2>
             </div>
         </div>
 
         <div class="col-12 col-sm-6 col-md-3 text-center">
-            {{-- <div class="zoom" style="background-color: #972300;"> --}}
+      
             <div class="zoom" style="background-color: #02b1ce;">
                 <h2><b>ASIGNAR PERMISOS</b></h2>
             </div>
         </div>
 
         <div class="col-12 col-sm-6 col-md-3 text-center">
-            {{-- <div class="zoom" style="background-color: #972300;"> --}}
+  
             <div class="zoom" style="background-color: #02b1ce;">
                 <h2><b>CARTERAS</b></h2>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
-            <div style="width: 1000px; margin: auto;">
-                <canvas id="myChart"></canvas>
-            </div>
+            <h1>Ventas</h1>
+            <canvas id="myChart" height="100px"></canvas>
+
             
+          
+        </div>
+        <div class="row">
+            <h1>Ventas</h1>
+            <canvas id="myChart" height="100px"></canvas>
+
             
           
         </div>
@@ -110,6 +116,32 @@
     </div>
 
 </div>
-@section('javascript')
-<script src="{{ mix('/js/app.js') }}"></script>
-@endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+  
+    var labels =  {{ Js::from($labels) }};
+    var users =  {{ Js::from($data) }};
+  
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: users,
+        }]
+    };
+  
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+  
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+  
+</script>
