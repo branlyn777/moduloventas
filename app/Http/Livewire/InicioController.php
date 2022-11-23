@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 // use Illuminate\View\Component as ViewComponent;
 
+use App\Models\Compra;
 use App\Models\CompraDetalle;
 use App\Models\Movimiento;
+use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,7 +21,7 @@ class InicioController extends Component
     public $ingresosMes,$ingresosMesAnterior,$difIngresos;
     public $egresosMes,$egresosMesAnterior,$difEgresos;
     //graficos
-    public $ventas=[],$compras;
+    public $ventas=[],$compras=[],$ingresos=[],$egresos=[];
     public function render()
     {
 
@@ -32,6 +34,7 @@ class InicioController extends Component
 
         $labels = $users->keys();
         $data = $users->values();
+        
         // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior
 
         $this->ventasMes= SaleDetail::whereMonth('created_at', Carbon::now()->format('m'))->get();
@@ -39,7 +42,7 @@ class InicioController extends Component
         $this->ventasMes= $this->ventasMes->sum(function($value){
             return $value['quantity']*$value['price'];
         });
-
+ 
         $this->ventaMesAnterior= SaleDetail::whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->get();
 
         $this->ventaMesAnterior= $this->ventaMesAnterior->sum(function($value){
@@ -55,14 +58,15 @@ class InicioController extends Component
 
         //ventas grafico
 
-
        for ($i=1; $i < 12; $i++) { 
-            $mm= SaleDetail::whereMonth('created_at',$i)->get();
-            $mm=$mm->sum(function($value){
-                return $value['quantity']*$value['price'];
-            });
+        $ven= Sale::whereMonth('created_at',$i)->sum('total');
+        array_push($this->ventas,$ven);
        }
-
+       for ($i=1; $i < 12; $i++) { 
+        $cc= Compra::whereMonth('created_at',$i)->sum('importe_total');
+        array_push($this->compras,$cc);
+       }
+     
 
        // Calculo de compras y porcencentajes de diferencia entre el mes actual y el mes anterior
         
@@ -108,7 +112,19 @@ class InicioController extends Component
             $this->difIngresos=0;
         }
 
+       //grafico de ingreso
 
+       for ($i=1; $i < 12; $i++) { 
+        
+        $ing= Movimiento::join('cartera_movs','cartera_movs.movimiento_id','movimientos.id')
+        ->where('cartera_movs.type','INGRESO')
+        ->where('cartera_movs.tipoDeMovimiento','EGRESO/INGRESO')
+        ->whereMonth('movimientos.created_at',$i)->sum('import');
+
+
+        array_push($this->ingresos,$ing);
+
+       }
 
         //calculo de egresos y porcentajes de diferencia entre el mes actual y el mes anterior
 
@@ -123,6 +139,18 @@ class InicioController extends Component
         ->where('cartera_movs.type','EGRESO')
         ->where('tipoDeMovimiento','EGRESO/INGRESO')
         ->sum('movimientos.import');
+
+        for ($i=1; $i < 12; $i++) { 
+        
+            $egr= Movimiento::join('cartera_movs','cartera_movs.movimiento_id','movimientos.id')
+            ->where('cartera_movs.type','EGRESO')
+            ->where('cartera_movs.tipoDeMovimiento','EGRESO/INGRESO')
+            ->whereMonth('movimientos.created_at',$i)->sum('import');
+    
+    
+            array_push($this->egresos,$egr);
+    
+           }
 
      
         if ($this->egresosMesAnterior != 0) {

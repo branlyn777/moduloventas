@@ -268,7 +268,7 @@
                     </div>
                 </div>
          </div>
-         @include('livewire.compras.producto_cal')
+         @include('livewire.ordencompra.producto_cal')
     </div>
 
  <script>

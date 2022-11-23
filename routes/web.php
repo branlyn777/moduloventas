@@ -124,6 +124,7 @@ Route::middleware(['auth'])->group(function () {
     //Inventarios (Pdsf y Excel)
     Route::group(['middleware' => ['permission:Reportes_Inventarios_Export']], function () {
         Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
+        Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
         Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
         Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
         Route::get('productos/export/', [ProductsController::class, 'export']);

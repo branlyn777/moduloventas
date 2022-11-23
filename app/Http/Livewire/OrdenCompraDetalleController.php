@@ -79,7 +79,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
             $this->calculado=round($unidxdia*$this->dias);
         }
 
-        return view('livewire.compras.orden-compra-detalle',[
+        return view('livewire.ordencompra.orden-compra-detalle',[
             'data_prov'=>$data_provider,
             'data_suc'=>$data_destino,
         ])

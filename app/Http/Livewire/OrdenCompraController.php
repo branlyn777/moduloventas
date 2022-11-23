@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Destino;
+use App\Models\DetalleOrdenCompra;
 use App\Models\OrdenCompra;
 use App\Models\Sucursal;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,11 @@ class OrdenCompraController extends Component
     $fromDate,
     $vs=[], 
     $data_orden_compras,
+    $ordendetalle,
+    $totalitems=0,
+    $ordenTotal=0,
+    $observacion='',
+   
     $toDate;
     public function mount(){
         $this->verPermisos();
@@ -34,7 +40,7 @@ class OrdenCompraController extends Component
         ->whereIn('dest.id',$this->vs)
         ->select('dest.*','dest.id as destino_id','sucursals.*')
         ->get();
-        return view('livewire.compras.orden-compra')
+        return view('livewire.ordencompra.orden-compra')
         ->extends('layouts.theme.app')
         ->section('content');
     }
@@ -57,11 +63,13 @@ class OrdenCompraController extends Component
     }
 
     public function VerDetalleCompra(OrdenCompra $id){
-        $this->compraTotal=$id->importe_total;
+      
+        $this->ordenTotal=$id->importe_total;
         $this->totalitems=$id->detallecompra()->sum('cantidad');
         $this->observacion=$id->observacion;
     
         $this->ordendetalle= $id->detallecompra()->get();
+
         $this->emit('verDetalle');
 
 

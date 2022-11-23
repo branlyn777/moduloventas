@@ -141,19 +141,19 @@
                                                 
                                                 <td class="text-center">
                                                     <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
-                                                        class="boton-celeste p-1" title="Listar compra">
+                                                        class="boton-celeste p-1" title="Listar orden de compra">
                                                         <i class="fas fa-list"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
-                                                        class="btn btn-dark p-1" title="Editar compra">
+                                                    {{-- <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
+                                                        class="btn btn-dark p-1" title="Editar orden de compra">
                                                         <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="{{ url('Compras/pdf' . '/' . $data->id)}}"  
-                                                        class="btn btn-success p-1" title="Imprimir detalle compra">
+                                                    </a> --}}
+                                                    <a href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}"  
+                                                        class="btn btn-success p-1" title="Imprimir orden de compra">
                                                         <i class="fas fa-print"></i>
                                                     </a>
                                                     <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
-                                                        class="btn btn-danger p-1" title="Anular compra">
+                                                        class="btn btn-danger p-1" title="Anular orden compra">
                                                         <i class="fas fa-minus-circle"></i>
                                                     </a>
                                                 </td>
@@ -188,29 +188,17 @@
 
         </div>
     </div>
-    {{-- @include('livewire.compras.verDetallecompra')
-    @include('livewire.compras.compra_producto')
-    @include('livewire.compras.producto_proveedor') --}}
+    @include('livewire.ordencompra.verDetalleOrden')
    </div>
 
    <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        window.livewire.on('purchase-deleted', msg => {
-            noty(msg)
-        });
-        window.livewire.on('purchase-error', msg => {
-            noty(msg)
-        });
+      
         window.livewire.on('verDetalle', msg => {
-            $('#detalleCompra').modal('show')
+            $('#detalleOrden').modal('show')
         });
-        window.livewire.on('comprasproducto', msg => {
-            $('#compraprod').modal('show')
-        });
-        window.livewire.on('productoproveedor', msg => {
-            $('#prodprov').modal('show')
-        });
+    
         window.livewire.on('erroreliminarCompra', msg => {
             swal.fire({
                 title: 'ERROR',

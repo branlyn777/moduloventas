@@ -171,7 +171,7 @@
     'Sept.',
     'Oct.',
     'Nov.',
-    'Dic.',
+    'Dic.'
   
 ];
     const data = {
@@ -187,7 +187,6 @@
             label: 'Compra Bs.',
             backgroundColor: '#172022',
             borderColor: '#172022',
-         
             data: compras,
     }]
      
@@ -224,7 +223,7 @@
     'Sept.',
     'Oct.',
     'Nov.',
-    'Dic.',
+    'Dic.'
 ];
     const data2 = {
         labels: labels2,
@@ -232,15 +231,13 @@
             label: 'Ingresos Bs.',
             backgroundColor: '#02ce02',
             borderColor: '#02ce02',
-            data: [0, 20, 8, 2],
-            
+            data: ingresos
         },
         {
             label: 'Egresos Bs.',
             backgroundColor: '#172022',
             borderColor: '#172022',
-         
-            data: [0, 4, 5, 9],
+            data: egresos
     }]
      
     };
