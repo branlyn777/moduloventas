@@ -50,7 +50,7 @@ class ProvidersController extends Component
                   'correo'=> 'sometimes|email',
                   'apellido'=>'alpha',
                   'direccion'=>'sometimes|alpha',
-                  'nit'=>'numeric',
+              
                   'telefono'=>'numeric'
 ];
         $messages = ['nombre_prov.required'=> 'El nombre del proveedor es requerido.',

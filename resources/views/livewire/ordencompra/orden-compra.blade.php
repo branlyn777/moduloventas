@@ -22,7 +22,7 @@
                     <div class="col-12 col-sm-6 col-md-3 text-center">
                         <b>Seleccionar Sucursal</b>
                         <div class="form-group">
-                            <select wire:model="sucursal_id" class="form-control">
+                            <select wire:model="sucursal_id" wire:key='foo' class="form-control">
                                 @foreach($listasucursales as $sucursal)
                                 <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
                                 @endforeach
@@ -92,7 +92,7 @@
                                             <th class="text-center" style="width: 2%">#</th>                                
                                             <th class="text-center" style="width: 5%">COD.</th>                                
                                             <th class="text-center">FECHA</th>                                                                               
-                                            <th class="text-center">PROVEEDORS</th>                                                                               
+                                            <th class="text-center">PROVEEDORES</th>                                                                               
                                             <th class="text-center">ESTADO</th>
                                             <th class="text-center">USUARIO</th>
                                             <th class="text-center">TOTAL</th>
@@ -152,7 +152,7 @@
                                                         class="btn btn-success p-1" title="Imprimir orden de compra">
                                                         <i class="fas fa-print"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
+                                                    <a href="javascript:void(0)" wire:click="anularOrden('{{ $data->id }}')"
                                                         class="btn btn-danger p-1" title="Anular orden compra">
                                                         <i class="fas fa-minus-circle"></i>
                                                     </a>
@@ -220,6 +220,21 @@
                     console.log(msg);
                     window.livewire.emit('deleteRow',msg).Swal.close()
                 }
+            })
+        });
+
+        window.livewire.on('anulacion_compra', msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
             })
         });
     })

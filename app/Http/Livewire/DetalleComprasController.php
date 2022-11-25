@@ -12,6 +12,8 @@ use App\Models\Lote;
 use App\Models\Marca;
 use App\Models\Movimiento;
 use App\Models\MovimientoCompra;
+use App\Models\OrdenCompra;
+use App\Models\OrdenCompraAsignada;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Provider;
@@ -45,6 +47,8 @@ class DetalleComprasController extends Component
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2,$name,$descripcion;
+
+    public $orden=0,$ordencompraselected;
 
     private $pagination = 5;
    
@@ -468,9 +472,6 @@ if ($this->validateCarrito()) {
     DB::beginTransaction();
 
     try {
-        
-
-
         $Compra_encabezado = Compra::create([
 
             'importe_total'=>$this->total_compra,
@@ -485,9 +486,17 @@ if ($this->validateCarrito()) {
             'estado_compra'=>$this->estado_compra,
             'status'=>$this->status,
             'destino_id'=>$this->destino,
-            'user_id'=> Auth()->user()->id,
-            'lote_compra'=> $this->lote_compra 
+            'user_id'=> Auth()->user()->id
+          
         ]);
+        if ($this->ordencompraselected != null) {
+            
+            OrdenCompraAsignada::create([
+                'orden_compra'=>$this->ordencompraselected,
+                'compra_id'=>$Compra_encabezado->id
+            ]);
+        }
+
 
         if ($this->tipo_transaccion === 'Contado' || $this->pago_parcial>0) {
 
@@ -500,10 +509,7 @@ if ($this->validateCarrito()) {
                 'user_id' => Auth()->user()->id
             ]);
 
-            $ss = MovimientoCompra::create([
-                'compra_id'=>$Compra_encabezado->id,
-                'movimiento_id' => $Movimiento->id
-            ]);
+           
         }
        
         
@@ -533,6 +539,8 @@ if ($this->validateCarrito()) {
                         
                         
                     ]);
+
+               
                     
                     /*DB::table('productos_destinos')
                     ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destino]);*/
@@ -547,7 +555,6 @@ if ($this->validateCarrito()) {
             else
             {
                 foreach ($items as $item) {
-
 
                     $lot= Lote::create([
                         'existencia'=>$item->quantity,
@@ -610,13 +617,24 @@ if ($this->validateCarrito()) {
       
     }
 
-    public function EditCompra($id){
-        $cp=Compra::find($id);
+    public function mostrarOrdenes(){
         
-        foreach ($cp->compradetalle as $data) 
+        $this->orden= OrdenCompra::whereIn('destino_id',$this->vs)->get();
+
+
+         $this->emit('verOrdenes');
+
+    }
+    public function recibirOrden(OrdenCompra $id){
+        $this->ordencompraselected= $id->id;
+
+        foreach ($id->detallecompra as $data) 
         {
-            
+                $this->increaseQty($data->product_id,$data->cantidad,$data->precio);
         }
+
+        $this->emit('ordenes_close');
+
 
     }
 

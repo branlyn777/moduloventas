@@ -32,7 +32,7 @@
                 </td>
                 <td colspan="2" style="width: 34%;">
                     <center>
-                        <span style="font-size: 20px; font-weight:bold;">Compra N° {{$data->id}}</span>
+                        <span style="font-size: 20px; font-weight:bold;">Orden de Compra N° {{$data->id}}</span>
                         <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
                     </center>
                 </td>
@@ -46,13 +46,20 @@
                 <td colspan="2">
                         <b>Nombre Proveedor:</b> {{$data->nombre_prov}}
                 </td>
-                <td>
-
-                </td>
-                {{-- <td style="width: 35%;">
+              
+            </tr>
+            <tr>
+               
+                    <td>
                    
-                    <b>Registrado por:</b> {{$nombreusuario->name}}
-                </td> --}}
+                        <b>Registrado por:</b> {{$nombre_usuario}}
+                    </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    <b>Fecha:</b> {{$fecha_orden_compra}}
+                <td>
             </tr>
         </table>
     
@@ -93,14 +100,12 @@
                         <td class="text-right">
                             
                         </td>
-                        <td  class="text-center">
-                            
-                        </td>
+                        
                         <td  style="text-align:right;">
                  
                         </td>
                         <td style="text-align:center;">
-                            <b>{{$totalitems}}</b>
+                       
                         </td> 
                         <td style="text-align:right;">
                             <b>{{ number_format($totales, 2, ",", ".")}} Bs</b>

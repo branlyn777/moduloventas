@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
+use App\Models\DetalleOrdenCompra;
 use App\Models\OrdenCompra;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -120,22 +121,31 @@ class ExportComprasController extends Controller
         $cp=OrdenCompra::find($id);
 
         
-        $totalitems=$cp->compradetalle()->sum('cantidad');
+        $totalitems=$cp->detallecompra()->sum('cantidad');
         $observacion=$cp->observacion;
-        $totaliva=0;
+   
         $totales=$cp->importe_total;
+        $fecha_orden_compra=$cp->created_at;
+        $nombre_usuario= $cp->usuario->name;
      
  
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
 
-            $data= Compra::join('providers as prov','compras.proveedor_id','prov.id')->select('compras.*','compras.id as compra_id','prov.*')->where('compras.id',$id)->first();
-            $detalle=CompraDetalle::join('products as prod','compra_detalles.product_id','prod.id')->select('compra_detalles.*','prod.*')->where('compra_id',$id)->get();
+            $data= OrdenCompra::join('providers as prov','orden_compras.proveedor_id','prov.id')
+            ->select('orden_compras.*','orden_compras.id as compra_id','prov.*')
+            ->where('orden_compras.id',$id)
+            ->first();
+
+            $detalle=DetalleOrdenCompra::join('products as prod','detalle_orden_compras.product_id','prod.id')
+            ->select('detalle_orden_compras.*','prod.*')
+            ->where('orden_compra',$id)
+            ->get();
             $nro= $this->nro+1;
    
-            $pdf = PDF::loadView('livewire.pdf.ImprimirCompra',compact('data','detalle','nro','logoempresa','nombreempresa','datossucursal','totalitems','totales','totaliva'));
+            $pdf = PDF::loadView('livewire.pdf.ImprimirOrdenCompra',compact('data','detalle','nro','logoempresa','nombreempresa','datossucursal','totalitems','totales','fecha_orden_compra','nombre_usuario'));
 
-            return $pdf->stream('CompraDetalle.pdf');  //visualizar
+            return $pdf->stream('OrdenCompraDetalle'.$cp->id.'.pdf');  //visualizar
             /* return $pdf->download('salesReport.pdf');  //descargar*/
     }
 

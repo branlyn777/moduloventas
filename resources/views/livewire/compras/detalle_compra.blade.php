@@ -6,7 +6,12 @@
             <div class="widget-heading">
                 <div class="col-12 col-lg-12 col-md-10 mt-3">
                     <div class="row mb-3" >
-                        <div class="col-lg-11" >
+                        <div class="col-lg-12">
+                            <h2 class="text-center">
+                                REGISTRO DE COMPRAS
+                            </h2>
+                        </div>
+                        <div class="col-lg-6" >
                        
                             <b style="color: rgb(0, 0, 0)">Fecha: </b>
                             {{$fecha_compra}}<br/>  
@@ -14,14 +19,19 @@
                             {{$usuario}}<br/>
                             
                         </div>
+                        <div class="col-lg-6">
+
+                            <div class="row justify-content-end">
+                                <button data-toggle="modal"
+                                    data-target="#theModal" class="boton-azul mr-1 p-1">Registrar Producto</button>
+                                <button data-toggle="modal"
+                                    wire:click='mostrarOrdenes()' class="boton-celeste p-1">Ordenes De Compra</button>
+                            </div>
+                        </div>
                     
                         
                     </div>
                         
-                    <div class="row justify-content-end">
-                        <button data-toggle="modal"
-                            data-target="#theModal" class="boton-azul">Registrar Producto</button>
-                    </div>
                     <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(229, 140, 40);" />
                         <div class="row">
 
@@ -100,7 +110,7 @@
                                    
                                 </div>
                               
-                                <div class="row">
+                                <div class="row mt-3">
                                     <div class="col-lg-12">
 
                                         <div class="form-group">
@@ -156,6 +166,11 @@
                                         @error('observacion')
                                         <span class="text-danger er">{{ $message }}</span>
                                         @enderror
+                                    </div>
+                                    <div class="form-group">
+                                           <strong style="color: rgb(74, 74, 74)">Codigo Orden de Compra: </strong>
+                                           <label class="form-control">{{$ordencompraselected}}</label>
+                                   
                                     </div>
                                 </div>
 
@@ -354,13 +369,6 @@
                             </div>
                         </div>
 
-
-
-
-
-
-
-             
                     </div>
                 </div>
              
@@ -370,6 +378,7 @@
     @include('livewire.products.form')
     @include('livewire.compras.descuento')
     @include('livewire.compras.pago')
+    @include('livewire.compras.verOrdenesCompra')
  </div>
  <script>
      document.addEventListener('DOMContentLoaded', function() {
@@ -381,9 +390,13 @@
              $("#im").val('');
              noty(Msg)
          });
-         window.livewire.on('dscto_added', msg => {
-             $('#modal_desc').modal('hide')
-             noty(Msg)
+         window.livewire.on('verOrdenes', msg => {
+             $('#ordenCompra').modal('show')
+          
+         });
+         window.livewire.on('ordenes_close', msg => {
+             $('#ordenCompra').modal('hide')
+          
          });
          window.livewire.on('products_added', msg => {
             $('#theModal').modal('hide')

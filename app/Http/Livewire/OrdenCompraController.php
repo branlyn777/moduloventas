@@ -6,6 +6,7 @@ use App\Models\Destino;
 use App\Models\DetalleOrdenCompra;
 use App\Models\OrdenCompra;
 use App\Models\Sucursal;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -15,31 +16,45 @@ class OrdenCompraController extends Component
     $estado,
     $fecha,
     $fromDate,
+    $toDate,
+    $from,
+    $to,
     $vs=[], 
     $data_orden_compras,
     $ordendetalle,
     $totalitems=0,
     $ordenTotal=0,
     $observacion='',
+    $mensaje_toast,
+    $listasucursales;
    
-    $toDate;
     public function mount(){
-        $this->verPermisos();
+        
+        $this->consultar();
+        $this->sucursal_id= Auth()->user()->sucursal_id;
     }
     public function render()
     {
 
 
-        $this->data_orden_compras= OrdenCompra::where('status','Activo')->get();
+        $this->data_orden_compras= OrdenCompra::whereBetween('orden_compras.created_at',[$this->from,$this->to])
+        ->when($this->estado != 'Todos', function($query){
+            return $query->where('orden_compras.status',$this->estado);
+        })
+        ->when($this->sucursal_id != 'Todos', function($query){
+            $suc=Sucursal::find($this->sucursal_id);
+            dd($suc);
+            return $query->whereIn('orden_compras.destino_id',$suc->destinos);
+        })->get();
 
 
 
-
+        $this->verPermisos();
         $this->sucursal_id= Auth()->user()->sucursal_id;
-        $this->listasucursales=Sucursal::join('destinos as dest','sucursals.id','dest.sucursal_id')
-        ->whereIn('dest.id',$this->vs)
-        ->select('dest.*','dest.id as destino_id','sucursals.*')
-        ->get();
+        $this->listasucursales=Sucursal::all();
+     
+        //dd($this->listasucursales);
+ 
         return view('livewire.ordencompra.orden-compra')
         ->extends('layouts.theme.app')
         ->section('content');
@@ -75,5 +90,43 @@ class OrdenCompraController extends Component
 
    
         //dd($this->detalleCompra);
+    }
+     
+    public function anularOrden(OrdenCompra $id){
+
+      $id->update([
+            'status' =>'INACTIVO'
+      ]);
+      $this->mensaje_toast='OrdenCompra de compra anulada con exito.';
+      $this->emit('anulacion_compra');
+    }
+
+    public function consultar()
+    {
+        if ($this->fecha == 'hoy') {
+            $this->fromDate = Carbon::now();
+            $this->toDate = Carbon::now();
+            $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+            $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
+        }
+        if ($this->fecha == 'ayer') {
+
+            $this->fromDate = Carbon::yesterday();
+            $this->toDate = Carbon::yesterday();
+            $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+            $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
+        }
+        if ($this->fecha == 'semana') 
+        {   $this->toDate = Carbon::now();
+            $this->fromDate = $this->toDate->subWeeks(1);
+            $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+            $this->to = Carbon::parse(Carbon::now())->format('Y-m-d')     . ' 23:59:59';
+        }
+
+        else{
+            $this->from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+            $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
+        }
+  
     }
 }
