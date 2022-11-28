@@ -22,7 +22,7 @@
                     <div class="col-12 col-sm-6 col-md-3 text-center">
                         <b>Seleccionar Sucursal</b>
                         <div class="form-group">
-                            <select wire:model="sucursal_id" wire:key='foo' class="form-control">
+                            <select wire:model="sucursal_id" class="form-control">
                                 @foreach($listasucursales as $sucursal)
                                 <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
                                 @endforeach

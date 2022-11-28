@@ -48,7 +48,7 @@ class DetalleComprasController extends Component
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2,$name,$descripcion;
 
-    public $orden=0,$ordencompraselected;
+    public $orden,$ordencompraselected;
 
     private $pagination = 5;
    
@@ -64,13 +64,12 @@ class DetalleComprasController extends Component
         $this->tipo_transaccion = "CONTADO";
         $this->tipo_documento = "FACTURA";
         $this->status = "ACTIVO";
-        
+        $this->itemsQuantity = Compras::getTotalQuantity();
         $this->subtotal = Compras::getTotal();
         $this->total_compra= $this->subtotal-$this->dscto;
         $this->porcentaje=0;
         $this->verPermisos();
-      
-  
+
     }
     public function render()
     {
@@ -87,20 +86,25 @@ class DetalleComprasController extends Component
         $prod = "cero";
 //---------------Select destino de la compra----------------------//
        $data_destino= Sucursal::join('destinos as dest','sucursals.id','dest.sucursal_id')
-                 ->whereIn('dest.id',$this->vs)
-       ->select('dest.*','dest.id as destino_id','sucursals.*')
-       ->get();
+                                ->whereIn('dest.id',$this->vs)
+                                ->select('dest.*','dest.id as destino_id','sucursals.*')
+                                ->get();
 
 //--------------------Select proveedor---------------------------//
-       $data_provider= Provider::where('status','ACTIVO')->select('providers.*')->get();
+       $data_provider= Provider::where('status','ACTIVO')
+       ->select('providers.*')
+       ->get();
         return view('livewire.compras.detalle_compra',['data_prod' => $prod,
         'cart' => Compras::getContent()->sortBy('name'),
         'data_suc'=>$data_destino,
         'data_prov'=>$data_provider,
         'categories'=>Category::where('categories.categoria_padre',0)->orderBy('name', 'asc')->get(),
         'unidades'=>Unidad::orderBy('nombre','asc')->get(),
-        'marcas'=>Marca::select('nombre')->orderBy('nombre','asc')->get(),
-        'subcat'=>Category::where('categories.categoria_padre',$this->selected_id2)->where('categories.categoria_padre','!=','Elegir')->get()
+        'marcas'=>Marca::select('nombre')->orderBy('nombre','asc')
+        ->get(),
+        'subcat'=>Category::where('categories.categoria_padre',$this->selected_id2)
+        ->where('categories.categoria_padre','!=','Elegir')
+        ->get()
         ])
         ->extends('layouts.theme.app')
         ->section('content');
@@ -400,6 +404,8 @@ class DetalleComprasController extends Component
         $this->cantidad_minima = null;
         $this->categoryid = 'Elegir';
         $this->image = null;
+        Compras::clear();
+
 
         $this->resetValidation();
        
@@ -494,6 +500,11 @@ if ($this->validateCarrito()) {
             OrdenCompraAsignada::create([
                 'orden_compra'=>$this->ordencompraselected,
                 'compra_id'=>$Compra_encabezado->id
+            ]);
+
+            $mm= OrdenCompra::find($this->ordencompraselected);
+            $mm->update([
+                'estado_entrega' =>'RECIBIDO'
             ]);
         }
 
@@ -619,7 +630,7 @@ if ($this->validateCarrito()) {
 
     public function mostrarOrdenes(){
         
-        $this->orden= OrdenCompra::whereIn('destino_id',$this->vs)->get();
+        $this->orden= OrdenCompra::whereIn('destino_id',$this->vs)->where('estado_entrega','NORECIBIDO')->get();
 
 
          $this->emit('verOrdenes');

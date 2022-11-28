@@ -1,7 +1,7 @@
 <div class="widget-content">
-        <h4 class="card-title">
+        <h2 class="text-center">
             <b>RESUMEN MOVIMIENTOS</b>
-        </h4>
+        </h2>
 
         <ul class="row justify-content-start">
             <div class="col-sm-12 col-md-2">

@@ -37,7 +37,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar Productos al Mobiliario</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Ordenes de Compra</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -47,11 +47,12 @@
                     </svg>
                 </button>
             </div>
-         
+
 
             <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                 <div class="table-wrapper mb-3">
-                    @if ($orden!= null)
+               
+                    @if ($orden != null and $orden->isNotEmpty())
 
                     <table class="m-auto">
                         <thead>
@@ -69,18 +70,15 @@
                                 <td class="text-center">
                                     <h6>{{$dataorden->id}}</h6>
                                 </td>
-                            
                                 <td class="text-center">
-                                    <button href="javascript:void(0)"
-                                        wire:click="recibirOrden('{{$dataorden->id}}')" class="boton-verde">
+                                    <button href="javascript:void(0)" wire:click="recibirOrden('{{$dataorden->id}}')"
+                                        class="boton-verde">
                                         <i class="fas fa-check"></i> Recibir Orden
                                     </button>
                                 </td>
 
 
                             </tr>
-
-
                             @empty
                             <p></p>
                             @endforelse
@@ -97,18 +95,9 @@
                     </div>
                     @endif
                 </div>
-
-
             </div>
             <div class="row justify-content-end mr-2 mb-2">
-               
-
-                    <button type="button" class="btn btn-warning m-1"
-                        data-dismiss="modal">Salir</button>
-    
-                    
-    
-              
+                <button type="button" class="btn btn-warning m-1" data-dismiss="modal">Salir</button>
             </div>
         </div>
     </div>

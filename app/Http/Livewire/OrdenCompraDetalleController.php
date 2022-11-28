@@ -242,7 +242,8 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
             'proveedor_id'=>Provider::where('nombre_prov',$this->provider)->first()->id,
             'status'=>'Activo',
             'destino_id'=>$this->destino,
-            'user_id'=>Auth()->user()->id
+            'user_id'=>Auth()->user()->id,
+            'estado_entrega'=>'NORECIBIDO'
         ]);
         foreach ($this->cart as $data) {
             DetalleOrdenCompra::create([

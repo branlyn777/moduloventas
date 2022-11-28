@@ -80,7 +80,7 @@ class ComprasController extends Component
             foreach ($arr->destinos as $data) {
                 array_push($mn,$data->id);
             }
-            //dd($mn);
+     
             return $query->whereIn('compras.destino_id',$mn);
         })
         ->when($this->estado != 'Todos', function($query){
@@ -235,5 +235,7 @@ class ComprasController extends Component
     public function VerProductosProveedor(){
         $this->emit('productoproveedor');
     }
+
+
   
 }

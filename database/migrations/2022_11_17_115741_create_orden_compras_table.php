@@ -20,6 +20,7 @@ class CreateOrdenComprasTable extends Migration
             $table->unsignedBigInteger('proveedor_id');
             $table->foreign('proveedor_id')->references('id')->on('providers');
             $table->enum('status',['ACTIVO','INACTIVO','P'])->default('ACTIVO');
+            $table->enum('estado_entrega',['RECIBIDO','NORECIBIDO'])->default('NORECIBIDO');
             $table->foreignId('destino_id')->constrained();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

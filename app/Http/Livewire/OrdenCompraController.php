@@ -6,6 +6,7 @@ use App\Models\Destino;
 use App\Models\DetalleOrdenCompra;
 use App\Models\OrdenCompra;
 use App\Models\Sucursal;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -30,27 +31,26 @@ class OrdenCompraController extends Component
    
     public function mount(){
         
-        $this->consultar();
-        $this->sucursal_id= Auth()->user()->sucursal_id;
+        $this->sucursal_id = $this->idsucursal();
+        $this->estado='Todos';
+        //dd($this->sucursal_id);
     }
     public function render()
     {
-
-
+        $this->consultar();
         $this->data_orden_compras= OrdenCompra::whereBetween('orden_compras.created_at',[$this->from,$this->to])
         ->when($this->estado != 'Todos', function($query){
             return $query->where('orden_compras.status',$this->estado);
         })
         ->when($this->sucursal_id != 'Todos', function($query){
-            $suc=Sucursal::find($this->sucursal_id);
-            dd($suc);
+            $suc=Sucursal::find($this->sucursal_id)->first();
             return $query->whereIn('orden_compras.destino_id',$suc->destinos);
-        })->get();
+         
+        })
+        ->get();
 
 
-
-        $this->verPermisos();
-        $this->sucursal_id= Auth()->user()->sucursal_id;
+       
         $this->listasucursales=Sucursal::all();
      
         //dd($this->listasucursales);
@@ -74,7 +74,6 @@ class OrdenCompraController extends Component
             array_push($this->vs,$value);
         }
        }
-
     }
 
     public function VerDetalleCompra(OrdenCompra $id){
@@ -128,5 +127,16 @@ class OrdenCompraController extends Component
             $this->to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
         }
   
+    }
+
+    public function idsucursal()
+    {
+        $idsucursal = User::join("sucursal_users as su","su.user_id","users.id")
+        ->select("su.sucursal_id as id","users.name as n")
+        ->where("users.id",Auth()->user()->id)
+        ->where("su.estado","ACTIVO")
+        ->get()
+        ->first();
+        return $idsucursal->id;
     }
 }
