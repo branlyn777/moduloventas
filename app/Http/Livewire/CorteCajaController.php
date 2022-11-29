@@ -331,50 +331,15 @@ class CorteCajaController extends Component
     //Para cerrar la caja abierta por el mismo usuario
     public function CerrarCaja($idcaja)
     {
+
         if($this->VerificarCajaAbierta($idcaja))
         {
+
+            return redirect('/cajacierre/'.$idcaja);
+            return redirect()->route('cajacierre/'.$idcaja);
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
-            $cortes = Movimiento::where('status', 'ACTIVO')
-            ->where('type', 'APERTURA')
-            ->where('user_id', Auth()->user()->id)->get();
-            foreach ($cortes as $c)
-            {
-                $c->update([
-                    'status' => 'INACTIVO',
-                ]);
-                $c->save();
-            }
-            /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
-            $carteras = Cartera::where('caja_id', $idcaja)->get();
-            foreach ($carteras as $cart)
-            {
-                $movimiento = Movimiento::create([
-                    'type' => 'CIERRE',
-                    'status' => 'ACTIVO',
-                    'import' => 0,
-                    'user_id' => Auth()->user()->id
-                ]);
-                CarteraMov::create([
-                    'type' => 'CIERRE',
-                    'tipoDeMovimiento' => 'CORTE',
-                    'comentario' => '',
-                    'cartera_id' => $cart->id,
-                    'movimiento_id' => $movimiento->id,
-                ]);
-            }
-            /* HABILITAR CAJA */
-            $caja = Caja::find($idcaja);
-            $caja->update([
-                'estado' => 'Cerrado',
-            ]);
-            $caja->save();
 
-            $this->nombre_caja = null;
-            $this->id_caja = null;
-
-            session(['sesionCaja' => null]);
-            session(['sesionCajaID' => null]);
-
+            
             $this->emit('message-success-toast');
 
             //$this->redirect('cortecajas');

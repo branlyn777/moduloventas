@@ -67,7 +67,7 @@
          
        
         </ul>
-    <div class="table-5">
+    <div class="table-6">
             <table>
                 <thead>
                     <tr>
@@ -415,7 +415,7 @@
                                 </tr> --}}
                                 <tr>
                                     <td>
-                                        <h5 class="text-dark text-left" ><b> Apertura Caja Fisica </b></h5>
+                                        <h5 class="text-dark text-left" ><b> Saldo Acumulado </b></h5>
                                     </td>
                                     <td>
                                         <h5 class="text-dark text-center m-0" >{{ number_format($ops,2)}} </h5>

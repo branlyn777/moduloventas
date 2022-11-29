@@ -286,8 +286,25 @@
                 //win.focus();
                 
             });
-        });
-        
+
+            function ConfirmarOperacionSinCorte()
+                {
+                    swal({
+                        title: 'Transaccion sin corte de caja',
+                        text: "No ha realizado corte de caja, la transaccion no pertenecera a ninguna caja¿Desea proseguir con la operacion?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Proseguir',
+                        padding: '2em'
+                        }).then(function(result) {
+                        if (result.value) {
+                            window.livewire.emit('op_sn_corte')
+                            }
+                        })
+                }
+                    });
+                    
 
   
     function Confirm(id){

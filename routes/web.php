@@ -25,7 +25,7 @@ use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
-
+use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('carteras', CarteraController::class)->name('cartera')->middleware('permission:Cartera_Index');
     Route::get('carteramovcategoria', CarteraMovCategoriaController::class)->name('carteramovcategoria');
     Route::get('cortecajas', CorteCajaController::class)->middleware('permission:Corte_Caja_Index');
+    Route::get('cajacierre/{id}', [CierreCajaController::class,'index'])->middleware('permission:Corte_Caja_Index');
     Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 

@@ -18,7 +18,7 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate,$toDate,$caja,$data,$search,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal;
+    public $fromDate,$toDate,$caja,$data,$search,$cv,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal,$mensaje_toast;
     public $cot_dolar = 6.96;
     public $cartera_id_edit,$type_edit;
 
@@ -513,11 +513,7 @@ class IngresoEgresoController extends Component
             'user_id' => Auth()->user()->id,
         ]);
 
-
-
-
-        
-        $cv=CarteraMov::create([
+        $ct=CarteraMov::create([
             'type' => $this->type,
             'tipoDeMovimiento' => 'EGRESO/INGRESO',
             'comentario' => $this->comentario,
@@ -525,7 +521,8 @@ class IngresoEgresoController extends Component
             'movimiento_id' => $mvt->id,
             'cartera_mov_categoria_id' => $this->categoria_ie_id
         ]);
-
+        $this->cv=$ct->id;
+        //dd($this->cv);
 
         if($this->type == "INGRESO")
         {
@@ -558,14 +555,15 @@ class IngresoEgresoController extends Component
         //verificar que caja esta aperturada
         $cajaId= session('sesionCajaID');
 
+ 
+        if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id) and $cajaId != null) {
 
-        if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
-             //dd("holss");
             $op = OperacionesCarterasCompartidas::create([
-                 'caja_id'=>$cajaId,
-                 'cartera_mov_id'=>$cv->id
-             ]);
-             //dd($op);
+                'caja_id'=>$cajaId,
+                'cartera_mov_id'=>$this->cv,
+            ]);
+        
+
             }
 
         $this->emit('hide-modal', 'Se generó el ingreso/egreso');
@@ -588,7 +586,8 @@ class IngresoEgresoController extends Component
         ->where('users.id', Auth()->user()->id)
         ->where('su.estado', 'ACTIVO')
         ->select('s.*')
-        ->get()->first();
+        ->get()
+        ->first();
 
         return $SucursalUsuario->id;
     }
@@ -609,20 +608,16 @@ class IngresoEgresoController extends Component
         $this->emit('openothertap');
     }
     protected $listeners= ['eliminar_operacion'=>'anularOperacion'];
+  
     public function anularOperacion(Movimiento $mov)
     {
-
-        
         $mov->update([
             'status' => 'INACTIVO'
             ]);
         $mov->save();
-
     }   
     public function editarOperacion(Movimiento $mov)
     {
-
-    
         $this->cantidad_edit=$mov->import;
     
         $this->cartera_id_edit=$mov->cartmov[0]->cartera_id;
@@ -693,16 +688,3 @@ class IngresoEgresoController extends Component
     }
 }
 
-//datos de apertura
-
-// apertura        10441.28
-// recaudo 1900
-
-
-// ferrufino
-// apertura 2729
-// recaudo 510
-
-// peru
-//  apertura  731.5
-// recaudo 260
