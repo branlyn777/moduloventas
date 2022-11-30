@@ -158,18 +158,7 @@
         <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         </div>
         </center>
-
-
-
-
-
-
       <div class="row">
-
-
-
-
-
         @foreach($cajas as $c)
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="{{ $c->estado == 'Abierto' ? 'cajaabierta' : 'cajacerrada' }}">
@@ -177,9 +166,7 @@
                         <b class="h1">{{$c->nombre}}</b>
                         <br>
                         SUCURSAL:</b> {{$c->nombresucursal}} - {{$c->nombresucursal}}
-                        
                     </div>
-
                     @if($c->carteras->count() > 0 || $carteras_generales->count() > 0)
 
                         <div class="text-center">
@@ -195,12 +182,12 @@
 
 
 
-                                <div class="table-1">
+                                <div class="row justify-content-center table-2">
                                     <table>
                                         <tbody>
                                             @foreach($carteras_generales as $cg)
                                             <tr>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <span class="stamp stamp" style="background-color: #1b7488; font-size: 20px; border-radius: 5px;">
                                                         {{ucwords(strtolower($cg->nombrecartera))}}
                                                     </span> :

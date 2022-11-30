@@ -10,22 +10,39 @@ use Livewire\Component;
 
 class CierreCajaController extends Component
 {
-    public $idcaja,$nombrecaja;
+    public $idcaja,$nombrecaja,$usuarioApertura,$diezcent,$veintecent,$cinccent,$peso,$peso2,$peso5,$billete10,$billete20,$billete50,$billete100,$billete200,$total;
+
 
     public function mount($id){
         $this->idcaja = Caja::where('id',$id)->first()->id;
         $this->nombrecaja=Caja::where('id',$id)->first()->nombre;
+//         $this->diezcent=0;
+// $this->veintecent=0;
+// $this->cinccent=0;
+// $this->peso=0;
+// $this->peso2=0;
+// $this->peso5=0;
+// $this->billete10=0;
+// $this->billete20=0;
+// $this->billete50=0;
+// $this->billete100=0;
+// $this->billete200=0;
 
-
+        
     }
     public function render()
     {
+        
+        $this->total=(int)$this->diezcent*0.1+(int)$this->veintecent*0.2+(int)$this->cinccent*0.5+
+        (int)$this->peso*1+(int)$this->peso2*2+(int)$this->peso5*5+(int)$this->billete10*10
+        +(int)$this->billete20*20+(int)$this->billete50*50+(int)$this->billete100*100+(int)$this->billete200*200;
         return view('livewire.cajas.cierrecaja')
         ->extends('layouts.theme.app')
         ->section('content');
     }
 
-    public function cerrarCaja(){
+    public function cerrarCaja()
+    {
         $cortes = Movimiento::where('status', 'ACTIVO')
             ->where('type', 'APERTURA')
             ->where('user_id', Auth()->user()->id)->get();
@@ -68,4 +85,9 @@ class CierreCajaController extends Component
             session(['sesionCajaID' => null]);
 
     }
+
+    // public function tool()
+    // {
+    //     if
+    // }
 }

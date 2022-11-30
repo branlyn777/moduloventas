@@ -155,6 +155,13 @@
 
 
 
+		.table-2 {
+		width: 100%;/* Anchura de ejemplo */
+		height: 150px;  /*Altura de ejemplo*/
+		overflow: auto;
+
+		}
+		
 
 
 
