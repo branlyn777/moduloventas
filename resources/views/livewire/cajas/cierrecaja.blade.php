@@ -3,6 +3,9 @@
         <p><h2 class="text-dark" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.5rem; font-weight:650">PUNTO DE VENTA / {{$nombrecaja}}</h2> </p>
             
     </div>
+    <div class="row">
+        <button class="boton-rojo"> <i class="fas fa-list"></i> jaja</button>
+    </div>
     <div class="row justify-content-start">
         <div class="col-lg-12">
 

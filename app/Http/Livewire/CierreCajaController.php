@@ -11,16 +11,16 @@ use Livewire\Component;
 class CierreCajaController extends Component
 {
     public $idcaja,$nombrecaja;
-    public function mount($id){
-        //dd($id);
-      
 
-    }
-    public function index()
-    {
+    public function mount($id){
         $this->idcaja = Caja::where('id',$id)->first()->id;
         $this->nombrecaja=Caja::where('id',$id)->first()->nombre;
-        return view('livewire.cajas.cierre-caja')
+
+
+    }
+    public function render()
+    {
+        return view('livewire.cajas.cierrecaja')
         ->extends('layouts.theme.app')
         ->section('content');
     }

@@ -74,7 +74,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('carteras', CarteraController::class)->name('cartera')->middleware('permission:Cartera_Index');
     Route::get('carteramovcategoria', CarteraMovCategoriaController::class)->name('carteramovcategoria');
     Route::get('cortecajas', CorteCajaController::class)->middleware('permission:Corte_Caja_Index');
-    Route::get('cajacierre/{id}', [CierreCajaController::class,'index'])->middleware('permission:Corte_Caja_Index');
+   Route::get('cajacierre/{id}',CierreCajaController::class)->name('caja.cierre')->middleware('permission:Corte_Caja_Index');
+//Route::get('cajacierre/{id}', array('as'=> 'cajacierre.id', 'uses' => 'CierreCajaController'));
+    //Route::get('itsolutionstuff/tag/{id}', array('as'=> 'itsolutionstuff.tag', 'uses' => 'HomeController@tags'));
+
     Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 

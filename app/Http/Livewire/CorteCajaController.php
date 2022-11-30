@@ -329,18 +329,21 @@ class CorteCajaController extends Component
        
     }
     //Para cerrar la caja abierta por el mismo usuario
-    public function CerrarCaja($idcaja)
+    public function CerrarCaja($id)
     {
 
-        if($this->VerificarCajaAbierta($idcaja))
+        if($this->VerificarCajaAbierta($id))
         {
 
-            return redirect('/cajacierre/'.$idcaja);
-            return redirect()->route('cajacierre/'.$idcaja);
+            //return redirect('cajacierre/'.$id);
+            //return redirect()->route('cajacierre/'.$id);
+           // return redirect()->to('cajacierre/'.$id);
+            //return redirect('cajacierre/'. $id);
+            return redirect()->route('caja.cierre',[$id]);
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
 
             
-            $this->emit('message-success-toast');
+          //  $this->emit('message-success-toast');
 
             //$this->redirect('cortecajas');
         }
