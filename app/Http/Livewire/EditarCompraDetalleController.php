@@ -697,7 +697,7 @@ class EditarCompraDetalleController extends Component
                 $auxi2->transaccion=$this->tipo_transaccion;
                 $auxi2->tipo_doc=$this->tipo_documento;
                 $auxi2->nro_documento=$this->nro_documento;
-                $auxi2->lote_compra=$this->lote_compra;
+                //$auxi2->lote_compra=$this->lote_compra;
                 $auxi2->observacion=$this->observacion;
                 $auxi2->proveedor_id=Provider::where('nombre_prov',$this->provider)->value('id');
                 $auxi2->destino_id=$this->destino;

@@ -115,6 +115,14 @@
                     <h1 style="border-color:black;border-bottom: 1rem"> <b> Total Bs.: {{$total}}</b></h1>
             
                </div>
+            <div class="row justify-content-end m-1">
+              
+                <button type="button" wire:click.prevent="resetConteo()" class="boton-verde m-1 p-2"
+                data-dismiss="modal">Cancelar</button>
+
+            <button type="button" wire:click.prevent="aplicarConteo()" class="boton-celeste m-1 p-2">Aplicar</button>
+            
+               </div>
 
         </div>
 
