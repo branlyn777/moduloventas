@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <button type="button" class="btn btn-lg btn-warning">Cerrar Caja</button>
+                <button type="button" class="btn btn-lg btn-warning" wire:click='cerrarCaja()'>Cerrar Caja</button>
             </div>
     </div>
   
