@@ -169,6 +169,7 @@
         </div>
     </div>
     @include('livewire.products.form')
+ 
     @include('livewire.products.importarproductos')
 </div>
 @section('javascript')

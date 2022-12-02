@@ -37,17 +37,15 @@ class InicioController extends Component
         
         // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior
 
-        $this->ventasMes= SaleDetail::whereMonth('created_at', Carbon::now()->format('m'))->get();
+        $this->ventasMes= Sale::where('status','PAID')->whereMonth('created_at', Carbon::now()->format('m'))->sum('total');
 
-        $this->ventasMes= $this->ventasMes->sum(function($value){
-            return $value['quantity']*$value['price'];
-        });
+   
  
-        $this->ventaMesAnterior= SaleDetail::whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->get();
+        $this->ventaMesAnterior= Sale::where('status','PAID')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('total');
 
-        $this->ventaMesAnterior= $this->ventaMesAnterior->sum(function($value){
-            return $value['quantity']*$value['price'];
-        });
+        // $this->ventaMesAnterior= $this->ventaMesAnterior->sum(function($value){
+        //     return $value['quantity']*$value['price'];
+        // });
         if ($this->ventaMesAnterior != 0) {
           
             $this->difVenta = ($this->ventasMes/$this->ventaMesAnterior)-1;
