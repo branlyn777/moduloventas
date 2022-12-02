@@ -12,14 +12,14 @@ use Livewire\Component;
 class CierreCajaController extends Component
 {
     public $idcaja,$nombrecaja,$usuarioApertura,$fechaApertura,$diezcent,$veintecent,$cinccent,$peso,$peso2,$peso5,$hoyTransacciones,
-    $billete10,$billete20,$billete50,$billete100,$billete200,$total,$transacciondia,$caja,$efectivo_actual,$monto_limite,$recaudo;
+    $billete10,$billete20,$billete50,$billete100,$billete200,$total,$transacciondia,$caja,$efectivo_actual,$monto_limite,$recaudo,$showDiv;
 
 
     public function mount(Caja $id){
         $this->caja=$id;
         $this->idcaja = $id->id;
         $this->monto_limite=$id->monto_base;
-       
+       $this->showDiv=false;
 
     }
     public function render()
@@ -146,6 +146,17 @@ class CierreCajaController extends Component
             $this->efectivo_actual= number_format(round($this->total,2),2) ;
             $this->resetConteo();
             $this->emit('cerrarContador');
+    }
+
+    public function mostrar(){
+       
+        if ( $this->showDiv == true) {
+          
+            $this->showDiv=false;
+        }
+        else{
+            $this->showDiv=true;
+                }
     }
 
     
