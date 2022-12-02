@@ -39,16 +39,12 @@ class InicioController extends Component
 
         $this->ventasMes= Sale::where('status','PAID')->whereMonth('created_at', Carbon::now()->format('m'))->sum('total');
 
-   
- 
         $this->ventaMesAnterior= Sale::where('status','PAID')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('total');
 
-        // $this->ventaMesAnterior= $this->ventaMesAnterior->sum(function($value){
-        //     return $value['quantity']*$value['price'];
-        // });
         if ($this->ventaMesAnterior != 0) {
           
-            $this->difVenta = ($this->ventasMes/$this->ventaMesAnterior)-1;
+            $this->difVenta = (($this->ventasMes/$this->ventaMesAnterior)-1)*100;
+           
         }
         else{
             $this->difVenta=0;
@@ -64,23 +60,18 @@ class InicioController extends Component
         $cc= Compra::whereMonth('created_at',$i)->sum('importe_total');
         array_push($this->compras,$cc);
        }
-     
-
        // Calculo de compras y porcencentajes de diferencia entre el mes actual y el mes anterior
         
-        $this->comprasMes= CompraDetalle::whereMonth('created_at', Carbon::now()->format('m'))->get();
-        $this->comprasMes=$this->comprasMes->sum(function($value){
-            return $value['cantidad']*$value['precio'];
-        });
+        $this->comprasMes= Compra::where('status','ACTIVO')->whereMonth('created_at', Carbon::now()->format('m'))->sum('importe_total');
+     
 
-        $this->compraMesAnterior= CompraDetalle::whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->get();
+        $this->compraMesAnterior= Compra::where('status','ACTIVO')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('importe_total');
 
-        $this->compraMesAnterior= $this->compraMesAnterior->sum(function($value){
-            return $value['cantidad']*$value['precio'];
-        });
+     
         if ($this->compraMesAnterior != 0) {
           
-            $this->difCompra = ($this->comprasMes/$this->compraMesAnterior)-1;
+            $this->difCompra = (($this->comprasMes/$this->compraMesAnterior)-1)*100;
+            
         }
         else{
             $this->difCompra=0;
@@ -104,7 +95,8 @@ class InicioController extends Component
      
         if ($this->ingresosMesAnterior != 0) {
           
-            $this->difIngresos = ($this->ingresosMes/$this->ingresosMesAnterior)-1;
+            $this->difIngresos = (($this->ingresosMes/$this->ingresosMesAnterior)-1)*100;
+           
         }
         else{
             $this->difIngresos=0;
@@ -118,8 +110,6 @@ class InicioController extends Component
         ->where('cartera_movs.type','INGRESO')
         ->where('cartera_movs.tipoDeMovimiento','EGRESO/INGRESO')
         ->whereMonth('movimientos.created_at',$i)->sum('import');
-
-
         array_push($this->ingresos,$ing);
 
        }
@@ -153,7 +143,9 @@ class InicioController extends Component
      
         if ($this->egresosMesAnterior != 0) {
           
-            $this->difEgresos = ($this->egresosMes/$this->egresosMesAnterior)-1;
+            $this->difEgresos = (($this->egresosMes/$this->egresosMesAnterior)-1)*100;
+         
+
         }
         else{
             $this->difEgresos=0;

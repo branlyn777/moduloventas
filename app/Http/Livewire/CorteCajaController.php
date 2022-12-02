@@ -335,17 +335,14 @@ class CorteCajaController extends Component
         if($this->VerificarCajaAbierta($id))
         {
 
-            //return redirect('cajacierre/'.$id);
-            //return redirect()->route('cajacierre/'.$id);
-           // return redirect()->to('cajacierre/'.$id);
-            //return redirect('cajacierre/'. $id);
+         
             return redirect()->route('caja.cierre',[$id]);
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
 
             
           //  $this->emit('message-success-toast');
 
-            //$this->redirect('cortecajas');
+
         }
         else
         {
