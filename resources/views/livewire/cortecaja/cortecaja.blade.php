@@ -322,14 +322,6 @@
 
                             @endif
 
-
-
-
-                            
-
-
-
-
                         </div>
                     @else
 
@@ -344,22 +336,15 @@
 
                     @endif
 
-
-
-                    
-
                 </div>
                 <br>
             </div>
         @endforeach
 
-
-
       </div>
-
-
+      @include('livewire.cortecaja.ajusteCajaEfectiva')
+      @include('livewire.cortecaja.contador')
 </div>
-
 @section('javascript')
 
 
@@ -393,18 +378,16 @@
             padding: '2em'
             })
         });
+
+        window.livewire.on('abrirAjustedeCaja', msg => {
+            $('#ajusteCaja').modal('show')
+        });
+
+        window.livewire.on('cerrarContador', msg => {
+            $('#contador_monedas').modal('hide');
+
+        });
     });
-
-
-
-
-
-
-
-
-
-
-
 
     // Código para lanzar la Alerta de Confirmación
     function ConfirmarAbrir(id, nombrecaja)
@@ -457,7 +440,6 @@
             }
         })
     }
-
 
 </script>
 @endsection

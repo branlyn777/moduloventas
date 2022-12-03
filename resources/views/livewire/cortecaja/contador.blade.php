@@ -17,7 +17,7 @@
                 <div class="col-lg-6">
                     <h2 class="text-center">Monedas</h2>
                  
-                    <div>
+                <div>
                         <table>
                             <tbody>
                                 <tr>

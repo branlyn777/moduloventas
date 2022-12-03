@@ -161,6 +161,12 @@
 		overflow: auto;
 
 		}
+
+		.table-3 {
+    width: 100%;/* Anchura de ejemplo */
+    height: 350px; /* Altura de ejemplo */
+    overflow: auto;
+    }
 		
 
 

@@ -8,6 +8,7 @@ use App\Models\CarteraMov;
 use App\Models\Movimiento;
 use App\Models\Sucursal;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -20,6 +21,13 @@ class CorteCajaController extends Component
     //Guarda el nombre de una caja abierta (si existe)
     public $nombre_caja, $id_caja;
 
+    public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
+    $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv;
+
+    public $toogle,
+    $active1,
+    $active2;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -29,6 +37,7 @@ class CorteCajaController extends Component
         $this->idsucursal = $this->idsucursal();
         $this->nombre_caja = null;
         $this->id_caja = null;
+        $this->active1 = "active show";
         // /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -123,6 +132,27 @@ class CorteCajaController extends Component
         ->where("cajas.id",1)
         ->where("c.estado",'ACTIVO')
         ->get();
+
+
+        //monedas y billetes
+
+        $this->total = (int)$this->diezcent * 0.1 + (int)$this->veintecent * 0.2 + (int)$this->cinccent * 0.5 +
+        (int)$this->peso * 1 + (int)$this->peso2 * 2 + (int)$this->peso5 * 5 + (int)$this->billete10 * 10
+        + (int)$this->billete20 * 20 + (int)$this->billete50 * 50 + (int)$this->billete100 * 100 + (int)$this->billete200 * 200;
+
+        //pestañas
+        
+
+   if ($this->toogle == 1) {
+    $this->active1 = "active show";
+    $this->active2 = "";
+}
+if ($this->toogle == 2) {
+    $this->active1 = "";
+    $this->active2 = "active show";
+}
+
+
         return view('livewire.cortecaja.cortecaja', [
             'cajas' => $cajas,
             'carteras_generales' => $carteras_generales,
@@ -329,14 +359,46 @@ class CorteCajaController extends Component
        
     }
     //Para cerrar la caja abierta por el mismo usuario
-    public function CerrarCaja($id)
+    public function CerrarCaja(Caja $caja)
     {
 
-        if($this->VerificarCajaAbierta($id))
+        if($this->VerificarCajaAbierta($caja->id))
         {
+        $this->caja = $caja;
+        $this->idcaja = $caja->id;
+        $this->monto_limite = $caja->monto_base;
+        $this->showDiv = false;
 
+        $ingresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+        ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+        ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+        ->where('cajas.id', $this->idcaja)
+        ->where('cartmovs.type', 'INGRESO')
+        ->whereDay('m.created_at', Carbon::now()->format('d'))
+        ->sum('m.import');
+    $egresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+        ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+        ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+        ->where('cajas.id', $this->idcaja)
+        ->where('cartmovs.type', 'EGRESO')
+        ->whereDay('m.created_at', Carbon::now()->format('d'))
+        ->sum('m.import');
+
+    $this->hoyTransacciones = $ingresos - $egresos;
+
+
+
+    $this->saldoAcumulado = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+    ->where('cajas.id', $this->idcaja)
+    ->where('c.tipo', 'efectivo')
+    ->sum('c.saldocartera');
+
+
+
+
+            $this->emit('abrirAjustedeCaja');
          
-            return redirect()->route('caja.cierre',[$id]);
+            // return redirect()->route('caja.cierre',[$id]);
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
 
             
@@ -354,6 +416,7 @@ class CorteCajaController extends Component
     {
         if($this->VerificarCajaAbierta($idcaja))
         {
+            $this->caja = $idcaja;
             //Buscando el id usuario que abrio la caja
             $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
             ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -436,4 +499,81 @@ class CorteCajaController extends Component
         }
         return $result;
     }
+
+
+    
+    public function cerrarCajaAjustada()
+    {
+        $cortes = Movimiento::where('status', 'ACTIVO')
+            ->where('type', 'APERTURA')
+            ->where('user_id', Auth()->user()->id)->get();
+        foreach ($cortes as $c) {
+            $c->update([
+                'status' => 'INACTIVO',
+            ]);
+            $c->save();
+        }
+
+        /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+        $carteras = Cartera::where('caja_id', $this->idcaja)->get();
+
+        foreach ($carteras as $cart) {
+            $movimiento = Movimiento::create([
+                'type' => 'CIERRE',
+                'status' => 'ACTIVO',
+                'import' => 0,
+                'user_id' => Auth()->user()->id
+            ]);
+            CarteraMov::create([
+                'type' => 'CIERRE',
+                'tipoDeMovimiento' => 'CORTE',
+                'comentario' => '',
+                'cartera_id' => $cart->id,
+                'movimiento_id' => $movimiento->id,
+            ]);
+        }
+        /* HABILITAR CAJA */
+        $caja = Caja::find($this->idcaja);
+        $caja->update([
+            'estado' => 'Cerrado',
+        ]);
+        $caja->save();
+
+        $this->nombre_caja = null;
+        $this->id_caja = null;
+
+        session(['sesionCaja' => null]);
+        session(['sesionCajaID' => null]);
+    }
+
+    public function aplicarConteo()
+    {
+        $this->efectivo_actual = number_format(round($this->total, 2), 2);
+        $this->resetConteo();
+        $this->emit('cerrarContador');
+    }
+    public function resetConteo()
+    {
+        $this->reset(
+            'diezcent',
+            'veintecent',
+            'cinccent',
+            'peso',
+            'peso2',
+            'peso5',
+            'billete10',
+            'billete20',
+            'billete50',
+            'billete100',
+            'billete200',
+            'total'
+        );
+    }
+
+    public function RecaudarEfectivo()
+    {
+
+    }
+
+
 }
