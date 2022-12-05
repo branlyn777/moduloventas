@@ -564,10 +564,7 @@ class CorteCajaController extends Component
         );
     }
 
-    public function RecaudarEfectivo()
-    {
-
-    }
+ 
 
     public function finArqueo(){
        
@@ -598,8 +595,90 @@ class CorteCajaController extends Component
             $cartera->update([
                 'saldocartera' => $saldo_cartera
             ]);
+            $this->saldoAcumulado=$saldo_cartera;
+       
         }
+   
         $this->active1= false;
+    }
+
+    public function RecaudarEfectivo()
+    {
+            
+        $mvt = Movimiento::create([
+            'type' => 'TERMINADO',
+            'status' => 'ACTIVO',
+            'import' => $this->recaudo,
+            'user_id' => Auth()->user()->id,
+        ]);
+        $cartera_efectiva=$this->caja->carteras->where('tipo','efectivo');
+        CarteraMov::create([
+            'type' => 'EGRESO',
+            'tipoDeMovimiento' => 'RECAUDO',
+            'comentario' => 'RECAUDO DEL DIA',
+            'cartera_id' => $cartera_efectiva->first()->id,
+            'movimiento_id' => $mvt->id
+        ]);
+
+        $cartera = Cartera::find($cartera_efectiva->first()->id);
+
+        $saldo_cartera = Cartera::find($cartera_efectiva->first()->id)->saldocartera - $this->recaudo;
+
+        $cartera->update([
+            'saldocartera' => $saldo_cartera
+        ]);
+        $this->saldoAcumulado=$saldo_cartera;
+        $this->recaudo = null;
+    
+
+       
+    }
+
+    public function finalizarCierre(){
+
+        $cortes = Movimiento::where('status', 'ACTIVO')
+        ->where('type', 'APERTURA')
+        ->where('user_id', Auth()->user()->id)->get();
+    foreach ($cortes as $c) {
+        $c->update([
+            'status' => 'INACTIVO',
+        ]);
+        $c->save();
+    }
+
+    /* CREAR CORTES DE CIERRE CON ESTADO ACTIVO */
+    $carteras = Cartera::where('caja_id', $this->idcaja)->get();
+
+    foreach ($carteras as $cart) {
+        $movimiento = Movimiento::create([
+            'type' => 'CIERRE',
+            'status' => 'ACTIVO',
+            'import' => 0,
+            'user_id' => Auth()->user()->id
+        ]);
+        CarteraMov::create([
+            'type' => 'CIERRE',
+            'tipoDeMovimiento' => 'CORTE',
+            'comentario' => '',
+            'cartera_id' => $cart->id,
+            'movimiento_id' => $movimiento->id,
+        ]);
+    }
+    /* HABILITAR CAJA */
+    $caja = Caja::find($this->idcaja);
+    $caja->update([
+        'estado' => 'Cerrado',
+    ]);
+    $caja->save();
+
+    $this->nombre_caja = null;
+    $this->id_caja = null;
+
+    session(['sesionCaja' => null]);
+    session(['sesionCajaID' => null]);
+    $this->recaudo= null;
+    $this->active1=true;
+    $this->emit('cerrarAjustedeCaja');
     }
 
 

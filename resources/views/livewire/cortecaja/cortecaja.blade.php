@@ -382,6 +382,9 @@
         window.livewire.on('abrirAjustedeCaja', msg => {
             $('#ajusteCaja').modal('show')
         });
+        window.livewire.on('cerrarAjustedeCaja', msg => {
+            $('#ajusteCaja').modal('hide')
+        });
 
         window.livewire.on('cerrarContador', msg => {
             $('#contador_monedas').modal('hide');

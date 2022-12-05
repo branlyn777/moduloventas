@@ -681,7 +681,7 @@ class ReporteMovimientoResumenController extends Component
 
 
         //Totales carteras tipo Caja Fisica
-        $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'CajaFisica')->sum('importe') + $this->totalesIngresosS->where('ctipo', 'CajaFisica')->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'CajaFisica')->sum('importe');
+        $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $this->totalesIngresosS->where('ctipo', 'efectivo')->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe');
 
         //Totales carteras tipo No Caja Fisica CON BANCOS
 
@@ -817,7 +817,7 @@ class ReporteMovimientoResumenController extends Component
             $rules = [ /* Reglas de validacion */
 
                 'cartera_id' => 'required|not_in:Elegir',
-                'cantidad' => 'required|not_in:0',
+                'cantidad' => 'required|not_in:0'
 
             ];
             $messages = [ /* mensajes de validaciones */

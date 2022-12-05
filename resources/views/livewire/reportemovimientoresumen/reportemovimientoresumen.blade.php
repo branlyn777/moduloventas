@@ -56,13 +56,13 @@
         </ul>
         <ul class="row justify-content-end">
          
-              
+{{--               
                 <button wire:click="viewDetailsR()" class="boton-azul-g">
                     Generar Recaudo
-                </button>
+                </button> --}}
                
                 <button wire:click="generarpdf({{$totalesIngresosV}}, {{$totalesIngresosS}}, {{$totalesIngresosIE}}, {{$totalesEgresosV}}, {{$totalesEgresosIE}}, {{$op_sob_falt}})" class="boton-verde-g">
-                    Generar PDF
+                    <i class="fas fa-print" ></i>  Generar PDF
                 </button>
          
        
@@ -350,7 +350,7 @@
                                     <td>
                                         <h5 class="text-dark text-center"><b> Ingresos en Efectivo </b></h5>
                                     </td>
-                                    <td>
+                                    <td class="ml-2">
                                         <h5 class="text-dark text-center">{{ number_format($ingresosTotalesCF,2)}}</h5>
                                     </td>
                                 </tr>
@@ -360,7 +360,7 @@
                                     <td>
                                         <h5 class="text-dark text-center" ><b> Ingresos por Bancos </b></h5>
                                     </td>
-                                    <td>
+                                    <td class="ml-2">
                                         <h5 class="text-dark text-center" >{{ number_format($this->ingresosTotalesNoCFBancos,2)}}</h5>
                                     </td>
                                 </tr>
@@ -397,7 +397,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h5 class="text-dark text-left" ><b> Saldo en Efectivo </b></h5>
+                                        <h5 class="text-dark text-left" ><b> Saldo en Efectivo Hoy </b></h5>
                                     </td>
                                     <td>
                                         <h5 class="text-dark text-center m-0" > <b>{{ number_format($operacionesefectivas,2)}}</b> </h5>
@@ -415,7 +415,7 @@
                                 </tr> --}}
                                 <tr>
                                     <td>
-                                        <h5 class="text-dark text-left" ><b> Saldo Acumulado </b></h5>
+                                        <h5 class="text-dark text-left" ><b> Saldo Acumulado Dia Ant. </b></h5>
                                     </td>
                                     <td>
                                         <h5 class="text-dark text-center m-0" >{{ number_format($ops,2)}} </h5>

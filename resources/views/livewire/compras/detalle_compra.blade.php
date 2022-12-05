@@ -60,7 +60,7 @@
                                 <div class="col-lg-12">
                                         
                                         <div class="form-group">
-                                            <strong style="color: rgb(74, 74, 74)">Destino Producto</strong>
+                                            <strong style="color: rgb(74, 74, 74)">Sucursal Destino</strong>
                                             <select wire:model.lazy="destino" class="form-control">
                                                 <option value='Elegir'>Elegir Destino</option>
 
