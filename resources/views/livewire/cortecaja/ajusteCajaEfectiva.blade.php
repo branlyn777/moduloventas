@@ -39,7 +39,7 @@
             <div class="mb-2">
                 <table>
                     <tbody>
-                        <tr>
+                        <tr>ñ
                             <td class="text-right">
                                 <h3> Transacciones del Dia: </h3>
                             </td>
