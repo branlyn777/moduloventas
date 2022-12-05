@@ -16,36 +16,27 @@
 
 @if ($idcaja!==null)
     
-<div class="row justify-content-start table-3">
-    <div class="ml-3">
+<div class="row justify-content-center table-3">
+    <div  style="border:2px solid rgba(0, 0, 0, 0.544);border-radius: 20px; margin-top: 2rem;">
 
-        <div class="row m-2">
+        <div class="row mt-4">
             <div class="col-lg-12">
 
-        
-
-                <h2 class="text-dark mb-0 pl-2"
-                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.5rem; font-weight:500">
-                    Control de Efectivo</h2>
-        
-            
+                @if ($active1==true)
+                    
+                <h3 style="margin-top: -15px; background-color: rgb(255, 255, 255); width: 150px; margin-top: -35px; margin-left: 50px; margin-right:50px">
+                    <b> Arqueo de Caja</b>
+                   </h3>    
+                   @else
+                   <h3 class="text-center mt-2 pl-2">
+                    <b> Recaudar Efectivo</b>
+                   </h3>  
+                @endif
             </div>
-
         </div>
-    {{-- 
-            <div class="row justify-content-start">
-                <div class="col-lg-12">
-
-                    <h3> <b>Abierta por:</b>{{$usuarioApertura}}</h3>
-
-                    <h3> <b>Fecha de Apertura:</b>{{$fechaApertura}}</h3>
-            
-                </div>
-            </div> --}}
-
-
-        <div class="row">
-            <div class="ml-5 mb-2">
+        @if($active1 == true)
+        <div class="row m-2">
+            <div class="mb-2">
                 <table>
                     <tbody>
                         <tr>
@@ -82,6 +73,8 @@
                         </tr>
 
                         <br>
+                        @if ($efectivo_actual != null)
+                            
                         <tr>
                             <td class="text-right">
                                 <h3>{{$efectivo_actual>$saldoAcumulado ? 'Efectivo Sobrante:':'Efectivo
@@ -92,81 +85,37 @@
                                 <h3> Bs. {{$efectivo_actual-$saldoAcumulado}}</h3>
                             </td>
                         </tr>
-                        @if (($efectivo_actual-$saldoAcumulado) != 0)
-                            <tr>
-                                <td>
-                                    Observacion:
-                                </td>
-                                <td>
-                                    <textarea  wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                <h3>
+
+                                    Nota/Comentario: 
+                                </h3>
+                            </td>
+                            <td>
+                                <textarea 
+                                     wire:model='nota_ajuste'></textarea>
+                            </td>
+                        </tr>
+                        @else
+
+                        <tr>
+                            <td class="text-right">
+                                <h3>Efectivo Sob./Falt.:
+                                </h3>
+                            </td>
+                            <td class="text-right">
+                                <h3> Bs. 0</h3>
+                            </td>
+                        </tr>
                         @endif
-                        {{-- <tr>
-                            <td>
-
-                                <h3 class="text-right"> Recaudar Fondos: </h3>
-                            </td>
-                            <td>
-                                <div class="ml-4">
-
-                                    <label class="switch">
-                                        <input type="checkbox" wire:click='mostrar()'>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h3>Nuevo Saldo Efectivo: </h3>
-                            </td>
-                        </tr> --}}
-
-
-                        {{-- @if ($showDiv)
-
-                        <tr>
-                            <td>
-                                <h3 class="text-right">Monto limite Efectivo:</h3>
-                            </td>
-                            <td>
-                                <h3 class="text-right">{{$monto_limite}}</h3>
-                            </td>
-
-                        </tr>
-                        <tr>
-
-
-                            <td>
-                                <h3 class="text-right">Efectivo Excedente:</h3>
-                            </td>
-                            <td>
-                                <h3 class="text-right">{{$monto_limite}}</h3>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <h3 class="text-right">Recaudo:</h3>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" wire:model='recaudo'
-                                    style="direction: rtl;">
-                            </td>
-                        </tr>
-                        @endif --}}
+                        
                     </tbody>
                 </table>
             </div>
-
-
-
-
         </div>
- 
+        @else
+
         <div class="row ml-4 mt-4">
 
             <table>
@@ -200,28 +149,36 @@
                             <input type="number" wire:model='recaudo' style="direction: rtl;">
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2" class="text-center">
+                            <button type="button" class="btn btn-danger mb-3" wire:click='RecaudarEfectivo()' {{$recaudo == null? "disabled='true'":''}} >Recaudar Efectivo</button>
+
+                        </td>
+                        
+                    </tr>
                 </tbody>
             </table>
+         
         </div>
-    
-
-
-       
+        @endif
+        
     </div>
+    
+</div>
 
+<div class="row justify-content-end">
+    @if ($active1== true)
+        
+    <button type="button" class="boton-azul p-2 mb-3 mr-4" wire:click='finArqueo()'>Finalizar Arqueo de Caja</button>
+    @else
 
-
+    <button type="button" class="boton-azul p-2 mb-3 mr-4" wire:click='cerrarCaja()'>Finalizar Cierre</button>
+    @endif
+   
+    
 
 </div>
 @endif
-<div class="row justify-content-end">
-    @if ($active1=='active show')
-    <button type="button" class="boton-azul p-2 mb-3 mr-4" wire:click='cerrarCaja()'>Siguiente</button>
-    @else
-    <button type="button" class="boton-verde p-2 mb-3" wire:click='RecaudarEfectivo()'>Recaudar Efectivo</button>
-    
-    @endif
-</div>
 
         </div>
     </div>

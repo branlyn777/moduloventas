@@ -52,6 +52,8 @@ class InicioController extends Component
 
         //ventas grafico
 
+
+        
        for ($i=1; $i < 12; $i++) { 
         $ven= Sale::whereMonth('created_at',$i)->sum('total');
         array_push($this->ventas,$ven);

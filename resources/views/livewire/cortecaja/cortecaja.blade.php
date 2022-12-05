@@ -278,7 +278,7 @@
                                 
                                     @if($c->id == $this->id_caja)
                                         <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="boton-azul-g">
-                                            CERRAR CAJA
+                                            CERRAR SESION
                                         </button>
                                     @else
                                         @if($c->misucursal)

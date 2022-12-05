@@ -22,11 +22,12 @@ class CorteCajaController extends Component
     public $nombre_caja, $id_caja;
 
     public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
-    $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv;
+    $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv,$nota_ajuste;
 
     public $toogle,
-    $active1,
+    $active1=true,
     $active2;
+  
 
     public function paginationView()
     {
@@ -37,7 +38,7 @@ class CorteCajaController extends Component
         $this->idsucursal = $this->idsucursal();
         $this->nombre_caja = null;
         $this->id_caja = null;
-        $this->active1 = "active show";
+        $this->active1 = true;
         // /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -140,17 +141,10 @@ class CorteCajaController extends Component
         (int)$this->peso * 1 + (int)$this->peso2 * 2 + (int)$this->peso5 * 5 + (int)$this->billete10 * 10
         + (int)$this->billete20 * 20 + (int)$this->billete50 * 50 + (int)$this->billete100 * 100 + (int)$this->billete200 * 200;
 
-        //pestañas
-        
 
-   if ($this->toogle == 1) {
-    $this->active1 = "active show";
-    $this->active2 = "";
-}
-if ($this->toogle == 2) {
-    $this->active1 = "";
-    $this->active2 = "active show";
-}
+
+
+
 
 
         return view('livewire.cortecaja.cortecaja', [
@@ -548,7 +542,7 @@ if ($this->toogle == 2) {
 
     public function aplicarConteo()
     {
-        $this->efectivo_actual = number_format(round($this->total, 2), 2);
+        $this->efectivo_actual = round($this->total, 2);
         $this->resetConteo();
         $this->emit('cerrarContador');
     }
@@ -573,6 +567,39 @@ if ($this->toogle == 2) {
     public function RecaudarEfectivo()
     {
 
+    }
+
+    public function finArqueo(){
+       
+        if ($this->efectivo_actual != null) {
+            $margen=$this->efectivo_actual-$this->saldoAcumulado;
+            $diferenciaCaja= $margen>0?'SOBRANTE':'FALTANTE';
+
+          
+
+            $mvt = Movimiento::create([
+                'type' => 'TERMINADO',
+                'status' => 'ACTIVO',
+                'import' => $margen>0?$margen:$margen*(-1),
+                'user_id' => Auth()->user()->id,
+            ]);
+            $cartera_efectiva=$this->caja->carteras->where('tipo','efectivo');
+            CarteraMov::create([
+                'type' => ($diferenciaCaja == 'SOBRANTE') ? 'INGRESO' : 'EGRESO',
+                'tipoDeMovimiento' => $diferenciaCaja,
+                'comentario' => $this->nota_ajuste,
+                'cartera_id' =>$cartera_efectiva->first()->id,
+                'movimiento_id' => $mvt->id
+            ]);
+            $cartera = Cartera::find($cartera_efectiva->first()->id);
+
+            $saldo_cartera = Cartera::find($cartera_efectiva->first()->id)->saldocartera + $margen;
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+        $this->active1= false;
     }
 
 
