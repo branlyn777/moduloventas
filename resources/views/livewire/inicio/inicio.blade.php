@@ -34,7 +34,7 @@
                     <div class="card-body pb-0">
                         <div class="h1 fw-bold float-right">{{round($difCompra)}}%</div>
                         <h2 class="mb-2">Bs. {{$comprasMes}}</h2>
-                        <p>Total Compras Mes</p>
+                        <p>Total Compras Mesfgg</p>
                         <div class="pull-in sparkline-fix chart-as-background">
                             <div id="lineChart2"><canvas width="511" height="70" style="display: inline-block; width: 511.656px; height: 70px; vertical-align: top;"></canvas></div>
                         </div>

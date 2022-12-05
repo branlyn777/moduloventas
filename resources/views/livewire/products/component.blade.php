@@ -1,175 +1,153 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-               
+<div>
     <div class="row">
-        <div class="col-12 text-center">
-            <p class="h2"><b>PRODUCTOS</b></p>
-        </div>
-    </div>
-                <ul class="row justify-content-end">
-                    <button type="button" class="boton-azul-g m-1" data-toggle="modal"
-                        data-target="#theModal"> <i class="fas fa-plus-circle"></i>Agregar Productos</button>
-                    <button type="button" class="boton-azul-g m-1" data-toggle="modal"
-                        data-target="#modalimport"> <i class="fas fa-arrow-alt-circle-up"></i> Subir Productos</button>
-                    <a href='{{url('productos/export/')}}' class="boton-azul-g m-1" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
-                       
-                    </ul>
-                </div>
-            <div class="row">
-                <div class="col-12 col-lg-4 col-md-6">
-                    <div class="input-group mb-2 col-lg-12">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text input-gp">
-                                <i class="fas fa-search"></i>
-                            </span>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0">Todos los Productos</h5>
+                            <p class="text-sm mb-0">
+                            Lista de todos los productos registrados.
+                            </p>
                         </div>
-                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control"  wire:keydown.enter="overrideFilter()">
-                    </div>
-                    <div class="col-lg-12 mb-2">
-
-                        @forelse ($searchData as $key=>$value)    
-                        <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{$value}} <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0" wire:click="outSearchData('{{$value}}')"></button></span>
-             
-                        @empty
-                            <p></p>
-                        @endforelse
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 col-md-3">
-
-
-                    <div class="input-group-prepend mb-3">
-                        <select wire:model='selected_categoria' class="form-control">
-                            <option value="null" disabled>Elegir Categoria</option>
-                            @foreach ($categories as $key => $category)
-                            <option value="{{ $category->id }}">{{ $category->name}}</option>
-                            @endforeach
-                   
-                          </select>
-                        <button class="boton-azul" wire:click= "resetCategorias()">
-                            <i class="fas fa-redo-alt text-white"></i>
-                        </button>
-        
-        
-                    </div>
-
-
-                </div>
-                <div class="col-12 col-lg-3 col-md-3">
-                    <div class="input-group-prepend mb-3">
-                        <select wire:model='selected_sub' class="form-control">
-                          <option value="null" disabled>Elegir Subcategoria</option>
-                          @foreach ($sub as $subcategoria)
-                          <option value="{{ $subcategoria->id }}">{{ $subcategoria->name}}</option>
-                          @endforeach
-                      
-                        </select>
-                        <button wire:click= "resetSubcategorias()" class="boton-azul">
-                            <i class="fas fa-redo-alt text-white"></i>
-                        </button>
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
+                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" wire:click="$emit('modal-show')">
+                                    +&nbsp; Nuevo Producto
+                                </a>
+                                <button wire:click="$emit('modal-import')" type="button" class="btn btn-outline-primary btn-sm mb-0">
+                                Importar
+                                </button>
+                                <a href='{{url('productos/export/')}}' class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
+                                    Exportar
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-2 col-md-3">
-                    <div class="form-group">
-                        <select wire:model='estados' class="form-control mt--2">
-                          <option value="null" disabled>Estado</option>
-                          <option value="ACTIVO">ACTIVO</option>
-                          <option value="INACTIVO">INACTIVO</option>
-                        </select>
-                      </div>
-                </div>
-            </div>
-            <div class="widget-content">
-                <a href="javascript:void(0)" class="btn btn-info btn-sm mb-2" wire:click= 'deleteProducts()'>Eliminar Productos seleccionados</a>
-                <div class="table-5">
-                    <table>
-                        <thead>
-                            <tr class="text-center">
-                                <th> <b>#</b> </th>
-                                <th> Todos <b> <input type="checkbox" class="form-control" wire:model="checkAll"> </b> </th>
-                                <th> <b>NOMBRE</b> </th>
-                                <th> <b>CATEGORIA</b> </th>
-                                <th> <b>CODIGO/<br>CODIGO BARRA</b></th>
-                                <th> <b>PRECIO</b> </th>
-                                <th> <b>STATUS</b> </th>
-                                <th> <b>IMAGEN</b> </th>
-                                <th> <b>ACCIONES</b> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $products)
-                                <tr>
-                                    <td>
-                                        <h6>{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</h6>
-                                    </td>
-                                    <td>
-                                        <input  type="checkbox" class="form-control" wire:model="selectedProduct" value="{{$products->id}}">
-                                    </td>
-                                    <td>
-                                        <h5> <strong>{{$products->nombre}}</strong> </h5>
-                                        <label><b>  Unidad: </b>{{$products->unidad ? $products->unidad : "No definido" }}</label> | <label> <b> Marca:</b>{{$products->marca ? $products->marca : "No definido" }} | </label><b> Industria:<label> </b>{{$products->industria ? $products->industria : "No definido" }}</label>
-                                        <h6>{{ $products->caracteristicas }}</h6>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-top">
+                                <div class="dataTable-dropdown">
+                                    <label>
+                                        <select wire:model="pagination" class="dataTable-selector">
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="500">500</option>
+                                        </select>
+                                        <button wire:click= 'deleteProducts()' type="button" class="btn btn-outline-primary btn-sm mb-0">
+                                            Eliminar Seleccionados
+                                        </button>
+                                    </label>
+                                </div>
+                                <div class="dataTable-search">
+                                    <input wire:model="search" wire:keydown.enter="overrideFilter()" class="dataTable-input" placeholder="Buscar..." type="text">
+                                </div>
+                            </div>
+                            <div class="dataTable-container">
+                                <table class="table table-flush dataTable-table" id="products-list">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>
+                                                No
+                                            </th>
+                                            <th>
+                                                <div class="d-flex">
+                                                    <div class="form-check my-auto">
+                                                        <input type="checkbox" class="form-check-input" wire:model="checkAll">
+                                                    </div>
+                                                    Producto
+                                                </div>
+                                            </th>
+                                            <th style="width: 13.3259%;">
+                                                Categoria
+                                            </th>
+                                            <th style="width: 10.3024%;">
+                                                Sub Categoria
+                                            </th>
+                                            <th style="width: 13.4378%;">
+                                                Codigo
+                                            </th>
+                                            <th style="width: 11.0862%;">
+                                                Precio
+                                            </th>
+                                            <th style="width: 15.5655%;">
+                                                Costo
+                                            </th>
+                                            <th style="width: 14.6697%;">
+                                                Estado
+                                            </th>
+                                            <th style="width: 14.6697%;">
+                                                Actiones
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    </td>
-                                    @if ($products->category->subcat == null)
-                                    <td>
-                                        <h6 class="text-center"> <strong>Categoria:</strong> {{ $products->category->name}}</h6>
-                                        <h6 class="text-center"> <strong>Subcategoria:</strong>No definido</h6>
-                                   </td>
-                                    @else
-                                    <td>
-                                        <h6 class="text-center"> <strong>Categoria:</strong> {{ $products->category->subcat->name}}</h6>
-                                        <h6 class="text-center"> <strong>Subcategoria:</strong>{{ $products->category->name}}</h6>
-                                   </td>
-                                    @endif
-                                   
-                                    <td>
-                                         <h6 class="text-center">{{ $products->codigo}}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center"> <strong>Costo:</strong> {{ $products->costo}}</h6>
-                                        <h6 class="text-center"> <strong>Precio:</strong> {{ $products->precio_venta }}</h6>
-                                    </td>
-                                    @if ($products->status== 'ACTIVO')
-                                    
-                                    <td class="text-center"><span class="badge badge-success mb-0">{{$products->status}}</span></td>
-                                    @else
-                                    <td class="text-center"><span class="badge badge-danger mb-0">{{$products->status}}</span></td>
-                                        
-                                    @endif
-                                    
-                                    <td class="text-center">
-                                        <span>
-                                            <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                alt="imagen de ejemplo" height="50" width="60" class="rounded">
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})"
-                                            class="boton-azul" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @foreach($data as $products)
+                                        <tr>
+                                            <td>
+                                                {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="form-check my-auto">
+                                                    <input class="form-check-input" type="checkbox" wire:model="selectedProduct" value="{{$products->id}}">
+                                                    </div>
+                                                    <img src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="80">
+                                                    <h6 class="ms-3 my-auto">{{$products->nombre}}</h6>
+                                                </div>
+                                            </td>
+                                            <td class="text-sm">
+                                                {{ $products->category->name}}
+                                            </td>
+                                            <td class="text-sm">
+                                                @if ($products->category->subcat == null)
+                                                    No definido
+                                                @else
+                                                    {{ $products->category->name}}
+                                                @endif
+                                            </td>
+                                            <td class="text-sm">
+                                                {{ $products->codigo}}
+                                            </td>
+                                            <td class="text-sm">
+                                                {{ $products->precio_venta }}
+                                            </td>
+                                            <td class="text-sm">
+                                                {{ $products->costo}}
+                                            </td>
+                                            <td>
+                                                @if ($products->status== 'ACTIVO')
+                                                <span class="badge badge-danger badge-sm">Activo</span>
+                                                @else
+                                                <span class="badge badge-success badge-sm">Inactivo</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-sm">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})" class="mx-3">
+                                                    <i class="fas fa-edit text-dark opacity-8"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})">
+                                                    <i class="fas fa-trash text-dark opacity-8"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
 
-                                        <a href="javascript:void(0)"
-                                            onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})"
-                                            class="boton-rojo" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
+                                    </tbody>
+                        
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     @include('livewire.products.form')
- 
     @include('livewire.products.importarproductos')
 </div>
 @section('javascript')
@@ -181,6 +159,11 @@
             $("#im").val('');
             noty(msg)
         });
+
+        window.livewire.on('modal-import', msg => {
+            $('#modalimport').modal('show')
+        });
+
         window.livewire.on('product-updated', msg => {
             $('#theModal').modal('hide')
             noty(msg)

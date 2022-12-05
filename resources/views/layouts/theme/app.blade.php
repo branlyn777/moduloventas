@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <title>
+    Edsoft
+  </title>
 
-
-	<livewire:icono-controller>
-
-	</livewire:icono-controller>
-
-
-
-    @yield('css')
-    @include('layouts.theme.styles')
-
+  	@yield('css')
+	@include('layouts.theme.styles')
 </head>
-<body>
-	<div class="wrapper">
 
-        @include('layouts.theme.header')
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+  @include('layouts.theme.sidebar')
 
 
-		<!-- Sidebar -->
-        @include('layouts.theme.sidebar')
-		<!-- End Sidebar -->
+  <main class="main-content position-relative border-radius-lg">
 
-		<div class="main-panel">
-			<div class="content">
-				<div class="page-inner">
-					@yield('content')
-				</div>
-			</div>
-            {{-- @include('layouts.theme.footer') --}}
-		</div>
-	</div>
-	@yield('javascript')
-    @include('layouts.theme.scripts')
+	@include('layouts.theme.header')
+
+    <div class="container-fluid py-4">
+
+		  @yield('content')
+
+	  </div>
+    
+  </main>
+
+  @include('layouts.theme.footer')
+
+
+
+  @yield('javascript')
+  @include('layouts.theme.scripts')
+
+
 </body>
+
 </html>
