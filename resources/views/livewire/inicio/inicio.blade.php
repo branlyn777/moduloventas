@@ -116,7 +116,12 @@
         
                                 <h2>Compras y Ventas</h2>
                             </div>
-                            <canvas id="myChart" height="auto" width='auto'></canvas>
+                            <div class="card-body p-3">
+                                <div class="chart">
+                                  {{-- <canvas id="chart-line" class="chart-canvas" height="300"></canvas> --}}
+                                  <canvas id="myChart" class="chart-canvas" height="300" width='auto'></canvas>
+                                </div>
+                              </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -151,108 +156,107 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript">
-  
-    // var labels =  {{ Js::from($labels) }};
-    var ventas =  {{ Js::from($ventas) }};
-    var compras =  {{ Js::from($compras) }};
-    var ingresos =  {{ Js::from($ingresos) }};
-    var egresos =  {{ Js::from($egresos) }};
-    const labels = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dic.'
-  
-];
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Venta Bs.',
-            backgroundColor: '#02b1ce',
-            borderColor: '#02b1ce',
-            data: ventas,
-            
+<script src="./assets/js/core/popper.min.js"></script>
+<script src="./assets/js/core/bootstrap.min.js"></script>
+<script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
+
+
+<script src="{{ asset('js/plugins/chartjs.min.js') }}"></script>
+<script type='text/javascript'>
+//    var compras =  {{ Js::from($compras) }};
+
+
+
+var ctx1 = document.getElementById("myChart").getContext("2d");
+
+var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+
+gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
+gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
+
+var ventas = <?php echo json_encode($ventas);?>;
+
+
+console.log(ventas);
+
+new Chart(ctx1, {
+  type: "line",
+  data: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+      label: "Mobile apps",
+      tension: 0.4,
+      borderWidth: 0,
+      pointRadius: 0,
+      borderColor: "#02b1ce",
+      backgroundColor: gradientStroke1,
+      borderWidth: 3,
+      fill: true,
+      data:[5,8,9,5,3],
+      maxBarThickness:6
+
+    }],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index',
+    },
+    scales: {
+      y: {
+        grid: {
+          drawBorder: false,
+          display: true,
+          drawOnChartArea: true,
+          drawTicks: false,
+          borderDash: [5, 5]
         },
-        {
-            label: 'Compra Bs.',
-            backgroundColor: '#172022',
-            borderColor: '#172022',
-            data: compras,
-    }]
-     
-    };
-  
-    const config = {
-        type: 'line',
-        data: data,
-        options: {}
-    };
-
-
-  
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
-
-
-
-//Grafico de Ingresos y egresos
-
-
-
-    const labels2 = [
-        'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Dic.'
-];
-    const data2 = {
-        labels: labels2,
-        datasets: [{
-            label: 'Ingresos Bs.',
-            backgroundColor: '#02ce02',
-            borderColor: '#02ce02',
-            data: ingresos
+        ticks: {
+          display: true,
+          padding: 10,
+          color: '#fbfbfb',
+          font: {
+            size: 11,
+            family: "Open Sans",
+            style: 'normal',
+            lineHeight: 2
+          },
+        }
+      },
+      x: {
+        grid: {
+          drawBorder: false,
+          display: false,
+          drawOnChartArea: false,
+          drawTicks: false,
+          borderDash: [5, 5]
         },
-        {
-            label: 'Egresos Bs.',
-            backgroundColor: '#172022',
-            borderColor: '#172022',
-            data: egresos
-    }]
-     
-    };
-  
-    const configs = {
-        type: 'line',
-        data: data2,
-        options: {}
-    };
+        ticks: {
+          display: true,
+          color: '#ccc',
+          padding: 20,
+          font: {
+            size: 11,
+            family: "Open Sans",
+            style: 'normal',
+            lineHeight: 2
+          },
+        }
+      },
+    },
+  },
+});
 
-
   
-    const myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        configs
-    );
+
   
 </script>

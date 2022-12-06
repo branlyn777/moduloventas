@@ -52,12 +52,15 @@ class InicioController extends Component
 
         //ventas grafico
 
-
-        
-       for ($i=1; $i < 12; $i++) { 
+       for ($i=1; $i < 13; $i++) { 
         $ven= Sale::whereMonth('created_at',$i)->sum('total');
-        array_push($this->ventas,$ven);
+        array_push($this->ventas,(int)($ven));
        }
+     
+       
+
+       //dd($this->ventas);
+
        for ($i=1; $i < 12; $i++) { 
         $cc= Compra::whereMonth('created_at',$i)->sum('importe_total');
         array_push($this->compras,$cc);
