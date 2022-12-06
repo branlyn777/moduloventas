@@ -33,6 +33,15 @@
 
 
 
+        /* Quitar Spinner Input */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+
+
     /* Fondo de buscar productos */
     .animado {
         background: linear-gradient(-45deg, #bdffff, #ffffff, #d5faff, #ffffff);
@@ -63,7 +72,7 @@
     @if($this->corte_caja)
 
 
-        <div class="container-fluid py-4">
+        <div class="">
 
             
             <div class="row">
@@ -192,7 +201,8 @@
                                     </td>
                                     <td>
                                         <button  wire:click="increase({{ $p->id }})" class="btn btn-sm" style="background-color: rgb(10, 137, 235); color:aliceblue">
-                                        <i class="fas fa-plus"></i>
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </td>
                                     </tr>
                                     @endforeach
@@ -245,16 +255,13 @@
                                 <i class="fas fa-info" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <div class="d-flex align-items-center">
-                                
-                            </div>
                         </div>
                         <div class="card-body p-3">
                             
 
 
                             @if ($this->total_items > 0)
-                                <div class="table-responsive p-0">
+                                <div class="table-responsive">
                                     <table class="table align-items-center mb-0">
                                         <thead>
                                             <tr>
@@ -280,7 +287,7 @@
                                                         <input type="number" style="max-height: 30px;" id="p{{$item->id}}"
                                                         wire:change="cambiarprecio({{$item->id}}, $('#p' + {{$item->id}}).val())"
                                                         value="{{ $item->price }}"
-                                                        class="form-control" placeholder="Bs.." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                        class="form-control" placeholder="Bs..">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text">Bs</span>
                                                         </div>
@@ -291,7 +298,7 @@
                                                         <input type="number" style="max-height: 30px;" id="c{{$item->id}}" 
                                                         wire:change="cambiarcantidad({{$item->id}}, $('#c' + {{$item->id}}).val())"
                                                         value="{{$item->quantity}}"
-                                                        class="form-control" placeholder="Cantidad..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                        class="form-control" placeholder="Cantidad...">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text">Uds</span>
                                                         </div>
@@ -313,7 +320,8 @@
                                                     </button>
                                                     <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" type="button" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                         <i class="fas fa-trash text-default" ></i>
-                                                    </button>
+                                                    </button> 
+
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -356,6 +364,33 @@
 
 
             </div>
+
+
+
+            <div class="row">
+                <div class="col-1 text-right">
+                </div>
+                <div class="col-10 text-center">
+                    <h5>Nombre Cliente: <b>{{ucwords(strtolower($nombrecliente))}}</b></h5>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @if($this->total_items > 0)
+                        <button onclick="ConfirmarLimpiar()" class="btn btn-button" style="background-color: #373839; color: white; border-color: black;">
+                            Vaciar
+                        </button>
+                        @endif
+                        <a href="{{ url('salelist') }}" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
+                            <b>Lista Ventas</b>
+                        </a>
+                        <button wire:click.prevent="modalfinalizarventa()" class="btn btn-button" style="background-color: #11be32; color: white;">
+                            Finalizar Venta
+                        </button>
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                </div>
+            </div>
+
+
         </div>
 
 
