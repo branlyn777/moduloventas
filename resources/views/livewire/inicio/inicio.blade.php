@@ -119,7 +119,7 @@
                             <div class="card-body p-3">
                                 <div class="chart">
                                   {{-- <canvas id="chart-line" class="chart-canvas" height="300"></canvas> --}}
-                                  <canvas id="myChart" class="chart-canvas" height="300" width='auto'></canvas>
+                                  <canvas id="myChart" class="chart-canvas" height="300"></canvas>
                                 </div>
                               </div>
                         </div>
@@ -176,15 +176,14 @@ gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
 gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
 gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
 
-var ventas = <?php echo json_encode($ventas);?>;
-
+var ventas =  {{Js::from($ventas)}};
 
 console.log(ventas);
 
 new Chart(ctx1, {
   type: "line",
   data: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: ["Ene", "Feb", "Mar", "Abril", "May", "Jun", "Jul", "Ago", "Sept","Oct","Nov","Dic"],
     datasets: [{
       label: "Mobile apps",
       tension: 0.4,
@@ -194,7 +193,7 @@ new Chart(ctx1, {
       backgroundColor: gradientStroke1,
       borderWidth: 3,
       fill: true,
-      data:[5,8,9,5,3],
+      data:ventas,
       maxBarThickness:6
 
     }],
