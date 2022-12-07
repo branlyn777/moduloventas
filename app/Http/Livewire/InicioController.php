@@ -61,18 +61,14 @@ class InicioController extends Component
 
        //dd($this->ventas);
 
-       for ($i=1; $i < 12; $i++) { 
+       for ($i=1; $i < 13; $i++) { 
         $cc= Compra::whereMonth('created_at',$i)->sum('importe_total');
         array_push($this->compras,$cc);
        }
        // Calculo de compras y porcencentajes de diferencia entre el mes actual y el mes anterior
         
         $this->comprasMes= Compra::where('status','ACTIVO')->whereMonth('created_at', Carbon::now()->format('m'))->sum('importe_total');
-     
-
         $this->compraMesAnterior= Compra::where('status','ACTIVO')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('importe_total');
-
-     
         if ($this->compraMesAnterior != 0) {
           
             $this->difCompra = (($this->comprasMes/$this->compraMesAnterior)-1)*100;
@@ -155,11 +151,6 @@ class InicioController extends Component
         else{
             $this->difEgresos=0;
         }
-
-
-    
-
-
 
 
         return view('livewire.inicio.inicio', [
