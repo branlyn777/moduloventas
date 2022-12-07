@@ -1,108 +1,6 @@
-@section('css')
+@section("css")
 
 <style>
-    /* Estilos para el Switch Cliente Anónimo y Factura*/
-    .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    }
-    .switch input {display:none;}
-    .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgb(133, 133, 133);
-    -webkit-transition: .4s;
-    transition: .4s;
-    }
-    .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 2px;
-    bottom: 1px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    }
-    input:checked + .slider {
-    background-color: #02b1ce;
-    }
-    input:focus + .slider {
-    box-shadow: 0 0 1px #02b1ce;
-    }
-    input:checked + .slider:before {
-    -webkit-transform: translateX(19px);
-    -ms-transform: translateX(19px);
-    transform: translateX(19px);
-    }
-    /* Rounded sliders */
-    .slider.round {
-    border-radius: 34px;
-    }
-    .slider.round:before {
-    border-radius: 40%;
-    }
-    /* Estilos para las tablas */
-    .table-wrapper {
-    width: 100%;/* Anchura de ejemplo */
-    height: 350px; /* Altura de ejemplo */
-    overflow: auto;
-    }
-
-    .table-wrapper table {
-        border-collapse: separate;
-        border-spacing: 0;
-        border-left: 0.3px solid #02b1ce;
-        border-bottom: 0.3px solid #02b1ce;
-        width: 100%;
-    }
-
-    .table-wrapper table thead {
-        position: -webkit-sticky; /* Safari... */
-        position: sticky;
-        top: 0;
-        left: 0;
-    }
-    .table-wrapper table thead tr {
-    background: #02b1ce;
-    color: white;
-    }
-    /* .table-wrapper table tbody tr {
-        border-top: 0.3px solid rgb(0, 0, 0);
-    } */
-    .table-wrapper table tbody tr:hover {
-        background-color: #ffdf76a4;
-    }
-    .table-wrapper table td {
-        border-top: 0.3px solid #02b1ce;
-        padding-left: 10px;
-        border-right: 0.3px solid #02b1ce;
-    }
-
-    /* Estilos para el encabesado de la pagina */
-    .caja{
-        position: relative;
-        margin: 0 10px;
-        border: 1.7px solid #02b1ce;
-        background-color: #c4f6ff;
-        border-radius: 15px;
-    }
-
-    /* Quitar Spinner Input */
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-        -webkit-appearance: none; 
-        margin: 0; 
-    }
-
-
     /* Estilo para el boton Descuento con estilo flotante */
     .btn-flotante {
     font-size: 16px; /* Cambiar el tamaño de la tipografia */
@@ -135,14 +33,22 @@
 
 
 
+        /* Quitar Spinner Input */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+
 
     /* Fondo de buscar productos */
     .animado {
-	background: linear-gradient(-45deg, #bdffff, #ffffff, #d5faff, #ffffff);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-    border-radius: 15px;
-}
+        background: linear-gradient(-45deg, #bdffff, #ffffff, #d5faff, #ffffff);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        border-radius: 15px;
+    }
 
     @keyframes gradient {
         0% {
@@ -155,378 +61,345 @@
             background-position: 0% 50%;
         }
     }
-
-
-
-
-        /* Estilos para el loading */
-        .lds-roller {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-        }
-        .lds-roller div {
-        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        transform-origin: 40px 40px;
-        }
-        .lds-roller div:after {
-        content: " ";
-        display: block;
-        position: absolute;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #02b1ce;
-        margin: -4px 0 0 -4px;
-        }
-        .lds-roller div:nth-child(1) {
-        animation-delay: -0.036s;
-        }
-        .lds-roller div:nth-child(1):after {
-        top: 63px;
-        left: 63px;
-        }
-        .lds-roller div:nth-child(2) {
-        animation-delay: -0.072s;
-        }
-        .lds-roller div:nth-child(2):after {
-        top: 68px;
-        left: 56px;
-        }
-        .lds-roller div:nth-child(3) {
-        animation-delay: -0.108s;
-        }
-        .lds-roller div:nth-child(3):after {
-        top: 71px;
-        left: 48px;
-        }
-        .lds-roller div:nth-child(4) {
-        animation-delay: -0.144s;
-        }
-        .lds-roller div:nth-child(4):after {
-        top: 72px;
-        left: 40px;
-        }
-        .lds-roller div:nth-child(5) {
-        animation-delay: -0.18s;
-        }
-        .lds-roller div:nth-child(5):after {
-        top: 71px;
-        left: 32px;
-        }
-        .lds-roller div:nth-child(6) {
-        animation-delay: -0.216s;
-        }
-        .lds-roller div:nth-child(6):after {
-        top: 68px;
-        left: 24px;
-        }
-        .lds-roller div:nth-child(7) {
-        animation-delay: -0.252s;
-        }
-        .lds-roller div:nth-child(7):after {
-        top: 63px;
-        left: 17px;
-        }
-        .lds-roller div:nth-child(8) {
-        animation-delay: -0.288s;
-        }
-        .lds-roller div:nth-child(8):after {
-        top: 56px;
-        left: 12px;
-        }
-        @keyframes lds-roller {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
 </style>
+
 @endsection
 <div>
+
+
+
     {{-- Verificando que se haya realizado el corte de caja --}}
     @if($this->corte_caja)
 
-        <div class="form-group caja">
+
+        <div class="">
+
+            
             <div class="row">
-                <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Cliente Anónimos</b></h3>
-                    <div class="form-group">
-                        <label class="switch">
-                            <input type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-                {{-- <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Factura</b></h3>
-                    <div class="form-group">
-                        <label class="switch">
-                            <input type="checkbox" wire:change="facturasino()" {{ $factura ? 'checked' : '' }}>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div> --}}
-        
-                <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Tipo de Pago</b></h3>
-                    <div class="form-group">
-                        <select wire:model="cartera_id" class="form-control">
-                            <option value="Elegir">Elegir</option>
-                            @foreach($carteras as $c)
-                            <option value="{{$c->idcartera}}">{{$c->nombrecartera}} - {{$c->dc}}</option>
-                            @endforeach
-                            @foreach($carterasg as $g)
-                            <option value="{{$g->idcartera}}">{{$g->nombrecartera}} - {{$g->dc}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-        
-                <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Total Artículos</b></h3>
-                    <div class="form-group">
-                        <h4>{{$this->total_items}}</h4>
-                    </div>
-                </div>
-        
-                <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <h3><b>Total Venta</b></h3>
-                    <div class="form-group">
-                        <h4>{{number_format($this->total_bs,2)}} Bs</h4>
-                    </div>
-                </div>
-        
-                <div class="col-12 col-sm-6 col-md-4 text-center">
-                    <h3><b>Observación</b></h3>
-                    <div class="form-group">
-                        <textarea class="form-control" aria-label="With textarea" wire:model="observacion"></textarea>
-                    </div>
-                </div>
-        
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-4 text-center">
-                    <h3><b>Lista de Productos</b></h3>
-                    <div class="input-group mb-12">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text input-gp">
-                                <i class="fas fa-search"></i>
-                            </span>
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-3 position-relative">
+                            <div class="row">
+
+
+                                <div class="col-2 text-center">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Cliente Anónimo</p>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-2 text-center">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Tipo de Pago</p>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                        <option value="Elegir">Elegir</option>
+                                        @foreach($carteras as $c)
+                                        <option value="{{$c->idcartera}}">{{$c->nombrecartera}} - {{$c->dc}}</option>
+                                        @endforeach
+                                        @foreach($carterasg as $g)
+                                        <option value="{{$g->idcartera}}">{{$g->nombrecartera}} - {{$g->dc}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-2 text-center">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Total Artículos</p>
+                                    <div class="form-control">
+                                        <b>{{$this->total_items}}</b>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-2 text-center">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Total Venta</p>
+                                    <div class="form-control">
+                                        <b>{{number_format($this->total_bs,2)}} Bs</b>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="col-4 text-center">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Observación</p>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" wire:model="observacion">
+                                      </div>
+                                </div>
+
+
+
+
+
+                            </div>
                         </div>
-                        <input id="code" type="text" wire:keydown.enter.prevent="$emit('scan-code',$('#code').val())" wire:model="buscarproducto" class="form-control " placeholder="Escanear o Buscar Producto..." autofocus>
-                        {{-- <input type="text" wire:model="buscarproducto" placeholder="Buscar Producto..." class="form-control"> --}}
                     </div>
-                    <br>
-                    @if(strlen($this->buscarproducto) > 0)
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>DESCRIPCION</th>
-                                    <th>ACCION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($listaproductos as $p)
-                                <tr>
-                                    <td class="text-left">
-                                        {{ $p->nombre }}
-                                        <b>({{ $p->barcode }})</b>
-                                        {{ $p->precio_venta }} Bs
+                </div>
+
+            </div>
+
+
+            <div class="row mt-4">
+
+
+
+                <div class="col-lg-4 col-sm-6 mt-sm-0 mt-4">
+                    <div class="card">
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <input id="code" type="text" wire:keydown.enter.prevent="$emit('scan-code',$('#code').val())" wire:model="buscarproducto" class="form-control " placeholder="Escanear o Buscar Producto..." autofocus>
+                                <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center">
+                                <i class="fas fa-info" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            
+
+
+                            @if(strlen($this->buscarproducto) > 0)
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                    <th class="text-uppercase text-xxs font-weight-bolder">Descripción</th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                
+                
+                                    @foreach ($listaproductos as $p)
+                                    <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">
+                                                {{ $p->nombre }}
+                                                <b>({{ $p->barcode }})</b>
+                                                {{ $p->precio_venta }} Bs
+                                            </h6>
+                                        </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <button  wire:click="increase({{ $p->id }})" class="btn btn-sm" style="background-color: rgb(10, 137, 235); color:aliceblue">
                                             <i class="fas fa-plus"></i>
+                                        </button>
                                     </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                </table>
+                            </div>
+                                {{ $listaproductos->links() }}
+                            @else
+                                <div class="animado">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    AGREGAR PRODUCTOS A LA VENTA
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            @endif
+
+
+
+
+
+                        </div>
                     </div>
-                    {{ $listaproductos->links() }}
-                    @else
-
-                    <div class="animado">
-                        
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        PARA BUSCAR USE EL CUADRO: BUSCAR PRODUCTOS...
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-
-
-
-                    @endif
-        
-        
                 </div>
-                <div class="col-12 col-sm-6 col-md-8 text-center">
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-4">
-                            <h3><b>Carrito de Ventas</b></h3>
-                        </div>
-                        <div class="col-4 text-right">
-                            
-                        </div>
-                    </div>
-                    @if($this->clienteanonimo)
-                    <div style="height: 44.2px;">
 
-                    </div>
-                    @else
-                    <div class="row" style="height: 44.2px;">
-                        <div class="col-4 text-center">
-                            
-                        </div>
 
-                        <div class="col-4 text-center">
-                            <button wire:click=modalbuscarcliente()" type="button" class="boton-azul-g">
-                                Buscar/Crear
-                            </button>
-                        </div>
 
-                        <div class="col-4 text-center">
-                            
-                        </div>
-                    </div>
-                    @endif
-                    <br>
-                    @if ($this->total_items > 0)
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>DESCRIPCIÓN</th>
-                                    <th>PRECIO BS</th>
-                                    <th>CANTIDAD</th>
-                                    <th>IMPORTE</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($cart as $item)
-                                <tr>
-                                    <td class="text-left">
-                                        {{ $item->name }}
-                                    </td>
-                                    <td>
-                                        <div class="input-group"  style="min-width: 120px; max-width: 130px; align-items: center;">
-                                            <input type="number" style="max-height: 30px;" id="p{{$item->id}}"
-                                            wire:change="cambiarprecio({{$item->id}}, $('#p' + {{$item->id}}).val())"
-                                            value="{{ $item->price }}"
-                                            class="form-control" placeholder="Bs.." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Bs</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group"  style="min-width: 120px; max-width: 130px; align-items: center;">
-                                            <input type="number" style="max-height: 30px;" id="c{{$item->id}}" 
-                                            wire:change="cambiarcantidad({{$item->id}}, $('#c' + {{$item->id}}).val())"
-                                            value="{{$item->quantity}}"
-                                            class="form-control" placeholder="Cantidad..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Uds</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ $item->price * $item->quantity, 2 }}
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            {{-- <button title="Ver Precio y Costos por Lotes" wire:click.prevent="modal_lotes({{ $item->id }})" class="btn btn-sm" style="background-color: rgb(0, 156, 135); color:white">
-                                                <i class="fas fa-list-ul"></i>
-                                            </button> --}}
-                                            <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $item->id }}', '{{$item->name}}')" class="boton-rojo">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                            <button title="Quitar una unidad" wire:click.prevent="decrease({{ $item->id }})" class="boton-plomo">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" class="boton-azul">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    @else
-                    <div class="animado">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        AGREGAR PRODUCTOS A LA VENTA
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                    @endif
-                    
-                    <div class="row">
-                        <div class="col-1 text-right">
-                        </div>
-                        <div class="col-10 text-center">
-                            <h5>Nombre Cliente: <b>{{ucwords(strtolower($nombrecliente))}}</b></h5>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                @if($this->total_items > 0)
-                                <button onclick="ConfirmarLimpiar()" class="btn btn-button" style="background-color: #373839; color: white; border-color: black;">
-                                    Vaciar
-                                </button>
-                                @endif
-                                <a href="{{ url('salelist') }}" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
-                                    <b>Lista Ventas</b>
-                                </a>
-                                <button wire:click.prevent="modalfinalizarventa()" class="btn btn-button" style="background-color: #11be32; color: white;">
-                                    Finalizar Venta
+
+                <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
+                    <div class="card">
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div class="form-control">
+                                    <h6 class="mb-0">Carrito de Ventas</h6>
+                                </div>
+                                <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center">
+                                <i class="fas fa-info" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="col-1 text-right">
+                        <div class="card-body p-3">
+                            
+
+
+                            @if ($this->total_items > 0)
+                                <div class="table-responsive">
+                                    <table class="table align-items-center mb-0">
+                                        <thead>
+                                            <tr>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">DESCRIPCIÓN</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder ps-2">PRECIO BS</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder ps-2">CANTIDAD</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder ps-2">IMPORTE</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder ps-2">ACCIONES</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($cart as $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            {{ $item->name }}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group"  style="min-width: 120px; max-width: 130px; align-items: center;">
+                                                        <input type="number" style="max-height: 30px;" id="p{{$item->id}}"
+                                                        wire:change="cambiarprecio({{$item->id}}, $('#p' + {{$item->id}}).val())"
+                                                        value="{{ $item->price }}"
+                                                        class="form-control" placeholder="Bs..">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">Bs</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group"  style="min-width: 120px; max-width: 130px; align-items: center;">
+                                                        <input type="number" style="max-height: 30px;" id="c{{$item->id}}" 
+                                                        wire:change="cambiarcantidad({{$item->id}}, $('#c' + {{$item->id}}).val())"
+                                                        value="{{$item->quantity}}"
+                                                        class="form-control" placeholder="Cantidad...">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">Uds</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            {{ $item->price * $item->quantity, 2 }}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button title="Eliminar Producto" onclick="ConfirmarEliminar('{{ $item->id }}', '{{$item->name}}')" type="button" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                        <i class="fas fa-trash text-default" ></i>
+                                                    </button>
+                                                    <button title="Quitar una unidad" wire:click.prevent="decrease({{ $item->id }})" type="button" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                        <i class="fas fa-trash text-default" ></i>
+                                                    </button>
+                                                    <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" type="button" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                        <i class="fas fa-trash text-default" ></i>
+                                                    </button> 
+
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            @else
+                                <div class="animado">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    AGREGAR PRODUCTOS A LA VENTA
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            @endif
+
+
+
+
+
                         </div>
                     </div>
                 </div>
+
+
+
+
             </div>
+
+
+
+            <div class="row">
+                <div class="col-1 text-right">
+                </div>
+                <div class="col-10 text-center">
+                    <h5>Nombre Cliente: <b>{{ucwords(strtolower($nombrecliente))}}</b></h5>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @if($this->total_items > 0)
+                        <button onclick="ConfirmarLimpiar()" class="btn btn-button" style="background-color: #373839; color: white; border-color: black;">
+                            Vaciar
+                        </button>
+                        @endif
+                        <a href="{{ url('salelist') }}" class="btn btn-button" style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
+                            <b>Lista Ventas</b>
+                        </a>
+                        <button wire:click.prevent="modalfinalizarventa()" class="btn btn-button" style="background-color: #11be32; color: white;">
+                            Finalizar Venta
+                        </button>
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                </div>
+            </div>
+
+
         </div>
+
+
+
+        @if($descuento_recargo >= 0)
+            <button class="btn-flotante">Descuento {{$descuento_recargo}} Bs</button>
+        @else
+            <button class="btn-flotante">Recargo {{$descuento_recargo * -1}} Bs</button>
+        @endif
 
 
         @include('livewire.pos.modal.modalfinalizarventa')
@@ -534,12 +407,6 @@
         @include('livewire.pos.modal.modal_stock_insuficiente')
         @include('livewire.pos.modal.modallotesproducto')
 
-
-        @if($descuento_recargo >= 0)
-        <button class="btn-flotante">Descuento {{$descuento_recargo}} Bs</button>
-        @else
-        <button class="btn-flotante">Recargo {{$descuento_recargo * -1}} Bs</button>
-        @endif
     @else
         <div class="row sales layout-top-spacing">
             <div class="col-sm-12" >
@@ -584,7 +451,6 @@
         </div>
     @endif
 
-
 </div>
 
 
@@ -614,6 +480,7 @@
         });
         //Mostrar Toast cuando un producto se incrementa en el Carrito de Ventas
         window.livewire.on('increase-ok', msg => {
+            
             const toast = swal.mixin({
             toast: true,
             position: 'top-end',
@@ -855,5 +722,3 @@
 
 </script>
 @endsection
-
-

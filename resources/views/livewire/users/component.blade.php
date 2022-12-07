@@ -46,7 +46,6 @@
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Sucursal</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Acciones</th>
-                              
                             </tr>
                           </thead>
                           <tbody>
@@ -93,16 +92,16 @@
                                 </span>
                               </td>
                               <td class="align-middle text-center">
-                                <a href="javascript:void(0)" wire:click.prevent="viewDetails('{{ $r->id }}')" class="mx-3">
-                                  <i class="fas fa-eye text-default"></i>
-                                </a>
-                                <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})" class="mx-3">
-                                  <i class="fas fa-user-edit text-info" ></i>
-                                </a>
-                                <a href="javascript:void(0)" onclick="Confirm('{{ $r->id }}','{{ $r->name }}')" class="mx-3">
-                                  <i class="fas fa-trash text-danger" ></i>
-                                </a>
-                                </td>
+                                  <a href="javascript:void(0)" wire:click.prevent="viewDetails('{{ $r->id }}')" class="mx-3">
+                                    <i class="fas fa-eye text-default"></i>
+                                  </a>
+                                  <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})" class="mx-3">
+                                    <i class="fas fa-user-edit text-info" ></i>
+                                  </a>
+                                  <a href="javascript:void(0)" onclick="Confirm('{{ $r->id }}','{{ $r->name }}')" class="mx-3">
+                                    <i class="fas fa-trash text-danger" ></i>
+                                  </a>
+                              </td>
                             </tr>
                             @endforeach
                           </tbody>

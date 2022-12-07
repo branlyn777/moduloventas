@@ -10,7 +10,7 @@
     Edsoft
   </title>
 
-  	@yield('css')
+  @yield('css')
 	@include('layouts.theme.styles')
 </head>
 
@@ -36,8 +36,8 @@
 
 
 
-  @yield('javascript')
   @include('layouts.theme.scripts')
+  @yield('javascript')
 
 
 </body>
