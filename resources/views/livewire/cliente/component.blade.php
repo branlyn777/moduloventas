@@ -17,6 +17,8 @@
         </div>
       </div>
 
+      <br>
+
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -30,7 +32,7 @@
                             <tr>
                               <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">CÉDULA</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULghgfAR</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">EMAIL</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA NACIM</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">NIT</th>
@@ -51,75 +53,67 @@
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->nombre }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->cedula }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->celular }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->email }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{$c->fecha_nacim }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->nit }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
                                     <p class="text-xs font-weight-bold mb-0">{{ $c->direccion }}</p>
                                 </div>
                               </td>
-
                               <td>
                                 <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->nombre }}</p>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $c->razon_social }}</p>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="d-flex px-2 py-1">
+                                    <p class="text-xs font-weight-bold mb-0">{{ $c->procedencia }}</p>
                                 </div>
                               </td>
 
                               <td class="align-middle text-center">
-                                  <a href="javascript:void(0)" wire:click.prevent="viewDetails('{{ $r->id }}')" class="mx-3">
-                                    <i class="fas fa-eye text-default"></i>
-                                  </a>
-                                  <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})" class="mx-3">
+                                  <a href="javascript:void(0)" wire:click="Edit({{ $c->id }})" class="mx-3">
                                     <i class="fas fa-user-edit text-info" ></i>
-                                  </a>
-                                  <a href="javascript:void(0)" onclick="Confirm('{{ $r->id }}','{{ $r->name }}')" class="mx-3">
-                                    <i class="fas fa-trash text-danger" ></i>
                                   </a>
                               </td>
                             </tr>
                             @endforeach
                           </tbody>
                         </table>
+                        {{ $data->links() }}
                       </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        @include('livewire.users.form')
-        @include('livewire.users.modalDetails')
+        @include('livewire.cliente.form')
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        
 
         window.livewire.on('item-added', Msg => {
             $('#theModal').modal('hide')
@@ -127,10 +121,6 @@
         })
         window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
-            noty(Msg)
-        })
-        window.livewire.on('sucursal-actualizada', Msg => {
-            $('#modal-details').modal('hide')
             noty(Msg)
         })
         window.livewire.on('item-deleted', Msg => {
@@ -145,34 +135,13 @@
         window.livewire.on('hide-modal', Msg => {
             $('#theModal').modal('hide')
         })
-        window.livewire.on('item-error', Msg => {
-            noty(Msg)
-        });
-        window.livewire.on('user-withsales', Msg => {
-            noty(Msg)
-        })
-        window.livewire.on('user-fin', Msg => {
-            $('#modal-details').modal('hide')
-            noty(Msg)
-        })
-        window.livewire.on('show-modal2', Msg => {
-            $('#modal-details').modal('show')
-        })
     });
 
-    function Confirm(id, name, movimientos) {
-        if (movimientos > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                text: 'No se puede eliminar al usuario "' + name + '" porque tiene varios movimientos.'
-            })
-            return;
-        }
+    function Confirm(id, name) {
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',
-            text: '¿Confirmar eliminar el usuario ?',
+            text: 'Confirmar eliminar el usuario ' + '"' + name + '"',
             showCancelButton: true,
             cancelButtonText: 'Cerrar',
             cancelButtonColor: '#383838',

@@ -4,7 +4,7 @@
     <div class="d-sm-flex justify-content-between">
 
         <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
+          @include('common.searchbox')
         </div>
 
         <div class="d-flex">
@@ -17,6 +17,8 @@
         </div>
       </div>
 
+      <br>
+
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -28,7 +30,7 @@
                         <table class="table align-items-center mb-0">
                           <thead>
                             <tr>
-                              <th class="text-uppercase text-xxs font-weight-bolder">NO</th>
+                              <th class="text-uppercase text-xxs font-weight-bolder">Nº</th>
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">DESCRIPCION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA CREACION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA ACTUALIZACION</th>
@@ -42,9 +44,7 @@
                             @foreach ($data as $rol)
                             <tr>
                               <td>
-                                <div class="d-flex px-2 py-1">
-                                    {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
-                                </div>
+                                <p class="text-xs font-weight-bold mb-0 ">{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</p>
                               </td>
 
                               <td>
@@ -52,11 +52,11 @@
                               </td>
 
                               <td class="align-middle text-center text-sm">
-                                {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}
+                                <p class="text-xs font-weight-bold mb-0"> {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}</p>
                               </td>
 
-                              <td class="align-middle text-center">
-                                {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}
+                              <td class="align-middle text-center ">
+                                <p class="text-xs font-weight-bold mb-0">  {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}</p>
                               </td>
 
                               <td class="align-middle text-center">
