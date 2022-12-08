@@ -418,7 +418,7 @@
                             </div>
 
                             <div class="col-4 text-center">
-                                <button wire:click=modalbuscarcliente()" type="button" class="boton-azul-g">
+                                <button wire:click=modalbuscarcliente()" type="button" class="btn btn-light">
                                     Buscar/Crear
                                 </button>
                             </div>
@@ -671,7 +671,7 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 4000,
+            timer: 99999,
             padding: '2em'
             });
             toast({
