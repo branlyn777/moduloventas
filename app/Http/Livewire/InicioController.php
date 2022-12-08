@@ -54,10 +54,12 @@ class InicioController extends Component
 
        for ($i=1; $i < 13; $i++) { 
         $ven= Sale::whereMonth('created_at',$i)->sum('total');
-        array_push($this->ventas,(int)($ven));
+        array_push($this->ventas,(int)$ven);
        }
-     
-       
+
+    
+
+       //dd($this->ventas);
 
        //dd($this->ventas);
 
