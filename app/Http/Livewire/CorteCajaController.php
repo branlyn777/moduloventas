@@ -545,6 +545,7 @@ class CorteCajaController extends Component
         $this->efectivo_actual = round($this->total, 2);
         $this->resetConteo();
         $this->emit('cerrarContador');
+        $this->emit('abrirAjustedeCaja');
     }
     public function resetConteo()
     {
@@ -567,7 +568,7 @@ class CorteCajaController extends Component
  
 
     public function finArqueo(){
-       
+      
         if ($this->efectivo_actual != null) {
             $margen=$this->efectivo_actual-$this->saldoAcumulado;
             $diferenciaCaja= $margen>0?'SOBRANTE':'FALTANTE';
