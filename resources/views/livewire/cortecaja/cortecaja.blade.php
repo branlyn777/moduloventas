@@ -1,26 +1,20 @@
 @section('css')
 <style>
     .cajaabierta {
-        background-color: rgb(169, 245, 255);
-        padding: 10px;
-        border-radius: 15px;
-        border: #5e72e4 solid 2px;
-    }
-
-    .cajacerrada {
         background-color: rgb(255, 255, 255);
         padding: 10px;
         border-radius: 15px;
-        box-shadow: 5px 5px #8888889f;
-        
+ 
+        box-shadow: 3px 3px #5ea8e48c;
     }
 
+    .cajacerrada {
+        background-color: rgb(255, 253, 253);
+        padding: 10px;
+        border-radius: 15px;
+        box-shadow: 3px 3px #8888889f;
 
-
-
-
-
-
+    }
 
     /* Estilos para el loading */
     .lds-roller {
@@ -139,9 +133,9 @@
     </div>
 
     <div class="row justify-content-start">
-        
+
         <div class="col-12 col-sm-6 col-md-4 text-left">
-            <b class="text-white" >Sucursal</b>
+            <b class="text-white">Sucursal</b>
             <select wire:model="idsucursal" class="form-control" name="" id="">
                 @foreach($sucursales as $s)
                 <option value="{{$s->id}}">{{$s->name}}</option>
@@ -188,17 +182,17 @@
     </center>
     <div class="row">
         @foreach($cajas as $c)
-        <div class="col-12 col-sm-6 col-md-4">
+        <div class="col-12 col-sm-6 col-md-3">
             <div class="{{ $c->estado == 'Abierto' ? 'cajaabierta' : 'cajacerrada' }}">
-                <div class="connect-sorting text-center">
-                    <h1>{{$c->nombre}}</h1>
+                <div class="connect-sorting text-left">
+                    <h5> <b>{{$c->nombre}}</b> </h5>
                     <br>
-                    SUCURSAL:</b> {{$c->nombresucursal}} - {{$c->nombresucursal}}
+                    <b>Sucursal:</b> {{$c->nombresucursal}}
                 </div>
                 @if($c->carteras->count() > 0 || $carteras_generales->count() > 0)
 
-                <div class="text-center">
-                    <p class="h4"><b>Abierta por: {{$c->abiertapor}}</b></p>
+                <div class="connect-sorting text-left">
+                    <b>Abierta por:</b> {{$c->abiertapor}}
                 </div>
                 <br>
                 <div class="connect-sorting text-center">
@@ -208,8 +202,9 @@
                     @if($this->nombre_caja != null)
 
                     @if($c->id == $this->id_caja)
-                    <button onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="btn btn-warning">
-                        CERRAR SESION
+                    <button type="button" onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="btn btn-success">
+                        <i class="fas fa-arrow-right"></i>
+                        Cerrar Sesion
                     </button>
                     @else
                     @if($c->misucursal)
@@ -243,7 +238,10 @@
 
                     @if($c->misucursal)
                     <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="btn btn-secondary">
-                        CORTE DE CAJA
+                        <i class="fas fa-arrow-up"></i>
+
+                       Abrir Caja
+                 
                     </button>
                     @endif
 
@@ -378,60 +376,3 @@
 
 </script>
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
