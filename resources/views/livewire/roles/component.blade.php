@@ -34,7 +34,7 @@
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">DESCRIPCION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA CREACION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA ACTUALIZACION</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONEkS</th>
                             </tr>
                           </thead>
                           <tbody>
