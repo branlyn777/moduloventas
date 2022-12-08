@@ -22,10 +22,17 @@
           </ul>
         </div> --}}
         <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+<<<<<<< HEAD
+        <span class="btn-inner--icon">
+            <i class="ni ni-fat-add"></i>
+        </span>
+        <span class="btn-inner--text">Nuevo Usuario</span> 
+=======
           <span class="btn-inner--icon">
               <i class="ni ni-fat-add"></i>
           </span>
           <span class="btn-inner--text">Nuevo Usuario</span>
+>>>>>>> fd45e0bbc8f7b6799ba58410484391e9b00dbb71
         </button>
         </div>
       </div>
