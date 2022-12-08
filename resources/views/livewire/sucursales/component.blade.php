@@ -9,7 +9,7 @@
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
                 </span>
-                <span class="btn-inner--text">Nueva Sucursaladsfa</span>
+                <span class="btn-inner--text">Nuevaa Sucursaladsfa</span>
             </button>
         </div>
         <div class="nav-wrapper position-relative end-0">
