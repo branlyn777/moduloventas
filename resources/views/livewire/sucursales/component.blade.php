@@ -9,7 +9,7 @@
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
                 </span>
-                <span class="btn-inner--text">Nuevaa Sucursaladsfa</span>
+                <span class="btn-inner--text">Nueva Sucursal</span>
             </button>
         </div>
         <div class="nav-wrapper position-relative end-0">
@@ -59,11 +59,11 @@
                                         <td class="align-middle text-center text-sm">
                                             {{ $item->nit_id }}
                                         </td>
-                                        <td>
-                                            <button wire:click="Edit({{ $item->id }})" class="boton-celeste"
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})" class="mx-3"
                                                 title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
+                                                <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

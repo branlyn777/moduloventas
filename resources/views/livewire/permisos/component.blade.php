@@ -1,69 +1,73 @@
 <div>
-    <div class="row">
-        <div class="col-12 text-center">
-          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
-        </div>
-    </div>
-  
-    <div class="row">
-
+    <div class="d-sm-flex justify-content-between">
         <div class="col-12 col-sm-12 col-md-4">
             @include('common.searchbox')
         </div>
-
-        <div class="col-12 col-sm-12 col-md-4 text-center">
-            
+        <div class="nav-wrapper position-relative end-0">
+            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
+            type="button">
+            <span class="btn-inner--icon">
+                <i class="ni ni-fat-add"></i>
+            </span class="btn-inner--text"> Nuevo Permiso</button>
         </div>
-
-        <div class="col-12 col-sm-12 col-md-4 text-right">
-            <button wire:click="Agregar()" type="button" class="boton-azul-g">Nuevo Permiso</button>
-        </div>
-
     </div>
-  
-      <br>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Permisos | Listado</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NO</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $permiso)
+                                    <tr class="text-center">
+                                        <td class="align-middle text-center text-sm">
+                                            {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            {{ ($permiso->name) }}
+                                        </td> 
+                                        <td class="align-middle text-center text-sm">
+                                            {{ ($permiso->area) }}
+                                        </td> 
+                                        <td class="align-middle text-center text-sm">
+                                            {{ ($permiso->descripcion) }}
+                                        </td>                           
+                                        
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
+                                                class="mx-3" title="Editar registro">
+                                                <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                            </a>
+                                            {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
+                                                class="boton-rojo" title="Eliminar registro">
+                                                <i class="fas fa-trash"></i>
+                                            </a> --}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
       <div class="table-5">
-        <table>
-            <thead>
-                <tr class="text-center">
-                    <th>NO</th>
-                    <th>NOMBRE</th>                                                         
-                    <th>AREA</th>                                                         
-                    <th>DESCRIPCION</th>                                                         
-                    <th>ACCIONES</th>    
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data as $permiso)
-                    <tr>
-                        <td class="text-center">
-                            {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
-                        </td>
-                        <td>
-                            {{ ($permiso->name) }}
-                        </td> 
-                        <td class="text-center">
-                            {{ ($permiso->area) }}
-                        </td> 
-                        <td>
-                            {{ ($permiso->descripcion) }}
-                        </td>                           
-                        
-                        <td class="text-center">
-                            <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
-                                class="boton-azul" title="Editar registro">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
-                                class="boton-rojo" title="Eliminar registro">
-                                <i class="fas fa-trash"></i>
-                            </a> --}}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        
         {{ $data->links() }}
     </div>
     @include('livewire.permisos.form')
