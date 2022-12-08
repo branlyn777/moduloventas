@@ -25,7 +25,7 @@
         <span class="btn-inner--icon">
             <i class="ni ni-fat-add"></i>
         </span>
-        <span class="btn-inner--text">Nuevo Usuario</span>
+        <span class="btn-inner--text">Nuevo Usuario</span> 
         </button>
         </div>
       </div>
