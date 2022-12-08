@@ -1,9 +1,9 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>INGRESOS Y EGRESOS</b>
+<div class="container-fluid my-5 py-2">
+    
+     
+     
+                <h4 class="text-white">
+                    <b>Ingresos y Egresos</b>
                 </h4>
 
                 <ul class="row justify-content-end">
@@ -15,12 +15,12 @@
                             <i class="fas fa-arrow-alt-circle-down" ></i>  <i class="fas fa-arrow-alt-circle-up" ></i> Generar Ingreso/Egreso
                         </button>
                         <button wire:click.prevent="generarpdf({{$data}})" class="boton-verde-g">
-                          <i class="fas fa-print" ></i>  Generar PDF
+                          <i class="fas fa-print" ></i> Generar PDF
                         </button>
                     @endcan
                 </ul>
               
-            </div>
+        
             <div class="row">
 
                 <div class="col-sm-12 col-md-12 d-flex">
@@ -254,8 +254,8 @@
                     </div>
                 </div>
          
-        </div>
-    </div>
+       
+   
     @include('livewire.reportemovimientoresumen.modalDetails')
     @include('livewire.reportemovimientoresumen.modaleditar')
   

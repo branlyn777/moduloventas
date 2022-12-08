@@ -708,11 +708,11 @@ class ReporteMovimientoResumenController extends Component
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
                 ->join('cajas as ca', 'ca.id', 'c.caja_id')
                 ->where('movimientos.status', 'ACTIVO')
-                ->where('crms.type', 'EGRESO')
-                ->where('crms.comentario', '=', 'RECAUDO DEL DIA')
+                ->where('crms.tipoDeMovimiento', 'RECAUDO')
+           
                 ->where('ca.id', $this->caja)
                 ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                ->select('movimientos.import')->value('movimientos.import');
+                ->sum('movimientos.import');
         } else {
             $this->op_recaudo = 0;
         }
