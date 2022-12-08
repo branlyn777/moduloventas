@@ -1,57 +1,61 @@
-
-
 <div>
-
-
     <div class="row">
-        <div class="col-12 text-center mb-5">
-          <p class="h3"><b>CATEGORIAS</b></p>
-        </div>
-    </div>
+        <div class="col-12">
+            <div class="card">
+
+                
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                    <p class="h3"><b>CATEGORIAS</b></p>
+                    </div>
+                </div>
  
 
    
-        <div class="row">
+                <div class="row">
 
-            <div class="col-12 col-sm-12 col-md-3">
-                @include('common.searchbox')
-            </div>
-    
-            <div class="col-12 col-sm-12 col-md-3 text-center">
-                <select wire:model='estados' class="form-control">
-                    <option value="null" disabled>Estado</option>
-                    <option value="ACTIVO">ACTIVO</option>
-                    <option value="INACTIVO">INACTIVO</option>
-                    <option value="TODOS">TODOS</option>
-                  </select>
-            </div>
-    
-            <div class="col-12 col-sm-12 col-md-3 text-center">
-                
-            </div>
-    
-            <div class="col-12 col-sm-12 col-md-3 text-center">
-                <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> <i class="fas fa-plus-circle"></i> Agregar Categoria</button>
-            </div>
-        </div>
+                    <div class="col-12 col-sm-12 col-md-3">
+                        @include('common.searchbox')
+                    </div>
+            
+                    <div class="col-12 col-sm-12 col-md-3 text-center">
+                        <select wire:model='estados' class="form-control">
+                            <option value="null" disabled>Estado</option>
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                            <option value="TODOS">TODOS</option>
+                        </select>
+                    </div>
+            
+                    <div class="col-12 col-sm-12 col-md-3 text-center">
+                        
+                    </div>
+            
+                    <div class="col-12 col-sm-12 col-md-3 text-center">
+                        <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> <i class="fas fa-plus-circle"></i> Agregar Categoria</button>
+                    </div>
+                </div>
  
 
 
 
 
 
-        <div class="table-5">
+        {{-- <div class="table-5"> --}}
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table align-items-center mb-0">
             <table>
                 <thead>
                     <tr class="text-center">
-                        <th  style="width: 5%">#</th>
-                        <th>NOMBRE</th>
-                        <th>SUBCATEGORIAS</th>
-                        <th>ESTADO</th>
-                        <th>ACCIONES</th>
+                        <th style="width: 5%">#</th>
+                        <th style="width: 29%">NOMBRE</th>
+                        <th style="width: 30%">SUBCATEGORIAS</th>
+                        <th style="width: 30%">ESTADO</th>
+                        <th style="width: 20%">ACCIONES</th>
                     </tr>
                 </thead>
-               
+                
                 <tbody>
                     @foreach ($categories as $category)
                         <tr>
@@ -120,10 +124,13 @@
                     @endforeach
                 </tbody>
             </table>
+        </div></div></div>
             {{ $categories->links()}}
-        </div>
+        {{-- </div> --}}
         
-  
+    </div>
+</div>
+</div>
 
     
     @include('livewire.category.form')
