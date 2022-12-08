@@ -30,7 +30,7 @@
                             <tr>
                               <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">CÉDULA</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULghgfAR</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">EMAIL</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA NACIM</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">NIT</th>
