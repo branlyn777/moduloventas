@@ -1,21 +1,52 @@
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
+    {{-- <div class="d-sm-flex justify-content-between">
 
         <div class="col-12 col-sm-12 col-md-4">
           @include('common.searchbox')
         </div>
 
         <div class="d-flex">
-        <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-        <span class="btn-inner--icon">
-            <i class="ni ni-fat-add"></i>
-        </span>
-        <span class="btn-inner--text">Nuevo Rol</span> 
-        </button>
+          <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+            <span class="btn-inner--icon">
+                <i class="ni ni-fat-add"></i>
+            </span>
+            <span class="btn-inner--text">Nuevo Rol</span> 
+          </button>
         </div>
+    </div> --}}
+
+    <div class="row">
+
+      <div class="col-4">
+        @include('common.searchbox')
       </div>
+      
+
+
+        <div class="col-8">
+
+          <div class="d-sm-flex justify-content-between text-end">
+      
+            <div class="d-flex">
+              <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" type="button">
+              <span class="btn-inner--icon">
+                  <i class="ni ni-fat-add"></i>
+              </span>
+              <span class="btn-inner--text">Nuevo Rol</span> 
+              </button>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+
+
+
+
+
 
       <br>
       
@@ -31,7 +62,7 @@
                         <table class="table align-items-center mb-0">
                           <thead>
                             <tr>
-                              <th class="text-uppercase text-xxs font-weight-bolder">Nº</th>
+                              <th class="text-uppercase text-xxs font-weight-bolder text-center">Nº</th>
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">DESCRIPCION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA CREACION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA ACTUALIZACION</th>
@@ -44,7 +75,7 @@
         
                             @foreach ($data as $rol)
                             <tr>
-                              <td>
+                              <td class="align-middle text-center text-sm">
                                 <p class="text-xs font-weight-bold mb-0 ">{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</p>
                               </td>
 
