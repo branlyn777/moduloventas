@@ -11,8 +11,7 @@
                 </span>
                 <span class="btn-inner--text">Nueva Sucursal</span>
             </button>
-        </div>
-        <div class="nav-wrapper position-relative end-0">
+            
             <a href="cajas" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
@@ -20,6 +19,7 @@
                 <span class="btn-inner--text">Ir a Cajas</span>
             </a>
         </div>
+       
     </div>
     <div class="row">
         <div class="col-12">
@@ -31,9 +31,8 @@
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
-                                <tr class="text-center">
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE DE LA
-                                        SUCURSAL</th>
+                                <tr">
+                                    <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE DE LA SUCURSAL</th>
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">DIRECCIÓN</th>
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">TELÉFONO</th>
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
@@ -43,21 +42,21 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $item)
-                                    <tr class="text-center">
-                                        <td class="align-middle text-center text-sm">
-                                            {{ $item->name }}
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs mb-0">{{ $item->name }}</p>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
-                                            {{ $item->adress }}
+                                        <td>
+                                            <p class="text-xs mb-0 text-center">{{ $item->adress }}</p>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
-                                            {{ $item->telefono }}
+                                        <td>
+                                            <p class="text-xs mb-0 text-center">{{ $item->telefono }}</p>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
-                                            {{ $item->celular }}
+                                        <td>
+                                            <p class="text-xs mb-0 text-center">{{ $item->celular }}</p>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
-                                            {{ $item->nit_id }}
+                                        <td>
+                                            <p class="text-xs mb-0 text-center">{{ $item->nit_id }}</p>
                                         </td>
                                         <td class="align-middle text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})" class="mx-3"

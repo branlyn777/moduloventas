@@ -36,24 +36,24 @@
                             @foreach ($data as $item)
                             <tr>
                               <td>
-                                <p class="text-xs font-weight-bold mb-0">
+                                <p class="text-xs mb-0 ">
                                     {{ $item->name }}
                                 </p>
                               </td>
                               <td>
-                                <p class="text-xs font-weight-bold mb-0">
+                                <p class="text-xs mb-0 ">
                                     {{ $item->shortname }}
                                 </p>
                               </td>
-                              <td class="align-middle text-center text-sm">
+                              <td class="text-xs mb-0 text-center">
 
                                 {{ $item->adress }}
 
                               </td>
-                              <td class="align-middle text-center">
+                              <td class="text-xs mb-0 text-center">
                                 {{ $item->phone }}
                               </td>
-                              <td class="align-middle text-center">
+                              <td class="text-xs mb-0 text-center">
                                 {{ $item->nit_id }}
                               </td>
                               <td class="align-middle text-center">

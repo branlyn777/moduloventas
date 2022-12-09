@@ -1,55 +1,18 @@
 
 
 <div>
-    {{-- <div class="d-sm-flex justify-content-between">
-
+      <div class="d-sm-flex justify-content-between">
         <div class="col-12 col-sm-12 col-md-4">
-          @include('common.searchbox')
-        </div>
-
-        <div class="d-flex">
-          <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-            <span class="btn-inner--icon">
-                <i class="ni ni-fat-add"></i>
-            </span>
-            <span class="btn-inner--text">Nuevo Rol</span> 
-          </button>
-        </div>
-    </div> --}}
-
-    <div class="row">
-
-      <div class="col-4">
-        @include('common.searchbox')
-      </div>
-      
-
-
-        <div class="col-8">
-
-          <div class="d-sm-flex justify-content-between text-end">
-      
-            <div class="d-flex">
-              <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" type="button">
+              @include('common.searchbox')
+          </div>
+          <div class="nav-wrapper position-relative end-0">
+              <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
+              type="button">
               <span class="btn-inner--icon">
                   <i class="ni ni-fat-add"></i>
-              </span>
-              <span class="btn-inner--text">Nuevo Rol</span> 
-              </button>
-            </div>
-
+              </span class="btn-inner--text"> Nuevo Rol</button>
           </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-      <br>
-      
+       </div>
 
         <div class="row">
             <div class="col-12">
@@ -66,7 +29,7 @@
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">DESCRIPCION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA CREACION</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA ACTUALIZACION</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONEkS</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
                             </tr>
                           </thead>
                           <tbody>

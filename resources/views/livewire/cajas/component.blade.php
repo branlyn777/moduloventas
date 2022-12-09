@@ -9,18 +9,17 @@
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
                 </span class="btn-inner--text">Nueva Caja</button>
-        </div>
-        <div class="nav-wrapper position-relative end-0">
-            <a href="carteras" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Ir a Cartera</span>
-            </a>
+
+                <a href="carteras" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+                    <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i>
+                    </span>
+                    <span class="btn-inner--text">Ir a Cartera</span>
+                </a>
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Cajas | Listado</h6>
@@ -39,13 +38,13 @@
                             <tbody>
                                 @foreach ($data as $item)
                                     <tr class="text-center">
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 ">
                                             {{ $item->nombre }}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->estado }}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->sucursal }}
                                         </td>
                                         <td class="align-middle text-center">

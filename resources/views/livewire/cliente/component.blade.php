@@ -1,23 +1,18 @@
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-
-        <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
-        </div>
-
-        <div class="d-flex">
-        <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+  <div class="d-sm-flex justify-content-between">
+    <div class="col-12 col-sm-12 col-md-4">
+        @include('common.searchbox')
+    </div>
+    <div class="nav-wrapper position-relative end-0">
+        <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
+        type="button">
         <span class="btn-inner--icon">
             <i class="ni ni-fat-add"></i>
-        </span>
-        <span class="btn-inner--text">Nuevo Cliente</span> 
-        </button>
-        </div>
-      </div>
-
-      <br>
+        </span class="btn-inner--text"> Nuevo Cliente</button>
+    </div>
+</div>
 
         <div class="row">
             <div class="col-12">
@@ -30,7 +25,7 @@
                         <table class="table align-items-center mb-0">
                           <thead>
                             <tr>
-                              <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
+                              <th class=" text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
                               <th class="text-uppercase text-xxs font-weight-bolder ps-2">CÉDULA</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">EMAIL</th>
@@ -44,54 +39,34 @@
                           </thead>
                           <tbody>
         
-        
-        
                             @foreach ($data as $c)
                             <tr>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->nombre }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 ">
+                                {{ $c->nombre }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->cedula }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 ">
+                                {{ $c->cedula }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->celular }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->celular }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->email }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->email }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{$c->fecha_nacim }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{$c->fecha_nacim }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->nit }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->nit }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->direccion }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->direccion }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->razon_social }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->razon_social }}
                               </td>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                    <p class="text-xs font-weight-bold mb-0">{{ $c->procedencia }}</p>
-                                </div>
+                              <td  class="text-xs mb-0 text-center">
+                                {{ $c->procedencia }}
                               </td>
 
                               <td class="align-middle text-center">

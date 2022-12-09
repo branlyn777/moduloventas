@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12 ">
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Permisos | Listado</h6>
@@ -32,16 +32,16 @@
                             <tbody>
                                 @foreach ($data as $permiso)
                                     <tr class="text-center">
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ ($permiso->name) }}
                                         </td> 
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ ($permiso->area) }}
                                         </td> 
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ ($permiso->descripcion) }}
                                         </td>                           
                                         

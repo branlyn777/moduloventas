@@ -9,9 +9,8 @@
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
                 </span class="btn-inner--text">Nueva Cartera</button>
-        </div>
-        <div class="nav-wrapper position-relative end-0">
-            <a href="carteramovcategoria" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
+
+                <a href="carteramovcategoria" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
                 type="button">
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
@@ -21,7 +20,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Carteras | Listado</h6>
@@ -42,19 +41,19 @@
                             <tbody>
                                 @foreach ($data as $item)
                                     <tr class="text-center">
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->nombre }}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->descripcion }}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->tipo }}
                                         </td>
                                         {{-- <td>
                                             {{ $item->telefonoNum }}
                                         </td> --}}
-                                        <td class="align-middle text-center text-sm">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ $item->caja->nombre }}
                                         </td>
                                         <td class="align-middle text-center">
