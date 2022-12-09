@@ -72,7 +72,7 @@
                           <thead>
                             <tr>
                               <th class="text-uppercase text-xxs font-weight-bolder">No</th>
-                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categoria</th>
+                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categorhhia</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Detalles</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Tipo</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
