@@ -164,8 +164,6 @@
     </div>
 
     <br>
-
-
     <center>
         <div id="preloader_3" wire:loading>
             <div class="lds-roller">
@@ -237,7 +235,7 @@
 
 
                     @if($c->misucursal)
-                    <button onclick="ConfirmarAbrir({{$c->id}},'{{$c->nombre}}')" class="btn btn-secondary">
+                    <button wire:click.prevent="confirmarAbrir({{$c->id}})" class="btn btn-secondary">
                         <i class="fas fa-arrow-up"></i>
 
                        Abrir Caja
@@ -273,6 +271,7 @@
 
     </div>
     @include('livewire.cortecaja.ajusteCajaEfectiva')
+    @include('livewire.cortecaja.aperturacaja')
     @include('livewire.cortecaja.contador')
 </div>
 @section('javascript')
@@ -320,25 +319,31 @@
             $('#contador_monedas').modal('hide');
 
         });
+        window.livewire.on('aperturarCaja', msg => {
+            $('#aperturacaja').modal('show')
+        });
+        window.livewire.on('    ', msg => {
+            $('#aperturacaja').modal('hide')
+        });
     });
 
     // Código para lanzar la Alerta de Confirmación
-    function ConfirmarAbrir(id, nombrecaja)
-    {
-        swal({
-        title: '¿Realizar Corte de Caja?',
-        text: "Realizará la apertura de la caja: " + nombrecaja + " y se habilitarán todas las carteras de esta",
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Aceptar',
-        padding: '2em'
-        }).then(function(result) {
-        if (result.value) {
-            window.livewire.emit('corte-caja', id)
-            }
-        })
-    }
+    // function ConfirmarAbrir(id, nombrecaja)
+    // {
+    //     swal({
+    //     title: '¿Realizar Corte de Caja?',
+    //     text: "Realizará la apertura de la caja: " + nombrecaja + " y se habilitarán todas las carteras de esta",
+    //     type: 'warning',
+    //     showCancelButton: true,
+    //     cancelButtonText: 'Cancelar',
+    //     confirmButtonText: 'Aceptar',
+    //     padding: '2em'
+    //     }).then(function(result) {
+    //     if (result.value) {
+    //         window.livewire.emit('corte-caja', id)
+    //         }
+    //     })
+    // }
     // Código para lanzar la Alerta de Confirmación
     function ConfirmarCerrar(id, nombrecaja)
     {

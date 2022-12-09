@@ -1,8 +1,8 @@
 <div class="container-fluid my-5 py-2">
-    <div class="row mt-n6">
+    <div class="row mt-n6 ml-5">
         <div class="col-12 text-left text-white">
-            <h5 class="text-left text-white">
-                RESUMEN MOVIMIENTOS
+            <h5 class="text-center text-white">
+                Movimientos Diarios
             </h5>
         </div>
     </div>

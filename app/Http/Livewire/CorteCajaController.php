@@ -22,7 +22,7 @@ class CorteCajaController extends Component
     public $nombre_caja, $id_caja;
 
     public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
-    $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv,$nota_ajuste;
+    $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv,$nota_ajuste,$iniciarturno,$conteoinicial;
 
     public $toogle,
     $active1=true,
@@ -53,18 +53,7 @@ class CorteCajaController extends Component
         ->get();
 
 
-        /* Caja en la cual se encuentra el usuario */
-        // $cajausuario = Caja::with('carteras','carteras.carteraMovimientos','carteras.carteraMovimientos.movimiento')
-        // ->where('id','<>', 1)
-        // ->whereRelation('carteras.carteraMovimientos.movimiento','user_id', Auth()->user()->id)
-        // ->whereRelation('carteras.carteraMovimientos.movimiento','status', 'ACTIVO')
-        // ->whereRelation('carteras.carteraMovimientos.movimiento','type', 'APERTURA')
-        // ->get();
-
-        // dd($cajausuario);
-
-
-        //Verificando si el usuario tiene una caja abierta
+      
         if($cajausuario->count() > 0)
         {
             //Si el usuario tiene una caja abierta se actualizaran estas variables
@@ -289,6 +278,8 @@ class CorteCajaController extends Component
     ];
     public function CorteCaja($idcaja)
     {
+        
+
         if($this->VerificarCajaAbierta($idcaja) == false)
         {
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
@@ -306,23 +297,22 @@ class CorteCajaController extends Component
             }
 
             /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
-            $carteras = Cartera::where('caja_id', $idcaja)->get();
-            foreach ($carteras as $c)
-            {
+            $carteras = Cartera::where('caja_id', $idcaja)->where('tipo','efectivo')->get();
+         
             $movimiento = Movimiento::create([
                 'type' => 'APERTURA',
                 'status' => 'ACTIVO',
-                'import' => 0,
+                'import' => $this->efectivo_actual,
                 'user_id' => Auth()->user()->id
             ]);
             CarteraMov::create([
                 'type' => 'APERTURA',
                 'tipoDeMovimiento' => 'CORTE',
                 'comentario' => '',
-                'cartera_id' => $c->id,
+                'cartera_id' => $carteras->first()->id,
                 'movimiento_id' => $movimiento->id,
             ]);
-            }
+            
 
             /* DESABILITAR CAJA */
             $caja = Caja::find($idcaja);
@@ -342,6 +332,7 @@ class CorteCajaController extends Component
 
 
             $this->emit('message-success-toast');
+            $this->emit('aperturarCajaCerrar');
 
             //$this->redirect('cortecajas');
         }
@@ -370,7 +361,7 @@ class CorteCajaController extends Component
         ->where('cartmovs.type', 'INGRESO')
         ->whereDay('m.created_at', Carbon::now()->format('d'))
         ->sum('m.import');
-    $egresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+        $egresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
         ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
         ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
         ->where('cajas.id', $this->idcaja)
@@ -391,6 +382,7 @@ class CorteCajaController extends Component
 
 
             $this->emit('abrirAjustedeCaja');
+            $this->conteoinicial=false;
          
             // return redirect()->route('caja.cierre',[$id]);
             /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE APERTURA DEL USUARIO */
@@ -542,10 +534,19 @@ class CorteCajaController extends Component
 
     public function aplicarConteo()
     {
-        $this->efectivo_actual = round($this->total, 2);
+        if ($this->conteoinicial == true) {
+            $this->efectivo_actual = round($this->total, 2);
+            $this->resetConteo();
+            $this->emit('cerrarContador');
+            $this->emit('aperturarCaja');
+        }
+        else{
+            $this->efectivo_actual = round($this->total, 2);
         $this->resetConteo();
         $this->emit('cerrarContador');
-        $this->emit('abrirAjustedeCaja');
+        $this->emit('abrirAjustedeCaja');  
+        }
+    
     }
     public function resetConteo()
     {
@@ -680,6 +681,18 @@ class CorteCajaController extends Component
     $this->recaudo= null;
     $this->active1=true;
     $this->emit('cerrarAjustedeCaja');
+    }
+
+    public function confirmarAbrir($id){
+      
+    
+        $this->idcaja=$id;
+        $this->saldoAcumulado = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+        ->where('cajas.id', $this->idcaja)
+        ->where('c.tipo', 'efectivo')
+        ->sum('c.saldocartera');
+        $this->emit('aperturarCaja');
+        $this->conteoinicial=true;
     }
 
 
