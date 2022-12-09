@@ -59,8 +59,8 @@
     .table-wrapper table {
         border-collapse: separate;
         border-spacing: 0;
-        border-left: 0.3px solid #5e72e4;
-        border-bottom: 0.3px solid #5e72e4;
+        border-left: 0.3px solid #ffffff00;
+        border-bottom: 0.3px solid #ffffff00;
         width: 100%;
     }
 
@@ -71,19 +71,19 @@
         left: 0;
     }
     .table-wrapper table thead tr {
-    background: #5e72e4;
-    color: white;
+    /* background: #ffffff;
+    color: rgb(0, 0, 0); */
     }
     /* .table-wrapper table tbody tr {
         border-top: 0.3px solid rgb(0, 0, 0);
     } */
     .table-wrapper table tbody tr:hover {
-        background-color: #ffdf76a4;
+        background-color: #8e9ce96c;
     }
     .table-wrapper table td {
-        border-top: 0.3px solid #5e72e4;
+        border-top: 0.3px solid #ffffff00;
         padding-left: 10px;
-        border-right: 0.3px solid #5e72e4;
+        border-right: 0.3px solid #ffffff00;
     }
 
     /* Estilos para el encabesado de la pagina */
@@ -329,17 +329,27 @@
                                         <table>
                                             <thead>
                                                 <tr class="text-center">
-                                                    <th>Descripción</th>
-                                                    <th>Acción</th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>DESCRIPCION</b>
+                                                        </p>
+                                                    </th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>ACCIONES</b>
+                                                        </p>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($listaproductos as $p)
                                                 <tr>
                                                     <td class="text-left">
-                                                        {{ $p->nombre }}
-                                                        <b>({{ $p->barcode }})</b>
-                                                        {{ $p->precio_venta }} Bs
+                                                        <p class="text-sm mb-0">
+                                                            {{ $p->nombre }}
+                                                            <b>({{ $p->barcode }})</b>
+                                                            {{ $p->precio_venta }} Bs
+                                                        </p>
                                                     </td>
                                                     <td class="text-center">
 
@@ -441,24 +451,42 @@
                                         <table>
                                             <thead>
                                                 <tr class="text-center">
-                                                    <th>Descripción</th>
-                                                    <th>Precio Bs</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Importe</th>
-                                                    <th>Acciones</th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>DESCRIPCION</b>
+                                                        </p>
+                                                    </th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>PRECIO</b>
+                                                        </p>
+                                                    </th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>CANTIDAD</b>
+                                                        </p>
+                                                    </th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>IMPORTE</b>
+                                                        </p>
+                                                    </th>
+                                                    <th>
+                                                        <p class="text-sm mb-0">
+                                                            <b>ACCIONES</b>
+                                                        </p>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($cart as $item)
                                                 <tr>
                                                     <td>
-                                                        {{ $item->name }}
+                                                        <p class="text-sm mb-0">
+                                                            {{ $item->name }}
+                                                        </p>
                                                     </td>
                                                     <td>
-
-
-
-
                                                         <div class="input-group"  style="min-width: 120px; max-width: 130px; align-items: center;">
                                                             <input type="number" style="max-height: 30px;" id="p{{$item->id}}"
                                                             wire:change="cambiarprecio({{$item->id}}, $('#p' + {{$item->id}}).val())"
@@ -480,8 +508,10 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        {{ $item->price * $item->quantity, 2 }}
+                                                    <td class="align-middle text-center">
+                                                        <p class="text-sm mb-0">
+                                                            {{ $item->price * $item->quantity, 2 }}
+                                                        </p>
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="btn-group" role="group" aria-label="Basic example">
@@ -550,24 +580,32 @@
                    
                     
                     <div class="row">
-                        <div class="col-1 text-right">
-                        </div>
-                        <div class="col-10 text-center">
-                            Nombre Cliente: <b>{{ucwords(strtolower($nombrecliente))}}</b>
+                        <div class="col-12 text-center">
+                            <p class="text-sm">
+                                Nombre Cliente: <b>{{ucwords(strtolower($nombrecliente))}}</b>
+                            </p>
                             <br>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 @if($this->total_items > 0)
 
-                                <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">Vaciar</button>
+                                <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">
+                                    <p class="text-sm mb-0">
+                                        VACIAR
+                                    </p>
+                                </button>
 
 
                                 @endif
                                 <a href="{{ url('salelist') }}" class="btn btn-dark">
-                                    <b>Lista Ventas</b>
+                                    <p class="text-sm mb-0">
+                                        LISTA VENTAS
+                                    </p>
                                 </a>
 
                                 <button wire:click.prevent="modalfinalizarventa()" type="button" class="btn btn-primary">
-                                    Finalizar Venta
+                                    <p class="text-sm mb-0">
+                                        FINALIZAR VENTA
+                                    </p>
                                 </button>
 
                             </div>
@@ -594,47 +632,33 @@
         <button class="btn-flotante">Recargo {{$descuento_recargo * -1}} Bs</button>
         @endif
     @else
-        <div class="row sales layout-top-spacing">
-            <div class="col-sm-12" >
-                    <div class="widget widget-chart-one">
-                        <div class="text-center">
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <h1>No se selecciono ninguna caja</h1>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
+
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card  mb-4">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 text-center">
+                                <div class="numbers">
+                                    <h5 class="font-weight-bolder">
+                                        NO SE SELECCIONO NINGUNA CAJA
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
+            <div class="col-12 col-sm-6 col-md-4">
 
+            </div>
         </div>
+
+
+
     @endif
 
 
