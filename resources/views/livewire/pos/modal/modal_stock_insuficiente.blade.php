@@ -1,36 +1,45 @@
 {{-- Modal para avisar stock insuficiente en la Tienda y mostrar stock disponibles
 en otros destinos dentro de la misma sucursal --}}
-
-<div wire:ignore.self class="modal fade text-center" id="stockinsuficiente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title" style="color: aliceblue" id="exampleModalCenterTitle">Aviso</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h4 style="color: rgb(0, 0, 0)" class="modal-heading mb-4 mt-2">Stock Insuficiente</h4>git
-
-
-
-
                 
-                    <h6 class="modal-text" style="color: rgb(0, 0, 0)">
-                        No existe mas stock disponible del producto <b>"{{$this->nombreproducto}}"</b>
+  <div wire:ignore.self class="modal fade" id="stockinsuficiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+            Aviso
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                
+
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h5>Stock Insuficiente</h5>
+                </div>
+
+
+                <div class="col-12 text-sm mb-0 text-center">
+                    No existe mas stock disponible del producto <b>"{{$this->nombreproducto}}"</b>
                         , a continuacion se muestran todas las sucursales y el stock con el que cuentan de este producto
-                    </h6>
-                    <div style="background-color: rgb(0, 148, 234); color: white;">
-                            TU SUCURSAL: <b>"{{$this->nombresucursal}}"</b>
-                    </div>
+                        <p class="text-sm mb-0" style="background-color: #5e72e4; color: white;">
+                            Tu Sucursal: <b>"{{$this->nombresucursal}}"</b>
+                        </p>
+                </div>
+                
+            </div>
+
+
+
+
                     <div class="table-wrapper">
                         <table>
-                            <thead>
-                                <tr>
-                                <th>N°</th>
-                                <th>Nombre Destino</th>
-                                <th>Stock</th>
+                            <thead class="text-sm mb-0">
+                                    <tr>
+                                    <th>N°</th>
+                                    <th>Nombre Destino</th>
+                                    <th>Stock</th>
                                 </tr>
                             </thead>
                             <tbody>

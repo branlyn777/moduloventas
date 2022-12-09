@@ -1,6 +1,7 @@
 
 
 <div>
+<<<<<<< HEAD
       <div class="d-sm-flex justify-content-between">
         <div class="col-12 col-sm-12 col-md-4">
               @include('common.searchbox')
@@ -13,6 +14,30 @@
               </span class="btn-inner--text"> Nuevo Rol</button>
           </div>
        </div>
+=======
+  <div class="d-sm-flex justify-content-between">
+    <div class="col-12 col-sm-12 col-md-4">
+        @include('common.searchbox')
+    </div>
+    <div class="nav-wrapper position-relative end-0">
+      <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" type="button">
+        <span class="btn-inner--icon">
+            <i class="ni ni-fat-add"></i>
+        </span>
+        <span class="btn-inner--text">Nuevo Rol</span> 
+        </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+      <br>
+      
+>>>>>>> 9c9a5e33d6bfe7a32458ba833df3380c2b277b9d
 
         <div class="row">
             <div class="col-12">

@@ -24,32 +24,39 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="d-lg-flex">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            @include('common.searchbox')
+                        </div>
+                    </div>
+                    <div class="d-lg-flex">
+                        <div class="dataTable-top">
+                            {{-- <div class="dataTable-search">
+                                <input wire:model="search" wire:keydown.enter="overrideFilter()" class="dataTable-input" placeholder="Buscar..." type="text">
+                            </div> --}}
+                        </div>
+                        <div class="dataTable-dropdown">
+                            {{-- <label> --}}
+                                <select wire:model="pagination" class="dataTable-selector form-control">
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="500">500</option>
+                                </select>
+                                
+                            {{-- </label> --}}
+                        </div>
+                        <a wire:click= 'deleteProducts()' class="btn btn-outline-primary btn-sm mb-0">Eliminar Seleccionados</a>
+                    </div>
                 </div>
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-top">
-                                <div class="dataTable-dropdown">
-                                    <label>
-                                        <select wire:model="pagination" class="dataTable-selector">
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                            <option value="500">500</option>
-                                        </select>
-                                        <button wire:click= 'deleteProducts()' type="button" class="btn btn-outline-primary btn-sm mb-0">
-                                            Eliminar Seleccionados
-                                        </button>
-                                    </label>
-                                </div>
-                                <div class="dataTable-search">
-                                    <input wire:model="search" wire:keydown.enter="overrideFilter()" class="dataTable-input" placeholder="Buscar..." type="text">
-                                </div>
-                            </div>
                             <div class="dataTable-container">
                                 <table class="table table-flush dataTable-table" id="products-list">
-                                    <thead class="thead-light">
-                                        <tr>
+                                    <thead>
+                                        <tr class="text-center">
                                             <th>
                                                 No
                                             </th>

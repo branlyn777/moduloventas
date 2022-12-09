@@ -1,99 +1,102 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h3 class="text-center">
-                    <b>MOBILIARIOS</b>
-              
-                </h3>
-                <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
-                        data-target="#theModal">Agregar</a>
-           
-                </ul>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5  class="mb-0">Mobiliarios</h5>
+                        </div>
 
-
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-
-                    @include('common.searchbox')
-                </div>
-            </div>
-
-            <div class="widget-content">
-                <center>
-
-                    <div class="table-6">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>TIPO</th>
-                                    <th>CODIGO</th>
-                                    <th>DESCRIPCION</th>
-                                    <th>UBICACION</th>
-                                    <th>PRODUCTOS</th>
-                                    <th>ACCIONES</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data_locations as $location)
-                                <tr>
-                                        <td>
-                                            <h6>{{ ($data_locations->currentpage()-1) * $data_locations->perpage() + $loop->index + 1 }}</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ $location->tipo }}</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ $location->codigo }}</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ $location->descripcion }}</h6>
-                                        </td>
-                                        <td>
-                                            <h6>{{ $location->destino }}
-                                            <br>
-                                            {{ $location->sucursal}}</h6>
-                                        </td>
-                                        <td>
-                                            <center>
-                                                <a href="javascript:void(0)" wire:click="ver({{$location->id}})"
-                                                class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> <b class="pl-1">{{ $location->product->count()}}</b> 
-                                                <i class="fas fa-eye"></i>
-                                                </a>
-                                            </center>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $location->id }})"
-                                                class="btn btn-dark p-1 m-0" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            
-                                            <a href="javascript:void(0)" wire:click="asignaridmob({{$location->id}})" 
-                                                class="btn btn-warning p-1 m-0" title="Agregar Productos a este mobiliario">
-                                                <i class="fas fa-plus"></i>
-                                            </a>
-                                            <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')"
-                                                class="btn btn-danger p-1 m-0" title="Agregar Mobiliario">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $data_locations->links() }}
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
+                            <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
+                                data-target="#theModal">Agregar</a>
+                            </div>
+                        </div>
                     </div>
-                </center>
-            </div>
+                    <br>
+                    <div class="d-lg-flex">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            @include('common.searchbox')
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>#</th>
+                                            <th>TIPO</th>
+                                            <th>CODIGO</th>
+                                            <th>DESCRIPCION</th>
+                                            <th>UBICACION</th>
+                                            <th>PRODUCTOS</th>
+                                            <th>ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data_locations as $location)
+                                        <tr>
+                                            <td>
+                                                <h6>{{ ($data_locations->currentpage()-1) * $data_locations->perpage() + $loop->index + 1 }}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ $location->tipo }}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ $location->codigo }}</h6>
+                                            </td>
+                                                <td>
+                                                    <h6>{{ $location->descripcion }}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6>{{ $location->destino }}
+                                                    <br>
+                                                    {{ $location->sucursal}}</h6>
+                                                </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="javascript:void(0)" wire:click="ver({{$location->id}})"
+                                                        class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> <b class="pl-1">{{ $location->product->count()}}</b> 
+                                                        <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </center>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $location->id }})"
+                                                        class="btn btn-dark p-1 m-0" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                       
+                                                    <a href="javascript:void(0)" wire:click="asignaridmob({{$location->id}})" 
+                                                        class="btn btn-warning p-1 m-0" title="Agregar Productos a este mobiliario">
+                                                        <i class="fas fa-plus"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)"
+                                                        onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')"
+                                                        class="btn btn-danger p-1 m-0" title="Agregar Mobiliario">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ $data_locations->links() }}
+            </div>  
         </div>
     </div>
-        @include('livewire.localizacion.form')
-        @include('livewire.localizacion.verproductos')
+    @include('livewire.localizacion.form')
+    @include('livewire.localizacion.verproductos')
     @include('livewire.localizacion.modal_asignar_mobiliario')
 </div>
 

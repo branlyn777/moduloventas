@@ -2740,7 +2740,6 @@ progress {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #d2d6da;
-  appearance: none;
   border-radius: 0.5rem;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }

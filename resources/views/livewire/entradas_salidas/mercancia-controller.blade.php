@@ -1,34 +1,39 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <center> <b>Control Entrada y Salida de Productos</b></center>
-                </h4>
-                <ul class="row justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
-                        wire:click='resetui()' data-target="#operacion">Registrar Operacion</a>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5>Control Entrada y Salida de Productos</h5>
+                        </div>
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
+                                <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
+                                    wire:click='resetui()' data-target="#operacion">Registrar Operacion</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="d-lg-flex">
+                        <div class="col-12 col-sm-12 col-md-3"></div>
 
-
-                </ul>
-
-            </div>
-
-            <div class="widget-body">
-                <div class="col-lg-3 mb-2">
-
-                    <select wire:model="tipo_de_operacion" class="form-control">
-                        <option value="Entrada">Entrada</option>
-                        <option value="Salida">Salida</option>
-                    </select>
+                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
+                            <div class="ms-auto my-auto">
+                                <select wire:model="tipo_de_operacion" class="form-control">
+                                    <option value="Entrada">Entrada</option>
+                                    <option value="Salida">Salida</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-
-                <div class="row pl-2">
-                    <div class="col-lg-12">
-                        <div class="widget-content">
-                            <div class="table-6">
-                                <table>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -102,7 +107,6 @@
     </div>
     @include('livewire.entradas_salidas.operacion')
     @include('livewire.entradas_salidas.buscarproducto')
-
 </div>
 
 
