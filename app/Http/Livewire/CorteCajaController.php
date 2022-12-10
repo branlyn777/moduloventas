@@ -331,9 +331,9 @@ class CorteCajaController extends Component
 
 
 
-            $this->emit('message-success-toast');
+            // $this->emit('message-success-toast');
             $this->emit('aperturarCajaCerrar');
-
+            
             //$this->redirect('cortecajas');
         }
         else

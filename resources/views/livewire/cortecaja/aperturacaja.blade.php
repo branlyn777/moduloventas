@@ -2,7 +2,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="exampleModalLabel">Apertura de Caja</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -60,7 +60,7 @@
 
 
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-warning" wire:click='CorteCaja({{$idcaja}})'>Iniciar Sesion</button>
+                    <button type="button" class="btn btn-secondary" wire:click='CorteCaja({{$idcaja}})'>Iniciar Sesion</button>
                 </div>
                 @endif
             </div>

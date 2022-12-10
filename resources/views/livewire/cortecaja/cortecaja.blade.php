@@ -4,7 +4,7 @@
         background-color: rgb(255, 255, 255);
         padding: 10px;
         border-radius: 15px;
- 
+
         box-shadow: 3px 3px #5ea8e48c;
     }
 
@@ -137,7 +137,7 @@
         <div class="col-12 col-sm-6 col-md-4 text-left">
             <b class="text-white">Sucursal</b>
             <select wire:model="idsucursal" class="form-control" name="" id="">
-                @foreach($sucursales as $s)
+                @foreach($sucursales as $s) 
                 <option value="{{$s->id}}">{{$s->name}}</option>
                 @endforeach
                 <option value="Todos">Todas las Sucursales</option>
@@ -200,7 +200,8 @@
                     @if($this->nombre_caja != null)
 
                     @if($c->id == $this->id_caja)
-                    <button type="button" onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')" class="btn btn-success">
+                    <button type="button" onclick="ConfirmarCerrar({{$c->id}},'{{$c->nombre}}')"
+                        class="btn btn-primary">
                         <i class="fas fa-arrow-right"></i>
                         Cerrar Sesion
                     </button>
@@ -235,11 +236,11 @@
 
 
                     @if($c->misucursal)
-                    <button wire:click.prevent="confirmarAbrir({{$c->id}})" class="btn btn-secondary">
+                    <button wire:click.prevent="confirmarAbrir({{$c->id}})" class="btn btn-dark btn-sm mb-3">
                         <i class="fas fa-arrow-up"></i>
 
-                       Abrir Caja
-                 
+                        Abrir Caja
+
                     </button>
                     @endif
 
@@ -322,7 +323,7 @@
         window.livewire.on('aperturarCaja', msg => {
             $('#aperturacaja').modal('show')
         });
-        window.livewire.on('    ', msg => {
+        window.livewire.on('aperturarCajaCerrar', msg => {
             $('#aperturacaja').modal('hide')
         });
     });

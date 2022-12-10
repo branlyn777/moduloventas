@@ -2,11 +2,12 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="exampleModalLabel">Ajuste de Efectivo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+               
             </div>
             <div class="modal-body">
                 @if ($idcaja!==null)
@@ -14,19 +15,25 @@
                 <div class="row justify-content-center">
                     <div class="mb-2">
 
-                        <div class="row mt-4">
-                            <div class="col-lg-12">
+                        <div class="row mt-2">
+                            <div class="col-lg-5">
 
                                 @if ($active1==true)
 
-                                <h5 class="text-center">
-                                    <b> Arqueo de Caja</b>
+                                <h5 class="text-left">
+                                    <b>Arqueo de Caja</b>
                                 </h5>
+                             
                                 @else
                                 <h5>
-                                    <b> Recaudar Efectivo</b>
+                                    <b>Recaudar Efectivo</b>
                                 </h5>
                                 @endif
+                            </div>
+                            <div class="col-lg-7">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    Ajuste de Cierre de Caja
+                                </button>
                             </div>
                         </div>
                         @if($active1 == true)
@@ -36,24 +43,24 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-right">
-                                                <h5> Transacciones del Dia: </h5>
+                                                <h6> <b> Transacciones del Dia:</b> </h6>
                                             </td>
                                             <td class="text-right">
-                                                <h5> Bs. {{$hoyTransacciones}}</h5>
+                                                <h6> Bs. {{$hoyTransacciones}}</h6>
                                             </td>
                                         </tr>
                                         <tr></tr>
                                         <tr>
                                             <td class="text-right">
-                                                <h5> Esperado en Efectivo: </h5>
+                                                <h6> <b>Esperado en Efectivo:</b> </h6>
                                             </td>
                                             <td class="text-right">
-                                                <h5> Bs. {{$saldoAcumulado}}</h5>
+                                                <h6> Bs. {{$saldoAcumulado}}</h6>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="text-right">
-                                                <h5>Efectivo Actual:</h5>
+                                                <h6> <b>Efectivo Actual: </b></h6>
                                             </td>
                                             <td>
                                                 <div class="input-group mb-3">
@@ -73,20 +80,20 @@
 
                                         <tr>
                                             <td class="text-right">
-                                                <h5>{{$efectivo_actual>$saldoAcumulado ? 'Efectivo Sobrante:':'Efectivo
-                                                    Faltante: '}}
-                                                </h5>
+                                                <h6> <b> {{$efectivo_actual>$saldoAcumulado ? 'Efectivo Sobrante:':'Efectivo
+                                                    Faltante: '}}</b>
+                                                </h6>
                                             </td>
                                             <td class="text-right">
-                                                <h5> Bs. {{$efectivo_actual-$saldoAcumulado}}</h5>
+                                                <h6> Bs. {{$efectivo_actual-$saldoAcumulado}} </h5>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <h5>
+                                                <h6>
 
                                                     Nota/Comentario:
-                                                </h5>
+                                                </h6>
                                             </td>
                                             <td>
                                                 <textarea wire:model='nota_ajuste'></textarea>
@@ -96,11 +103,11 @@
 
                                         <tr>
                                             <td class="text-right">
-                                                <h5>Efectivo Sob./Falt.:
-                                                </h5>
+                                                <h6> <b>Efectivo Sob./Falt.:</b> 
+                                                </h6>
                                             </td>
                                             <td class="text-right">
-                                                <h5> Bs. 0</h5>
+                                                <h6> Bs. 0</h6>
                                             </td>
                                         </tr>
                                         @endif
@@ -118,28 +125,28 @@
 
                                     <tr>
                                         <td>
-                                            <h5 class="text-right">Monto limite Efectivo:</h5>
+                                            <h6 class="text-right">Monto limite Efectivo:</h6>
                                         </td>
                                         <td>
-                                            <h5 class="text-right">{{$monto_limite}}</h5>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-
-
-                                        <td>
-                                            <h5 class="text-right">Efectivo Excedente:</h5>
-                                        </td>
-                                        <td>
-                                            <h5 class="text-right">{{number_format($saldoAcumulado-$monto_limite,2)}}
-                                            </h5>
+                                            <h6 class="text-right">{{$monto_limite}}</h6>
                                         </td>
 
                                     </tr>
                                     <tr>
+
+
                                         <td>
-                                            <h5 class="text-right">Recaudo:</h5>
+                                            <h6 class="text-right">Efectivo Excedente:</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-right">{{number_format($saldoAcumulado-$monto_limite,2)}}
+                                            </h6>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-right">Recaudo:</h6>
                                         </td>
                                         <td>
                                             <input type="number" wire:model='recaudo' style="direction: rtl;">
@@ -148,8 +155,7 @@
                                     <tr>
                                         <td colspan="2" class="text-center">
                                             <button type="button" class="btn btn-danger btn-sm mb-3"
-                                                wire:click='RecaudarEfectivo()' {{$recaudo==null? "disabled='true'"
-                                                :''}}>Recaudar</button>
+                                                wire:click='RecaudarEfectivo()' {{$recaudo==null? "disabled='true'":''}}>Recaudar</button>
 
                                         </td>
 
@@ -169,12 +175,12 @@
 
                     @if ($active1== true)
 
-                    <button type="button" class="btn btn-warning" wire:click='finArqueo()'>Finalizar Arqueo de
-                        Caja</button>
+                    <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='finArqueo()'>Finalizar Arqueo de Caja</button>
                     @else
 
-                    <button type="button" class="btn btn-warning" wire:click='finalizarCierre()'>Finalizar
-                        Cierre</button>
+                
+
+                    <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='finalizarCierre()'>Finalizar Cierre</button>
                     @endif
 
 
