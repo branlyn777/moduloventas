@@ -12,7 +12,7 @@
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" wire:click="$emit('modal-show')">
+                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal">
                                     +&nbsp; Nuevo Producto
                                 </a>
                                 <button wire:click="$emit('modal-import')" type="button" class="btn btn-outline-primary btn-sm mb-0">
@@ -156,6 +156,8 @@
     </div>
     @include('livewire.products.form')
     @include('livewire.products.importarproductos')
+    @include('livewire.products.modalunidad')
+    @include('livewire.products.modalmarca')
 </div>
 @section('javascript')
 <script>
@@ -194,6 +196,60 @@
                 'error'
                 )
         });
+
+
+
+
+        window.livewire.on('cat-added', msg => {
+                $('#modalCategory').modal('hide'),
+                noty(msg)
+            });
+            window.livewire.on('marca-added', msg => {
+                $('#modalMarca').modal('hide'),
+                noty(msg)
+            });
+            window.livewire.on('unidad-added', msg => {
+                $('#modalUnidad').modal('hide'),
+                noty(msg)
+            });
+            window.livewire.on('subcat-added', msg => {
+                $('#modalSubcategory').modal('hide'),
+                noty(msg)
+            });
+            window.livewire.on('modalUnidadOpen', msg => {
+                $('#modalUnidad').modal('show')
+           
+            });
+            
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     });
 
         function Confirm(id, name, products) {

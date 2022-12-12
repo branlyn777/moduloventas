@@ -25,12 +25,12 @@
   </div>
           <div class="modal-footer" style="background: #f0ecec">
               <button type="button" wire:click.prevent="resetCategory()" class="btn btn-dark close-btn text-info"
-                  data-dismiss="modal" style="background: #3b3f5c">CANCELAR
+                  data-bs-dismiss="modal" style="background: #3b3f5c">Cancelar
             </button>
            
                   <button type="button" wire:click.prevent="StoreMarca()"
-                      class="btn btn-dark close-btn text-info">GUARDAR</button>
-              </div>
+                      class="btn btn-dark close-btn text-info">Guardar</button>
+           </div>
           </div>
      </div>
   </div>
