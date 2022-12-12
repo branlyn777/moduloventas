@@ -74,12 +74,7 @@
             </div>
         </div>
     </div>
-</div>
-
-<br>
-
-
-
+    
 @include('livewire.sucursales.form')
 </div>
 
