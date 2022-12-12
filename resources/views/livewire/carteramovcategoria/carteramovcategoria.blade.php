@@ -51,7 +51,7 @@
             @include('common.searchbox')
         </div>
         <div class="nav-wrapper position-relative end-0">
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
+            <button wire:click="modalnuevacategoria()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
             type="button">
             <span class="btn-inner--icon">
                 <i class="ni ni-fat-add"></i>
@@ -72,7 +72,7 @@
                           <thead>
                             <tr>
                               <th class="text-uppercase text-xxs font-weight-bolder">No</th>
-                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categorhhia</th>
+                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categoria</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Detalles</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Tipo</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
@@ -85,11 +85,11 @@
         
         
                             @foreach ($data as $p)
-                            <tr class="text-center">
-                                <td class="text-xs mb-0 text-center">
+                            <tr >
+                                <td class="text-xs mb-0 ">
                                     {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                 </td>
-                                <td class="text-xs mb-0 text-center">
+                                <td class="text-xs mb-0 ">
                                     {{ $p->nombre }}
                                 </td>
                                 <td class="text-xs mb-0 text-center">
