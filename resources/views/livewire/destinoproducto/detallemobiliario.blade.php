@@ -1,10 +1,9 @@
-<div wire:ignore.self class="modal fade" id="mobil" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div wire:ignore.self class="modal fade" id="mobil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="text-white">Ubicacion Producto</h5>
-                <button type="button" class="close" data-keyboard="false" data-backdrop="static" data-dismiss="modal"
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white">Ubicacion Producto</h5>
+                {{-- <button type="button" class="close" data-keyboard="false" data-backdrop="static" data-dismiss="modal"
                     aria-label="Close" wire:click="cerrar()">
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -12,10 +11,10 @@
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
-                </button>
+                </button> --}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="cerrar()"></button>
             </div>
-            <div>
-
+            <div class="modal-body">
 
                 @if ($grouped)
 
@@ -26,25 +25,24 @@
                         <div class="container">
                             @foreach ($grouped as $key=>$item)
                                 <div class="media">
+                                    <center>
+                                        <h5>{{$key}}</h5>
+                                    </center>
                                     <div class="media-body">
-                                        <center>
-                                            <h3>{{$key}}</h3>
-                                        </center>
+                                        
                                         <div class="table-6">
                                             <table>
                                                 <thead>
-                                                    <tr>
-                                                        <th class="text-center">ITEM</th>
-                                                        <th class="text-center">ESTANCIA</th>
-                                                        <th class="text-center">STOCK</th>
-                                                        <th class="text-center">MOBILIARIO</th>
-    
-    
+                                                    <tr class="text-center">
+                                                        <th style="width: 100px;">ITEM</th>
+                                                        <th style="width: 500px;">ESTANCIA</th>
+                                                        <th style="width: 200px;">STOCK</th>
+                                                        <th>MOBILIARIO</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($item as $key=>$value)
-                                                    <tr>
+                                                    <tr class="text-center">
     
                                                         <td>
                                                             <h6 class="text-center">{{ $loop->iteration}}</h6>
@@ -88,13 +86,8 @@
 
                 </div>
                 @endif
-
-
-
+        
             </div>
-
-
-
         </div>
     </div>
 </div>

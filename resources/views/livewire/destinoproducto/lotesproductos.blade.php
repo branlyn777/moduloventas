@@ -1,110 +1,83 @@
-<div wire:ignore.self class="modal fade" id="lotes" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="lotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <div class="col-lg-11 pl-2">
-                    <h5 class="text-white">LOTES</h5>
-                </div>
-                <div class="col-lg-1">
-                    <div class="row justify-contents-end">
-                        <button type="button" class="close" data-keyboard="false" data-backdrop="static"
-                            data-dismiss="modal" aria-label="Close" wire:click="cerrar()">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white">Lotes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="d-lg-flex">
+                    <div>
+                        <h5>{{$nombre_prodlote}}</h5>
+                    </div>
+
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            @if ($loteproducto)
+                            <select wire:model='estados' class="form-control mt--2">
+                                <option value="null" disabled>Estado</option>
+                                <option value="ACTIVO">ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="m-auto">
-                <div class="col-lg-12 text-center">
-                    <h3>{{$nombre_prodlote}} </h3>
+                
 
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th style="width: 30px;">#</th>
+                                            <th style="width: 200px;">Fecha Creacion</th>
+                                            <th style="width: 200px;">Existencia</th>
+                                            <th style="width: 200px;">Estado</th>
+                                            <th style="width: 200px;">Costo Lote</th>
+                                            <th style="width: 300px;">p/v Lote</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($loteproducto as $data)
+                                        <tr class="text-center">
+                                            {{-- {{$data}} --}}
+
+                                            <td>
+                                                <h6 class="text-center">{{ $loop->iteration}}</h6>
+                                            </td>
+                                            <td>
+                                                <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
+                                                    <br>
+                                                    {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <h6>{{$data->existencia}}</h6>
+                                            </td>
+
+                                            <td>
+                                                <h6>{{$data->status}}</h6>
+                                            </td>
+
+                                            <td>
+                                                <h6>{{$data->costo}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{$data->pv_lote}}</h6>
+                                            </td>
+                                            @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                @endif
             </div>
-
-            <div class="row m-1 justify-content-end">
-                @if ($loteproducto)
-
-
-
-                <div class="col-12 col-lg-3 col-md-3 mb-1 ml-0">
-
-                    <select wire:model='estados' class="form-control mt--2">
-                        <option value="null" disabled>Estado</option>
-                        <option value="ACTIVO">ACTIVO</option>
-                        <option value="INACTIVO">INACTIVO</option>
-                    </select>
-
-                </div>
-            </div>
-
-            <div class="row m-3">
-
-                <div class="table-1">
-                    <table>
-                        <thead>
-                            <tr class="text-center">
-                                <th>#</th>
-                                <th>Fecha Creacion</th>
-
-                                <th>Existencia</th>
-                                <th>Estado</th>
-                                <th>Costo Lote</th>
-                                <th>p/v Lote</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($loteproducto as $data)
-                            <tr>
-
-
-                                {{-- {{$data}} --}}
-
-                                <td>
-                                    <h6 class="text-center">{{ $loop->iteration}}</h6>
-                                </td>
-                                <td>
-                                    <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
-                                        <br>
-                                        {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}
-                                    </center>
-                                </td>
-                                <td>
-                                    <h6>{{$data->existencia}}</h6>
-                                </td>
-
-                                <td>
-                                    <h6>{{$data->status}}</h6>
-                                </td>
-
-                                <td>
-                                    <h6>{{$data->costo}}</h6>
-                                </td>
-                                <td>
-                                    <h6>{{$data->pv_lote}}</h6>
-                                </td>
-                                @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-
-
-            @endif
-
-
-
         </div>
-
-
-
     </div>
-</div>
 </div>
