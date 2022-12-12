@@ -18,7 +18,6 @@
                     </div>
                     <br>
                     <div class="d-lg-flex">
-                        
                         <div class="col-12 col-lg-3 col-md-6">
                             <div class="input-group">
                                 <span class="input-group-text input-gp">
@@ -64,7 +63,6 @@
                          </div>
                        
                         @endif --}}
-
                     </div>
 
                     <div class="card-body px-0 pb-0">
@@ -85,14 +83,14 @@
                                         <tbody>
                                             @foreach ($destinos_almacen as $destino)
                                                 @if ($destino->stock_s < $destino->cant_min)
-                                            <tr class="seleccionar">
+                                            <tr class="seleccionar text-center">
                                                 @else
-                                            <tr class="seleccionar">
+                                            <tr class="seleccionar text-center">
                                             @endif
                                                     <td>
-                                                        <h6 class="text-center">{{ $loop->iteration}}</h6>
+                                                        <h6>{{ $loop->iteration}}</h6>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <span>
                                                             <img src="{{('storage/productos/'.$destino->image) }}"
                                                                 height="40" class="rounded">
@@ -107,13 +105,13 @@
                                                 
                                                     @if ($selected_id == 'General')
                                                     <td>
-                                                        <center>{{ $destino->stock_s }}</center> 
+                                                        {{ $destino->stock_s }}
                                                     </td>
                                                     <td>
-                                                        <center>{{ $destino->cantidad_minima }}</center> 
+                                                        {{ $destino->cantidad_minima }}
                                                     </td>
                                                 <td>
-                                                    <center>
+                                                    
 
                                                         <button wire:click="ver({{ $destino->id }})" type="button" class="btn btn-secondary p-1" style="background-color: rgb(16, 80, 150)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -121,7 +119,7 @@
                                                         <button wire:click="lotes({{ $destino->id }})" type="button" class="btn btn-dark p-1" style="background-color: rgb(12, 100, 194)">
                                                                 <i class="fas fa-box-open" ></i>
                                                         </button>
-                                                    </center>
+                                                    
                                                 
                                                 </td>
                                                     @else
@@ -129,7 +127,7 @@
                                                         <h6 class="text-center">{{ $destino->stock}}</h6>
                                                     </td>
                                                     <td>
-                                                        <center>{{ $destino->cantidad_minima }}</center> 
+                                                        {{ $destino->cantidad_minima }}
                                                     </td>
                                                     @can('Admin_Views')
                                                     <td>

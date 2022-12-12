@@ -1,11 +1,12 @@
-
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h2 class="text-center">
-                    <b>ORDENES DE COMPRA</b>
-                </h2>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <h5 class="text-center">
+                            <b>Ordenes de Compra</b>
+                        </h5>
                 <ul class="row justify-content-end">
                         <a href="detalle_orden_compras" class="btn btn-outline-primary">Registrar Orden</a>
            
