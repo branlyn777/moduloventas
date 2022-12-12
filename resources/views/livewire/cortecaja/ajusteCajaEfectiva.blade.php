@@ -5,35 +5,32 @@
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="exampleModalLabel">Ajuste de Efectivo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+           
                 </button>
                
             </div>
             <div class="modal-body">
                 @if ($idcaja!==null)
-
                 <div class="row justify-content-center">
-                    <div class="mb-2">
-
+                    <div class="col-lg-12 mb-2">
                         <div class="row mt-2">
-                            <div class="col-lg-5">
-
+                            <div class="col-lg-7">
                                 @if ($active1==true)
-
-                                <h5 class="text-left">
+                                <h6 class="text-left ml-2">
                                     <b>Arqueo de Caja</b>
-                                </h5>
-                             
+                                </h6>
                                 @else
                                 <h5>
                                     <b>Recaudar Efectivo</b>
                                 </h5>
                                 @endif
                             </div>
-                            <div class="col-lg-7">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                    Ajuste de Cierre de Caja
-                                </button>
+                            <div class="col-lg-5">
+                                {{-- <div class="row">
+                                        <button type="button" class="btn btn-sm btn-primary">
+                                            Ajuste de Cierre de Caja
+                                        </button>
+                                </div> --}}
                             </div>
                         </div>
                         @if($active1 == true)
@@ -191,3 +188,79 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div wire:ignore.self class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Ajuste de Efectivo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+           
+                </button>
+               
+            </div>
+            <div class="modal-body">
+         
+            </div>
+        </div>
+    </div>
+</div>
+		
+	

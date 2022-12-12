@@ -12,7 +12,7 @@
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
                                 <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-toggle="modal" data-target="#theModal" wire:click="resetUI()">
-                                    +&nbsp; Agregar Categoria
+                                  Agregar Categoria
                                 </a>
 
                                 {{-- <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> 
