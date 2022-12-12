@@ -5,14 +5,12 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">Almacen Producto</h5>  
+                            <h6 class="mb-0">Almacen Producto</h6>  
                         </div>
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                              
-                                <a href='{{url('almacen/export/')}}' class="btn btn-outline-primary" > <i class="fas fa-arrow-alt-circle-up"></i>Exportar Excel</a>
-                                   
+                                <a href='{{url('almacen/export/')}}' class="btn btn-outline-primary" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                             </div>
                         </div>
                     </div>
@@ -26,43 +24,39 @@
                                 <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
                             </div>
                         </div>
-
-                        {{--SELECT DE LAS SUCURSALES--}}
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <select wire:model='selected_id' class="form-control" style="align-items: flex-end">
-                                    <option value="General">Almacen Total</option>
-                                        @foreach ($data_suc as $data)
-                                            <option value="{{ $data->id }}">{{ $data->sucursal }}-{{$data->destino}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <select wire:model='selected_mood' class="form-control">
-                                    <option value="todos">TODOS</option>
-                                    <option value='cero'>Productos agotados</option>
-                                    <option value='bajo'>Productos bajo stock</option>
-                                </select>
-                            </div>
-                        </div>
                         
-                        {{-- <div class="form-group">
-                            <select wire:model='filtro_stock' class="form-control">
-                                <option value="TODOS">Todos</option>
-                                <option value="BAJO_STOCK">Productos con bajo stock</option> --}}
-                                {{-- <option value="AGOTADOS">Productos agotados</option> --}}
-                                {{-- <option value="BAJA ROTACION">Listar productos con baja rotacion</option>
-                                <option value="ALTA DEMANDA">Listar productos de alta demanda</option> --}}
-                            {{-- </select> --}}
-                        {{-- </div> --}}
-                        {{-- @if ($selected_id != 'General')
-                        <div class="form-group">
-                        <button type="button" class="btn btn-danger" onclick="Confirmarvaciado()">Vaciar Almacen</button>
-                         </div>
-                       
-                        @endif --}}
+                        {{--SELECT DE LAS SUCURSALES--}}
+                        <div class="btn-group ms-auto my-auto">
+                        {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> --}}
+                            <select wire:model='selected_id' class="form-control">
+                                <option value="General">Almacen Total</option>
+                                    @foreach ($data_suc as $data)
+                                        <option value="{{ $data->id }}">{{ $data->sucursal }}-{{$data->destino}}</option>
+                                    @endforeach
+                            </select>
+                            
+                            <select wire:model='selected_mood' class="form-control">
+                                <option value="todos">TODOS</option>
+                                <option value='cero'>Productos agotados</option>
+                                <option value='bajo'>Productos bajo stock</option>
+                            </select>
+                            
+                            {{-- <div class="form-group">
+                                <select wire:model='filtro_stock' class="form-control">
+                                    <option value="TODOS">Todos</option>
+                                    <option value="BAJO_STOCK">Productos con bajo stock</option> --}}
+                                    {{-- <option value="AGOTADOS">Productos agotados</option> --}}
+                                    {{-- <option value="BAJA ROTACION">Listar productos con baja rotacion</option>
+                                    <option value="ALTA DEMANDA">Listar productos de alta demanda</option> --}}
+                                {{-- </select> --}}
+                            {{-- </div> --}}
+                            {{-- @if ($selected_id != 'General')
+                            <div class="form-group">
+                            <button type="button" class="btn btn-danger" onclick="Confirmarvaciado()">Vaciar Almacen</button>
+                             </div>
+                           
+                            @endif --}}
+                        </div>
                     </div>
 
                     <div class="card-body px-0 pb-0">
@@ -71,24 +65,24 @@
                                 <div class="dataTable-container">
                                     <table class="table align-items-center mb-0">
                                         <thead>
-                                            <tr class="text-center">
+                                            <tr class="text-center" style="font-size: 10.4px">
                                                 <th>#</th>
                                                 <th>IMAGEN</th>                              
                                                 <th>PRODUCTO</th>                              
                                                 <th>STOCK</th>
-                                                <th>CANT.MIN</th>                                       
+                                                <th>CANT.MIN</th>                                     
                                                 <th>ACCIONES</th>                  
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($destinos_almacen as $destino)
                                                 @if ($destino->stock_s < $destino->cant_min)
-                                            <tr class="seleccionar text-center">
+                                            <tr class="seleccionar text-center" style="font-size: 12px">
                                                 @else
-                                            <tr class="seleccionar text-center">
+                                            <tr class="seleccionar text-center" style="font-size: 12px">
                                             @endif
                                                     <td>
-                                                        <h6>{{ $loop->iteration}}</h6>
+                                                        <h6 style="font-size: 12px">{{ $loop->iteration}}</h6>
                                                     </td>
                                                     <td>
                                                         <span>
@@ -110,18 +104,20 @@
                                                     <td>
                                                         {{ $destino->cantidad_minima }}
                                                     </td>
-                                                <td>
+                                                    <td class="align-middle text-center">
                                                     
-
-                                                        <button wire:click="ver({{ $destino->id }})" type="button" class="btn btn-secondary p-1" style="background-color: rgb(16, 80, 150)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                                                        </button>
-                                                        <button wire:click="lotes({{ $destino->id }})" type="button" class="btn btn-dark p-1" style="background-color: rgb(12, 100, 194)">
-                                                                <i class="fas fa-box-open" ></i>
-                                                        </button>
+                                                            <button wire:click="ver({{ $destino->id }})" type="button" class="btn btn-secondary p-1 mx-3" style="background-color: rgb(16, 80, 150)">
+                                                                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line>
+                                                                <line x1="3" y1="18" x2="21" y2="18"></line></svg> --}}
+                                                                <i class="fas fa-list"></i>
+                                                            </button>
+                                                            
+                                                            <button wire:click="lotes({{ $destino->id }})" type="button" class="btn btn-dark p-1 mx-3" style="background-color: rgb(12, 100, 194)">
+                                                                    <i class="fas fa-box-open" ></i>
+                                                            </button>
                                                     
-                                                
-                                                </td>
+                                                    </td>
                                                     @else
                                                     <td>
                                                         <h6 class="text-center">{{ $destino->stock}}</h6>
