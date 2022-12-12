@@ -1,381 +1,418 @@
-@section('css')
-<style>
-    /* Estilos para el loading */
-    .lds-roller {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-        }
-        .lds-roller div {
-        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        transform-origin: 40px 40px;
-        }
-        .lds-roller div:after {
-        content: " ";
-        display: block;
-        position: absolute;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #02b1ce;
-        margin: -4px 0 0 -4px;
-        }
-        .lds-roller div:nth-child(1) {
-        animation-delay: -0.036s;
-        }
-        .lds-roller div:nth-child(1):after {
-        top: 63px;
-        left: 63px;
-        }
-        .lds-roller div:nth-child(2) {
-        animation-delay: -0.072s;
-        }
-        .lds-roller div:nth-child(2):after {
-        top: 68px;
-        left: 56px;
-        }
-        .lds-roller div:nth-child(3) {
-        animation-delay: -0.108s;
-        }
-        .lds-roller div:nth-child(3):after {
-        top: 71px;
-        left: 48px;
-        }
-        .lds-roller div:nth-child(4) {
-        animation-delay: -0.144s;
-        }
-        .lds-roller div:nth-child(4):after {
-        top: 72px;
-        left: 40px;
-        }
-        .lds-roller div:nth-child(5) {
-        animation-delay: -0.18s;
-        }
-        .lds-roller div:nth-child(5):after {
-        top: 71px;
-        left: 32px;
-        }
-        .lds-roller div:nth-child(6) {
-        animation-delay: -0.216s;
-        }
-        .lds-roller div:nth-child(6):after {
-        top: 68px;
-        left: 24px;
-        }
-        .lds-roller div:nth-child(7) {
-        animation-delay: -0.252s;
-        }
-        .lds-roller div:nth-child(7):after {
-        top: 63px;
-        left: 17px;
-        }
-        .lds-roller div:nth-child(8) {
-        animation-delay: -0.288s;
-        }
-        .lds-roller div:nth-child(8):after {
-        top: 56px;
-        left: 12px;
-        }
-        @keyframes lds-roller {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-        /* Estilos para el Switch Mas Filtros*/
-        .switch {
-        position: relative;
-        display: inline-block;
-        width: 40px;
-        height: 20px;
-        }
-        .switch input {display:none;}
-        .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgb(133, 133, 133);
-        -webkit-transition: .4s;
-        transition: .4s;
-        }
-        .slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 2px;
-        bottom: 1px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-        }
-        input:checked + .slider {
-        background-color: #f59953;
-        }
-        input:focus + .slider {
-        box-shadow: 0 0 1px #f59953;
-        }
-        input:checked + .slider:before {
-        -webkit-transform: translateX(19px);
-        -ms-transform: translateX(19px);
-        transform: translateX(19px);
-        }
-
-        
-        /* Rounded sliders */
-        .slider.round {
-        border-radius: 34px;
-        }
-        .slider.round:before {
-        border-radius: 40%;
-        }
 
 
-    .loader {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: inline-block;
-        border-top: 4px solid #FFF;
-        border-right: 4px solid transparent;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-        }
-        .loader::after {
-        content: '';  
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border-bottom: 4px solid #FF3D00;
-        border-left: 4px solid transparent;
-        }
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        } 
-
-
-
-
-
-
-
-
-
-
-</style>
-@endsection
-
-<div class="row">
-    <div class="col-sm-12">
+<div>
+    {{-- <div class="d-sm-flex justify-content-between">
         <div>
+        <a href="javascript:void(0)" class="btn btn-icon btn-outline-white">
+        New order
+        </a>
+        </div>
+        <div class="d-flex">
+            <div class="dropdown d-inline">
+            <a href="javascript:void(0)" class="btn btn-outline-white dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="false">
+            Filtrar
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" style="">
+                <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Activo</a></li>
+                <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Inactivo</a></li>
+                <li>
+                <hr class="horizontal dark my-2">
+                </li>
+                <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
+            </ul>
+            </div>
+            <a href="{{ url('pos') }}" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+                <span class="btn-inner--icon">
+                    <i class="ni ni-fat-add"></i>
+                </span>
+                <span class="btn-inner--text">Nueva Venta</span> 
+            </a>
+        </div>
+    </div> --}}
 
-            <div class="row">
 
-                <div class="col-12 col-sm-12 col-md-4 text-center">
 
+
+
+  
+  <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+
+        {{-- <div class="d-flex"> --}}
+        <div class="">
+            <div class="dropdown d-inline">
+
+                <div class="input-group">
+                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                    <input type="text" wire:model="search" class="form-control" placeholder="Buscar por Código...">
                 </div>
 
-                <div class="col-12 col-sm-12 col-md-4 text-center">
-                    <h2><b>LISTA DE VENTAS</b></h2>
-                </div>
+            </div>
+        </div>
 
-                <div class="col-12 col-sm-12 col-md-4">
-                    <ul class="tabs tab-pills text-right">
-                        <a href="{{ url('pos') }}" class="boton-verde">Nueva Venta</a>
+
+
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+    
+
+
+        <select wire:model="sucursal_id" class="form-select">
+            @foreach($listasucursales as $sucursal)
+            <option value="{{$sucursal->id}}">
+                {{$sucursal->name}}
+            </option>
+            @endforeach
+            <option value="Todos">Todas las Sucursales</option>
+        </select>
+
+
+    
+    
+    
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+    
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+    
+
+
+        <div class="">
+            <div class="dropdown d-inline">
+                <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                    Filters
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+                    <li>
+                        <a class="dropdown-item border-radius-md" href="javascript:;">
+                            Status: Paid
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item border-radius-md" href="javascript:;">
+                            Status: Refunded
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item border-radius-md" href="javascript:;">
+                            Status: Canceled
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="horizontal dark my-2">
+                    </li>
+                    <li>
+                        <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
+                            Remove Filter
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    
+    
+    
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+
+    {{-- <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+
+
+
+
+            <div class="d-flex">
+                <div class="dropdown d-inline">
+                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                        Filters
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Paid
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Refunded
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Canceled
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="horizontal dark my-2">
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
+                                Remove Filter
+                            </a>
+                        </li>
                     </ul>
                 </div>
-
             </div>
 
 
-            <center><div id="preloader_3" wire:loading.delay.longest>
-                
-            
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
-            
-            </div></center>
 
-            <div class="row">
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <button class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+                <span class="btn-inner--icon"><i class="ni ni-archive-2"></i></span>
+                <span class="btn-inner--text">Export CSV</span>
+            </button>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
 
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b wire:click="limpiarsearch()" style="cursor: pointer;">Buscar...</b>
-                    <div class="form-group">
-                        <div class="input-group mb-4">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-gp">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                            <input type="text" wire:model="search" placeholder="Buscar por Código..." class="form-control">
-                        </div>
-                    </div>
-                </div>
-                @if(Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Seleccionar Sucursal</b>
-                    <div class="form-group">
-                        <select wire:model="sucursal_id" class="form-control">
-                            @foreach($listasucursales as $sucursal)
-                            <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
-                            @endforeach
-                            <option value="Todos">Todas las Sucursales</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Seleccionar Usuario</b>
-                    <div class="form-group">
-                        <select wire:model="user_id" class="form-control">
-                            <option value="Todos" selected>Todos</option>
-                            @foreach ($usuarios as $u)
-                                <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
-                @else
 
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Ventas del Usuario</b>
-                    <div class="form-group">
-                        <label class="form-control">
-                            {{Auth::user()->name}}
-                        </label>
-                    </div>
-                </div>
 
-                @endif
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Tipo de Fecha</b>
-                    <div class="form-group">
-                        <select wire:model="tipofecha" class="form-control">
-                            <option value="hoy" selected>Hoy</option>
-                            <option value="rango">Rango de Fechas</option>
-                        </select>
-                    </div>
-                </div>
 
-            </div>
-
-            @if($this->tipofecha != "hoy")
-
-            <div class="row">
-
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Fecha Inicio</b>
-                    <div class="form-group">
-                        <input @if ($tipofecha == 'hoy') disabled @endif type="date" wire:model="dateFrom" class="form-control flatpickr" >
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Fecha Fin</b>
-                    <div class="form-group">
-                        <input @if ($tipofecha == 'hoy') disabled @endif type="date" wire:model="dateTo" class="form-control flatpickr" >
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Hora Inicio</b>
-                    <div class="form-group">
-                        <input @if ($tipofecha == 'hoy') disabled @endif type="time" wire:model="timeFrom" class="form-control flatpickr" >
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <b>Hora Fin</b>
-                    <div class="form-group">
-                        <input @if ($tipofecha == 'hoy') disabled @endif type="time" wire:model="timeTo" class="form-control flatpickr" >
-                    </div>
+            <div class="d-flex">
+                <div class="dropdown d-inline">
+                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                        Filters
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Paid
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Refunded
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Canceled
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="horizontal dark my-2">
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
+                                Remove Filter
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            @endif
 
 
-            <div class="table-5 table-responsive">
-                <table style="min-width: 1100px;">
-                    <thead>
-                        <tr class="text-center">
-                            <th>#</th>
-                            <th>CODIGO</th>
-                            <th>FECHA</th>
-                            <th>TOTALES BS</th>
-                            <th>USUARIO</th>
-                            <th>CARTERA</th>
-                            <th>SUCURSAL</th>
-                            <th>CLIENTE</th>
-                            <th>ESTADO</th>
-                            <th>ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($listaventas as $lv)
+
+
+
+
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+
+
+
+
+
+
+
+
+
+
+            <div class="d-flex">
+                <div class="dropdown d-inline">
+                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                        Filters
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Paid
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Refunded
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                Status: Canceled
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="horizontal dark my-2">
+                        </li>
+                        <li>
+                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
+                                Remove Filter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+    </div> --}}
+
+
+
+
+
+
+
+
+
+    {{-- <div class="d-sm-flex justify-content-between">
+        <div>
+        <a href="javascript:;" class="btn btn-icon btn-outline-white">
+        New order
+        </a>
+        </div>
+        <div class="d-flex">
+        <div class="dropdown d-inline">
+        <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+        Filters
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
+        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Paid</a></li>
+        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Refunded</a></li>
+        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Canceled</a></li>
+        <li>
+        <hr class="horizontal dark my-2">
+        </li>
+        <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Filter</a></li>
+        </ul>
+        </div>
+        <button class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+        <span class="btn-inner--icon"><i class="ni ni-archive-2"></i></span>
+        <span class="btn-inner--text">Export CSV</span>
+        </button>
+        </div>
+    </div> --}}
+
+        <br>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                      <h6>Lista de Ventas</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                      <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                          <thead>
                             <tr>
-                                <td class="text-center">
-                                    {{ ($listaventas->currentpage()-1) * $listaventas->perpage() + $loop->index + 1 }}
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">#</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder ps-2">CODIGO</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">TOTALES BS</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">USUARIO</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CARTERA</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">SUCURSAL</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">CLIENTE</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ESTADO</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+        
+        
+        
+                            @foreach ($listaventas as $lv)
+                            <tr>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs mb-0">
+                                        {{ ($listaventas->currentpage()-1) * $listaventas->perpage() + $loop->index + 1 }}
+                                    </p>
                                 </td>
-                                <td class="text-center">
-                                    <span class="stamp stamp" style="background-color: #02b1ce">
-                                        {{$lv->codigo}}
-                                    </span>
+                                <td class="align-middle text-center">
+                                    {{$lv->codigo}}
                                 </td>
-                                <td class="text-center">
-                                    @if($lv->ventareciente > -1)
-                                        @if($lv->ventareciente == 1)
-                                        <div style="color: rgb(0, 201, 33);">
-                                            <b>Hace {{$lv->ventareciente}} Minuto</b>
-                                        </div>
+                                <td class="align-middle text-center">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">
+                                            @if($lv->ventareciente > -1)
+                                                @if($lv->ventareciente == 1)
+                                                <div style="color: rgb(0, 201, 33);">
+                                                    <b>Hace {{$lv->ventareciente}} Minuto</b>
+                                                </div>
+                                                @else
+                                                <div style="color: rgb(0, 201, 33);">
+                                                    <b>Hace {{$lv->ventareciente}} Minutos</b>
+                                                </div>
+                                                @endif
+                                            @endif
+                                        </h6>
+                                        <p class="text-xs mb-0">{{ \Carbon\Carbon::parse($lv->fechaventa)->format('d/m/Y H:i') }}</p>
+                                    </div>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs mb-0">
+                                        @if($lv->totaldescuento == 0)
+                                        Descuento Bs {{$lv->totaldescuento}}
+                                        <br>
                                         @else
-                                        <div style="color: rgb(0, 201, 33);">
-                                            <b>Hace {{$lv->ventareciente}} Minutos</b>
-                                        </div>
+                                            @if($lv->totaldescuento < 0)
+                                            <div style="color: rgb(250, 12, 12);"><b>Descuento Bs {{$lv->totaldescuento}}</b></div>
+                                            @else
+                                            <div style="color: #002df3;"><b>Recargo Bs {{$lv->totaldescuento}}</b></div>
+                                            @endif
                                         @endif
-                                    @endif
-                                    {{ \Carbon\Carbon::parse($lv->fechaventa)->format('d/m/Y H:i') }}
+                                        <b>Total Bs {{$lv->totalbs}}</b>
+                                        <br>
+                                        Cambio Bs {{$lv->totalcambio}}
+                                    </p>
                                 </td>
-                                <td class="text-center">
-                                    @if($lv->totaldescuento == 0)
-                                    Descuento Bs {{$lv->totaldescuento}}
-                                    <br>
-                                    @else
-                                        @if($lv->totaldescuento < 0)
-                                        <div style="color: rgb(250, 12, 12);"><b>Descuento Bs {{$lv->totaldescuento}}</b></div>
-                                        @else
-                                        <div style="color: #002df3;"><b>Recargo Bs {{$lv->totaldescuento}}</b></div>
-                                        @endif
-                                    @endif
-                                    <b>Total Bs {{$lv->totalbs}}</b>
-                                    <br>
-                                    Cambio Bs {{$lv->totalcambio}}
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs mb-0">
+                                        {{ ucwords(strtolower($lv->nombreusuario))}}
+                                    </p>
+                                    
+
                                 </td>
-                                <td class="text-center">
-                                    {{ ucwords(strtolower($lv->nombreusuario))}}
+                                <td class="align-middle text-center">
+                                    <p class="text-xs mb-0">
+                                        {{ ucwords(strtolower($lv->nombrecartera))}}
+                                    </p>
                                 </td>
-                                <td class="text-center">
-                                    {{ ucwords(strtolower($lv->nombrecartera))}}
+                                <td class="align-middle text-center">
+                                    <p class="text-xs mb-0">
+                                       
+                                        {{ ucwords(strtolower($lv->nombresucursal))}}
+
+                                    </p>
                                 </td>
-                                <td class="text-center">
-                                    {{ ucwords(strtolower($lv->nombresucursal))}}
-                                </td>
-                                <td class="text-center">
-                                    @foreach($lv->datoscliente as $c)
+                                <td class="align-middle text-center">
+                                    <p class="text-xs mb-0">
+                                       
+                                        @foreach($lv->datoscliente as $c)
                                         @if($c->nombrecliente == "Cliente Anónimo")
                                         {{$c->nombrecliente}}
                                         @else
@@ -386,78 +423,53 @@
                                             {{$c->celularcliente}}
                                         @endif
                                     @endforeach
+
+                                    </p>
                                 </td>
-                                <td class="text-center">
+                                <td class="align-middle text-center">
                                     @if($lv->estado == "PAID")
-                                        <p style="color: #4894ef;"><b>NORMAL</b></p>
+                                        <p class="text-xs mb-0" style="color: #4894ef;">NORMAL</p>
                                     @else
-                                        <p style="color: #f3112b;"><b>ANULADO</b></p>
+                                        <p class="text-xs mb-0" style="color: #f3112b;">ANULADO</p>
                                     @endif
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button wire:click="modaldetalle({{ $lv->codigo }})" class="boton-azul" title="Ver detalles de la venta">
+                                        <button wire:click="modaldetalle({{ $lv->codigo }})" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Ver detalles de la venta">
                                             <i class="fas fa-bars"></i>
                                         </button>
                                         @if(Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
                                             @if($lv->estado == "PAID")
-                                            <a href="#" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{$lv->nombrecartera}}')" class="boton-rojo" title="Anular Venta">
+                                            <a href="#" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{$lv->nombrecartera}}')" class="btn btn-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Anular Venta">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-                                            <button wire:click="editsale({{$lv->codigo}})" class="boton-celeste" title="Editar Venta">
+                                            <button wire:click="editsale({{$lv->codigo}})" class="btn btn-success" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Editar Venta">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button wire:click="modalcambiarusuario({{$lv->codigo}})" class="boton-plomo" title="Cambiar Usuario Vendedor">
+                                            <button wire:click="modalcambiarusuario({{$lv->codigo}})" class="btn btn-info" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Cambiar Usuario Vendedor">
                                                 <i class="fas fa-user-edit"></i>
                                             </button>
                                             @endif
                                         @endif
-                                        <button wire:click="crearcomprobante({{$lv->codigo}})" class="boton-verde" title="Crear Comprobante">
+                                        <button wire:click="crearcomprobante({{$lv->codigo}})" class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Crear Comprobante">
                                             <i class="fas fa-print"></i>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-        </div>
-            {{ $listaventas->links() }}
-
-
-
-            <div class="form-group">
-                <div class="row">
-
-                    <div class="col-12 col-sm-6 col-md-3 text-center">
-                        <b>Número de Ventas</b>
-                        <label class="form-control">
-                            {{$listaventas->total()}}
-                        </label>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                      {{ $listaventas->links() }}
                     </div>
-
-                    {{-- <div class="col-12 col-sm-6 col-md-3 text-center">
-                        <b wire:click="limpiarsearch()" style="cursor: pointer;">Cartera: </b>
-                        <div class="form-group">
-                            <label for="">
-                                1000
-                            </label>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
-
         </div>
-    </div>
-    @include('livewire.sales.modaldetalles')
-    @include('livewire.sales.modalcambiarusuario')
+        @include('livewire.sales.modaldetalles')
+        @include('livewire.sales.modalcambiarusuario')
 </div>
 @section('javascript')
-
-
-
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         //Mostrar ventana modal detalle venta
