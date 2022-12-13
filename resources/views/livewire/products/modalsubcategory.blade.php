@@ -1,13 +1,14 @@
-<div wire:ignore.self class="modal fade" id="modalSubcategory" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="background: #414141">
+<div wire:ignore.self class="modal fade" id="modalSubcategory" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
           <h5 class="modal-title text-white">
               <b>Agregar Subcategoria</b>
           </h5>
           <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
         </div>
-        <div class="modal-body" style="background: #f0ecec">
+        <div class="modal-body">
 
 <div class="row">
     <div class="col-lg-12">
@@ -27,7 +28,7 @@
 </div>
 </div>
         <div class="modal-footer" style="background: #f0ecec">
-            <button type="button" wire:click.prevent="resetCategory()" class="btn btn-dark close-btn text-info"
+            <button type="button" wire:click.prevent="resetSubCat()" class="btn btn-dark close-btn text-info"
                 data-dismiss="modal" style="background: #3b3f5c">CANCELAR</button>
          
                 <button type="button" wire:click.prevent="StoreSubcategory()"
@@ -36,3 +37,13 @@
         </div>
    </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+     window.livewire.on('subcat-added', msg => {
+                 $('#modalSubcategory').modal('hide'),
+                 $('#theModal').modal('show')                    
+             });
+     
+    })
+</script>
+

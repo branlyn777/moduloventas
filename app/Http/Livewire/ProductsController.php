@@ -436,6 +436,7 @@ class ProductsController extends Component
       
 
         $this->resetValidation();//clear the error bag
+     
     }
 
     public function overrideFilter(){
@@ -480,8 +481,14 @@ class ProductsController extends Component
         
         $category->save();
         $this->resetCategory();
+   
+        $this->selected_id2=$category->id;
+    }
+
+    public function resetCategory(){
+        $this->reset('name','descripcion');
         $this->emit('cat-added', 'Categoría Registrada');
-        //$this->selected_id2=$category->id;
+        $this->emit('product-form');
     }
 
    /**
@@ -502,10 +509,17 @@ class ProductsController extends Component
             ]);
         
         $marca->save();
-        $this->reset('newmarca');
+        $this->resetMarca();
         $this->marca=$marca->nombre;
-        $this->emit('marca-added');
+   
     }
+
+    public function resetMarca(){
+        $this->reset('newmarca');
+        $this->emit('marca-added');
+        $this->emit('product-form');
+    }
+
 
 /**
  * Valida la entrada, crea una nueva unidad, la guarda y luego reinicia la entrada y emite un evento.
@@ -524,15 +538,21 @@ class ProductsController extends Component
             ]);
         
              $unidad->save();
-        $this->reset('newunidad');
+        $this->resetUnidad();
         $this->unidad=$unidad->nombre;
+  
+    }
+    public function resetUnidad(){
+        $this->reset('newunidad');
         $this->emit('unidad-added');
+        $this->emit('product-form');
     }
 
 /**
  * Crea una nueva categoría y luego emite un evento al componente principal
  */
-    public function StoreSubcategory(){
+    public function StoreSubcategory()
+    {
         
         $rules = ['subcategory' => 'required|unique:categories,name|min:3'];
         $messages = [
@@ -549,17 +569,18 @@ class ProductsController extends Component
         ]);
 
         $category->save();
-        $this->reset('des_subcategory');
-        $this->reset('subcategory');
-        
-        $this->emit('subcat-added');
+        $this->resetSubCat();
         $this->categoryid=$category->id;
     }
 
-    public function resetCategory(){
-            $this->name="";
-            $this->descripcion="";
-    }
+        public function resetSubCat(){
+            $this->reset('des_subcategory','subcategory');
+            $this->emit('subcat-added');
+        }
+
+
+
+  
 
 /**
  * Estoy tratando de importar un archivo con la función Excel::import().

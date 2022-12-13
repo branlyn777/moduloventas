@@ -211,6 +211,7 @@
             font-weight: 600;
             margin: 0 10px;
         }
+        
 
     </style>
 
@@ -236,6 +237,7 @@
         .bg3 {
         animation-duration:5s;
         }
+
 
         .content {
         background-color:rgba(255,255,255,.8);

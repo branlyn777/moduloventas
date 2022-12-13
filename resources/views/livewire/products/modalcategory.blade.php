@@ -1,13 +1,14 @@
-<div wire:ignore.self class="modal fade" id="modalCategory" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="background: #414141">
+<div wire:ignore.self class="modal fade" id="modalCategory" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
           <h5 class="modal-title text-white">
               <b>Crear Categoria</b>
           </h5>
           <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
         </div>
-        <div class="modal-body" style="background: #f0ecec">
+        <div class="modal-body">
 
 <div class="row">
     <div class="col-lg-12">
@@ -36,3 +37,13 @@
         </div>
    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+     window.livewire.on('cat-added', msg => {
+                 $('#modalCategory').modal('hide'),
+                 $('#theModal').modal('show')                    
+             });
+     
+    })
+</script>
