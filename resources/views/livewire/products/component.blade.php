@@ -5,20 +5,21 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">Todos los Productos</h5>
-                            <p class="text-sm mb-0">
-                            Lista de todos los productos registrados.
-                            </p>
+                            <h6 class="mb-0">Lista Productos</h6>
+
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal">
+                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0"
+                                    data-bs-toggle="modal" data-bs-target="#theModal">
                                     +&nbsp; Nuevo Producto
                                 </a>
-                                <button wire:click="$emit('modal-import')" type="button" class="btn btn-outline-primary btn-sm mb-0">
-                                Importar
+                                <button wire:click="$emit('modal-import')" type="button"
+                                    class="btn btn-outline-primary btn-sm mb-0">
+                                    Importar
                                 </button>
-                                <a href='{{url('productos/export/')}}' class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
+                                <a href='{{url(' productos/export/')}}'
+                                    class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
                                     Exportar
                                 </a>
                             </div>
@@ -26,14 +27,62 @@
                     </div>
                     <br>
                     <div class="d-lg-flex">
-                        <div class="col-12 col-sm-12 col-md-3">
+                        <div class="col-12 col-sm-12 col-md-3 p-2">
                             @include('common.searchbox')
                         </div>
+
+                        <div class="col-md-3 p-2">
+
+                            <div class="input-group">
+                                <select wire:model='selected_categoria' class="form-control">
+                                    <option value="null" disabled>Elegir Categoria</option>
+                                    @foreach ($categories as $key => $category)
+                                    <option value="{{ $category->id }}">{{ $category->name}}</option>
+                                    @endforeach
+
+                                </select>
+                                <button class="btn btn-primary" wire:click="resetCategorias()">
+                                    <i class="fas fa-redo-alt text-white"></i>
+                                </button>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 p-2">
+                            <div class="input-group mb-3">
+                                <select wire:model='selected_sub' class="form-control">
+                                    <option value="null" disabled>Elegir Subcategoria</option>
+                                    @foreach ($sub as $subcategoria)
+                                    <option value="{{ $subcategoria->id }}">{{ $subcategoria->name}}</option>
+                                    @endforeach
+
+                                </select>
+                                <button wire:click="resetSubcategorias()" class="btn btn-primary">
+                                    <i class="fas fa-redo-alt text-white"></i>
+                                </button>
+                                </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 p-2">
+                            <div class="form-group">
+                                <select wire:model='estados' class="form-control mt--2">
+                                  <option value="null" disabled>Estado</option>
+                                  <option value="ACTIVO">ACTIVO</option>
+                                  <option value="INACTIVO">INACTIVO</option>
+                                </select>
+                              </div>
+                        </div>
+
                     </div>
                     <div class="d-lg-flex">
                         <div class="dataTable-top">
                             {{-- <div class="dataTable-search">
-                                <input wire:model="search" wire:keydown.enter="overrideFilter()" class="dataTable-input" placeholder="Buscar..." type="text">
+                                <input wire:model="search" wire:keydown.enter="overrideFilter()" class="dataTable-input"
+                                    placeholder="Buscar..." type="text">
                             </div> --}}
                         </div>
                         <div class="dataTable-dropdown">
@@ -44,50 +93,52 @@
                                     <option value="100">100</option>
                                     <option value="500">500</option>
                                 </select>
-                                
-                            {{-- </label> --}}
+
+                                {{-- </label> --}}
                         </div>
-                        <a wire:click= 'deleteProducts()' class="btn btn-outline-primary btn-sm mb-0">Eliminar Seleccionados</a>
+                        <a wire:click='deleteProducts()' class="btn btn-outline-primary btn-sm mb-0">Eliminar
+                            Seleccionados</a>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
-                                <table class="table table-flush dataTable-table" id="products-list">
+                                <table class="table align-items-center mb-4" id="products-list">
                                     <thead>
-                                        <tr class="text-center">
-                                            <th>
-                                                No
+                                        <tr>
+                                            <th class="text-center">
+                                                N°
                                             </th>
                                             <th>
-                                                <div class="d-flex">
+                                                <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto">
-                                                        <input type="checkbox" class="form-check-input" wire:model="checkAll">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            wire:model="checkAll">
                                                     </div>
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th style="width: 13.3259%;">
+                                            <th class="align-middle text-center">
                                                 Categoria
                                             </th>
-                                            <th style="width: 10.3024%;">
+                                            <th class="align-middle text-center">
                                                 Sub Categoria
                                             </th>
-                                            <th style="width: 13.4378%;">
+                                            <th class="align-middle text-center">
                                                 Codigo
                                             </th>
-                                            <th style="width: 11.0862%;">
+                                            <th class="align-middle text-center">
                                                 Precio
                                             </th>
-                                            <th style="width: 15.5655%;">
+                                            <th class="align-middle text-center">
                                                 Costo
                                             </th>
-                                            <th style="width: 14.6697%;">
+                                            <th class="align-middle text-center">
                                                 Estado
                                             </th>
-                                            <th style="width: 14.6697%;">
-                                                Actiones
+                                            <th class="align-middle text-center">
+                                                Acciones
                                             </th>
                                         </tr>
                                     </thead>
@@ -95,57 +146,78 @@
 
                                         @foreach($data as $products)
                                         <tr>
-                                            <td>
+                                            <td class="text-center">
                                                 {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                             </td>
-                                            <td>
+                                            <td class="pl-2">
                                                 <div class="d-flex">
                                                     <div class="form-check my-auto">
-                                                    <input class="form-check-input" type="checkbox" wire:model="selectedProduct" value="{{$products->id}}">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            wire:model="selectedProduct" value="{{$products->id}}">
                                                     </div>
-                                                    <img src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="80">
+                                                    <img src="{{ asset('storage/productos/' . $products->imagen) }}"
+                                                        alt="hoodie" width="80">
                                                     <h6 class="ms-3 my-auto">{{$products->nombre}}</h6>
                                                 </div>
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm align-middle text-center">
                                                 {{ $products->category->name}}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm align-middle text-center">
                                                 @if ($products->category->subcat == null)
-                                                    No definido
+                                                No definido
                                                 @else
-                                                    {{ $products->category->name}}
+                                                {{ $products->category->name}}
                                                 @endif
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm align-middle text-center">
                                                 {{ $products->codigo}}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm align-middle text-center">
                                                 {{ $products->precio_venta }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm align-middle text-center">
                                                 {{ $products->costo}}
                                             </td>
-                                            <td>
-                                                @if ($products->status== 'ACTIVO')
-                                                <span class="badge badge-danger badge-sm">Activo</span>
+
+
+
+                                            <td class="align-middle text-center text-sm">
+
+                                                @if($products->status== 'ACTIVO')
+                                                <span class="badge badge-sm bg-gradient-success">
+                                                    ACTIVO
+                                                </span>
                                                 @else
-                                                <span class="badge badge-success badge-sm">Inactivo</span>
+                                                <span class="badge badge-sm bg-gradient-danger">
+                                                    INACTIVO
+                                                </span>
                                                 @endif
+
                                             </td>
-                                            <td class="text-sm">
-                                                <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})" class="mx-3">
-                                                    <i class="fas fa-edit text-dark opacity-8"></i>
+
+
+
+
+
+
+
+
+                                            <td class="text-sm align-middle text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})"
+                                                    class="mx-3">
+                                                    <i class="fas fa-edit text-secondary"></i>
                                                 </a>
-                                                <a href="javascript:void(0)" onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})">
-                                                    <i class="fas fa-trash text-dark opacity-8"></i>
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})">
+                                                    <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                         @endforeach
 
                                     </tbody>
-                        
+
                                 </table>
                             </div>
                         </div>
@@ -158,6 +230,9 @@
     @include('livewire.products.importarproductos')
     @include('livewire.products.modalunidad')
     @include('livewire.products.modalmarca')
+    @include('livewire.products.modalsubcategory')
+    @include('livewire.products.modalcategory')
+
 </div>
 @section('javascript')
 <script>
@@ -196,58 +271,6 @@
                 'error'
                 )
         });
-
-
-
-
-        window.livewire.on('cat-added', msg => {
-                $('#modalCategory').modal('hide'),
-                noty(msg)
-            });
-            window.livewire.on('marca-added', msg => {
-                $('#modalMarca').modal('hide'),
-                noty(msg)
-            });
-            window.livewire.on('unidad-added', msg => {
-                $('#modalUnidad').modal('hide'),
-                noty(msg)
-            });
-            window.livewire.on('subcat-added', msg => {
-                $('#modalSubcategory').modal('hide'),
-                noty(msg)
-            });
-            window.livewire.on('modalUnidadOpen', msg => {
-                $('#modalUnidad').modal('show')
-           
-            });
-            
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     });

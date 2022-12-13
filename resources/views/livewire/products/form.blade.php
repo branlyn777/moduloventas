@@ -24,7 +24,7 @@
 
                                 <input type="text" wire:model.lazy="nombre" class="form-control" 
                                     placeholder="ej:Celular Samsung Galaxy A01">
-                                @error('nombre') <span class="text-danger er">{{ $message }}</span>@enderror
+                                @error('nombre') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -42,8 +42,8 @@
                                     <i class="fas fa-barcode"></i>
                                 </button>
     
-                                @error('codigo') <span class="text-danger er">{{ $message }}</span>@enderror
                             </div>
+                            @error('codigo') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                             <div class="input-group-sm mb-3">
                                 <input type="text" wire:model.lazy="caracteristicas" class="form-control"
                                     placeholder="ej: Producto nuevo">
-                                @error('caracteristicas') <span class="text-danger er">{{ $message }}</span>@enderror
+                                @error('caracteristicas') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
 
                                 <input type="number" wire:model="garantia" class="form-control"
                                     placeholder="introducir dias">
-                                @error('garantia') <span class="text-danger er">{{ $message }}</span>@enderror
+                                @error('garantia') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                 <button type="button" class="btn btn-primary" title="Agregar Unidad" data-bs-toggle="modal" data-bs-target="#modalUnidad"> <i
                                         class="fas fa-plus text-white"></i>
                                 </button>
-                                @error('unidad') <span class="text-danger er">{{ $message }}</span>@enderror
+                                @error('unidad') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -101,16 +101,15 @@
                             <div class="input-group input-group-sm mb-3">
                                 <select wire:model.lazy='marca' class="form-control">
                                     <option value=null selected disabled>Elegir</option>
-                                    @foreach($marcas as $unidad)
-                                    <option value="{{ $unidad->nombre }}" selected>{{ $unidad->nombre }}</option>
+                                    @foreach($marcas as $marca)
+                                    <option value="{{ $marca->nombre }}" selected>{{ $marca->nombre }}</option>
                                     @endforeach
                                 </select>
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    title="Agregar Marca" data-bs-target="#modalMarca"> <i
+                                <button type="button" class="btn btn-primary" title="Agregar Marca" data-bs-toggle="modal" data-bs-target="#modalMarca"> <i
                                         class="fas fa-plus text-white"></i> </button>
+                                @error('marca') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
-                            @error('marca') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4">
@@ -119,7 +118,7 @@
                             <div class="input-group-sm mb-3">
                             <input type="text" wire:model.lazy="industria" class="form-control"
                                 placeholder="ej: China">
-                            @error('industria') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('industria') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -129,7 +128,7 @@
                             <div class="input-group-sm mb-3">
                             <input type="number" min="1" wire:model.lazy="costo" class="form-control"
                                 placeholder="ej: 12">
-                            @error('costo') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('costo') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -140,7 +139,7 @@
                             <div class="input-group-sm mb-3">
                             <input type="number" min="1" wire:model.lazy="precio_venta" class="form-control"
                                 placeholder="ej: 24">
-                            @error('precio_venta') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('precio_venta') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -156,11 +155,10 @@
                                     @endforeach
                                 </select>
 
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    title="Agregar categoria" data-target="#modalCategory"> <i
+                                <button type="button" class="btn btn-primary" title="Agregar categoria" data-bs-toggle="modal" data-bs-target="#modalCategory"> <i
                                         class="fas fa-plus text-white"></i> </button>
                             </div>
-                            @error('selected_id2') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('selected_id2') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                         </div>
                     </div>
 
@@ -177,12 +175,12 @@
                                 </select>
                                 @if ($selected_id2 != null)
 
-                                <a href="javascript:void(0)" class="btn btn-dark pl-2 pr-2" data-toggle="modal"
-                                    title="Agregar subcategoria" data-target="#modalSubcategory"> <i
-                                        class="fas fa-plus text-white"></i> </a>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    title="Agregar subcategoria" data-bs-target="#modalSubcategory"> <i
+                                        class="fas fa-plus text-white"></i> </button>
                                 @endif
                             </div>
-                            @error('categoryid') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('categoryid') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4">
@@ -191,7 +189,7 @@
                             <div class="input-group-sm mb-3">
                             <input type="number" min="1" wire:model.lazy="cantidad_minima" class="form-control"
                                 placeholder="ej: 5">
-                            @error('cantidad_minima') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('cantidad_minima') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -207,7 +205,7 @@
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
                             </select>
-                            @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
+                            @error('estado') <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                             </div>
                         </div>
                     </div>
@@ -247,7 +245,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
-                    data-dismiss="modal">Cancelar</button>
+                    data-bs-dismiss="modal">Cancelar</button>
                 @if ($selected_id < 1)
                     <button type="button" wire:click.prevent="Store()"
                         class="btn btn-warning close-btn">Guardar</button>
@@ -262,6 +260,8 @@
     
     </div>
 </div>
+
+
 
 
 

@@ -1,7 +1,8 @@
-<div wire:ignore.self class="modal fade" id="modalUnidad" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div wire:ignore.self class="modal fade" id="modalUnidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background: #414141">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
                     <b>Agregar Unidad</b>
                 </h5>
@@ -24,12 +25,22 @@
 
             </div>
             <div class="modal-footer" style="background: #f0ecec">
-                <button type="button" wire:click.prevent="resetCategory()" class="btn btn-dark close-btn text-info"
-                    data-dismiss="modal" style="background: #3b3f5c">CANCELAR</button>
-
+                <button type="button" wire:click.prevent="resetUnidad()" class="btn btn-warning close-btn text-info"
+                data-dismiss="modal" style="background: #ee761c">CANCELAR</button>
                 <button type="button" wire:click.prevent="StoreUnidad()"
-                    class="btn btn-dark close-btn text-info">GUARDAR</button>
+                class="btn btn-warning close-btn text-info">GUARDAR</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+       document.addEventListener('DOMContentLoaded', function() {
+        window.livewire.on('unidad-added', msg => {
+                    $('#modalUnidad').modal('hide'),
+                    $('#theModal').modal('show')                    
+                });
+        
+       })
+</script>
+
+
