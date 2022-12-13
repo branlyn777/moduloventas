@@ -47,18 +47,23 @@
 
 <div>
     <div class="d-sm-flex justify-content-between">
-        <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
+        <div>
+        
         </div>
-        <div class="nav-wrapper position-relative end-0">
+        <div class="d-flex">
+            <div class="dropdown d-inline">
+            </div>
             <button wire:click="modalnuevacategoria()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
             type="button">
-            <span class="btn-inner--icon">
-                <i class="ni ni-fat-add"></i>
-            </span class="btn-inner--text"> Nuevo Catergoria</button>
+                <span class="btn-inner--icon">
+                    <i class="ni ni-fat-add"></i>
+                </span>
+                <span class="btn-inner--text">Nuevo Rol</span> 
+            </a>
         </div>
-    </div>
-
+      </div>
+  
+      <br>
 
         <div class="row">
             <div class="col-12">
@@ -66,76 +71,84 @@
                     <div class="card-header pb-0">
                       <h6>Categoria Cartera Movimiento</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                      <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                          <thead>
-                            <tr>
-                              <th class="text-uppercase text-xxs font-weight-bolder">No</th>
-                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categoria</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Detalles</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Tipo</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Fecha Creación</th>
-                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-        
-        
-        
-                            @foreach ($data as $p)
-                            <tr >
-                                <td class="text-xs mb-0 ">
-                                    {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
-                                </td>
-                                <td class="text-xs mb-0 ">
-                                    {{ $p->nombre }}
-                                </td>
-                                <td class="text-xs mb-0 text-center">
-                                    {{ $p->detalle }}
-                                </td>
-                                <td class="text-xs mb-0 text-center">
-                                    {{ $p->tipo }}
-                                </td>
-                                <td class="text-xs mb-0 text-center">
-                                    @if($p->status == "ACTIVO")
-                                    <div class="badge badge-sm bg-gradient-success"">
-                                        {{ $p->status }}
-                                    </div>
-                                    @else
-                                    <div class="badge badge-sm bg-gradient-danger">
-                                        {{ $p->status }}
-                                    </div>
-                                    @endif
-                                </td>
-                                <td class="text-xs mb-0 text-center">
-                                    {{ \Carbon\Carbon::parse($p->created_at)->format('d/m/Y H:i') }}
-                                </td>
-                                <td class="align-middle text-center">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        @if($p->status == "ACTIVO")
+                    
+                    <div  style="padding-left: 12px; padding-right: 12px;">
 
-
-                                        <a href="javascript:void(0)"  wire:click.prevent="modaleditar({{$p->id}})" title="Editar Categoria" class="mx-3">
-                                            <i class="fas fa-edit text-info" ></i>
-                                          </a>                                          
-
-                                        <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button" class="boton-rojo">
-                                            <i class="fas fa-trash text-danger" ></i>
-                                          </a>
-                                        @else
-                                        <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria" class="boton-plomo">
-                                            <i class="fab fa-phabricator"></i>
-                                        </button>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                      </div>
+                        <div class="col-12 col-sm-12 col-md-4">
+                            @include('common.searchbox')
+                         </div>
+                         
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                              <table class="table align-items-center mb-0">
+                                <thead>
+                                  <tr>
+                                    <th class="text-uppercase text-xxs font-weight-bolder">No</th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2">Nombre Categoria</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Detalles</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Tipo</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Fecha Creación</th>
+                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+              
+              
+              
+                                  @foreach ($data as $p)
+                                  <tr >
+                                      <td class="text-xs mb-0 ">
+                                          {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
+                                      </td>
+                                      <td class="text-xs mb-0 ">
+                                          {{ $p->nombre }}
+                                      </td>
+                                      <td class="text-xs mb-0 text-center">
+                                          {{ $p->detalle }}
+                                      </td>
+                                      <td class="text-xs mb-0 text-center">
+                                          {{ $p->tipo }}
+                                      </td>
+                                      <td class="text-xs mb-0 text-center">
+                                          @if($p->status == "ACTIVO")
+                                          <div class="badge badge-sm bg-gradient-success"">
+                                              {{ $p->status }}
+                                          </div>
+                                          @else
+                                          <div class="badge badge-sm bg-gradient-danger">
+                                              {{ $p->status }}
+                                          </div>
+                                          @endif
+                                      </td>
+                                      <td class="text-xs mb-0 text-center">
+                                          {{ \Carbon\Carbon::parse($p->created_at)->format('d/m/Y H:i') }}
+                                      </td>
+                                      <td class="align-middle text-center">
+                                          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                              @if($p->status == "ACTIVO")
+      
+      
+                                              <a href="javascript:void(0)"  wire:click.prevent="modaleditar({{$p->id}})" title="Editar Categoria" class="mx-3">
+                                                  <i class="fas fa-edit text-info" ></i>
+                                                </a>                                          
+      
+                                              <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button" class="boton-rojo">
+                                                  <i class="fas fa-trash text-danger" ></i>
+                                                </a>
+                                              @else
+                                              <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria" class="boton-plomo">
+                                                  <i class="fab fa-phabricator"></i>
+                                              </button>
+                                              @endif
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
                     </div>
                 </div>
             </div>
