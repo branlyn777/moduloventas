@@ -1,25 +1,23 @@
 
 
 <div>
-    {{-- <div class="d-sm-flex justify-content-between">
+    <div class="d-sm-flex justify-content-between">
         <div>
-        <a href="javascript:void(0)" class="btn btn-icon btn-outline-white">
-        New order
-        </a>
+        
         </div>
         <div class="d-flex">
             <div class="dropdown d-inline">
-            <a href="javascript:void(0)" class="btn btn-outline-white dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="false">
-            Filtrar
-            </a>
-            <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" style="">
-                <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Activo</a></li>
-                <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Inactivo</a></li>
-                <li>
-                <hr class="horizontal dark my-2">
-                </li>
-                <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
-            </ul>
+                {{-- <a href="javascript:void(0)" class="btn btn-outline-white dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="false">
+                Filtrar
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" style="">
+                    <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Activo</a></li>
+                    <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Inactivo</a></li>
+                    <li>
+                    <hr class="horizontal dark my-2">
+                    </li>
+                    <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
+                </ul> --}}
             </div>
             <a href="{{ url('pos') }}" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
                 <span class="btn-inner--icon">
@@ -28,7 +26,7 @@
                 <span class="btn-inner--text">Nueva Venta</span> 
             </a>
         </div>
-    </div> --}}
+    </div>
 
 
 
@@ -36,10 +34,10 @@
 
   
   <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-  <div class="row">
+  <div class="row" style="background-color: #5e72e4;">
     <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
 
-        {{-- <div class="d-flex"> --}}
+        <h6 class="mb-0 text-white">Buscar...</h6>
         <div class="">
             <div class="dropdown d-inline">
 
@@ -55,11 +53,9 @@
 
 
     </div>
-
+    @if(Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
     <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
-    
-
-
+        <h6 class="mb-0 text-white">Seleccionar Sucursal</h6>
         <select wire:model="sucursal_id" class="form-select">
             @foreach($listasucursales as $sucursal)
             <option value="{{$sucursal->id}}">
@@ -68,253 +64,72 @@
             @endforeach
             <option value="Todos">Todas las Sucursales</option>
         </select>
-
-
-    
-    
-    
     </div>
 
     <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
-    
+        <h6 class="mb-0 text-white">Seleccionar Usuario</h6>
+        <select wire:model="user_id" class="form-select">
+            @foreach ($usuarios as $u)
+            <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
+            @endforeach
+            <option value="Todos" selected>Todos</option>
+        </select>
     </div>
-
+    @else
     <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
-    
-
-
-        <div class="">
-            <div class="dropdown d-inline">
-                <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                    Filters
-                </a>
-                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-                    <li>
-                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                            Status: Paid
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                            Status: Refunded
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                            Status: Canceled
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="horizontal dark my-2">
-                    </li>
-                    <li>
-                        <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
-                            Remove Filter
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <h6 class="mb-0 text-white">Ventas del Usuario</h6>
+        <div class="form-control">
+            {{Auth::user()->name}}
         </div>
-
-
-    
-    
-    
     </div>
+    @endif
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+        <h6 class="mb-0 text-white">Tipo de Fecha</h6>
+        <select wire:model="tipofecha" class="form-select">
+            <option value="hoy" selected>Hoy</option>
+            <option value="rango">Rango de Fechas</option>
+        </select>
+    </div>
+    
   </div>
   
+  @if($this->tipofecha != "hoy")
+  <div class="row" style="background-color: #5e72e4;">
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+
+        <h6 class="mb-0 text-white">Fecha Inicio</h6>
+        <input @if ($tipofecha == 'hoy') disabled @endif type="date" wire:model="dateFrom" class="form-control" >
 
 
 
 
 
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+    
+
+        <h6 class="mb-0 text-white">Fecha Fin</h6>
+        <input @if ($tipofecha == 'hoy') disabled @endif type="date" wire:model="dateTo" class="form-control" >
+    
+    
+    
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+        <h6 class="mb-0 text-white">Hora Inicio</h6>
+        <input @if ($tipofecha == 'hoy') disabled @endif type="time" wire:model="timeFrom" class="form-control" >
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+        <h6 class="mb-0 text-white">Hora Fin</h6>
+        <input @if ($tipofecha == 'hoy') disabled @endif type="time" wire:model="timeTo" class="form-control" >
+    </div>
+    
+  </div>
+  @endif
 
 
-
-    {{-- <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-
-
-
-
-            <div class="d-flex">
-                <div class="dropdown d-inline">
-                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                        Filters
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Paid
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Refunded
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Canceled
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark my-2">
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
-                                Remove Filter
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-
-
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-            <button class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-                <span class="btn-inner--icon"><i class="ni ni-archive-2"></i></span>
-                <span class="btn-inner--text">Export CSV</span>
-            </button>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-
-
-
-
-
-            <div class="d-flex">
-                <div class="dropdown d-inline">
-                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                        Filters
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Paid
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Refunded
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Canceled
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark my-2">
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
-                                Remove Filter
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-
-
-
-
-
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
-
-
-
-
-
-
-
-
-
-
-            <div class="d-flex">
-                <div class="dropdown d-inline">
-                    <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                        Filters
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Paid
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Refunded
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                Status: Canceled
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark my-2">
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md text-danger" href="javascript:;">
-                                Remove Filter
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-        </div>
-    </div> --}}
-
-
-
-
-
-
-
-
-
-    {{-- <div class="d-sm-flex justify-content-between">
-        <div>
-        <a href="javascript:;" class="btn btn-icon btn-outline-white">
-        New order
-        </a>
-        </div>
-        <div class="d-flex">
-        <div class="dropdown d-inline">
-        <a href="javascript:;" class="btn btn-outline-white dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-        Filters
-        </a>
-        <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Paid</a></li>
-        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Refunded</a></li>
-        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Canceled</a></li>
-        <li>
-        <hr class="horizontal dark my-2">
-        </li>
-        <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Filter</a></li>
-        </ul>
-        </div>
-        <button class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-        <span class="btn-inner--icon"><i class="ni ni-archive-2"></i></span>
-        <span class="btn-inner--text">Export CSV</span>
-        </button>
-        </div>
-    </div> --}}
 
         <br>
 
