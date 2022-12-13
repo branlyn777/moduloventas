@@ -265,7 +265,7 @@
                 <div class="col-12 col-sm-6 col-md-2 text-center">
                     <b>Tipo de Pago</b>
                     <div class="form-group">
-                        <select wire:model="cartera_id" class="form-select">
+                        <select wire:model="cartera_id" class="form-control">
                             <option value="Elegir">Elegir</option>
                             @foreach($carteras as $c)
                             <option value="{{$c->idcartera}}">{{$c->nombrecartera}} - {{$c->dc}}</option>
