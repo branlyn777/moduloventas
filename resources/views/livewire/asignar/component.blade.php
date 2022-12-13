@@ -1,69 +1,71 @@
 <div>
     <div class="d-sm-flex justify-content-between">
+        <div class="col-12 col-sm-6 col-md-3 text-center">
+            <div class="form-group">
+                <b class="text-white">Seleccione Rol</b>
+                <select wire:model="role" class="form-control">
+                    <option value="Elegir" selected>==Seleccione el rol==</option>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3 text-center">
+            <div class="form-group">
+                <b class="text-white">Area Permiso</b>
+                <select wire:model="permisosseleccionado" class="form-control">
+                    <option value="Todos"><b>==Todos los Permisos==</b></option>
+                    @foreach ($listaareas as $u)
+                        <option value="{{ $u->id }}">{{ $u->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="d-sm-flex justify-content-between">
+            <div class="dropdown d-inline">
+
+                {{-- Boton de Sincronizar --}}
+                @if ($permisosseleccionado != 'Todos')
+                    <button wire:click.prevent="SyncAll2()" type="button"
+                        class="btn btn-icon btn-outline-white ms-2 export">
+                        <span class="btn-inner--icon">
+                            <i class="ni ni-fat-add"></i>
+                        </span class="btn-inner--text"> Sincronizar Todos
+                        Area</button>
+                @else
+                    <button wire:click.prevent="SyncAll()" type="button"
+                        class="btn btn-icon btn-outline-white ms-2 export">
+                        <span class="btn-inner--icon">
+                            <i class="ni ni-fat-add"></i>
+                        </span class="btn-inner--text"> Sincronizar Todos</button>
+                    {{-- <button onclick="Revocar()" type="button" class="boton-rojo-g">Revocar Todos</button> --}}
+                @endif
+
+                {{-- Boton de Revocar  --}}
+                @if ($permisosseleccionado == 'Todos')
+                    <button onclick="Revocar()" type="button" class="btn btn-icon btn-outline-white ms-2 expor">
+                        <span class="btn-inner--icon">
+                            <i class="ni ni-fat-add"></i>
+                        </span class="btn-inner--text"> RevocarTodos</button>
+                @endif
+
+                {{-- Boton de IR a Usuarios --}}
+                <button href="users" type="button" class="btn btn-icon btn-outline-white ms-2 expor">
+                    <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i>
+                    </span class="btn-inner--text"> Ir a Usuarios
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-sm-flex justify-content-between">
         <div class="col-12">
             <div class="card mb-4">
-                <div class="d-sm-flex justify-content-between">
-                    <div class="col-12 col-sm-6 col-md-3 text-center">
-                        <div class="form-group">
-                            <b class="text-black">Seleccione Rol</b>
-                            <select wire:model="role" class="form-control">
-                                <option value="Elegir" selected>==Seleccione el rol==</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3 text-center">
-                        <div class="form-group">
-                            <b class="text-black">Area Permiso</b>
-                            <select wire:model="permisosseleccionado" class="form-control">
-                                <option value="Todos"><b>==Todos los Permisos==</b></option>
-                                @foreach ($listaareas as $u)
-                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class=" ">
-
-                        {{-- Boton de Sincronizar --}}
-                        @if ($permisosseleccionado != 'Todos')
-                            <button wire:click.prevent="SyncAll2()" type="button"
-                                class="btn btn-icon btn-outline-black ms-2 export">
-                                <span class="btn-inner--icon">
-                                    <i class="ni ni-fat-add"></i>
-                                </span class="btn-inner--text"> Sincronizar Todos
-                                Area</button>
-                        @else
-                            <button wire:click.prevent="SyncAll()" type="button"
-                                class="btn btn-icon btn-outline-black ms-2 export">
-                                <span class="btn-inner--icon">
-                                    <i class="ni ni-fat-add"></i>
-                                </span class="btn-inner--text"> Sincronizar Todos</button>
-                            {{-- <button onclick="Revocar()" type="button" class="boton-rojo-g">Revocar Todos</button> --}}
-                        @endif
-
-                        {{-- Boton de Revocar  --}}
-                        @if ($permisosseleccionado == 'Todos')
-                            <button onclick="Revocar()" type="button"
-                                class="btn btn-icon btn-outline-black ms-2 expor">
-                                <span class="btn-inner--icon">
-                                    <i class="ni ni-fat-add"></i>
-                                </span class="btn-inner--text"> RevocarTodos</button>
-                        @endif
-
-                        {{-- Boton de IR a Usuarios --}}
-                        <button href="users" type="button" class="btn btn-icon btn-outline-black ms-2 expor">
-                            <span class="btn-inner--icon">
-                                <i class="ni ni-fat-add"></i>
-                            </span class="btn-inner--text"> Ir a Usuarios
-                        </button>
-
-                    </div>
-                </div>
                 <div class="card-header pb-0">
                     <h6>Asignar Permisos</h6>
                 </div>
