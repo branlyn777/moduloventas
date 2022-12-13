@@ -1,66 +1,79 @@
 <div>
     <div class="d-sm-flex justify-content-between">
-        <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
+        <div>
+
         </div>
-        <div class="nav-wrapper position-relative end-0">
+        <div class="d-flex">
+            <div class="dropdown d-inline">
+            </div>
             <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
             type="button">
-            <span class="btn-inner--icon">
-                <i class="ni ni-fat-add"></i>
-            </span class="btn-inner--text"> Nuevo Permiso</button>
+                <span class="btn-inner--icon">
+                    <i class="ni ni-fat-add"></i>
+                </span>
+                <span class="btn-inner--text">Nuevo Permiso</span> 
+            </a>
         </div>
-    </div>
+      </div>
+
+      <br>
+
     <div class="row">
         <div class="col-12 ">
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Permisos | Listado</h6>
                 </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr class="text-center">
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NO</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $permiso)
-                                    <tr class="text-center">
-                                        <td class="text-xs mb-0 text-center">
-                                            {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
-                                        </td>
-                                        <td class="text-xs mb-0 text-center">
-                                            {{ ($permiso->name) }}
-                                        </td> 
-                                        <td class="text-xs mb-0 text-center">
-                                            {{ ($permiso->area) }}
-                                        </td> 
-                                        <td class="text-xs mb-0 text-center">
-                                            {{ ($permiso->descripcion) }}
-                                        </td>                           
-                                        
-                                        <td class="align-middle text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
-                                                class="mx-3" title="Editar registro">
-                                                <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
-                                            </a>
-                                            {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
-                                                class="boton-rojo" title="Eliminar registro">
-                                                <i class="fas fa-trash"></i>
-                                            </a> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div style="padding-left: 12px; padding-right: 12px;">
 
+                    <div class="col-12 col-sm-12 col-md-4">
+                        @include('common.searchbox')
+                    </div>             
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NO</th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $permiso)
+                                        <tr class="text-center">
+                                            <td class="text-xs mb-0 text-center">
+                                                {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td class="text-xs mb-0 text-center">
+                                                {{ ($permiso->name) }}
+                                            </td> 
+                                            <td class="text-xs mb-0 text-center">
+                                                {{ ($permiso->area) }}
+                                            </td> 
+                                            <td class="text-xs mb-0 text-center">
+                                                {{ ($permiso->descripcion) }}
+                                            </td>                           
+                                            
+                                            <td class="align-middle text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
+                                                    class="mx-3" title="Editar registro">
+                                                    <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
+                                                    class="boton-rojo" title="Eliminar registro">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+    
+                    </div>
                 </div>
             </div>
         </div>
