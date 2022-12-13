@@ -1,23 +1,30 @@
-<div wire:ignore.self class="modal fade" id="detalleventa" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div wire:ignore.self class="modal fade" id="detalleventa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Detalle de Venta Código: @if($this->venta != null) {{$this->venta->id}} @endif</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
-            <div class="table-1 table-responsive">
-                <table style="min-width: 600px;">
+        <div class="modal-header bg-primary">
+            <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                <p class="text-sm mb-0">
+                    Detalle de Venta Código: @if($this->venta != null) {{$this->venta->id}} @endif
+                </p>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+
+
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>Nombre</th>
-                        <th class="text-center">Precio (Bs)</th>
-                        <th class="text-center">Desc/Rec</th>
-                        <th class="text-center">Precio Venta</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">Total (Bs)</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">No</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Nombre</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Precio (Bs)</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Desc/Rec</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Precio Venta</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Cantidad</th>
+                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Total (Bs)</th>
                       </tr>
                     </thead>
                     
@@ -25,33 +32,45 @@
                         @foreach ($detalle_venta as $dv)
                         <tr>
                             <td class="text-center">
-                                {{$loop->iteration}}
+                                <p class="text-xs mb-0">
+                                    {{$loop->iteration}}
+                                </p>
                             </td>
                             <td class="text-left">
-                                {{ ucwords(strtolower($dv->nombre)) }}
+                                <p class="text-xs mb-0">
+                                    {{ ucwords(strtolower($dv->nombre)) }}
+                                </p>
                             </td>
                             <td class="text-right">
-                                {{ number_format($dv->po, 2) }}
+                                <p class="text-xs mb-0">
+                                    {{ number_format($dv->po, 2) }}
+                                </p>
                             </td>
 
 
 
                             @if($dv->pv-$dv->po == 0)
                             <td class="text-center">
-                                {{ number_format($dv->pv-$dv->po, 2) }}
+                                <p class="text-xs mb-0">
+                                    {{ number_format($dv->pv-$dv->po, 2) }}
+                                </p>
                             </td>
                             @else
                                 @if($dv->pv-$dv->po < 0)
                                 <td class="text-center">
                                     <div style="color: rgb(250, 12, 12);">
-                                        Descuento
+                                        <p class="text-xs mb-0">
+                                            Descuento
+                                        </p>
                                     </div>
                                     {{ number_format($dv->pv-$dv->po, 2) }}
                                 </td>
                                 @else
                                 <td class="table-th text-withe text-center">
                                     <div style="color: #002df3;">
-                                        Recargo
+                                        <p class="text-xs mb-0">
+                                            Recargo
+                                        </p>
                                     </div>
                                     {{ number_format($dv->pv-$dv->po, 2) }}
                                 </td>
@@ -60,13 +79,19 @@
 
 
                             <td class="text-right">
-                                {{ number_format($dv->pv, 2) }}
+                                <p class="text-xs mb-0">
+                                    {{ number_format($dv->pv, 2) }}
+                                </p>
                             </td>
                             <td class="text-center">
-                                {{ $dv->cantidad }}
+                                <p class="text-xs mb-0">
+                                    {{ $dv->cantidad }}
+                                </p>
                             </td>
                             <td class="text-right">
-                                {{ number_format($dv->pv * $dv->cantidad, 2) }}
+                                <p class="text-xs mb-0">
+                                    {{ number_format($dv->pv * $dv->cantidad, 2) }}
+                                </p>
                             </td>
                         </tr>
                         @endforeach
@@ -74,40 +99,40 @@
                     <tfoot>
                       <tr>
                         <td class="text-center">
-                            <b>
-                                -
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>-</b>
+                            </p>
                         </td>
                         <td>
-                            <b>
-                                -
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>-</b>
+                            </p>
                         </td>
                         <td class="text-center">
-                            <b class="text-center">
-                                Totales
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>Totales</b>
+                            </p>
                         </td>
                         <td class="table-th text-withe text-right">
-                            <b>
-                                --------
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>--------</b>
+                            </p>
                         </td>
                         <td class="table-th text-withe text-right">
-                            <b>
-                                --------
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>--------</b>
+                            </p>
                         </td>
                         <td class="text-center">
-                            <b>
-                                {{$this->totalitems}}
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>{{$this->totalitems}}</b>
+                            </p>
                         </td>
-                        <td class="text-right">
+                        <td class="text-right align-middle">
                             @if($this->venta != null)
-                            <b>
-                                {{number_format( $this->venta->total, 2) }}
-                            </b>
+                            <p class="text-xs mb-0">
+                                <b>{{number_format( $this->venta->total, 2) }}</b>
+                            </p>
                             @endif
                         </td>
                       </tr>
