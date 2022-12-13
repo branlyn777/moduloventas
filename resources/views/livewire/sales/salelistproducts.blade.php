@@ -1,58 +1,5 @@
 <div>
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Buscar</b>
-            <div class="form-group">
-                <input wire:model="search" type="text" class="form-control" placeholder="Ingrese Nombre o código">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Seleccionar Sucursal</b>
-            <div class="form-group">
-                <select wire:model="sucursal_id" class="form-select">
-                    @foreach($listasucursales as $sucursal)
-                    <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
-                    @endforeach
-                    <option value="Todos">Todas las Sucursales</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Seleccionar Usuario</b>
-            <div class="form-group">
-                <select wire:model="user_id" class="form-select">
-                    <option value="Todos" selected>Todos</option>
-                    @foreach ($listausuarios as $u)
-                        <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Categoria</b>
-            <div class="form-group">
-                <select wire:model="categoria_id" class="form-select">
-                    <option value="Todos" selected>Todos</option>
-                    @foreach ($this->lista_categoria as $c)
-                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->name)) }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Fecha Inicio</b>
-            <div class="form-group">
-                <input type="date" wire:model="dateFrom" class="form-control" >
-            </div>
-        </div>
 
-        <div class="col-12 col-sm-6 col-md-2 text-center">
-            <b style="color:#fcf8f8">Fecha Fin</b>
-            <div class="form-group">
-                <input type="date" wire:model="dateTo" class="form-control" >
-            </div>
-        </div>
-    </div>
 
 
 
@@ -67,6 +14,81 @@
                 <div class="card-header pb-0">
                     <h6>Productos Vendidos</h6>
                   </div>
+
+
+
+
+
+                <div style="padding-left: 15px; padding-right: 15px;">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Buscar
+                            </h6>
+                            <div class="form-group">
+                                <input wire:model="search" type="text" class="form-control" placeholder="Ingrese Nombre o código">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Seleccionar Sucursal
+                            </h6>
+                            <div class="form-group">
+                                <select wire:model="sucursal_id" class="form-select">
+                                    @foreach($listasucursales as $sucursal)
+                                    <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                    @endforeach
+                                    <option value="Todos">Todas las Sucursales</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Seleccionar Usuario
+                            </h6>
+                            <div class="form-group">
+                                <select wire:model="user_id" class="form-select">
+                                    <option value="Todos" selected>Todos</option>
+                                    @foreach ($listausuarios as $u)
+                                        <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Categoria
+                            </h6>
+                            <div class="form-group">
+                                <select wire:model="categoria_id" class="form-select">
+                                    <option value="Todos" selected>Todos</option>
+                                    @foreach ($this->lista_categoria as $c)
+                                        <option value="{{ $c->id }}">{{ ucwords(strtolower($c->name)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Fecha Inicio
+                            </h6>
+                            <div class="form-group">
+                                <input type="date" wire:model="dateFrom" class="form-control" >
+                            </div>
+                        </div>
+                
+                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                            <h6 class="mb-0">
+                                Fecha Fin
+                            </h6>
+                            <div class="form-group">
+                                <input type="date" wire:model="dateTo" class="form-control" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 text-center"> 
                         <b>Total Utilidad</b>
@@ -138,15 +160,21 @@
                               @if($l->ventareciente > -1)
                                   @if($l->ventareciente == 1)
                                   <div style="color: rgb(0, 201, 33);">
-                                      <b>Hace {{$l->ventareciente}} Minuto</b>
+                                    <p class="text-xs font-weight-bold mb-0">
+                                        Hace {{$l->ventareciente}} Minuto
+                                    </p>
                                   </div>
                                   @else
-                                  <div style="color: rgb(0, 201, 33);">
-                                      <b>Hace {{$l->ventareciente}} Minutos</b>
-                                  </div>
+                                    <div style="color: rgb(0, 201, 33);">
+                                        <p class="text-xs font-weight-bold mb-0">
+                                            Hace {{$l->ventareciente}} Minutos
+                                        </p>
+                                    </div>
                                   @endif
                               @endif
-                              {{ \Carbon\Carbon::parse($l->fecha_creacion)->format('d/m/Y H:i') }}
+                              <p class="text-xs font-weight-bold mb-0">
+                                {{ \Carbon\Carbon::parse($l->fecha_creacion)->format('d/m/Y H:i') }}
+                              </p>
                           </td>
   
                           </tr>
