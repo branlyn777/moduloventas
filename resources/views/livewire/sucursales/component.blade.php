@@ -1,9 +1,7 @@
 <div>
     <div class="d-sm-flex justify-content-between">
-        <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
-        </div>
-        <div class="nav-wrapper position-relative end-0">
+        <div></div>
+        <div class="nav-wrapper position-relative-right end-0">
             <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
                 type="button">
                 <span class="btn-inner--icon">
@@ -11,7 +9,7 @@
                 </span>
                 <span class="btn-inner--text">Nueva Sucursal</span>
             </button>
-            
+
             <a href="cajas" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
@@ -19,11 +17,14 @@
                 <span class="btn-inner--text">Ir a Cajas</span>
             </a>
         </div>
-       
     </div>
+    <br>
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
+                <div class="col-12 col-sm-12 col-md-4">
+                    @include('common.searchbox')
+                </div>
                 <div class="card-header pb-0">
                     <h6>Sucursales | Listado</h6>
                 </div>
@@ -38,7 +39,7 @@
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">NÚMERO NIT</th>
                                     <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
-                                </tr>
+                                    </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $item)
@@ -59,8 +60,8 @@
                                             <p class="text-xs mb-0 text-center">{{ $item->nit_id }}</p>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})" class="mx-3"
-                                                title="Editar">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
+                                                class="mx-3" title="Editar">
                                                 <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
                                             </a>
                                         </td>
@@ -74,8 +75,8 @@
             </div>
         </div>
     </div>
-    
-@include('livewire.sucursales.form')
+
+    @include('livewire.sucursales.form')
 </div>
 
 <script>
