@@ -49,7 +49,7 @@
                     <button onclick="Revocar()" type="button" class="btn btn-icon btn-outline-white ms-2 expor">
                         <span class="btn-inner--icon">
                             <i class="ni ni-fat-add"></i>
-                        </span class="btn-inner--text"> RevocarTodos</button>
+                        </span class="btn-inner--text"> Revocar Todos</button>
                 @endif
 
                 {{-- Boton de IR a Usuarios --}}
