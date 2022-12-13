@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white">Lotes</h5>
+                <label class="modal-title text-white" style="font-size: 16px">Lotes</label>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -32,7 +32,7 @@
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center">
+                                        <tr class="text-center" style="font-size: 14px">
                                             <th style="width: 30px;">#</th>
                                             <th style="width: 200px;">Fecha Creacion</th>
                                             <th style="width: 200px;">Existencia</th>

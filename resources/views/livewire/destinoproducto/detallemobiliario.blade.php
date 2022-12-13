@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white">Ubicacion Producto</h5>
+                <h5 class="modal-title text-white" style="font-size: 16px">Ubicacion Producto</h5>
                 {{-- <button type="button" class="close" data-keyboard="false" data-backdrop="static" data-dismiss="modal"
                     aria-label="Close" wire:click="cerrar()">
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -26,21 +26,21 @@
                             @foreach ($grouped as $key=>$item)
                                 <div class="media">
                                     <center>
-                                        <h5>{{$key}}</h5>
+                                        <label style="font-size: 16px">{{$key}}</label>
                                     </center>
                                     <div class="media-body">
                                         
                                         <div class="table-6">
                                             <table>
                                                 <thead>
-                                                    <tr class="text-center">
+                                                    <tr class="text-center" style="font-size: 13px">
                                                         <th style="width: 100px;">ITEM</th>
                                                         <th style="width: 500px;">ESTANCIA</th>
                                                         <th style="width: 200px;">STOCK</th>
                                                         <th>MOBILIARIO</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody style="font-size: 12px">
                                                     @foreach ($item as $key=>$value)
                                                     <tr class="text-center">
     

@@ -28,18 +28,23 @@
                         {{--SELECT DE LAS SUCURSALES--}}
                         <div class="btn-group ms-auto my-auto">
                         {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> --}}
-                            <select wire:model='selected_id' class="form-control">
-                                <option value="General">Almacen Total</option>
-                                    @foreach ($data_suc as $data)
-                                        <option value="{{ $data->id }}">{{ $data->sucursal }}-{{$data->destino}}</option>
-                                    @endforeach
-                            </select>
+                            <div class="p-2">
+                                <select wire:model='selected_id' class="form-control">
+                                    <option value="General">Almacen Total</option>
+                                        @foreach ($data_suc as $data)
+                                            <option value="{{ $data->id }}">{{ $data->sucursal }}-{{$data->destino}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="p-2">
+                                <select wire:model='selected_mood' class="form-control">
+                                    <option value="todos">TODOS</option>
+                                    <option value='cero'>Productos agotados</option>
+                                    <option value='bajo'>Productos bajo stock</option>
+                                </select>
+                            </div>
                             
-                            <select wire:model='selected_mood' class="form-control">
-                                <option value="todos">TODOS</option>
-                                <option value='cero'>Productos agotados</option>
-                                <option value='bajo'>Productos bajo stock</option>
-                            </select>
+                            
                             
                             {{-- <div class="form-group">
                                 <select wire:model='filtro_stock' class="form-control">
@@ -98,46 +103,41 @@
                                                     </td>
                                                 
                                                     @if ($selected_id == 'General')
-                                                    <td>
-                                                        {{ $destino->stock_s }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $destino->cantidad_minima }}
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                    
-                                                            <button wire:click="ver({{ $destino->id }})" type="button" class="btn btn-secondary p-1 mx-3" style="background-color: rgb(16, 80, 150)">
-                                                                {{-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line>
-                                                                <line x1="3" y1="18" x2="21" y2="18"></line></svg> --}}
+                                                        <td>
+                                                            {{ $destino->stock_s }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $destino->cantidad_minima }}
+                                                        </td>
+                                                        <td  class="align-middle text-center">
+                                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3">
                                                                 <i class="fas fa-list"></i>
-                                                            </button>
-                                                            
-                                                            <button wire:click="lotes({{ $destino->id }})" type="button" class="btn btn-dark p-1 mx-3" style="background-color: rgb(12, 100, 194)">
-                                                                    <i class="fas fa-box-open" ></i>
-                                                            </button>
-                                                    
-                                                    </td>
+                                                            </a>
+
+                                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})" class="mx-3">
+                                                                <i class="fas fa-box-open text-info"></i>
+                                                            </a>
+                                                        </td>
                                                     @else
-                                                    <td>
-                                                        <h6 class="text-center">{{ $destino->stock}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        {{ $destino->cantidad_minima }}
-                                                    </td>
-                                                    @can('Admin_Views')
-                                                    <td>
-                                                    <button  wire:click="ajuste({{ $destino->id }})" class="btn btn-success p-1" title="Ajuste de inventarios" style="background-color: rgb(13, 175, 220); color:white">
-                                                    <i class="fas fa-pen"></i>
-                                                </button>
-                                                    </td>
-                                                    @endcan   
+                                                        <td>
+                                                            <h6 class="text-center">{{ $destino->stock}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            {{ $destino->cantidad_minima }}
+                                                        </td>
+                                                        @can('Admin_Views')
+                                                        <td>
+                                                            <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})" title="Ajuste de inventarios" class="mx-3">
+                                                                <i class="fas fa-pen"></i>
+                                                            </a>
+                                                        </td>
+                                                        @endcan   
                                                     @endif
                 
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>
+                                    </table> <br>
                                 </div>
                             </div>
                         </div>
