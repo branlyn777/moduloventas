@@ -319,85 +319,35 @@
           </ul>
           </div>
         </li>
-        
+
+
+
+
+
         <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#basicExamples" class="nav-link collapsed" aria-controls="basicExamples" role="button" aria-expanded="false">
-            <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-              <i class="ni ni-spaceship text-dark text-sm"></i>
-            </div>
-            <span class="nav-link-text ms-1">Reportes y Clientes</span>
+          <a data-bs-toggle="collapse" href="#componentsExamples4" class="nav-link " aria-controls="componentsExamples3" role="button" aria-expanded="false">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+          <i class="ni ni-app text-dark text-sm"></i>
+          </div>
+          <span class="nav-link-text ms-1">Reportes</span>
           </a>
-          <div class="collapse" id="basicExamples" style="">
-          <ul class="nav ms-4">
-          <li class="nav-item ">
-            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#gettingStartedExample">
-              <span class="sidenav-mini-icon"> R </span>
-              <span class="sidenav-normal"> Reportes <b class="caret"></b></span>
-            </a>
-            <div class="collapse " id="gettingStartedExample">
-              <ul class="nav nav-sm flex-column">
-                <li class="nav-item">
-                  <a class="nav-link " href="{{ url('salemovimientodiario') }}">
-                    <span class="sidenav-mini-icon text-xs"> M </span>
-                    <span class="sidenav-normal"> Movimientos Ventas </span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link " href="/bootstrap/license/argon-dashboard">
-                    <span class="sidenav-mini-icon text-xs"> L </span>
-                    <span class="sidenav-normal"> License </span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link " href="/bootstrap/overview/argon-dashboard">
-                  <span class="sidenav-mini-icon text-xs"> C </span>
-                  <span class="sidenav-normal"> Contents </span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link " href="/bootstrap/build-tools/argon-dashboard">
-                <span class="sidenav-mini-icon text-xs"> B </span>
-                <span class="sidenav-normal"> Build Tools </span>
-                </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#foundationExample">
-              <span class="sidenav-mini-icon"> F </span>
-              <span class="sidenav-normal"> Foundation <b class="caret"></b></span>
-            </a>
-            <div class="collapse " id="foundationExample">
-            <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
-                <a class="nav-link " href="/bootstrap/colors/argon-dashboard">
-                <span class="sidenav-mini-icon text-xs"> C </span>
-                <span class="sidenav-normal"> Colors </span>
+          <div class="collapse " id="componentsExamples4">
+            <ul class="nav ms-4">
+              <li class="nav-item ">
+                <a class="nav-link " href="{{ url('salemovimientodiario') }}">
+                  <span class="sidenav-mini-icon"> M </span>
+                  <span class="sidenav-normal">Movimiento Diario Ventas</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link " href="/bootstrap/grid/argon-dashboard">
-                <span class="sidenav-mini-icon text-xs"> G </span>
-                <span class="sidenav-normal"> Grid </span>
-                </a>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/bootstrap/typography/argon-dashboard">
-              <span class="sidenav-mini-icon text-xs"> T </span>
-              <span class="sidenav-normal"> Typography </span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="/bootstrap/icons/argon-dashboard">
-              <span class="sidenav-mini-icon text-xs"> I </span>
-              <span class="sidenav-normal"> Icons </span>
-              </a>
-            </li>
             </ul>
-            </div>
-          </li>
-          </ul>
+            <ul class="nav ms-4">
+              <li class="nav-item ">
+                <a class="nav-link " href="{{ url('productosvendidos') }}">
+                  <span class="sidenav-mini-icon"> P </span>
+                  <span class="sidenav-normal">Productos Mas Vendidos</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </li>
 
