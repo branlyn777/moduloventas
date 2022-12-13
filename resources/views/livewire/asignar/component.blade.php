@@ -1,6 +1,4 @@
 <div>
-
-
     <div class="d-sm-flex justify-content-between">
         <div class="col-12">
             <div class="card mb-4">
