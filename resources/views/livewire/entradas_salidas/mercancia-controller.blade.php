@@ -9,8 +9,8 @@
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn btn-outline-primary" data-toggle="modal"
-                                    wire:click='resetui()' data-target="#operacion">Registrar Operacion</a>
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    wire:click='resetui()' data-bs-target="#operacion">Registrar Operacion</button>
                             </div>
                         </div>
                     </div>

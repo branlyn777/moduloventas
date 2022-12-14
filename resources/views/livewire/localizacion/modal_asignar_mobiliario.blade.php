@@ -119,7 +119,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
-                <div class="table-wrapper mb-3">
+                <div class="table-responsive">
                     @if ($col->count() != 0)
 
                     <table class="m-auto">
