@@ -6,12 +6,12 @@
                     <div class="d-lg-flex">
 
                         <div>
-                            <h5 class="mb-0">Categorias</h5>
+                            <h5 class="mb-0" style="font-size: 16px">Categorias</h5>
                         </div>
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-toggle="modal" data-target="#theModal" wire:click="resetUI()">
+                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
                                   Agregar Categoria
                                 </a>
 
@@ -46,79 +46,81 @@
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
-                
+                                    
                                     <thead>
-                                        <tr class="text-center">
+                                        <tr class="text-center" style="font-size: 10.4px">
                                             <th>#</th>
-                                            <th>NOMBRE</th>
+                                            <th style="text-align: left">NOMBRE</th>
                                             <th>SUBCATEGORIAS</th>
                                             <th>ESTADO</th>
                                             <th>ACCIONES</th>
                                         </tr>
                                     </thead>
-                    
+                                    
                                     <tbody>
                                         @foreach ($categories as $category)
-                                            <tr>
-                                                <td class="text-center">
+                                            <tr class="text-center" style="font-size: 12px">
+                                                <td>
                                                     {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
                                                 </td>
-                                                <td>
-                                                    <div class="row">
-                                                        <div class="col-md-5">
+                                                <td style="text-align: left">
+                                                    {{-- <div class="row">
+                                                        <div class="col-md-5"> --}}
                                                             <div class="row">
                                                                 <div class="col">
-                        
-                                                                    <h5><b>{{ $category->name }}</b></h5>
+                                                                    <h5 style="font-size: 14px"><b>{{ $category->name }}</b></h5>
+                                                                    <label  style="font-size: 12px"> Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</label>
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
+                                                            {{-- <div class="row">
                                                                 <div class="col">
-                        
-                                                                    <label> Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</label>
                                                                 </div>
-                                                            </div>
-                        
-                                                        </div>
-                                                    </div>
-                                            
-                                                    
-                                                
+                                                            </div> --}}
+                                                        {{-- </div>
+                                                    </div> --}}
                                                 </td>
-                                                <td class="text-center">
+                                                <td>
                                                     <a href="javascript:void(0)" wire:click="Ver({{$category->id}})"
                                                         class="boton-azul" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
                                                         <i class="fas fa-eye"></i>
-                                                        </a>
+                                                    </a>
                                                 </td>
                                             
                                                     @if ($category->status== 'ACTIVO')
                                                         
-                                                    <td class="text-center"><span class="badge badge-success mb-0">{{$category->status}}</span></td>
+                                                        <td>
+                                                            {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
+                                                            <span class="badge badge-sm bg-gradient-success">{{$category->status}}</span>
+                                                        </td>
+                                                    
                                                     @else
-                                                    <td class="text-center"><span class="badge badge-danger mb-0">{{$category->status}}</span></td>
-                                                        
+                                                        <td>
+                                                            <span class="badge badge-sm bg-gradient-danger">{{$category->status}}</span>
+                                                            {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
+                                                        </td>
                                                     @endif
                                             
                                             
-                                                <td class="text-center">
-                                                    <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                                <td>
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})" class="mx-3"
                                                         class="boton-azul" title="Editar Categoria">
-                                                        <i class="fas fa-edit"></i>
+                                                        <i class="fas fa-edit" style="font-size: 14px"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" class="boton-azul" wire:click="asignarCategoria('{{$category->id}}')" title="Agregar subcategorias">
+
+                                                    {{-- <a href="javascript:void(0)" class="boton-azul mx-3" wire:click="asignarCategoria('{{$category->id}}')"
+                                                        title="Agregar subcategorias">
                                                         <i class="fas fa-plus"></i>
-                                                    </a>
+                                                    </a> --}}
+
                                                     <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                                                    class="boton-rojo"
-                                                        title="Eliminar categoria">
-                                                        <i class="fas fa-trash"></i>
+                                                        class="boton-rojo mx-3" title="Eliminar categoria">
+                                                        <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                                                    class="boton-celeste "
-                                                        title="Cambiar Estado">
-                                                        <i class="fas fa-times-circle"></i>
-                                                    </a>
+
+                                                    {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
+                                                        class="boton-celeste mx-3" title="Cambiar Estado">
+                                                        <i class="fas fa-times-circle"  style="font-size: 14px"></i>
+                                                    </a> --}}
                                                     
                                                 </td>
                                             </tr>

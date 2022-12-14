@@ -26,7 +26,7 @@ class CategoriesController extends Component
     public function mount()
     {
         $this->pageTitle = 'Listado';
-        $this->componentName = 'Categorias';
+        $this->componentName = 'Categoria';
         $this->componentSub = 'Subcategorias';
         $this->subcat_fill= 'Elegir';
         $this->estados='TODOS';
@@ -93,6 +93,7 @@ class CategoriesController extends Component
         
         $this->selected_id=0;
         $this->categoria_padre= $cat;
+        $this->emit('hide_modal_sub');
         $this->emit('sub-show');
         
     }
@@ -155,6 +156,7 @@ class CategoriesController extends Component
         $this->selected_id=0;
         $this->mensaje_toast='Subcategoria Registrada';
         $this->emit('sub_added');
+        $this->emit('modal_sub', 'show modal!');
     }
 
     public function Update()

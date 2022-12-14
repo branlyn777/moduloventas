@@ -109,7 +109,7 @@
                                                         <td>
                                                             {{ $destino->cantidad_minima }}
                                                         </td>
-                                                        <td  class="align-middle text-center">
+                                                        <td class="align-middle text-center">
                                                             <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3">
                                                                 <i class="fas fa-list"></i>
                                                             </a>
