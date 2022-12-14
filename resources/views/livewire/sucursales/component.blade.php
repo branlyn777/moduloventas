@@ -22,54 +22,61 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
-                <div class="col-12 col-sm-12 col-md-4">
-                    @include('common.searchbox')
-                </div>
                 <div class="card-header pb-0">
                     <h6>Sucursales | Listado</h6>
                 </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr">
-                                    <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE DE LA SUCURSAL</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">DIRECCIÓN</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">TELÉFONO</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">NÚMERO NIT</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
-                                    </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $item)
-                                    <tr>
-                                        <td>
-                                            <p class="text-xs mb-0">{{ $item->name }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs mb-0 text-center">{{ $item->adress }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs mb-0 text-center">{{ $item->telefono }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs mb-0 text-center">{{ $item->celular }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs mb-0 text-center">{{ $item->nit_id }}</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                                class="mx-3" title="Editar">
-                                                <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            {{ $data->links() }}
-                        </table>
+                <div style="padding-left: 12px; padding-right: 12px;">
+                    <div class="col-12 col-sm-12 col-md-4">
+                        <div class="input-group mb-4">
+                            @include('common.searchbox')
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr">
+                                        <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE DE LA SUCURSAL
+                                        </th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">DIRECCIÓN
+                                        </th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">TELÉFONO</th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NÚMERO NIT
+                                        </th>
+                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $item)
+                                        <tr>
+                                            <td>
+                                                <p class="text-xs mb-0">{{ $item->name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0 text-center">{{ $item->adress }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0 text-center">{{ $item->telefono }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0 text-center">{{ $item->celular }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0 text-center">{{ $item->nit_id }}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
+                                                    class="mx-3" title="Editar">
+                                                    <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                {{ $data->links() }}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
