@@ -11,50 +11,52 @@
             <div class="modal-body">
                 <p>
                 <h3 class="badge bg-gradient-primary">1</h5> Descargue la plantilla de ejemplo para importar sus
-                productos de un archivo excel.
-                </p>
+                    productos de un archivo excel.
+                    </p>
 
-                <div class="card card-sm" style="background-color: bisque">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-md-6">
+                    <div class="card card-sm" style="background-color: bisque">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
 
-                                <button class="btn btn-sm btn-info" wire:click="downloadex()">
-                                    Descargar Plantilla
-                                </button>
+                                    <button class="btn btn-sm btn-info" wire:click="downloadex()">
+                                        Descargar Plantilla
+                                    </button>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-                <p>
-                <h3 class="badge bg-gradient-primary">2</h3> Elija su archivo excel que contiene sus productos de
-                acuerdo a la plantilla, asegurese que solo una hoja contenga todos sus productos, si tiene otra hoja con
-                informacion puede causar errores.
-                </p>
+                    <p>
+                    <h3 class="badge bg-gradient-primary">2</h3> Elija su archivo excel que contiene sus productos de
+                    acuerdo a la plantilla, asegurese que solo una hoja contenga todos sus productos, si tiene otra hoja
+                    con
+                    informacion puede causar errores.
+                    </p>
 
 
 
-                <div class="form-group">
-                    @if ($failures)
-                    <div class="alert alert-danger" role="alert">
-                        @foreach ($failures as $failure)
-                        @foreach ($failure->errors() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                        @endforeach
+                    <div class="form-group">
+                        @if ($failures)
+                        <div class=" card p-2 m-1" style="background-color: rgb(224, 224, 224)" role="alert">
+                            @foreach ($failures as $failure)
+                            @foreach ($failure->errors() as $error)
+                            <li>{{ $error }},numero de fila {{ $failure->row()}}.</li>
+                     
+                            @endforeach
+                            @endforeach
+                        </div>
+                        @endif
+
+                        <form wire:submit.prevent="import('{{$archivo}}')" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            {{$archivo}}
+                            <input type="file" name="import_file" wire:model="archivo" />
+                            <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                        </form>
                     </div>
-                    @endif
-
-                    <form wire:submit.prevent="import('{{$archivo}}')" method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        {{$archivo}}
-                        <input type="file" name="import_file" wire:model="archivo" />
-                        <button class="btn btn-primary mr-1" type="submit">SUBIR</button>
-                    </form>
-                </div>
 
 
 
@@ -62,13 +64,13 @@
             <div class="modal-footer justify-content-center">
 
 
-         
-                        <div class="col-md-3">
 
-                        <button wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
-                            data-bs-dismiss="modal">Cancelar</button>
-                        </div>
-                
+                <div class="col-md-3">
+
+                    <button wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
+                        data-bs-dismiss="modal">Cancelar</button>
+                </div>
+
 
 
 

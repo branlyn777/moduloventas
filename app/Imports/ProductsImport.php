@@ -124,7 +124,8 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
     {
         return [             // Above is alias for as it always validates in batches
             '*.nombre' =>[
-                'distinct','required','unique:products'
+                'distinct','required','unique:products',
+       
             ],
             '*.codigo' =>[
                 'distinct','numeric','required','unique:products'
@@ -134,7 +135,8 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
             ],
             '*.precio_venta' =>[
                 'numeric','required'
-            ]
+            ],
+
             
         ];
     }
@@ -142,9 +144,11 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
     public function customValidationMessages()
 {
     return [
-        'nombre.unique' => 'El nombre del producto ya existe, revise su archivo por favor  :attribute',
+        'nombre.unique' => 'El nombre del producto ya existe, revise su archivo por favor, campo :attribute',
+        'nombre.distinct' => 'Nombres duplicados del producto',
         'codigo.unique' =>'El codigo ya existe',
         'codigo.distinct' =>'Tiene codigos duplicados, revise su archivo',
+
     ];
 }
 

@@ -10,8 +10,8 @@
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" wire:click='resetUI()' data-toggle="modal" wire:click="$set('selected_id', 0)"
-                                data-target="#theModal">Agregar</a>
+                            <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" wire:click='resetUI()' data-bs-toggle="modal" wire:click="$set('selected_id', 0)"
+                                data-bs-target="#theModal">Agregar</a>
                             </div>
                         </div>
                     </div>

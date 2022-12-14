@@ -131,7 +131,7 @@
                         <div class="carousel-inner border-radius-lg h-100">
                             <div class="carousel-item h-100" style="background-image: url('../../assets/img/img-2.jpg');
               background-size: cover;">
-                                <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                                <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-1">
                                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                                         <i class="ni ni-camera-compact text-dark opacity-10"></i>
                                     </div>
@@ -140,20 +140,12 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="carousel-item h-100 active" style="background-image: url('../../assets/img/img-1.jpg');
-              background-size: cover;">
-                                <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                                    <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                                        <i class="ni ni-bulb-61 text-dark opacity-10"></i>
-                                    </div>
-                                    <h5 class="text-white mb-1">Faster way to create web pages</h5>
-                                    <p>That’s my skill. I’m not really specifically talented at anything except for the
-                                        ability to learn.</p>
-                                </div>
+                            <div class="carousel-item h-100 active">
+                                <iframe src='https://my.spline.design/kidsplaygroundphysicscopy-5ab12c2c36aae4dba5a8c18eaee54114/' frameborder='0' width='100%' height='100%'></iframe>
                             </div>
                             <div class="carousel-item h-100" style="background-image: url('../../assets/img/img-3.jpg');
               background-size: cover;">
-                                <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                                <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-2">
                                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                                         <i class="ni ni-trophy text-dark opacity-10"></i>
                                     </div>
@@ -1267,6 +1259,9 @@
                 </div>
             </div>
         </div>
+        <div  style="height: 60rem" >
+            <iframe src='https://my.spline.design/kidsplaygroundphysicscopy-5ab12c2c36aae4dba5a8c18eaee54114/' frameborder='0' width='100%' height='100%'></iframe>
+        </div>
         <footer class="footer pt-3  ">
             <div class="container-fluid">
                 <div class="row align-items-center justify-content-lg-between">
@@ -1304,6 +1299,7 @@
                 </div>
             </div>
         </footer>
+        
     </div>
 </div>
 

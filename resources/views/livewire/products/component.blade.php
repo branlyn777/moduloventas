@@ -18,7 +18,7 @@
                                     class="btn btn-outline-primary btn-sm mb-0">
                                     Importar
                                 </button>
-                                <a href='{{url(' productos/export/')}}'
+                                <a href='{{url('productos/export/')}}'
                                     class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
                                     Exportar
                                 </a>
@@ -271,6 +271,20 @@
                 'error'
                 )
         });
+        window.livewire.on('sin-archivo', Msg => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'info',
+                    title: 'No ha seleccionado un archivo',
+                    padding: '2em',
+                })
+            });
 
 
     });
