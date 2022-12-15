@@ -21,7 +21,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Tipo</h6>
-            <select wire:model='tipo' class="form-control">
+            <select wire:model='tipo' class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
                 <option value="efectivo">EFECTIVO</option>
                 <option value="digital">DIGITAL</option>
@@ -45,7 +45,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Caja</h6>
-            <select wire:model='caja_id' class="form-control">
+            <select wire:model='caja_id' class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
                 @foreach ($cajas as $item)
                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>

@@ -3,7 +3,7 @@
         <div class="col-12 col-sm-6 col-md-3 text-center">
             <div class="form-group">
                 <b class="text-white">Seleccione Rol</b>
-                <select wire:model="role" class="form-control">
+                <select wire:model="role" class="form-select">
                     <option value="Elegir" selected>==Seleccione el rol==</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
@@ -15,7 +15,7 @@
         <div class="col-12 col-sm-6 col-md-3 text-center">
             <div class="form-group">
                 <b class="text-white">Area Permiso</b>
-                <select wire:model="permisosseleccionado" class="form-control">
+                <select wire:model="permisosseleccionado" class="form-select">
                     <option value="Todos"><b>==Todos los Permisos==</b></option>
                     @foreach ($listaareas as $u)
                         <option value="{{ $u->id }}">{{ $u->name }}</option>
