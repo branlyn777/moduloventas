@@ -1,23 +1,25 @@
 <div>
     <div class="d-sm-flex justify-content-between">
-        <div class="nav-wrapper position-relative end-0">
+        <div></div>
+        <div class="nav-wrapper position-relative-right end-0">
             <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
                 type="button">
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
-                </span class="btn-inner--text">Nueva Caja</button>
+                </span>
+                <span class="btn-inner--text">Nueva Caja</span>
+            </button>
 
-                <a href="carteras" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-                    <span class="btn-inner--icon">
-                        <i class="ni ni-fat-add"></i>
-                    </span>
-                    <span class="btn-inner--text">Ir a Cartera</span>
-                </a>
+            <a href="carteras" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
+                <span class="btn-inner--icon">
+                    <i class="ni ni-fat-add"></i>
+                </span>
+                <span class="btn-inner--text">Ir a Cartera</span>
+            </a>
         </div>
     </div>
 
-
-
+    <br>
     
     <div class="row">
         <div class="col-12">

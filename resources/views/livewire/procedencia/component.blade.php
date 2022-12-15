@@ -2,9 +2,9 @@
 
 <div>
     <div class="d-sm-flex justify-content-between">
-      <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
-        </div>
+      <div>
+
+      </div>
         <div class="nav-wrapper position-relative end-0">
             <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
             type="button">
@@ -21,6 +21,8 @@
             
         </div>
      </div>
+     
+     <br>
 
       <div class="row">
           <div class="col-12">
@@ -28,43 +30,50 @@
                   <div class="card-header pb-0">
                     <h6>Procedencias | Listado</h6>
                   </div>
-                  <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                      <table class="table align-items-center mb-0">
-                        <thead>
-                          <tr>
-                            <th class="text-uppercase text-xxs font-weight-bolder">PROCEDENCIA</th>
-                            <th class="text-uppercase text-xxs font-weight-bolder ps-2">ESTADO</th>
-                            <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                  <div style="padding-left: 12px; padding-right: 12px;">
 
-                          @foreach ($data as $item)
-                          <tr>
-                            <td>
-                              <p class="text-xs font-weight-bold mb-0 ">{{ $item->procedencia }}</p>
-                            </td>
+                    <div class="col-12 col-sm-12 col-md-4">
+                      @include('common.searchbox')
+                  </div>
 
-                            <td>
-                              <p class="text-xs font-weight-bold mb-0">{{ $item->estado }}</p>
-                            </td>                         
-
-                            <td class="align-middle text-center">
-                                <a href="javascript:void(0)" wire:click.prevent="Edit('{{ $item->id }}')" class="mx-3">
-                                  <i class="fas fa-user-edit text-info" ></i>
-                                </a>
-                                <a href="javascript:void(0)"
-                                onclick="Confirm('{{ $item->id }}','{{ $item->procedencia }}','{{ $item->relacionados }}')"
-                                class="boton-rojo" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                            </td>
-                          </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
-                     {{ $data->links() }}
+                    <div class="card-body px-0 pt-0 pb-2">
+                      <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                          <thead>
+                            <tr>
+                              <th class="text-uppercase text-xxs font-weight-bolder">PROCEDENCIA</th>
+                              <th class="text-uppercase text-xxs font-weight-bolder ps-2">ESTADO</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+  
+                            @foreach ($data as $item)
+                            <tr>
+                              <td>
+                                <p class="text-xs font-weight-bold mb-0 ">{{ $item->procedencia }}</p>
+                              </td>
+  
+                              <td>
+                                <p class="text-xs font-weight-bold mb-0">{{ $item->estado }}</p>
+                              </td>                         
+  
+                              <td class="align-middle text-center">
+                                  <a href="javascript:void(0)" wire:click.prevent="Edit('{{ $item->id }}')" class="mx-3">
+                                    <i class="fas fa-user-edit text-info" ></i>
+                                  </a>
+                                  <a href="javascript:void(0)"
+                                  onclick="Confirm('{{ $item->id }}','{{ $item->procedencia }}','{{ $item->relacionados }}')"
+                                  class="boton-rojo" title="Delete">
+                                  <i class="fas fa-trash"></i>
+                              </a>
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                       {{ $data->links() }}
+                      </div>
                     </div>
                   </div>
               </div>

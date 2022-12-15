@@ -18,7 +18,9 @@
             </a>
         </div>
     </div>
+
     <br>
+    
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -26,11 +28,11 @@
                     <h6>Sucursales | Listado</h6>
                 </div>
                 <div style="padding-left: 12px; padding-right: 12px;">
+
                     <div class="col-12 col-sm-12 col-md-4">
-                        <div class="input-group mb-4">
-                            @include('common.searchbox')
-                        </div>
-                    </div>
+                        @include('common.searchbox')
+                     </div>
+                     
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
