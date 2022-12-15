@@ -111,7 +111,7 @@ class PosController extends Component
         $this->total_bs = $this->gettotalcart();
         $this->total_items = Cart::getTotalQuantity();
         $this->factura = false;
-        $this->clienteanonimo = true;
+        $this->clienteanonimo = false;
         $this->cartera_id = 'Elegir';
         $this->observacion = "";
         $this->lotes_producto = [];

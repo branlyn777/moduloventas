@@ -25,11 +25,11 @@
         
         h1 {
             letter-spacing: -1px;
-            color: #02b1ce;
+            color: #5e72e4;
             font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
         }
         a {
-        color: #02b1ce;
+        color: #5e72e4;
         text-decoration: unset;
         }
         .login-root {
@@ -81,7 +81,7 @@
             box-shadow: inset 0 0 0 2px #e3e8ee;
         }
         .box-background--blue {
-            background-color: #02b1ce;
+            background-color: #5e72e4;
         }
         .box-background--white {
         background-color: #ffffff; 
@@ -173,11 +173,11 @@
         }
 
         input[type="submit"] {
-            background-color: #02b1ce;
+            background-color: #5e72e4;
             box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
                         rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
                         rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
-                        #02b1ce 0px 0px 0px 1px, 
+                        #5e72e4 0px 0px 0px 1px, 
                         rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
                         rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
                         rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
@@ -219,7 +219,7 @@
     <style>
         .bg {
         animation:slide 3s ease-in-out infinite alternate;
-        background-image: linear-gradient(-60deg, rgb(255, 255, 255) 50%, rgb(126, 246, 255) 50%);
+        background-image: linear-gradient(-60deg, rgb(255, 255, 255) 50%, #95a4f8 50%);
         bottom:0;
         left:-50%;
         opacity:.5;

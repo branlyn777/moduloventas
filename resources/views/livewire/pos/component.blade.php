@@ -254,13 +254,19 @@
         <div class="card-body p-3">
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-2 text-center">
-                    <b>Cliente Anónimo</b>
-                    <div class="form-group">
+                    <b>Seleccionar Cliente</b>
+                    {{-- <div class="form-group">
                         <label class="switch">
                             <input type="checkbox" wire:change="clienteanonimo()" {{ $clienteanonimo ? 'checked' : '' }}>
                             <span class="slider round"></span>
                         </label>
-                    </div>
+                    </div> --}}
+
+                    <button wire:click=modalbuscarcliente()" type="button" class="btn btn-outline-dark">
+                        Buscar/Crear
+                    </button>
+
+
                 </div>
                 <div class="col-12 col-sm-6 col-md-2 text-center">
                     <b>Tipo de Pago</b>
@@ -428,9 +434,9 @@
                             </div>
 
                             <div class="col-4 text-center">
-                                <button wire:click=modalbuscarcliente()" type="button" class="btn btn-light">
+                                {{-- <button wire:click=modalbuscarcliente()" type="button" class="btn btn-light">
                                     Buscar/Crear
-                                </button>
+                                </button> --}}
                             </div>
 
                             <div class="col-4 text-center">
