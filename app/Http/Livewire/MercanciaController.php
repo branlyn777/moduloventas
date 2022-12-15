@@ -580,30 +580,8 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
         }
     }
     
-    public function import($archivo){
-        
-        //$file = $request->file('import_file');
-       // dd($this->archivo);
-
-       try {
-        //$import->import('import-users.xlsx');
-       // Excel::import(new StockImport,$this->archivo);
-        return redirect()->route('productos');
-    } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-         $this->failures = $e->failures();
-        // dd($this->failures);
-        //  foreach ($failures as $failure) {
-        //      dd($failure->attribute()); // row that went wrong
-        //      $failure->attribute(); // either heading key (if using heading row concern) or column index
-        //      $failure->errors(); // Actual error messages from Laravel validator
-        //      $failure->values(); // The values of the row that has failed.
-        //  }
-    }
 
 
-     
-       //dd($errors->all());
-    }
 
     public function GuardarOperacion(){
             //dd($this->col);
@@ -612,11 +590,11 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
                 try {
                     //$import->import('import-users.xlsx');
                     Excel::import(new StockImport($this->destino,$this->concepto,$this->observacion),$this->archivo);
-                    return redirect()->route('productos');
+                    return redirect()->route('operacionesinv');
                 } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
 
                      $this->failures = $e->failures();
-                     dump($this->failures);
+                     dd($this->failures);
                    
                 }
             }
