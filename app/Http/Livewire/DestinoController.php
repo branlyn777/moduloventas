@@ -36,7 +36,7 @@ public function mount()
     $this->fecha = Carbon::now();
     $this->pagination = 50;
     $this->pageTitle = 'Listado';
-    $this->componentName = 'DESTINOS';
+    $this->componentName = 'Destino';
     $this->sucursal_id = "Todos";
     $this->verificar = false;
 }
