@@ -219,7 +219,7 @@
                         <div class="form-group">
                             
                             <button type="button" wire:click="addProduct({{$selected}})" title="Agregar producto a la lista" 
-                                class="btn btn-success" style="width: 6rem" ><i class="fas fa-plus"></i></button>
+                                class="btn btn-primary" style="width: 6rem" ><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>

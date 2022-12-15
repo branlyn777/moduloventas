@@ -1,6 +1,6 @@
 <div wire:ignore.self class="modal fade" id="buscarproducto" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="text-white" id="exampleModalCenterTitle">Detalle de Movimiento</h5>

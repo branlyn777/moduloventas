@@ -67,7 +67,7 @@ class TransferenciasController extends Component
         ->orderBy('fecha_tr','desc')
         ->get();
 
-        return view('livewire.destinoproducto.verTransferencias',['data_t'=>$this->data_origen,'data_estado'=>$this->estado, 'data_d'=>$data_destino
+        return view('livewire.transferencia.verTransferencias',['data_t'=>$this->data_origen,'data_estado'=>$this->estado, 'data_d'=>$data_destino
        ])
         ->extends('layouts.theme.app')
         ->section('content');

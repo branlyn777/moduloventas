@@ -34,7 +34,7 @@ class MercanciaController extends Component
     use WithFileUploads;
     public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,
     $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete;
-    private $pagination = 50;
+    private $pagination = 15;
 
     public function paginationView()    
     {
@@ -580,8 +580,6 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
         }
     }
     
-
-
 
     public function GuardarOperacion(){
             //dd($this->col);
