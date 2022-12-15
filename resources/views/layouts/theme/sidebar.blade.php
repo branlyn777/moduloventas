@@ -385,7 +385,18 @@
   <div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
     <div class="sidenav-footer mx-3 ">
       <a href="{{ url('cortecajas') }}" class="btn btn-dark btn-sm w-100 mb-3">Corte Caja</a>
-      <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Cerrar Sesión</a>
+    
+
+      <a href="{{ route('logout') }}" class="btn btn-primary btn-sm mb-0 w-100" type="button"
+      onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
+          <i class="fa icon-logout"></i> 
+          <p>Cerrar Sesión</p>
+      </a>
+      <form action="{{ route('logout') }}" method="POST" id="logout-form">
+          @csrf
+      </form>
+    
+    
     </div>
   <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
 </aside>

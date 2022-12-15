@@ -852,7 +852,7 @@ class SaleListProductsController extends Component
         ->where("s.status","PAID")
         ->where("s.status","PAID")
         ->where("users.status","ACTIVE")
-        ->groupBy("users.id")
+        ->distinct()
         ->get();
         return $listausuarios;
     }

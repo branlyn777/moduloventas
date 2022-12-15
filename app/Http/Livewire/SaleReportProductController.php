@@ -67,7 +67,7 @@ class SaleReportProductController extends Component
                         ->where("s.user_id",$this->user_id)
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -80,7 +80,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -96,7 +96,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -108,7 +108,7 @@ class SaleReportProductController extends Component
                         ->select("products.id as idproducto","products.nombre as nombre_producto","products.codigo as codigo_producto", DB::raw('0 as cantidad_vendida'))
                         ->where("s.status","PAID")
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -130,7 +130,7 @@ class SaleReportProductController extends Component
                         ->where("s.user_id",$this->user_id)
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -145,7 +145,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->where("cj.sucursal_id", $this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -163,7 +163,7 @@ class SaleReportProductController extends Component
                         ->where("s.status","PAID")
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -177,7 +177,7 @@ class SaleReportProductController extends Component
                         ->where("ct.id",$this->categoria_id)
                         ->where("s.status","PAID")
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -206,7 +206,7 @@ class SaleReportProductController extends Component
                         })
 
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -226,7 +226,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -249,7 +249,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -268,7 +268,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -297,7 +297,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -319,7 +319,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -344,7 +344,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                     else
@@ -365,7 +365,7 @@ class SaleReportProductController extends Component
 
                         
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-                        ->groupBy("products.id")
+                        ->distinct()
                         ->get();
                     }
                 }
@@ -404,7 +404,7 @@ class SaleReportProductController extends Component
         ->where("s.status","PAID")
         ->where("s.status","PAID")
         ->where("users.status","ACTIVE")
-        ->groupBy("users.id")
+        ->distinct()
         ->get();
         return $listausuarios;
     }
