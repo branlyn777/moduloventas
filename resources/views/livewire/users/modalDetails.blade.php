@@ -1,19 +1,16 @@
 <div wire:ignore.self id="modal-details" class="modal fade" tabindex="1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">
-                    <b>Historial Sucursales</b>
-                </h5>
-                <button class="close" data-dismiss="modal" type="button" aria-label="Close">
-                    <span class="text-white">&times;</span>
-                </button>
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                    Historial Sucursales
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <div class="row">
-
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-8">
                         <div class="form-group">
                             <h6>Cambiar de sucursal</h6>
                             <select wire:model='sucursalUsuario' class="form-control">
@@ -28,9 +25,9 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 mt-4">
-                        <a href="javascript:void(0)" class="boton-azul" wire:click.prevent="Cambiar()">ASIGNAR NUEVA
-                            SUCURSAL</a>
+                    <div class="col-sm-12 col-md-3">
+                        <button type="button" class="btn btn-primary" wire:click.prevent="Cambiar()">ASIGNAR NUEVA
+                            SUCURSAL</button>
                     </div>
 
                 </div>
@@ -46,14 +43,15 @@
                         </thead>
                         <tbody>
                             @foreach ($details as $d)
-                                <tr style="{{ $d->fecha_fin == null ? 'background-color: lightgreen !important' : '  ' }}">
+                                <tr
+                                    style="{{ $d->fecha_fin == null ? 'background-color: lightgreen !important' : '  ' }}">
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($d->created_at)->format('d/m/Y H:i:s') }}
                                     </td>
                                     <td class="text-center">
                                         @if ($d->fecha_fin != null)
-                                                {{ \Carbon\Carbon::parse($d->fecha_fin)->format('d/m/Y H:i:s') }}
-                                            @endif
+                                            {{ \Carbon\Carbon::parse($d->fecha_fin)->format('d/m/Y H:i:s') }}
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         {{ $d->name }}
@@ -62,18 +60,17 @@
                             @endforeach
                         </tbody>
                         <tfoot>
-                            <td class="text-center" colspan="3">
+                            <td class="col-sm-12 col-md-8" colspan="3">
                                 <br>
-                                    <a href="javascript:void(0)" class="boton-rojo" wire:click.prevent="finalizar()">DAR
-                                        DE BAJA AL USUARIO</a>
+                                <button type="button" class="btn btn-primary" wire:click.prevent="finalizar()">DAR
+                                    DE BAJA AL USUARIO</button>
                                 <br>
                                 <br>
                             </td>
                             @if ($usuarioACTIVO == 'NO')
                                 <td class="text-left" colspan="2">
-                                    <a href="javascript:void(0)" class="boton-azul"
-                                        wire:click.prevent="Activar()">PONER
-                                        ACTIVO AL USUARIO</a>
+                                    <button type="button" class="btn btn-primary" wire:click.prevent="Activar()">PONER
+                                        ACTIVO AL USUARIO</button>
                                 </td>
                             @endif
                         </tfoot>
