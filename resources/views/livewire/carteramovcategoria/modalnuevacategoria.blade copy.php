@@ -37,6 +37,7 @@
                   <span class="text-danger er">{{ $message }}</span>
                 @enderror
               </form>
+              
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
