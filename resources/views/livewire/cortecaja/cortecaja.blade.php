@@ -136,7 +136,7 @@
 
         <div class="col-12 col-sm-6 col-md-4 text-left">
             <b class="text-white">Sucursal</b>
-            <select wire:model="idsucursal" class="form-control" name="" id="">
+            <select wire:model="idsucursal" class="form-select" name="" id="">
                 @foreach($sucursales as $s) 
                 <option value="{{$s->id}}">{{$s->name}}</option>
                 @endforeach

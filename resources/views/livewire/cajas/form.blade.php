@@ -12,7 +12,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Sucursal</h6>
-            <select wire:model='sucursal_id' class="form-control">
+            <select wire:model='sucursal_id' class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
                 @foreach ($sucursales as $item)
                     <option value="{{ $item->id }}">{{ $item->name }}</option>

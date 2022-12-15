@@ -46,5 +46,66 @@ class ProductSeeder extends Seeder
             'image' => 'Mouse_Inalambrico.png',
             'category_id' => 1,
         ]);
+        //ID=3
+        Product::create([
+            'nombre' => 'Teclado Nord',
+            'costo' => 350,
+            'caracteristicas'=>'Nuevo',
+            'codigo' => '251214236',
+            'lote'=>'2122',
+            'unidad'=>'pieza',
+            'marca'=>'Studiologic',
+            'garantia' => '2',
+            'cantidad_minima' => '2',
+            'industria'=>'China',
+            'precio_venta' => 380,
+            'image' => 'Mouse_Inalambrico.png',
+            'category_id' => 1,
+        ]);
+        Product::create([
+            'nombre' => 'Módem',
+            'costo' => 180,
+            'caracteristicas'=>'Nuevo',
+            'codigo' => '251214237',
+            'lote'=>'2122',
+            'unidad'=>'pieza',
+            'marca'=>'Explore',
+            'garantia' => '2',
+            'cantidad_minima' => '2',
+            'industria'=>'Japon',
+            'precio_venta' => 200,
+            'image' => 'Mouse_Inalambrico.png',
+            'category_id' => 1,
+        ]);
+        Product::create([
+            'nombre' => 'Tinta',
+            'costo' => 40,
+            'caracteristicas'=>'Nuevo',
+            'codigo' => '251214238',
+            'lote'=>'2122',
+            'unidad'=>'pieza',
+            'marca'=>'Havi',
+            'garantia' => '2',
+            'cantidad_minima' => '2',
+            'industria'=>'Estados Unidos',
+            'precio_venta' => 65,
+            'image' => 'Mouse_Inalambrico.png',
+            'category_id' => 1,
+        ]);
+        Product::create([
+            'nombre' => 'Case',
+            'costo' => 35,
+            'caracteristicas'=>'Nuevo',
+            'codigo' => '251214239',
+            'lote'=>'2122',
+            'unidad'=>'pieza',
+            'marca'=>'Xiaomi',
+            'garantia' => '2',
+            'cantidad_minima' => '2',
+            'industria'=>'China',
+            'precio_venta' => 50,
+            'image' => 'Mouse_Inalambrico.png',
+            'category_id' => 1,
+        ]);
     }
 }

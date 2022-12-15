@@ -13,7 +13,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <h6>Estado</h6>
-            <select wire:model='estado' class="form-control">
+            <select wire:model='estado' class="form-select">
                 <option value="Elegir" selected disabled>Elegir</option>
                 <option value="Activo">Activo</option>
                 <option value="Desactivado">Desactivado</option>
