@@ -115,32 +115,41 @@
 
                 @if ($registro == 'Manual')
 
-                <div class="row">
+                <div class="row mt-4">
 
                     <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <label class="d-flex">
-                                Producto
-                            </label>
-                            @if ($result)
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend">
-                                    <a class="input-group-text input-gp btn btn-warning" wire:click="deleteItem()">
+                        <div>
+
+                            <div class="form-group">
+                                <label>
+                                    Producto
+                                </label>
+                                @if ($result)
+
+
+                          
+
+
+
+                                <div class="input-group">
+                              
+                                    
+                                    <input type="text" wire:model="result" placeholder="Buscar" class="form-control">
+                                    <button type="button" class="btn btn-warning" wire:click="deleteItem()">
                                         <i class="fas fa-times"></i>
-                                    </a>
+                                    </button>
+                                    @error('result')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <input type="text" wire:model="result" placeholder="Buscar" class="form-control">
+                                @else
+                                <input wire:model="searchproduct" class="form-control">
                                 @error('result')
                                 <span class="text-danger er">{{ $message }}</span>
                                 @enderror
+                                @endif
+    
                             </div>
-                            @else
-                            <input wire:model="searchproduct" class="form-control">
-                            @error('result')
-                            <span class="text-danger er">{{ $message }}</span>
-                            @enderror
-                            @endif
-
                         </div>
                         @if ($buscarproducto != 0)
                         <div class="col-sm-12 col-md-12">
@@ -149,16 +158,9 @@
                                     <div class="col-md-12 ">
                                         <div class="statbox widget box box-shadow">
                                             <div class="widget-content widget-content-area row">
-                                                <div
-                                                    class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                                                    <table class="table table-hover table-sm" style="width:100%">
-                                                        <thead class="text-white" style="background: #3B3F5C">
-                                                            <tr>
-                                                                <th class="table-th text-withe text-center">Producto
-                                                                </th>
-                                                                <th class="table-th text-withe">Acc.</th>
-                                                            </tr>
-                                                        </thead>
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm" style="width:100%">
+                                                     
                                                         <tbody>
                                                             @foreach ($sm as $d)
                                                             <tr>
@@ -206,87 +208,87 @@
                             <label>
                             Costo/Valor
                             </label>
-                            <input wire:model="costo" class="form-control">
+                            <input wire:model="costo" class="form-control  mx-1">
                             @error('costo')
                             <span class="text-danger er">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                     @endif
-                    <div class="col-lg-1 ml-1 p-0">
+                    <div class="col-lg-2 ml-1 mt-3 pt-3">
                         <div class="form-group">
-                            <label>
-                                Agregar
-                            </label>
-                            <button type="button" wire:click="addProduct({{$selected}})"
-                                class="btn btn-warning"> <i class="fas fa-arrow-down"></i> </button>
+                            
+                            <button type="button" wire:click="addProduct({{$selected}})" title="Agregar producto a la lista" 
+                                class="btn btn-success" style="width: 6rem" ><i class="fas fa-plus"></i></button>
                         </div>
-
-
                     </div>
                 </div>
           
                 @endif
 
                 <div class="row">
-                    <div class="table-responsive">
-
-                        @if (count($col)>0)
-                        <center>
-
-                            <table class="m-2">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">PRODUCTO</th>
-                                        @if ($tipo_proceso != 'Salida')
-
-                                        <th class="text-center">COSTO</th>
-                                        @endif
-                                        <th class="text-center">CANTIDAD</th>
-                                        <th class="text-center">Acc.</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($col as $key=>$value)
-                                    <tr>
-                                        <td>
-                                            {{$loop->iteration}}
-                                        </td>
-                                        <td>
-                                            <h6>{{$value['product-name']}}</h6>
-                                        </td>
-
-                                        @if ($tipo_proceso != 'Salida')
-
-                                        <td>
-                                            <h6>{{$value['costo']}}</h6>
-                                        </td>
-                                        @endif
-
-                                        <td>
-                                            <h6>{{$value['cantidad']}}</h6>
-                                        </td>
-                                        <td>
-
-
-                                            <a href="javascript:void(0)" wire:key="{{ $loop->index }}"
-                                                wire:click="eliminaritem({{$value['product_id']}} )"
-                                                class="btn btn-danger p-1" title="Quitar producto de la lista">
-                                                <i class=" btn btn-sm fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </center>
+                    @if (count($col)>0)
+                    <div class="card-body p-4">
+                            <div class="title">
+                                <h6 class="text-center">Detalle Operacion</h6>
+                            </div>
+                        <div class="table-responsive">
+                       
+    
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th>Producto</th>
+                                            @if ($tipo_proceso != 'Salida')
+    
+                                            <th class="text-center">Costo</th>
+                                            @endif
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Acc.</th>
+    
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($col as $key=>$value)
+                                        <tr>
+                                            <td class="text-center">
+                                                {{$loop->iteration}}
+                                            </td>
+                                            <td>
+                                                <h6>{{$value['product-name']}}</h6>
+                                            </td>
+    
+                                            @if ($tipo_proceso != 'Salida')
+    
+                                            <td class="text-center">
+                                                <h6>{{$value['costo']}}</h6>
+                                            </td>
+                                            @endif
+    
+                                            <td class="text-center">
+                                                <h6>{{$value['cantidad']}}</h6>
+                                            </td>
+                                            <td class="text-center">
+    
+    
+                                                <a type="button" wire:key="{{ $loop->index }}"
+                                                    wire:click="eliminaritem({{$value['product_id']}})"
+                                                    class="mx-3" title="Quitar producto de la lista">
+                                                    <i class="fas fa-times text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+    
+    
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            
+                                
+                            </div>
+                        </div>
                         @endif
-
-                    </div>
                 </div>
 
 
@@ -296,7 +298,7 @@
                         data-bs-dismiss="modal">Cancelar</button>
 
                     <button type="button" wire:click="GuardarOperacion()"
-                        class="btn btn-warning close-btn">Guardar</button>
+                        class="btn btn-primary close-btn">Guardar</button>
 
                 </div>
 

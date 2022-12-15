@@ -224,7 +224,7 @@ public function mount()
 
     protected $listeners = [
         'deleteRow' => 'Destroy',
-        'seleccionar' => 'seleccionardestino',
+        'seleccionar' => 'seleccionardestino'
     ];
     public function Destroy(Destino $destino)
     {
@@ -242,6 +242,7 @@ public function mount()
         $this->selected_id = 0;
         $this->observacion = '';
         $this->sucursal = '';
+        $this->verificar=true;
     }
 
 

@@ -5,7 +5,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5>Control Entrada y Salida de Productos</h5>
+                            <h5>Entrada y Salida de Productos</h5>
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
@@ -36,21 +36,22 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Fecha de Registro</th>
-                                            <th>Ubicacion</th>
-                                            <th>Tipo Operacion</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">Fecha de Registro</th>
+                                            <th>Almacen</th>
+                                            <th class="text-center">Tipo Operacion</th>
                                             <th>Observacion</th>
                                             <th>Usuario</th>
-                                            <th>Acciones</th>
+                                            <th class="text-center">Acc.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($ingprod as $data2)
                                         <tr>
-                                            <td>
+                                            <td class="text-center">
 
-                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index + 1 }}</h6>
+                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index
+                                                    + 1 }}</h6>
 
                                             </td>
                                             <td>
@@ -67,7 +68,7 @@
                                                 {{$data2->destinos->nombre}}
 
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 {{$data2->concepto}}
                                             </td>
                                             <td>
@@ -76,19 +77,17 @@
                                             <td>
                                                 {{$data2->usuarios->name}}
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <center>
-                                                    <button wire:click="ver({{ $data2->id }})" type="button"
-                                                        class="btn btn-secondary p-1"
-                                                        style="background-color: rgb(12, 100, 194)">
+                                                    <a wire:click="ver({{ $data2->id }})" type="button"
+                                                        class="text-primary  mx-2">
 
                                                         <i class="fas fa-list"></i>
-                                                    </button>
-                                                    <button wire:click="verifySale({{ $data2->id }})" type="button"
-                                                        class="btn btn-danger p-1"
-                                                        style="background-color: rgb(12, 100, 194)">
+                                                    </a>
+                                                    <a wire:click="verifySale({{ $data2->id }})" type="button"
+                                                        class="text-danger">
                                                         <i class="fas fa-trash"></i>
-                                                    </button>
+                                                    </a>
                                                 </center>
                                             </td>
 
