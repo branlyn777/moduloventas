@@ -102,7 +102,7 @@ class ProductSeeder extends Seeder
             'marca'=>'Xiaomi',
             'garantia' => '2',
             'cantidad_minima' => '2',
-            'industria'=>'China',
+            'industria'=>'Japon',
             'precio_venta' => 50,
             'image' => 'Mouse_Inalambrico.png',
             'category_id' => 1,
