@@ -5,7 +5,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5  class="mb-0">Mobiliarios</h5>
+                            <h5  class="mb-0" style="font-size: 16px">Mobiliarios</h5>
                         </div>
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
@@ -29,9 +29,9 @@
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center">
+                                        <tr class="text-center" style="font-size: 10.4px">
                                             <th>#</th>
-                                            <th>TIPO</th>
+                                            <th style="text-align: left">TIPO</th>
                                             <th>CODIGO</th>
                                             <th>DESCRIPCION</th>
                                             <th>UBICACION</th>
@@ -41,52 +41,56 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($data_locations as $location)
-                                        <tr>
+                                        <tr class="text-center"  style="font-size: 12px">
                                             <td>
-                                                <h6>{{ ($data_locations->currentpage()-1) * $data_locations->perpage() + $loop->index + 1 }}</h6>
+                                                {{ ($data_locations->currentpage()-1) * $data_locations->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td style="text-align: left">
+                                                {{ $location->tipo }}
                                             </td>
                                             <td>
-                                                <h6>{{ $location->tipo }}</h6>
-                                            </td>
-                                            <td>
-                                                <h6>{{ $location->codigo }}</h6>
+                                                {{ $location->codigo }}
                                             </td>
                                                 <td>
-                                                    <h6>{{ $location->descripcion }}</h6>
+                                                    {{ $location->descripcion }}
                                                 </td>
                                                 <td>
-                                                    <h6>{{ $location->destino }}
+                                                    {{ $location->destino }}
                                                     <br>
-                                                    {{ $location->sucursal}}</h6>
+                                                    {{ $location->sucursal}}
                                                 </td>
                                                 <td>
-                                                    <center>
-                                                        <a href="javascript:void(0)" wire:click="ver({{$location->id}})"
-                                                        class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> <b class="pl-1">{{ $location->product->count()}}</b> 
-                                                        <i class="fas fa-eye"></i>
+                                                        {{-- <a href="javascript:void(0)" wire:click="ver({{$location->id}})"
+                                                            class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> 
+                                                            <b class="pl-1">{{ $location->product->count()}}</b> 
+                                                            <i class="fas fa-eye"></i>
+                                                        </a> --}}
+
+                                                        <a href="javascript:void(0)" wire:click="ver({{$location->id}})" class="mx-3"
+                                                            title="Ver subcategorias">
+                                                            <b class="pl-">{{ $location->product->count()}}</b> <i class="fas fa-eye" style="font-size: 14px"></i>
                                                         </a>
-                                                    </center>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="javascript:void(0)" wire:click="Edit({{ $location->id }})"
-                                                        class="btn btn-dark p-1 m-0" title="Edit">
-                                                        <i class="fas fa-edit"></i>
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $location->id }})" class="mx-3"
+                                                        title="Editar">
+                                                        <i class="fas fa-edit text-info" style="font-size: 14px"></i>
                                                     </a>
                                                        
-                                                    <a href="javascript:void(0)" wire:click="asignaridmob({{$location->id}})" 
-                                                        class="btn btn-warning p-1 m-0" title="Agregar Productos a este mobiliario">
-                                                        <i class="fas fa-plus"></i>
+                                                    <a href="javascript:void(0)" wire:click="asignaridmob({{$location->id}})" class="mx-3"
+                                                        title="Agregar Productos a este mobiliario">
+                                                        <i class="fas fa-plus" style="font-size: 14px"></i>
                                                     </a>
                                                     <a href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')"
-                                                        class="btn btn-danger p-1 m-0" title="Agregar Mobiliario">
-                                                        <i class="fas fa-trash"></i>
+                                                        onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')" class="mx-3"
+                                                        title="Agregar Mobiliario">
+                                                        <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                                     </a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>
+                                </table><br>
                             </div>
                         </div>
                     </div>
