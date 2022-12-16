@@ -32,14 +32,14 @@
                      
                       <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                          <table class="table align-items-center mb-0">
+                          <table class="table align-items-left mb-0">
                             <thead>
                               <tr>
                                 <th class="text-uppercase text-xxs font-weight-bolder text-center">Nº</th>
-                                <th class="text-uppercase text-xxs font-weight-bolder ps-2">DESCRIPCION</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA CREACION</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA ACTUALIZACION</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                                <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">DESCRIPCION</th>
+                                <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">FECHA CREACION</th>
+                                <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">FECHA ACTUALIZACION</th>
+                                <th class="text-left text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -53,18 +53,18 @@
                                 </td>
   
                                 <td>
-                                  <p class="text-xs font-weight-bold mb-0">{{ $rol->name }}</p>
+                                  <p class="text-xs text-left font-weight-bold mb-0">{{ $rol->name }}</p>
                                 </td>
   
-                                <td class="align-middle text-center text-sm">
-                                  <p class="text-xs font-weight-bold mb-0"> {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}</p>
+                                <td class="align-middle text-sm">
+                                  <p class="text-xs text-left font-weight-bold mb-0"> {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}</p>
                                 </td>
   
-                                <td class="align-middle text-center ">
-                                  <p class="text-xs font-weight-bold mb-0">  {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}</p>
+                                <td class="align-middle text-left ">
+                                  <p class="text-xs text-left font-weight-bold mb-0">  {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}</p>
                                 </td>
   
-                                <td class="align-middle text-center">
+                                <td class="align-middle text-left">
                                     <a href="javascript:void(0)" wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3">
                                       <i class="fas fa-user-edit text-info" ></i>
                                     </a>

@@ -68,12 +68,12 @@
                         <div class="table-responsive">
                             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                                 <div class="dataTable-container">
-                                    <table class="table align-items-center mb-0">
+                                    <table class="table align-items-left mb-0">
                                         <thead>
-                                            <tr class="text-center" style="font-size: 10.4px">
+                                            <tr style="font-size: 10.4px">
                                                 <th>#</th>
                                                 <th>IMAGEN</th>                              
-                                                <th>PRODUCTO</th>                              
+                                                <th class="text-left" style="width: 15%" >PRODUCTO</th>                              
                                                 <th>STOCK</th>
                                                 <th>CANT.MIN</th>                                     
                                                 <th>ACCIONES</th>                  
@@ -82,9 +82,9 @@
                                         <tbody>
                                             @foreach ($destinos_almacen as $destino)
                                                 @if ($destino->stock_s < $destino->cant_min)
-                                            <tr class="seleccionar text-center" style="font-size: 12px">
+                                            <tr style="font-size: 12px">
                                                 @else
-                                            <tr class="seleccionar text-center" style="font-size: 12px">
+                                            <tr style="font-size: 12px">
                                             @endif
                                                     <td>
                                                         <h6 style="font-size: 12px">{{ $loop->iteration}}</h6>
@@ -95,9 +95,9 @@
                                                                 height="40" class="rounded">
                                                         </span> 
                                                     </td>
-                                                    <td>
-                                                        <strong>{{$destino->nombre}}</strong>
-                                                        <label>{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
+                                                    <td class="text-left" style="width: 15%">
+                                                        <strong class="text-left" >{{$destino->nombre}}</strong>
+                                                        <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
                                                         {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})
                                                     
                                                     </td>

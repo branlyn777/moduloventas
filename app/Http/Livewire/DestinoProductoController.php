@@ -546,7 +546,15 @@ dd($e->getMessage());
     }
     public function export() 
     {
-        return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
+        $destino=$this->selected_id;
+        if ($this->selected_id=='General') {
+          
+            return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
+
+        }
+        else{
+            return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
+        }
     }
 
 

@@ -39,31 +39,31 @@
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                                 <thead>
-                                    <tr class="text-center">
+                                    <tr class="text-left">
                                         <th class="text-center text-uppercase text-xxs font-weight-bolder">NO</th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
+                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
+                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
+                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
+                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $permiso)
-                                        <tr class="text-center">
+                                        <tr class="text-left">
                                             <td class="text-xs mb-0 text-center">
                                                 {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                             </td>
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-xs mb-0 text-left">
                                                 {{ ($permiso->name) }}
                                             </td> 
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-xs mb-0 text-left">
                                                 {{ ($permiso->area) }}
                                             </td> 
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-xs mb-0 text-left">
                                                 {{ ($permiso->descripcion) }}
                                             </td>                           
                                             
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-left">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
                                                     class="mx-3" title="Editar registro">
                                                     <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
