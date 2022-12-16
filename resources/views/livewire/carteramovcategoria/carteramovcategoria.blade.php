@@ -1,50 +1,3 @@
-@section('css')
-
-<style>
-    /* Estilos para las tablas */
-    .table-wrapper {
-    width: 100%;/* Anchura de ejemplo */
-    height: 500px; /* Altura de ejemplo */
-    overflow: auto;
-    }
-
-    .table-wrapper table {
-        border-collapse: separate;
-        border-spacing: 0;
-        border-left: 0.3px solid #02b1ce;
-        border-bottom: 0.3px solid #02b1ce;
-        width: 100%;
-    }
-
-    .table-wrapper table thead {
-        position: -webkit-sticky; /* Safari... */
-        position: sticky;
-        top: 0;
-        left: 0;
-    }
-    .table-wrapper table thead tr {
-    background: #02b1ce;
-    color: white;
-    }
-    /* .table-wrapper table tbody tr {
-        border-top: 0.3px solid rgb(0, 0, 0);
-    } */
-    .table-wrapper table tbody tr:hover {
-        background-color: #ffdf76a4;
-    }
-    .table-wrapper table td {
-        border-top: 0.3px solid #02b1ce;
-        padding-left: 10px;
-        border-right: 0.3px solid #02b1ce;
-    }
-
-</style>
-@endsection
-
-
-
-
-
 <div>
     <div class="d-sm-flex justify-content-between">
         <div>
@@ -58,7 +11,7 @@
                 <span class="btn-inner--icon">
                     <i class="ni ni-fat-add"></i>
                 </span>
-                <span class="btn-inner--text">Nuevo Rol</span> 
+                <span class="btn-inner--text">Nueva Categoria</span> 
             </a>
         </div>
       </div>
