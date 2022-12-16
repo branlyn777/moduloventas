@@ -3,17 +3,17 @@
         <div>
 
         </div>
-        <div class="d-flex">
+        {{-- <div class="d-flex">
             <div class="dropdown d-inline">
             </div>
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
-            type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Nuevo Permiso</span> 
+                <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
+                type="button">
+                    <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i>
+                    </span>
+                    <span class="btn-inner--text">Nuevo Permiso</span> 
             </a>
-        </div>
+        </div> --}}
       </div>
 
       <br>
@@ -22,12 +22,18 @@
         <div class="col-12 ">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Permisos | Listado</h6>
+                    <h6>Lista Permisos </h6>
                 </div>
                 <div style="padding-left: 12px; padding-right: 12px;">
 
                     <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                <input type="text" wire:model="search" placeholder="Buscar Nombre o Area de Permiso" class="form-control ">
+                            </div>
+                        </div>
+                        
                     </div>             
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -62,10 +68,10 @@
                                                     class="mx-3" title="Editar registro">
                                                     <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
+                                                {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
                                                     class="boton-rojo" title="Eliminar registro">
                                                     <i class="fas fa-trash text-danger"></i>
-                                                </a>
+                                                </a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

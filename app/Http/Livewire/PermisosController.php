@@ -35,6 +35,7 @@ class PermisosController extends Component
             ->select("permissions.id as id","permissions.name as name","permissions.descripcion as descripcion","a.name as area")
             ->orderBy('name', 'asc')
             ->where('permissions.name', 'like', '%' . $this->search . '%')
+            ->orWhere('a.name', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
 
 

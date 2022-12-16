@@ -4,7 +4,7 @@
         <div class="form-group">
             <div class="input-group mb-4">
                 <span class="input-group-text"><i class="fas fa-edit"></i></span>
-                <input type="text" wire:model="permissionName" placeholder="ej: Category_Index" class="form-control ">
+                <input type="text" wire:model="permissionName" placeholder="ej: Category_Index" class="form-control" disabled='true'>
             </div>
         </div>
         @error('permissionName')<span class="text-danger er">{{ $message }}</span> @enderror

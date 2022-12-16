@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                      <h6>Roles | Listado</h6>
+                      <h6>Lista de Roles</h6>
                     </div>
                     <div style="padding-left: 12px; padding-right: 12px;">
 
