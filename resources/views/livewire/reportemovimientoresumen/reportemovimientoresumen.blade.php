@@ -11,7 +11,7 @@
         <div class="col-sm-12 col-md-2">
             <div class="form-group">
                 <b class="text-white">Sucursal</b>
-                <select wire:model="sucursal" class="form-control">
+                <select wire:model="sucursal" class="form-select">
                     @foreach ($sucursales as $item)
                     <option wire:key="item-{{ $item->id }}" value="{{$item->id}}">{{$item->name}}</option>
                     @endforeach
@@ -24,7 +24,7 @@
         <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <b class="text-white">Caja</b> 
-                <select wire:model="caja" class="form-control">
+                <select wire:model="caja" class="form-select">
                     @foreach ($cajas as $item)
                     <option wire:key="item-{{ $item->id }}" value="{{$item->id}}">{{$item->nombre}}</option>
                     @endforeach
@@ -80,17 +80,37 @@
         <table class="table align-items-center mb-0">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>FECHA</th>
-
-                    <th>DETALLE</th>
-
-                    <th>INGRESO</th>
-                    <th>EGRESO</th>
                     <th>
-                        @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                        UTILIDAD
-                        @endif
+                        <p class="text-xs mb-0">
+                            #
+                        </p>
+                    </th>
+                    <th>
+                        <p class="text-xs mb-0">
+                            FECHA
+                        </p>
+                    </th>
+                    <th>
+                        <p class="text-xs mb-0">
+                            DETALLE
+                        </p>
+                    </th>
+                    <th>
+                        <p class="text-xs mb-0">
+                            INGRESO
+                        </p>
+                    </th>
+                    <th>
+                        <p class="text-xs mb-0">
+                            EGRESO
+                        </p>
+                    </th>
+                    <th>
+                        <p class="text-xs mb-0">
+                            @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                            UTILIDAD
+                            @endif
+                        </p>
                     </th>
                 </tr>
             </thead>
@@ -333,19 +353,28 @@
                 {{-- SUBTOTAL OPERACIONES --}}
                 <tr>
                     <td colspan="3">
-                        <h5 class="text-dark text-center" style="font-size: 1rem!important;"><b> Totales.- </b>
+                        <h5 class="text-dark text-center" style="font-size: 1rem!important;">
+                            <p class="text-xs mb-0">
+                                <b> Totales.- </b>
+                            </p>
                         </h5>
                     </td>
                     <td class="text-right">
-                        <b>{{ number_format($subtotalesIngresos,2) }}</b>
+                        <p class="text-xs mb-0">
+                            <b>{{ number_format($subtotalesIngresos,2) }}</b>
+                        </p>
                     </td>
                     <td class="text-right">
-                        <b>{{ number_format($EgresosTotales,2) }}</b>
+                        <p class="text-xs mb-0">
+                            <b>{{ number_format($EgresosTotales,2) }}</b>
+                        </p>
                     </td>
                     <td class="text-right">
-                        @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                        <b>{{ number_format($totalutilidadSV,2) }}</b>
-                        @endif
+                        <p class="text-xs mb-0">
+                            @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                            <b>{{ number_format($totalutilidadSV,2) }}</b>
+                            @endif
+                        </p>
                     </td>
                 </tr>
             </tfoot>
@@ -454,7 +483,9 @@
     
             </div>
             <div class="table-responsive">
-                <h5 class="text-center mt-3" style="border-bottom: 1px"> <b>Cuadro Resumen de Efectivo</b> </h5>
+                <h5 class="text-center mt-3" style="border-bottom: 1px">
+                    <b>Cuadro Resumen de Efectivo</b>
+                </h5>
                 <table class="table align-items-center mb-0">
                     <tbody>
                         @if ($caja != 'TODAS')

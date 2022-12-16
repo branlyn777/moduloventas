@@ -134,13 +134,13 @@
 
 
     /* Fondo de buscar productos */
-    .animado {
-	background: linear-gradient(-45deg, #5e72e4, #ffffff3a, #ffffff21, #5e72e4);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-    border-radius: 15px;
-    border: 0.9px solid #5e72e4;
-}
+        .animado {
+        background: linear-gradient(-45deg, #5e72e4, #ffffff3a, #ffffff21, #5e72e4);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        border-radius: 15px;
+        border: 0.9px solid #5e72e4;
+    }
 
     @keyframes gradient {
         0% {
@@ -244,6 +244,7 @@
     }
 
 </style>
+
 @endsection
 <div>
     {{-- Verificando que se haya realizado el corte de caja --}}

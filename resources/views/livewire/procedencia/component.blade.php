@@ -60,11 +60,11 @@
   
                               <td class="align-middle text-center">
                                   <a href="javascript:void(0)" wire:click.prevent="Edit('{{ $item->id }}')" class="mx-3">
-                                    <i class="fas fa-user-edit text-info" ></i>
+                                    <i class="fas fa-edit text-default" ></i>
                                   </a>
                                   <a href="javascript:void(0)"
                                   onclick="Confirm('{{ $item->id }}','{{ $item->procedencia }}','{{ $item->relacionados }}')"
-                                  class="boton-rojo" title="Delete">
+                                  class="mx-3" title="Delete">
                                   <i class="fas fa-trash"></i>
                               </a>
                               </td>

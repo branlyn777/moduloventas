@@ -85,7 +85,7 @@
                             <tbody>
                                 @foreach ($permisos as $permiso)
                                     <tr>
-                                        <td class="text-xs mb-0">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ ($permisos->currentpage() - 1) * $permisos->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td class="text-xs mb-0">
@@ -103,7 +103,7 @@
                                         <td class="text-xs mb-0">
                                             {{ $permiso->name }}
                                         </td>
-                                        <td class="text-xs mb-0">
+                                        <td class="text-xs mb-0 text-center">
                                             {{ \App\Models\User::permission($permiso->name)->count() }}
                                         </td>
                                         <td class="text-xs mb-0">
