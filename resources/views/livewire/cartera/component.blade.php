@@ -93,6 +93,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        window.livewire.on('alert', msg => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ya existe una cartera de Tipo "Efectivo" en esta caja'
+            })
+        });
+
         window.livewire.on('item-added', msg => {
             $('#theModal').modal('hide')
             noty(msg)

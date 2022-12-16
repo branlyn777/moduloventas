@@ -82,7 +82,7 @@ class CarteraController extends Component
         $this->resetUI();
         $this->emit('show-modal', 'show modal!');
     }
-    
+
     public function Store()
     {
         $rules = [
@@ -100,18 +100,35 @@ class CarteraController extends Component
             'tipo.not_in' => 'El tipo debe ser distinto de Elegir.',
             // 'telefonoNum.required_if' => 'El teléfono es requerido.',
         ];
+
         $this->validate($rules, $messages);
+        if ($this->VerificarCartera() == false) {
+            Cartera::create([
+                'nombre' => $this->nombre,
+                'descripcion' => $this->descripcion,
+                'tipo' => $this->tipo,
+                'telefonoNum' => 0,
+                'caja_id' => $this->caja_id
+            ]);
 
-        Cartera::create([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'tipo' => $this->tipo,
-            'telefonoNum' => 0,
-            'caja_id' => $this->caja_id
-        ]);
+            $this->resetUI();
+            $this->emit('item-added', 'Cartera Registrada');
+        } else {
+            $this->emit('alert');
+        }
+    }
 
-        $this->resetUI();
-        $this->emit('item-added', 'Cartera Registrada');
+    public function VerificarCartera()
+    {
+        $consulta = Cartera::select("carteras.nombre")
+            ->where("carteras.tipo", "efectivo")
+            ->where("carteras.caja_id", $this->caja_id)
+            ->get();
+        if ($consulta->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public function Edit(Cartera $cartera)
     {

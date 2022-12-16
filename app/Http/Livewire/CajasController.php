@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Caja;
+use App\Models\Cartera;
 use App\Models\Sucursal;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -65,10 +66,19 @@ class CajasController extends Component
         ];
         $this->validate($rules, $messages);
 
-        Caja::create([
+        $caja = Caja::create([
             'nombre' => $this->nombre,
             'estado' => 'Cerrado',
             'sucursal_id' => $this->sucursal_id
+        ]);
+
+        Cartera::create([
+            'nombre' => 'Efectivo',
+            'saldocartera' => '0',
+            'descripcion' => 'Dinero en efectivo de la caja: ' . $caja->nombre,
+            'tipo' => 'efectivo',
+            'estado' => 'ACTIVO',
+            'caja_id' => $caja->id
         ]);
 
         $this->resetUI();
