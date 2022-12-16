@@ -20,7 +20,7 @@
     </div>
 
     <br>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -33,7 +33,7 @@
                     <div class="col-12 col-sm-12 col-md-4">
                         @include('common.searchbox')
                     </div>
-                    
+
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -62,7 +62,8 @@
                                                     class="mx-3" title="Edit">
                                                     <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a  href="javascript:void(0)" onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
                                                     class="mx-3" title="Delete">
                                                     <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>
