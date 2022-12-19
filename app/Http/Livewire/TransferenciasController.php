@@ -26,7 +26,7 @@ class TransferenciasController extends Component
         $this->verPermisos();
         $this->estado_lista_tr='active';
         $this->estado_lista_te='';
-        $this->show1='show';
+        $this->show1='';
         $this->show2='';
 
     }
@@ -65,7 +65,7 @@ class TransferenciasController extends Component
         ->where('estado_transferencias.estado','En Transito')
         ->whereIn('destino2.id',$this->vs)
         ->orderBy('fecha_tr','desc')
-        ->get();
+       ->get();
 
         return view('livewire.transferencia.verTransferencias',['data_t'=>$this->data_origen,'data_estado'=>$this->estado, 'data_d'=>$data_destino
        ])

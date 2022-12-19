@@ -110,6 +110,20 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell me-sm-1" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                        
+
+                        <li>
+                            {{-- AREA DE NOTIFICACION --}}
+
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

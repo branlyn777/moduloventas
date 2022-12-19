@@ -175,7 +175,7 @@
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',
-            text: '¿Confirmar eliminar el usuario ?',
+            text: '¿Confirmar eliminar el usuario?',
             showCancelButton: true,
             cancelButtonText: 'Cerrar',
             cancelButtonColor: '#383838',
@@ -189,3 +189,4 @@
         })
     }
 </script>
+<script src="../../assets/js/plugins/sweetalert.min.js"></script>

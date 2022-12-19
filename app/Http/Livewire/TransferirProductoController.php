@@ -78,7 +78,7 @@ class TransferirProductoController extends Component
 
                                     
 
-        return view('livewire.destinoproducto.destino-controller',['destinos_almacen'=>$almacen,'data_origen' =>  $sucursal_ubicacion->get(),
+        return view('livewire.transferencia.creartransferencia',['destinos_almacen'=>$almacen,'data_origen' =>  $sucursal_ubicacion->get(),
         'data_destino' =>  $sucursal_ubicacion2->get(),
         'cart' => Transferencia::getContent(),'data_cat'=>Category::select('categories.name')->where('categories.categoria_padre','0')->get()
         ])  

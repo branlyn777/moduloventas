@@ -8,7 +8,7 @@
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 15.000
+                                    Bs 280
                                 </h5>
                                 <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">+55% <span
                                         class="font-weight-normal text-secondary">desde el mes pasado</span></span>
@@ -74,7 +74,7 @@
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ganancias</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 7.500
+                                    Bs 140
                                 </h5>
                                 <span class="font-weight-normal text-secondary text-sm"><span
                                         class="font-weight-bolder">+Bs. 3.698</span> desde el mes pasado</span>
@@ -107,12 +107,12 @@
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Procedencia Clientes</h6>
-                            <button type="button"
+                            {{-- <button type="button"
                                 class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
                                 data-bs-original-title="See traffic channels">
                                 <i class="fas fa-info" aria-hidden="true"></i>
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                     <div class="card-body pb-0 p-3 mt-4">
@@ -309,8 +309,8 @@
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">Nike v22 Running</h6>
-                                                    {{-- <p class="text-sm font-weight-bold text-secondary mb-0"><span
-                                                            class="text-success">8.232</span> orders</p> --}}
+                                                    <p class="text-sm font-weight-bold text-secondary mb-0"><span
+                                                            class="text-success">85</span> Ordenes</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -383,7 +383,7 @@
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
 
 
 <script src="./assets/js/core/bootstrap.min.js"></script>
@@ -412,7 +412,7 @@
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
         datasets: [{
             label: "Compras",
             tension: 0.4,
@@ -561,7 +561,7 @@
     new Chart(ctx3, {
       type: "bar",
       data: {
-        labels: ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
         datasets: [{
           label: "Ingresos",
           weight: 5,

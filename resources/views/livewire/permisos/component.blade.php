@@ -50,13 +50,13 @@
                                 <tbody>
                                     @foreach ($data as $permiso)
                                         <tr class="text-left">
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-sm mb-0 text-center">
                                                 {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                             </td>
-                                            <td class="text-xs mb-0 text-left">
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ ($permiso->name) }}
                                             </td> 
-                                            <td class="text-xs mb-0 text-left">
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ ($permiso->area) }}
                                             </td> 
                                             <td class="text-xs mb-0 text-left">
