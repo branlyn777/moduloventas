@@ -4,72 +4,72 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
-
                         <div>
-                            <h5 class="mb-0">Lista de Compras</h5>
+                            <h5 class="mb-0" style="font-size: 16px">Lista de Compras</h5>
                         </div>
                 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="detalle_compras" class="btn btn-outline-primary">Registrar Compra</a>
+                                <a href="detalle_compras" class="btn bg-gradient-primary btn-sm mb-0">Registrar Compra</a>
                             </div>
                         </div>
-                        
                     </div>
                     <br>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            <b wire:click="limpiarsearch()" style="cursor: pointer; font-size: 16px">Buscar</b><br>
 
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-3">
-                                <b wire:click="limpiarsearch()" style="cursor: pointer;">Buscar</b>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text" style="border-block-color: black">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                        <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" class="form-control"  style="border-block-color: black">
-                                        <select wire:model="tipo_search">
-                                            <option value="codigo">Cod. Compra</option>
-                                            <option value="proveedor">Proveedor</option>
-                                            <option value="usuario">Usuario</option>
-                                            <option value="documento">Documento</option>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" 
+                                        class="form-control">
+                                    <select wire:model="tipo_search" class="form-control" style="text-align: center">
+                                        <option value="codigo"> Cod. Compra</option>
+                                        <option value="proveedor">Proveedor</option>
+                                        <option value="usuario">Usuario</option>
+                                        <option value="documento">Documento</option>
+                                    </select>
                                 </div>
                             </div>
+                        </div>
                     
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <b>Seleccionar Sucursal</b>
-                                <div class="form-group">
-                                    <select wire:model="sucursal_id" class="form-control">
-                                        @foreach($listasucursales as $sucursal)
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <b>Seleccionar Sucursal</b>
+                            <div class="form-group">
+                                <select wire:model="sucursal_id" class="form-control">
+                                    @foreach($listasucursales as $sucursal)
                                         <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
-                                        @endforeach
-                                        <option value="Todos">Todas las Sucursales</option>
-                                    </select>
-                                </div>
+                                    @endforeach
+                                    <option value="Todos">Todas las Sucursales</option>
+                                </select>
                             </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <b>Estado</b>
-                                <div class="form-group">
-                                    <select wire:model="estado" class="form-control">
-                                        <option value='ACTIVO' selected>Activo</option>
-                                        <option value='INACTIVO'>Anulado</option>
-                                        <option value='Todos'>Todos</option>
-                                    </select>
-                                </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <b>Estado</b>
+                            <div class="form-group">
+                                <select wire:model="estado" class="form-control">
+                                    <option value='ACTIVO' selected>Activo</option>
+                                    <option value='INACTIVO'>Anulado</option>
+                                    <option value='Todos'>Todos</option>
+                                </select>
                             </div>
+                        </div>
             
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <b>Tipo de Fecha</b>
-                                <div class="form-group">                              
-                                        <select wire:model="fecha" class="form-control">
-                                            <option value='hoy' selected>Hoy</option>
-                                            <option value='ayer'>Ayer</option>
-                                            <option value='semana'>Semana</option>
-                                            <option value='fechas'>Entre Fechas</option>
-                                    </select>
-                                </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <b>Tipo de Fecha</b>
+                            <div class="form-group">                              
+                                <select wire:model="fecha" class="form-control">
+                                    <option value='hoy' selected>Hoy</option>
+                                    <option value='ayer'>Ayer</option>
+                                    <option value='semana'>Semana</option>
+                                    <option value='fechas'>Entre Fechas</option>
+                                </select>
                             </div>
+                        </div>
                             <div class="col-12 col-sm-6 col-md-1">
                                 <b>Otros</b>
                                 <div class="btn-group form-group">
@@ -84,6 +84,7 @@
                                   </div>
                             </div>
                         </div>
+
                         @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
                             <div class="row">
                 
@@ -103,7 +104,7 @@
                             
                             </div>
                         @endif
-                    
+                    </div>
 
                     {{--tabla que muestra todas las compras--}}
                     <div class="card-body px-0 pb-0">
@@ -112,7 +113,7 @@
                                 <div class="dataTable-container">
                                     <table class="table align-items-center mb-0">
                                         <thead>
-                                            <tr class="text-center">
+                                            <tr class="text-center" style="font-size: 12px">
                                                 <th>#</th>                                
                                                 <th>COD.</th>                                
                                                 <th>FECHA</th>                 
@@ -127,7 +128,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($data_compras as $data)
-                                                <tr class="text-center">
+                                                <tr class="text-center"  style="font-size: 12px">
                                                     <td>
                                                         <h6>{{ $loop->index+1}}</h6>
                                                     </td>
@@ -191,15 +192,15 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                        <tfoot class="text-white text-right">
+                                        <tfoot class="text-dark text-right">
                                             <tr>
                                                 <td colspan="5">
-                                                     <h5 class="text-dark">Total Bs.-</h5>
-                                                     <h5 class="text-dark">Total $us.-</h5>
+                                                    <h5 style="font-size: 14.5px">Total Bs.-</h5>
+                                                    <h5 style="font-size: 14.5px">Total $us.-</h5>
                                                 </td>
                                                 <td>
-                                                    <h5 class="text-dark text-center">{{$totales}}</h5>
-                                                    <h5 class="text-dark text-center">{{round($totales/6.96,2)}}</h5>
+                                                    <h5 class="text-center" style="font-size: 14.5px">{{$totales}}</h5>
+                                                    <h5 class="text-center" style="font-size: 14.5px">{{round($totales/6.96,2)}}</h5>
                                                 </td>
                                                 <td  colspan="4">
 

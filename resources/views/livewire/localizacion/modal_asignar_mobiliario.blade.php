@@ -41,8 +41,8 @@
             </div>
 
             <div class="modal-body">
-
-                <div class="d-lg-flex">
+                
+                <div>
                     <div class="col-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <b style="cursor: pointer; font-size: 14px">Buscar Producto</b>
@@ -54,40 +54,9 @@
                     </div>
                 </div>
                 
-                {{-- <div class="card">
-                    <div class="card-body" style="background: rgb(243, 239, 239)">
+                <form class="form-control dropzone dz-clickable">
+                    <div class="dz-default dz-message">
                         @if ($search2 != null)
-                                <div class="vertical-scrollable">
-                                    <div class="table-sm">
-                                        <table class='table borderless round' style="width:96%">
-                                            <tbody>
-                                                @forelse ($data_prod_mob as $data_m)
-                                                    <tr class="text-center">
-                                                        <td class="text-center">
-                                                            <h6>{{$data_m->nombre}}</h6>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn bg-gradient-primary btn-sm mb-0" type="button" wire:click="addProd({{ $data_m->id}})">
-                                                                <i class="fas fa-check"></i> Agregar
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <p class="text-center">No existe productos con ese criterio de busqueda</p>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                        @else
-                            <p>{{$search2}}</p>
-                        @endif
-                    </div>
-                </div> --}}
-
-                        @if ($search2 != null)
-                            <form class="form-control dropzone dz-clickable">
-                                <div class="dz-default dz-message">
                                 <div class="vertical-scrollable">
                                     <div class="table-sm">
                                         <table class='table borderless round' style="width:96%">
@@ -113,44 +82,10 @@
                                 </div>
                             @else
                                 <p>{{$search2}}</p>
-                            
+                                <h5 style="text-align: center">Sin Datos</h5>
                             @endif
                         </div>
                     </form>
-
-                {{-- <div class="card">
-                    <div class="card-body" style="background: rgb(243, 239, 239)">
-                        <div class="table-5 mt-0">
-                            @if ($search2 != null)
-                                <div class="vertical-scrollable">
-                                    <div class="table-sm">
-                                        <table class='table borderless round' style="width:96%">
-                                            <tbody>
-                                                @forelse ($data_prod_mob as $data_m)
-                                                    <tr class="text-center">
-                                                        <td class="text-center">
-                                                            <h6>{{$data_m->nombre}}
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn bg-gradient-primary btn-sm mb-0" type="button" wire:click="addProd({{ $data_m->id}})">
-                                                                <i class="fas fa-check"></i> Agregar
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <p class="text-center">No existe productos con ese criterio de busqueda</p>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            @else
-                                <p>{{$search2}}</p>
-                            @endif
-                        </div>
-                    </div>
-                </div> --}}
                 
                 <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                     <div class="table-responsive">
@@ -163,12 +98,12 @@
                             </thead>
                             <tbody>
                                 @forelse ($col as $datacol)
-                                <tr class="text-center" style="font-size: 10px">
+                                <tr class="text-center" style="font-size: 11.5px">
                                     <td>
-                                        <h6>{{$datacol['product_codigo']}}</h6>
+                                        {{$datacol['product_codigo']}}
                                     </td>
                                     <td>
-                                        <h6>{{$datacol['product_name']}}</h6>
+                                        {{$datacol['product_name']}}
                                     </td>
                                     <td>
                                         <a href="javascript:void(0)" class="mx-3"
@@ -187,7 +122,7 @@
                                 style="background-color: rgba(145, 250, 189, 0.459)">
                                 <div class="col-lg-12">
                                     <div class="row justify-content-center">
-                                        <h2 class="text-center"> BUSCAR Y AGREGAR ITEMS</h2>
+                                        <h5 class="text-center"> BUSCAR Y AGREGAR ITEMS</h5>
                                     </div>
                                 </div>
                             </div>

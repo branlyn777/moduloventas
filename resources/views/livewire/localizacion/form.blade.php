@@ -5,7 +5,7 @@
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">{{$selected_id > 0 ? 'Editar':'Crear'}} {{$componentName}} </h5>
                 </div>
-                <h6 class="text-center text-light" wire:loading>POR FAVOR ESPERE</h6>
+                {{-- <h6 class="text-center text-light" wire:loading>POR FAVOR ESPERE</h6> --}}
             </div>
             <div class="modal-body">
 
@@ -23,7 +23,7 @@
                             @error('tipo') <span class="text-danger er" style="font-size: 13px">{{ $message }}</span>@enderror
                         </div>
                     </div>
-
+                    
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Código</label>
