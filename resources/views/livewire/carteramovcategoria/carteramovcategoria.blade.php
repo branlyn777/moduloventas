@@ -83,14 +83,14 @@
       
       
                                               <a href="javascript:void(0)"  wire:click.prevent="modaleditar({{$p->id}})" title="Editar Categoria" class="mx-3">
-                                                  <i class="fas fa-edit text-info" ></i>
+                                                  <i class="fas fa-edit text-default" ></i>
                                                 </a>                                          
       
-                                              <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button" class="boton-rojo">
-                                                  <i class="fas fa-trash text-danger" ></i>
+                                              <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')" title="Anular Categoria" type="button">
+                                                  <i class="fas fa-trash text-default" ></i>
                                                 </a>
                                               @else
-                                              <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria" class="boton-plomo">
+                                              <button wire:click.prevent="reacctivar({{$p->id}})" type="button" title="Reactivar Categoria">
                                                   <i class="fab fa-phabricator"></i>
                                               </button>
                                               @endif

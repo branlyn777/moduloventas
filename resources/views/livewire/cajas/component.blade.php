@@ -60,12 +60,12 @@
                                             <td class="align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Edit">
-                                                    <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                                    <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
                                                     class="mx-3" title="Delete">
-                                                    <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                                    <i class="fas fa-trash text-default" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

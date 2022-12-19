@@ -70,7 +70,7 @@
                                             <td class="align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
-                                                    <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                                    <i class="fas fa-edit text-deafult" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

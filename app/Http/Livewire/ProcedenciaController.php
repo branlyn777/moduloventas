@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Cliente;
 use App\Models\ProcedenciaCliente;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -112,9 +113,23 @@ class ProcedenciaController extends Component
 
     public function Destroy(ProcedenciaCliente $pro)
     {
-        $pro->delete();
-        $this->resetUI();
-        $this->emit('item-deleted', 'Procedencia Eliminada');
+
+        $verificar = Cliente::where("clientes.procedencia_cliente_id",$pro->id)->get();
+
+        if($verificar->count() == 0)
+        {
+            $pro->delete();
+            $this->resetUI();
+            $this->emit('item-deleted', 'Procedencia Eliminada');
+        }
+        else
+        {
+            $this->emit('alerta-procedencia');
+        }
+
+
+
+
     }
 
     public function resetUI()

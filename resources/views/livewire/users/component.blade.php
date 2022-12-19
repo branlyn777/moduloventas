@@ -95,19 +95,20 @@
                                         </td>
                                         <td class="align-middle text-center">
                                             @if ($r->status == 'ACTIVE')
-                                            <a href="javascript:void(0)"
-                                                wire:click.prevent="viewDetails('{{ $r->id }}')" class="mx-3">
-                                                <i class="fas fa-eye text-default"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
-                                                class="mx-3">
-                                                <i class="fas fa-user-edit text-info"></i>
-                                            </a>
-                                            <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $r->id }}','{{ $r->name }}')"
-                                                class="mx-3">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
+                                                <a href="javascript:void(0)"
+                                                    wire:click.prevent="viewDetails('{{ $r->id }}')"
+                                                    class="mx-3">
+                                                    <i class="fas fa-eye text-default"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
+                                                    class="mx-3">
+                                                    <i class="fas fa-user-edit text-default"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $r->id }}','{{ $r->name }}')"
+                                                    class="mx-3">
+                                                    <i class="fas fa-trash text-default"></i>
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>
@@ -140,11 +141,11 @@
         })
         window.livewire.on('atencion', Msg => {
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2500,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                padding: '2em'
             });
             toast({
                 type: 'info',
@@ -154,11 +155,11 @@
         })
         window.livewire.on('item-deleted', Msg => {
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2500,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                padding: '2em'
             });
             toast({
                 type: 'success',
@@ -190,22 +191,20 @@
         })
     });
 
-    function Confirm(id, name, movimientos)
-    {
+    function Confirm(id, name, movimientos) {
         swal({
-        title: '¿Inactivar al usuario "' + name + '"?',
-        text: "Se inactivará al usuario " + name + " del sistema.",
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Inactivar Usuario',
-        padding: '2em'
+            title: '¿Inactivar al usuario "' + name + '"?',
+            text: "Se inactivará al usuario " + name + " del sistema.",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Inactivar',
+            padding: '2em'
         }).then(function(result) {
-        if (result.value) {
-            window.livewire.emit('deleteRow', id)
+            if (result.value) {
+                window.livewire.emit('deleteRow', id)
             }
         })
 
     }
 </script>
-<script src="../../assets/js/plugins/sweetalert.min.js"></script>

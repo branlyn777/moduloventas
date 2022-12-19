@@ -44,7 +44,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Fecha de Nacimiento</h6>
-            <input type="date" wire:model="fnacim" class="form-control flatpickr" placeholder="Click para elegir">
+            <input type="date" wire:model.lazy="fnacim" class="form-control" placeholder="Click para elegir">
             @error('fnacim')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
@@ -88,11 +88,9 @@
         <div class="form-group">
             <h6>Procedencia</h6>
             <select wire:model='procedencia' class="form-select">
-                <option value="Nuevo" selected>Nuevo</option>
+                <option value="Elegir">Elegir</option>
                 @foreach ($procedenciaClientes as $item)
-                    @if ($item->procedencia != 'Nuevo')
-                        <option value="{{ $item->id }}">{{ $item->procedencia }}</option>
-                    @endif
+                <option value="{{ $item->id }}">{{ $item->procedencia }}</option>
                 @endforeach
             </select>
             @error('procedencia')

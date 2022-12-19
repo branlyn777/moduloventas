@@ -66,7 +66,7 @@
                                             <td class="align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
                                                     class="text-center" title="Editar registro">
-                                                    <i class="fas fa-edit text-info" aria-hidden="true"></i>
+                                                    <i class="fas fa-edit text-deafult" aria-hidden="true"></i>
                                                 </a>
                                                 {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
                                                     class="boton-rojo" title="Eliminar registro">

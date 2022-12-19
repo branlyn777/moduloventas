@@ -77,12 +77,12 @@
                                             <td class="align-middle text-left">
                                                 <a href="javascript:void(0)"
                                                     wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3">
-                                                    <i class="fas fa-user-edit text-info"></i>
+                                                    <i class="fas fa-user-edit text-default"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $rol->id }}','{{ $rol->name }}')"
                                                     class="mx-3">
-                                                    <i class="fas fa-trash text-danger"></i>
+                                                    <i class="fas fa-trash text-default"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -127,7 +127,7 @@
         window.livewire.on('alerta-rol', Msg => {
             Swal.fire(
                 'Atención',
-                'El Rol no puede ser eliminado, esta en uso',
+                'No se puede eliminar el Rol por que tiene permisos asociados',
                 'info'
             )
         })
@@ -135,8 +135,10 @@
 
     });
 
-    function Confirm(id, name, usuarios) {
-        if (usuarios > 0) {
+    function Confirm(id, name, usuarios)
+    {
+        if (usuarios > 0)
+        {
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
@@ -145,20 +147,19 @@
             })
             return;
         }
-        swal.fire({
+        swal({
             title: 'CONFIRMAR',
-            icon: 'warning',
-            text: 'Confirmar eliminar el role ' + '"' + name + '"',
+            text: "Confirmar eliminar el role '" + name + "'",
+            type: 'warning',
             showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar',
+            padding: '2em'
         }).then(function(result) {
             if (result.value) {
                 window.livewire.emit('deleteRow', id)
-                Swal.close()
             }
         })
+
     }
 </script>
