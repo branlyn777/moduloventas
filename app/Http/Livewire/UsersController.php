@@ -219,25 +219,61 @@ class UsersController extends Component
 
     public function destroy(User $user)
     {
-        $eliminarSucUsers = SucursalUser::join('users as u', 'u.id', 'sucursal_users.user_id')
-            ->select('sucursal_users.*')
-            ->where('u.id', $user->id)
-            ->get();
+        // $eliminarSucUsers = SucursalUser::join('users as u', 'u.id', 'sucursal_users.user_id')
+        //     ->select('sucursal_users.*')
+        //     ->where('u.id', $user->id)
+        //     ->get();
 
-        foreach ($eliminarSucUsers as $value) {
-            $value->delete();
+        // foreach ($eliminarSucUsers as $value)
+        // {
+        //     $value->delete();
+        // }
+
+        // $user->delete();
+
+
+
+        if(Auth::user()->id != $user->id)
+        {
+            $usuario = User::find($user->id);
+    
+            $usuario->update([
+                'status' => "LOCKED"
+            ]);
+            $usuario->save();
+
+            $imageName = $user->image;
+
+            if ($imageName != null)
+            {
+                unlink('storage/usuarios/' . $imageName);
+            }
+            $this->resetUI();
+            $this->emit('item-deleted');
+        }
+        else
+        {
+            $this->emit("atencion");
         }
 
-        $user->delete();
 
-        $imageName = $user->image;
 
-        if ($imageName != null) {
-            unlink('storage/usuarios/' . $imageName);
-        }
 
-        $this->resetUI();
-        $this->emit('item-deleted', 'Usuario Eliminado');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
     }
     /* VENTANA MODAL DE HISTORIAL DEL USUARIO */
     public function viewDetails(User $user)

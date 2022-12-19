@@ -94,6 +94,7 @@
                                             </span>
                                         </td>
                                         <td class="align-middle text-center">
+                                            @if ($r->status == 'ACTIVE')
                                             <a href="javascript:void(0)"
                                                 wire:click.prevent="viewDetails('{{ $r->id }}')" class="mx-3">
                                                 <i class="fas fa-eye text-default"></i>
@@ -107,6 +108,7 @@
                                                 class="mx-3">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -136,8 +138,33 @@
             $('#modal-details').modal('hide')
             noty(Msg)
         })
+        window.livewire.on('atencion', Msg => {
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2500,
+            padding: '2em'
+            });
+            toast({
+                type: 'info',
+                title: "¡No puedes eliminarte a ti mismo!",
+                padding: '2em',
+            })
+        })
         window.livewire.on('item-deleted', Msg => {
-            noty(Msg)
+            const toast = swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2500,
+            padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: "¡Acción realizada con éxito!",
+                padding: '2em',
+            })
         })
         window.livewire.on('item-error', Msg => {
             noty(Msg)
@@ -163,30 +190,22 @@
         })
     });
 
-    function Confirm(id, name, movimientos) {
-        if (movimientos > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                text: 'No se puede eliminar al usuario "' + name + '" porque tiene varios movimientos.'
-            })
-            return;
-        }
-        swal.fire({
-            title: 'CONFIRMAR',
-            icon: 'warning',
-            text: '¿Confirmar eliminar el usuario?',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+    function Confirm(id, name, movimientos)
+    {
+        swal({
+        title: '¿Inactivar al usuario "' + name + '"?',
+        text: "Se inactivará al usuario " + name + " del sistema.",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Inactivar Usuario',
+        padding: '2em'
         }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-                Swal.close()
+        if (result.value) {
+            window.livewire.emit('deleteRow', id)
             }
         })
+
     }
 </script>
 <script src="../../assets/js/plugins/sweetalert.min.js"></script>
