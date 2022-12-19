@@ -5,13 +5,13 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">Unidades</h5>
+                            <h5 class="mb-0" style="font-size: 16px">Unidades</h5>
                         </div>
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-toggle="modal"
-                                data-target="#theModal">Agregar Unidad</a>
+                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" 
+                                data-bs-target="#theModal">Agregar Unidad</a>
                             </div>
                         </div>
                     </div>
@@ -29,36 +29,36 @@
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr>
-                                            <th class="text-center">ITEM</th>
-                                            <th class="text-center">NOMBRE</th>                              
-                                            <th class="text-center">ACCIONES</th>
+                                        <tr class="text-center" style="font-size: 10.4px">
+                                            <th>ITEM</th> {{-- style="width: 150px;" --}}
+                                            <th>NOMBRE</th>                              
+                                            <th>ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data_unidad as $data)
-                                            <tr>
+                                            <tr class="text-center"  style="font-size: 12px">
                                                 <td>
-                                                    <h6 class="text-center">{{ $data->id }}</h6>
+                                                    {{ $data->id }}
                                                 </td>
                                                 <td>
-                                                    <h6 class="text-center">{{ $data->nombre }}</h6>
+                                                    {{ $data->nombre }}
                                                 </td>
                                                 
-                                                <td class="text-center">
+                                                <td>
                                                     <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
-                                                        class="boton-azul" title="Editar Unidad">
-                                                        <i class="fas fa-edit"></i>
+                                                        class="mx-3" title="Editar Unidad">
+                                                        <i class="fas fa-edit text-info"></i>
                                                     </a>
                                                     <a href="javascript:void(0)" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')" 
-                                                        class="boton-rojo" title="Eliminar unidad">
-                                                        <i class="fas fa-trash"></i>
+                                                        class="mx-3" title="Eliminar unidad">
+                                                        <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>
+                                </table><br>
                             </div>
                         </div>
                     </div>

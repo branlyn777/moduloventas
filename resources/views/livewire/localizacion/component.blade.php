@@ -5,7 +5,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5  class="mb-0" style="font-size: 16px">Mobiliarios</h5>
+                            <h5 class="mb-0" style="font-size: 16px">Mobiliarios</h5>
                         </div>
 
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
