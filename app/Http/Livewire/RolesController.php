@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\RoleHasPermissions;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -105,16 +106,40 @@ class RolesController extends Component
 
     protected $listeners = ['deleteRow' => 'Destroy'];
 
-    public function Destroy($id)
+    public function Destroy( $id)
     {
-        $permissionsCount = Role::find($id)->permissions->count();
-        if ($permissionsCount > 0) {
-            $this->emit('role-deleted', 'No se puede eliminar el Rol por que tiene permisos asociados');
-            return;
+
+        $verificar1 = RoleHasPermissions::join("model_has_roles as mr", "mr.role_id","role_has_permissions.role_id")
+        ->where("role_has_permissions.role_id", $id)
+        ->orwhere("mr.role_id", $id)
+        ->get();
+
+        $nombre_rol = Role::find($id)->name;
+
+        $verificar2 = User::where("users.profile", $nombre_rol)->get();
+
+
+        if($verificar1->count() == 0 && $verificar2->count() == 0)
+        {
+            $permissionsCount = Role::find($id)->permissions->count();
+            if ($permissionsCount > 0) {
+                $this->emit('role-deleted', 'No se puede eliminar el Rol por que tiene permisos asociados');
+                return;
+            }
+    
+            Role::find($id)->delete();
+            $this->emit('role-deleted', 'Se eliminó el rol con exito');
+        }
+        else
+        {        
+            $this->emit('alerta-rol');
         }
 
-        Role::find($id)->delete();
-        $this->emit('role-deleted', 'Se eliminó el rol con exito');
+
+
+
+
+
     }
 
     //poner en el componente users

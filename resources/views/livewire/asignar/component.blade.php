@@ -53,11 +53,12 @@
                 @endif
 
                 {{-- Boton de IR a Usuarios --}}
-                <button href="users" type="button" class="btn btn-icon btn-outline-white ms-2 expor">
+                <a href="users" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
                     <span class="btn-inner--icon">
                         <i class="ni ni-fat-add"></i>
-                    </span class="btn-inner--text"> Ir a Usuarios
-                </button>
+                    </span>
+                    <span class="btn-inner--text">Ir a Usuarios</span>
+                </a>
             </div>
         </div>
     </div>
