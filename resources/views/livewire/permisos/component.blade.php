@@ -40,11 +40,11 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr class="text-left">
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NO</th>
-                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">NOMBRE</th>                                                         
-                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">AREA</th>                                                         
-                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">DESCRIPCION</th>                                                         
-                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">ACCIONES</th>    
+                                        <th class="text-sm mb-0 text-center">NO</th>
+                                        <th class="text-sm mb-0 text-center">NOMBRE</th>                                                         
+                                        <th class="text-sm mb-0 text-center">AREA</th>                                                         
+                                        <th class="text-sm mb-0 text-center">DESCRIPCION</th>                                                         
+                                        <th class="text-sm mb-0 text-center ">ACCIONES</th>    
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,20 +53,20 @@
                                             <td class="text-sm mb-0 text-center">
                                                 {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                             </td>
-                                            <td class="text-sm mb-0 text-left">
+                                            <td class="text-sm mb-0 text-center">
                                                 {{ ($permiso->name) }}
                                             </td> 
-                                            <td class="text-sm mb-0 text-left">
+                                            <td class="text-sm mb-0 text-center">
                                                 {{ ($permiso->area) }}
                                             </td> 
-                                            <td class="text-xs mb-0 text-left">
+                                            <td class="text-sm mb-0 text-center">
                                                 {{ ($permiso->descripcion) }}
                                             </td>                           
                                             
-                                            <td class="align-middle text-left">
+                                            <td class="align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $permiso->id }})"
-                                                    class="mx-3" title="Editar registro">
-                                                    <i class="fas fa-user-edit text-info" aria-hidden="true"></i>
+                                                    class="text-center" title="Editar registro">
+                                                    <i class="fas fa-edit text-info" aria-hidden="true"></i>
                                                 </a>
                                                 {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $permiso->id }}','{{ $permiso->name }}')" 
                                                     class="boton-rojo" title="Eliminar registro">
