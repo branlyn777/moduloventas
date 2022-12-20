@@ -180,7 +180,7 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Inventarios',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar a la vista de productos,proveedores,categorias,entradas y salidas',
+            'descripcion' => 'Ingresar a la vista de productos,proveedores,categorias',
             'guard_name' =>'web'
         ]);
         Permission::create([
@@ -198,7 +198,7 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Almacenes',
             'areaspermissions_id' =>'2',
-            'descripcion' => 'Ingresar y visualizar los Almacenes de cada sucursal.',
+            'descripcion' => 'Ingresar y visualizar Almacen Producto (Stocks de los Almacenes de cada sucursal).',
             'guard_name' =>'web'
         ]);
         Permission::create([
