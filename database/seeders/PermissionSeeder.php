@@ -18,7 +18,7 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Reporte_Movimientos_General',
             'areaspermissions_id' => '1',
-            'descripcion' => 'Reporte de Movimientos por Sucursales',
+            'descripcion' => 'Reporte de Movimiento Diario por Sucursales',
             'guard_name' => 'web'
         ]);
         Permission::create([

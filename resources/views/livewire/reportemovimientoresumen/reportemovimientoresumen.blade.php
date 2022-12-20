@@ -9,6 +9,8 @@
 
     <ul class="row justify-content-start">
         <div class="col-sm-12 col-md-2">
+
+            @can("Reporte_Movimientos_General")
             <div class="form-group">
                 <b class="text-white">Sucursal</b>
                 <select wire:model="sucursal" class="form-select">
@@ -20,6 +22,8 @@
                 </select>
 
             </div>
+            @endcan
+
         </div>
         <div class="col-sm-12 col-md-2">
             <div class="form-group">
