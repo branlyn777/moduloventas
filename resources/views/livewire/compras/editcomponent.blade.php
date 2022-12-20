@@ -1,6 +1,3 @@
-
-
-
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12" >
 

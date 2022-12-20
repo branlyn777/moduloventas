@@ -26,7 +26,7 @@
                                     </span>
                                     <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" 
                                         class="form-control">
-                                    <select wire:model="tipo_search" class="form-control" style="text-align: center">
+                                    <select wire:model="tipo_search" class="form-select" style="text-align: center">
                                         <option value="codigo"> Cod. Compra</option>
                                         <option value="proveedor">Proveedor</option>
                                         <option value="usuario">Usuario</option>
@@ -39,7 +39,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                             <b>Seleccionar Sucursal</b>
                             <div class="form-group">
-                                <select wire:model="sucursal_id" class="form-control">
+                                <select wire:model="sucursal_id" class="form-select">
                                     @foreach($listasucursales as $sucursal)
                                         <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
                                     @endforeach
@@ -51,7 +51,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                             <b>Estado</b>
                             <div class="form-group">
-                                <select wire:model="estado" class="form-control">
+                                <select wire:model="estado" class="form-select">
                                     <option value='ACTIVO' selected>Activo</option>
                                     <option value='INACTIVO'>Anulado</option>
                                     <option value='Todos'>Todos</option>
@@ -62,7 +62,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <b>Tipo de Fecha</b>
                             <div class="form-group">                              
-                                <select wire:model="fecha" class="form-control">
+                                <select wire:model="fecha" class="form-select">
                                     <option value='hoy' selected>Hoy</option>
                                     <option value='ayer'>Ayer</option>
                                     <option value='semana'>Semana</option>
@@ -195,8 +195,8 @@
                                         <tfoot class="text-dark text-right">
                                             <tr>
                                                 <td colspan="5">
-                                                    <h5 style="font-size: 14.5px">Total Bs.-</h5>
-                                                    <h5 style="font-size: 14.5px">Total $us.-</h5>
+                                                    <h5 class="text-center" style="font-size: 14.5px">Total Bs.-</h5>
+                                                    <h5 class="text-center" style="font-size: 14.5px">Total $us.-</h5>
                                                 </td>
                                                 <td>
                                                     <h5 class="text-center" style="font-size: 14.5px">{{$totales}}</h5>

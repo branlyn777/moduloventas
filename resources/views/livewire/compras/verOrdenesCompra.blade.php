@@ -32,28 +32,16 @@
         border-radius: 6px;
     }
 </style>
-<div wire:ignore.self class="modal fade" id="ordenCompra" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="ordenCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Ordenes de Compra</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="feather feather-x">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Ordenes de Compra</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-
             <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                 <div class="table-wrapper mb-3">
-               
                     @if ($orden != null and $orden->isNotEmpty())
-
                     <table class="m-auto">
                         <thead>
                             <th style="width: 5%" class="text-center">#</th>
@@ -63,7 +51,6 @@
                         <tbody>
                             @forelse ($orden as $dataorden)
                             <tr>
-
                                 <td class="text-center">
                                     <h6>{{$loop->index+1}}</h6>
                                 </td>
@@ -76,8 +63,6 @@
                                         <i class="fas fa-check"></i> Recibir Orden
                                     </button>
                                 </td>
-
-
                             </tr>
                             @empty
                             <p></p>
@@ -85,19 +70,18 @@
                         </tbody>
                     </table>
                     @else
-                    <div class="table-wrapper row align-items-center m-auto"
-                        style="background-color: rgba(145, 250, 189, 0.459)">
+                    <div class="table-wrapper row align-items-center m-auto" style="background-color: rgba(145, 250, 189, 0.459)">
                         <div class="col-lg-12">
                             <div class="row justify-content-center">
-                                <h2> No tiene Ordenes de Compra Pendientes</h2>
+                                <label> No tiene Ordenes de Compra Pendientes</label>
                             </div>
                         </div>
                     </div>
                     @endif
                 </div>
             </div>
-            <div class="row justify-content-end mr-2 mb-2">
-                <button type="button" class="btn btn-warning m-1" data-dismiss="modal">Salir</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning m-1" data-bs-dismiss="modal">Salir</button>
             </div>
         </div>
     </div>
