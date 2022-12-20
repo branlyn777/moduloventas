@@ -214,24 +214,13 @@ class UsersController extends Component
 
     protected $listeners = [
         'deleteRow' => 'destroy',
-        'resetUI' => 'resetUI'
+        'resetUI' => 'resetUI',
+        'deleteRowPermanently'=>'deleteRowPermanently'
     ];
 
     public function destroy(User $user)
     {
-        // $eliminarSucUsers = SucursalUser::join('users as u', 'u.id', 'sucursal_users.user_id')
-        //     ->select('sucursal_users.*')
-        //     ->where('u.id', $user->id)
-        //     ->get();
-
-        // foreach ($eliminarSucUsers as $value)
-        // {
-        //     $value->delete();
-        // }
-
-        // $user->delete();
-
-
+       
 
         if(Auth::user()->id != $user->id)
         {
@@ -250,6 +239,17 @@ class UsersController extends Component
             }
             $this->resetUI();
             $this->emit('item-deleted');
+
+
+             /* EDITAR ANTERIOR SUCURSAL_USER, PONIENDO FECHA FIN O NO SEGUN EL CASO */
+             $su = SucursalUser::find($this->sucursalUserUsuario);
+             $DateAndTime = date('Y-m-d H:i:s', time());
+             if ($su->fecha_fin == null) {
+                 $su->update([
+                     'estado' => 'FINALIZADO',
+                     'fecha_fin' => $DateAndTime
+                 ]);
+             }
         }
         else
         {
@@ -257,23 +257,10 @@ class UsersController extends Component
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
+    }
+    public function deleteRowPermanently()
+    {
+       
     }
     /* VENTANA MODAL DE HISTORIAL DEL USUARIO */
     public function viewDetails(User $user)

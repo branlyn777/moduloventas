@@ -2,18 +2,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                <h4 class="text-white text-sm" id="exampleModalLabel">
                     Historial Sucursales
-                </h1>
+                </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-sm-7 col-md-7">
                         <div class="form-group">
                             <h6>Cambiar de sucursal</h6>
-                            <select wire:model='sucursalUsuario' class="form-control">
+                            <select wire:model='sucursalUsuario' class="form-select">
                                 <option value="Elegir" disabled>Elegir</option>
                                 @foreach ($sucursales as $s)
                                     <option value="{{ $s->id }}">{{ $s->name }}</option>
@@ -25,15 +25,12 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-3">
-                        <button type="button" class="btn btn-primary" wire:click.prevent="Cambiar()">ASIGNAR NUEVA
-                            SUCURSAL</button>
-                    </div>
+                  
 
                 </div>
 
-                <div class="table-1">
-                    <table>
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
                         <thead>
                             <tr class="text-center">
                                 <th>FECHA INICIO</th>
@@ -59,23 +56,32 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
-                            <td class="col-sm-12 col-md-8" colspan="3">
-                                <br>
-                                <button type="button" class="btn btn-primary" wire:click.prevent="finalizar()">DAR
-                                    DE BAJA AL USUARIO</button>
-                                <br>
-                                <br>
-                            </td>
-                            @if ($usuarioACTIVO == 'NO')
-                                <td class="text-left" colspan="2">
-                                    <button type="button" class="btn btn-primary" wire:click.prevent="Activar()">PONER
-                                        ACTIVO AL USUARIO</button>
-                                </td>
-                            @endif
-                        </tfoot>
+                    
                     </table>
                 </div>
+               
+                    <div class="modal-footer">
+                     
+                           
+                            <button type="button" class="btn btn-primary" wire:click.prevent="finalizar()">BLOQUEAR AL USUARIO</button>
+
+                         
+                       
+                        @if ($usuarioACTIVO == 'NO')
+                           
+                                <button type="button" class="btn btn-primary" wire:click.prevent="Activar()">PONER
+                                    ACTIVO AL USUARIO</button>
+
+                                    
+                         
+                        @endif
+                  
+                            <button type="button" class="btn btn-dark btn-sm w-100 p-2" wire:click.prevent="Cambiar()"> <h7 class="text-white">ASIGNAR NUEVA SUCURSAL</h7> </button>
+               
+                    
+                    
+                    </div>
+              
 
             </div>
         </div>

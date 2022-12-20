@@ -68,4 +68,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Movimiento::class);
     }
+    public function ventas()
+    {
+        return $this->hasMany(Sale::class);
+    }
+    public function compras()
+    {
+        return $this->hasMany(Compra::class);
+    }
+    public function transferencia()
+    {
+        return $this->hasMany(EstadoTransferencia::class,'id_usuario','id');
+    }
 }

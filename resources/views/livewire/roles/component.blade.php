@@ -127,7 +127,7 @@
         window.livewire.on('alerta-rol', Msg => {
             Swal.fire(
                 'Atención',
-                'No se puede eliminar el Rol por que tiene permisos asociados',
+                'No se puede eliminar el Rol por que tiene registros asociados',
                 'info'
             )
         })

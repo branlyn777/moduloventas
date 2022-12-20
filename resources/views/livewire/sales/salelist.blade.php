@@ -266,9 +266,6 @@
                             </tr>
                           </thead>
                           <tbody>
-        
-        
-        
                             @foreach ($listaventas as $lv)
                             <tr>
                                 <td class="align-middle text-center">

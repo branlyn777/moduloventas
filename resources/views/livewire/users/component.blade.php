@@ -77,10 +77,14 @@
                                                 <span class="badge badge-sm bg-gradient-success">
                                                     ACTIVO
                                                 </span>
-                                            @else
-                                                <span class="badge badge-sm bg-gradient-danger">
-                                                    INACTIVO
+                                            @elseif($r->status == 'FINALIZADO')
+                                                <span class="badge badge-sm bg-gradient-info">
+                                                    FINALIZADO
                                                 </span>
+                                            @else
+                                            <span class="badge badge-sm bg-gradient-danger">
+                                                INACTIVO
+                                            </span>
                                             @endif
 
                                         </td>
@@ -94,21 +98,24 @@
                                             </span>
                                         </td>
                                         <td class="align-middle text-center">
+                                            <a href="javascript:void(0)"
+                                            wire:click.prevent="viewDetails('{{ $r->id }}')"
+                                            class="mx-3">
+                                            <i class="fas fa-eye text-default"></i>
+                                        </a>
                                             @if ($r->status == 'ACTIVE')
-                                                <a href="javascript:void(0)"
-                                                    wire:click.prevent="viewDetails('{{ $r->id }}')"
-                                                    class="mx-3">
-                                                    <i class="fas fa-eye text-default"></i>
-                                                </a>
+
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
                                                     class="mx-3">
                                                     <i class="fas fa-user-edit text-default"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $r->id }}','{{ $r->name }}')"
+                                                    onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{$r->ventas->count()}},{{$r->compras->count()}},{{$r->transferencia->count()}})"
                                                     class="mx-3">
                                                     <i class="fas fa-trash text-default"></i>
                                                 </a>
+
+                                         
                                             @endif
                                         </td>
                                     </tr>
@@ -191,10 +198,27 @@
         })
     });
 
-    function Confirm(id, name, movimientos) {
-        swal({
+    function Confirm(id, name, venta,compra,transferencia) { 
+     
+        if (venta !== 0 || compra !== 0 || transferencia !== 0) 
+         {
+           
+            // const toast = swal.mixin({
+            //     toast: true,    
+            //     position: 'top-end',
+            //     showConfirmButton: false,
+            //     timer: 2500,
+            //     padding: '2em'
+            // });
+            // toast({
+            //     type: 'error',
+            //     title: "No se puede eliminar el registro, tiene relacion con otros registros del sistema",
+            //     padding: '2em',
+            // })
+
+            swal({
             title: '¿Inactivar al usuario "' + name + '"?',
-            text: "Se inactivará al usuario " + name + " del sistema.",
+            text: "El usuario no se puede eliminar pasara a ser inactivado" + name + " del sistema.",
             type: 'warning',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
@@ -206,5 +230,27 @@
             }
         })
 
+
+
+
+        } 
+        else 
+        {
+            swal({
+            title: '¿Eliminar al usuario "' + name + '"?',
+            text: "Eliminar al usuario" + name + " del sistema.",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Inactivar',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('deleteRowPermanently', id)
+            }
+        })
+
+        }
+    
     }
 </script>
