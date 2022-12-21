@@ -567,6 +567,7 @@ class PosController extends Component
                 'tipopago' => $cartera->nombre,
                 'factura' => $this->invoice,
                 'cartera_id' => $cartera->id,
+                'sucursal_id' => $this->idsucursal(),
                 'observacion' => $this->observacion,
                 'movimiento_id' => $Movimiento->id,
                 'user_id' => Auth()->user()->id
