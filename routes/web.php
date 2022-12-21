@@ -74,8 +74,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('carteras', CarteraController::class)->name('cartera')->middleware('permission:Cartera_Index');
     Route::get('carteramovcategoria', CarteraMovCategoriaController::class)->name('carteramovcategoria');
     Route::get('cortecajas', CorteCajaController::class)->middleware('permission:Corte_Caja_Index');
-   Route::get('cajacierre/{id}',CierreCajaController::class)->name('caja.cierre')->middleware('permission:Corte_Caja_Index');
-//Route::get('cajacierre/{id}', array('as'=> 'cajacierre.id', 'uses' => 'CierreCajaController'));
+    Route::get('cajacierre/{id}', CierreCajaController::class)->name('caja.cierre')->middleware('permission:Corte_Caja_Index');
+    //Route::get('cajacierre/{id}', array('as'=> 'cajacierre.id', 'uses' => 'CierreCajaController'));
     //Route::get('itsolutionstuff/tag/{id}', array('as'=> 'itsolutionstuff.tag', 'uses' => 'HomeController@tags'));
 
     Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
@@ -107,20 +107,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('locations', LocalizacionController::class)->name('locations');
         Route::get('unidades', UnidadesController::class)->name('unities');
         Route::get('marcas', MarcasController::class)->name('brands');
-        
     });
     Route::group(['middleware' => ['permission:Transferencias']], function () {
         Route::get('all_transferencias', TransferenciasController::class);
         Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
         Route::get('trans', EditTransferenceController::class)->name('editdest');
-        
     });
-    Route::get('operacionesinv',MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
+    Route::get('operacionesinv', MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
     Route::get('destino_prod', DestinoProductoController::class)->name('destination')->middleware('permission:Almacenes');
 
     Route::group(['middleware' => ['permission:Compras']], function () {
         Route::get('compras', ComprasController::class)->name('compras');
-        Route::get('editar_compra',EditarCompraDetalleController::class)->name('editcompra');
+        Route::get('editar_compra', EditarCompraDetalleController::class)->name('editcompra');
         Route::get('detalle_compras', DetalleComprasController::class)->name('detalle_compra');
         Route::get('orden_compras', OrdenCompraController::class)->name('orden_compra');
         Route::get('detalle_orden_compras', OrdenCompraDetalleController::class)->name('orden_compra_detalle');
@@ -133,8 +131,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
         Route::get('productos/export/', [ProductsController::class, 'export']);
         Route::get('almacen/export/', [DestinoProductoController::class, 'export']);
-        });
-        Route::get('chart', [ChartJSController::class, 'index']);
-
-
+    });
+    Route::get('chart', [ChartJSController::class, 'index']);
 });
