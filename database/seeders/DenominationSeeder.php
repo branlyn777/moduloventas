@@ -66,7 +66,7 @@ class DenominationSeeder extends Seeder
         Denomination::create([
             'type'=>'MONEDA',
             'value'=>'0.10',
-            'image'=>'0,10.png'            
+            'image'=>'0,10.jpg'            
         ]);
         Denomination::create([
             'type'=>'OTRO',
