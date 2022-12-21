@@ -1,20 +1,18 @@
 <div>
-
-
     <div class="row">
         <div class="col-12 text-center">
-          <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
+            <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
         </div>
-      </div>
+    </div>
 
-      <div class="row">
+    <div class="row">
 
         <div class="col-12 col-sm-12 col-md-4">
             @include('common.searchbox')
         </div>
 
         <div class="col-12 col-sm-12 col-md-4 text-center">
-            
+
         </div>
 
         <div class="col-12 col-sm-12 col-md-4 text-right">
@@ -26,14 +24,13 @@
     <br>
 
 
-
     <div class="table-5">
         <table>
             <thead>
                 <tr class="text-center">
                     <th>TIPO</th>
                     <th>VALOR</th>
-                    <th>IMAGEN</th>                                
+                    <th>IMAGEN</th>
                     <th>ACCIONES</th>
                 </tr>
             </thead>
@@ -44,21 +41,20 @@
                             {{ $coin->type }}
                         </td>
                         <td>
-                            {{ number_format($coin->value,2) }}
-                        </td>                            
+                            {{ number_format($coin->value, 2) }}
+                        </td>
                         <td class="text-center">
                             <span>
-                                <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
-                                    alt="imagen de ejemplo" height="70" class="rounded">
+                                <img src="{{ asset('storage/monedas/' . $coin->imagen) }}" alt="imagen de ejemplo"
+                                    height="70" class="rounded">
                             </span>
                         </td>
                         <td class="text-center">
-                            <button wire:click="Edit({{ $coin->id }})"
-                                class="boton-celeste" title="Edit">
+                            <button wire:click="Edit({{ $coin->id }})" class="boton-celeste" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')" 
-                                class="boton-rojo" title="Delete">
+                            <button onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')" class="boton-rojo"
+                                title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -88,9 +84,9 @@
         });
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
-        });        
-        $('theModal').on('hidden.bs.modal',function(e) {
-            $('.er').css('display','none')
+        });
+        $('theModal').on('hidden.bs.modal', function(e) {
+            $('.er').css('display', 'none')
         })
 
     });
@@ -100,8 +96,8 @@
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
-                text: 'No se puede eliminar la moneda, ' + type + ' porque tiene ' 
-                + products + ' ventas relacionadas'
+                text: 'No se puede eliminar la moneda, ' + type + ' porque tiene ' +
+                    products + ' ventas relacionadas'
             })
             return;
         }

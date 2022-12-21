@@ -101,8 +101,8 @@ class PermissionSeeder extends Seeder
         ]);
         Permission::create([    /* INGRESAR A CORTE DE CAJA */
             'name' => 'Ver_Generar_Ingreso_Egreso_Boton',
-            'areaspermissions_id' => '3',
-            'descripcion' => 'Ingresar a Corte de Caja',
+            'areaspermissions_id' => '1',
+            'descripcion' => 'Oculta el boton Ingreso Egreso del modulo Ingreso Egreso',
             'guard_name' => 'web'
         ]);
 
@@ -127,19 +127,15 @@ class PermissionSeeder extends Seeder
             'descripcion' => 'Poder realizar ventas',
             'guard_name' => 'web'
         ]);
-        Permission::create([    /* INGRESAR A REPORTES VENTAS */
-            'name' => 'Reportes_Index',
-            'areaspermissions_id' => '4',
-            'descripcion' => 'Ingresar a Reporte movimiento Diario Ventas',
-            'guard_name' => 'web'
-        ]);
+
         //Poder filtrar y Anular una devolucion
-        Permission::create([
+       /*  Permission::create([
             'name' => 'VentasDevolucionesFiltrar',
             'areaspermissions_id' => '4',
             'descripcion' => 'Poder filtrar y Anular una devolucion',
             'guard_name' =>'web'
-        ]);
+        ]); */
+
         //Poder ver el movimiento Diario de Ventas filtrando por sucursal y poder ver la utilidad
         Permission::create([
             'name' => 'VentasMovDiaSucursalUtilidad',
@@ -148,12 +144,13 @@ class PermissionSeeder extends Seeder
             'guard_name' =>'web'
         ]);
 
-        Permission::create([    /* PERMITIR VER REPORTES DE LA CANTIDAD DE VENTAS POR USUARIO */
+         /* PERMITIR VER REPORTES DE LA CANTIDAD DE VENTAS POR USUARIO */
+       /*  Permission::create([   
             'name' => 'Reportes_Sale_Index',
             'areaspermissions_id' => '4',
             'descripcion' => 'Ver Reportes de Ventas',
             'guard_name' => 'web'
-        ]);
+        ]); */
 
         //Poder ver el movimiento Diario de Ventas (Sin poder filtrar por Sucursal y ver Utilidad)
         Permission::create([
@@ -180,7 +177,7 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Inventarios',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar a la vista de productos,proveedores,categorias,entradas y salidas',
+            'descripcion' => 'Ingresar a la vista de productos,proveedores,categorias',
             'guard_name' =>'web'
         ]);
         Permission::create([
@@ -198,7 +195,7 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'Almacenes',
             'areaspermissions_id' =>'2',
-            'descripcion' => 'Ingresar y visualizar los Almacenes de cada sucursal.',
+            'descripcion' => 'Ingresar y visualizar Almacen Producto (Stocks de los Almacenes de cada sucursal).',
             'guard_name' =>'web'
         ]);
         Permission::create([

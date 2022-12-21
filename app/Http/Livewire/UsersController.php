@@ -22,7 +22,7 @@ class UsersController extends Component
     use WithFileUploads;
 
     public $name, $phone, $email, $image, $password, $selected_id, $fileLoaded, $profile,
-        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname;
+        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status;
     public $pageTitle, $componentName, $search, $sucur;
     private $pagination = 10;
 
@@ -149,6 +149,7 @@ class UsersController extends Component
         $this->phone = $user->phone;
         $this->profile = $user->profile;
         $this->email = $user->email;
+        $this->status = $user->status;
         $this->password = '';
 
         $this->emit('show-modal', 'open!');
@@ -202,8 +203,8 @@ class UsersController extends Component
             $user->save();
 
             if ($imageTemp != null) {
-                if (file_exists('storage/categorias/' . $imageTemp)) {
-                    unlink('storage/categorias/' . $imageTemp);
+                if (file_exists('storage/usuarios/' . $imageTemp)) {
+                    unlink('storage/usuarios/' . $imageTemp);
                 }
             }
         }
@@ -221,7 +222,6 @@ class UsersController extends Component
     public function destroy(User $user)
     {
        
-
         if(Auth::user()->id != $user->id)
         {
             $usuario = User::find($user->id);
@@ -242,7 +242,7 @@ class UsersController extends Component
 
 
              /* EDITAR ANTERIOR SUCURSAL_USER, PONIENDO FECHA FIN O NO SEGUN EL CASO */
-             $su = SucursalUser::find($this->sucursalUserUsuario);
+             $su = SucursalUser::find($user->id);
              $DateAndTime = date('Y-m-d H:i:s', time());
              if ($su->fecha_fin == null) {
                  $su->update([
@@ -258,9 +258,26 @@ class UsersController extends Component
 
 
     }
-    public function deleteRowPermanently()
+    public function deleteRowPermanently(User $user)
     {
-       
+        try {
+            if(Auth::user()->id != $user->id)
+            {
+            
+
+           $us= SucursalUser::where('user_id',$user->id)->first()->delete();
+
+        
+            $user->delete();
+            }
+            else
+            {
+                $this->emit("atencion");
+            }
+          
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
     /* VENTANA MODAL DE HISTORIAL DEL USUARIO */
     public function viewDetails(User $user)
@@ -329,9 +346,12 @@ class UsersController extends Component
     }
     public function Activar()
     {
+        $ult_sucursal=  SucursalUser::where('user_id',$this->selected_id)->where('estado','FINALIZADO')->latest('updated_at')->first();
+
+    
         SucursalUser::create([
             'user_id' => $this->selected_id,
-            'sucursal_id' => $this->sucursalUsuario,
+            'sucursal_id' => $ult_sucursal->sucursal_id,
             'estado' => 'ACTIVO',
             'fecha_fin' => null,
         ]);

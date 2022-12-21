@@ -36,7 +36,7 @@ class DestinoSeeder extends Seeder
         Permission::create([
             'name' => $devoluciones->nombre . '_' . $devoluciones->id,
             'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar a Almacén Devoluciones',
+            'descripcion' => 'Permite listar el destino en TRANSFERENCIA PRODUCTOS',
             'guard_name' => 'web'
         ]);
     }

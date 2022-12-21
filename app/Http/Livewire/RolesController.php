@@ -30,6 +30,11 @@ class RolesController extends Component
 
     public function render()
     {
+
+        
+
+
+
         if (strlen($this->search) > 0) {
             $roles = Role::where('name', 'like', '%' . $this->search . '%')->paginate($this->pagination);
         } else {

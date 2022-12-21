@@ -44,7 +44,7 @@
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
                                 {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> --}}
-                                    <select wire:model='estados' class="form-control">
+                                    <select wire:model='estados' class="form-select">
                                         <option value="null" disabled>Estado</option>
                                         <option value="ACTIVO">ACTIVO</option>
                                         <option value="INACTIVO">INACTIVO</option>
@@ -83,21 +83,27 @@
                                             <td>{{$data->correo ? $data->correo : "No definido" }}</td>
                                             <td>{{$data->direccion ? $data->direccion : "No definido" }}</td>
                                             <td>{{$data->nit ? $data->nit : "No definido" }}</td>
-                                            @if ($data->status== 'ACTIVO')
-                                                
-                                            <td class="text-center" >
-                                                <span class="badge badge-success mb-0">{{$data->status}}</span>
-                                            </td>
-                                            @else
-                                            <td class="text-center" ><span class="badge badge-danger mb-0">{{$data->status}}</span></td>
-                                                
-                                            @endif
+                                                @if ($data->status== 'ACTIVO')
+                                                    <td class="text-center" >
+                                                        <span class="badge badge-sm bg-gradient-success">{{$data->status}}</span>
+                                                        {{-- <span class="badge badge-success mb-0">{{$data->status}}</span> --}}
+                                                    </td>
+                                                @else
+                                                    <td class="text-center" >
+                                                        <span class="badge badge-sm bg-gradient-danger">{{$data->status}}</span>
+                                                        {{-- <td class="text-center" ><span class="badge badge-danger mb-0">{{$data->status}}</span></td> --}}
+                                                    </td>
+                                                @endif
                                             <td>
                                                 <div>
-                                                    <button  wire:click="Edit({{ $data->id }})"  title="Editar proveedor" class="boton-azul mr-1">
-                                                        <i class="fas fa-edit"></i></button>
-                                                    <button  onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" 
-                                                        title="Eliminar proveedor" class="boton-rojo"><i class="fas fa-trash"></i></button>
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
+                                                        class="mx-3" title="Editar proveedor">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)" onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}',{{$data->compras->count()}})" 
+                                                        class="mx-3" title="Eliminar proveedor">
+                                                        <i class="fas fa-trash text-danger"></i>
+                                                    </a>
                                                 </div>
                                             
                                             </td>

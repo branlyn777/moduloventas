@@ -1,9 +1,13 @@
 @include('common.modalHead')
 <div class="row">
+    <div class="col-md-12">
+      
+    
+    </div>
     <div class="col-sm-12 col-md-8">
         <div class="form-group">
             <h6>Nombre</h6>
-            <input type="text" wire:model.lazy="name" class="form-control">
+            <input type="text" wire:model.lazy="name" class="form-control" {{$status=='LOCKED'? "disabled='true'":''}}>
             @error('name')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
@@ -13,7 +17,7 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <h6>Teléfono</h6>
-            <input type="text" wire:model.lazy="phone" class="form-control" maxlength="8">
+            <input type="text" wire:model.lazy="phone" class="form-control" maxlength="8" {{$status=='LOCKED'? "disabled='true'":''}}>
             @error('phone')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
@@ -23,7 +27,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Email</h6>
-            <input type="text" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com">
+            <input type="text" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com" {{$status=='LOCKED'? "disabled='true'":''}}>
             @error('email')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
@@ -37,7 +41,7 @@
             @else
                 <h6>Nueva contraseña (opcional)</h6>
             @endif
-            <input type="password" date-type='currency' wire:model.lazy="password" class="form-control">
+            <input type="password" date-type='currency' wire:model.lazy="password" class="form-control" {{$status=='LOCKED'? "disabled='true'":''}}>
             @error('password')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
@@ -47,7 +51,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <h6>Asignar rol</h6>
-            <select wire:model='profile' class="form-select">
+            <select wire:model='profile' class="form-select" {{$status=='LOCKED'? "disabled='true'":''}}>
                 <option value="Elegir" disabled selected>Elegir</option>
                 @foreach ($roles as $role)
                     <option value="{{ $role->name }}">{{ $role->name }}</option>
@@ -58,6 +62,8 @@
             @enderror
         </div>
     </div>
+
+
 
     @if ($selected_id == 0)
         <div class="col-sm-12 col-md-6">
@@ -83,5 +89,27 @@
         </div>
     </div>
 </div>
+
+<div class="form-check form-switch">
+
+    @if ($selected_id != 0)
+    <div class="col-sm-12 col-md-12">
+        @if ($status ==  'ACTIVE')
+        <input class="form-check-input bg-success"  type="checkbox" id="flexSwitchCheckDefault" checked="" wire:click='finalizar()'>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Inactivar Usuario</label>
+        @else
+        <input class="form-check-input bg-secondary"  type="checkbox" id="flexSwitchCheckDefault" checked="" wire:click='Activar()'>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Activar Usuario</label>
+            
+        @endif
+    </div>
+
+    @endif
+
+
+
+
+
+
 
 @include('common.modalFooter')
