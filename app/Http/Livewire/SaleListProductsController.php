@@ -70,7 +70,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as nombresucursal'),
                         DB::raw('0 as ventareciente'))
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->orderBy("s.created_at","desc")
@@ -89,7 +89,7 @@ class SaleListProductsController extends Component
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("s.user_id",$this->user_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->get();
                     }
@@ -106,7 +106,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as nombresucursal'),
                         DB::raw('0 as ventareciente'))
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->orderBy("s.created_at","desc")
                         ->paginate($this->paginacion);
@@ -123,7 +123,7 @@ class SaleListProductsController extends Component
 
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->get();
                     }
@@ -216,7 +216,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as ventareciente'))
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->where("s.user_id",$this->user_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->orderBy("s.created_at","desc")
@@ -236,7 +236,7 @@ class SaleListProductsController extends Component
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.user_id",$this->user_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->get();
                     }
@@ -254,7 +254,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as ventareciente'))
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->orderBy("s.created_at","desc")
                         ->paginate($this->paginacion);
@@ -272,7 +272,7 @@ class SaleListProductsController extends Component
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                         ->get();
                     }
@@ -371,7 +371,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as nombresucursal'),
                         DB::raw('0 as ventareciente'))
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->where("s.user_id",$this->user_id)
 
                         ->where(function($query){
@@ -397,7 +397,7 @@ class SaleListProductsController extends Component
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("s.user_id",$this->user_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -421,7 +421,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as nombresucursal'),
                         DB::raw('0 as ventareciente'))
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -445,7 +445,7 @@ class SaleListProductsController extends Component
 
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -573,7 +573,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as ventareciente'))
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
                         ->where("s.user_id",$this->user_id)
 
                         ->where(function($query){
@@ -600,7 +600,7 @@ class SaleListProductsController extends Component
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.user_id",$this->user_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -625,7 +625,7 @@ class SaleListProductsController extends Component
                         DB::raw('0 as ventareciente'))
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -650,7 +650,7 @@ class SaleListProductsController extends Component
                         ->select("products.id as idproducto","sl.cantidad as cantidad_vendida", "l.costo as costo_producto","sd.price as precio_venta")
                         ->where("products.category_id",$this->categoria_id)
                         ->where("s.status","PAID")
-                        ->where("cj.sucursal_id",$this->sucursal_id)
+                        ->where("s.sucursal_id",$this->sucursal_id)
 
                         ->where(function($query){
                             $query->where('products.nombre', 'like', '%' . $this->search . '%')
