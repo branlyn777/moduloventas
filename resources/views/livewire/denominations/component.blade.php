@@ -36,7 +36,7 @@
                             <table class="table align-items-left mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-xxs font-weight-bolder text-center">TIPO</th>
+                                        <th class="text-uppercase text-xxs font-weight-bolder">TIPO</th>
                                         <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">VALOR</th>
                                         <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">IMAGEN
                                         </th>
