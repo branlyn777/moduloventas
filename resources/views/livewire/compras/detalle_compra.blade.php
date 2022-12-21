@@ -176,7 +176,7 @@
                         </div>
                         {{-- </form> --}}
                
-                        <div class="col-lg-8 col-12  col-md-12">
+                        <div class="col-lg-8 col-12 col-md-12">
                             <div class="row">
                                     <div class="col-lg-12 col-md-12 col-12 widget mr-2 mb-2 mt-2">
                                         <div class="text-center">{{-- class="row justify-content-center mt-3 mb-4" --}}

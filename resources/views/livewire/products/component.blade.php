@@ -8,12 +8,14 @@
                             <h6 class="mb-0">Lista Productos</h6>
 
                         </div>
+                        
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
                                 <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0"
                                     data-bs-toggle="modal" data-bs-target="#theModal">
                                     +&nbsp; Nuevo Producto
                                 </a>
+                                @can("Reportes_Inventarios_Export")
                                 <button wire:click="$emit('modal-import')" type="button"
                                     class="btn btn-outline-primary btn-sm mb-0">
                                     Importar
@@ -22,6 +24,7 @@
                                     class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
                                     Exportar
                                 </a>
+                                @endcan
                             </div>
                         </div>
                     </div>
