@@ -650,9 +650,11 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 text-center">
                                 <div class="numbers">
-                                    <h5 class="font-weight-bolder">
-                                        NO SE SELECCIONO NINGUNA CAJA
-                                    </h5>
+                                    <a href="{{ url('cortecajas') }}">
+                                        <h5 class="font-weight-bolder">
+                                            NO SE SELECCIONO NINGUNA CAJA
+                                        </h5>
+                                    </a>
                                 </div>
                             </div>
                         </div>

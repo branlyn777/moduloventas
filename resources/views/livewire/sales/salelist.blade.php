@@ -387,8 +387,8 @@
                 </div>
             </div>
         </div>
-        @include('livewire.sales.modaldetalles')
         @include('livewire.sales.modalcambiarusuario')
+        @include('livewire.sales.modaldetalles')
 </div>
 @section('javascript')
 <script>

@@ -1,56 +1,65 @@
-<div wire:ignore.self class="modal fade" id="modalcambiarusuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div wire:ignore.self class="modal fade" id="modalcambiarusuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            
-            <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalLongTitle">CAMBIAR USUARIO VENDEDOR</h5>
+
+            <div class="modal-header bg-primary">
+
+                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                    <p class="text-sm mb-0">
+                        CAMBIAR USUARIO VENDEDOR
+                    </p>
+                  </h1>
 
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="">
                 <div class="text-center">
-                    ¿Cambiar al Usuario Vendedor: <b>{{$this->nombreusuariovendedor}}</b> ?
                     <br>
-                    <b>Seleccione Uno</b>
+                    ¿Cambiar al Usuario Vendedor: <b>{{ $this->nombreusuariovendedor }}</b> ?
                 </div>
 
             </div>
-            
-            <div class="modal-body" style="color: black">
-            
-                  <div class="table-1">
-                    <table>
+
+            <div class="modal-body">
+
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
                         <thead>
-                          <tr class="text-center">
-                            <th>Nombre Usuario</th>
-                            <th>Seleccionar</th>
-                          </tr>
+                            <tr class="text-center">
+                                <th>Nombre Usuario</th>
+                                <th>Seleccionar</th>
+                            </tr>
                         </thead>
                         <tbody>
-                          @foreach ($usuarios as $dv)
-                          <tr>
-                            <td class="text-left">
-                                {{ ucwords(strtolower($dv->name)) }}
-                            </td>
-                            <td class="text-center">
-                                <button wire:click="seleccionarusuario({{$dv->id}})" title="Seleccionar Usuario" class="boton-azul">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            @foreach ($usuarios as $dv)
+                                <tr>
+                                    <td class="text-left">
+                                        <p class="text-xs mb-0">
+                                            {{ ucwords(strtolower($dv->name)) }}
+                                        </p>
+                                    </td>
+                                    <td class="text-center">
+                                        <button wire:click="seleccionarusuario({{ $dv->id }})" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                            title="Seleccionar Usuario">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+
+
+
+
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
-                      </table>
-                  </div>
+                    </table>
+                </div>
 
-                  
+
 
             </div>
             <div class="modal-footer">
-                
+
             </div>
         </div>
     </div>
