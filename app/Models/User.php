@@ -80,4 +80,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(EstadoTransferencia::class,'id_usuario','id');
     }
+    public function ingreso()
+    {
+        return $this->hasMany(IngresoProductos::class,'user_id','id');
+    }
 }

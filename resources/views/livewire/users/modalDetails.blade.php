@@ -62,21 +62,21 @@
                
                     <div class="modal-footer">
                      
-                           
-                            <button type="button" class="btn btn-primary" wire:click.prevent="finalizar()">BLOQUEAR AL USUARIO</button>
+                                {{--  
+                                            <button type="button" class="btn btn-primary" wire:click.prevent="finalizar()">BLOQUEAR AL USUARIO</button>
 
-                         
-                       
-                        @if ($usuarioACTIVO == 'NO')
-                           
-                                <button type="button" class="btn btn-primary" wire:click.prevent="Activar()">PONER
-                                    ACTIVO AL USUARIO</button>
-
+                                        
                                     
-                         
-                        @endif
+                                        @if ($usuarioACTIVO == 'NO')
+                                        
+                                                <button type="button" class="btn btn-primary" wire:click.prevent="Activar()">PONER
+                                                    ACTIVO AL USUARIO</button>
+
+                                                    
+                                        
+                                        @endif --}}
                   
-                            <button type="button" class="btn btn-dark btn-sm w-100 p-2" wire:click.prevent="Cambiar()"> <h7 class="text-white">ASIGNAR NUEVA SUCURSAL</h7> </button>
+                    <button type="button" class="btn btn-dark btn-sm w-100 p-2" wire:click.prevent="Cambiar()"> <h7 class="text-white">ASIGNAR NUEVA SUCURSAL</h7> </button>
                
                     
                     
