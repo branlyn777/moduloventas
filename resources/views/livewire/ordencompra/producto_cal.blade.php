@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Calcular Nuevo Pedido</h5>
+                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Calcular Nuevo Pedido</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -56,14 +56,15 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                         @endif
                     </div>
                 </div>
 
-                <div class="row m-2 ml-4">
-
+                <div class="col-lg-6">
                     <div class="form-group">
+                        <label>Sugerir para:</label>
                         <div class="input-group mb-4">
                             <input type="number" wire:model="dias" class="form-control" placeholder="ej: 7">
                             <span class="input-group-text">
@@ -71,29 +72,16 @@
                             </span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <label>Sugerir para:</label>
-                        </div>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <input type="number" wire:model="dias" class="form-control" placeholder="ej: 7">
-                            <span class="input-group-text form-control">Dias</span>
-                        </div>
-
-                    </div>
-          
-                                                            
-                   </div>
                    <div class="row justify-content-center m-auto">
                     <h4 class="col-lg-12">Pronostico del proximo pedido</h4>
                         <h2>{{$calculado}} Uds.</h2>
                         
-                       
-        
                    </div>
-                   <div class="row justify-content-center m-auto">
-                        <button  class="boton-azul mb-4" type="button"  wire:click="aplicarPronostico({{ $prod_exp}})">Aplicar Cantidad</button>
+                   <div class="modal-footer">
+                        <button wire:click="aplicarPronostico({{ $prod_exp}})" type="button" class="btn btn-primary" data-bs-dismiss="modal" 
+                            style="font-size: 13px">Aplicar Cantidad</button>
                    </div>
                 
             </div>
