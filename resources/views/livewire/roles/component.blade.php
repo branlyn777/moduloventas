@@ -13,6 +13,7 @@
                 </span>
                 <span class="btn-inner--text">Nuevo Rol</span>
                 </a>
+            </button>
         </div>
     </div>
 
@@ -135,10 +136,8 @@
 
     });
 
-    function Confirm(id, name, usuarios)
-    {
-        if (usuarios > 0)
-        {
+    function Confirm(id, name, usuarios) {
+        if (usuarios > 0) {
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',

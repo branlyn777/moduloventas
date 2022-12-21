@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // VENTAS
-    Route::get('coins', CoinsController::class)->name('monedas')->middleware('permission:Coins_Index');
+    Route::get('monedas', CoinsController::class)->name('monedas')->middleware('permission:Coins_Index');
     Route::get('pos', PosController::class)->name('ventas')->middleware('permission:Sales_Index');
     Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
     Route::get('salelist', SaleListController::class)->name('salelist')->middleware('permission:VentasLista_Index');
