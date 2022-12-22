@@ -15,85 +15,89 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
-                            <b>Seleccionar Sucursal</b>
-                            <div class="form-group">
-                                <select wire:model="sucursal_id" class="form-select">
-                                    @foreach($listasucursales as $sucursal)
-                                    <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
-                                    @endforeach
-                                    <option value="Todos">Todas las Sucursales</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
-                            <b>Estado</b>
-                            <div class="form-group">
-                                <select wire:model="estado" class="form-select">
-                                    <option value='ACTIVO' selected>Activo</option>
-                                    <option value='INACTIVO'>Anulado</option>
-                                    <option value='Todos'>Todos</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
-                            <b>Tipo de Fecha</b>
-                            <div class="form-group">                              
-                                    <select wire:model="fecha" class="form-select">
-                                        <option value='hoy' selected>Hoy</option>
-                                        <option value='ayer'>Ayer</option>
-                                        <option value='semana'>Semana</option>
-                                        <option value='fechas'>Entre Fechas</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        @if($this->fecha=='fechas')
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-2 text-center">
-                                    <b>Fecha Inicio</b>
-                                    <div class="form-group">
-                                        <input type="date" wire:model="fromDate" class="form-control flatpickr" >
-                                    </div>
-                                </div>
-                
-                                <div class="col-12 col-sm-6 col-md-2 text-center">
-                                    <b>Fecha Fin</b>
-                                    <div class="form-group">
-                                        <input type="date" wire:model="toDate" class="form-control flatpickr" >
-                                    </div>
+                        <div class="d-lg-flex">
+                            <div class="col-12 col-sm-6 col-md-2 p-2">
+                                <b>Seleccionar Sucursal</b>
+                                <div class="form-group">
+                                    <select wire:model="sucursal_id" class="form-select">
+                                        @foreach($listasucursales as $sucursal)
+                                        <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                        @endforeach
+                                        <option value="Todos">Todas las Sucursales</option>
+                                    </select>
                                 </div>
                             </div>
-                        @endif
+
+                            <div class="col-12 col-sm-6 col-md-2 p-2">
+                                <b>Estado</b>
+                                <div class="form-group">
+                                    <select wire:model="estado" class="form-select">
+                                        <option value='ACTIVO' selected>Activo</option>
+                                        <option value='INACTIVO'>Anulado</option>
+                                        <option value='Todos'>Todos</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-2 p-2">
+                                <b>Tipo de Fecha</b>
+                                <div class="form-group">                              
+                                        <select wire:model="fecha" class="form-select">
+                                            <option value='hoy' selected>Hoy</option>
+                                            <option value='ayer'>Ayer</option>
+                                            <option value='semana'>Semana</option>
+                                            <option value='fechas'>Entre Fechas</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            @if($this->fecha=='fechas')
+                                <div class="row">
+                                    <div class="col-6 p-2">
+                                        <b>Fecha Inicio</b>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="fromDate" class="form-control flatpickr" >
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6 p-2">
+                                        <b>Fecha Fin</b>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="toDate" class="form-control flatpickr" >
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
+                </div>
 
-                    <div class="card-body px-0 pb-0">
-                        <div class="table-responsive">
-                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                <div class="dataTable-container">
-                                    <table class="table align-items-center mb-0">
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
                                         <thead>
                                             <tr class="text-center" style="font-size: 12px">
-                                                <th class="text-center" style="width: 2%">#</th>                                
-                                                <th class="text-center" style="width: 5%">COD.</th>                                
-                                                <th class="text-center">FECHA</th>                                                                               
-                                                <th class="text-center">PROVEEDORES</th>                                                                               
-                                                <th class="text-center">ESTADO</th>
-                                                <th class="text-center">USUARIO</th>
-                                                <th class="text-center">TOTAL</th>
-                                                <th class="text-center">ACC.</th>
+                                                <th>#</th>                           
+                                                <th style="width: 50px;">COD.</th>                                
+                                                <th>FECHA</th>                                                                               
+                                                <th>PROVEEDORES</th>                                                                               
+                                                <th>ESTADO</th>
+                                                <th>USUARIO</th>
+                                                <th>TOTAL</th>
+                                                <th>ACC.</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($data_orden_compras as $data)
-                                                <tr class="text-center"  style="font-size: 12px">
+                                                <tr class="text-center" style="font-size: 12px">
                                                     <td>
-                                                        <h6>{{ $loop->index+1}}</h6>
+                                                        {{ $loop->index+1}}
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-secondary mb-0">{{ $data->id}}</span>
+                                                        <h6 style="font-size: 12px"><span class="badge bg-secondary">{{ $data->id}}</span></h6>
+                                                        {{-- <span badge bg-secondary>{{ $data->id}}</span> --}}
                                                     </td>
                                                     <td>
                                                         <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
@@ -101,41 +105,42 @@
                                                         {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
                                                     </td>
                                                     <td>
-                                                        <h6 wire:key="{{ $loop->index }}">{{ $data->proveedor->nombre_prov}}</h6>
+                                                        <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->proveedor->nombre_prov}}</h6>
                                                     </td>
                                             
                                                     @if( $data->status == 'ACTIVO')
                                                         <td >
-                                                            <span class="badge badge-success mb-0">{{$data->status}}</span>
+                                                            <span class="badge badge-sm bg-gradient-success">{{$data->status}}</span>
                                                         </td>
                                                     @else
                                                         <td>
-                                                            <span class="badge badge-warning mb-0">ANULADO</span>
+                                                            <span class="badge text-bg-danger text-white">ANULADO</span>
                                                         </td>
                                                     @endif
 
                                                     <td>
-                                                        <h6>{{ $data->usuario->name }}</h6>
+                                                        {{ $data->usuario->name }}
                                                     </td>
                                                     <td>
-                                                        <h6>{{ $data->importe_total }}</h6>
+                                                        {{ $data->importe_total }}
                                                     </td>
                                                     <td>
-                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
-                                                            class="boton-celeste p-1" title="Listar orden de compra">
-                                                            <i class="fas fa-list"></i>
+                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')" class="mx-3"
+                                                            title="Listar orden de compra">
+                                                            <i class="fas fa-list" style="font-size: 14px"></i>
                                                         </a>
+
                                                         {{-- <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
                                                             class="btn btn-dark p-1" title="Editar orden de compra">
                                                             <i class="fas fa-edit"></i>
                                                         </a> --}}
-                                                        <a href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}"  
+                                                        <a href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}" class="mx-3"
                                                             class="btn btn-success p-1" title="Imprimir orden de compra">
-                                                            <i class="fas fa-print"></i>
+                                                            <i class="fas fa-print" style="font-size: 14px"></i>
                                                         </a>
-                                                        <a href="javascript:void(0)" wire:click="anularOrden('{{ $data->id }}')"
-                                                            class="btn btn-danger p-1" title="Anular orden compra">
-                                                            <i class="fas fa-minus-circle"></i>
+                                                        <a href="javascript:void(0)" wire:click="anularOrden('{{ $data->id }}')" class="mx-3"
+                                                            title="Anular orden compra">
+                                                            <i class="fas fa-minus-circle text-danger" style="font-size: 14px"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -157,19 +162,19 @@
                                             </tr>
                                             
                                         </tfoot> --}}
-                                    </table><br>
-                                </div>
+                                </table><br>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
     @include('livewire.ordencompra.verDetalleOrden')
 </div>
 
-   <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
 
       
@@ -216,6 +221,4 @@
             })
         });
     })
-
-
-    </script>
+</script>
