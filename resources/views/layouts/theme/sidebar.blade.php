@@ -131,6 +131,13 @@
                             </a>
                         </li>
                         <li class="nav-item ">
+                            <a class="nav-link " href="{{ url('monedas') }}">
+                                <span class="sidenav-mini-icon"> M </span>
+                                <span class="sidenav-normal"> Moneda </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item ">
                             <a class="nav-link " href="{{ url('carteramovcategoria') }}">
                                 <span class="sidenav-mini-icon"> I </span>
                                 <span class="sidenav-normal"> Ingresos/Egresos Categoria </span>

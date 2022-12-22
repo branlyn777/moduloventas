@@ -1,72 +1,92 @@
 <div>
-    <div class="row">
-        <div class="col-12 text-center">
-            <p class="h1"><b>{{ $componentName }} | {{ $pageTitle }}</b></p>
-        </div>
-    </div>
-
-    <div class="row">
-
-        <div class="col-12 col-sm-12 col-md-4">
-            @include('common.searchbox')
-        </div>
-
-        <div class="col-12 col-sm-12 col-md-4 text-center">
+    <div class="d-sm-flex justify-content-between">
+        <div>
 
         </div>
-
-        <div class="col-12 col-sm-12 col-md-4 text-right">
-            <a href="javascript:void(0)" class="boton-azul-g" data-toggle="modal" data-target="#theModal">Agregar</a>
+        <div class="d-flex">
+            <div class="dropdown d-inline">
+            </div>
+            <button wire:click="$emit('modal-show')" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
+                type="button">
+                <span class="btn-inner--icon">
+                    <i class="ni ni-fat-add"></i>
+                </span>
+                <span class="btn-inner--text">Agregar</span>
+                </a>
+            </button>
         </div>
-
     </div>
 
     <br>
 
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Monedas | Listado</h6>
+                </div>
+                <div style="padding-left: 12px; padding-right: 12px;">
 
-    <div class="table-5">
-        <table>
-            <thead>
-                <tr class="text-center">
-                    <th>TIPO</th>
-                    <th>VALOR</th>
-                    <th>IMAGEN</th>
-                    <th>ACCIONES</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data as $coin)
-                    <tr class="text-center">
-                        <td>
-                            {{ $coin->type }}
-                        </td>
-                        <td>
-                            {{ number_format($coin->value, 2) }}
-                        </td>
-                        <td class="text-center">
-                            <span>
-                                <img src="{{ asset('storage/monedas/' . $coin->imagen) }}" alt="imagen de ejemplo"
-                                    height="70" class="rounded">
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <button wire:click="Edit({{ $coin->id }})" class="boton-celeste" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')" class="boton-rojo"
-                                title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $data->links() }}
+                    <div class="col-12 col-sm-12 col-md-4">
+                        @include('common.searchbox')
+                    </div>
+
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-left mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-xxs font-weight-bolder">TIPO</th>
+                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">VALOR</th>
+                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">IMAGEN
+                                        </th>
+                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">ACCIONES
+                                        </th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    @foreach ($data as $coin)
+                                        <tr>
+                                            <td>
+                                                <p class="text-xs mb-0">{{ $coin->type }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs mb-0">{{ number_format($coin->value, 2) }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
+                                                            alt="imagen de ejemplo" height="70" class="rounded">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                <a href="javascript:void(0)"
+                                                    wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
+                                                    <i class="fas fa-edit text-default"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
+                                                    class="mx-3">
+                                                    <i class="fas fa-trash text-default"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{ $data->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     @include('livewire.denominations.form')
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -101,20 +121,20 @@
             })
             return;
         }
-        swal.fire({
+       
+
+        swal({
             title: 'CONFIRMAR',
-            icon: 'warning',
-            text: 'Confirmar eliminar la moneda ' + '"' + type + '"',
+            text: 'Confirmar eliminar la moneda del tipo "' + type + '"',
+            type: 'warning',
             showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-                Swal.close()
-            }
-        })
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar',
+            padding: '2em'
+                }).then(function(result) {
+                    if (result.value) {
+                        window.livewire.emit('deleteRow', id)
+                    }
+                })
     }
 </script>

@@ -140,8 +140,8 @@
         </div>
     </div>
 
-    @include('livewire.users.form')
     @include('livewire.users.modalDetails')
+    @include('livewire.users.form')
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
