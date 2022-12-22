@@ -75,7 +75,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr class="text-center">
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>ID</th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder"z>ID Loco</th>
                                     <th class="text-uppercase text-xxs font-weight-bolder"z>#</th>
                                     <th class="text-uppercase text-xxs font-weight-bolder"z>PERMISO</th>
                                     <th class="text-uppercase text-xxs font-weight-bolder"z>ROLES CON EL PERMISO</th>
