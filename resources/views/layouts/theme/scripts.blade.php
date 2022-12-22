@@ -32,7 +32,20 @@
 <!-- Scripts para el mensaje de confirmacion arriba a la derecha 'Mensaje Toast' de Éxito y Alerta de Eliminacion -->
 <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+
+
+
+{{-- <script>
+  window.addEventListener("load", function(event)
+  {
+      this.darkMode(document.getElementById('dark-version'));
+  });
+</script> --}}
+
+
+
 <!-- Fin Scripts -->
+
 
 
 @livewireScripts

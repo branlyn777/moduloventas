@@ -71,7 +71,7 @@ class DenominationSeeder extends Seeder
         Denomination::create([
             'type'=>'OTRO',
             'value'=>'0',
-            'image'=>'noimg.jpg'           
+            'image'=>'otro.jpg'           
         ]);
     }
 }
