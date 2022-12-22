@@ -26,7 +26,7 @@
 
         <div class="d-sm-flex justify-content-between">
             <div class="dropdown d-inline">
-
+                <br>
                 {{-- Boton de Sincronizar --}}
                 @if ($permisosseleccionado != 'Todos')
                     <button wire:click.prevent="SyncAll2()" type="button"
@@ -72,25 +72,24 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0"">
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-left mb-0">
                             <thead>
-                                <tr class="text-center">
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>ID</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>#</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>PERMISO</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>ROLES CON EL PERMISO</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>AREA</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder"z>DESCRIPCION</th>
+                                <tr class="text-left">
+                                    <th class="text-uppercase text-sm text-center"z>ID Loco 2</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">#</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">PERMISO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">ROLES CON EL PERMISO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">AREA</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">DESCRIPCION</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($permisos as $permiso)
                                     <tr>
-                                        <td class="text-xs mb-0 text-center">
+                                        <td class="text-sm text-center">
                                             {{ ($permisos->currentpage() - 1) * $permisos->perpage() + $loop->index + 1 }}
                                         </td>
-                                        <td class="text-xs mb-0">
-
+                                        <td class="text-sm ps-1 text-left">
                                             <div style="padding-top: 5px;">
                                                 <label class="switch">
                                                     <input type="checkbox"
@@ -101,16 +100,16 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td class="text-xs mb-0">
+                                        <td class="text-sm mb-0 text-left">
                                             {{ $permiso->name }}
                                         </td>
-                                        <td class="text-xs mb-0 text-center">
+                                        <td class="text-sm mb-0 text-center">
                                             {{ \App\Models\User::permission($permiso->name)->count() }}
                                         </td>
-                                        <td class="text-xs mb-0">
+                                        <td class="text-sm mb-0 text-left">
                                             {{ $permiso->area }}
                                         </td>
-                                        <td class="text-xs mb-0">
+                                        <td class="text-sm mb-0 text-left">
                                             {{ $permiso->descripcion }}
                                         </td>
                                     </tr>

@@ -13,7 +13,6 @@
                 </span>
                 <span class="btn-inner--text">Nuevo Rol</span>
                 </a>
-            </button>
         </div>
     </div>
 
@@ -36,14 +35,14 @@
                             <table class="table align-items-left mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-xxs font-weight-bolder text-center">Nº</th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">
+                                        <th class="text-uppercase text-sm text-center">Nº</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">
                                             DESCRIPCION</th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">FECHA
+                                        <th class="text-uppercase text-sm ps-2 text-left">FECHA
                                             CREACION</th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">FECHA
+                                        <th class="text-uppercase text-sm ps-2 text-left">FECHA
                                             ACTUALIZACION</th>
-                                        <th class="text-left text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                                        <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,37 +52,37 @@
                                     @foreach ($data as $rol)
                                         <tr>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0 ">
+                                                <p class="text-sm mb-0 text-center">
                                                     {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
                                                 </p>
                                             </td>
 
                                             <td>
-                                                <p class="text-xs text-left font-weight-bold mb-0">{{ $rol->name }}
+                                                <p class="text-sm mb-0 text-left">{{ $rol->name }}
                                                 </p>
                                             </td>
 
                                             <td class="align-middle text-sm">
-                                                <p class="text-xs text-left font-weight-bold mb-0">
+                                                <p class="text-sm mb-0 text-left">
                                                     {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}
                                                 </p>
                                             </td>
 
                                             <td class="align-middle text-left ">
-                                                <p class="text-xs text-left font-weight-bold mb-0">
+                                                <p class="text-sm mb-0 text-left">
                                                     {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}
                                                 </p>
                                             </td>
 
-                                            <td class="align-middle text-left">
+                                            <td class="text-sm ps-0 text-center">
                                                 <a href="javascript:void(0)"
                                                     wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3">
-                                                    <i class="fas fa-user-edit text-default"></i>
+                                                    <i class="fas fa-user-edit text-info"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $rol->id }}','{{ $rol->name }}')"
                                                     class="mx-3">
-                                                    <i class="fas fa-trash text-default"></i>
+                                                    <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -128,7 +127,7 @@
         window.livewire.on('alerta-rol', Msg => {
             Swal.fire(
                 'Atención',
-                'No se puede eliminar el Rol por que tiene registros asociados',
+                'El Rol no puede ser eliminado, esta en uso',
                 'info'
             )
         })
@@ -146,19 +145,20 @@
             })
             return;
         }
-        swal({
+        swal.fire({
             title: 'CONFIRMAR',
-            text: "Confirmar eliminar el role '" + name + "'",
-            type: 'warning',
+            icon: 'warning',
+            text: 'Confirmar eliminar el role ' + '"' + name + '"',
             showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Eliminar',
-            padding: '2em'
+            cancelButtonText: 'Cerrar',
+            cancelButtonColor: '#383838',
+            confirmButtonColor: '#3B3F5C',
+            confirmButtonText: 'Aceptar'
         }).then(function(result) {
             if (result.value) {
                 window.livewire.emit('deleteRow', id)
+                Swal.close()
             }
         })
-
     }
 </script>
