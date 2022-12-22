@@ -22,7 +22,7 @@ class UsersController extends Component
     use WithFileUploads;
 
     public $name, $phone, $email, $image, $password, $selected_id,$estados,$fileLoaded, $profile,
-        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status;
+        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status,$random;
     public $pageTitle, $componentName, $search, $sucur;
     private $pagination = 10;
 
@@ -42,6 +42,7 @@ class UsersController extends Component
         $this->sucursalUserUsuario = '';
         $this->usuarioACTIVO = '';
         $this->details = [];
+        $this->estados='TODOS';
     }
 
     public function render()
@@ -55,14 +56,14 @@ class UsersController extends Component
         //         ->paginate($this->pagination);
         // }
 
-        // if ($this->selected_id > 0) {
-        //     $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
-        //         ->join('sucursals as s', 's.id', 'su.sucursal_id')
-        //         ->select('su.created_at', 'su.fecha_fin', 's.name')
-        //         ->where('users.id', $this->selected_id)
-        //         ->orderBy('su.created_at', 'desc')
-        //         ->get();
-        // }
+        if ($this->selected_id > 0) {
+            $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
+                ->join('sucursals as s', 's.id', 'su.sucursal_id')
+                ->select('su.created_at', 'su.fecha_fin', 's.name')
+                ->where('users.id', $this->selected_id)
+                ->orderBy('su.created_at', 'desc')
+                ->get();
+        }
 
 
         $data = User::select('users.*')
@@ -369,7 +370,7 @@ class UsersController extends Component
             'status' => 'ACTIVE',
         ]);
         $usuario->save();
-        $this->emit('user-fin', 'El usuario ahora esta activo, registre una nueva contraseña para el usuario');
+        $this->emit('sm');
     }
     public function finalizar()
     {
@@ -387,7 +388,7 @@ class UsersController extends Component
             'estado' => 'FINALIZADO',
             'fecha_fin' => $DateAndTime
         ]);
-        $this->emit('user-fin', 'Termino el ciclo del usuario');
+        $this->emit('sm');
     }
 
     public function resetUI()

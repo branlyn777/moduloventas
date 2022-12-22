@@ -37,21 +37,22 @@
                 <div class="card-header pb-0">
                     <h6>Lista de Usuarios</h6>
                 </div>
-                <div class="d-flex m-4">
-                    <div class="col-12 col-sm-12 col-md-3">
+                <div class="d-flex m-3">
+                    <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                         @include('common.searchbox')
                     </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
                         <div class="ms-auto my-auto">
-                            {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> --}}
+                            <label>Estado</label>
+                            <div class="col-12 col-sm-12 text-center">
                                 <select wire:model='estados' class="form-select">
-                                    <option value="null" disabled>Estado</option>
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
+
+                                    <option value="ACTIVE">ACTIVO</option>
+                                    <option value="LOCKED">INACTIVO</option>
                                     <option value="TODOS">TODOS</option>
-                                  </select>
-                            {{-- </div> --}}
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,11 +96,10 @@
                                                 <span class="badge badge-sm bg-gradient-success">
                                                     ACTIVO
                                                 </span>
-                                         
                                             @else
-                                            <span class="badge badge-sm bg-gradient-danger">
-                                                INACTIVO
-                                            </span>
+                                                <span class="badge badge-sm bg-gradient-danger">
+                                                    INACTIVO
+                                                </span>
                                             @endif
 
                                         </td>
@@ -119,12 +119,11 @@
                                             </a>
                                             @if ($r->status == 'ACTIVE')
                                                 <a href="javascript:void(0)"
-                                                wire:click="viewDetails('{{ $r->id }}')"
-                                                class="mx-3">
-                                                <i class="fas fa-eye text-default"></i>
+                                                    wire:click="viewDetails('{{ $r->id }}')" class="mx-3">
+                                                    <i class="fas fa-eye text-default"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{$r->ventas->count()}},{{$r->compras->count()}},{{$r->transferencia->count()}},{{$r->ingreso->count()}})"
+                                                    onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{ $r->ventas->count() }},{{ $r->compras->count() }},{{ $r->transferencia->count() }},{{ $r->ingreso->count() }})"
                                                     class="mx-3">
                                                     <i class="fas fa-trash text-default"></i>
                                                 </a>
@@ -140,8 +139,8 @@
         </div>
     </div>
 
-    @include('livewire.users.modalDetails')
     @include('livewire.users.form')
+    @include('livewire.users.modalDetails')
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -190,8 +189,9 @@
             noty(Msg)
         })
         window.livewire.on('show-modal', Msg => {
-            $('#theModal').modal('show')
+            $('#formUsers').modal('show')
         })
+      
         window.livewire.on('hide-modal', Msg => {
             $('#theModal').modal('hide')
         })
@@ -210,40 +210,38 @@
         })
     });
 
-    function Confirm(id, name, venta,compra,transferencia,ingreso) { 
-     
-        if (venta !== 0 || compra !== 0 || transferencia !== 0 || ingreso !==0) 
-         {
-            swal({
-            title: '¿Inactivar al usuario "' + name + '"?',
-            text: "El usuario "+name+" no se puede eliminar, pasara a ser inactivado y bloqueado del sistema.",
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Inactivar',
-            padding: '2em'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-            }
-        })
+    function Confirm(id, name, venta, compra, transferencia, ingreso) {
 
-        } 
-        else 
-        {
+        if (venta !== 0 || compra !== 0 || transferencia !== 0 || ingreso !== 0) {
             swal({
-            title: '¿Eliminar al usuario "' + name + '"?',
-            text: "Eliminar al usuario " + name + " permanentemente del sistema.",
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Eliminar',
-            padding: '2em'
-                }).then(function(result) {
-                    if (result.value) {
-                        window.livewire.emit('deleteRowPermanently', id)
-                    }
-                })
+                title: '¿Inactivar al usuario "' + name + '"?',
+                text: "El usuario " + name +
+                    " no se puede eliminar, pasara a ser inactivado y bloqueado del sistema.",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Inactivar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow', id)
+                }
+            })
+
+        } else {
+            swal({
+                title: '¿Eliminar al usuario "' + name + '"?',
+                text: "Eliminar al usuario " + name + " permanentemente del sistema.",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRowPermanently', id)
+                }
+            })
 
 
             //     const toast = swal.mixin({
@@ -260,6 +258,6 @@
             // })
 
         }
-    
+
     }
 </script>
