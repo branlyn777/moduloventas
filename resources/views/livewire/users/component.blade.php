@@ -19,13 +19,6 @@
             <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
           </ul>
         </div> --}}
-            <button wire:click="Agregar()" class="btn btn-info" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="fas fa-plus me-2"></i>
-                </span>
-                <span class="btn-inner--text">  Nuevo Usuario</span>
-            </button>
         </div>
     </div>
 
@@ -36,6 +29,27 @@
             <div class="card mb-4">
                 <div class="card-header pb-0">
                     <h6>Lista de Usuarios</h6>
+
+
+                    <div class="d-lg-flex">
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
+
+
+                                <button wire:click="Agregar()" class="btn bg-gradient-primary btn-sm mb-0">
+                                    <div class="text-sm">
+                                        <i class="fas fa-plus me-2"></i>
+                                        Nuevo Usuario
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                  
+
+
                 </div>
                 <div class="d-flex m-3">
                     <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
@@ -120,12 +134,12 @@
                                             <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
                                                 class="mx-3">
                                                 <i class="fas fa-user-edit text-info"></i>
-                                            
+
                                             </a>
                                             @if ($r->status == 'ACTIVE')
                                                 <a href="javascript:void(0)"
                                                     wire:click="viewDetails('{{ $r->id }}')" class="mx-3">
-                                               
+
                                                     <i class="fas fa-store"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
@@ -136,7 +150,7 @@
                                             @endif
 
 
-                                       
+
 
 
 
@@ -204,7 +218,7 @@
         window.livewire.on('show-modal', Msg => {
             $('#formUsers').modal('show')
         })
-      
+
         window.livewire.on('hide-modal', Msg => {
             $('#theModal').modal('hide')
         })

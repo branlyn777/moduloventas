@@ -135,7 +135,7 @@
 
     /* Fondo de buscar productos */
         .animado {
-        background: linear-gradient(-45deg, #5e72e4, #ffffff3a, #ffffff21, #5e72e4);
+        background: linear-gradient(-45deg, #5e72e400, #ffffff3a, #ffffff21, #5e72e400);
         background-size: 400% 400%;
         animation: gradient 15s ease infinite;
         border-radius: 15px;
@@ -246,6 +246,15 @@
 </style>
 
 @endsection
+
+
+@section('asd')
+<style>
+    
+</style>
+@endsection
+
+
 <div>
     {{-- Verificando que se haya realizado el corte de caja --}}
     @if($this->corte_caja)

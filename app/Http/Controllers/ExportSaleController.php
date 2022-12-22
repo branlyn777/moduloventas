@@ -18,8 +18,9 @@ class ExportSaleController extends Controller
     public function reportPDFVenta($total, $idventa,$totalitems)
     {
         //Buscar Nombre del Usuario
-        $nombreusuario = User::select("name as name")
-        ->where("id", Auth()->user()->id)
+        $nombreusuario = User::join("sales as s", "s.user_id", "users.id")
+        ->select("users.name as name")
+        ->where("s.id", $idventa)
         ->get()
         ->first();
         //Obtener datos de la Venta
@@ -39,9 +40,9 @@ class ExportSaleController extends Controller
         ->first();
 
         //Obtener datos de la sucursal
-        $datossucursal = Sucursal::join("sucursal_users as su", "su.sucursal_id", "sucursals.id")
-        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal", "su.user_id")
-        ->where("su.user_id", Auth()->user()->id)
+        $datossucursal = Sucursal::join("sales as s", "s.sucursal_id", "sucursals.id")
+        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal")
+        ->where("s.id", $idventa)
         ->get()
         ->first();
 

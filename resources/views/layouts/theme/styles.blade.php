@@ -14,8 +14,12 @@
 
 
 
+@yield('asd',view('layouts.theme.estiloextra'))
 
-{{-- <link id="pagestyle" href="css/argon-dashboard.min.css" rel="stylesheet" /> --}}
+{{-- <link id="pagestyle" href="css/argon-dashboard.min.css" rel="stylesheet"/> --}}
+
+
+
 
 
 <script>
