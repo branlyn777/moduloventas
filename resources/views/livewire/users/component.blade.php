@@ -19,12 +19,12 @@
             <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
           </ul>
         </div> --}}
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
+            <button wire:click="Agregar()" class="btn btn-info" data-type="csv"
                 type="button">
                 <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
+                    <i class="fas fa-plus me-2"></i>
                 </span>
-                <span class="btn-inner--text">Nuevo Usuario</span>
+                <span class="btn-inner--text">  Nuevo Usuario</span>
             </button>
         </div>
     </div>
@@ -61,11 +61,12 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-xxs font-weight-bolder">Usuario</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2">Teléfono</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Estado</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Sucursal</th>
-                                    <th class="text-center text-uppercase text-xxs font-weight-bolder">Acciones</th>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm">Usuario</th>
+                                    <th class="text-uppercase text-sm ps-2">Teléfono</th>
+                                    <th class="text-center text-uppercase text-sm  ps-2">Estado</th>
+                                    <th class="text-center text-uppercase text-sm ps-2">Sucursal</th>
+                                    <th class="text-center text-uppercase text-sm  ps-2">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,6 +75,9 @@
 
                                 @foreach ($data as $r)
                                     <tr>
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
+                                        </td>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
@@ -115,19 +119,28 @@
                                         <td class="align-middle text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
                                                 class="mx-3">
-                                                <i class="fas fa-user-edit text-default"></i>
+                                                <i class="fas fa-user-edit text-info"></i>
+                                            
                                             </a>
                                             @if ($r->status == 'ACTIVE')
                                                 <a href="javascript:void(0)"
                                                     wire:click="viewDetails('{{ $r->id }}')" class="mx-3">
-                                                    <i class="fas fa-eye text-default"></i>
+                                               
+                                                    <i class="fas fa-store"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{ $r->ventas->count() }},{{ $r->compras->count() }},{{ $r->transferencia->count() }},{{ $r->ingreso->count() }})"
                                                     class="mx-3">
-                                                    <i class="fas fa-trash text-default"></i>
+                                                    <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             @endif
+
+
+                                       
+
+
+
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -261,3 +274,6 @@
 
     }
 </script>
+{{-- <script>
+
+</script> --}}

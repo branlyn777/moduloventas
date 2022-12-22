@@ -22,7 +22,7 @@
                 <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link active collapsed"
                     aria-controls="dashboardsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-shop text-primary text-sm opacity-10"></i>
+                        <i class="ni ni-money-coins text-primary text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Movimiento Diario</span>
                 </a>
@@ -43,54 +43,60 @@
                     </ul>
                 </div>
             </li>
+
+
+
+
+            @can('Administracion_Sidebar')
             
+          
 
+                <li class="nav-item">
+                    <a  href="#dashboardsExamples" class="nav-link active collapsed"
+                        aria-controls="dashboardsExamples" role="a" aria-expanded="false" style="pointer-events: none; background-color:transparent">
+                        <span class="nav-link-text ms-1">Gestion</span>
+                    </a>
+                
+            
+                </li>
 
-
-            @can("Administracion_Sidebar")
-
-            <li class="nav-item mt-3">
-                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión</h6>
-            </li>
-
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link collapsed"
-                    aria-controls="pagesExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link collapsed"
+                        aria-controls="pagesExamples" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Usuarios</span>
+                    </a>
+                    <div class="collapse" id="pagesExamples" style="">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ url('users') }}">
+                                    <span class="sidenav-mini-icon"> U </span>
+                                    <span class="sidenav-normal"> Usuarios </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ url('roles') }}">
+                                    <span class="sidenav-mini-icon"> R </span>
+                                    <span class="sidenav-normal"> Roles </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ url('permisos') }}">
+                                    <span class="sidenav-mini-icon"> P </span>
+                                    <span class="sidenav-normal"> Permisos </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="{{ url('asignar') }}">
+                                    <span class="sidenav-mini-icon"> A </span>
+                                    <span class="sidenav-normal"> Asignar Permisos</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <span class="nav-link-text ms-1">Usuarios</span>
-                </a>
-                <div class="collapse" id="pagesExamples" style="">
-                    <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('users') }}">
-                                <span class="sidenav-mini-icon"> U </span>
-                                <span class="sidenav-normal"> Usuarios </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('roles') }}">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> Roles </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('permisos') }}">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal"> Permisos </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('asignar') }}">
-                                <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> Asignar Permisos</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
+                </li>
             @endcan
 
 
@@ -100,7 +106,7 @@
                 <a data-bs-toggle="collapse" href="#applicationsExamples2" class="nav-link collapsed"
                     aria-controls="applicationsExamples2" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+                        <i class="ni ni-building text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Empresa</span>
                 </a>
@@ -170,15 +176,19 @@
 
 
             <li class="nav-item">
-                <hr class="horizontal dark">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Inventarios</h6>
+            
+
+                <a  href="#dashboardsExamples" class="nav-link active collapsed"
+                aria-controls="dashboardsExamples" role="a" aria-expanded="false" style="pointer-events: none; background-color:transparent">
+                <span class="nav-link-text ms-1">Inventarios</span>
+            </a>
             </li>
 
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#componentsExamples2" class="nav-link "
                     aria-controls="componentsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm"></i>
+                        <i class="ni ni-tag text-primary text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Gestión Productos</span>
                 </a>
@@ -267,7 +277,7 @@
                 <a data-bs-toggle="collapse" href="#componentsExamples" class="nav-link "
                     aria-controls="componentsExamples" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm"></i>
+                        <i class="ni ni-bag-17 text-danger text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Compras</span>
                 </a>
@@ -306,8 +316,12 @@
 
 
             <li class="nav-item">
-                <hr class="horizontal dark">
-                <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Ventas</h6>
+                
+                <a  class="nav-link active collapsed"
+                aria-controls="dashboardsExamples" role="a" aria-expanded="false" style="pointer-events: none; background-color:transparent">
+                <span class="nav-link-text ms-1">Ventas</span>
+                </a>
+                
             </li>
 
 
@@ -315,7 +329,7 @@
                 <a class="nav-link" href="{{ url('pos') }}">
                     <div
                         class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-align-left-2 text-dark text-sm"></i>
+                        <i class="ni ni-cart text-warning text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Nueva Venta</span>
                 </a>
@@ -326,7 +340,7 @@
                 <a data-bs-toggle="collapse" href="#componentsExamples3" class="nav-link "
                     aria-controls="componentsExamples3" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm"></i>
+                        <i class="ni ni-bullet-list-67 text-info text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Lista de Ventas</span>
                 </a>
@@ -356,7 +370,7 @@
                 <a data-bs-toggle="collapse" href="#componentsExamples4" class="nav-link "
                     aria-controls="componentsExamples3" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-app text-dark text-sm"></i>
+                        <i class="ni ni-collection text-dark text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Reportes</span>
                 </a>
@@ -383,7 +397,7 @@
 
 
 
-            
+
 
         </ul>
         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -395,7 +409,7 @@
         </div>
     </div>
     <div class="sidenav-footer mx-3 ">
-        <a href="{{ url('cortecajas') }}" class="btn btn-dark btn-sm w-100 mb-3">Corte Caja</a>
+        <a href="{{ url('cortecajas') }}" class="btn btn-primary btn-lg w-100 mb-3">Corte Caja</a>
     </div>
     <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
         <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -404,3 +418,49 @@
         <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
     </div>
 </aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,12 +6,12 @@
         <div class="d-flex">
             <div class="dropdown d-inline">
             </div>
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
+            <button wire:click="Agregar()" class="btn btn-info" data-type="csv"
                 type="button">
                 <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
+                    <i class="fas fa-plus me-2"></i>
                 </span>
-                <span class="btn-inner--text">Nuevo Rol</span>
+                <span class="btn-inner--text"> Nuevo Rol</span>
                 </a>
         </div>
     </div>

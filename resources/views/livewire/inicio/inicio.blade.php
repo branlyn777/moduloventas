@@ -567,7 +567,7 @@
           weight: 5,
           borderWidth: 0,
           borderRadius: 4,
-          backgroundColor: '#3A416F',
+          backgroundColor: '#5e72e4',
           data: [15, 20, 12, 60, 20, 15,25],
           fill: false,
           maxBarThickness: 35
@@ -577,7 +577,7 @@
           weight: 5,
           borderWidth: 0,
           borderRadius: 4,
-          backgroundColor: '#34148f',
+          backgroundColor: '#3A416F',
           data: [10, 5, 12, 30, 20, 15,95],
           fill: false,
           maxBarThickness: 35
