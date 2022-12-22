@@ -37,6 +37,24 @@
                 <div class="card-header pb-0">
                     <h6>Lista de Usuarios</h6>
                 </div>
+                <div class="d-flex m-4">
+                    <div class="col-12 col-sm-12 col-md-3">
+                        @include('common.searchbox')
+                    </div>
+
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> --}}
+                                <select wire:model='estados' class="form-select">
+                                    <option value="null" disabled>Estado</option>
+                                    <option value="ACTIVO">ACTIVO</option>
+                                    <option value="INACTIVO">INACTIVO</option>
+                                    <option value="TODOS">TODOS</option>
+                                  </select>
+                            {{-- </div> --}}
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -100,21 +118,16 @@
                                                 <i class="fas fa-user-edit text-default"></i>
                                             </a>
                                             @if ($r->status == 'ACTIVE')
-
-                                              
-
                                                 <a href="javascript:void(0)"
-                                                wire:click.prevent="viewDetails('{{ $r->id }}')"
+                                                wire:click="viewDetails('{{ $r->id }}')"
                                                 class="mx-3">
                                                 <i class="fas fa-eye text-default"></i>
-                                            </a>
+                                                </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{$r->ventas->count()}},{{$r->compras->count()}},{{$r->transferencia->count()}},{{$r->ingreso->count()}})"
                                                     class="mx-3">
                                                     <i class="fas fa-trash text-default"></i>
                                                 </a>
-
-                                         
                                             @endif
                                         </td>
                                     </tr>

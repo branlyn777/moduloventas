@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-2">
                         <thead>
                             <tr class="text-center">
                                 <th>FECHA INICIO</th>
@@ -41,7 +41,7 @@
                         <tbody>
                             @foreach ($details as $d)
                                 <tr
-                                    style="{{ $d->fecha_fin == null ? 'background-color: lightgreen !important' : '  ' }}">
+                                    style="{{ $d->fecha_fin == null ? 'background-color: lightgreen !important' : '' }}">
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($d->created_at)->format('d/m/Y H:i:s') }}
                                     </td>

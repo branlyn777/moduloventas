@@ -88,24 +88,24 @@
             <label class="custom-file-label">Imagen {{ $image }}</label>
         </div>
     </div>
-</div>
-
-<div class="form-check form-switch">
-
-    @if ($selected_id != 0)
+    
     <div class="col-sm-12 col-md-12">
-        @if ($status ==  'ACTIVE')
-        <input class="form-check-input bg-success"  type="checkbox" id="flexSwitchCheckDefault" checked="" wire:click='finalizar()'>
-        <label class="form-check-label" for="flexSwitchCheckDefault">Inactivar Usuario</label>
-        @else
-        <input class="form-check-input bg-secondary"  type="checkbox" id="flexSwitchCheckDefault" checked="" wire:click='Activar()'>
-        <label class="form-check-label" for="flexSwitchCheckDefault">Activar Usuario</label>
-            
+        @if ($selected_id != 0)
+        <div class="form-check form-switch">
+            @if ($status ==  'ACTIVE')
+            <input class="form-check-input bg-success"  type="checkbox" id="flexSwitchCheckDefault"  wire:click='finalizar()'>
+            <label class="form-check-label" for="flexSwitchCheckDefault">Inactivar Usuario</label>
+            @else
+            <input class="form-check-input bg-secondary"  type="checkbox" id="flexSwitchCheckDefault" wire:click='Activar()'>
+            <label class="form-check-label" for="flexSwitchCheckDefault">Activar Usuario</label>
+                
+            @endif
+        </div>
+    
         @endif
+    
     </div>
-
-    @endif
-
+</div>
 
 
 

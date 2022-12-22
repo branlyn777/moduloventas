@@ -21,7 +21,7 @@ class UsersController extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $name, $phone, $email, $image, $password, $selected_id, $fileLoaded, $profile,
+    public $name, $phone, $email, $image, $password, $selected_id,$estados,$fileLoaded, $profile,
         $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status;
     public $pageTitle, $componentName, $search, $sucur;
     private $pagination = 10;
@@ -46,23 +46,32 @@ class UsersController extends Component
 
     public function render()
     {
-        if (strlen($this->search) > 0) {
-            $data = User::where('users.name', 'like', '%' . $this->search . '%')
-                ->orderBy('name', 'asc')
-                ->paginate($this->pagination);
-        } else {
-            $data = User::orderBy('users.name', 'asc')
-                ->paginate($this->pagination);
-        }
+        // if (strlen($this->search) > 0) {
+        //     $data = User::where('users.name', 'like', '%' . $this->search . '%')
+        //         ->orderBy('name', 'asc')
+        //         ->paginate($this->pagination);
+        // } else {
+        //     $data = User::orderBy('users.name', 'asc')
+        //         ->paginate($this->pagination);
+        // }
 
-        if ($this->selected_id > 0) {
-            $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
-                ->join('sucursals as s', 's.id', 'su.sucursal_id')
-                ->select('su.created_at', 'su.fecha_fin', 's.name')
-                ->where('users.id', $this->selected_id)
-                ->orderBy('su.created_at', 'desc')
-                ->get();
-        }
+        // if ($this->selected_id > 0) {
+        //     $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
+        //         ->join('sucursals as s', 's.id', 'su.sucursal_id')
+        //         ->select('su.created_at', 'su.fecha_fin', 's.name')
+        //         ->where('users.id', $this->selected_id)
+        //         ->orderBy('su.created_at', 'desc')
+        //         ->get();
+        // }
+
+
+        $data = User::select('users.*')
+        ->where(function($querys){
+            $querys->where('users.name', 'like', '%' . $this->search . '%')
+            ->when($this->estados !='TODOS',function($query){
+                    return $query->where('status',$this->estados);
+             });
+        })->paginate($this->pagination);
 
 
 
@@ -348,7 +357,7 @@ class UsersController extends Component
     {
         $ult_sucursal=  SucursalUser::where('user_id',$this->selected_id)->where('estado','FINALIZADO')->latest('updated_at')->first();
 
-    
+
         SucursalUser::create([
             'user_id' => $this->selected_id,
             'sucursal_id' => $ult_sucursal->sucursal_id,
@@ -373,7 +382,7 @@ class UsersController extends Component
         ]);
         $usuario->save();
 
-        $su = SucursalUser::find($this->sucursalUserUsuario);
+        $su = SucursalUser::where('user_id',$usuario->id)->where('estado','ACTIVO')->first();
         $su->update([
             'estado' => 'FINALIZADO',
             'fecha_fin' => $DateAndTime
