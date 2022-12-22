@@ -16,8 +16,8 @@
 
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn bg-gradient-light btn-sm mb-0" data-bs-toggle="modal"
-                                data-bs-target="#theModal">Registrar Producto</a>
+                            {{-- <a href="javascript:void(0)" class="btn bg-gradient-light btn-sm mb-0" data-bs-toggle="modal"
+                                data-bs-target="#theModal">Registrar Producto</a> --}}
                         </div>    
                     </div>
                 </div>    

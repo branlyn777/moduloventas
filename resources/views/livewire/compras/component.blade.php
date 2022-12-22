@@ -70,22 +70,21 @@
                                 </select>
                             </div>
                         </div>
-                            <div class="col-12 col-sm-6 col-md-1">
-                                <b>Otros</b>
-                                <div class="btn-group form-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                      Ver
-                                    </button>
-                                    <div class="dropdown-menu">
-                                      <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
-                                      <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
-        
-                                    </div>
-                                  </div>
+                        <div class="col-12 col-sm-6 col-md-1">
+                            <b>Otros</b>
+                            <div class="btn-group form-group">
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Ver
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
+                                    <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
+                    @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
                             <div class="row">
                 
                                 <div class="col-12 col-sm-6 col-md-3 text-center">
@@ -103,19 +102,19 @@
                                 </div>
                             
                             </div>
-                        @endif
-                    </div>
+                    @endif
+                </div>
 
                     {{--tabla que muestra todas las compras--}}
-                    <div class="card-body px-0 pb-0">
-                        <div class="table-responsive">
-                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                <div class="dataTable-container">
-                                    <table class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr class="text-center" style="font-size: 12px">
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr class="text-center" style="font-size: 12px">
                                                 <th>#</th>                                
-                                                <th>COD.</th>                                
+                                                <th style="width: 50px;">COD.</th>                                
                                                 <th>FECHA</th>                 
                                                 <th>PROVEEDOR</th>                                
                                                 <th>DOCUMENTO</th>                                
@@ -124,16 +123,17 @@
                                                 <th>ESTADO</th>
                                                 <th>USUARIO</th>
                                                 <th>ACC.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                             @foreach ($data_compras as $data)
                                                 <tr class="text-center"  style="font-size: 12px">
                                                     <td>
-                                                        <h6>{{ $loop->index+1}}</h6>
+                                                        {{ $loop->index+1}}
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-secondary mb-0">{{ $data->id}}</span>
+                                                        <h6 style="font-size: 12px"><span class="badge bg-secondary">{{ $data->id}}</span></h6>
+                                                        {{-- <span class="badge badge-secondary mb-0">{{ $data->id}}</span> --}}
                                                     </td>
                                                     <td>
                                                     
@@ -150,49 +150,74 @@
                                                         
                                                     </td>
                                                     <td>
-                                                        <h6 class="text-center">{{ $data->transaccion }}</h6>
+                                                        {{ $data->transaccion }}
                                                     </td>
                                                     <td>
-                                                        <h6 class="text-center">{{ $data->imp_tot }}</h6>
+                                                        {{ $data->imp_tot }}
                                                     </td>
                                             
                                                 
                                                     @if( $data->status == 'ACTIVO')
                                                     <td>
-                                                <span class="badge badge-success mb-0">{{$data->status}}</span>
+                                                        <span class="badge badge-sm bg-gradient-success">{{$data->status}}</span>
+                                                        {{-- <span class="badge badge-success mb-0">{{$data->status}}</span> --}}
                                                     </td>
                                                     @else
                                                     <td class="text-center">
-                                                    <span class="badge badge-warning mb-0">ANULADO</span>
+                                                        <span class="badge text-bg-danger text-white">ANULADO</span>
+                                                        {{-- <span class="badge badge-warning mb-0">ANULADO</span> --}}
                                                     </td>
                                                     @endif
                                                     <td>
-                                                        <h6 class="text-center">{{ $data->username }}</h6>
+                                                        {{ $data->username }}
                                                     </td>
                                                 
                                                     
                                                     <td class="text-center">
-                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
+                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')" class="mx-3"
+                                                            title="Listar compra">
+                                                            <i class="fas fa-list" style="font-size: 14px"></i>
+                                                        </a>
+
+                                                        {{-- <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
                                                             class="boton-celeste p-1" title="Listar compra">
                                                             <i class="fas fa-list"></i>
+                                                        </a> --}}
+
+                                                        <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')" class="mx-3"
+                                                            title="Editar compra">
+                                                            <i class="fas fa-edit text-info" style="font-size: 14px"></i>
                                                         </a>
-                                                        <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
+                                                        
+                                                        {{-- <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
                                                             class="btn btn-dark p-1" title="Editar compra">
                                                             <i class="fas fa-edit"></i>
+                                                        </a> --}}
+
+                                                        <a href="{{ url('Compras/pdf' . '/' . $data->id)}}" class="mx-3"
+                                                            title="Imprimir detalle compra">
+                                                            <i class="fas fa-print" style="font-size: 14px"></i>
                                                         </a>
-                                                        <a href="{{ url('Compras/pdf' . '/' . $data->id)}}"  
+
+                                                        {{-- <a href="{{ url('Compras/pdf' . '/' . $data->id)}}"  
                                                             class="btn btn-success p-1" title="Imprimir detalle compra">
                                                             <i class="fas fa-print"></i>
+                                                        </a> --}}
+
+                                                        <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')" class="mx-3"
+                                                            title="Anular compra">
+                                                            <i class="fas fa-minus-circle text-danger" style="font-size: 14px"></i>
                                                         </a>
-                                                        <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
+
+                                                        {{-- <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
                                                             class="btn btn-danger p-1" title="Anular compra">
                                                             <i class="fas fa-minus-circle"></i>
-                                                        </a>
+                                                        </a> --}}
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        </tbody>
-                                        <tfoot class="text-dark text-right">
+                                    </tbody>
+                                    <tfoot class="text-dark text-right">
                                             <tr>
                                                 <td colspan="5">
                                                     <h5 class="text-center" style="font-size: 14.5px">Total Bs.-</h5>
@@ -202,13 +227,11 @@
                                                     <h5 class="text-center" style="font-size: 14.5px">{{$totales}}</h5>
                                                     <h5 class="text-center" style="font-size: 14.5px">{{round($totales/6.96,2)}}</h5>
                                                 </td>
-                                                <td  colspan="4">
-
+                                                <td colspan="4">
                                                 </td>
                                             </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>

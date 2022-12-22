@@ -1,191 +1,160 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12" >
-
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <div class="col-12 col-lg-12 col-md-10 mt-3">
-                    <div class="row mb-3" >
-                        <div class="col-lg-11" >
-                            <h5 class="mb-2 mt-2">DETALLE DE COMPRA N° {{$ide}}</h5>
-                            <b style="color: rgb(74, 74, 74)">Fecha: </b>
-                            {{$fecha_compra}}<br/>  
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="mb-2 mt-2">DETALLE DE COMPRA N° {{$ide}}</h5>
+                        {{-- <b style="color: rgb(74, 74, 74)">Fecha: </b>
+                            {{$fecha_compra}}
+                            <br/>  
                             <b style="color: rgb(74, 74, 74)">Registrado por: </b> 
-                            {{$usuario}}<br/>
-                            
-                        </div>
-                        
-                        <div class="col-lg-1 col-sm-1 col-md-1">
-                            <button href="javascript:void(0)" data-toggle="modal"
-                                data-target="#theModal" class="btn btn-primary p-1 m-1" ><strong>Registrar Producto</strong></button>
-                        </div>
-                        
+                            {{$usuario}}<br/> 
+                        --}}
                     </div>
-                    <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(229, 140, 40);" />
-                        <div class="row">
-
-                             <div class="col-12 col-md-4 col-lg-4">
-                                 <div class="row">
-                                     <div class="col-lg-12">
-                                         <div class="form-group">
-                                             <strong style="color: rgb(74, 74, 74)">Proveedor</strong>
-                                             <div class="input-group-prepend mb-3">
-                                                 <input list="provider" wire:model="provider" class="form-control">
-                                                 <datalist id="provider">
-                                                    @foreach($data_prov as $datas)
-                                                        <option value="{{$datas->nombre_prov}}">{{$datas->nombre_prov}}</option>
-                                                    @endforeach
-                                                 </datalist>
-                                                  
-                                                         <button type="button" data-toggle="modal"
-                                                             data-target="#modal_prov" class="btn btn-dark"> <i class="fas fa-plus"></i></button>
-                                                     
-                                              </div>
-                                             @error('provider')
-                                                 <span class="text-danger er">{{ $message }}</span>
-                                             @enderror
-                                           </div>
-                                     </div>
-                                <div class="col-lg-12">
-                                        
-                                        <div class="form-group">
-                                            <strong style="color: rgb(74, 74, 74)">Destino Producto</strong>
-                                            <select wire:model.lazy="destino" class="form-control">
-                                                <option value='Elegir'>Elegir Destino</option>
-
-                                                @foreach($data_suc as $data)
-                                                    <option value="{{$data->destino_id}}">{{$data->nombre}}-{{$data->name}}</option>
-                                                @endforeach
-                                              
-                                            </select>
-                                          </div>
-                                        
-                                          @error('destino')
-                                                 <span class="text-danger er">{{ $message }}</span>
-                                          @enderror
-                                     </div>
-
-                                 </div>
-                             </div>
-
-                             <div class="col-12 col-md-4 col-lg-4" style="border: thick #b4b4b1;" >
-                                <div class="row">
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                          <strong style="color: rgb(74, 74, 74)">Tipo de Documento:</strong>
-                                          <select wire:model='tipo_documento' class="form-control">
-                                              <option value='FACTURA' selected>Factura</option>
-                                              <option value='NOTA DE VENTA'>Nota de Venta</option>
-                                              <option value='RECIBO'>Recibo</option>
-                                              <option value='NINGUNO'>Ninguno</option>
-                                          </select>
-                                          @error('tipo_documento')
-                                              <span class="text-danger er">{{ $message }}</span>
-                                          @enderror                                          
-                                       </div>
-                                    </div>
-   
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <strong style="color: rgb(74, 74, 74)">Nro. de Documento</strong>
-                                            <input type="text" wire:model.lazy="nro_documento" class="form-control">
-                                            @error('nro_documento')
-                                                <span class="text-danger er">{{ $message }}</span>
-                                            @enderror
-                                          </div>
-                                    </div>
-    
-                                   
-                                </div>
-                              
-                                <div class="row">
-                                    <div class="col-lg-12">
-
-                                        <div class="form-group">
-                                            <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
-                                            <select wire:model='tipo_transaccion' class="form-control">
-                                                <option value="Contado" selected>Contado</option>
-                                                <option value="Credito">Credito</option>
-                                                
-                                            </select>
-                                            @error('tipo_documento')
-                                                <span class="text-danger er">{{ $message }}</span>
-                                            @enderror                                          
-                                        </div>
-                                    </div>
-                                    {{-- <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <strong style="color: rgb(74, 74, 74)">Pago:</strong>
-
-                                            @if($tipo_transaccion == "CONTADO")
-                                            <div class="input-group-prepend mb-3">
-                                                 <input  wire:model='pago_parcial' type="text" disabled class="form-control" placeholder="Bs. 0">
-                                                
-                                            </div>
-                                           @else
-                                           <div class="input-group-prepend mb-3">
-                                                <input  wire:model='pago_parcial' type="text" class="form-control" placeholder="Bs. 0">
-                                              
-                                            </div>
-                                           @endif
-                                           @error('pago_parcial')
-                                           <span class="text-danger er">{{ $message }}</span>
-                                           @enderror
-                                       </div>
-                                    </div> --}}
-
-                                </div>
-                             </div>
-                             <div class="col-12 col-md-4 col-lg-4" style="border: thick #b4b4b1;" >
-
-                             
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                           <strong style="color: rgb(74, 74, 74)">Observacion: </strong>
-                                        <textarea  wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
-                                        @error('observacion')
-                                        <span class="text-danger er">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-
-                             </div>
-                          </div>
-                    
-
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#theModal" 
+                                class="btn bg-gradient-light btn-sm mb-0"><strong>Registrar Producto</strong></a>
+                        </div>
+                    </div>
                 </div>
-              {{--<ul class="tabs tab-pills" >
-                    <a href="javascript:void(0)" class="tabs btn btn-dark m-2
-                    " data-toggle="modal"
-                        data-target="#modal_prov">Asignar Proveedor</a>
-            
-                    <a href="javascript:void(0)" class="btn btn-dark m-2" data-toggle="modal"
-                        data-target="#theModal">Crear Producto
-                    </a>
-                </ul>--}}  
-            </div>
-            <hr style="height:3px;border:none;color:rgb(189, 188, 188);background-color:rgb(230, 152, 64);" />
+            </div><br>
+            <div class="card  mb-4">
+                <div class="card-body p-3">
+                    <div class="row">
 
-            <div class="widget-content">
-                <div class="row">
-                    <div class="col-lg-4 col-12 col-md-12">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <strong style="color: rgb(74, 74, 74)">Proveedor</strong>
+                                <div class="input-group-prepend mb-3">
+                                    <input list="provider" wire:model="provider" class="form-control">
+                                    <datalist id="provider">
+                                       @foreach($data_prov as $datas)
+                                           <option value="{{$datas->nombre_prov}}">{{$datas->nombre_prov}}</option>
+                                       @endforeach
+                                    </datalist>
+                                     
+                                    <button type="button" data-toggle="modal"
+                                        data-target="#modal_prov" class="btn btn-dark"> <i class="fas fa-plus"></i></button>
+                                        
+                                </div>
+                                @error('provider')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div <div class="col-12 col-sm-6 col-md-3">
+                            <b>Tipo de Documento:</b>
+                            <div class="form-group">
+                                <select wire:model='tipo_documento' class="form-control">
+                                    <option value='FACTURA' selected>Factura</option>
+                                    <option value='NOTA DE VENTA'>Nota de Venta</option>
+                                    <option value='RECIBO'>Recibo</option>
+                                    <option value='NINGUNO'>Ninguno</option>
+                                </select>
+                                @error('tipo_documento')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                @enderror                                          
+                             </div>
+                        </div>
+
+                        <div <div class="col-12 col-sm-6 col-md-3">
+                            <b>Nro. de Documento</b>
+                            <div class="form-group">
+                                <input type="text" wire:model.lazy="nro_documento" class="form-control">
+                                @error('nro_documento')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <strong style="color: rgb(74, 74, 74)">Observacion: </strong>
+                            <div class="form-group">
+                                <textarea  wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
+                                @error('observacion')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">      
+                            <div class="form-group">
+                                <strong style="color: rgb(74, 74, 74)">Destino Producto</strong>
+                                <select wire:model.lazy="destino" class="form-control">
+                                    <option value='Elegir'>Elegir Destino</option>
+
+                                    @foreach($data_suc as $data)
+                                        <option value="{{$data->destino_id}}">{{$data->nombre}}-{{$data->name}}</option>
+                                    @endforeach
+                                  
+                                </select>
+                            </div>
+                            
+                              @error('destino')
+                                     <span class="text-danger er">{{ $message }}</span>
+                              @enderror
+                         </div>
+
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="form-group">
+                                <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
+                                <select wire:model='tipo_transaccion' class="form-control">
+                                    <option value="Contado" selected>Contado</option>
+                                    <option value="Credito">Credito</option>
+                                    
+                                </select>
+                                @error('tipo_documento')
+                                    <span class="text-danger er">{{ $message }}</span>
+                                @enderror                                          
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <br>
+            <div class="card  mb-4">
+                <div class="card-body p-3">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-12 col-md-12">
                             <div class="ml-2 mt-2 mb-2 mr-0 p-2">
-                               
-                                    <div class="input-group mb-4">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text input-gp">
-                                                <i class="fas fa-search"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text input-gp">
+                                            <i class="fas fa-search"></i>
+                                        </span>
                                     </div>
-                                
+                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 col-12 col-md-12">
+                            <div class="row">
                                 <div class="col-lg-12 col-12 col-md-4 col-sm-12">
                                     <h6 class="rounded">
                                         <b>Elementos encontrados:</b>
                                     </h6>
                                 </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget-content">
+                <div class="row">
+                    <div class="col-lg-4 col-12 col-md-12">
+                            <div class="ml-2 mt-2 mb-2 mr-0 p-2">
+                               
+                                    
+                                
+                                
                          
                                    @if(strlen($search) > 0)
                                    <div class="table-6">

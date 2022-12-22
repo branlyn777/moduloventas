@@ -128,7 +128,6 @@
             <div class="card  mb-4">
                 <div class="card-body p-3">
                     <div class="row">
-                        {{-- <form class="form-control dropzone dz-clickable"> --}}
                     
                         <div class="col-lg-4 col-12 col-md-12">
                             <div class="ml-2 mt-2 mb-2 mr-0 p-2">
