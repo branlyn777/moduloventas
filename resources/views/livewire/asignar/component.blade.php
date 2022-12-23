@@ -14,7 +14,7 @@
 
         <div class="col-12 col-sm-6 col-md-3 text-center">
             <div class="form-group">
-                <b class="text-white">Area Permiso</b>
+                <b class="text-white">Area Permisos</b>
                 <select wire:model="permisosseleccionado" class="form-select">
                     <option value="Todos"><b>==Todos los Permisos==</b></option>
                     @foreach ($listaareas as $u)
