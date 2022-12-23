@@ -56,8 +56,6 @@
                         aria-controls="dashboardsExamples" role="a" aria-expanded="false" style="pointer-events: none; background-color:transparent">
                         <span class="nav-link-text ms-1">Gestion</span>
                     </a>
-                
-            
                 </li>
 
                 <li class="nav-item">
