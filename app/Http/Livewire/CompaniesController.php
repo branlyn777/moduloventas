@@ -11,129 +11,54 @@ class CompaniesController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $name, $shortname, $adress, $phone, $nit_id, $selected_id;
-    public  $pageTitle, $componentName, $image, $imagenempresa;
-    private $pagination = 5;
+    public $nombre_empresa, $imagen, $nombre_corto, $direccion, $telefono, $celular, $nit_id, $updated_at;
 
-    public function paginationView()
-    {
-        return 'vendor.livewire.bootstrap';
-    }
+
     public function mount()
     {
-        $this->pageTitle = 'Empresa';
-        $this->componentName = 'Datos';
-        $this->selected_id = 0;
+
     }
     public function render()
     {
+        $empresa = Company::all()->first();
+
+        $this->nombre_empresa = $empresa->name;
+        $this->imagen = $empresa->image;
+        $this->nombre_corto = $empresa->shortname;
+        $this->direccion = $empresa->adress;
+        $this->telefono = $empresa->telefono;
+        $this->celular = $empresa->celular;
+        $this->nit_id = $empresa->nit_id;
+        $this->updated_at = $empresa->updated_at;
 
 
-        if (strlen($this->search) > 0)
-            $company = Company::where('name', 'like', '%' . $this->search . '%')->paginate($this->pagination);
-        else
-            $company = Company::orderBy('id', 'desc')->paginate($this->pagination);
+
         return view('livewire.company.component', [
-            'data' => $company,
+            'nombre_empresa' => $this->nombre_empresa,
+            'imagen' => $this->imagen,
+            'nombre_corto' => $this->nombre_corto,
+            'direccion' => $this->direccion,
+            'telefono' => $this->telefono,
+            'celular' => $this->celular,
+            'nit_id' => $this->nit_id,
+            'updated_at' => $this->updated_at,
         ])
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
-    public function Agregar()
+    public function actualizar()
     {
-        $this->resetUI();
-        $this->emit('show-modal', 'show modal!');
-    }
+        $empresa = Company::find(1);
 
-    public function Store()
-    {
-        $rules = [
-            'name' => 'required|unique:companies',
 
-        ];
-        $messages = [
-            'name.required' => 'El nombre de la empresa es requerido.',
-            'name.unique' => 'Ya existe una empresa con ese nombre.',
-        ];
-        $this->validate($rules, $messages);
 
-        Company::create([
-            'name' => $this->name,
-            'adress' => $this->adress,
-            'phone' => $this->phone,
-            'nit_id' => $this->nit_id
+        $customFileName = uniqid() . '_.' . $this->image->extension();
+        $this->image->storeAs('public/iconos', $customFileName);
+
+        $empresa->update([
+            'name' => $this->g_nombre_empresa,
+            'image' => $customFileName
         ]);
-
-        $this->resetUI();
-        $this->emit('item-added', 'Empresa Registrada');
-    }
-    public function Edit(Company $company)
-    {
-        $this->selected_id = $company->id;
-        $this->name = $company->name;
-        $this->shortname = $company->shortname;
-        $this->adress = $company->adress;
-        $this->phone = $company->phone;
-        $this->nit_id = $company->nit_id;
-
-        $this->emit('show-modal', 'show modal!');
-    }
-    public function Update()
-    {
-        $rules = [
-            'name' => "required|unique:companies,name,{$this->selected_id}",
-            
-        ];
-        $messages = [
-            'name.required' => 'El nombre de la empresa es requerido.',
-            'name.unique' => 'Ya existe una empresa con ese nombre.',
-            
-        ];
-        $this->validate($rules, $messages);
-        $comp = Company::find($this->selected_id);
-        $comp->update([
-            'name' => $this->name,
-            'shortname' => $this->shortname,
-            'adress' => $this->adress,
-            'phone' => $this->phone,
-            'nit_id' => $this->nit_id
-        ]);
-        $comp->save();
-        
-
-        if ($this->image) {
-            $customFileName = uniqid() . '_.' . $this->image->extension();
-            $this->image->storeAs('public/iconos', $customFileName);
-            $imageTemp = $comp->image;
-
-            $comp->image = $customFileName;
-            $comp->save();
-        }
-
-
-
-        $this->resetUI();
-        $this->emit('item-updated', 'Empresa Actualizada');
-    }
-    protected $listeners = ['deleteRow' => 'Destroy'];
-
-    public function Destroy(Company $company)
-    {
-        $company->delete();
-        $this->resetUI();
-        $this->emit('item-deleted', 'Empresa Eliminada');
-    }
-
-    public function resetUI()
-    {
-        $this->name = '';
-        $this->shortname = '';
-        $this->adress = '';
-        $this->phone = '';
-        $this->nit_id = '';
-        $this->search = '';
-        $this->selected_id = 0;
-        $this->resetValidation();
+        $empresa->save();
     }
 }

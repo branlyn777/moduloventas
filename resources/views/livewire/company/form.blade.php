@@ -13,7 +13,7 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Nombre Corto de la Empresa</h6>
+            <h6>Nombre Corto Empresa</h6>
             <input type="text" wire:model.lazy="shortname" class="form-control">
         </div>
     </div>
