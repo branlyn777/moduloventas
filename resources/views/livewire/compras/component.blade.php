@@ -7,7 +7,7 @@
                         <div>
                             <h5 class="mb-0" style="font-size: 16px">Lista de Compras</h5>
                         </div>
-                
+                        
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
                                 <a href="detalle_compras" class="btn bg-gradient-primary btn-sm mb-0">Registrar Compra</a>
@@ -17,9 +17,47 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-3">
-                            <b wire:click="limpiarsearch()" style="cursor: pointer; font-size: 16px">Buscar</b><br>
-
-                            <div class="form-group">
+                            {{-- <b style="font-size: 16px">Buscar</b><br>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
+                                        class="form-control">
+                                <div class="btn-group" role="group">
+                                    {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Uno link</a></li>
+                                        <li><a class="dropdown-item" href="#">Dos link</a></li>
+                                    </ul> --}}
+                                    {{-- <select wire:model="tipo_search" class="form-control btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <option value="codigo"> Cod. Compra</option>
+                                        <option value="proveedor">Proveedor</option>
+                                        <option value="usuario">Usuario</option>
+                                        <option value="documento">Documento</option>
+                                    </select>
+                                </div>
+                            </div> --}}
+                            {{-- <b wire:click="limpiarsearch()" style="cursor: pointer; font-size: 16px">Buscar</b><br> --}}
+                            <b style="font-size: 16px">Buscar</b><br>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
+                                        class="form-control">
+                                </div>
+                                <div class="input-group mb-4">
+                                    <select wire:model="tipo_search" class="form-select">
+                                        <option value="codigo"> Cod. Compra</option>
+                                        <option value="proveedor">Proveedor</option>
+                                        <option value="usuario">Usuario</option>
+                                        <option value="documento">Documento</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">
                                         <i class="fa fa-search"></i>
@@ -33,7 +71,7 @@
                                         <option value="documento">Documento</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     
                         <div class="col-12 col-sm-6 col-md-3">
@@ -174,45 +212,24 @@
                                                 
                                                     
                                                     <td class="text-center">
-                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')" class="mx-3"
-                                                            title="Listar compra">
-                                                            <i class="fas fa-list" style="font-size: 14px"></i>
-                                                        </a>
-
-                                                        {{-- <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')"
-                                                            class="boton-celeste p-1" title="Listar compra">
-                                                            <i class="fas fa-list"></i>
-                                                        </a> --}}
-
-                                                        <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')" class="mx-3"
-                                                            title="Editar compra">
-                                                            <i class="fas fa-edit text-info" style="font-size: 14px"></i>
-                                                        </a>
-                                                        
-                                                        {{-- <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
-                                                            class="btn btn-dark p-1" title="Editar compra">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a> --}}
-
-                                                        <a href="{{ url('Compras/pdf' . '/' . $data->id)}}" class="mx-3"
-                                                            title="Imprimir detalle compra">
-                                                            <i class="fas fa-print" style="font-size: 14px"></i>
-                                                        </a>
-
-                                                        {{-- <a href="{{ url('Compras/pdf' . '/' . $data->id)}}"  
-                                                            class="btn btn-success p-1" title="Imprimir detalle compra">
-                                                            <i class="fas fa-print"></i>
-                                                        </a> --}}
-
-                                                        <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')" class="mx-3"
-                                                            title="Anular compra">
-                                                            <i class="fas fa-minus-circle text-danger" style="font-size: 14px"></i>
-                                                        </a>
-
-                                                        {{-- <a href="javascript:void(0)" wire:click="Confirm('{{ $data->id }}')"
-                                                            class="btn btn-danger p-1" title="Anular compra">
-                                                            <i class="fas fa-minus-circle"></i>
-                                                        </a> --}}
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <button type="button" class="btn btn-primary" wire:click= "VerDetalleCompra('{{$data->id}}')"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-success" wire:click= "editarCompra('{{$data->id}}')"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                <i class="fas fa-edit text-white" style="font-size: 14px"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-secondary" href="{{ url('Compras/pdf' . '/' . $data->id)}}"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                <i class="fas fa-print text-white" style="font-size: 14px"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger" wire:click="Confirm('{{ $data->id }}')"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                <i class="fas fa-minus-circle text-white" style="font-size: 14px"></i>
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach

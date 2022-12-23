@@ -125,12 +125,13 @@
                 </div>
             </div> 
             <br>
-            <div class="card  mb-4">
+            <div class="card mb-4">
                 <div class="card-body p-3">
                     <div class="row">
                     
                         <div class="col-lg-4 col-12 col-md-12">
                             <div class="ml-2 mt-2 mb-2 mr-0 p-2">
+
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text">
@@ -183,76 +184,89 @@
                                         </div>
                                         @if ($cart->isNotEmpty())
                                             <div class="row">
-                                                <div class="table-6">
-                                                    <table class="table align-items-center mb-0">
-                                                        <thead>
-                                                            <tr class="text-center" style="font-size: 14px; color: black;">
-                                                                <th style="text-align: left">Producto</th>
-                                                                <th style="text-align: left">Codigo</th>
-                                                                <th>Precio Compra</th>
-                                                                <th>Precio Venta</th>
-                                                                <th>Cantidad</th>
-                                                                <th>Total</th>
-                                                                <th>Accion</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($cart as $prod)
-                                                                <tr style="font-size: 14px; color: black;">
-                                                                    <td>
-                                                                        {{$prod->name}}
-                                                                    </td>
-                                                                    <td>
-                                                                        <strong>{{$prod->attributes->codigo}}</strong>
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="text" id="r{{$prod->id}}" 
-                                                                            wire:change="UpdatePrice({{$prod->id}}, $('#r' + {{$prod->id}}).val() )" 
-                                                                            style="padding:0!important" 
-                                                                            class="form-control text-center" 
-                                                                        value="{{$prod->price}}">
-                                                                    </td>
+                                                <div class="card-body px-0 pb-0">
+                                                    <div class="table-responsive">
+                                                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                                            <div class="dataTable-container">
+                                                                <table class="table align-items-center mb-0">
+                                                                    <thead>
+                                                                        <tr class="text-center" style="font-size: 14px; color: black;">
+                                                                            <th style="text-align: left">Producto</th>
+                                                                            <th style="text-align: left">Codigo</th>
+                                                                            <th>Precio Compra</th>
+                                                                            <th>Precio Venta</th>
+                                                                            <th>Cantidad</th>
+                                                                            <th>Total</th>
+                                                                            <th>Accion</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach ($cart as $prod)
+                                                                            <tr style="font-size: 14px; color: black;">
+                                                                                <td>
+                                                                                    {{$prod->name}}
+                                                                                </td>
+                                                                                <td>
+                                                                                    <strong>{{$prod->attributes->codigo}}</strong>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="text" id="r{{$prod->id}}" 
+                                                                                        wire:change="UpdatePrice({{$prod->id}}, $('#r' + {{$prod->id}}).val() )" 
+                                                                                        style="padding:0!important" 
+                                                                                        class="form-control text-center" 
+                                                                                    value="{{$prod->price}}">
+                                                                                </td>
 
-                                                                    <td>
-                                                                        <input type="text" id="rs{{$prod->id}}" 
-                                                                            wire:change="UpdatePrecioVenta({{$prod->id}}, $('#rs' + {{$prod->id}}).val() )" 
-                                                                            style="padding:0!important" 
-                                                                            class="form-control text-center" 
-                                                                        value="{{$prod->attributes->precio}}">
-                                                                    </td>
+                                                                                <td>
+                                                                                    <input type="text" id="rs{{$prod->id}}" 
+                                                                                        wire:change="UpdatePrecioVenta({{$prod->id}}, $('#rs' + {{$prod->id}}).val() )" 
+                                                                                        style="padding:0!important" 
+                                                                                        class="form-control text-center" 
+                                                                                    value="{{$prod->attributes->precio}}">
+                                                                                </td>
 
-                                                                    <td>
-                                                                        <input type="text" id="rr{{$prod->id}}" 
-                                                                            wire:change="UpdateQty({{$prod->id}}, $('#rr' + {{$prod->id}}).val() )" 
-                                                                            style="padding:0!important" 
-                                                                            class="form-control text-center" 
-                                                                        value="{{$prod->quantity}}">
-                                                                    </td>
-                                                                
-                                                                    <td>
-                                                                        <h6 class="text-center" >{{$prod->getPriceSum()}}</h6>
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <a href="javascript:void(0)"
-                                                                            wire:click="removeItem({{ $prod->id }})"
-                                                                            class="btn btn-danger p-1" title="Quitar Item">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="5">
-                                                                        <h4><b>TOTAL.-</b></h4>
-                                                                    </td>
-                                                                    <td colspan="2">
-                                                                        <h4><b>{{$total_compra}}</b></h4>
-                                                                    </td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </tbody>
-                                                    </table>
+                                                                                <td>
+                                                                                    <input type="text" id="rr{{$prod->id}}" 
+                                                                                        wire:change="UpdateQty({{$prod->id}}, $('#rr' + {{$prod->id}}).val() )" 
+                                                                                        style="padding:0!important" 
+                                                                                        class="form-control text-center" 
+                                                                                    value="{{$prod->quantity}}">
+                                                                                </td>
+                                                                            
+                                                                                <td>
+                                                                                    <h6 class="text-center" >{{$prod->getPriceSum()}}</h6>
+                                                                                </td>
+                                                                                <td class="text-center">
+                                                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                                                        <button title="Quitar Item" href="javascript:void(0)"
+                                                                                            wire:click="removeItem({{ $prod->id }})" class="btn btn-danger" 
+                                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                                            <i class="fas fa-trash-alt"></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    {{-- <a href="javascript:void(0)"
+                                                                                        wire:click="removeItem({{ $prod->id }})"
+                                                                                        class="btn btn-danger p-1" title="Quitar Item">
+                                                                                        <i class="fas fa-trash"></i>
+                                                                                    </a> --}}
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td colspan="5">
+                                                                                    <h4><b>TOTAL.-</b></h4>
+                                                                                </td>
+                                                                                <td colspan="2">
+                                                                                    <h4><b>{{$total_compra}}</b></h4>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @else
