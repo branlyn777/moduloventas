@@ -173,11 +173,11 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         window.livewire.on('item-added', Msg => {
-            $('#theModal').modal('hide')
+            $('#formUsers').modal('hide')
             noty(Msg)
         })
         window.livewire.on('item-updated', Msg => {
-            $('#theModal').modal('hide')
+            $('#formUsers').modal('hide')
             noty(Msg)
         })
         window.livewire.on('sucursal-actualizada', Msg => {
@@ -220,7 +220,7 @@
         })
 
         window.livewire.on('hide-modal', Msg => {
-            $('#theModal').modal('hide')
+            $('#formUsers').modal('hide')
         })
         window.livewire.on('item-error', Msg => {
             noty(Msg)
