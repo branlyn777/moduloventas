@@ -59,23 +59,23 @@
                 </li>
 
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link collapsed"
-                        aria-controls="pagesExamples" role="button" aria-expanded="false">
+                    <a data-bs-toggle="collapse" href="#pagesExamples" class=@yield("userscollapse","nav-link collapse")
+                        aria-controls="pagesExamples" role="button" aria-expanded=@yield("userarrow","false")>
                         <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                             <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Usuarios</span>
                     </a>
-                    <div class="collapse" id="pagesExamples" style="">
+                    <div class=@yield("usershow","collapse ") id="pagesExamples" style="">
                         <ul class="nav ms-4">
-                            <li class="nav-item ">
-                                <a class="nav-link " href="{{ url('users') }}">
+                            <li class=@yield("userli","nav-item ")>
+                                <a class=@yield("usernav","nav-link ") href="{{ url('users') }}">
                                     <span class="sidenav-mini-icon"> U </span>
                                     <span class="sidenav-normal"> Usuarios </span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " href="{{ url('roles') }}">
+                            <li class=@yield("rolli","nav-item ")>
+                                <a class=@yield("rolnav","nav-link ") href="{{ url('roles') }}">
                                     <span class="sidenav-mini-icon"> R </span>
                                     <span class="sidenav-normal"> Roles </span>
                                 </a>

@@ -14,6 +14,32 @@
 		</nav> 
 @endsection
 
+
+@section('userscollapse')
+nav-link
+@endsection
+
+
+@section('userarrow')
+true
+@endsection
+
+
+@section('usernav')
+"nav-link active"
+@endsection
+
+
+@section('usershow')
+"collapse show"
+@endsection
+
+@section('userli')
+"nav-item active"
+@endsection
+
+
+
 <div>
     <div class="d-sm-flex justify-content-between">
         <div>
