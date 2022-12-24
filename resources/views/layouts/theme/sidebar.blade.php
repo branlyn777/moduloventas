@@ -406,7 +406,7 @@
             <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
         </div>
     </div>
-    <div class="sidenav-footer mx-3 ">
+    <div class="sidenav-footer mx-3 mt-6">
         <a href="{{ url('cortecajas') }}" class="btn btn-primary btn-lg w-100 mb-3">Corte Caja</a>
     </div>
     <div class="ps__rail-x" style="left: 0px; bottom: 0px;">

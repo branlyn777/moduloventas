@@ -22,7 +22,7 @@ class UsersController extends Component
     use WithFileUploads;
 
     public $name, $phone, $email, $image, $password, $selected_id,$estados,$fileLoaded, $profile,
-        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status,$random;
+        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status,$random,$imagen;
     public $pageTitle, $componentName, $search, $sucur;
     private $pagination = 10;
 
@@ -43,6 +43,7 @@ class UsersController extends Component
         $this->usuarioACTIVO = '';
         $this->details = [];
         $this->estados='TODOS';
+        $this->imagen='noimagen.png';
     }
 
     public function render()
@@ -161,6 +162,7 @@ class UsersController extends Component
         $this->email = $user->email;
         $this->status = $user->status;
         $this->password = '';
+        $this->imagen=$user->imagen;
 
         $this->emit('show-modal', 'open!');
     }

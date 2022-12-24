@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -64,54 +64,64 @@ true
         </div>
     </div>
 
-    <br>
+   
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Lista de Usuarios</h6>
-
-
-                    <div class="d-lg-flex">
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-
-
-                                <button wire:click="Agregar()" class="btn bg-gradient-primary btn-sm mb-0">
-                                    <div class="text-sm">
-                                        <i class="fas fa-plus me-2"></i>
-                                        Nuevo Usuario
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
+            <div class="card-header pt-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Lista de Usuarios</h5>
                     </div>
-
-
-                  
-
-
-                </div>
-                <div class="d-flex m-3">
-                    <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                        @include('common.searchbox')
-                    </div>
-
-                    <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            <label>Estado</label>
-                            <div class="col-12 col-sm-12 text-center">
-                                <select wire:model='estados' class="form-select">
 
-                                    <option value="ACTIVE">ACTIVO</option>
-                                    <option value="LOCKED">INACTIVO</option>
-                                    <option value="TODOS">TODOS</option>
-                                </select>
+                            <button wire:click="Agregar()" class="btn btn-add btn-sm mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="card mb-4">
+                <div class="card-body p-3">
+
+                    <div class="d-flex m-3">
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+                            @include('common.searchbox')
+                        </div>
+    
+                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
+                            <div class="ms-auto my-auto">
+                                <label>Estado</label>
+                                <div class="col-12 col-sm-12 text-center">
+                                    <select wire:model='estados' class="form-select">
+    
+                                        <option value="ACTIVE">ACTIVO</option>
+                                        <option value="LOCKED">INACTIVO</option>
+                                        <option value="TODOS">TODOS</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="card mb-4">
+            
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
