@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -42,36 +42,39 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-
-                        <div>
-                            <h5 class="mb-0" style="font-size: 16px">Categorias</h5>
-                        </div>
-
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
-                                  Agregar Categoria
-                                </a>
-
-                                {{-- <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> 
-                                    <i class="fas fa-plus-circle"></i> Agregar Categoria</button> --}}
-                            </div>
-                        </div>
-
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="mb-0 text-white" style="font-size: 16px">Categorias</h5>
                     </div>
-                    <br>
-                    <div class="d-lg-flex">
-                        <div class="col-12 col-sm-12 col-md-3">
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
+                                <i class="fas fa-plus me-2"></i> Agregar Categoria
+                            </a>
+
+                            {{-- <button wire:click="Agregar()" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i> Nuevo Usuario</button> --}}
+
+                            {{-- <button class="boton-azul-g" data-toggle="modal" data-target="#theModal" wire:click="resetUI()"> 
+                                <i class="fas fa-plus-circle"></i> Agregar Categoria</button> --}}
+                        </div>
+                    </div>
+
+                </div>
+            </div><br>
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="d-lg-flex m-3">
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                             @include('common.searchbox')
                         </div>
-                
+                    
                         {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> </div>--}}
                         <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
                             <div class="ms-auto my-auto">
-                                <select wire:model='estados' class="form-control">
+                                <label>Estado</label>
+                                <select wire:model='estados' class="form-select">
                                     <option value="null" disabled>Estado</option>
                                     <option value="ACTIVO">ACTIVO</option>
                                     <option value="INACTIVO">INACTIVO</option>
@@ -80,8 +83,11 @@ true
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
+            </div>
+            <br>
+            <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -90,11 +96,11 @@ true
                                     
                                     <thead>
                                         <tr class="text-center" style="font-size: 10.4px">
-                                            <th>#</th>
-                                            <th style="text-align: left">NOMBRE</th>
-                                            <th>SUBCATEGORIAS</th>
-                                            <th>ESTADO</th>
-                                            <th>ACCIONES</th>
+                                            <th class="text-uppercase text-sm text-center">#</th>
+                                            <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
+                                            <th class="text-uppercase text-sm text-center">SUBCATEGORIAS</th>
+                                            <th class="text-uppercase text-sm text-center">ESTADO</th>
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     
@@ -109,7 +115,7 @@ true
                                                         <div class="col-md-5"> --}}
                                                             <div class="row">
                                                                 <div class="col">
-                                                                    <h5 style="font-size: 14px"><b>{{ $category->name }}</b></h5>
+                                                                    <h5 style="font-size: 13px"><b>{{ $category->name }}</b></h5>
                                                                     <label  style="font-size: 12px"> Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</label>
                                                                 </div>
                                                             </div>
@@ -144,7 +150,7 @@ true
                                             
                                                 <td>
                                                     <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})" class="mx-3"
-                                                        class="boton-azul" title="Editar Categoria">
+                                                        class="boton-azul" title="Editar">
                                                         <i class="fas fa-edit" style="font-size: 14px"></i>
                                                     </a>
 
@@ -154,7 +160,7 @@ true
                                                     </a> --}}
 
                                                     <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                                                        class="boton-rojo mx-3" title="Eliminar categoria">
+                                                        class="boton-rojo mx-3" title="Eliminar">
                                                         <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
                                                     </a>
 

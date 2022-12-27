@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -42,34 +42,50 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h5>Entrada y Salida de Productos</h5>
-                        </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    wire:click='resetui()' data-bs-target="#operacion">Registrar Operacion</button>
-                            </div>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white">Entrada y Salida de Productos</h5>
+                    </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <button type="button" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal"
+                                wire:click='resetui()' data-bs-target="#operacion"><i class="fas fa-plus me-2"></i> Registrar Operacion</button>
                         </div>
                     </div>
-                    <br>
-                    <div class="d-lg-flex">
-                        <div class="col-12 col-sm-12 col-md-3"></div>
-
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="d-lg-flex m-3">
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+                            {{-- @include('common.searchbox') --}}
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" placeholder="Buscar" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    
+                        {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> </div>--}}
                         <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
                             <div class="ms-auto my-auto">
-                                <select wire:model="tipo_de_operacion" class="form-control">
+                                <label>Estado</label>
+                                <select wire:model="tipo_de_operacion" class="form-select">
                                     <option value="Entrada">Entrada</option>
                                     <option value="Salida">Salida</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
+            </div>
+            <br>
+            <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -77,13 +93,13 @@ true
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">Fecha de Registro</th>
-                                            <th>Almacen</th>
-                                            <th class="text-center">Tipo Operacion</th>
-                                            <th>Observacion</th>
-                                            <th>Usuario</th>
-                                            <th class="text-center">Acc.</th>
+                                            <th class="text-uppercase text-sm text-center">#</th>
+                                            <th  class="text-uppercase text-sm text-center">Fecha de Registro</th>
+                                            <th  class="text-uppercase text-sm text-center">Almacen</th>
+                                            <th  class="text-uppercase text-sm text-center">Tipo Operacion</th>
+                                            <th  class="text-uppercase text-sm text-center">Observacion</th>
+                                            <th  class="text-uppercase text-sm text-center">Usuario</th>
+                                            <th  class="text-uppercase text-sm text-center">Acc.</th>
                                         </tr>
                                     </thead>
                                     <tbody>

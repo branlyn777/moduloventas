@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -42,43 +42,26 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h5 class="mb-0" style="font-size: 16px">Lista de Compras</h5>
-                        </div>
-                        
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href="detalle_compras" class="btn bg-gradient-primary btn-sm mb-0">Registrar Compra</a>
-                            </div>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
+                    </div>
+                    
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a href="detalle_compras" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i> Registrar Compra</a>
                         </div>
                     </div>
-                    <br>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-3">
-                            {{-- <b style="font-size: 16px">Buscar</b><br>
-                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
-                                        class="form-control">
-                                <div class="btn-group" role="group">
-                                    {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dropdown
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Uno link</a></li>
-                                        <li><a class="dropdown-item" href="#">Dos link</a></li>
-                                    </ul> --}}
-                                    {{-- <select wire:model="tipo_search" class="form-control btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <option value="codigo"> Cod. Compra</option>
-                                        <option value="proveedor">Proveedor</option>
-                                        <option value="usuario">Usuario</option>
-                                        <option value="documento">Documento</option>
-                                    </select>
-                                </div>
-                            </div> --}}
+                            
                             {{-- <b wire:click="limpiarsearch()" style="cursor: pointer; font-size: 16px">Buscar</b><br> --}}
                             <b style="font-size: 16px">Buscar</b><br>
                             <div class="btn-group" role="group" aria-label="Basic example">
@@ -98,21 +81,7 @@ true
                                     </select>
                                 </div>
                             </div>
-                            {{-- <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-search"></i>
-                                    </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario" 
-                                        class="form-control">
-                                    <select wire:model="tipo_search" class="form-select" style="text-align: center">
-                                        <option value="codigo"> Cod. Compra</option>
-                                        <option value="proveedor">Proveedor</option>
-                                        <option value="usuario">Usuario</option>
-                                        <option value="documento">Documento</option>
-                                    </select>
-                                </div>
-                            </div> --}}
+                            
                         </div>
                     
                         <div class="col-12 col-sm-6 col-md-3">
@@ -183,8 +152,10 @@ true
                             </div>
                     @endif
                 </div>
-
-                    {{--tabla que muestra todas las compras--}}
+            </div>
+            <br>
+            <div class="card">
+                {{--tabla que muestra todas las compras--}}
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">

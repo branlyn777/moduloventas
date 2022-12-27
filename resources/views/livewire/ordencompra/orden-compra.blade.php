@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -39,22 +39,24 @@ true
 @endsection
 
 
-div>
+<div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h5 class="mb-0" style="font-size: 16px">Ordenes de Compra</h5>
-                        </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href="detalle_orden_compras" class="btn bg-gradient-primary btn-sm mb-0">Registrar Orden</a>
-                            </div>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Ordenes de Compra</h5>
+                    </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a href="detalle_orden_compras" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i> Registrar Orden</a>
                         </div>
                     </div>
-                    <br>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
                     <div class="row">
                         <div class="d-lg-flex">
                             <div class="col-12 col-sm-6 col-md-2 p-2">
@@ -112,7 +114,9 @@ div>
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <br>
+            <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">

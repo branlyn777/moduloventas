@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -42,35 +42,37 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h6 class="mb-0">Lista Productos</h6>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h6 class="mb-0 text-white">Lista Productos</h6>
 
-                        </div>
-                        
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href="javascript:void(0)" class="btn bg-gradient-primary btn-sm mb-0"
-                                    data-bs-toggle="modal" data-bs-target="#theModal">
-                                    +&nbsp; Nuevo Producto
-                                </a>
-                                @can("Reportes_Inventarios_Export")
-                                <button wire:click="$emit('modal-import')" type="button"
-                                    class="btn btn-outline-primary btn-sm mb-0">
-                                    Importar
-                                </button>
-                                <a href='{{url('productos/export/')}}'
-                                    class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="button">
-                                    Exportar
-                                </a>
-                                @endcan
-                            </div>
+                    </div>
+                    
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0"
+                                data-bs-toggle="modal" data-bs-target="#theModal">
+                                <i class="fas fa-plus me-2"></i> Nuevo Producto
+                            </a>
+                            @can("Reportes_Inventarios_Export")
+                            <button wire:click="$emit('modal-import')" type="button"
+                                class="btn bg-gradient-light btn-sm mb-0">
+                                Importar
+                            </button>
+                            <a href='{{url('productos/export/')}}'
+                                class="btn bg-gradient-light btn-sm mb-0" type="button">
+                                Exportar
+                            </a>
+                            @endcan
                         </div>
                     </div>
-                    <br>
-                    <div class="d-lg-flex">
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-lg-flex m-3">
                         <div class="col-12 col-sm-12 col-md-3 p-2">
                             @include('common.searchbox')
                         </div>
@@ -88,7 +90,6 @@ true
                                 <button class="btn btn-primary" wire:click="resetCategorias()">
                                     <i class="fas fa-redo-alt text-white"></i>
                                 </button>
-
 
                             </div>
                         </div>
@@ -122,6 +123,11 @@ true
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div class="dataTable-top">
                             {{-- <div class="dataTable-search">
@@ -151,10 +157,10 @@ true
                                 <table class="table align-items-center mb-4" id="products-list">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 N°
                                             </th>
-                                            <th>
+                                            <th class="text-uppercase text-sm text-center">
                                                 <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto">
                                                         <input type="checkbox" class="form-check-input"
@@ -163,25 +169,25 @@ true
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Categoria
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Sub Categoria
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Codigo
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Precio
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Costo
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Estado
                                             </th>
-                                            <th class="align-middle text-center">
+                                            <th class="text-uppercase text-sm text-center">
                                                 Acciones
                                             </th>
                                         </tr>
@@ -189,44 +195,43 @@ true
                                     <tbody>
 
                                         @foreach($data as $products)
-                                        <tr>
-                                            <td class="text-center">
+                                        <tr class="text-center" style="font-size: 12px">
+                                            <td>
                                                 {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
                                             </td>
-                                            <td class="pl-2">
+                                            <td>
                                                 <div class="d-flex">
                                                     <div class="form-check my-auto">
                                                         <input class="form-check-input" type="checkbox"
                                                             wire:model="selectedProduct" value="{{$products->id}}">
                                                     </div>
-                                                    <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                        alt="hoodie" width="80">
-                                                    <h6 class="ms-3 my-auto">{{$products->nombre}}</h6>
+                                                    <img src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="80">
+                                                    <label>{{$products->nombre}}</label>
                                                 </div>
                                             </td>
-                                            <td class="text-sm align-middle text-center">
+                                            <td>
                                                 {{ $products->category->name}}
-                                            </td>
-                                            <td class="text-sm align-middle text-center">
+                                             </td>
+                                            <td>
                                                 @if ($products->category->subcat == null)
                                                 No definido
                                                 @else
                                                 {{ $products->category->name}}
                                                 @endif
                                             </td>
-                                            <td class="text-sm align-middle text-center">
+                                            <td>
                                                 {{ $products->codigo}}
                                             </td>
-                                            <td class="text-sm align-middle text-center">
+                                            <td>
                                                 {{ $products->precio_venta }}
                                             </td>
-                                            <td class="text-sm align-middle text-center">
+                                            <td>
                                                 {{ $products->costo}}
                                             </td>
 
 
 
-                                            <td class="align-middle text-center text-sm">
+                                            <td>
 
                                                 @if($products->status== 'ACTIVO')
                                                 <span class="badge badge-sm bg-gradient-success">
@@ -249,11 +254,11 @@ true
 
                                             <td class="text-sm align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})"
-                                                    class="mx-3">
+                                                    class="mx-3" title="Editar">
                                                     <i class="fas fa-edit text-secondary"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})">
+                                                    onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{$products->destinos->count()}})" title="Eliminar">
                                                     <i class="fas fa-trash text-danger"></i>
                                                 </a>
                                             </td>
