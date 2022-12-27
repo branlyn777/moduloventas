@@ -1,86 +1,90 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Cartera</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Cartera</h6>
+    </nav>
 @endsection
 
 
 @section('empresacollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('empresaarrow')
-true
+    true
 @endsection
 
 
 @section('carteranav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('empresashow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('carterali')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div></div>
-        <div class="nav-wrapper position-relative end-0">
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span class="btn-inner--text">Nueva Cartera</button>
-
-            <a href="carteramovcategoria" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Ir a Categoria Movimiento</span>
-            </a>
-        </div>
-    </div>
-    <br>
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Carteras | Listado</h6>
-                </div>
-                <div style="padding-left: 12px; padding-right: 12px;">
-                    <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Carteras | Listado</h5>
                     </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+
+                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva
+                                Cartera</button>
+
+                            <a href="carteras" class="btn btn-secondary" data-type="csv" type="button">
+                                <span style="margin-right: 7px;" class="btn-inner--text">Ir a Categoria
+                                    Movimiento</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex pt-4">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            @include('common.searchbox')
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+                <div style="padding-left: 12px; padding-right: 12px;">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                                 <thead>
-                                    <tr class="text-center">
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">DESCRIPCION
-                                        </th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">TIPO</th>
-                                        {{-- <th>NÚMERO TELEFONO</th> --}}
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">CAJA</th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
+                                    <tr>
+                                        <th class="text-uppercase text-sm text-center">NOMBRE</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2"> DESCRIPCION</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">TIPO</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">CAJA</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,8 +100,8 @@ true
                                                 {{ $item->tipo }}
                                             </td>
                                             {{-- <td>
-                                            {{ $item->telefonoNum }}
-                                        </td> --}}
+                                                    {{ $item->telefonoNum }}
+                                                </td> --}}
                                             <td class="text-xs mb-0 text-center">
                                                 {{ $item->caja->nombre }}
                                             </td>
@@ -120,13 +124,12 @@ true
                     </div>
                 </div>
             </div>
+
+            <div class="table-5">
+
+                {{ $data->links() }}
+            </div>
         </div>
-    </div>
-
-
-    <div class="table-5">
-
-        {{ $data->links() }}
     </div>
     @include('livewire.cartera.form')
 </div>

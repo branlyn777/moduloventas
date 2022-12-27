@@ -26,7 +26,7 @@ true
 @endsection
 
 
-@section('sucursalesnav')
+@section('companiesnav')
 "nav-link active"
 @endsection
 
@@ -35,7 +35,7 @@ true
 "collapse show"
 @endsection
 
-@section('sucursalesli')
+@section('companiesli')
 "nav-item active"
 @endsection
 

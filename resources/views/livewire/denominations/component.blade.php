@@ -1,125 +1,123 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Moneda</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Moneda</h6>
+    </nav>
 @endsection
 
 
 @section('empresacollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('empresaarrow')
-true
+    true
 @endsection
 
 
 @section('monedanav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('empresashow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('monedali')
-"nav-item active"
+    "nav-item active"
 @endsection
+
 
 <div>
     <div class="row">
         <div class="col-12">
-            <<div class="col-12">
-                <div class="card-header pt-0 mb-4">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h5 class="text-white" style="font-size: 16px">Monedas | Listado</h5>
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Monedas | Listado</h5>
+                    </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+
+                            <button wire:click="$emit('modal-show')" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Agregar</button>
+
                         </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-
-                                <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
-                                        class="fas fa-plus me-2"></i> Agregar</button>          
-                            </div>
 
 
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex pt-4">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            @include('common.searchbox')
                         </div>
                     </div>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="d-flex pt-4">
-                            <div class="col-12 col-sm-12 col-md-3">
-                                @include('common.searchbox')
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            </div>
 
 
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-left mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-xxs font-weight-bolder">TIPO</th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">VALOR</th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">IMAGEN
+                                    </th>
+                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">ACCIONES
+                                    </th>
+                                </tr>
+                            </thead>
 
-                <div class="card mb-4">
 
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-left mb-0">
-                                <thead>
+                            <tbody>
+                                @foreach ($data as $coin)
                                     <tr>
-                                        <th class="text-uppercase text-sm text-center">TIPO</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2"> VALOR</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">IMAGEN</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
+                                        <td>
+                                            <p class="text-xs mb-0">{{ $coin->type }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs mb-0">{{ number_format($coin->value, 2) }}</p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
+                                                        alt="imagen de ejemplo" height="70" class="rounded">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-left">
+                                            <a href="javascript:void(0)"
+                                                wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
+                                                <i class="fas fa-edit text-default"></i>
+                                            </a>
+                                            <a href="javascript:void(0)"
+                                                onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
+                                                class="mx-3">
+                                                <i class="fas fa-trash text-default"></i>
+                                            </a>
+                                        </td>
                                     </tr>
-                                </thead>
-        
-        
-                                        <tbody>
-                                            @foreach ($data as $coin)
-                                                <tr>                                                  
-                                                    <td class="text-xs mb-0 text-center">
-                                                        {{ $coin->type }}
-                                                    </td>                                                   
-                                                    <td class="text-xs mb-0 text-center">
-                                                        {{ number_format($coin->value, 2) }}
-                                                    </td>                                                                                                   
-                                                    <td class="text-xs mb-0 text-center">
-                                                        <div>
-                                                            <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
-                                                                alt="imagen de ejemplo" height="70" class="rounded">
-                                                        </div> 
-                                                    </td> 
-                                                    <td class="align-middle text-left">
-                                                        <a href="javascript:void(0)"
-                                                            wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
-                                                            <i class="fas fa-edit text-default"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)"
-                                                            onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
-                                                            class="mx-3">
-                                                            <i class="fas fa-trash text-default"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{ $data->links() }}
-                                </div>
-                            </div>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $data->links() }}
                     </div>
                 </div>
             </div>
@@ -161,7 +159,7 @@ true
             })
             return;
         }
-       
+
 
         swal({
             title: 'CONFIRMAR',
@@ -171,10 +169,10 @@ true
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Eliminar',
             padding: '2em'
-                }).then(function(result) {
-                    if (result.value) {
-                        window.livewire.emit('deleteRow', id)
-                    }
-                })
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('deleteRow', id)
+            }
+        })
     }
 </script>
