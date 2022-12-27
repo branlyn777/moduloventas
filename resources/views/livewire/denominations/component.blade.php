@@ -39,86 +39,86 @@ true
 @endsection
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div>
-
-        </div>
-        <div class="d-flex">
-            <div class="dropdown d-inline">
-            </div>
-            <button wire:click="$emit('modal-show')" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Agregar</span>
-                </a>
-            </button>
-        </div>
-    </div>
-
-    <br>
-
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Monedas | Listado</h6>
-                </div>
-                <div style="padding-left: 12px; padding-right: 12px;">
+            <<div class="col-12">
+                <div class="card-header pt-0 mb-4">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="text-white" style="font-size: 16px">Monedas | Listado</h5>
+                        </div>
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
 
-                    <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
+                                <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
+                                        class="fas fa-plus me-2"></i> Agregar</button>          
+                            </div>
+
+
+                        </div>
                     </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex pt-4">
+                            <div class="col-12 col-sm-12 col-md-3">
+                                @include('common.searchbox')
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="card mb-4">
 
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-left mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-xxs font-weight-bolder">TIPO</th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">VALOR</th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">IMAGEN
-                                        </th>
-                                        <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">ACCIONES
-                                        </th>
+                                        <th class="text-uppercase text-sm text-center">TIPO</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2"> VALOR</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">IMAGEN</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
                                     </tr>
                                 </thead>
-
-
-                                <tbody>
-                                    @foreach ($data as $coin)
-                                        <tr>
-                                            <td>
-                                                <p class="text-xs mb-0">{{ $coin->type }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-xs mb-0">{{ number_format($coin->value, 2) }}</p>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                        <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
-                                                            alt="imagen de ejemplo" height="70" class="rounded">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-left">
-                                                <a href="javascript:void(0)"
-                                                    wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
-                                                    <i class="fas fa-edit text-default"></i>
-                                                </a>
-                                                <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
-                                                    class="mx-3">
-                                                    <i class="fas fa-trash text-default"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            {{ $data->links() }}
+        
+        
+                                        <tbody>
+                                            @foreach ($data as $coin)
+                                                <tr>                                                  
+                                                    <td class="text-xs mb-0 text-center">
+                                                        {{ $coin->type }}
+                                                    </td>                                                   
+                                                    <td class="text-xs mb-0 text-center">
+                                                        {{ number_format($coin->value, 2) }}
+                                                    </td>                                                                                                   
+                                                    <td class="text-xs mb-0 text-center">
+                                                        <div>
+                                                            <img src="{{ asset('storage/monedas/' . $coin->imagen) }}"
+                                                                alt="imagen de ejemplo" height="70" class="rounded">
+                                                        </div> 
+                                                    </td> 
+                                                    <td class="align-middle text-left">
+                                                        <a href="javascript:void(0)"
+                                                            wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
+                                                            <i class="fas fa-edit text-default"></i>
+                                                        </a>
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
+                                                            class="mx-3">
+                                                            <i class="fas fa-trash text-default"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{ $data->links() }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

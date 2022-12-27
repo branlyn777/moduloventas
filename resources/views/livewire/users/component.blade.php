@@ -40,11 +40,10 @@ true
 
 
 
+
+
+
 <div>
-   
-
-   
-
     <div class="row">
         <div class="col-12">
             <div class="card-header pt-0">
@@ -110,7 +109,7 @@ true
                                     <th class="text-uppercase text-sm">Usuario</th>
                                     <th class="text-uppercase text-sm ps-2">Teléfono</th>
                                     <th class="text-center text-uppercase text-sm  ps-2">Estado</th>
-                                    <th class="text-center text-uppercase text-sm ps-2">Sucursal</th>
+                                    <th class="text-center text-uppercase text-sm  ps-2">Sucursal</th>
                                     <th class="text-center text-uppercase text-sm  ps-2">Acciones</th>
                                 </tr>
                             </thead>

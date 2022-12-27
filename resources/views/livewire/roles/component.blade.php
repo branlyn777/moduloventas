@@ -37,6 +37,10 @@
 @section('rolli')
     "nav-item active"
 @endsection
+
+
+
+
 <div>
 
     <div class="row">
@@ -75,19 +79,15 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">Nº</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">
-                                        Descripción</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>
-                                        Creación</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>
-                                        Actualización</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Descripción</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Creación</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Actualización</th>
                                     <th class="text-uppercase text-sm text-center">Acc.</th>
                                 </tr>
                             </thead>
+
+                            
                             <tbody>
-
-
-
                                 @foreach ($data as $rol)
                                     <tr>
                                         <td class="align-middle text-center text-sm">

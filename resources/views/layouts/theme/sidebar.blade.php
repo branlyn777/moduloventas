@@ -323,8 +323,8 @@
             </li>
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('pos') }}">
+            <li class=@yield("nuevaventali","nav-item ")>
+                <a class=@yield("nuevaventanav","nav-link ") href="{{ url('pos') }}">
                     <div
                         class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-cart text-warning text-sm"></i>
@@ -335,23 +335,23 @@
 
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#componentsExamples3" class="nav-link "
-                    aria-controls="componentsExamples3" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#componentsExamples3" class=@yield("Ventascollapse","nav-link collapse")
+                    aria-controls="componentsExamples3" role="button"  aria-expanded=@yield("Ventasarrow","false")>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-bullet-list-67 text-info text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Lista de Ventas</span>
                 </a>
-                <div class="collapse " id="componentsExamples3">
+                <div class=@yield("Ventasshow","collapse ") id="componentsExamples3">
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('salelist') }}">
+                        <li class=@yield("ventasagrupadasli","nav-item ")>
+                            <a class=@yield("ventasagrupadasnav","nav-link ") href="{{ url('salelist') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Ventas Agrupadas </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('ventalistaproductos') }}">
+                        <li class=@yield("ventasnoagrupadasli","nav-item ")>
+                            <a class=@yield("ventasnoagrupadasnav","nav-link ") href="{{ url('ventalistaproductos') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Ventas No Agrupadas </span>
                             </a>
@@ -365,25 +365,25 @@
 
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#componentsExamples4" class="nav-link "
-                    aria-controls="componentsExamples3" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#componentsExamples4" class=@yield("Reportescollapse","nav-link collapse")
+                    aria-controls="componentsExamples3" role="button" aria-expanded=@yield("Reportesarrow","false")>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-collection text-dark text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Reportes</span>
                 </a>
-                <div class="collapse " id="componentsExamples4">
+                <div class=@yield("Reportesshow","collapse ") id="componentsExamples4">
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('salemovimientodiario') }}">
+                        <li class=@yield("movimientodiarioventasli","nav-item ")>
+                            <a class=@yield("movimientodiarioventasnav","nav-link ") href="{{ url('salemovimientodiario') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal">Movimiento Diario Ventas</span>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav ms-4">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="{{ url('productosvendidos') }}">
+                        <li class=@yield("movimientoli","nav-item ")>
+                            <a class=@yield("movimientonav","nav-link ") href="{{ url('productosvendidos') }}">
                                 <span class="sidenav-mini-icon"> P </span>
                                 <span class="sidenav-normal">Productos Mas Vendidos</span>
                             </a>
