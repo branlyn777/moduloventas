@@ -4,7 +4,7 @@
         <h6>Nombre Rol</h6>
         <div class="form-group">
             <div class="input-group mb-4">
-                <span class="input-group-text"><i class="fas fa-edit"></i></span>
+          
                 <input type="text" wire:model="roleName" placeholder="ej: Admin" class="form-control ">
             </div>
         </div>

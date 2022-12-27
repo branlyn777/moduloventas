@@ -1,138 +1,138 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Roles</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Roles</h6>
+    </nav>
 @endsection
 
 
 @section('userscollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('userarrow')
-true
+    true
 @endsection
 
 
 @section('rolnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('usershow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('rolli')
-"nav-item active"
+    "nav-item active"
 @endsection
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div>
-
-        </div>
-        <div class="d-flex">
-            <div class="dropdown d-inline">
-            </div>
-            <button wire:click="Agregar()" class="btn btn-info" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="fas fa-plus me-2"></i>
-                </span>
-                <span class="btn-inner--text"> Nuevo Rol</span>
-                </a>
-        </div>
-    </div>
-
-    <br>
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Lista de Roles</h6>
-                </div>
-                <div style="padding-left: 12px; padding-right: 12px;">
-
-                    <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Lista de Roles</h5>
                     </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
 
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-left mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-sm text-center">Nº</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">
-                                            DESCRIPCION</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">FECHA
-                                            CREACION</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">FECHA
-                                            ACTUALIZACION</th>
-                                        <th class="text-uppercase text-sm text-center">ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-
-                                    @foreach ($data as $rol)
-                                        <tr>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm mb-0 text-center">
-                                                    {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-sm mb-0 text-left">{{ $rol->name }}
-                                                </p>
-                                            </td>
-
-                                            <td class="align-middle text-sm">
-                                                <p class="text-sm mb-0 text-left">
-                                                    {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}
-                                                </p>
-                                            </td>
-
-                                            <td class="align-middle text-left ">
-                                                <p class="text-sm mb-0 text-left">
-                                                    {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}
-                                                </p>
-                                            </td>
-
-                                            <td class="text-sm ps-0 text-center">
-                                                <a href="javascript:void(0)"
-                                                    wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3">
-                                                    <i class="fas fa-user-edit text-info"></i>
-                                                </a>
-                                                <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $rol->id }}','{{ $rol->name }}')"
-                                                    class="mx-3">
-                                                    <i class="fas fa-trash text-danger"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            {{ $data->links() }}
+                            <button wire:click="Agregar()" class="btn btn-add btn-sm mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Rol</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex pt-4">
+                    <div class="col-12 col-sm-12 col-md-3">
+                        @include('common.searchbox')
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            
+
+
+            <div class="card mb-4">
+
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-left mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">
+                                        Descripción</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>
+                                        Creación</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>
+                                        Actualización</th>
+                                    <th class="text-uppercase text-sm text-center">Acc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+
+                                @foreach ($data as $rol)
+                                    <tr>
+                                        <td class="align-middle text-center text-sm">
+                                            <p class="text-sm mb-0 text-center">
+                                                {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="text-sm mb-0 text-left">{{ $rol->name }}
+                                            </p>
+                                        </td>
+
+                                        <td class="align-middle text-sm">
+                                            <p class="text-sm mb-0 text-left">
+                                                {{ \Carbon\Carbon::parse($rol->created_at)->format('d/m/Y H:i') }}
+                                            </p>
+                                        </td>
+
+                                        <td class="align-middle text-left ">
+                                            <p class="text-sm mb-0 text-left">
+                                                {{ \Carbon\Carbon::parse($rol->updated_at)->format('d/m/Y H:i') }}
+                                            </p>
+                                        </td>
+
+                                        <td class="text-sm ps-0 text-center">
+                                            <a href="javascript:void(0)"
+                                                wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3" title="Editar rol">
+                                                <i class="fas fa-user-edit text-info"></i>
+                                            </a>
+                                            <a href="javascript:void(0)"
+                                                onclick="Confirm('{{ $rol->id }}','{{ $rol->name }}')"
+                                                class="mx-3" title="Eliminar rol">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $data->links() }}
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     @include('livewire.roles.form')

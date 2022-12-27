@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -40,43 +40,32 @@ true
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div>
-
-        </div>
-        {{-- <div class="d-flex">
-            <div class="dropdown d-inline">
-            </div>
-                <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
-                type="button">
-                    <span class="btn-inner--icon">
-                        <i class="ni ni-fat-add"></i>
-                    </span>
-                    <span class="btn-inner--text">Nuevo Permiso</span> 
-            </a>
-        </div> --}}
-    </div>
-
-    <br>
+   
 
     <div class="row">
         <div class="col-12 ">
+            <div class="card-header pb-0">
+                <h6>Lista Permisos </h6>
+            </div>
+
+
             <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Lista Permisos </h6>
-                </div>
-                <div style="padding-left: 12px; padding-right: 12px;">
-
-                    <div class="col-12 col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <div class="input-group mb-4">
-                                <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search" placeholder="Buscar Nombre o Area de Permiso"
-                                    class="form-control ">
-                            </div>
-                        </div>
-
+                <div class="card-body">
+                    <div class="d-flex pt-4">
+                    <div class="col-12 col-sm-12 col-md-3">
+                        @include('common.searchbox')    <div class="input-group mb-4">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" wire:model="search" placeholder="Buscar Nombre o Area de Permiso"
+                            class="form-control ">
+                        </div>iv>
                     </div>
+                </div>
+
+            </div>
+        
+                
+        
+                <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -123,7 +112,7 @@ true
 
                     </div>
                 </div>
-            </div>
+            
         </div>
     </div>
 

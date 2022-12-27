@@ -1,5 +1,85 @@
-<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    style="z-index: 100000000000000000000000">
+<style>
+    .container {
+  width: 18rem;
+  height:  18rem;
+  display: block;
+  margin: 0 auto;
+}
+
+.outer {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 18rem !important; /* any size */
+  max-height: 18rem !important; /* any size */
+  margin: auto;
+
+  position: relative;
+  }
+  .outer img{
+    width:15rem;
+    height:15rem;
+    margin: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index:1;
+    -webkit-mask-image:radial-gradient(circle 10rem at 50% 50%, black 75%, transparent 75%);
+    border:5px solid #d7d7d8;
+    border-radius: 50%;
+    padding: 3px;
+
+  }
+  
+.inner {
+  background-color: #434344;
+  width: 52px;
+  height: 52px;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 999999999;
+}
+
+.inner:hover {
+  background-color: #69696d;
+}
+.inputfile {
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+}
+.inputfile + label {
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    cursor: pointer;
+    line-height: 52px;
+    margin: 0px 1px;
+    text-align: center;
+}
+.inputfile + label svg {
+    fill: #fff;
+}
+
+    
+
+</style>
+
+
+<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -25,58 +105,36 @@
 
 
                                         @if ($image)
-                                            <div class="row justify-content-center">
-                                                <img src="{{ $image->temporaryUrl() }}"
-                                                    style="width:18rem;
-                                                    height:18rem;
-                                                   -webkit-mask-image:radial-gradient(circle 1rem at 50% 50%, black 75%, transparent 76%);">
-                                                     <div class="rightRound"
-                                                     style="max-height: auto; max-width: 15rem;
-                                                     position: relative;
-                                                     margin: auto;
-                                                     text-align: center;">
-                                                     <input type="file" wire:model='image'
-                                                         style="  position: absolute;
-                                                         transform: scale(2);
-                                                         opacity: 0;"
-                                                         accept=".jpg, .jpeg, .png">
-                                                     <i class="fa fa-camera"></i>
-                                                 </div>
-                                                </div>
-                                        @else
-                                            <div class="row justify-content-center">
+                                            <div class="row">
 
-
-                                                {{--                                                     
-                                                    <img src="{{ asset('storage/usuarios/' . $imagen) }}"
-                                                    class="w-100 border-radius-lg shadow-lg mt-3" style="max-height: auto;min-height: 11rem; max-width: 15rem;"> --}}
-
-
-                                                <img src="{{ asset('storage/usuarios/' . $imagen) }}"
-                                                    style="border-radius: 50%;
-                                                    border: 0.8rem solid #DCDCDC;
-                                                     width: 16rem;
-                                                   height: 16rem;">
-
-                                                <div class="rightRound"
-                                                    style="max-height: auto; max-width: 15rem;
-                                                    position: relative;
-                                                    margin: auto;
-                                                    text-align: center;">
-                                                    <input type="file" wire:model='image'
-                                                        style="  position: absolute;
-                                                        transform: scale(2);
-                                                        opacity: 0;"
-                                                        accept=".jpg, .jpeg, .png">
-                                                    <i class="fa fa-camera"></i>
-                                                </div>
-
+                                                              <div class="container">
+                                                                <div class="outer">
+                                                                    <img src="{{ $image->temporaryUrl()}}">
+                                                                  <div class="inner">
+                                                                  <input class="inputfile" type="file" wire:model='image' name="pic" accept="image/*">
+                                                                  <label><i class="fas fa-camera text-white text-center"></i></label>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
 
                                             </div>
+                                        @else
+
+                                        <div class="row">
+
+                                            <div class="container">
+                                              <div class="outer">
+                                                  <img src="{{ asset('storage/usuarios/' . $imagen) }}">
+                                                <div class="inner">
+                                                <input class="inputfile" type="file" wire:model='image' name="pic" accept="image/*">
+                                                <label class="px-0"><i class="fas fa-camera text-white text-center"></i></label>
+                                                </div>
+                                              </div>
+                                            </div>
+
+                          </div>
+                                          
                                         @endif
-
-
-
 
 
                                     </div>

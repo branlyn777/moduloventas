@@ -41,28 +41,7 @@ true
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div>
-            {{-- <a href="javascript:void(0)" class="btn btn-icon btn-outline-white">
-        New order
-        </a> --}}
-        </div>
-        <div class="d-flex">
-            {{-- <div class="dropdown d-inline">
-          <a href="javascript:void(0)" class="btn btn-outline-white dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2" aria-expanded="false">
-          Filtrar
-          </a>
-          <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" style="">
-            <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Activo</a></li>
-            <li><a class="dropdown-item border-radius-md" href="javascript:void(0)">Estado: Inactivo</a></li>
-            <li>
-            <hr class="horizontal dark my-2">
-            </li>
-            <li><a class="dropdown-item border-radius-md text-danger" href="javascript:void(0)">Remover Filtros</a></li>
-          </ul>
-        </div> --}}
-        </div>
-    </div>
+   
 
    
 
