@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string("phone", 10)->nullable();
             $table->string("nit_id", 20);
             $table->string('image',50)->nullable();
+            $table->string('horizontal_image',50)->nullable();
             $table->timestamps();
         });
     }

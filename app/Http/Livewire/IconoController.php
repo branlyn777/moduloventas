@@ -11,7 +11,7 @@ class IconoController extends Component
     public function render()
     {
         $this->nombreempresa = Company::find(1)->shortname;
-        $this->logoempresa = Company::find(1)->image;
+        $this->logoempresa = Company::find(1)->horizontal_image;
         return view('livewire.vistas.iconoempresa');
     }
 }

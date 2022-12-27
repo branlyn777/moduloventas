@@ -20,7 +20,8 @@ class CompanySeeder extends Seeder
             'adress' => 'Avenida América casi esquina G René Moreno',
             'phone' => '4240013',
             'nit_id' => '965645',
-            'image' => 'logo_company.png'
+            'image' => 'logo_company.png',
+            'horizontal_image' => 'logo_company_horizontal.png'
         ]);
     }
 }

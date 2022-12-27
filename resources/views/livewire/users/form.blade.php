@@ -1,85 +1,89 @@
 <style>
     .container {
-  width: 18rem;
-  height:  18rem;
-  display: block;
-  margin: 0 auto;
-}
+        width: 18rem;
+        height: 18rem;
+        display: block;
+        margin: 0 auto;
+    }
 
-.outer {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 18rem !important; /* any size */
-  max-height: 18rem !important; /* any size */
-  margin: auto;
+    .outer {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 18rem !important;
+        /* any size */
+        max-height: 18rem !important;
+        /* any size */
+        margin: auto;
 
-  position: relative;
-  }
-  .outer img{
-    width:15rem;
-    height:15rem;
-    margin: auto;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index:1;
-    -webkit-mask-image:radial-gradient(circle 10rem at 50% 50%, black 75%, transparent 75%);
-    border:5px solid #d7d7d8;
-    border-radius: 50%;
-    padding: 3px;
+        position: relative;
+    }
 
-  }
-  
-.inner {
-  background-color: #434344;
-  width: 52px;
-  height: 52px;
-  border-radius: 100%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  z-index: 999999999;
-}
+    .outer img {
+        width: 15rem;
+        height: 15rem;
+        margin: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        -webkit-mask-image: radial-gradient(circle 10rem at 50% 50%, black 75%, transparent 75%);
+        border: 5px solid #d7d7d8;
+        border-radius: 50%;
+        padding: 3px;
 
-.inner:hover {
-  background-color: #69696d;
-}
-.inputfile {
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: 1;
-    width: 50px;
-    height: 50px;
-}
-.inputfile + label {
-    font-size: 1.5rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-    overflow: hidden;
-    width: 50px;
-    height: 50px;
-    pointer-events: none;
-    cursor: pointer;
-    line-height: 52px;
-    margin: 0px 1px;
-    text-align: center;
-}
-.inputfile + label svg {
-    fill: #fff;
-}
+    }
 
-    
+    .inner {
+        background-color: #5e72e4;
+        width: 52px;
+        height: 52px;
+        border-radius: 100%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        z-index: 999999999;
+    }
 
+    .inner:hover {
+        background-color: #69696d;
+    }
+
+    .inputfile {
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: 1;
+        width: 50px;
+        height: 50px;
+    }
+
+    .inputfile+label {
+        font-size: 1.5rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        width: 50px;
+        height: 50px;
+        pointer-events: none;
+        cursor: pointer;
+        line-height: 52px;
+        margin: 0px 1px;
+        text-align: center;
+    }
+
+    .inputfile+label svg {
+        fill: #fff;
+    }
 </style>
 
 
-<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -107,33 +111,36 @@
                                         @if ($image)
                                             <div class="row">
 
-                                                              <div class="container">
-                                                                <div class="outer">
-                                                                    <img src="{{ $image->temporaryUrl()}}">
-                                                                  <div class="inner">
-                                                                  <input class="inputfile" type="file" wire:model='image' name="pic" accept="image/*">
-                                                                  <label><i class="fas fa-camera text-white text-center"></i></label>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
+                                                <div class="container">
+                                                    <div class="outer">
+                                                        <img src="{{ $image->temporaryUrl() }}">
+                                                        <div class="inner">
+                                                            <input class="inputfile" type="file" wire:model='image'
+                                                                name="pic" accept="image/*">
+                                                            <label>
+                                                                <i class="fas fa-camera text-white text-center"></i>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         @else
+                                            <div class="row">
 
-                                        <div class="row">
-
-                                            <div class="container">
-                                              <div class="outer">
-                                                  <img src="{{ asset('storage/usuarios/' . $imagen) }}">
-                                                <div class="inner">
-                                                <input class="inputfile" type="file" wire:model='image' name="pic" accept="image/*">
-                                                <label class="px-0"><i class="fas fa-camera text-white text-center"></i></label>
+                                                <div class="container">
+                                                    <div class="outer">
+                                                        <img src="{{ asset('storage/usuarios/' . $imagen) }}">
+                                                        <div class="inner">
+                                                            <input class="inputfile" type="file" wire:model='image'
+                                                                name="pic" accept="image/*">
+                                                            <label class="px-0"><i
+                                                                    class="fas fa-camera text-white text-center"></i></label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                              </div>
-                                            </div>
 
-                          </div>
-                                          
+                                            </div>
                                         @endif
 
 
