@@ -33,14 +33,18 @@ class SucursalController extends Component
     public function render()
     {
         if (strlen($this->search) > 0)
+        {
             $sucursal = Sucursal::join('companies as c', 'c.id', 'sucursals.company_id')
             ->select('sucursals.*', 'c.name as company')
-            ->where('name', 'like', '%' . $this->search . '%')
+            ->where('sucursals.name', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
+        }
         else
-        $sucursal = Sucursal::join('companies as c', 'c.id', 'sucursals.company_id')
-        ->select('sucursals.*', 'c.name as company')
-        ->paginate($this->pagination);
+        {
+            $sucursal = Sucursal::join('companies as c', 'c.id', 'sucursals.company_id')
+            ->select('sucursals.*', 'c.name as company')
+            ->paginate($this->pagination);
+        }
         return view('livewire.sucursales.component', [
             'data' => $sucursal,
             'empresas' => Company::orderBy('name', 'asc')->get()

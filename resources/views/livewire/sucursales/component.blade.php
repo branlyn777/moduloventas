@@ -1,114 +1,139 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Sucursales</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Sucursales</h6>
+    </nav>
 @endsection
 
 
 @section('empresacollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('empresaarrow')
-true
+    true
 @endsection
 
 
 @section('sucursalesnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('empresashow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('sucursalesli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
 <div>
-    <div class="d-sm-flex justify-content-between">
-        <div></div>
-        <div class="nav-wrapper position-relative-right end-0">
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv"
-                type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Nueva Sucursal</span>
-            </button>
 
-            <a href="cajas" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" type="button">
-                <span class="btn-inner--icon">
-                    <i class="ni ni-fat-add"></i>
-                </span>
-                <span class="btn-inner--text">Ir a Cajas</span>
-            </a>
+    <div class="card-header pt-0">
+        <div class="d-lg-flex">
+            <div>
+                <h5 class="text-white" style="font-size: 16px">Sucursales | Listado</h5>
+            </div>
+            <div class="ms-auto my-auto mt-lg-0 mt-4">
+                <div class="ms-auto my-auto">
+                    <button wire:click="Agregar()" class="btn btn-add">
+                        <i class="fas fa-plus me-2">
+                        </i>
+                        Nueva Sucursal
+                    </button>
+
+                    <a href="cajas" type="button" class="btn btn-secondary">
+                        Ir a Cajas
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div><br>
+
+
+
+
+
+    <div class="card mb-4">
+        <div class="card-body p-3">
+
+            <div class="d-flex m-3">
+                <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+                    <div class="form-group">
+                        @include('common.searchbox')
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <br>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Sucursales | Listado</h6>
-                </div>
                 <div style="padding-left: 12px; padding-right: 12px;">
 
-                    <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
-                     </div>
-                     
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                                 <thead>
-                                    <tr">
-                                        <th class="text-uppercase text-xxs font-weight-bolder">NOMBRE DE LA SUCURSAL
+                                    <tr>
+                                        <th class="text-center text-uppercase text-sm  ps-2">NOMBRE DE LA SUCURSAL</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">DIRECCIÓN
                                         </th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">DIRECCIÓN
+                                        <th class="text-center text-uppercase text-sm  ps-2">TELÉFONO</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">CELULAR</th>
+                                        <th class="text-center text-uppercase text-sm  ps-2">NÚMERO NIT
                                         </th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">TELÉFONO</th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">NÚMERO NIT
-                                        </th>
-                                        <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
-                                        </tr>
+                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr>
-                                            <td>
-                                                <p class="text-xs mb-0">{{ $item->name }}</p>
+                                            <td class="text-sm mb-0 text-center">
+                                                {{ $item->name }}
                                             </td>
-                                            <td>
-                                                <p class="text-xs mb-0 text-center">{{ $item->adress }}</p>
+                                            <td  class="text-sm mb-0 text-center">
+                                                {{ $item->adress }}
                                             </td>
-                                            <td>
-                                                <p class="text-xs mb-0 text-center">{{ $item->telefono }}</p>
+                                            <td  class="text-sm mb-0 text-center">
+                                                {{ $item->telefono }}
                                             </td>
-                                            <td>
-                                                <p class="text-xs mb-0 text-center">{{ $item->celular }}</p>
+                                            <td  class="text-sm mb-0 text-center">
+                                                {{ $item->celular }}
                                             </td>
-                                            <td>
-                                                <p class="text-xs mb-0 text-center">{{ $item->nit_id }}</p>
+                                            <td  class="text-sm mb-0 text-center">
+                                                {{ $item->nit_id }}
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td  class="text-sm mb-0 text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
                                                     <i class="fas fa-edit text-deafult" aria-hidden="true"></i>
