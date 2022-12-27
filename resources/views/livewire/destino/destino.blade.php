@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -56,27 +56,32 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h5 class="mb-0" style="font-size: 16px">Destinos Productos</h5>
-                        </div>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="mb-0 text-white" style="font-size: 16px">Destinos Productos</h5>
+                    </div>
 
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a class="btn bg-gradient-primary btn-sm mb-0" wire:click="modalestancia()" style="font-size: 13px">Nuevo Destino</a>
-                            </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <a class="btn btn-add btn-sm mb-0" wire:click="modalestancia()" style="font-size: 13px"><i class="fas fa-plus me-2"></i> Nuevo Destino</a>
                         </div>
                     </div>
-                    <br>
-                    <div class="d-lg-flex">
-                        <div class="col-12 col-sm-6 col-md-3 text-center">
+                </div>
+            </div>
+        
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="d-lg-flex m-3">
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                             @include('common.searchbox')
                         </div>
 
                         <div class="btn-group ms-auto my-auto">
                             <div class="p-2">
+                                <label>Seleccionar Sucursal</label>
                                 <select wire:model='sucursal_id' class="form-control">
                                     @foreach($sucursales as $s)
                                     <option value="{{$s->id}}">{{$s->name}}</option>
@@ -85,7 +90,8 @@ true
                                 </select>
                             </div>
                             <div class="p-2">
-                                <select wire:model='estados' class="form-control">
+                                <label>Estado</label>
+                                <select wire:model='estados' class="form-select">
                                     <option value="ACTIVO">ACTIVO</option>
                                     <option value="INACTIVO">INACTIVO</option>
                                     <option value="TODOS">TODOS</option>
@@ -94,7 +100,9 @@ true
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <br>
+            <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">

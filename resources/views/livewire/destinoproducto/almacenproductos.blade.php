@@ -1,6 +1,6 @@
 @section('migaspan')
       <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
 				<li class="breadcrumb-item text-sm">
 					<a class="text-white" href="javascript:;">
 						<i class="ni ni-box-2"></i>
@@ -38,26 +38,29 @@ true
 "nav-item active"
 @endsection
 
-
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-lg-flex">
-                        <div>
-                            <h6 class="mb-0">Almacen Producto</h6>  
-                        </div>
+            <div class="card-header pb-0">
+                <div class="d-lg-flex">
+                    <div>
+                        <h6 class="mb-0 text-white" style="font-size: 16px">Almacen Producto</h6>  
+                    </div>
 
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
-                            <div class="ms-auto my-auto">
-                                <a href='{{url('almacen/export/')}}' class="btn btn-outline-primary" > <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
-                            </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            
+                            <a href='{{url('almacen/export/')}}' class="btn bg-gradient-light btn-sm mb-0"> <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                         </div>
                     </div>
-                    <br>
-                    <div class="d-lg-flex">
-                        <div class="col-12 col-lg-3 col-md-6">
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="d-lg-flex m-3">
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                             <div class="input-group">
                                 <span class="input-group-text input-gp">
                                     <i class="fas fa-search"></i>
@@ -68,9 +71,10 @@ true
                         
                         {{--SELECT DE LAS SUCURSALES--}}
                         <div class="btn-group ms-auto my-auto">
-                        {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> </div>--}}
+                            {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> </div>--}}
                             <div class="p-2">
-                                <select wire:model='selected_id' class="form-control">
+                                <label>Seleccionar Sucursal</label>
+                                <select wire:model='selected_id' class="form-select">
                                     <option value="General">Almacen Total</option>
                                         @foreach ($data_suc as $data)
                                             <option value="{{ $data->id }}">{{ $data->sucursal }}-{{$data->destino}}</option>
@@ -78,7 +82,8 @@ true
                                 </select>
                             </div>
                             <div class="p-2">
-                                <select wire:model='selected_mood' class="form-control">
+                                <label>Estado</label>
+                                <select wire:model='selected_mood' class="form-select">
                                     <option value="todos">TODOS</option>
                                     <option value='cero'>Productos agotados</option>
                                     <option value='bajo'>Productos bajo stock</option>
@@ -89,20 +94,22 @@ true
 
                     </div>
                 </div>
-
+            </div>
+            <br>
+            <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                              <div class="dataTable-container">
                                 <table class="table align-items-left mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>#</th>
-                                            <th>IMAGEN</th>                              
-                                            <th class="text-left" style="width: 50px" >PRODUCTO</th>                              
-                                            <th>STOCK</th>
-                                            <th>CANT.MIN</th>                                     
-                                            <th>ACCIONES</th>                  
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center"><b>#</b></th>
+                                            <th class="text-uppercase text-sm text-center">IMAGEN</th>                              
+                                            <th class="text-uppercase text-sm text-center" style="width: 50px" >PRODUCTO</th>                              
+                                            <th class="text-uppercase text-sm text-center">STOCK</th>
+                                            <th class="text-uppercase text-sm text-center">CANT.MIN</th>                                     
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>                  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,11 +142,11 @@ true
                                                         {{ $destino->cantidad_minima }}
                                                     </td>
                                                     <td class="align-middle text-center">
-                                                        <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3">
+                                                        <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3" title="Ver">
                                                             <i class="fas fa-list"></i>
                                                         </a>
 
-                                                        <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})" class="mx-3">
+                                                        <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})" class="mx-3" title="Lotes">
                                                             <i class="fas fa-box-open text-info"></i>
                                                         </a>
                                                     </td>
