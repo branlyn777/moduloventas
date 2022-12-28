@@ -54,6 +54,7 @@ class CompaniesController extends Component
 
         $rules = [
             'nombre_empresa' => 'required|max:255',
+            'nombre_corto' => 'required|max:100',
             'direccion' => 'required|max:500',
             'telefono' => 'required|max:10',
             'nit_id' => 'required|max:20',
@@ -61,6 +62,9 @@ class CompaniesController extends Component
         $messages = [
             'nombre_empresa.required' => 'Ingrese el nombre de la empresa',
             'nombre_empresa.max' => 'Texto no mayor a 255 caracteres',
+
+            'nombre_corto.required' => 'Ingrese el nombre de la empresa',
+            'nombre_corto.max' => 'Texto no mayor a 100 caracteres',
             
             'direccion.required' => 'Ingrese la dirección de la empresa',
             'direccion.max' => 'Texto no mayor a 500 caracteres',
@@ -82,6 +86,7 @@ class CompaniesController extends Component
 
         $empresa->update([
             'name' => $this->nombre_empresa,
+            'shortname' => $this->nombre_corto,
             'adress' => $this->direccion,
             'phone' => $this->telefono,
             'nit_id' => $this->nit_id,

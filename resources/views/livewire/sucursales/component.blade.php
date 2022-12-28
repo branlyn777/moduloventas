@@ -1,13 +1,13 @@
 @section('migaspan')
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm">
                 <a class="text-white" href="javascript:;">
                     <i class="ni ni-box-2"></i>
                 </a>
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-                    href="{{ url('') }}">Inicio</a></li>
+                    href="{{url('')}}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
         <h6 class="font-weight-bolder mb-0 text-white">Sucursales</h6>
@@ -44,7 +44,7 @@
     <div class="card-header pt-0">
         <div class="d-lg-flex">
             <div>
-                <h5 class="text-white" style="font-size: 16px">Sucursales | Listado</h5>
+                <h5 class="text-white" style="font-size: 16px">Lista de Sucursales</h5>
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
                 <div class="ms-auto my-auto">
@@ -105,32 +105,36 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-center text-uppercase text-sm  ps-2">NOMBRE DE LA SUCURSAL</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">DIRECCIÓN
+                                        <th class="text-uppercase text-sm  ps-2 text-center">N°</th>
+                                        <th class="text-uppercase text-sm  ps-2">NOMBRE DE LA SUCURSAL</th>
+                                        <th class="text-uppercase text-sm  ps-2">DIRECCIÓN
                                         </th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">TELÉFONO</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">CELULAR</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">NÚMERO NIT
+                                        <th class="text-uppercase text-sm  ps-2">TELÉFONO</th>
+                                        <th class="text-uppercase text-sm  ps-2">CELULAR</th>
+                                        <th class="text-uppercase text-sm  ps-2">NÚMERO NIT
                                         </th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
+                                        <th class="text-uppercase text-sm  ps-2 text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr>
                                             <td class="text-sm mb-0 text-center">
+                                                {{ $loop->iteration }}
+                                            </td>
+                                            <td class="text-sm mb-0">
                                                 {{ $item->name }}
                                             </td>
-                                            <td  class="text-sm mb-0 text-center">
+                                            <td  class="text-sm mb-0">
                                                 {{ $item->adress }}
                                             </td>
-                                            <td  class="text-sm mb-0 text-center">
+                                            <td  class="text-sm mb-0">
                                                 {{ $item->telefono }}
                                             </td>
-                                            <td  class="text-sm mb-0 text-center">
+                                            <td  class="text-sm mb-0">
                                                 {{ $item->celular }}
                                             </td>
-                                            <td  class="text-sm mb-0 text-center">
+                                            <td  class="text-sm mb-0">
                                                 {{ $item->nit_id }}
                                             </td>
                                             <td  class="text-sm mb-0 text-center">
