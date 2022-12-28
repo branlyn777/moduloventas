@@ -95,30 +95,31 @@ true
                                 <table class="table align-items-center mb-0">
                                     
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
+                                        <tr>
                                             <th class="text-uppercase text-sm text-center">#</th>
                                             <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                            <th class="text-uppercase text-sm text-center">SUBCATEGORIAS</th>
-                                            <th class="text-uppercase text-sm text-center">ESTADO</th>
+                                            <th class="text-uppercase text-sm">SUBCATEGORIAS</th>
+                                            <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
                                         @foreach ($categories as $category)
-                                            <tr class="text-center" style="font-size: 12px">
-                                                <td>
+                                            <tr style="font-size: 14px">
+                                                <td class="text-center">
                                                     {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
                                                 </td>
-                                                <td style="text-align: left">
+                                                <td>
+                                                    <b>{{ $category->name }}</b><br>
+                                                    <b>Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</b>
+
                                                     {{-- <div class="row">
                                                         <div class="col-md-5"> --}}
-                                                            <div class="row">
+                                                            {{-- <div class="row">
                                                                 <div class="col">
-                                                                    <h5 style="font-size: 13px"><b>{{ $category->name }}</b></h5>
-                                                                    <label  style="font-size: 12px"> Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</label>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                             {{-- <div class="row">
                                                                 <div class="col">
                                                                 </div>
@@ -148,27 +149,16 @@ true
                                                     @endif
                                             
                                             
-                                                <td>
+                                                <td class="text-center">
                                                     <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})" class="mx-3"
                                                         class="boton-azul" title="Editar">
                                                         <i class="fas fa-edit" style="font-size: 14px"></i>
                                                     </a>
 
-                                                    {{-- <a href="javascript:void(0)" class="boton-azul mx-3" wire:click="asignarCategoria('{{$category->id}}')"
-                                                        title="Agregar subcategorias">
-                                                        <i class="fas fa-plus"></i>
-                                                    </a> --}}
-
                                                     <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
                                                         class="boton-rojo mx-3" title="Eliminar">
                                                         <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
                                                     </a>
-
-                                                    {{-- <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
-                                                        class="boton-celeste mx-3" title="Cambiar Estado">
-                                                        <i class="fas fa-times-circle"  style="font-size: 14px"></i>
-                                                    </a> --}}
-                                                    
                                                 </td>
                                             </tr>
                                         @endforeach

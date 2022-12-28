@@ -157,9 +157,7 @@ true
                                 <table class="table align-items-center mb-4" id="products-list">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-sm text-center">
-                                                N°
-                                            </th>
+                                            <th class="text-uppercase text-sm text-center">N°</th>
                                             <th class="text-uppercase text-sm text-center">
                                                 <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto">
@@ -169,36 +167,21 @@ true
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Categoria
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Sub Categoria
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Codigo
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Precio
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Costo
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Estado
-                                            </th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                Acciones
-                                            </th>
+                                            <th class="text-uppercase text-sm">Categoria</th>
+                                            <th class="text-uppercase text-sm">Sub Categoria</th>
+                                            <th class="text-uppercase text-sm">Codigo</th>
+                                            <th class="text-uppercase text-sm">Precio</th>
+                                            <th class="text-uppercase text-sm">Costo</th>
+                                            <th class="text-uppercase text-sm">Estado</th>
+                                            <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @foreach($data as $products)
-                                        <tr class="text-center" style="font-size: 12px">
-                                            <td>
-                                                {{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}
-                                            </td>
+                                        <tr style="font-size: 14px">
+                                            <td class="text-center">{{ ($data->currentpage()-1) * $data->perpage() + $loop->index + 1 }}</td>
+
                                             <td>
                                                 <div class="d-flex">
                                                     <div class="form-check my-auto">
@@ -206,7 +189,7 @@ true
                                                             wire:model="selectedProduct" value="{{$products->id}}">
                                                     </div>
                                                     <img src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="80">
-                                                    <label>{{$products->nombre}}</label>
+                                                    <label style="font-size: 14px">{{$products->nombre}}</label>
                                                 </div>
                                             </td>
                                             <td>
@@ -214,9 +197,9 @@ true
                                              </td>
                                             <td>
                                                 @if ($products->category->subcat == null)
-                                                No definido
+                                                    No definido
                                                 @else
-                                                {{ $products->category->name}}
+                                                    {{ $products->category->name}}
                                                 @endif
                                             </td>
                                             <td>
@@ -228,8 +211,6 @@ true
                                             <td>
                                                 {{ $products->costo}}
                                             </td>
-
-
 
                                             <td>
 
@@ -244,13 +225,6 @@ true
                                                 @endif
 
                                             </td>
-
-
-
-
-
-
-
 
                                             <td class="text-sm align-middle text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $products->id }})"

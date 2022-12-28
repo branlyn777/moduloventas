@@ -49,8 +49,7 @@ true
 
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            
-                            <a href='{{url('almacen/export/')}}' class="btn bg-gradient-light btn-sm mb-0"> <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+                            <a href='{{url('almacen/export/')}}' class="btn bg-gradient-success btn-sm mb-0"> <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                         </div>
                     </div>
                 </div>
@@ -104,9 +103,9 @@ true
                                 <table class="table align-items-left mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-sm text-center"><b>#</b></th>
-                                            <th class="text-uppercase text-sm text-center">IMAGEN</th>                              
-                                            <th class="text-uppercase text-sm text-center" style="width: 50px" >PRODUCTO</th>                              
+                                            <th class="text-uppercase text-sm text-center"><b>N°</b></th>
+                                            <th class="text-uppercase text-sm">IMAGEN</th>                              
+                                            <th class="text-uppercase text-sm" style="width: 50px" >PRODUCTO</th>                              
                                             <th class="text-uppercase text-sm text-center">STOCK</th>
                                             <th class="text-uppercase text-sm text-center">CANT.MIN</th>                                     
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>                  
@@ -115,11 +114,11 @@ true
                                     <tbody>
                                         @foreach ($destinos_almacen as $destino)
                                             @if ($destino->stock_s < $destino->cant_min)
-                                                <tr class="text-center" style="font-size: 12px">
+                                                <tr style="font-size: 14px">
                                             @else
-                                                <tr class="text-center" style="font-size: 12px">
+                                                <tr style="font-size: 14px">
                                             @endif
-                                                <td>
+                                                <td class="text-center">
                                                     {{ $loop->iteration}}
                                                 </td>
                                                 <td>
@@ -128,17 +127,21 @@ true
                                                     </span> 
                                                 </td>
                                                 <td class="text-left" style="width: 15%">
-                                                    <strong class="text-left" >{{$destino->nombre}}</strong>
-                                                    <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
-                                                    {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})
-                                                    
+                                                    <b>{{$destino->nombre}}</b><br>
+                                                    Codigo: {{$destino->codigo}}
                                                 </td>
+                                                {{--
+                                                    <td class="text-left" style="width: 15%">
+                                                    <strong class="text-left" >{{$destino->nombre}}</strong><br>
+                                                    <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
+                                                    {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})</td>
+                                                --}}
                                                 
                                                 @if ($selected_id == 'General')
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ $destino->stock_s }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ $destino->cantidad_minima }}
                                                     </td>
                                                     <td class="align-middle text-center">
@@ -151,10 +154,10 @@ true
                                                         </a>
                                                     </td>
                                                 @else
-                                                    <td>
+                                                    <td class="text-center">
                                                         <h6 class="text-center">{{ $destino->stock}}</h6>
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{ $destino->cantidad_minima }}
                                                     </td>
                                                     @can('Admin_Views')

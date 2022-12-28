@@ -109,22 +109,22 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>#</th>
-                                            <th style="text-align: left">NOMBRE</th>
-                                            <th>OBSERVACION</th>
-                                            <th>SUCURSAL</th>
-                                            <th>FECHA CREACION</th>
-                                            <th>FECHA ACTUALIZACION</th>
-                                            <th>ESTADO</th>
-                                            <th>ACCIONES</th>
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center">N°</th>
+                                            <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
+                                            <th class="text-uppercase text-sm">OBSERVACION</th>
+                                            <th class="text-uppercase text-sm">SUCURSAL</th>
+                                            <th class="text-uppercase text-sm">FECHA CREACION</th>
+                                            <th class="text-uppercase text-sm">FECHA ACTUALIZACION</th>
+                                            <th class="text-uppercase text-sm">ESTADO</th>
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($destinos as $d)
                                             @if($d->venta == "No")
-                                                <tr class="text-center" style="font-size: 12px">
-                                                    <td>
+                                                <tr style="font-size: 14px">
+                                                    <td class="text-center">
                                                         {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
                                                     <td style="text-align: left">
@@ -150,15 +150,12 @@ true
                                                             <span class="badge badge-sm bg-gradient-danger">{{$d->estado}}</span>
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <td  class="text-center">
                                                         <a href="javascript:void(0)" wire:click="Edit({{ $d->iddestino }})" class="mx-3"
                                                             class="boton-azul" title="Editar Estancia">
                                                             <i class="fas fa-edit" style="font-size: 14px"></i>
                                                         </a>
 
-                                                        {{-- <button onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombre }}')" class="boton-rojo" title="Anular Estancia">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button> --}}
                                                         <a href="javascript:void(0)" onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombre }}')"
                                                             class="boton-rojo mx-3" title="Anular Estancia">
                                                             <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
@@ -166,8 +163,8 @@ true
                                                     </td>
                                                 </tr>
                                             @else
-                                                <tr class="text-center" style="background-color: rgb(248, 248, 178); font-size: 12px;">
-                                                    <td>
+                                                <tr style="background-color: rgb(248, 248, 178); font-size: 12px;">
+                                                    <td class="text-center">
                                                         {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
                                                     
@@ -195,7 +192,7 @@ true
                                                             <span class="badge badge-sm bg-gradient-danger">{{$d->estado}}</span>
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <a href="javascript:void(0)" wire:click="Edit({{ $d->iddestino }})" class="mx-3"
                                                             class="boton-azul" title="Editar Estancia">
                                                             <i class="fas fa-edit" style="font-size: 14px"></i>

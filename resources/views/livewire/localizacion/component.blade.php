@@ -88,20 +88,20 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>#</th>
-                                            <th style="text-align: left">TIPO</th>
-                                            <th>CODIGO</th>
-                                            <th>DESCRIPCION</th>
-                                            <th>UBICACION</th>
-                                            <th>PRODUCTOS</th>
-                                            <th>ACCIONES</th>
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center">N°</th>
+                                            <th class="text-uppercase text-sm" style="text-align: left">TIPO</th>
+                                            <th class="text-uppercase text-sm">CODIGO</th>
+                                            <th class="text-uppercase text-sm">DESCRIPCION</th>
+                                            <th class="text-uppercase text-sm">UBICACION</th>
+                                            <th class="text-uppercase text-sm">PRODUCTOS</th>
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data_locations as $location)
-                                        <tr class="text-center"  style="font-size: 12px">
-                                            <td>
+                                        <tr style="font-size: 14px">
+                                            <td class="text-center">
                                                 {{ ($data_locations->currentpage()-1) * $data_locations->perpage() + $loop->index + 1 }}
                                             </td>
                                             <td style="text-align: left">
@@ -127,7 +127,7 @@ true
 
                                                         <a href="javascript:void(0)" wire:click="ver({{$location->id}})" class="mx-3"
                                                             title="Ver subcategorias">
-                                                            <b class="pl-">{{ $location->product->count()}}</b> <i class="fas fa-eye" style="font-size: 14px"></i>
+                                                            <b>{{ $location->product->count()}}</b> <i class="fas fa-eye" style="font-size: 14px"></i>
                                                         </a>
                                                 </td>
                                                 <td class="text-center">
