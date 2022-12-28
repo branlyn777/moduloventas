@@ -290,7 +290,7 @@ true
         window.livewire.on('product-added', msg => {
             $('#theModal').modal('hide')
             $("#im").val('');
-            noty(msg)
+  
         });
 
         window.livewire.on('modal-import', msg => {

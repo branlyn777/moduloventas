@@ -37,13 +37,13 @@
 
     .inner {
         background-color: #5e72e4;
-        width: 52px;
-        height: 52px;
+        width: 45px;
+        height: 45px;
         border-radius: 100%;
         position: absolute;
         bottom: 0;
         right: 0;
-        -ms-transform: translate(-50%, -50%);
+        -ms-transform: translate(-70%, -60%);
         transform: translate(-50%, -50%);
         z-index: 999999999;
     }
@@ -62,7 +62,7 @@
     }
 
     .inputfile+label {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         text-overflow: ellipsis;
         white-space: nowrap;
         display: inline-block;
@@ -71,8 +71,8 @@
         height: 50px;
         pointer-events: none;
         cursor: pointer;
-        line-height: 52px;
-        margin: 0px 1px;
+        line-height: 43px;
+        margin: 0px -2px;
         text-align: center;
     }
 
@@ -83,8 +83,8 @@
 
 
 <div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    aria-hidden="true" style="z-index: 999999999999999999999999999999">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
@@ -96,9 +96,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="row m-2">
-                            <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-12 col-lg-12 col-md-12">
                                 <div class="row">
                                     <div class="card-body">
                                         @if ($selected_id > 0)
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <div class="row m-2 mt-6">
                             <div class="col-sm-12 col-md-8">
                                 <div class="form-group">

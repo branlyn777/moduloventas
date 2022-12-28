@@ -54,7 +54,7 @@ true
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add btn-sm mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Usuario</button>
+                            <button wire:click="Agregar()" class="btn btn-add mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Usuario</button>
                         </div>
                     </div>
                 </div>
@@ -63,15 +63,15 @@ true
             <div class="card mb-4">
                 <div class="card-body p-3">
 
-                    <div class="d-flex m-3">
+                    <div class="row">
                         <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                             @include('common.searchbox')
                         </div>
     
-                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
-                            <div class="ms-auto my-auto">
+                        <div class="ms-auto col-md-2 col-12 col-sm-12">
+                           
                                 <label>Estado</label>
-                                <div class="col-12 col-sm-12 text-center">
+                                <div class="col-12 col-sm-12 col-md-12 text-center">
                                     <select wire:model='estados' class="form-select">
     
                                         <option value="ACTIVE">ACTIVO</option>
@@ -79,7 +79,7 @@ true
                                         <option value="TODOS">TODOS</option>
                                     </select>
                                 </div>
-                            </div>
+                        
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ true
                                                 <a href="javascript:void(0)"
                                                     wire:click="viewDetails('{{ $r->id }}')" class="mx-3">
 
-                                                    <i class="fas fa-store"></i>
+                                                    <i class="fas fa-store text-warning"></i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{ $r->ventas->count() }},{{ $r->compras->count() }},{{ $r->transferencia->count() }},{{ $r->ingreso->count() }})"
