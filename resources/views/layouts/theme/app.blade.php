@@ -15,7 +15,7 @@
 	@include('layouts.theme.styles')
 </head>
 
-<body class="g-sidenav-show bg-gray-200">
+<body class="g-sidenav-show bg-gray-100 g-sidenav-pinned">
   <div class="min-height-300 bg-primary position-absolute w-100"></div>
 
   @include('layouts.theme.sidebar')

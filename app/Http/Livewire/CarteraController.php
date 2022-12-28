@@ -102,7 +102,8 @@ class CarteraController extends Component
         ];
 
         $this->validate($rules, $messages);
-        if ($this->VerificarCartera() == false) {
+        if ($this->VerificarCartera() == false)
+        {
             Cartera::create([
                 'nombre' => $this->nombre,
                 'descripcion' => $this->descripcion,
@@ -113,22 +114,39 @@ class CarteraController extends Component
 
             $this->resetUI();
             $this->emit('item-added', 'Cartera Registrada');
-        } else {
+        }
+        else
+        {
             $this->emit('alert');
         }
     }
 
     public function VerificarCartera()
     {
-        $consulta = Cartera::select("carteras.nombre")
+
+
+        if($this->tipo == "efectivo")
+        {
+            $consulta = Cartera::select("carteras.nombre")
             ->where("carteras.tipo", "efectivo")
             ->where("carteras.caja_id", $this->caja_id)
             ->get();
-        if ($consulta->count() > 0) {
-            return true;
-        } else {
+            if ($consulta->count() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
             return false;
         }
+
+
+        
     }
     public function Edit(Cartera $cartera)
     {
@@ -156,19 +174,79 @@ class CarteraController extends Component
             'tipo.required' => 'El tipo es requerido.',
             'tipo.not_in' => 'El tipo debe ser distinto de Elegir.'
         ];
-        $this->validate($rules, $messages);
-        $cartera = Cartera::find($this->selected_id);
-        $cartera->update([
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'tipo' => $this->tipo,
-            'telefonoNum' => $this->telefonoNum,
-            'caja_id' => $this->caja_id
-        ]);
-        $cartera->save();
 
-        $this->resetUI();
-        $this->emit('item-updated', 'Cartera Actualizada');
+        $this->validate($rules, $messages);
+
+
+
+        if($this->tipo != "efectivo")
+        {
+            $cartera = Cartera::find($this->selected_id);
+            $cartera->update([
+                'nombre' => $this->nombre,
+                'descripcion' => $this->descripcion,
+                'tipo' => $this->tipo,
+                'telefonoNum' => $this->telefonoNum,
+                'caja_id' => $this->caja_id
+            ]);
+            $cartera->save();
+            $this->resetUI();
+            $this->emit('item-updated', 'Cartera Actualizada');
+    
+        }
+        else
+        {
+            $caja = Caja::join("carteras as c","c.caja_id","cajas.id")
+            ->select("cajas.id as cajaid")
+            ->where("c.id",$this->selected_id)
+            ->first();
+
+
+
+            $consulta = Cartera::select("carteras.id as idcartera")
+            ->where("carteras.tipo", "efectivo")
+            ->where("carteras.caja_id", $caja->cajaid)
+            ->where("carteras.id", $this->selected_id)
+            ->get();
+
+            if ($consulta->count() > 0)
+            {
+                if($consulta->first()->idcartera == $this->selected_id)
+                {
+                    $cartera = Cartera::find($this->selected_id);
+                    $cartera->update([
+                        'nombre' => $this->nombre,
+                        'descripcion' => $this->descripcion,
+                        'tipo' => $this->tipo,
+                        'telefonoNum' => $this->telefonoNum,
+                        'caja_id' => $this->caja_id
+                    ]);
+                    $cartera->save();
+                    $this->resetUI();
+                    $this->emit('item-updated', 'Cartera Actualizada');
+                }
+                else
+                {
+                    $this->emit('alert');
+                }
+
+
+
+            }
+            else
+            {
+                $this->emit('alert');
+            }
+                
+
+
+
+
+
+        }
+
+
+
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
 
