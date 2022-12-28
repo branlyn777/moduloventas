@@ -32,22 +32,7 @@
                                 <button data-bs-toggle="modal" class="btn btn-dark pl-2 pr-2"
                                     data-bs-target="#modal_prov" > <i class="fas fa-plus text-white"></i></button>
                             </div>
-                            {{-- <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Proveedor</strong>
-                                <div class="input-group-prepend mb-3">
-                                    <input list="provider" wire:model="provider" class="form-control">
-                                    <datalist id="provider">
-                                        @foreach($data_prov as $datas)
-                                            <option value="{{$datas->nombre_prov}}">{{$datas->nombre_prov}}</option>
-                                        @endforeach
-                                    </datalist> 
-                                    <button data-toggle="modal" class="btn btn-dark pl-2 pr-2"
-                                        data-target="#modal_prov" > <i class="fas fa-plus text-white"></i></button>          
-                                </div>
-                                @error('provider')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div> --}}
+                            @error('provider') <span class="text-danger er" style="font-size: 14px">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="col-12 col-sm-6 col-md-3">
@@ -94,11 +79,10 @@
                                         <option value="{{$data->destino_id}}">{{$data->nombre}}-{{$data->name}}</option>
                                     @endforeach
                                 </select>
+                                @error('destino')
+                                    <span class="text-danger er"  style="font-size: 14px">{{ $message }}</span>
+                                @enderror
                             </div>
-                            
-                            @error('destino')
-                                <span class="text-danger er">{{ $message }}</span>
-                            @enderror
                         </div>
 
                         <div class="col-12 col-sm-6 col-md-3">

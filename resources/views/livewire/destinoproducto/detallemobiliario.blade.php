@@ -2,8 +2,11 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" style="font-size: 16px">Ubicacion Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="cerrar()"></button>
+                <h5 class="modal-title text-white" style="font-size: 14px">Ubicacion Producto</h5>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="cerrar()"></button> --}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
 
@@ -17,50 +20,46 @@
                             @foreach ($grouped as $key=>$item)
                                 <div class="media">
                                     <center>
-                                        <label style="font-size: 16px">{{$key}}</label>
+                                        <label style="font-size: 14px">{{$key}}</label>
                                     </center>
                                     <div class="media-body">
                                         
                                         <div class="table-6">
                                             <table>
                                                 <thead>
-                                                    <tr class="text-center" style="font-size: 13px">
-                                                        <th style="width: 100px;">ITEM</th>
+                                                    <tr style="font-size: 14px">
+                                                        <th class="text-center" style="width: 100px;">N°</th>
                                                         <th style="width: 500px;">ESTANCIA</th>
                                                         <th style="width: 200px;">STOCK</th>
                                                         <th>MOBILIARIO</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody style="font-size: 12px">
+                                                <tbody>
                                                     @foreach ($item as $key=>$value)
-                                                    <tr class="text-center">
-    
-                                                        <td>
-                                                            <h6 class="text-center">{{ $loop->iteration}}</h6>
+                                                    <tr style="font-size: 14px">
+                                                        <td class="text-center">
+                                                            {{ $loop->iteration}}
                                                         </td>
                                                         <td>
-                                                            <h6>{{$key}}</h6>
+                                                            {{$key}}
                                                         </td>
                                                         <td>
-    
-                                                            <h6>{{$value[0]->stock}}</h6>
+                                                            {{$value[0]->stock}}
                                                         </td>
                                                         <td>
-    
                                                             @if ($value[0]->tipo == null)
-                                                            <h6>No asignado</h6>
+                                                                No asignado
                                                             @else
-                                                            @foreach ($value as $data)
-    
-                                                            <h6>{{$data->tipo}}-{{$data->mob_code}}</h6>
-                                                            @endforeach
+                                                                @foreach ($value as $data)
+                                                                    <h6>{{$data->tipo}}-{{$data->mob_code}}</h6>
+                                                                @endforeach
                                                             @endif
                                                         </td>
                                                     </tr>
     
                                                     @endforeach
                                                 </tbody>
-                                            </table>
+                                            </table><br>
     
                                         </div>
     

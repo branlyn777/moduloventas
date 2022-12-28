@@ -123,21 +123,21 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                         <thead>
-                                            <tr class="text-center" style="font-size: 12px">
-                                                <th>#</th>                           
-                                                <th style="width: 50px;">COD.</th>                                
-                                                <th>FECHA</th>                                                                               
-                                                <th>PROVEEDORES</th>                                                                               
-                                                <th>ESTADO</th>
-                                                <th>USUARIO</th>
-                                                <th>TOTAL</th>
-                                                <th>ACC.</th>
+                                            <tr>
+                                                <th class="text-uppercase text-sm text-center">#</th>                           
+                                                <th class="text-uppercase text-sm" style="width: 50px;">COD.</th>                                
+                                                <th class="text-uppercase text-sm">FECHA</th>                                                                               
+                                                <th class="text-uppercase text-sm">PROVEEDORES</th>                                                                               
+                                                <th class="text-uppercase text-sm">ESTADO</th>
+                                                <th class="text-uppercase text-sm">USUARIO</th>
+                                                <th class="text-uppercase text-sm">TOTAL</th>
+                                                <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($data_orden_compras as $data)
-                                                <tr class="text-center" style="font-size: 12px">
-                                                    <td>
+                                                <tr style="font-size: 14px">
+                                                    <td class="text-center">
                                                         {{ $loop->index+1}}
                                                     </td>
                                                     <td>
@@ -145,9 +145,9 @@ true
                                                         {{-- <span badge bg-secondary>{{ $data->id}}</span> --}}
                                                     </td>
                                                     <td>
-                                                        <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
+                                                        {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
                                                         <br>
-                                                        {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
+                                                        {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}
                                                     </td>
                                                     <td>
                                                         <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->proveedor->nombre_prov}}</h6>
@@ -169,16 +169,30 @@ true
                                                     <td>
                                                         {{ $data->importe_total }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <button type="button" class="btn btn-primary" wire:click= "VerDetalleCompra('{{$data->id}}')"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Listar orden de compra">
+                                                                <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-secondary" href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Imprimir orden de compra">
+                                                                <i class="fas fa-print text-white" style="font-size: 14px"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger" wire:click="anularOrden('{{ $data->id }}')"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Anular orden compra">
+                                                                <i class="fas fa-minus-circle text-white" style="font-size: 14px"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    {{-- <td class="text-center">
                                                         <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')" class="mx-3"
                                                             title="Listar orden de compra">
                                                             <i class="fas fa-list" style="font-size: 14px"></i>
                                                         </a>
-
-                                                        {{-- <a href="javascript:void(0)" wire:click= "editarCompra('{{$data->id}}')"
-                                                            class="btn btn-dark p-1" title="Editar orden de compra">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a> --}}
                                                         <a href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}" class="mx-3"
                                                             class="btn btn-success p-1" title="Imprimir orden de compra">
                                                             <i class="fas fa-print" style="font-size: 14px"></i>
@@ -187,7 +201,7 @@ true
                                                             title="Anular orden compra">
                                                             <i class="fas fa-minus-circle text-danger" style="font-size: 14px"></i>
                                                         </a>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>

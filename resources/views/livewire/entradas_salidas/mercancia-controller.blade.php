@@ -93,39 +93,32 @@ true
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-sm text-center">#</th>
-                                            <th  class="text-uppercase text-sm text-center">Fecha de Registro</th>
-                                            <th  class="text-uppercase text-sm text-center">Almacen</th>
-                                            <th  class="text-uppercase text-sm text-center">Tipo Operacion</th>
-                                            <th  class="text-uppercase text-sm text-center">Observacion</th>
-                                            <th  class="text-uppercase text-sm text-center">Usuario</th>
-                                            <th  class="text-uppercase text-sm text-center">Acc.</th>
+                                            <th class="text-uppercase text-sm text-center">N°</th>
+                                            <th  class="text-uppercase text-sm">Fecha de Registro</th>
+                                            <th  class="text-uppercase text-sm">Almacen</th>
+                                            <th  class="text-uppercase text-sm">Tipo Operacion</th>
+                                            <th  class="text-uppercase text-sm">Observacion</th>
+                                            <th  class="text-uppercase text-sm">Usuario</th>
+                                            <th  class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($ingprod as $data2)
-                                        <tr>
+                                        <tr style="font-size: 14px">
                                             <td class="text-center">
-
-                                                <h6>{{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index
-                                                    + 1 }}</h6>
-
+                                                {{ ($ingprod->currentpage()-1) * $ingprod->perpage() + $loop->index + 1 }}
                                             </td>
                                             <td>
-                                                <center>
-
-                                                    {{\Carbon\Carbon::parse($data2->created_at)->format('d-m-Y')}}
-                                                    <br>
-                                                    {{\Carbon\Carbon::parse($data2->created_at)->format('h:i:s a')}}
-                                                </center>
+                                                {{\Carbon\Carbon::parse($data2->created_at)->format('d-m-Y')}}
+                                                <br>
+                                                {{\Carbon\Carbon::parse($data2->created_at)->format('h:i:s a')}}
                                             </td>
 
                                             <td>
                                                 Sucursal {{$data2->destinos->sucursals->name}}
                                                 {{$data2->destinos->nombre}}
-
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 {{$data2->concepto}}
                                             </td>
                                             <td>
@@ -135,17 +128,14 @@ true
                                                 {{$data2->usuarios->name}}
                                             </td>
                                             <td class="text-center">
-                                                <center>
-                                                    <a wire:click="ver({{ $data2->id }})" type="button"
-                                                        class="text-primary  mx-2">
-
-                                                        <i class="fas fa-list"></i>
-                                                    </a>
-                                                    <a wire:click="verifySale({{ $data2->id }})" type="button"
-                                                        class="text-danger">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                </center>
+                                                <a wire:click="ver({{ $data2->id }})" type="button"
+                                                    class="text-primary  mx-3">
+                                                    <i class="fas fa-list"></i>
+                                                </a>
+                                                <a wire:click="verifySale({{ $data2->id }})" type="button"
+                                                    class="text-danger mx-3">
+                                                    <i class="fas fa-trash"></i>
+                                                </a> 
                                             </td>
 
                                         </tr>

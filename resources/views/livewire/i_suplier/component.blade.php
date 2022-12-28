@@ -120,21 +120,24 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>NOMBRE</th>
-                                            <th>TELEFONO</th>
-                                            <th>CORREO</th>
-                                            <th>DIRECCION</th>
-                                            <th>NIT</th>
-                                            <th>ESTADO</th>
-                                            <th>ACCIONES</th>
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center">N°</th>
+                                            <th class="text-uppercase text-sm">NOMBRE</th>
+                                            <th class="text-uppercase text-sm">TELEFONO</th>
+                                            <th class="text-uppercase text-sm">CORREO</th>
+                                            <th class="text-uppercase text-sm">DIRECCION</th>
+                                            <th class="text-uppercase text-sm">NIT</th>
+                                            <th class="text-uppercase text-sm">ESTADO</th>
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data_proveedor as $data)
                                             
-                                        <tr class="text-center" style="font-size: 12px">
-                                        
+                                        <tr style="font-size: 14px">
+                                            <td class="text-center">
+                                                {{ $loop->index+1}}
+                                            </td>
                                             <td><img src="{{ asset('storage/proveedores/' . $data->imagen) }}" 
                                                 alt="proveedor" class="avatar-sm rounded-circle me-2 m-1" />{{$data->nombre_prov.' '.$data->apellido}}</td>
                                             <td>{{$data->telefono ? $data->telefono : "No definido" }}</td>
@@ -142,17 +145,17 @@ true
                                             <td>{{$data->direccion ? $data->direccion : "No definido" }}</td>
                                             <td>{{$data->nit ? $data->nit : "No definido" }}</td>
                                                 @if ($data->status== 'ACTIVO')
-                                                    <td class="text-center" >
+                                                    <td>
                                                         <span class="badge badge-sm bg-gradient-success">{{$data->status}}</span>
                                                         {{-- <span class="badge badge-success mb-0">{{$data->status}}</span> --}}
                                                     </td>
                                                 @else
-                                                    <td class="text-center" >
+                                                    <td>
                                                         <span class="badge badge-sm bg-gradient-danger">{{$data->status}}</span>
                                                         {{-- <td class="text-center" ><span class="badge badge-danger mb-0">{{$data->status}}</span></td> --}}
                                                     </td>
                                                 @endif
-                                            <td>
+                                            <td class="text-center">
                                                 <div>
                                                     <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
                                                         class="mx-3" title="Editar proveedor">

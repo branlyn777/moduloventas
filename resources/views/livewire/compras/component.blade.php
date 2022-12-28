@@ -162,41 +162,42 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 12px">
-                                                <th>#</th>                                
-                                                <th style="width: 50px;">COD.</th>                                
-                                                <th>FECHA</th>                 
-                                                <th>PROVEEDOR</th>                                
-                                                <th>DOCUMENTO</th>                                
-                                                <th>TIPO<br>COMPRA</br></th>                                
-                                                <th>TOTAL<br>COMPRA</br></th>                                   
-                                                <th>ESTADO</th>
-                                                <th>USUARIO</th>
-                                                <th>ACC.</th>
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center">N°</th>                                
+                                            <th class="text-uppercase text-sm" style="width: 50px;">COD.</th>                                
+                                            <th class="text-uppercase text-sm">FECHA</th>                 
+                                            <th class="text-uppercase text-sm">PROVEEDOR</th>                                
+                                            <th class="text-uppercase text-sm">DOCUMENTO</th>                                
+                                            <th class="text-uppercase text-sm">TIPO<br>COMPRA</br></th>                                
+                                            <th class="text-uppercase text-sm">TOTAL<br>COMPRA</br></th>                                   
+                                            <th class="text-uppercase text-sm">ESTADO</th>
+                                            <th class="text-uppercase text-sm">USUARIO</th>
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                             @foreach ($data_compras as $data)
-                                                <tr class="text-center"  style="font-size: 12px">
-                                                    <td>
+                                                <tr style="font-size: 14px">
+                                                    <td class="text-center">
                                                         {{ $loop->index+1}}
                                                     </td>
                                                     <td>
-                                                        <h6 style="font-size: 12px"><span class="badge bg-secondary">{{ $data->id}}</span></h6>
-                                                        {{-- <span class="badge badge-secondary mb-0">{{ $data->id}}</span> --}}
+                                                        <label style="font-size: 14px"><span class="badge bg-secondary">{{ $data->id}}</span></label>
                                                     </td>
                                                     <td>
-                                                    
-                                                        <center> {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
-                                                            <br>
-                                                            {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}</center>
+                                                        {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
+                                                        <br>
+                                                        {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}
+                                                    </td>
+                                                    {{-- <td>
+                                                        <label style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</label>
+                                                    </td> --}}
+                                                    <td>
+                                                        <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <center><h6>{{$data->tipo_doc}}</h6>
-                                                            <h6 class="text-center">{{ $data->nro_documento ?$data->nro_documento:'S/N' }}</h6></center>
+                                                        {{$data->tipo_doc}}
+                                                        {{ $data->nro_documento ?$data->nro_documento:'S/N' }}
                                                         
                                                     </td>
                                                     <td>
@@ -226,19 +227,23 @@ true
                                                     <td class="text-center">
                                                         <div class="btn-group" role="group" aria-label="Basic example">
                                                             <button type="button" class="btn btn-primary" wire:click= "VerDetalleCompra('{{$data->id}}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Ver detalle de compra">
                                                                 <i class="fas fa-bars" style="font-size: 14px"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-success" wire:click= "editarCompra('{{$data->id}}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Editar">
                                                                 <i class="fas fa-edit text-white" style="font-size: 14px"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-secondary" href="{{ url('Compras/pdf' . '/' . $data->id)}}"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Exportar">
                                                                 <i class="fas fa-print text-white" style="font-size: 14px"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-danger" wire:click="Confirm('{{ $data->id }}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                title="Inactivar">
                                                                 <i class="fas fa-minus-circle text-white" style="font-size: 14px"></i>
                                                             </button>
                                                         </div>

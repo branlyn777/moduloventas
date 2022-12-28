@@ -88,15 +88,15 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>ITEM</th>                                
-                                            <th>NOMBRE</th>                                
-                                            <th>ACCIONES</th>
+                                        <tr class="text-center">
+                                            <th class="text-uppercase text-sm text-center">ITEM</th>                                
+                                            <th class="text-uppercase text-sm text-center">NOMBRE</th>                                
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($marcas as $data)
-                                            <tr class="text-center"  style="font-size: 12px">
+                                            <tr class="text-center"  style="font-size: 14px">
                                                 <td>
                                                     {{ $loop->index+1 }}
                                                 </td>

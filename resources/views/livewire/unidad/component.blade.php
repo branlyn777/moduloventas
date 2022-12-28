@@ -88,15 +88,15 @@ true
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 10.4px">
-                                            <th>ITEM</th> {{-- style="width: 150px;" --}}
-                                            <th>NOMBRE</th>                              
-                                            <th>ACCIONES</th>
+                                        <tr>
+                                            <th class="text-uppercase text-sm text-center">N°</th> {{-- style="width: 150px;" --}}
+                                            <th class="text-uppercase text-sm text-center">NOMBRE</th>                              
+                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data_unidad as $data)
-                                            <tr class="text-center"  style="font-size: 12px">
+                                            <tr class="text-center"  style="font-size: 14px">
                                                 <td>
                                                     {{ $data->id }}
                                                 </td>
