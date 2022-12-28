@@ -1,100 +1,73 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Asignar Permisos</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestión</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Asignar Permisos</h6>
+    </nav>
 @endsection
 
 
 @section('userscollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('userarrow')
-true
+    true
 @endsection
 
 
 @section('asignarpermisonav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('usershow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('asignarpermisoli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
 <div class="d-sm-flex justify-content-between">
     <div class="col-12">
-        <div class="card mb-4">
-            <div class="card-header pb-0">
-                <h6>Asignar Permisos</h6>
-            </div>
-
-            <div class="d-lg-flex m-3">
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <div class="form-group me-3">
-                        <b class="text-dark">Seleccione Rol</b>
-                        <select wire:model="role" class="form-select">
-                            <option value="Elegir" selected>==Seleccione el rol==</option>
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+        <div class="card-header pt-0 mb-4">
+            <div class="d-lg-flex">
+                <div>
+                    <h5 class="text-white" style="font-size:16px">Asignar Permisos</h5>
                 </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
 
-                <div class="col-12 col-sm-6 col-md-3 text-center">
-                    <div class="form-group me-2">
-                        <b class="text-dark">Area Permiso</b>
-                        <select wire:model="permisosseleccionado" class="form-select">
-                            <option value="Todos"><b>==Todos los Permisos==</b></option>
-                            @foreach ($listaareas as $u)
-                                <option value="{{ $u->id }}">{{ $u->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="col-12 col-sm-12 col-md-6">
-                    <div class="row justify-content-center">
                         {{-- Boton de Sincronizar --}}
                         @if ($permisosseleccionado != 'Todos')
-                            <button wire:click.prevent="SyncAll2()" type="button"
-                                class="col-12 col-sm-3 col-md-4 btn btn-info">
-                                <span class="btn-inner--icon">
-                                    <i class="fas fa-rotate me-2"></i>
+                            <button wire:click.prevent="SyncAll2()" type="button" <span
+                                class="btn btn-add mb-0">
+                                <i class="fas fa-rotate me-2"></i>
                                 </span class="btn-inner--text"> Sincronizar Todos
                                 Area</button>
                         @else
-                            <button wire:click.prevent="SyncAll()" type="button"
-                                class="col-12 col-sm-3 col-md-4 btn btn-info">
+                            <button wire:click.prevent="SyncAll()" type="button" class="btn btn-add mb-0">
                                 <span class="btn-inner--icon">
 
                                     <i class="fas fa-rotate me-2"></i>
                                 </span class="btn-inner--text"> Sincronizar Todos</button>
                             {{-- <button onclick="Revocar()" type="button" class="boton-rojo-g">Revocar Todos</button> --}}
                         @endif
-                                
+
                         {{-- Boton de Revocar  --}}
                         @if ($permisosseleccionado == 'Todos')
-                            <button onclick="Revocar()" type="button"
-                                class="col-12 col-sm-3 col-md-4 btn btn-icon btn-info">
+                            <button onclick="Revocar()" type="button" class="btn btn-add mb-0">
                                 <span class="btn-inner--icon">
 
                                     <i class="fas fa-circle-xmark me-2"></i>
@@ -102,8 +75,7 @@ true
                         @endif
 
                         {{-- Boton de IR a Usuarios --}}
-                        <a href="users" class="col-12 col-sm-3 col-md-3 btn btn-secondary" data-type="csv"
-                            type="button">
+                        <a href="users" class="btn btn-secondary" data-type="csv" type="button">
                             <span class="btn-inner--text">Ir a Usuarios</span>
                             <span class="btn-inner--icon">
                                 <i class="fas fa-arrow-right"></i>
@@ -112,7 +84,41 @@ true
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body p-3">
+                <div class="d-lg-flex m-3">
+                    <div class="col-12 col-sm-6 col-md-6 text-center">
+                        <div class="form-group me-3">
+                            <b class="text-dark">Seleccione Rol</b>
+                            <select wire:model="role" class="form-select">
+                                <option value="Elegir" selected>==Seleccione el rol==</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="col-12 col-sm-6 col-md-6 text-center">
+                        <div class="form-group me-2">
+                            <b class="text-dark">Área Permiso</b>
+                            <select wire:model="permisosseleccionado" class="form-select">
+                                <option value="Todos"><b>==Todos los Permisos==</b></option>
+                                @foreach ($listaareas as $u)
+                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+    
+    
+                </div>
+            </div>
+            
+        </div>
 
+        <div class="card mb-4">
 
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0"">
@@ -123,8 +129,8 @@ true
                                 <th class="text-uppercase text-sm ps-2 text-center">#</th>
                                 <th class="text-uppercase text-sm ps-2 text-left">PERMISO</th>
                                 <th class="text-uppercase text-sm ps-2 text-center">ROLES CON EL PERMISO</th>
-                                <th class="text-uppercase text-sm ps-2 text-left">AREA</th>
-                                <th class="text-uppercase text-sm ps-2 text-left">DESCRIPCION</th>
+                                <th class="text-uppercase text-sm ps-2 text-left">ÁREA</th>
+                                <th class="text-uppercase text-sm ps-2 text-left">DESCRIPCIÓN</th>
                             </tr>
                         </thead>
                         <tbody>
