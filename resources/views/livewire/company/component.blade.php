@@ -51,13 +51,12 @@ true
                 
 
                 <div style="margin-bottom: 15px;">
-                    <img wire:model="imagen" class="w-80 border-radius-lg mx-auto"
+                    <img wire:model="imagen" class="w-75 border-radius-lg mx-auto"
                         src="{{ asset('storage/iconos/' . $imagen) }}" alt="chair">
                       
 
 
-
-                        <button wire:click="$emit('show-modallogoprincipal')" class="btn btn-primary">
+                        <button wire:click="$emit('show-modallogoprincipal')" class="btn btn-primary mt-3">
                             Cambiar Imagen
                         </button>
                 </div>
@@ -70,17 +69,18 @@ true
 
         <div class="card mt-4 mb-3">
             <div class="card-body pb-0 align-middle text-center">
-                <h5 class="mb-4 align-middle text-center">Mini Logo (200x200)</h5>
+                <h5 class="mb-4 align-middle text-center">Mini Logo (1:1)</h5>
                 <div class="row align-items-center mb-3">
                     
 
 
                     <div>
-                        <img wire:model="imagen_horizontal" class="w-80 border-radius-lg mx-auto"
+                        <img wire:model="imagen_horizontal" class="w-30 border-radius-lg mx-auto"
                             src="{{ asset('storage/iconos/' . $imagen_horizontal) }}" alt="chair">
 
+                            <br>
 
-                            <button wire:click="$emit('show-modallogohorizontal')" class="btn btn-primary">
+                            <button wire:click="$emit('show-modallogohorizontal')" class="btn btn-primary mt-3">
                                 Cambiar Imagen
                             </button>
                     </div>
@@ -116,14 +116,14 @@ true
                 <div class="">
                     <div class="col-lg-10 mx-auto">
 
-                        <h6 class="mb-0 mt-3">Nombre de la Empresa</h6>
+                        <h6 class="mb-0 mt-3">Nombre de la empresa</h6>
                         <input wire:model="nombre_empresa" class="form-control" type="text"
                             value="{{ $nombre_empresa }}">
                         @error('nombre_empresa')
                             <span class="text-danger er">{{ $message }}</span>
                         @enderror
 
-                        <h6 class="mb-0 mt-3">Nombre Corto</h6>
+                        <h6 class="mb-0 mt-3">Nombre corto</h6>
                         <input wire:model="nombre_corto" class="form-control" type="text"
                             value="{{ $nombre_empresa }}">
                         @error('nombre_corto')
@@ -159,7 +159,7 @@ true
 
 
 
-                        <h6 class="mb-0 mt-3">Fecha Última Actualización</h6>
+                        <h6 class="mb-0 mt-3">Fecha última actualización</h6>
                         <div class="">
                             {{ \Carbon\Carbon::parse($updated_at)->format('d/m/Y H:i') }}
                         </div>
