@@ -81,7 +81,7 @@
                                         
                                         @endif --}}
                   
-                    <button type="button" class="btn btn-dark btn-sm w-100 p-2" wire:click.prevent="Cambiar()"> <h7 class="text-white">ASIGNAR NUEVA SUCURSAL</h7> </button>
+                    <button type="button" class="btn btn-info mt-6 p-2" wire:click.prevent="Cambiar()"> <h7>ASIGNAR NUEVA SUCURSAL</h7> </button>
                
                     
                     

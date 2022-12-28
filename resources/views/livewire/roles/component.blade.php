@@ -53,7 +53,7 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add btn-sm mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Rol</button>
+                            <button wire:click="Agregar()" class="btn btn-add mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Rol</button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                     <th class="text-uppercase text-sm ps-2 text-left">Descripción</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Creación</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Actualización</th>
-                                    <th class="text-uppercase text-sm text-center">Acc.</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES.</th>
                                 </tr>
                             </thead>
 
@@ -177,21 +177,21 @@
     function Confirm(id, name, usuarios) {
         if (usuarios > 0) {
             swal.fire({
-                title: 'PRECAUCION',
+                title: 'Precaucion',
                 icon: 'warning',
-                text: 'No se puede eliminar el role "' + name + '" porque hay ' +
+                type: 'warning',
+                text: 'No se puede eliminar el rol "' + name + '" porque hay ' +
                     usuarios + ' usuarios con ese role.'
             })
             return;
         }
         swal.fire({
-            title: 'CONFIRMAR',
+            title: 'Confirmar',
             icon: 'warning',
-            text: 'Confirmar eliminar el role ' + '"' + name + '"',
+            type: 'warning',
+            text: 'Eliminar el rol ' + '"' + name + '"',
             showCancelButton: true,
             cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
             confirmButtonText: 'Aceptar'
         }).then(function(result) {
             if (result.value) {

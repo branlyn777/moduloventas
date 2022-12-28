@@ -399,7 +399,7 @@ class UsersController extends Component
         $this->email = '';
         $this->password = '';
         $this->phone = '';
-        $this->image = '';
+        $this->imagen='noimagen.png';
 
         $this->selected_id = 0;
         $this->profile = 'Elegir';

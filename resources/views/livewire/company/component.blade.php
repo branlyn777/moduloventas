@@ -43,14 +43,7 @@ true
 
 <div class="row mt-4">
 
-
-
-
-
-
     <div class="col-12 col-lg-5">
-
-
 
         <div class="card mb-3 mt-lg-0">
             <div class="card-body pb-0 align-middle text-center">

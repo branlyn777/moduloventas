@@ -1,7 +1,7 @@
 @include('common.modalHead')
 <div class="row">
     <div class="col-sm-12">
-        <h6>Nombre Rol</h6>
+        <label>Nombre Rol</label>
         <div class="form-group">
             <div class="input-group mb-4">
           
