@@ -204,15 +204,15 @@ true
 
         window.livewire.on('item-added', Msg => {
             $('#formUsers').modal('hide')
-            noty(Msg)
+         
         })
         window.livewire.on('item-updated', Msg => {
             $('#formUsers').modal('hide')
-            noty(Msg)
+           
         })
         window.livewire.on('sucursal-actualizada', Msg => {
             $('#modal-details').modal('hide')
-            noty(Msg)
+     
         })
         window.livewire.on('atencion', Msg => {
             const toast = swal.mixin({
@@ -246,6 +246,7 @@ true
             noty(Msg)
         })
         window.livewire.on('show-modal', Msg => {
+            $("#im").val('')
             $('#formUsers').modal('show')
         })
 

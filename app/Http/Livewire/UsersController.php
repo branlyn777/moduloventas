@@ -155,6 +155,7 @@ class UsersController extends Component
 
     public function Edit(User $user)
     {
+        $this->image='';
         $this->selected_id = $user->id;
         $this->name = $user->name;
         $this->phone = $user->phone;
@@ -400,7 +401,7 @@ class UsersController extends Component
         $this->password = '';
         $this->phone = '';
         $this->imagen='noimagen.png';
-
+        $this->image='';
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';

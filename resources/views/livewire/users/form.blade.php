@@ -92,7 +92,10 @@
                         {{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
                     </p>
                 </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+          
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -113,9 +116,9 @@
 
                                                 <div class="container">
                                                     <div class="outer">
-                                                        <img src="{{ $image->temporaryUrl() }}">
+                                                        <img src="{{ $image->temporaryUrl()}}">
                                                         <div class="inner">
-                                                            <input class="inputfile" type="file" wire:model='image'
+                                                            <input class="inputfile"  type="file" wire:model='image'
                                                                 name="pic" accept="image/*">
                                                             <label>
                                                                 <i class="fas fa-camera text-white text-center"></i>

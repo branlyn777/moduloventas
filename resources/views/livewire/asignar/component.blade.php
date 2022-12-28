@@ -41,7 +41,7 @@
 
 <div class="d-sm-flex justify-content-between">
     <div class="col-12">
-        <div class="card-header pt-0 mb-4">
+        <div class="card-header pt-0" style="margin-bottom: 1.7rem">
             <div class="d-lg-flex">
                 <div>
                     <h5 class="text-white" style="font-size:16px">Asignar Permisos</h5>
