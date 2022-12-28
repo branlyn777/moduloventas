@@ -27,6 +27,9 @@
               <div class="form-group">
                 <label for="exampleFormControlTextarea1">Detalle Categoria</label>
                 <textarea wire:model.lazy="detallecategoria" placeholder="Ingrese las caracteristicas de la categoria" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                @error('detallecategoria')
+                  <span class="text-danger er">{{ $message }}</span>
+                @enderror
               </div>
               <div class="form-group">
                 <label for="exampleFormControlInput1">Tipo</label>
@@ -42,21 +45,20 @@
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          <p class="text-sm mb-0">
-            Cerrar
-          </p>
-        </button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+
+
         @if($this->categoria_id == null)
         <button wire:click="save()" type="button" class="btn btn-primary">
           <p class="text-sm mb-0">
-            Guardar Cambios
+            GUARDAR
           </p>
         </button>
         @else
         <button wire:click="update()" type="button" class="btn btn-primary">
           <p class="text-sm mb-0">
-            Actualizar Cambios
+            ACTUALIZAR
           </p>
         </button>
         @endif

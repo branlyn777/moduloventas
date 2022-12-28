@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 
 class CarteraMovCategoriaController extends Component
 {
-    public $nombrecategoria, $detallecategoria, $tipo, $pagination, $mensaje_toast, $categoria_id;
+    public $search, $nombrecategoria, $detallecategoria, $tipo, $pagination, $mensaje_toast, $categoria_id;
 
     use WithPagination;
     public function paginationView()
@@ -26,8 +26,24 @@ class CarteraMovCategoriaController extends Component
     public function render()
     {
 
-        $data = CarteraMovCategoria::select("cartera_mov_categorias.*")
-        ->paginate($this->pagination);
+        if (strlen($this->search) == 0)
+        {
+            $data = CarteraMovCategoria::select("cartera_mov_categorias.*")
+            ->paginate($this->pagination);
+        }
+        else
+        {
+            $data = CarteraMovCategoria::select("cartera_mov_categorias.*")
+            ->where('cartera_mov_categorias.nombre', 'like', '%' . $this->search . '%')
+            ->paginate($this->pagination);
+        }
+
+
+
+
+
+
+
 
 
         return view('livewire.carteramovcategoria.carteramovcategoria', [
@@ -46,11 +62,16 @@ class CarteraMovCategoriaController extends Component
     {
         $rules = [
             'nombrecategoria' => "required|unique:cartera_mov_categorias,nombre",
+            'detallecategoria' => "required",
             'tipo' => 'required|not_in:Elegir',
         ];
         $messages = [
             'nombrecategoria.required' => 'Nombre de la categoria es requerido.',
             'tipo.required' => 'La tipo es requerido.',
+
+
+            'detallecategoria.required' => 'La descripción es requerida',
+
             'nombrecategoria.unique' => 'Ese nombre de la categoria ya existe.',
             'tipo.not_in' => 'Por favor seleccione un tipo'
         ];
