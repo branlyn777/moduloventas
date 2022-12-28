@@ -35,7 +35,7 @@
 				</div> --}}
             </div>
             <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-flex align-items-center">
+                <li class="nav-item d-flex px-2 align-items-center">
                     <a href="../../pages/authentication/signin/illustration.html"
                         class="nav-link text-white font-weight-bold px-0" target="_blank">
 
@@ -51,12 +51,26 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item px-3 d-flex align-items-center">
+                <li class="nav-item dropdown px-2 d-flex align-items-center">
+                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell me-sm-1" aria-hidden="true"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                        
+
+                        <li>
+                            {{-- AREA DE NOTIFICACION --}}
+
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
                         <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                <li class="nav-item dropdown px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
@@ -112,20 +126,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-bell me-sm-1" aria-hidden="true"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                        
-
-                        <li>
-                            {{-- AREA DE NOTIFICACION --}}
-
-                        </li>
-                    </ul>
-                </li>
+               
             </ul>
         </div>
     </div>
