@@ -1,144 +1,150 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Clientes</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Clientes</h6>
+    </nav>
 @endsection
 
 
 @section('empresacollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('empresaarrow')
-true
+    true
 @endsection
 
 
 @section('clientesnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('empresashow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('carterali')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
 
 <div>
-      <div class="d-sm-flex justify-content-between">
-        <div>
-          
-        </div>
-        <div class="nav-wrapper position-relative end-0">
-            <button wire:click="Agregar()" class="btn btn-icon btn-outline-white ms-2 export" data-type="csv" 
-            type="button">
-            <span class="btn-inner--icon">
-                <i class="ni ni-fat-add"></i>
-            </span class="btn-inner--text"> Nuevo Cliente</button>
-        </div>
-     </div>
-
-     <br>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header pb-0">
-                      <h6>Listado | Cliente</h6>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Listado de clientes</h5>
                     </div>
-                    <div style="padding-left: 12px; padding-right: 12px;">
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
 
-                      <div class="col-12 col-sm-12 col-md-4">
-                        @include('common.searchbox')
+                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nuevo Cliente</button>
+                        </div>
+
+
                     </div>
-                      
-                      <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                          <table class="table align-items-center mb-0">
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex pt-4">
+                        <div class="col-12 col-sm-12 col-md-3">
+                            @include('common.searchbox')
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
                             <thead>
-                              <tr>
-                                <th class=" text-uppercase text-xxs font-weight-bolder">NOMBRE</th>
-                                <th class="text-uppercase text-xxs font-weight-bolder ps-2">CÉDULA</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">CELULAR</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">EMAIL</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">FECHA NACIM</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">NIT</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">DIRECCIÓN</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">RAZÓN SOCIAL</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">PROCEDENCIA</th>
-                                <th class="text-center text-uppercase text-xxs font-weight-bolder">ACCIONES</th>
-                              </tr>
+                                <tr>
+                                  <th class="text-uppercase text-sm text-center">Nº</th>
+                                  <th class=" text-uppercase text-sm text-center">NOMBRE</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">CÉDULA</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">CELULAR</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">EMAIL</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">FECHA NACIM</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">NIT</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">DIRECCIÓN</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">RAZÓN SOCIAL</th>
+                                  <th class="text-uppercase text-sm ps-2 text-left">PROCEDENCIA</th>
+                                  <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
+                                </tr>
                             </thead>
                             <tbody>
-          
-                              @foreach ($data as $c)
-                              <tr>
-                                <td  class="text-xs mb-0 ">
-                                  {{ $c->nombre }}
-                                </td>
-                                <td  class="text-xs mb-0 ">
-                                  {{ $c->cedula }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->celular }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->email }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{$c->fecha_nacim }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->nit }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->direccion }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->razon_social }}
-                                </td>
-                                <td  class="text-xs mb-0 text-center">
-                                  {{ $c->procedencia }}
-                                </td>
-  
-                                <td class="align-middle text-center">
-                                    <a href="javascript:void(0)" wire:click="Edit({{ $c->id }})" class="mx-3">
-                                      <i class="fas fa-edit text-default" ></i>
-                                    </a>
-                                </td>
-                              </tr>
-                              @endforeach
+
+                                @foreach ($data as $c)
+                                    <tr class="text-left">
+                                      <td class="text-sm mb-0 text-center">
+                                        {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
+                                    </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->nombre }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->cedula }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->celular }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->email }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->fecha_nacim }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->nit }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->direccion }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->razon_social }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $c->procedencia }}
+                                        </td>
+
+                                        <td class="text-sm ps-0 text-center">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $c->id }})"
+                                                class="mx-3">
+                                                <i class="fas fa-edit text-default"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                          </table>
-                          {{ $data->links() }}
-                        </div>
-                      </div>
-                      </div>              
-                    
+                        </table>
+                        {{ $data->links() }}
+                    </div>
                 </div>
             </div>
         </div>
-        @include('livewire.cliente.form')
+    </div>
+    @include('livewire.cliente.form')
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        
+
 
         window.livewire.on('item-added', Msg => {
             $('#theModal').modal('hide')
