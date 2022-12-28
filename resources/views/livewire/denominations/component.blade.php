@@ -50,7 +50,8 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="$emit('modal-show')" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Agregar</button>
+                            <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
+                                    class="fas fa-plus me-2"></i> Agregar</button>
 
                         </div>
 
@@ -75,24 +76,26 @@
                         <table class="table align-items-left mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-xxs font-weight-bolder">TIPO</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">VALOR</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">IMAGEN
-                                    </th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2 text-left">ACCIONES
-                                    </th>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">TIPO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left"> VALOR</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">IMAGEN</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
                             </thead>
 
 
                             <tbody>
                                 @foreach ($data as $coin)
-                                    <tr>
-                                        <td>
-                                            <p class="text-xs mb-0">{{ $coin->type }}</p>
+                                    <tr class="text-left">
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
                                         </td>
-                                        <td>
-                                            <p class="text-xs mb-0">{{ number_format($coin->value, 2) }}</p>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ $coin->type }}
+                                        </td >
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ number_format($coin->value, 2) }}
                                         </td>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -102,7 +105,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="align-middle text-left">
+                                        <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)"
                                                 wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
                                                 <i class="fas fa-edit text-default"></i>

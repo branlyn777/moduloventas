@@ -80,32 +80,36 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-sm text-center">NOMBRE</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2"> DESCRIPCION</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">TIPO</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">CAJA</th>
-                                        <th class="text-center text-uppercase text-sm  ps-2">ACCIONES</th>
+                                        <th class="text-uppercase text-sm text-center">Nº</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left"> DESCRIPCION</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">TIPO</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">CAJA</th>
+                                        <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr class="text-center">
-                                            <td class="text-xs mb-0 text-center">
+                                        <tr class="text-left">
+                                            <td class="text-sm mb-0 text-center">
+                                                {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ $item->nombre }}
                                             </td>
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ $item->descripcion }}
                                             </td>
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ $item->tipo }}
                                             </td>
                                             {{-- <td>
                                                     {{ $item->telefonoNum }}
                                                 </td> --}}
-                                            <td class="text-xs mb-0 text-center">
+                                            <td class="text-sm mb-0 text-left">
                                                 {{ $item->caja->nombre }}
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="text-sm ps-0 text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
                                                     <i class="fas fa-edit text-default" aria-hidden="true"></i>
