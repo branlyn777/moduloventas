@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-8">
         <div class="form-group">
-            <h6>Procedencia</h6>
+            <label>Procedencia</label>
             <input type="text" wire:model.lazy="procedencia" class="form-control" placeholder="ej: Curso Laravel">
             @error('procedencia')
                 <span class="text-danger er">{{ $message }}</span>
@@ -12,7 +12,7 @@
 
     <div class="col-sm-12 col-md-4">
         <div class="form-group">
-            <h6>Estado</h6>
+            <label>Estado</label>
             <select wire:model='estado' class="form-select">
                 <option value="Elegir" selected disabled>Elegir</option>
                 <option value="Activo">Activo</option>

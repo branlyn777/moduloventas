@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Nombre de la cartera</h6>
+            <label>Nombre de la cartera</label>
             <input type="text" wire:model.lazy="nombre" class="form-control">
             @error('nombre')
                 <span class="text-danger er">{{ $message }}</span>
@@ -11,7 +11,7 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Descripción</h6>
+            <label>Descripción</label>
             <input type="text" wire:model.lazy="descripcion" class="form-control">
             @error('descripcion')
                 <span class="text-danger er">{{ $message }}</span>
@@ -20,7 +20,7 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Tipo</h6>
+            <label>Tipo</label>
             <select wire:model='tipo' class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
                 <option value="efectivo">EFECTIVO</option>
@@ -34,7 +34,7 @@
     @if ($variable == 1)
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                <h6>Número de telefono</h6>
+                <label>Número de telefono</label>
                 <input type="number" wire:model.lazy="telefonoNum" class="form-control">
                 @error('telefonoNum')
                     <span class="text-danger er">{{ $message }}</span>
@@ -44,7 +44,7 @@
     @endif
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <h6>Caja</h6>
+            <label>Caja</label>
             <select wire:model='caja_id' class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
                 @foreach ($cajas as $item)

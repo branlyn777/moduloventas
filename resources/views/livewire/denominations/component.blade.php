@@ -45,7 +45,7 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Monedas | Listado</h5>
+                        <h5 class="text-white" style="font-size: 16px">Listado de monedas</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
@@ -113,7 +113,7 @@
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $coin->id }}','{{ $coin->type }}')"
                                                 class="mx-3">
-                                                <i class="fas fa-trash text-default"></i>
+                                                <i class="fas fa-trash text-danger"></i>
                                             </a>
                                         </td>
                                     </tr>

@@ -114,7 +114,7 @@
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
                                                 class="mx-3" title="Delete">
-                                                <i class="fas fa-trash text-default" aria-hidden="true"></i>
+                                                <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
                                         </td>
                                     </tr>

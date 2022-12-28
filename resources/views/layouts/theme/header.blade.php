@@ -25,7 +25,7 @@
 			</ol>
 			<h6 class="font-weight-bolder mb-0 text-white">Usuarios</h6>
 		</nav> --}}
-   
+
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 {{-- <div class="input-group">
@@ -36,8 +36,7 @@
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex px-2 align-items-center">
-                    <a href="../../pages/authentication/signin/illustration.html"
-                        class="nav-link text-white font-weight-bold px-0" target="_blank">
+                    <a class="nav-link text-white font-weight-bold px-0" target="_blank">
 
                         <span class="d-sm-inline d-none">{{ auth()->user()->name }}</span>
                     </a>
@@ -57,7 +56,7 @@
                         <i class="fa fa-bell me-sm-1" aria-hidden="true"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                        
+
 
                         <li>
                             {{-- AREA DE NOTIFICACION --}}
@@ -126,7 +125,7 @@
                         </li>
                     </ul>
                 </li>
-               
+
             </ul>
         </div>
     </div>

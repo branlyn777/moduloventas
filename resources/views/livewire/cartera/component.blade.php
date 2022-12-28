@@ -45,7 +45,7 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Carteras | Listado</h5>
+                        <h5 class="text-white" style="font-size: 16px"> Listado de carteras</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
@@ -117,7 +117,7 @@
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
                                                     class="mx-3" title="Borrar">
-                                                    <i class="fas fa-trash text-default" aria-hidden="true"></i>
+                                                    <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>

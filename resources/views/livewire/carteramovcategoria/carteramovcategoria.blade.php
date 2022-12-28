@@ -45,7 +45,7 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Categoria Cartera Movimiento</h5>
+                        <h5 class="text-white" style="font-size: 16px">Categoria cartera movimiento</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
@@ -74,19 +74,13 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-sm text-center">No</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Nombre
-                                        Categoria</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">
-                                        Detalles</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Tipo
-                                    </th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">
-                                        Estado</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha
-                                        Creación</th>
-                                    <th class="text-uppercase text-sm ps-2 text-center">
-                                        Acciones</th>
+                                    <th class="col">#</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">NombreCategoria</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Detalles</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Tipo</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left"> Estado</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha Creación</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center"> Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,7 +127,7 @@
                                                     <a href="javascript:void(0)"
                                                         onclick="ConfirmarAnular({{ $p->id }},'{{ $p->nombre }}')"
                                                         title="Anular Categoria" type="button">
-                                                        <i class="fas fa-trash text-default"></i>
+                                                        <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 @else
                                                     <button wire:click.prevent="reacctivar({{ $p->id }})"
