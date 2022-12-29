@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\CarteraMovCategoria;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -158,7 +159,14 @@ class CarteraMovCategoriaController extends Component
 
         $this->resetUI();
         $this->mensaje_toast = "¡Categoria " . $categoria->nombre . " reactivada exitosamente!";
+
+
+
         $this->emit('accion-toast-ok');
+
+
+
+        return Redirect::to('carteramovcategoria');
     }
     //Regresando las variables a sus valores por defecto
     public function resetUI()

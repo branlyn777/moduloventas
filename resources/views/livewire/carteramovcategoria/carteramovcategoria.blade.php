@@ -50,7 +50,8 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="modalnuevacategoria()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva Categoria</button>           
+                            <button wire:click="modalnuevacategoria()" class="btn btn-add "> <i
+                                    class="fas fa-plus me-2"></i> Nueva Categoria</button>
                         </div>
 
 
@@ -74,7 +75,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">NombreCategoria</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Detalles</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Tipo</th>
@@ -130,10 +131,9 @@
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
                                                 @else
-                                                    <button wire:click.prevent="reacctivar({{ $p->id }})"
-                                                        type="button" title="Reactivar Categoria">
-                                                        <i class="fab fa-phabricator"></i>
-                                                    </button>
+                                                    <a href="javascript:void(0)" wire:click.prevent="reacctivar({{ $p->id }})" title="Reactivar Categoria" type="button">
+                                                        <i class="fab fa-phabricator text-primary"></i>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>
