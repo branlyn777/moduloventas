@@ -15,7 +15,7 @@ class CajasController extends Component
     use WithFileUploads;
     public  $search, $nombre, $estado, $sucursal_id, $selected_id;
     public  $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 15;
 
     public function paginationView()
     {

@@ -109,7 +109,7 @@
                         <li class=@yield('companiesli', 'nav-item ')>
                             <a class=@yield('companiesnav', 'nav-link ') href="{{ url('companies') }}">
                                 <span class="sidenav-mini-icon"> E </span>
-                                <span class="sidenav-normal"> Empresa </span>
+                                <span class="sidenav-normal">Editar Empresa </span>
                             </a>
                         </li>
                         <li class=@yield('sucursalesli', 'nav-item ')>
