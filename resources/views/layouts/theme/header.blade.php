@@ -51,7 +51,7 @@
                 <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
                         <div class="mt-2 mb-5 d-flex">
-                            @if ()
+                            @if (true)
                             <i class="fa-regular fa-sun"></i>
                             <div class="form-check form-switch ps-0 ms-auto my-auto">
                               <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
