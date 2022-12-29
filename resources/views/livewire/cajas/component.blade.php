@@ -165,19 +165,19 @@
             })
             return;
         }
-        swal.fire({
+
+
+        swal({
             title: 'CONFIRMAR',
-            icon: 'warning',
             text: '¿Confirmar eliminar la caja ' + '"' + name + '"?.',
+            type: 'warning',
             showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            padding: '2em'
         }).then(function(result) {
             if (result.value) {
                 window.livewire.emit('deleteRow', id)
-                Swal.close()
             }
         })
     }
