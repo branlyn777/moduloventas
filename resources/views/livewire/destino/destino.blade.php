@@ -69,7 +69,6 @@ true
                     </div>
                 </div>
             </div>
-        
             <br>
             <div class="card">
                 <div class="card-body">
@@ -82,7 +81,7 @@ true
                         <div class="btn-group ms-auto my-auto">
                             <div class="p-2">
                                 <label>Seleccionar Sucursal</label>
-                                <select wire:model='sucursal_id' class="form-control">
+                                <select wire:model='sucursal_id' class="form-select">
                                     @foreach($sucursales as $s)
                                     <option value="{{$s->id}}">{{$s->name}}</option>
                                     @endforeach

@@ -20153,7 +20153,7 @@ fieldset:disabled .btn {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  border-radius: 0.75rem;
+  border-radius:17.75rem !important;
   height: 48px;
   width: 48px;
   transition: all .2s ease-in-out;

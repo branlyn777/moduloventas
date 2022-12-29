@@ -12,27 +12,11 @@
             </a>
         </div>
         @yield('migaspan')
-        {{-- <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="javascript:;">Paginas</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">User</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Usuarios</h6>
-		</nav> --}}
+     
 
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                {{-- <div class="input-group">
-					<span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-					<input type="text" class="form-control" placeholder="Type here..." onfocus="focused(this)"
-						onfocusout="defocused(this)">
-				</div> --}}
+               
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex px-2 align-items-center">
@@ -66,13 +50,29 @@
                 </li>
                 <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i>
+                        <div class="mt-2 mb-5 d-flex">
+                            @if ()
+                            <i class="fa-regular fa-sun"></i>
+                            <div class="form-check form-switch ps-0 ms-auto my-auto">
+                              <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+                            </div>
+                            @else
+                            <i class="fa-regular fa-moon"></i>
+                            <div class="form-check form-switch ps-0 ms-auto my-auto">
+                              <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+                            </div>
+                                
+                            @endif
+                          </div>
+                        {{-- <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i> --}}
                     </a>
                 </li>
                 <li class="nav-item dropdown px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
+                        <img src="{{ asset('storage/usuarios/' . auth()->user()->image) }}"
+                                            class="avatar avatar-sm  me-3 " alt="user image" style="border: 2px solid #adabab;
+                                            border-radius: 50%;">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
@@ -99,20 +99,11 @@
                             <a class="dropdown-item border-radius-md" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
                                 <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-widht="2"
-                                            stroke-linecap="round" stroke_linejoin="round"
-                                            class="feather feather-log-out">
-                                            <title>Cerrar Sesión</title>
-                                            <path d="M9 21H5a2 2 0 0
-										1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                            <polyline points="16 17 21 12 16 7"></polyline>
-                                            <line x1="21" y1="12" x2="9" y2="12"></line>
-                                        </svg>
+                                    <div class="me-4 fs-4 my-auto">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
+                                        <h6 class="text-sm font-weight-bold mb-1">
                                             Cerrar Sesión
                                         </h6>
                                     </div>
@@ -131,3 +122,23 @@
     </div>
 </nav>
 <!-- End Navbar -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <div class="mt-2 mb-5 d-flex">
+    <h6 class="mb-0">Light / Dark</h6>
+    <div class="form-check form-switch ps-0 ms-auto my-auto">
+      <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+    </div>
+  </div> --}}
