@@ -74,7 +74,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="col">#</th>
+                                <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">NombreCategoria</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Detalles</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Tipo</th>
