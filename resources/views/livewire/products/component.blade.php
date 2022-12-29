@@ -45,8 +45,7 @@ true
             <div class="card-header pb-0">
                 <div class="d-lg-flex">
                     <div>
-                        <h6 class="mb-0 text-white">Lista Productos</h6>
-
+                        <h6 class="mb-0 text-white" style="font-size: 16px">Lista Productos</h6>
                     </div>
                     
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
@@ -72,30 +71,92 @@ true
             <br>
             <div class="card">
                 <div class="card-body">
+                    
                     <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 p-2">
-                            @include('common.searchbox')
+                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+                            <div class="input-group">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                            </div>
+                        </div>
+                        <div class="btn-group ms-auto my-auto">
+                            <div class=" col-sm-6 pt-2">
+                                <label>Categoria</label>
+                                <div class="input-group">
+                                    <select wire:model='selected_categoria' class="form-control">
+                                        <option value="null" disabled>Elegir Categoria</option>
+                                        @foreach ($categories as $key => $category)
+                                            <option value="{{ $category->id }}">{{ $category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="btn btn-primary" wire:click="resetCategorias()">
+                                        <i class="fas fa-redo-alt text-white"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <label>Subcategorias</label>
+                                <div class="input-group">
+                                    <select wire:model='selected_sub' class="form-control">
+                                        <option value="null" disabled>Elegir Subcategoria</option>
+                                        @foreach ($sub as $subcategoria)
+                                        <option value="{{ $subcategoria->id }}">{{ $subcategoria->name}}</option>
+                                        @endforeach
+
+                                    </select>
+                                    <button wire:click="resetSubcategorias()" class="btn btn-primary">
+                                        <i class="fas fa-redo-alt text-white"></i>
+                                    </button>
+                                    </tbody>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <label>Estado</label>
+                                <select wire:model='estados' class="form-select">
+                                <option value="null" disabled>Estado</option>
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-md-3 p-2">
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="card">
+                <div class="card-body">
+                    
+                    <div class="d-lg-flex m-3">
+                        <div class="p-2 col-sm-3">
+                            <label>Buscar</label>
+                            <div class="input-group">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" wire:model="search" placeholder="Nombre de Producto" class="form-control">
+                            </div>
+                        </div>
 
+                        <div class="p-2 col-sm-3">
+                            <label>Categoria</label>
                             <div class="input-group">
                                 <select wire:model='selected_categoria' class="form-control">
                                     <option value="null" disabled>Elegir Categoria</option>
                                     @foreach ($categories as $key => $category)
-                                    <option value="{{ $category->id }}">{{ $category->name}}</option>
+                                        <option value="{{ $category->id }}">{{ $category->name}}</option>
                                     @endforeach
-
                                 </select>
                                 <button class="btn btn-primary" wire:click="resetCategorias()">
                                     <i class="fas fa-redo-alt text-white"></i>
                                 </button>
-
                             </div>
                         </div>
 
-                        <div class="col-md-3 p-2">
-                            <div class="input-group mb-3">
+                        <div class="p-2 col-sm-3">
+                            <label>Subcategorias</label>
+                            <div class="input-group">
                                 <select wire:model='selected_sub' class="form-control">
                                     <option value="null" disabled>Elegir Subcategoria</option>
                                     @foreach ($sub as $subcategoria)
@@ -107,24 +168,24 @@ true
                                     <i class="fas fa-redo-alt text-white"></i>
                                 </button>
                                 </tbody>
-
-                                </table>
                             </div>
                         </div>
 
-                        <div class="col-md-3 p-2">
-                            <div class="form-group">
-                                <select wire:model='estados' class="form-control mt--2">
-                                  <option value="null" disabled>Estado</option>
-                                  <option value="ACTIVO">ACTIVO</option>
-                                  <option value="INACTIVO">INACTIVO</option>
-                                </select>
-                              </div>
+                        <div class="p-2 col-sm-2">
+                            <label>Estado</label>
+                            <select wire:model='estados' class="form-select">
+                              <option value="null" disabled>Estado</option>
+                              <option value="ACTIVO">ACTIVO</option>
+                              <option value="INACTIVO">INACTIVO</option>
+                            </select>
                         </div>
-
+                        
+                        <div class="btn-group ms-auto my-auto">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <br>
             <div class="card">
                 <div class="card-header pb-0">

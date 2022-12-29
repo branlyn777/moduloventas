@@ -67,18 +67,25 @@ true
                     
                     <div class="d-lg-flex m-3">
                         <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                            @include('common.searchbox')
+                            {{-- <label>Buscar</label> --}}
+                            <div class="input-group">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                            </div>
                         </div>
                     
-                        {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> </div>--}}
-                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
-                            <div class="ms-auto my-auto">
+                        <div class="btn-group ms-auto my-auto">
+                            <div class="p-2">
+                            </div>
+                            <div class="p-2">
                                 <label>Estado</label>
                                 <select wire:model='estados' class="form-select">
                                     <option value="null" disabled>Estado</option>
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
-                                    <option value="TODOS">TODOS</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="TODOS">Todos</option>
                                 </select>
                             </div>
                         </div>

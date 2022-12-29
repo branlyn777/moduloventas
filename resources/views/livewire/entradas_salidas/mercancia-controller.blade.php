@@ -45,7 +45,7 @@ true
             <div class="card-header pb-0">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white">Entrada y Salida de Productos</h5>
+                        <h6 class="text-white" style="font-size: 16px">Entrada y Salida de Productos</h6>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
@@ -61,27 +61,26 @@ true
                     
                     <div class="d-lg-flex m-3">
                         <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                            {{-- @include('common.searchbox') --}}
-                            <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Buscar" class="form-control">
-                                </div>
+                            <div class="input-group">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" placeholder="Buscar" class="form-control">
                             </div>
                         </div>
-                    
-                        {{-- <div class="col-12 col-sm-12 col-md-3 text-center"> </div>--}}
-                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
-                            <div class="ms-auto my-auto">
+                        
+                        <div class="btn-group ms-auto my-auto">
+                            <div class="p-2">
                                 <label>Estado</label>
-                                <select wire:model="tipo_de_operacion" class="form-select">
+                                <select wire:model='tipo_de_operacion' class="form-control">
                                     <option value="Entrada">Entrada</option>
                                     <option value="Salida">Salida</option>
                                 </select>
                             </div>
+                            
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
             <br>

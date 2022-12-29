@@ -59,11 +59,9 @@ true
             <div class="card">
                 <div class="card-body">
                     
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-3">
-                            
-                            {{-- <b wire:click="limpiarsearch()" style="cursor: pointer; font-size: 16px">Buscar</b><br> --}}
-                            <b style="font-size: 16px">Buscar</b><br>
+                    <div class="d-lg-flex m-1">
+                        <div class="p-2">
+                            <label style="font-size: 12px">Buscar</label><br>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">
@@ -81,76 +79,76 @@ true
                                     </select>
                                 </div>
                             </div>
-                            
-                        </div>
-                    
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <b>Seleccionar Sucursal</b>
-                            <div class="form-group">
-                                <select wire:model="sucursal_id" class="form-select">
-                                    @foreach($listasucursales as $sucursal)
-                                        <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
-                                    @endforeach
-                                    <option value="Todos">Todas las Sucursales</option>
-                                </select>
-                            </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <b>Estado</b>
-                            <div class="form-group">
-                                <select wire:model="estado" class="form-select">
-                                    <option value='ACTIVO' selected>Activo</option>
-                                    <option value='INACTIVO'>Anulado</option>
-                                    <option value='Todos'>Todos</option>
-                                </select>
+                        <div class="btn-group ms-auto my-auto">
+                            <div class="p-2">
+                                <label>Seleccionar Sucursal</label>
+                                <div class="form-group">
+                                    <select wire:model="sucursal_id" class="form-select">
+                                        @foreach($listasucursales as $sucursal)
+                                            <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                        @endforeach
+                                        <option value="Todos">Todas las Sucursales</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-            
-                        <div class="col-12 col-sm-6 col-md-2">
-                            <b>Tipo de Fecha</b>
-                            <div class="form-group">                              
-                                <select wire:model="fecha" class="form-select">
-                                    <option value='hoy' selected>Hoy</option>
-                                    <option value='ayer'>Ayer</option>
-                                    <option value='semana'>Semana</option>
-                                    <option value='fechas'>Entre Fechas</option>
-                                </select>
+
+                            <div class="p-2">
+                                <label>Estado</label>
+                                <div class="form-group">
+                                    <select wire:model="estado" class="form-select">
+                                        <option value='ACTIVO' selected>Activo</option>
+                                        <option value='INACTIVO'>Anulado</option>
+                                        <option value='Todos'>Todos</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-1">
-                            <b>Otros</b>
-                            <div class="btn-group form-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    Ver
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
-                                    <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
+
+                            <div class="p-2">
+                                <label>Tipo de Fecha</label>
+                                <div class="form-group">                              
+                                    <select wire:model="fecha" class="form-select">
+                                        <option value='hoy' selected>Hoy</option>
+                                        <option value='ayer'>Ayer</option>
+                                        <option value='semana'>Semana</option>
+                                        <option value='fechas'>Entre Fechas</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
+                                
+                                    <div class="p-2">
+                                        <label>Fecha Inicio</label>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="fromDate" class="form-control flatpickr" >
+                                        </div>
+                                    </div>
+                    
+                                    <div class="p-2">
+                                        <label>Fecha Fin</label>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="toDate" class="form-control flatpickr" >
+                                        </div>
+                                    </div>
+                                
+                            @endif
+
+                            <div class="p-2">
+                                <label>Otros</label>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Ver
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
+                                        <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
-                            <div class="row">
-                
-                                <div class="col-12 col-sm-6 col-md-3 text-center">
-                                    <b>Fecha Inicio</b>
-                                    <div class="form-group">
-                                        <input type="date" wire:model="fromDate" class="form-control flatpickr" >
-                                    </div>
-                                </div>
-                
-                                <div class="col-12 col-sm-6 col-md-3 text-center">
-                                    <b>Fecha Fin</b>
-                                    <div class="form-group">
-                                        <input type="date" wire:model="toDate" class="form-control flatpickr" >
-                                    </div>
-                                </div>
-                            
-                            </div>
-                    @endif
                 </div>
             </div>
             <br>
