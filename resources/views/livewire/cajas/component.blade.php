@@ -84,11 +84,11 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                        <th class="text-uppercase text-sm text-center">Nº</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
-                                        <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>

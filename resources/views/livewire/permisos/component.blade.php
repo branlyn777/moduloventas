@@ -40,8 +40,6 @@
 
 
 <div>
-
-
     <div class="row">
         <div class="col-12 ">
             <div class="d-lg-flex" style="margin-bottom: 2.3rem">

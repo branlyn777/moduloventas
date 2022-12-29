@@ -43,15 +43,17 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Productos Vendidos</h6>
-                  </div>
+
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">Productos vendidos</h5>
+                    </div>              
+                </div>
+            </div>
 
 
-
-
-
+            <div class="card mb-4"> <br>          
                 <div style="padding-left: 15px; padding-right: 15px;">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-2 text-center">

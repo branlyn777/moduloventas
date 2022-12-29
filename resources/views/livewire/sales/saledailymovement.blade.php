@@ -10,7 +10,7 @@
                 href="{{ url('') }}">Inicio</a></li>
         <li class="breadcrumb-item text-sm text-white active" aria-current="page">Reportes</li>
     </ol>
-    <h6 class="font-weight-bolder mb-0 text-white"> Movimiento Dario Ventas </h6>
+    <h6 class="font-weight-bolder mb-0 text-white"> Movimiento Diario Ventas </h6>
 </nav>
 @endsection
 
