@@ -1,41 +1,41 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white"> Lista de Compras </h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white"> Lista de Compras </h6>
+    </nav>
 @endsection
 
 
 @section('Comprascollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('Comprasarrow')
-true
+    true
 @endsection
 
 
 @section('listacomprasnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('Comprasshow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('listacomprasli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
@@ -47,10 +47,11 @@ true
                     <div>
                         <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
                     </div>
-                    
+
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            <a href="detalle_compras" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i> Registrar Compra</a>
+                            <a href="detalle_compras" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i>
+                                Registrar Compra</a>
                         </div>
                     </div>
                 </div>
@@ -58,7 +59,6 @@ true
             <br>
             <div class="card">
                 <div class="card-body">
-                    
                     <div class="d-lg-flex m-1">
                         <div class="p-2">
                             <label style="font-size: 12px">Buscar</label><br>
@@ -67,8 +67,8 @@ true
                                     <span class="input-group-text">
                                         <i class="fa fa-search"></i>
                                     </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
-                                        class="form-control">
+                                    <input type="text" wire:model="search"
+                                        placeholder="Buscar por Nro.Documento,Proveedor,Usuario" class="form-control">
                                 </div>
                                 <div class="input-group mb-4">
                                     <select wire:model="tipo_search" class="form-select">
@@ -81,13 +81,13 @@ true
                             </div>
                         </div>
 
-                        <div class="btn-group ms-auto my-auto">
+                        <div class="btn-group ms-auto my-auto text-center">
                             <div class="p-2">
                                 <label>Seleccionar Sucursal</label>
                                 <div class="form-group">
                                     <select wire:model="sucursal_id" class="form-select">
-                                        @foreach($listasucursales as $sucursal)
-                                            <option value="{{$sucursal->id}}">{{$sucursal->name}}</option>
+                                        @foreach ($listasucursales as $sucursal)
+                                            <option value="{{ $sucursal->id }}">{{ $sucursal->name }}</option>
                                         @endforeach
                                         <option value="Todos">Todas las Sucursales</option>
                                     </select>
@@ -107,7 +107,7 @@ true
 
                             <div class="p-2">
                                 <label>Tipo de Fecha</label>
-                                <div class="form-group">                              
+                                <div class="form-group">
                                     <select wire:model="fecha" class="form-select">
                                         <option value='hoy' selected>Hoy</option>
                                         <option value='ayer'>Ayer</option>
@@ -117,33 +117,34 @@ true
                                 </div>
                             </div>
 
-                            @if($this->fecha != "hoy" and $this->fecha != 'ayer' and $this->fecha != 'semana')
-                                
-                                    <div class="p-2">
-                                        <label>Fecha Inicio</label>
-                                        <div class="form-group">
-                                            <input type="date" wire:model="fromDate" class="form-control flatpickr" >
-                                        </div>
+                            @if ($this->fecha != 'hoy' and $this->fecha != 'ayer' and $this->fecha != 'semana')
+                                <div class="p-2">
+                                    <label>Fecha Inicio</label>
+                                    <div class="form-group">
+                                        <input type="date" wire:model="fromDate" class="form-control flatpickr">
                                     </div>
-                    
-                                    <div class="p-2">
-                                        <label>Fecha Fin</label>
-                                        <div class="form-group">
-                                            <input type="date" wire:model="toDate" class="form-control flatpickr" >
-                                        </div>
+                                </div>
+
+                                <div class="p-2">
+                                    <label>Fecha Fin</label>
+                                    <div class="form-group">
+                                        <input type="date" wire:model="toDate" class="form-control flatpickr">
                                     </div>
-                                
+                                </div>
                             @endif
 
                             <div class="p-2">
                                 <label>Otros</label>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                        aria-expanded="false">
                                         Ver
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" wire:click= "VerComprasProducto()">Compras por producto</a>
-                                        <a class="dropdown-item" wire:click= "VerProductosProveedor()">Productos por proveedor</a>
+                                        <a class="dropdown-item" wire:click="VerComprasProducto()">Compras por
+                                            producto</a>
+                                        <a class="dropdown-item" wire:click="VerProductosProveedor()">Productos por
+                                            proveedor</a>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +154,7 @@ true
             </div>
             <br>
             <div class="card">
-                {{--tabla que muestra todas las compras--}}
+                {{-- tabla que muestra todas las compras --}}
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -161,107 +162,119 @@ true
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-sm text-center">N°</th>                                
-                                            <th class="text-uppercase text-sm" style="width: 50px;">COD.</th>                                
-                                            <th class="text-uppercase text-sm">FECHA</th>                 
-                                            <th class="text-uppercase text-sm">PROVEEDOR</th>                                
-                                            <th class="text-uppercase text-sm">DOCUMENTO</th>                                
-                                            <th class="text-uppercase text-sm">TIPO<br>COMPRA</br></th>                                
-                                            <th class="text-uppercase text-sm">TOTAL<br>COMPRA</br></th>                                   
+                                            <th class="text-uppercase text-sm text-center">N°</th>
+                                            <th class="text-uppercase text-sm" style="width: 50px;">COD.</th>
+                                            <th class="text-uppercase text-sm">FECHA</th>
+                                            <th class="text-uppercase text-sm">PROVEEDOR</th>
+                                            <th class="text-uppercase text-sm">DOCUMENTO</th>
+                                            <th class="text-uppercase text-sm">TIPO<br>COMPRA</br></th>
+                                            <th class="text-uppercase text-sm">TOTAL<br>COMPRA</br></th>
                                             <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm">USUARIO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            @foreach ($data_compras as $data)
-                                                <tr style="font-size: 14px">
-                                                    <td class="text-center">
-                                                        {{ $loop->index+1}}
-                                                    </td>
-                                                    <td>
-                                                        <label style="font-size: 14px"><span class="badge bg-secondary">{{ $data->id}}</span></label>
-                                                    </td>
-                                                    <td>
-                                                        {{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}
-                                                        <br>
-                                                        {{\Carbon\Carbon::parse($data->created_at)->format('h:i:s a')}}
-                                                    </td>
-                                                    {{-- <td>
+                                        @foreach ($data_compras as $data)
+                                            <tr style="font-size: 14px">
+                                                <td class="text-center">
+                                                    {{ $loop->index + 1 }}
+                                                </td>
+                                                <td>
+                                                    <label style="font-size: 14px"><span
+                                                            class="badge bg-secondary">{{ $data->id }}</span></label>
+                                                </td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}
+                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($data->created_at)->format('h:i:s a') }}
+                                                </td>
+                                                {{-- <td>
                                                         <label style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</label>
                                                     </td> --}}
+                                                <td>
+                                                    <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">
+                                                        {{ $data->nombre_prov }}</h6>
+                                                </td>
+                                                <td>
+                                                    {{ $data->tipo_doc }}
+                                                    {{ $data->nro_documento ? $data->nro_documento : 'S/N' }}
+
+                                                </td>
+                                                <td>
+                                                    {{ $data->transaccion }}
+                                                </td>
+                                                <td>
+                                                    {{ $data->imp_tot }}
+                                                </td>
+
+
+                                                @if ($data->status == 'ACTIVO')
                                                     <td>
-                                                        <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">{{ $data->nombre_prov}}</h6>
-                                                    </td>
-                                                    <td>
-                                                        {{$data->tipo_doc}}
-                                                        {{ $data->nro_documento ?$data->nro_documento:'S/N' }}
-                                                        
-                                                    </td>
-                                                    <td>
-                                                        {{ $data->transaccion }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $data->imp_tot }}
-                                                    </td>
-                                            
-                                                
-                                                    @if( $data->status == 'ACTIVO')
-                                                    <td>
-                                                        <span class="badge badge-sm bg-gradient-success">{{$data->status}}</span>
+                                                        <span
+                                                            class="badge badge-sm bg-gradient-success">{{ $data->status }}</span>
                                                         {{-- <span class="badge badge-success mb-0">{{$data->status}}</span> --}}
                                                     </td>
-                                                    @else
+                                                @else
                                                     <td class="text-center">
                                                         <span class="badge text-bg-danger text-white">ANULADO</span>
                                                         {{-- <span class="badge badge-warning mb-0">ANULADO</span> --}}
                                                     </td>
-                                                    @endif
-                                                    <td>
-                                                        {{ $data->username }}
-                                                    </td>
-                                                
-                                                    
-                                                    <td class="text-center">
-                                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                                            <button type="button" class="btn btn-primary" wire:click= "VerDetalleCompra('{{$data->id}}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                title="Ver detalle de compra">
-                                                                <i class="fas fa-bars" style="font-size: 14px"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-success" wire:click= "editarCompra('{{$data->id}}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                title="Editar">
-                                                                <i class="fas fa-edit text-white" style="font-size: 14px"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-secondary" href="{{ url('Compras/pdf' . '/' . $data->id)}}"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                title="Exportar">
-                                                                <i class="fas fa-print text-white" style="font-size: 14px"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger" wire:click="Confirm('{{ $data->id }}')"
-                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                title="Inactivar">
-                                                                <i class="fas fa-minus-circle text-white" style="font-size: 14px"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                    </tbody>
-                                    <tfoot class="text-dark text-right">
-                                            <tr>
-                                                <td colspan="5">
-                                                    <h5 class="text-center" style="font-size: 14.5px">Total Bs.-</h5>
-                                                    <h5 class="text-center" style="font-size: 14.5px">Total $us.-</h5>
-                                                </td>
+                                                @endif
                                                 <td>
-                                                    <h5 class="text-center" style="font-size: 14.5px">{{$totales}}</h5>
-                                                    <h5 class="text-center" style="font-size: 14.5px">{{round($totales/6.96,2)}}</h5>
+                                                    {{ $data->username }}
                                                 </td>
-                                                <td colspan="4">
+
+
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-primary"
+                                                            wire:click="VerDetalleCompra('{{ $data->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Ver detalle de compra">
+                                                            <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-success"
+                                                            wire:click="editarCompra('{{ $data->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Editar">
+                                                            <i class="fas fa-edit text-white"
+                                                                style="font-size: 14px"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            href="{{ url('Compras/pdf' . '/' . $data->id) }}"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Exportar">
+                                                            <i class="fas fa-print text-white"
+                                                                style="font-size: 14px"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            wire:click="Confirm('{{ $data->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Inactivar">
+                                                            <i class="fas fa-minus-circle text-white"
+                                                                style="font-size: 14px"></i>
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot class="text-dark text-right">
+                                        <tr>
+                                            <td colspan="5">
+                                                <h5 class="text-center" style="font-size: 14.5px">Total Bs.-</h5>
+                                                <h5 class="text-center" style="font-size: 14.5px">Total $us.-</h5>
+                                            </td>
+                                            <td>
+                                                <h5 class="text-center" style="font-size: 14.5px">{{ $totales }}
+                                                </h5>
+                                                <h5 class="text-center" style="font-size: 14.5px">
+                                                    {{ round($totales / 6.96, 2) }}</h5>
+                                            </td>
+                                            <td colspan="4">
+                                            </td>
+                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -298,16 +311,16 @@ true
             swal.fire({
                 title: 'ERROR',
                 icon: 'warning',
-                text: 'La compra no puede ser eliminada por que uno de los items ya ha sido distribuido.'              
+                text: 'La compra no puede ser eliminada por que uno de los items ya ha sido distribuido.'
             })
         });
         window.livewire.on('opentap', Msg => {
-         
-         var win = window.open('Compras/pdf/{id}');
-         // Cambiar el foco al nuevo tab (punto opcional)
-         // win.focus();
 
-     });
+            var win = window.open('Compras/pdf/{id}');
+            // Cambiar el foco al nuevo tab (punto opcional)
+            // win.focus();
+
+        });
         window.livewire.on('preguntareliminarCompra', msg => {
             //console.log(msg);
             swal.fire({
@@ -316,14 +329,13 @@ true
                 text: '¿Esta seguro de anular la compra?',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar'
-                
-            }).then(function(result){
-                if(result.value){
+
+            }).then(function(result) {
+                if (result.value) {
                     console.log(msg);
-                    window.livewire.emit('deleteRow',msg).Swal.close()
+                    window.livewire.emit('deleteRow', msg).Swal.close()
                 }
             })
         });
     })
-
 </script>
