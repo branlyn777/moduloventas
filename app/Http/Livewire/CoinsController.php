@@ -30,7 +30,7 @@ class CoinsController extends Component
     public function render()
     {
         if (strlen($this->search) > 0)
-            $coins = Denomination::where('type', 'like', '%' . $this->search . '%')->paginate($this->pagination);
+            $coins = Denomination::where('value', 'like', '%' . $this->search . '%')->paginate($this->pagination);
         else
             $coins = Denomination::orderBy('id', 'desc')->paginate($this->pagination);
         return view('livewire.denominations.component', [
@@ -124,7 +124,7 @@ class CoinsController extends Component
     }
     public function resetUI()
     {
-        $this->type = '';
+        $this->type = 'Elegir';
         $this->value = '';
         $this->image = null;
         $this->search = '';
