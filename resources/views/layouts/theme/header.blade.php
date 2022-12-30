@@ -50,18 +50,16 @@
                 </li>
                 <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
-                        <div class="mt-2 mb-5 d-flex">
+                        <div class="form-check form-switch ps-0 ms-auto my-auto">
                             @if (true)
-                            <i class="fa-regular fa-sun"></i>
-                            <div class="form-check form-switch ps-0 ms-auto my-auto">
-                              <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-                            </div>
-                            @else
-                            <i class="fa-regular fa-moon"></i>
-                            <div class="form-check form-switch ps-0 ms-auto my-auto">
-                              <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-                            </div>
-                                
+                            
+                            <i class="fas fa-sun me-1"></i>
+                          <input class="form-check-input mt-1 ms-auto my-auto" style="height: 1.4em" wire:model='check' type="checkbox" id="dark-version" onclick="darkMode(this)">
+                            
+                          @else
+                          <input class="form-check-input mt-1 ms-auto my-auto" style="height: 1.4em" type="checkbox" wire:model='check' id="dark-version" onclick="darkMode(this)">
+                          <i class="fas fa-moon ms-1"></i>
+                      
                             @endif
                           </div>
                         {{-- <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i> --}}
@@ -135,10 +133,3 @@
 
 
 
-
-{{-- <div class="mt-2 mb-5 d-flex">
-    <h6 class="mb-0">Light / Dark</h6>
-    <div class="form-check form-switch ps-0 ms-auto my-auto">
-      <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-    </div>
-  </div> --}}
