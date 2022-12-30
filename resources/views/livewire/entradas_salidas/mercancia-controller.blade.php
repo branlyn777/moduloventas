@@ -56,33 +56,61 @@ true
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card p-2">
+                <div class="card-body">
+                    <div class="padding-left: 12px; padding-right: 12px;">
+
+                        <div class="row justify-content-between">
+                            <div class="mt-lg-0 col-md-3">
+                                <label style="font-size: 1rem">Buscar</label>
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        <input type="text" placeholder="Tipo de Operacion, Almacen"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ms-auto my-auto mt-lg-0 col-md-2">
+                                <div class="ms-auto my-auto">
+                                    <label style="font-size: 1rem">Estado</label>
+                                    <select wire:model='tipo_de_operacion' class="form-select">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Salida">Salida</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="card">
                 <div class="card-body">
                     
                     <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                            <div class="input-group">
-                                <span class="input-group-text input-gp">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <input type="text" placeholder="Buscar" class="form-control">
+                        <div class="col-12 col-sm-12 col-md-3 mt-2 pt-2">
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="btn-group ms-auto my-auto">
-                            <div class="p-2">
+
+                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
+                            <div class="ms-auto my-auto">
                                 <label>Estado</label>
-                                <select wire:model='tipo_de_operacion' class="form-control">
+                                <select wire:model='tipo_de_operacion' class="form-select">
                                     <option value="Entrada">Entrada</option>
                                     <option value="Salida">Salida</option>
-                                </select>
+                                  </select>
                             </div>
-                            
                         </div>
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <br>
             <div class="card">
                 <div class="card-body px-0 pb-0">

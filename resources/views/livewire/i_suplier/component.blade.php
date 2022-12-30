@@ -84,7 +84,7 @@ true
                 <div class="card-body">
                     
                     <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-2 mt-2 pt-2">
+                        <div class="col-12 col-sm-12 col-md-3 mt-2 pt-2">
                             {{-- @include('common.searchbox') --}}
                             <div class="form-group">
                                 <div class="input-group mb-4">
