@@ -7,7 +7,10 @@
                     Detalle de Venta Código: @if($this->venta != null) {{$this->venta->id}} @endif
                 </p>
             </h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
         </div>
         <div class="modal-body">
 
@@ -17,47 +20,39 @@
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
                     <thead>
-                      <tr>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">No</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Nombre</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Precio (Bs)</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Desc/Rec</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Precio Venta</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Cantidad</th>
-                        <th class="text-center text-uppercase text-xxs font-weight-bolder">Total (Bs)</th>
+                      <tr>                
+                        <th class="text-uppercase text-sm text-center">Nº</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Nombre</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Precio (Bs)</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Desc/Rec</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Precio Venta</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Cantidad</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Total (Bs)</th>
                       </tr>
                     </thead>
                     
                     <tbody>
                         @foreach ($detalle_venta as $dv)
-                        <tr>
-                            <td class="text-center">
-                                <p class="text-xs mb-0">
-                                    {{$loop->iteration}}
-                                </p>
+                        <tr class="text-left">
+                            <td class="text-sm mb-0 text-center">
+                                {{$loop->iteration}}
                             </td>
-                            <td class="text-left">
-                                <p class="text-xs mb-0">
-                                    {{ ucwords(strtolower($dv->nombre)) }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ ucwords(strtolower($dv->nombre)) }}
                             </td>
-                            <td class="text-right">
-                                <p class="text-xs mb-0">
-                                    {{ number_format($dv->po, 2) }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ number_format($dv->po, 2) }}
                             </td>
 
 
 
                             @if($dv->pv-$dv->po == 0)
-                            <td class="text-center">
-                                <p class="text-xs mb-0">
-                                    {{ number_format($dv->pv-$dv->po, 2) }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ number_format($dv->pv-$dv->po, 2) }}
                             </td>
                             @else
                                 @if($dv->pv-$dv->po < 0)
-                                <td class="text-center">
+                                <td class="text-sm mb-0 text-left">
                                     <div style="color: rgb(250, 12, 12);">
                                         <p class="text-xs mb-0">
                                             Descuento
@@ -66,7 +61,7 @@
                                     {{ number_format($dv->pv-$dv->po, 2) }}
                                 </td>
                                 @else
-                                <td class="table-th text-withe text-center">
+                                <td class="text-sm mb-0 text-left">
                                     <div style="color: #002df3;">
                                         <p class="text-xs mb-0">
                                             Recargo
@@ -78,20 +73,14 @@
                             @endif
 
 
-                            <td class="text-right">
-                                <p class="text-xs mb-0">
-                                    {{ number_format($dv->pv, 2) }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ number_format($dv->pv, 2) }}
                             </td>
-                            <td class="text-center">
-                                <p class="text-xs mb-0">
-                                    {{ $dv->cantidad }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ $dv->cantidad }}
                             </td>
-                            <td class="text-right">
-                                <p class="text-xs mb-0">
-                                    {{ number_format($dv->pv * $dv->cantidad, 2) }}
-                                </p>
+                            <td class="text-sm mb-0 text-left">
+                                {{ number_format($dv->pv * $dv->cantidad, 2) }}
                             </td>
                         </tr>
                         @endforeach
@@ -108,10 +97,8 @@
                                 <b>-</b>
                             </p>
                         </td>
-                        <td class="text-center">
-                            <p class="text-xs mb-0">
-                                <b>Totales</b>
-                            </p>
+                        <td class="text-sm mb-0 text-left">
+                            <b>Totales</b>
                         </td>
                         <td class="table-th text-withe text-right">
                             <p class="text-xs mb-0">
@@ -123,10 +110,8 @@
                                 <b>--------</b>
                             </p>
                         </td>
-                        <td class="text-center">
-                            <p class="text-xs mb-0">
-                                <b>{{$this->totalitems}}</b>
-                            </p>
+                        <td class="text-sm mb-0 text-left">
+                            <b>{{$this->totalitems}}</b>
                         </td>
                         <td class="text-right align-middle">
                             @if($this->venta != null)
