@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
+use App\Models\ProductosDestino;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,15 +23,35 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RoleHasPermissionSeeder::class);
         $this->call(SucursalSeeder::class);
-        $this->call(SucursalUserSeeder ::class);
-        $this->call(DestinoSeeder ::class);
-        $this->call(DenominationSeeder ::class);
-        $this->call(CajaSeeder ::class);
-        $this->call(CarteraSeeder ::class);
-        $this->call(CategorySeeder ::class);
-        $this->call(ProductSeeder ::class);
-        $this->call(ProductoDestinoSeeder ::class);
-        $this->call(CarteraMovCategoriaSeeder ::class);
-        $this->call(ProcedenciaClienteSeeder ::class);
+        $this->call(SucursalUserSeeder::class);
+        $this->call(DestinoSeeder::class);
+        $this->call(DenominationSeeder::class);
+        $this->call(CajaSeeder::class);
+        $this->call(CarteraSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ProductoDestinoSeeder::class);
+        $this->call(CarteraMovCategoriaSeeder::class);
+        $this->call(ProcedenciaClienteSeeder::class);
+
+
+
+        //Factories
+        // Product::factory(1000)->create();
+        // ProductosDestino::factory(1000)->create()->each(function ($productodestino) {
+
+
+        //     $productodestino->ingresoproductos()->create([
+        //         'destino' => 1,
+        //         'user_id' => 1,
+        //         'concepto' => 'INGRESO',
+        //         'observacion' => 'INGRESO'
+        //     ]);
+
+
+
+
+
+        });
     }
 }
