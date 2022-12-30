@@ -56,47 +56,55 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
+           
+                <div class="d-lg-flex my-auto p-0 mb-3">
                     <div>
-                        <h5 class="mb-0 text-white" style="font-size: 16px">Destinos Productos</h5>
+                        <h5 class=" text-white" style="font-size: 16px">Destinos Productos</h5>
                     </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
-                            <a class="btn btn-add btn-sm mb-0" wire:click="modalestancia()" style="font-size: 13px"><i class="fas fa-plus me-2"></i> Nuevo Destino</a>
+                            <a class="btn btn-add mb-0" wire:click="modalestancia()"><i class="fas fa-plus"></i> Nuevo Destino</a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
+           
+            
             <div class="card">
                 <div class="card-body">
                     
-                    <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-12 col-md-3">
+                            <h6>Buscar</h6>
                             @include('common.searchbox')
                         </div>
 
-                        <div class="btn-group ms-auto my-auto">
-                            <div class="p-2">
-                                <label>Seleccionar Sucursal</label>
-                                <select wire:model='sucursal_id' class="form-select">
-                                    @foreach($sucursales as $s)
-                                    <option value="{{$s->id}}">{{$s->name}}</option>
-                                    @endforeach
-                                    <option value="Todos">Todas las Sucursales</option>
-                                </select>
+                        <div class="col-12 col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                  
+                                        <h6>Seleccionar Sucursal</h6>
+                                        <select wire:model='sucursal_id' class="form-select">
+                                            @foreach($sucursales as $s)
+                                            <option value="{{$s->id}}">{{$s->name}}</option>
+                                            @endforeach
+                                            <option value="Todos">Todas las Sucursales</option>
+                                        </select>
+                             
+                                </div>
+                                <div class="col-md-6">
+
+                                        <h6>Estado</h6>
+                                        <select wire:model='estados' class="form-select">
+                                            <option value="ACTIVO">ACTIVO</option>
+                                            <option value="INACTIVO">INACTIVO</option>
+                                            <option value="TODOS">TODOS</option>
+                                        </select>
+                                 
+                                </div>
                             </div>
-                            <div class="p-2">
-                                <label>Estado</label>
-                                <select wire:model='estados' class="form-select">
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
-                                    <option value="TODOS">TODOS</option>
-                                </select>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
