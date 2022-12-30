@@ -84,11 +84,11 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                        <th class="text-uppercase text-sm text-center">Nº</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
-                                        <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
+                                    <th class="text-uppercase text-sm text-center">Nº</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,19 +165,19 @@
             })
             return;
         }
-        swal.fire({
+
+
+        swal({
             title: 'CONFIRMAR',
-            icon: 'warning',
             text: '¿Confirmar eliminar la caja ' + '"' + name + '"?.',
+            type: 'warning',
             showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            padding: '2em'
         }).then(function(result) {
             if (result.value) {
                 window.livewire.emit('deleteRow', id)
-                Swal.close()
             }
         })
     }

@@ -178,20 +178,19 @@
             })
             return;
         }
-        swal.fire({
-            title: 'CONFIRMAR',
-            icon: 'warning',
-            text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?.',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-                Swal.close()
-            }
-        })
+
+        swal({
+                title: 'CONFIRMAR',
+                text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow', id)
+                }
+            })
     }
 </script>

@@ -15,26 +15,26 @@
 @endsection
 
 
-@section('Ventascollapse')
+@section('Reportescollapse')
 nav-link
 @endsection
 
 
-@section('Ventasarrow')
+@section('Reportesarrow')
 true
 @endsection
 
 
-@section('movimientonav')
+@section('productosmasvendidosnav')
 "nav-link active"
 @endsection
 
 
-@section('Ventasshow')
+@section('Reportesshow')
 "collapse show"
 @endsection
 
-@section('movimientoli')
+@section('productosmasvendidosli')
 "nav-item active"
 @endsection
 

@@ -81,8 +81,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">Nº</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder">PROCEDENCIA</th>
-                                    <th class="text-uppercase text-xxs font-weight-bolder ps-2">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">PROCEDENCIA</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">ESTADO</th>
                                     <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
                             </thead>
