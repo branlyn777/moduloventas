@@ -11,7 +11,9 @@
                   </h1>
 
 
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="">
                 <div class="text-center">
@@ -34,7 +36,7 @@
                         <tbody>
                             @foreach ($usuarios as $dv)
                                 <tr>
-                                    <td class="text-left">
+                                    <td class="text-sm mb-0 text-center">
                                         <p class="text-xs mb-0">
                                             {{ ucwords(strtolower($dv->name)) }}
                                         </p>

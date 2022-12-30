@@ -179,7 +179,7 @@
                 <div class="card-body">
                     <div style="padding-left: 12px; padding-right: 12px;">
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                            <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                 <h6 class="mb-0">Buscar...</h6>
                                 <div class="">
                                     <div class="dropdown d-inline">
@@ -196,7 +196,7 @@
                             </div>
 
                             @if (Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Seleccionar Sucursal</h6>
                                     <select wire:model="sucursal_id" class="form-select">
                                         @foreach ($listasucursales as $sucursal)
@@ -208,7 +208,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Seleccionar Usuario</h6>
                                     <select wire:model="user_id" class="form-select">
                                         @foreach ($usuarios as $u)
@@ -219,14 +219,14 @@
                                     </select>
                                 </div>
                             @else
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Ventas del Usuario</h6>
                                     <div class="form-control">
                                         {{ Auth::user()->name }}
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                            <div class="col-12 col-sm-6 col-md-3 text-left mb-4" style="margin-bottom: 7px;" >
                                 <h6 class="mb-0">Tipo de Fecha</h6>
                                 <select wire:model="tipofecha" class="form-select">
                                     <option value="hoy" selected>Hoy</option>
@@ -238,7 +238,7 @@
 
                         @if ($this->tipofecha != 'hoy')
                             <div class="row">
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
 
                                     <h6 class="mb-0">Fecha Inicio</h6>
                                     <input @if ($tipofecha == 'hoy') disabled @endif type="date"
@@ -250,7 +250,7 @@
 
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
 
 
                                     <h6 class="mb-0">Fecha Fin</h6>
@@ -261,13 +261,13 @@
 
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Hora Inicio</h6>
                                     <input @if ($tipofecha == 'hoy') disabled @endif type="time"
                                         wire:model="timeFrom" class="form-control">
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Hora Fin</h6>
                                     <input @if ($tipofecha == 'hoy') disabled @endif type="time"
                                         wire:model="timeTo" class="form-control">
@@ -276,7 +276,7 @@
                             </div>
                         @endif
                     </div>
-                </div><br>
+                </div>
             </div>
 
 
@@ -374,28 +374,28 @@
                                             <div class="btn-group" role="group" aria-label="Basic example">                                                            
                                                 <a href="javascript:void(0)" wire:click="modaldetalle({{ $lv->codigo }})"
                                                     class="mx-3" title="Ver detalles de la venta">
-                                                    <i class="fas fa-bars" aria-hidden="true"></i>
+                                                    <i class="fas fa-bars text-warning" aria-hidden="true"></i>
+                                                </a>                                            
+                                                <a href="javascript:void(0)" wire:click="crearcomprobante({{ $lv->codigo }})"
+                                                    class="mx-3" title="Crear Comprobante">
+                                                    <i class="fas fa-print text-success" aria-hidden="true"></i>
                                                 </a>
                                                 @if (Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
-                                                    @if ($lv->estado == 'PAID')                                             
-                                                        <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{ $lv->nombrecartera }}')"
-                                                            class="mx-3" title="Anular Venta">
-                                                            <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                                        </a>                                                 
+                                                    @if ($lv->estado == 'PAID')                                       
+                                                        <a href="javascript:void(0)" wire:click="modalcambiarusuario({{ $lv->codigo }})"
+                                                            class="mx-3" title="Cambiar Usuario Vendedor">
+                                                            <i class="fas fa-user-edit text-primary" aria-hidden="true"></i>
+                                                        </a>                                                                                                                                               
                                                         <a href="javascript:void(0)" wire:click="editsale({{ $lv->codigo }})"
                                                             class="mx-3" title="Editar Venta">
                                                             <i class="fas fa-edit text-default" aria-hidden="true"></i>
-                                                        </a>                                          
-                                                        <a href="javascript:void(0)" wire:click="modalcambiarusuario({{ $lv->codigo }})"
-                                                            class="mx-3" title="Cambiar Usuario Vendedor">
-                                                            <i class="fas fa-user-edit" aria-hidden="true"></i>
+                                                        </a>   
+                                                        <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{ $lv->nombrecartera }}')"
+                                                            class="mx-3" title="Anular Venta">
+                                                            <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                                         </a>
                                                     @endif
-                                                @endif                                            
-                                                <a href="javascript:void(0)" wire:click="crearcomprobante({{ $lv->codigo }})"
-                                                    class="mx-3" title="Crear Comprobante">
-                                                    <i class="fas fa-print" aria-hidden="true"></i>
-                                                </a>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
