@@ -69,8 +69,8 @@
                 </div>
             </div>
             <br>
-            <div class="card p-3">
-                <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-body m-0">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-end">
                             <div class="mt-lg-0  col-md-3">

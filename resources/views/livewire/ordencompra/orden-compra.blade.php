@@ -56,13 +56,13 @@
                 </div>
             </div>
             <br>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-lg-flex m-3">
-                        <div class="btn-group ms-auto my-auto text-center">
-                            <div class="p-2">
-                                <b style="font-size: 12px">Seleccionar Sucursal</b>
-                                <div class="form-group">
+            <div class="card mb-4">
+                <div class="card-body m-2">
+                    <div class="padding-left: 12px; padding-right: 12px;">
+                        <div class="row justify-content-end">
+                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem;">Seleccionar Sucursal</label>
+                                <div class="">
                                     <select wire:model="sucursal_id" class="form-select">
                                         @foreach ($listasucursales as $sucursal)
                                             <option value="{{ $sucursal->id }}">{{ $sucursal->name }}</option>
@@ -72,9 +72,9 @@
                                 </div>
                             </div>
 
-                            <div class="p-2">
-                                <b style="font-size: 12px">Estado</b>
-                                <div class="form-group">
+                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem;">Estado</label>
+                                <div class="">
                                     <select wire:model="estado" class="form-select">
                                         <option value='ACTIVO' selected>Activo</option>
                                         <option value='INACTIVO'>Anulado</option>
@@ -83,9 +83,9 @@
                                 </div>
                             </div>
 
-                            <div class="p-2">
-                                <b style="font-size: 12px">Tipo de Fecha</b>
-                                <div class="form-group">
+                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem;">Tipo de Fecha</label>
+                                <div class="">
                                     <select wire:model="fecha" class="form-select">
                                         <option value='hoy' selected>Hoy</option>
                                         <option value='ayer'>Ayer</option>
@@ -99,16 +99,16 @@
 
 
                         @if ($this->fecha == 'fechas')
-                            <div class="row">
-                                <div class="col-6 p-2">
-                                    <b>Fecha Inicio</b>
+                            <div class="row justify-content-end">
+                                <div class="col-12 col-sm-6 col-md-3 text-center"">
+                                    <label style="font-size: 1rem;">Fecha Inicio</label>
                                     <div class="form-group">
                                         <input type="date" wire:model="fromDate" class="form-control flatpickr">
                                     </div>
                                 </div>
 
-                                <div class="col-6 p-2">
-                                    <b>Fecha Fin</b>
+                                <div class="col-12 col-sm-6 col-md-3 text-center">
+                                    <label style="font-size: 1rem;">Fecha Fin</label>
                                     <div class="form-group">
                                         <input type="date" wire:model="toDate" class="form-control flatpickr">
                                     </div>
