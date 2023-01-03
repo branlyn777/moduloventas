@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Caja;
+use App\Models\Cartera;
 use App\Models\Company;
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
@@ -15,7 +17,7 @@ class SucursalController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $name, $adress, $telefono, $celular, $nit_id, $company_id, $selected_id;
+    public  $search, $name, $adress, $telefono, $celular, $nit_id, $company_id, $selected_id,$sucursal_id;
     public  $pageTitle, $componentName;
     private $pagination = 5;
 
@@ -62,15 +64,33 @@ class SucursalController extends Component
     public function Store()
     {
         $rules = [
-            'name' => 'required|unique:sucursals'
+            'name' => "required|max:255",
+            'adress' => "required|max:500",
+            'telefono' => "max:10",
+            'celular' => "max:10",
+            'nit_id' => "max:20",
         ];
         $messages = [
+
             'name.required' => 'El nombre de la empresa es requerido.',
-            'name.unique' => 'Ya existe una empresa con ese nombre.'
+            'name.max' => 'Texto no mayor a 255 caracteres',
+
+
+            'adress.required' => 'El nombre de la direccion es requerido.',
+            'adress.max' => 'Texto no mayor a 500 caracteres',
+
+
+            'telefono.max' => 'Texto no mayor a 10 caracteres',
+
+
+            'celular.max' => 'Texto no mayor a 10 caracteres',
+
+
+            'nit_id.max' => 'Texto no mayor a 20 caracteres',
+
+
         ];
         $this->validate($rules, $messages);
-
-
         $sucursal = Sucursal::create([
             'name' => $this->name,
             'adress' => $this->adress,
@@ -122,12 +142,44 @@ class SucursalController extends Component
     public function Update()
     {
         $rules = [
-            'name' => "required|unique:companies,name,{$this->selected_id}",
+            'name' => "required|unique:companies,name,{$this->selected_id}|max:255",
+            'adress' => "required|unique:companies,adress,{$this->selected_id}|max:500",
+            'telefono' => "unique:companies,adress,{$this->selected_id}|max:10",
+            'celular' => "unique:companies,adress,{$this->selected_id}|max:10",
+            'nit_id' => "unique:companies,adress,{$this->selected_id}|max:20",
             'company_id' => 'required|not_in:Elegir'
         ];
         $messages = [
+
+
+
+
+
             'name.required' => 'El nombre de la empresa es requerido.',
             'name.unique' => 'Ya existe una empresa con ese nombre.',
+            'name.max' => 'Texto no mayor a 255 caracteres',
+
+
+            'adress.required' => 'El nombre de la direccion es requerido.',
+            'adress.unique' => 'Ya existe una dirección con ese nombre.',
+            'adress.max' => 'Texto no mayor a 500 caracteres',
+
+
+            'telefono.unique' => 'Ya existe un telefono con ese numero.',
+            'telefono.max' => 'Texto no mayor a 10 caracteres',
+
+
+            'celular.unique' => 'Ya existe un celular con ese numero.',
+            'celular.max' => 'Texto no mayor a 10 caracteres',
+
+
+            'nit_id.unique' => 'Ya existe un nit con ese nombre.',
+            'nit_id.max' => 'Texto no mayor a 20 caracteres',
+
+
+
+
+
             'company_id.not_in' => 'Seleccione un nombre de Empresa diferente de Elegir',
 
         ];
@@ -146,13 +198,109 @@ class SucursalController extends Component
         $this->resetUI();
         $this->emit('item-updated', 'Sucursal Actualizada');
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
-
-    public function Destroy(Sucursal $sucursal)
+    //Verifica que la sucursal tiene movimientos
+    public function verificarmovimientos($idsucursal)
     {
+        $movimientos = Sucursal::join("sucursal_users as su","su.sucursal_id","sucursals.id")
+        ->where("sucursals.id",$idsucursal)
+        ->get();
+
+        $this->sucursal_id = $idsucursal;
+        if($movimientos->count() > 0)
+        {
+            $this->emit("ConfirmarAnular");
+        }
+        else
+        {
+            $this->emit("ConfirmarEliminar");
+        }
+    }
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'cancelRow' => 'Cancel'
+    ];
+
+    public function Destroy()
+    {
+        $destinosucursal = DestinoSucursal::where("destino_sucursals.sucursal_id",$this->sucursal_id)->get();
+        foreach($destinosucursal as $sd)
+        {
+            $sd->delete();
+        }
+
+        
+
+        $destinos = Destino::where("destinos.sucursal_id",$this->sucursal_id)->get();
+        foreach($destinos as $d)
+        {
+            $d->delete();
+        }
+
+
+
+
+
+
+        $sucursal = Sucursal::find($this->sucursal_id);
         $sucursal->delete();
         $this->resetUI();
         $this->emit('item-deleted', 'Sucursal Eliminada');
+    }
+    public function Cancel()
+    {
+        $sucursal = Sucursal::find($this->sucursal_id);
+
+        $sucursal->update([
+            'estado' => "INACTIVO"
+        ]);
+        $sucursal->save();
+
+
+
+        //Inactivando todas las cajas
+        $cajas = Caja::where("cajas.sucursal_id",$this->sucursal_id)
+        ->where("cajas.id","<>",1)
+        ->get();
+
+        foreach($cajas as $c)
+        {
+            $c->update([
+                'estado' => "Inactivo"
+            ]);
+            $c->save();
+
+
+            $carteras = Cartera::where("carteras.caja_id",$c->id)->get();
+
+
+            foreach($carteras as $car)
+            {
+                $car->update([
+                    'estado' => "INACTIVO"
+                ]);
+                $car->save();
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        //Inactivando todas las carteras que esten en las cajas inactivadas
+
+
+        
+
+
+
     }
 
     public function resetUI()

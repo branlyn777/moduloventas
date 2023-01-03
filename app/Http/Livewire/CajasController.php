@@ -39,9 +39,16 @@ class CajasController extends Component
             $caja = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
                 ->select('cajas.*', 's.name as sucursal')
                 ->paginate($this->pagination);
+
+
+
+        $sucursales = Sucursal::where("estado","ACTIVO")->orderBy('name', 'asc')->get();
+
+
+
         return view('livewire.cajas.component', [
             'data' => $caja,
-            'sucursales' => Sucursal::orderBy('name', 'asc')->get()
+            'sucursales' => $sucursales
         ])
             ->extends('layouts.theme.app')
             ->section('content');
