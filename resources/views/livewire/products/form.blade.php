@@ -31,7 +31,7 @@
 
                     <div class="col-sm-12 col-lg-5 col-md-4">
                         <div class="form-group">
-                            <label class="col-lg-3">Codigo</label>
+                            <label class="col-lg-3">Código</label>
 
                             <div class="input-group input-group-sm mb-3">
 
@@ -49,7 +49,7 @@
 
                     <div class="col-sm-12 col-md-4">
                         <div class="form-group">
-                            <label>Caracteristicas</label>
+                            <label>Características</label>
                             
                             <div class="input-group-sm mb-3">
                                 <input type="text" wire:model.lazy="caracteristicas" class="form-control"
@@ -61,7 +61,7 @@
 
                     <div class="col-sm-12 col-md-4">
                         <div class="form-group">
-                            <label>Garantia(en dias)</label>
+                            <label>Garantía(en días)</label>
                             <div class="input-group-sm mb-3">
 
                                 <input type="number" wire:model="garantia" class="form-control"
@@ -185,7 +185,7 @@
                     </div>
                     <div class="col-sm-12 col-md-4">
                         <div class="form-group">
-                            <label>Cantidad Minima</label>
+                            <label>Cantidad Mínima</label>
                             <div class="input-group-sm mb-3">
                             <input type="number" min="1" wire:model.lazy="cantidad_minima" class="form-control"
                                 placeholder="ej: 5">

@@ -4,13 +4,22 @@
         <label>Nombre Rol</label>
         <div class="form-group">
             <div class="input-group mb-4">
-          
                 <input type="text" wire:model="roleName" placeholder="ej: Admin" class="form-control ">
             </div>
         </div>
         @error('roleName')
             <span class="text-danger er">{{ $message }}</span>
         @enderror
+    </div>
+
+    <div class="col-sm-12">
+        <label>Descripción</label>
+        <div class="form-group">
+            <div class="input-group mb-4">
+                <textarea type="text" wire:model="descripcion" placeholder="ej: Descripción de Rol" class="form-control "></textarea>
+            </div>
+        </div>
+        @error('descripcion') <span class="text-danger er">{{ $message }}</span> @enderror
     </div>
 </div>
 <div class="modal-footer">

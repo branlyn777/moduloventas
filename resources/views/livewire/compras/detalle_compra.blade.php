@@ -62,7 +62,7 @@
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Observacion: </strong>
+                                <strong style="color: rgb(74, 74, 74)">Observación: </strong>
                                 <textarea  wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
                                 @error('observacion')
                                     <span class="text-danger er">{{ $message }}</span>
@@ -87,10 +87,10 @@
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
+                                <strong style="color: rgb(74, 74, 74)">Tipo transacción:</strong>
                                 <select wire:model='tipo_transaccion' class="form-select">
                                     <option value="Contado" selected>Contado</option>
-                                    <option value="Credito">Credito</option>
+                                    <option value="Credito">Crédito</option>
                                     
                                 </select>
                                 @error('tipo_documento')
@@ -101,7 +101,7 @@
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Codigo Orden de Compra: </strong>
+                                <strong style="color: rgb(74, 74, 74)">Código Orden de Compra: </strong>
                                 <label class="form-control">{{$ordencompraselected}}</label>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                                     <thead>
                                         <tr style="font-size: 14px">
                                             <th>Producto</th>                              
-                                            <th class="text-center">Accion</th>
+                                            <th class="text-center">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -175,12 +175,12 @@
                                                             <thead>
                                                                 <tr class="text-center" style="font-size: 14px; color: black;">
                                                                     <th style="text-align: left">Producto</th>
-                                                                    <th style="text-align: left">Codigo</th>
+                                                                    <th style="text-align: left">Código</th>
                                                                     <th>Precio Compra</th>
                                                                     <th>Precio Venta</th>
                                                                     <th>Cantidad</th>
                                                                     <th>Total</th>
-                                                                    <th>Accion</th>
+                                                                    <th>Acción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -255,7 +255,7 @@
                                 @else
                                 <div class="table-wrapper row align-items-center m-auto">
                                     <div class="col-lg-12">
-                                        <div class="row justify-content-center">AGREGAR ITEMS</div>
+                                        <div class="row justify-content-center">AGREGAR ÍTEMS</div>
                                     </div>
                                 </div>
                                 @endif

@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="col-12 col-sm-12 col-md-3">
-                            <strong style="color: rgb(74, 74, 74)">Observacion: </strong>
+                            <strong style="color: rgb(74, 74, 74)">Observación: </strong>
                             <textarea  wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
                             @error('observacion')
                                 <span class="text-danger er">{{ $message }}</span>
@@ -88,7 +88,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Producto</th>                              
-                                                <th>Accion</th>
+                                                <th>Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -130,7 +130,7 @@
                                                                 <th>Precio Compra</th>
                                                                 <th>Cantidad</th>
                                                                 <th>Total</th>
-                                                                <th>Accion</th>
+                                                                <th>Acción</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -193,7 +193,7 @@
                                     @else
                                             <div class="table-wrapper row align-items-center m-auto">
                                                 <div class="col-lg-12">
-                                                    <div class="row justify-content-center">AGREGAR ITEMS</div>
+                                                    <div class="row justify-content-center">AGREGAR ÍTEMS</div>
                                                 </div>
                                             </div>
                                     @endif

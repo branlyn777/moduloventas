@@ -42,33 +42,32 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
+           
+                <div class="d-lg-flex my-auto p-0 mb-3">
                     <div>
-                        <h6 class="mb-0 text-white" style="font-size: 16px">Lista Productos</h6>
+                        <h5 class=" text-white" style="font-size: 16px">Lista Productos</h5>
                     </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal"
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal"
                                 data-bs-target="#theModal">
                                 <i class="fas fa-plus me-2"></i> Nuevo Producto
                             </a>
                             @can('Reportes_Inventarios_Export')
                                 <button wire:click="$emit('modal-import')" type="button"
-                                    class="btn bg-gradient-light btn-sm mb-0">
-                                    Importar
+                                    class="btn btn-light mb-0">
+                                    {{--<i class="fas fa-arrow-down"></i>--}} Importar
                                 </button>
-                                <a href='{{ url('productos/export/') }}' class="btn bg-gradient-light btn-sm mb-0"
+                                <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0"
                                     type="button">
-                                    Exportar
+                                    {{--<i class="fas fa-arrow-alt-circle-up"></i>--}} Exportar
                                 </a>
                             @endcan
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
+            
             <div class="card mb-4">
                 <div class="card-body m-0">
                     <div class="padding-left: 12px; padding-right: 12px;">
@@ -85,10 +84,10 @@
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Categoria</label>
+                                <label style="font-size: 1rem">Categoría</label>
                                 <div class="input-group">
                                     <select wire:model='selected_categoria' class="form-control">
-                                        <option value="null" disabled>Elegir Categoria</option>
+                                        <option value="null" disabled>Elegir Categoría</option>
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -100,10 +99,10 @@
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Subcategorias</label>
+                                <label style="font-size: 1rem">Subcategorías</label>
                                 <div class="input-group">
                                     <select wire:model='selected_sub' class="form-control">
-                                        <option value="null" disabled>Elegir Subcategoria</option>
+                                        <option value="null" disabled>Elegir Subcategoría</option>
                                         @foreach ($sub as $subcategoria)
                                             <option value="{{ $subcategoria->id }}">{{ $subcategoria->name }}</option>
                                         @endforeach
@@ -128,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <br>
+            
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -160,9 +159,9 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm">Categoria</th>
-                                            <th class="text-uppercase text-sm">Sub Categoria</th>
-                                            <th class="text-uppercase text-sm">Codigo</th>
+                                            <th class="text-uppercase text-sm">Categoría</th>
+                                            <th class="text-uppercase text-sm">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm">Código</th>
                                             <th class="text-uppercase text-sm">Precio</th>
                                             <th class="text-uppercase text-sm">Costo</th>
                                             <th class="text-uppercase text-sm">Estado</th>

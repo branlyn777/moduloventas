@@ -23,7 +23,7 @@
                             @error('apellido') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                         <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
-                            <label>Direccion</label>
+                            <label>Dirección</label>
                             <input type="text" wire:model="direccion" class="form-control" placeholder=""
                             maxlenght="25">
                             @error('direccion') <span class="text-danger er">{{ $message }}</span>@enderror
@@ -41,7 +41,7 @@
                             @error('correo') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 form-group">
-                            <label>Telefono</label>
+                            <label>Teléfono</label>
                             <input type="text" wire:model="telefono" class="form-control" placeholder=""
                             maxlenght="25">
                             @error('telefono') <span class="text-danger er">{{ $message }}</span>@enderror

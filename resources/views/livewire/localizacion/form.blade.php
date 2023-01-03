@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label>Descripcion</label>
+                            <label>Descripción</label>
                             <textarea  wire:model.lazy="descripcion" class="form-control"
                                 placeholder="ej: Vitrina nueva de 3 niveles"></textarea>
                             @error('descripcion') 
