@@ -9,7 +9,7 @@ class Sucursal extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'adress', 'telefono', 'celular', 'nit_id', 'company_id'];
+    protected $fillable = ['name', 'adress', 'telefono', 'celular', 'nit_id', 'estado','company_id'];
 
     public function cajas()
     {

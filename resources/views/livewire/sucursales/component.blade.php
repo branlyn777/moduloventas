@@ -7,7 +7,7 @@
                 </a>
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-                    href="{{url('')}}">Inicio</a></li>
+                    href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
         <h6 class="font-weight-bolder mb-0 text-white">Sucursales</h6>
@@ -48,7 +48,8 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
                 <div class="ms-auto my-auto">
-                    <button wire:click="Agregar()" class="btn btn-add">
+                    <button wire:click="Agregar()" class="btn btn-add"
+                        title="Para crear una nueva sucursal contacte con el administrador">
                         <i class="fas fa-plus me-2">
                         </i>
                         Nueva Sucursal
@@ -111,8 +112,8 @@
                                         </th>
                                         <th class="text-uppercase text-sm  ps-2">TELÉFONO</th>
                                         <th class="text-uppercase text-sm  ps-2">CELULAR</th>
-                                        <th class="text-uppercase text-sm  ps-2">NÚMERO NIT
-                                        </th>
+                                        <th class="text-uppercase text-sm  ps-2">NÚMERO NIT</th>
+                                        <th class="text-uppercase text-sm  ps-2">ESTADO</th>
                                         <th class="text-uppercase text-sm  ps-2 text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -125,23 +126,43 @@
                                             <td class="text-sm mb-0">
                                                 {{ $item->name }}
                                             </td>
-                                            <td  class="text-sm mb-0">
+                                            <td class="text-sm mb-0">
                                                 {{ $item->adress }}
                                             </td>
-                                            <td  class="text-sm mb-0">
+                                            <td class="text-sm mb-0">
                                                 {{ $item->telefono }}
                                             </td>
-                                            <td  class="text-sm mb-0">
+                                            <td class="text-sm mb-0">
                                                 {{ $item->celular }}
                                             </td>
-                                            <td  class="text-sm mb-0">
+                                            <td class="text-sm mb-0">
                                                 {{ $item->nit_id }}
                                             </td>
-                                            <td  class="text-sm mb-0 text-center">
+                                            <td>
+                                                @if ($item->estado == 'ACTIVO')
+                                                    <span class="badge badge-sm bg-gradient-success">
+                                                        ACTIVO
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-sm bg-gradient-danger">
+                                                        INACTIVO
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td class="text-sm mb-0 text-center">
+
+                                                @if ($item->estado == 'ACTIVO')
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
-                                                    <i class="fas fa-edit text-deafult" aria-hidden="true"></i>
+                                                    <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                 </a>
+                                                <a href="javascript:void(0)"
+                                                    wire:click="verificarmovimientos({{ $item->id }})"
+                                                    class="mx-3" title="Eliminar">
+                                                    <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                                </a>
+                                                @endif
+                                                
                                             </td>
                                         </tr>
                                     @endforeach
@@ -178,41 +199,55 @@
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
         });
-    });
 
-    function Confirm(id, name, cajas, usuarios) {
-        if (cajas > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                text: 'No se puede eliminar la sucursal "' + name + '" porque tiene ' +
-                    cajas + ' cajas.'
+
+
+
+        window.livewire.on('ConfirmarEliminar', msg => {
+
+
+
+            swal({
+                title: '¿Confirma eliminar esta sucursal?',
+                text: "La sucursal sera eliminada",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow')
+                }
             })
-            return;
-        }
-        if (usuarios > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                text: 'No se puede eliminar la sucursal "' + name + '" porque tiene ' +
-                    usuarios + ' usuarios.'
+
+        });
+
+        window.livewire.on('ConfirmarAnular', msg => {
+
+
+            
+            swal({
+                title: '¿Inactivar sucursal?',
+                text: "La sucursal será inactivada",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Inactivar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('cancelRow')
+                }
             })
-            return;
-        }
-        swal.fire({
-            title: 'CONFIRMAR',
-            icon: 'warning',
-            text: '¿Confirmar eliminar la Sucursal ' + '"' + name + '"?.',
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
-            confirmButtonText: 'Aceptar'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-                Swal.close()
-            }
-        })
-    }
+
+
+
+
+        });
+
+
+
+
+    });
 </script>
