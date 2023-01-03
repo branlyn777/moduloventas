@@ -59,34 +59,48 @@ true
                     </div>
                 </div>
             </div><br>
-
-            <div class="card mb-4">
-                <div class="card-body p-2 m-1">
-
-                    <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-12 col-md-3">
+                            <h6>Buscar</h6>
                             @include('common.searchbox')
                         </div>
-    
-                        <div class="ms-auto col-md-2 col-12 col-sm-12">
-                           
-                                <label style="font-size: 1rem">Estado</label>
-                                <div class="col-12 col-sm-12 col-md-12 text-center">
-                                    <select wire:model='estados' class="form-select">
-    
-                                        <option value="ACTIVE">ACTIVO</option>
-                                        <option value="LOCKED">INACTIVO</option>
-                                        <option value="TODOS">TODOS</option>
-                                    </select>
+
+                        <div class="col-12 col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                  
+                                        <h6>Seleccionar Sucursal</h6>
+                                        <select wire:model='sucursal' class="form-select">
+                                            @foreach($sucursales as $s)
+                                            <option value="{{$s->id}}">{{$s->name}}</option>
+                                            @endforeach
+                                            <option value="Todos">Todas las Sucursales</option>
+                                        </select>
+                             
                                 </div>
-                        
-                        </div>
+                                <div class="col-md-6">
+
+                                        <h6>Estado</h6>
+                                        <select wire:model='estados' class="form-select">
+    
+                                            <option value="ACTIVE">ACTIVO</option>
+                                            <option value="LOCKED">INACTIVO</option>
+                                            <option value="TODOS">TODOS</option>
+                                        </select>
+                                 
+                                </div>
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
 
 
-
+            <br>
             <div class="card mb-4">
             
                 <div class="card-body px-0 pt-0 pb-2">
