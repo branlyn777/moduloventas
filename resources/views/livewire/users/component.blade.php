@@ -70,7 +70,7 @@ true
     
                         <div class="ms-auto col-md-2 col-12 col-sm-12">
                            
-                                <label>Estado</label>
+                                <label style="font-size: 1rem">Estado</label>
                                 <div class="col-12 col-sm-12 col-md-12 text-center">
                                     <select wire:model='estados' class="form-select">
     

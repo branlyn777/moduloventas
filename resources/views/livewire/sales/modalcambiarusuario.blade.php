@@ -13,12 +13,12 @@
 
                   <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                  </button>
             </div>
             <div class="">
                 <div class="text-center">
                     <br>
-                    ¿Cambiar al Usuario Vendedor: <b>{{ $this->nombreusuariovendedor }}</b> ?
+                    ¿Cambiar al Usuario Vendedor: <b>{{ $this->nombreusuariovendedor }}</b>?
                 </div>
 
             </div>
