@@ -80,8 +80,9 @@
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Nombre de Rol</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha Creación</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha Actualización</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Descripción</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Creación</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Actualización</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES.</th>
                                 </tr>
                             </thead>
@@ -98,6 +99,11 @@
 
                                         <td>
                                             <p class="text-sm mb-0 text-left">{{ $rol->name }}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="text-sm mb-0 text-left">{{ $rol->descripcion == null ? 'S/N Descripcion' : $rol->descripcion }}
                                             </p>
                                         </td>
 

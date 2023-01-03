@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class RolesController extends Component
 {
     use WithPagination;
-    public $roleName, $search, $selected_id, $pageTitle, $componentName;
+    public $roleName, $descripcion, $search, $selected_id, $pageTitle, $componentName;
     private $pagination = 10;
 
     public function paginationView()
@@ -30,11 +30,6 @@ class RolesController extends Component
 
     public function render()
     {
-
-        
-
-
-
         if (strlen($this->search) > 0) {
             $roles = Role::where('name', 'like', '%' . $this->search . '%')->paginate($this->pagination);
         } else {
@@ -75,7 +70,10 @@ class RolesController extends Component
 
         $this->validate($rules, $messages);
 
-        Role::create(['name' => $this->roleName]);
+        Role::create([
+            'name' => $this->roleName,
+            'descripcion' => $this->descripcion
+        ]);
 
         $this->emit('item-added', 'Se registró el rol con éxito');
         $this->resetUI();
@@ -85,6 +83,7 @@ class RolesController extends Component
     {
         $this->selected_id = $role->id;
         $this->roleName = $role->name;
+        $this->descripcion = $role->descripcion;
 
         $this->emit('show-modal', 'Show modal ');
     }
@@ -103,6 +102,7 @@ class RolesController extends Component
 
         $role = Role::find($this->selected_id);
         $role->name = $this->roleName;
+        $role->descripcion = $this->descripcion;
         $role->save();
 
         $this->emit('item-update', 'Se actualizó el rol con éxito');
@@ -166,6 +166,7 @@ class RolesController extends Component
     public function resetUI()
     {
         $this->roleName = '';
+        $this->descripcion = '';
         $this->search = '';
         $this->selected_id = 0;
         $this->resetValidation();
