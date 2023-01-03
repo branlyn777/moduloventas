@@ -11,7 +11,7 @@
                 href="{{ url('') }}">Inicio</a></li>
         <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
     </ol>
-    <h6 class="font-weight-bolder mb-0 text-white">Sucursales</h6>
+    <h6 class="font-weight-bolder mb-0 text-white">Editar Empresa</h6>
 </nav>
 @endsection
 
@@ -142,7 +142,7 @@ true
 
 
                         <h6 class="mb-0 mt-3">Teléfono</h6>
-                        <input wire:model="telefono" class="form-control" type="text" value="{{ $telefono }}">
+                        <input wire:model="telefono" class="form-control" type="number" value="{{ $telefono }}">
                         @error('telefono')
                             <span class="text-danger er">{{ $message }}</span>
                         @enderror

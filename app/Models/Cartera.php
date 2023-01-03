@@ -9,7 +9,7 @@ class Cartera extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre','saldocartera' ,'descripcion', 'tipo', 'telefonoNum', 'caja_id'];
+    protected $fillable = ['nombre','saldocartera' ,'descripcion', 'tipo','estado', 'telefonoNum', 'caja_id'];
 
     public function carteraMovimientos()
     {
