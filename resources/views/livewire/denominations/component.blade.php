@@ -51,7 +51,7 @@
                         <div class="ms-auto my-auto">
 
                             <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
-                                    class="fas fa-plus me-2"></i> Agregar</button>
+                                    class="fas fa-plus me-2"></i>Nueva Moneda</button>
 
                         </div>
 

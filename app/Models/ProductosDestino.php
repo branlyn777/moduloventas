@@ -16,5 +16,10 @@ class ProductosDestino extends Model
        $this->belongsTo(Product::class,'productos_destinos.id','productos_dstinos');  
     }
 
+    public function ingresoproductos()
+    {
+        return $this->hasMany(IngresoProductos::class,'destino');
+    }
+
    
 }

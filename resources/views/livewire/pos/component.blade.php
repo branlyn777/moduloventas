@@ -306,7 +306,7 @@
 
 
                 </div>
-                <div class="col-12 col-sm-6 col-md-2 text-center">
+                <div class="col-12 col-sm-6 col-md-2 text-left">
                     <b>Tipo de Pago</b>
                     <div class="form-group">
                         <select wire:model="cartera_id" class="form-select">
@@ -335,7 +335,7 @@
                     </div>
                 </div>
         
-                <div class="col-12 col-sm-6 col-md-4 text-center">
+                <div class="col-12 col-sm-6 col-md-4 text-left">
                     <b>Observación</b>
                     <div class="form-group">
                         <input type="text" wire:model="observacion" class="form-control">

@@ -56,7 +56,7 @@
             <div class="card mb-4"> <br>
                 <div style="padding-left: 15px; padding-right: 15px;">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Buscar
                             </h6>
@@ -65,7 +65,7 @@
                                     placeholder="Ingrese Nombre o código">
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Seleccionar Sucursal
                             </h6>
@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Seleccionar Usuario
                             </h6>
@@ -91,7 +91,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Categoria
                             </h6>
@@ -104,7 +104,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Fecha Inicio
                             </h6>
@@ -113,7 +113,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left mb-3">
                             <h6 class="mb-0">
                                 Fecha Fin
                             </h6>
@@ -125,18 +125,18 @@
                 </div>
 
 
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-6 text-center">
-                        <b>Total Utilidad</b>
-                        <div class="form-group">
+                <div class="row justify-content-end">
+                    <div class="col-2 align-self-end ">
+                        <b class="text-end">Total Utilidad</b>
+                        <div class="form-group text-right">
                             <div class="">
                                 <p class="h4"><b>{{ number_format($this->total_utilidad, 2, ',', '.') }} Bs</b></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 text-center">
-                        <b>Total Precio</b>
-                        <div class="form-group">
+                    <div class="col-3 align-self-end ">
+                        <b class="text-end">Total Precio</b>
+                        <div class="form-group text-right">
                             <div class="">
                                 <p class="h4"><b>{{ number_format($this->total_precio, 2, ',', '.') }} Bs</b></p>
                             </div>

@@ -6,9 +6,9 @@
             <label>Tipo</label>
             <select wire:model='type' class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
-                <option>BILLETE</option>
-                <option>MONEDA</option>
-                <option>OTRO</option>
+                <option value="BILLETE">BILLETE</option>
+                <option value="MONEDA">MONEDA</option>
+                <option value="OTRO">OTRO</option>
             </select>
             @error('type') <span class="text-danger er">{{ $message }}</span>@enderror
         </div>

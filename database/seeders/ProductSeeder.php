@@ -183,24 +183,24 @@ class ProductSeeder extends Seeder
             'category_id' => 1,
         ]);
 
-        for ($i=1; $i < 1001; $i++)
-        { 
-            Product::create([
-                'nombre' => 'Producto N°' . $i,
-                'costo' => 10*$i,
-                'caracteristicas'=>'Nuevo',
-                'codigo' => '2512543' . $i,
-                'lote'=>'212' . $i,
-                'unidad'=>'pieza',
-                'marca'=>'Huawei',
-                'garantia' => '2',
-                'cantidad_minima' => '2',
-                'industria'=>'Estados Unidos',
-                'precio_venta' => 11*$i,
-                'image' => 'Mouse_Inalambrico.png',
-                'category_id' => 1,
-            ]);
-        }
+        // for ($i=1; $i < 1001; $i++)
+        // { 
+        //     Product::create([
+        //         'nombre' => 'Producto N°' . $i,
+        //         'costo' => 10*$i,
+        //         'caracteristicas'=>'Nuevo',
+        //         'codigo' => '2512543' . $i,
+        //         'lote'=>'212' . $i,
+        //         'unidad'=>'pieza',
+        //         'marca'=>'Huawei',
+        //         'garantia' => '2',
+        //         'cantidad_minima' => '2',
+        //         'industria'=>'Estados Unidos',
+        //         'precio_venta' => 11*$i,
+        //         'image' => 'Mouse_Inalambrico.png',
+        //         'category_id' => 1,
+        //     ]);
+        // }
 
 
 
