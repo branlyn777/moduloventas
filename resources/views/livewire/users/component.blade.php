@@ -61,7 +61,7 @@ true
             </div><br>
 
             <div class="card mb-4">
-                <div class="card-body p-3">
+                <div class="card-body p-2 m-1">
 
                     <div class="d-lg-flex m-3">
                         <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">

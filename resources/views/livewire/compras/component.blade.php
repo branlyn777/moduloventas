@@ -57,8 +57,8 @@
                 </div>
             </div>
             <br>
-            <div class="card p-4">
-                <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-end">
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">

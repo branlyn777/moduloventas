@@ -76,8 +76,8 @@
                 </div>
             </div>
             <br>
-            <div class="card p-4">
-                <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;" style="margin-bottom: 7px;">
                         <div class="row justify-content-between">
                             <div class="col-12 col-sm-6 col-md-3">
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-3 text-center" style="margin-bottom: 7px;">
+                            <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>
                                 <select wire:model='estados' class="form-select">
                                     <option value="null" disabled>Estado</option>

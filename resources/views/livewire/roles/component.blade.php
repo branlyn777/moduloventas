@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="card mb-4">
-                <div class="card-body">
+                <div class="card-body p-4 m-2">
                     <div class="d-flex pt-4">
                     <div class="col-12 col-sm-12 col-md-3">
                         @include('common.searchbox')
