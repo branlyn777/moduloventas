@@ -56,12 +56,12 @@
                             </a>
                             @can('Reportes_Inventarios_Export')
                                 <button wire:click="$emit('modal-import')" type="button"
-                                    class="btn btn-success mb-0">
-                                    Importar
+                                    class="btn btn-light mb-0">
+                                    {{--<i class="fas fa-arrow-down"></i>--}} Importar
                                 </button>
-                                <a href='{{ url('productos/export/') }}' class="btn btn-light mb-0"
+                                <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0"
                                     type="button">
-                                    Exportar
+                                    {{--<i class="fas fa-arrow-alt-circle-up"></i>--}} Exportar
                                 </a>
                             @endcan
                         </div>
