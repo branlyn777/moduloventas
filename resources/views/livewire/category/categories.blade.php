@@ -1,41 +1,41 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Categoria Productos</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Categoria Productos</h6>
+    </nav>
 @endsection
 
 
 @section('Gestionproductoscollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('Gestionproductosarrow')
-true
+    true
 @endsection
 
 
 @section('categoriaproductnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('Gestionproductosshow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('categoriaproductli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
@@ -49,7 +49,8 @@ true
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
+                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal"
+                                data-bs-target="#theModal" wire:click="resetUI()">
                                 <i class="fas fa-plus me-2"></i> Agregar Categoria
                             </a>
 
@@ -62,35 +63,35 @@ true
 
                 </div>
             </div><br>
-            <div class="card">
+            <div class="card p-2">
                 <div class="card-body">
-                    
-                    <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                            {{-- <label>Buscar</label> --}}
-                            <div class="input-group">
-                                <span class="input-group-text input-gp">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                    <div class="padding-left: 12px; padding-right: 12px;">
+
+                        <div class="row justify-content-between">
+                            <div class="mt-lg-0 col-md-3">
+                                <label style="font-size: 1rem">Buscar</label>
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        <input type="text" wire:model="search" placeholder="Nombre de Categoria"
+                                            class="form-control">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    
-                        <div class="btn-group ms-auto my-auto">
-                            <div class="p-2">
-                            </div>
-                            <div class="p-2">
-                                <label>Estado</label>
-                                <select wire:model='estados' class="form-select">
-                                    <option value="null" disabled>Estado</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
-                                    <option value="TODOS">Todos</option>
-                                </select>
+                            
+                            <div class="ms-auto my-auto mt-lg-0 col-md-2">
+                                <div class="ms-auto my-auto">
+                                    <label style="font-size: 1rem">Estado</label>
+                                    <select wire:model='estados' class="form-select">
+                                        <option value="null" disabled>Estado</option>
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
+                                        <option value="TODOS">Todos</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <br>
@@ -100,7 +101,7 @@ true
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
-                                    
+
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">#</th>
@@ -110,61 +111,64 @@ true
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
                                         @foreach ($categories as $category)
                                             <tr style="font-size: 14px">
                                                 <td class="text-center">
-                                                    {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
+                                                    {{ ($categories->currentpage() - 1) * $categories->perpage() + $loop->index + 1 }}
                                                 </td>
                                                 <td>
                                                     <b>{{ $category->name }}</b><br>
-                                                    <b>Descripcion : {{$category->descripcion ==null?'S/N Descripcion':$category->descripcion}}</b>
+                                                    <b>Descripcion :
+                                                        {{ $category->descripcion == null ? 'S/N Descripcion' : $category->descripcion }}</b>
 
                                                     {{-- <div class="row">
                                                         <div class="col-md-5"> --}}
-                                                            {{-- <div class="row">
+                                                    {{-- <div class="row">
                                                                 <div class="col">
                                                                 </div>
                                                             </div> --}}
-                                                            {{-- <div class="row">
+                                                    {{-- <div class="row">
                                                                 <div class="col">
                                                                 </div>
                                                             </div> --}}
-                                                        {{-- </div>
+                                                    {{-- </div>
                                                     </div> --}}
                                                 </td>
                                                 <td>
-                                                    <a href="javascript:void(0)" wire:click="Ver({{$category->id}})"
-                                                        class="boton-azul" title="Ver subcategorias"> <b class="pl-1">{{ $category->subcategories()}}</b> 
+                                                    <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
+                                                        class="boton-azul" title="Ver subcategorias"> <b
+                                                            class="pl-1">{{ $category->subcategories() }}</b>
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                 </td>
-                                            
-                                                    @if ($category->status== 'ACTIVO')
-                                                        
-                                                        <td>
-                                                            {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
-                                                            <span class="badge badge-sm bg-gradient-success">{{$category->status}}</span>
-                                                        </td>
-                                                    
-                                                    @else
-                                                        <td>
-                                                            <span class="badge badge-sm bg-gradient-danger">{{$category->status}}</span>
-                                                            {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
-                                                        </td>
-                                                    @endif
-                                            
-                                            
+
+                                                @if ($category->status == 'ACTIVO')
+                                                    <td>
+                                                        {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
+                                                        <span
+                                                            class="badge badge-sm bg-gradient-success">{{ $category->status }}</span>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-sm bg-gradient-danger">{{ $category->status }}</span>
+                                                        {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
+                                                    </td>
+                                                @endif
+
+
                                                 <td class="text-center">
-                                                    <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})" class="mx-3"
-                                                        class="boton-azul" title="Editar">
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                                        class="mx-3" class="boton-azul" title="Editar">
                                                         <i class="fas fa-edit" style="font-size: 14px"></i>
                                                     </a>
 
-                                                    <a href="javascript:void(0)" onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{$category->products->count()}}','{{$category->subcategories()}}')"
+                                                    <a href="javascript:void(0)"
+                                                        onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{ $category->products->count() }}','{{ $category->subcategories() }}')"
                                                         class="boton-rojo mx-3" title="Eliminar">
-                                                        <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
+                                                        <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -175,14 +179,14 @@ true
                         </div>
                     </div>
                 </div>
-                {{ $categories->links()}}
+                {{ $categories->links() }}
             </div>
         </div>
     </div>
     @include('livewire.category.form')
     @include('livewire.category.form_subcategory')
     @include('livewire.category.subcategories')
-  
+
 </div>
 
 <script>
@@ -199,47 +203,47 @@ true
         window.livewire.on('item-added', Msg => {
             $('#theModal').modal('hide');
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                padding: '2em'
             });
             toast({
                 type: 'success',
                 title: @this.mensaje_toast,
                 padding: '2em',
             })
-            
+
         });
         window.livewire.on('sub-show', Msg => {
             $('#theModal_s').modal('show')
-          
+
         });
         window.livewire.on('sub_added', Msg => {
             $('#theModal_s').modal('hide');
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                padding: '2em'
             });
             toast({
                 type: 'success',
                 title: @this.mensaje_toast,
                 padding: '2em',
             })
-            
+
         });
         window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                padding: '2em'
             });
             toast({
                 type: 'success',
@@ -249,11 +253,11 @@ true
         });
         window.livewire.on('item-deleted', Msg => {
             const toast = swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            padding: '2em'
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                padding: '2em'
             });
             toast({
                 type: 'success',
@@ -261,28 +265,30 @@ true
                 padding: '2em',
             })
         });
-       
+
     });
-    function Confirm(id, name,products,subcategories) {
-        if (products > 0 && subcategories>0) {
+
+    function Confirm(id, name, products, subcategories) {
+        if (products > 0 && subcategories > 0) {
 
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
-                text: 'No se puede eliminar la categoria '+name+ ' porque tiene productos y categorias relacionadas.'
+                text: 'No se puede eliminar la categoria ' + name +
+                    ' porque tiene productos y categorias relacionadas.'
             })
             return;
-         
+
         }
         if (products > 0) {
-           
+
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
                 text: 'No se puede eliminar la categoria ' + name + ' porque tiene productos relacionados.'
-            
-        })
-    }
+
+            })
+        }
         if (subcategories > 0) {
 
             swal.fire({
@@ -290,8 +296,7 @@ true
                 icon: 'warning',
                 text: 'No se puede eliminar la categoria ' + name + ' porque tiene subcategorias relacionadas.'
             })
-        }
-        else{
+        } else {
 
             swal.fire({
                 title: 'CONFIRMAR',

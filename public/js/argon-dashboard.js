@@ -149,8 +149,8 @@ function sidebarType(a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
   var body = document.querySelector("body");
-  var bodyWhite = document.querySelector("body:not(.dark-version)");
-  var bodyDark = body.classList.contains('dark-version');
+  var bodyWhite = document.querySelector("body:not(.mark-version)");
+  var bodyDark = body.classList.contains('mark-version');
 
   var colors = [];
 
@@ -416,7 +416,7 @@ function navbarColorOnResize() {
     if (referenceButtons.classList.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
       sidenav.classList.remove('bg-white');
     } else {
-      if (!body.classList.contains('dark-version')) {
+      if (!body.classList.contains('mark-version')) {
         sidenav.classList.add('bg-white');
       }
     }
@@ -586,8 +586,8 @@ function darkMode(el) {
   const cardNavSpan = document.querySelectorAll('.card .nav .nav-link span');
 
 
-  if (!el.getAttribute("checked")) {
-    body.classList.add('dark-version');
+  if (el.getAttribute("checked")) {
+    body.classList.add('mark-version');
     if (navbarBrandImg.includes('logo-ct-dark.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
       navbarBrand.src = navbarBrandImgNew;
@@ -668,8 +668,9 @@ function darkMode(el) {
       card_border[i].classList.add('border-dark');
     }
     el.setAttribute("checked", "true");
+
   } else {
-    body.classList.remove('dark-version');
+    body.classList.remove('mark-version');
     sidebar.classList.add('bg-white');
     if (navbarBrandImg.includes('logo-ct.png')) {
       var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
