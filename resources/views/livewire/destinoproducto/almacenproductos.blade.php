@@ -41,40 +41,44 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
-                    <div>
-                        <h6 class="mb-0 text-white" style="font-size: 16px">Almacen Producto</h6>
-                    </div>
+            <div class="d-lg-flex my-auto p-0 mb-4">
+                <div>
+                    <h6 class="mb-0 text-white" style="font-size: 16px">Almacen Producto</h6>
+                </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            <a href='{{ url('almacen/export/') }}' class="btn bg-gradient-success btn-sm mb-0"> <i
-                                    class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
-                        </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
+                        <a href='{{ url('almacen/export/') }}' class="btn bg-gradient-success btn-sm mb-0"> <i
+                        class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+
+                        {{-- <button href='{{ url('almacen/export/') }}' type="button" class="btn btn-success mb-0">
+                            <span class="btn-inner--icon">
+                                <i class="fas fa-circle-xmark me-2"></i>
+                            </span class="btn-inner--text"> Exportar Excel</button> --}}
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="card p-2">
-                <div class="card-body">
-                    <div class="padding-left: 12px; padding-right: 12px;">
 
-                        <div class="row justify-content-between">
-                            <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
-                                <div class="input-group">
-                                    <span class="input-group-text input-gp">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
-                                </div>
+            <div class="card mb-4">
+                <div class="card-body p-4">
+
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-12 col-md-3">
+                            <label style="font-size: 1rem">Buscar</label>
+                            <div class="input-group">
+                                <span class="input-group-text input-gp">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
                             </div>
+                        </div>
 
-                            {{-- SELECT DE LAS SUCURSALES --}}
-                            <div class="btn-group ms-auto my-auto">
-                                {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> </div> --}}
-                                <div class="p-2">
-                                    <label>Seleccionar Sucursal</label>
+                        <div class="col-12 col-md-6">
+                            <div class="row">
+                                {{-- SELECT DE LAS SUCURSALES --}}
+                                <div class="col-md-6">
+                                    {{-- <div class="btn-group" role="group" aria-label="Basic mixed styles example"> </div> --}}
+                                    <label style="font-size: 1rem">Seleccionar Sucursal</label>
                                     <select wire:model='selected_id' class="form-select">
                                         <option value="General">Almacen Total</option>
                                         @foreach ($data_suc as $data)
@@ -83,21 +87,20 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="p-2">
-                                    <label>Estado</label>
+
+                                <div class="col-md-6">
+                                    <label style="font-size: 1rem">Estado</label>
                                     <select wire:model='selected_mood' class="form-select">
                                         <option value="todos">TODOS</option>
                                         <option value='cero'>Productos agotados</option>
                                         <option value='bajo'>Productos bajo stock</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
             <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">

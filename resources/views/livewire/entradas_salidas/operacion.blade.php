@@ -12,7 +12,7 @@
                     <div class="col-md-6">
                         <label>Seleccione un tipo de operacion:</label>
 
-                        <select wire:model='tipo_proceso' class="form-control">
+                        <select wire:model='tipo_proceso' class="form-select">
                             <option value="null" selected disabled>Elegir</option>
                             <option value="Entrada">Entrada</option>
                             <option value="Salida">Salida</option>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-6">
                         <label style="color: rgb(74, 74, 74)">Seleccione la ubicacion:</label>
-                        <select wire:model='destino' class="form-control">
+                        <select wire:model='destino' class="form-select">
                             <option value='Elegir' disabled>Elegir</option>
                             @foreach ($destinosp as $item)
                             <option value="{{$item->destino_id}}">{{$item->sucursal}}-{{$item->destino}}
@@ -37,7 +37,7 @@
 
                     <div class="col-md-6">
                         <label style="color: rgb(74, 74, 74)">Seleccione el concepto:</label>
-                        <select wire:model='concepto' class="form-control">
+                        <select wire:model='concepto' class="form-select">
                             <option value="Elegir" disabled selected>Elegir</option>
                             @if ($tipo_proceso == 'Entrada')
                             <option wire:key="foo" value='INGRESO'>Operaciones Varias</option>
@@ -65,7 +65,7 @@
                  
                     <div class="col-md-6">
                         <label style="color: rgb(74, 74, 74)">Tipo de registro</label>
-                        <select wire:model='registro' class="form-control">
+                        <select wire:model='registro' class="form-select">
                             <option value="Manual" selected>Registrar Manualmente</option>
                             @if ($concepto == 'INICIAL')
                             <option value="Documento">Subir Archivo</option>
