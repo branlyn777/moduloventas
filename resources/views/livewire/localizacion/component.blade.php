@@ -71,15 +71,15 @@
                 </div>
             </div>
 
-            
-
             <div class="card">
                 <div class="card-body">
                  
-                        <div class="col-12 col-sm-12 col-md-3">
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             @include('common.searchbox')
                         </div>
+                    </div>
                     
                 </div>
             </div>

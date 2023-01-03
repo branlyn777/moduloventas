@@ -70,10 +70,10 @@ true
                 </div>
            
             
-            <div class="card">
-                <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-body  p-4">
                     
-                    <div class="row justify-content-between mt-4">
+                    <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             @include('common.searchbox')
@@ -108,7 +108,7 @@ true
                     </div>
                 </div>
             </div>
-            <br>
+            
             <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
