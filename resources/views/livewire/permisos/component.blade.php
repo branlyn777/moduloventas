@@ -72,8 +72,8 @@
                                     <tr>
                                         <th class="text-uppercase text-sm text-center">Nº</th>
                                         <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">AREA</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">DESCRIPCION</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">ÁREA</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">DESCRIPCIÓN</th>
                                         <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
