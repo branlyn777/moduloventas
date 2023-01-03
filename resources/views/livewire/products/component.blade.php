@@ -84,10 +84,10 @@
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Categoria</label>
+                                <label style="font-size: 1rem">Categoría</label>
                                 <div class="input-group">
                                     <select wire:model='selected_categoria' class="form-control">
-                                        <option value="null" disabled>Elegir Categoria</option>
+                                        <option value="null" disabled>Elegir Categoría</option>
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -99,10 +99,10 @@
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Subcategorias</label>
+                                <label style="font-size: 1rem">Subcategorías</label>
                                 <div class="input-group">
                                     <select wire:model='selected_sub' class="form-control">
-                                        <option value="null" disabled>Elegir Subcategoria</option>
+                                        <option value="null" disabled>Elegir Subcategoría</option>
                                         @foreach ($sub as $subcategoria)
                                             <option value="{{ $subcategoria->id }}">{{ $subcategoria->name }}</option>
                                         @endforeach
@@ -159,9 +159,9 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm">Categoria</th>
-                                            <th class="text-uppercase text-sm">Sub Categoria</th>
-                                            <th class="text-uppercase text-sm">Codigo</th>
+                                            <th class="text-uppercase text-sm">Categoría</th>
+                                            <th class="text-uppercase text-sm">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm">Código</th>
                                             <th class="text-uppercase text-sm">Precio</th>
                                             <th class="text-uppercase text-sm">Costo</th>
                                             <th class="text-uppercase text-sm">Estado</th>

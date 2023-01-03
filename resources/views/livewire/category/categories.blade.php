@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Categoria Productos</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Categoría Productos</h6>
     </nav>
 @endsection
 
@@ -45,13 +45,13 @@
            
                 <div class="d-lg-flex my-auto p-0 mb-3">
                     <div>
-                        <h5 class=" text-white" style="font-size: 16px">Categorias</h5>
+                        <h5 class=" text-white" style="font-size: 16px">Categorías</h5>
                     </div>
 
                     <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
                             <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
-                                <i class="fas fa-plus"></i> Agregar Categoria</a>
+                                <i class="fas fa-plus"></i> Agregar Categoría</a>
                         </div>
                     </div>
 
@@ -100,7 +100,7 @@
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">#</th>
                                             <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                            <th class="text-uppercase text-sm">SUBCATEGORIAS</th>
+                                            <th class="text-uppercase text-sm">SUBCATEGORÍAS</th>
                                             <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>
@@ -114,7 +114,7 @@
                                                 </td>
                                                 <td>
                                                     <b>{{ $category->name }}</b><br>
-                                                    <b>Descripcion :
+                                                    <b>Descripción :
                                                         {{ $category->descripcion == null ? 'S/N Descripcion' : $category->descripcion }}</b>
 
                                                     {{-- <div class="row">

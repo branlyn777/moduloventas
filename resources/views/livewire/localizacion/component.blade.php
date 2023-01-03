@@ -94,9 +94,9 @@
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
                                             <th class="text-uppercase text-sm" style="text-align: left">TIPO</th>
-                                            <th class="text-uppercase text-sm">CODIGO</th>
-                                            <th class="text-uppercase text-sm">DESCRIPCION</th>
-                                            <th class="text-uppercase text-sm">UBICACION</th>
+                                            <th class="text-uppercase text-sm">CÓDIGO</th>
+                                            <th class="text-uppercase text-sm">DESCRIPCIÓN</th>
+                                            <th class="text-uppercase text-sm">UBICACIÓN</th>
                                             <th class="text-uppercase text-sm">PRODUCTOS</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>

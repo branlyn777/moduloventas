@@ -90,7 +90,7 @@ true
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr class="text-center">
-                                            <th class="text-uppercase text-sm text-center">ITEM</th>                                
+                                            <th class="text-uppercase text-sm text-center">N°</th>                                
                                             <th class="text-uppercase text-sm text-center">NOMBRE</th>                                
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>

@@ -9,7 +9,7 @@
 				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
 						href="{{url("")}}">Inicio</a></li>
 				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
-                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Parametros</li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Parámetros</li>
 			</ol>
 			<h6 class="font-weight-bolder mb-0 text-white">Destinos </h6>
 		</nav> 
@@ -119,10 +119,10 @@ true
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
                                             <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                            <th class="text-uppercase text-sm">OBSERVACION</th>
+                                            <th class="text-uppercase text-sm">OBSERVACIÓN</th>
                                             <th class="text-uppercase text-sm">SUCURSAL</th>
-                                            <th class="text-uppercase text-sm">FECHA CREACION</th>
-                                            <th class="text-uppercase text-sm">FECHA ACTUALIZACION</th>
+                                            <th class="text-uppercase text-sm">FECHA CREACIÓN</th>
+                                            <th class="text-uppercase text-sm">FECHA ACTUALIZACIÓN</th>
                                             <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                         </tr>

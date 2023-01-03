@@ -51,7 +51,7 @@ true
                     <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
                             <a class="btn btn-add mb-0" data-bs-toggle="modal" wire:click='resetui()' data-bs-target="#operacion">
-                                <i class="fas fa-plus"></i> Registrar Operacion</a>
+                                <i class="fas fa-plus"></i> Registrar Operación</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@ true
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                        <input type="text" placeholder="Tipo de Operacion, Almacen"
+                                        <input type="text" placeholder="Tipo de Operación, Almacén"
                                             class="form-control">
                                     </div>
                                 </div>
@@ -122,9 +122,9 @@ true
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
                                             <th  class="text-uppercase text-sm">Fecha de Registro</th>
-                                            <th  class="text-uppercase text-sm">Almacen</th>
-                                            <th  class="text-uppercase text-sm">Tipo Operacion</th>
-                                            <th  class="text-uppercase text-sm">Observacion</th>
+                                            <th  class="text-uppercase text-sm">Almacén</th>
+                                            <th  class="text-uppercase text-sm">Tipo Operación</th>
+                                            <th  class="text-uppercase text-sm">Observación</th>
                                             <th  class="text-uppercase text-sm">Usuario</th>
                                             <th  class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
