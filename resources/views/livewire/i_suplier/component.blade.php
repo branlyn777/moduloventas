@@ -112,9 +112,9 @@
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
                                             <th class="text-uppercase text-sm">NOMBRE</th>
-                                            <th class="text-uppercase text-sm">TELEFONO</th>
+                                            <th class="text-uppercase text-sm">TELÉFONO</th>
                                             <th class="text-uppercase text-sm">CORREO</th>
-                                            <th class="text-uppercase text-sm">DIRECCION</th>
+                                            <th class="text-uppercase text-sm">DIRECCIÓN</th>
                                             <th class="text-uppercase text-sm">NIT</th>
                                             <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>

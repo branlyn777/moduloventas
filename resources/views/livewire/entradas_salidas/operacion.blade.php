@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <label>Seleccione un tipo de operacion:</label>
+                        <label>Seleccione un tipo de operación:</label>
 
                         <select wire:model='tipo_proceso' class="form-select">
                             <option value="null" selected disabled>Elegir</option>
@@ -22,7 +22,7 @@
                         @enderror
                     </div>
                     <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)">Seleccione la ubicacion:</label>
+                        <label style="color: rgb(74, 74, 74)">Seleccione la ubicación:</label>
                         <select wire:model='destino' class="form-select">
                             <option value='Elegir' disabled>Elegir</option>
                             @foreach ($destinosp as $item)
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)">Agregue una observacion:</label>
+                        <label style="color: rgb(74, 74, 74)">Agregue una observación:</label>
 
 
                         <textarea class="form-control" wire:model='observacion' cols="10" rows="3"></textarea>
@@ -230,7 +230,7 @@
                     @if (count($col)>0)
                     <div class="card-body p-4">
                             <div class="title">
-                                <h6 class="text-center">Detalle Operacion</h6>
+                                <h6 class="text-center">Detalle Operación</h6>
                             </div>
                         <div class="table-responsive">
                        

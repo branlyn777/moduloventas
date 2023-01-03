@@ -67,7 +67,7 @@
 
                         {{-- Boton de Revocar  --}}
                         @if ($permisosseleccionado == 'Todos')
-                            <button onclick="Revocar()" type="button" class="btn btn-warning mb-0">
+                            <button onclick="Revocar()" type="button" class="btn btn-danger mb-0">
                                 <span class="btn-inner--icon">
 
                                     <i class="fas fa-circle-xmark me-2"></i>
@@ -88,7 +88,7 @@
         <div class="card mb-4">
             <div class="card-body p-3">
                 <div class="d-lg-flex m-3">
-                    <div class="col-md-4 col-12 col-sm-12 text-center">
+                    <div class="col-md-4 col-12 col-sm-12 text-left">
                         <div class="form-group me-3">
                             <b class="text-dark">Seleccione Rol</b>
                             <select wire:model="role" class="form-select">
@@ -100,7 +100,7 @@
                         </div>
                     </div>
     
-                    <div class="ms-auto col-md-4 col-12 col-sm-12 text-center">
+                    <div class="ms-auto col-md-4 col-12 col-sm-12 text-left">
                         <div class="form-group me-2">
                             <b class="text-dark">Área Permiso</b>
                             <select wire:model="permisosseleccionado" class="form-select">

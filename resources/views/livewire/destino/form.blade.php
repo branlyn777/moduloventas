@@ -16,7 +16,7 @@
                     <div class="col-12 col-sm-6 col-md-12">
                         <div class="form-group">
                             <label>Destino</label>
-                            <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="Nombre de la estancia deposito, tienda, almacen, bodega"
+                            <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="Nombre de la estancia depósito, tienda, almacén, bodega"
                             maxlenght="25">
                             @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
@@ -24,8 +24,8 @@
 
                     <div class="col-12 col-sm-6 col-md-12">
                         <div class="form-group">
-                            <label>Observacion</label>
-                            <textarea wire:model.lazy="observacion" placeholder="Ingrese las caracteristicas de la categoria" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label>Observación</label>
+                            <textarea wire:model.lazy="observacion" placeholder="Ingrese las caracteristicas de la categoría" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                             @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                     </div>
