@@ -382,7 +382,7 @@ class UsersController extends Component
         $usuario = User::find($this->selected_id);
         $usuario->update([
             'status' => 'LOCKED',
-            'password' => bcrypt(uniqid()),
+         
         ]);
         $usuario->save();
 
