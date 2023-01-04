@@ -144,7 +144,7 @@
                                                         ACTIVO
                                                     </span>
                                                 @else
-                                                    <span class="badge badge-sm bg-gradient-danger">
+                                                    <span class="badge badge-sm bg-gradient-warning">
                                                         INACTIVO
                                                     </span>
                                                 @endif

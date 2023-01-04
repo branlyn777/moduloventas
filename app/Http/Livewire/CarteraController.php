@@ -14,7 +14,7 @@ class CarteraController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $search, $nombre, $descripcion, $tipo, $telefonoNum, $selected_id, $caja_id;
-    public  $pageTitle, $componentName, $variable;
+    public  $pageTitle, $componentName, $variable, $estados;
     private $pagination = 10;
 
     public function paginationView()
@@ -31,6 +31,7 @@ class CarteraController extends Component
         $this->variable = 0;
         $this->telefonoNum = 0;
         $this->selected_id = 0;
+        $this->estados = true;
     }
 
     public function render()

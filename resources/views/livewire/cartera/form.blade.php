@@ -42,7 +42,7 @@
             </div>
         </div>
     @endif
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Caja</label>
             <select wire:model='caja_id' class="form-select">
@@ -55,7 +55,7 @@
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
 </div>
 @include('common.modalFooter')

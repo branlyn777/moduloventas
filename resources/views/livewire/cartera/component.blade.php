@@ -61,15 +61,68 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-4">
+
+
+
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex pt-4">
-                        <div class="col-12 col-sm-12 col-md-3">
-                            @include('common.searchbox')
+
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-12 col-md-3">
+                            <h6>Buscar</h6>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="nombre" class="form-control ">
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="row justify-content-end">
+                                <div class="col-md-5">
+
+                                    <h6>Filtrar por Estado</h6>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" wire:model='estados' wire:change="cambioestado()" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        @if ($estados)
+                                        <label style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Activos</label>
+                                        @else
+                                        <label style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;" >Inactivos</label>
+                                        @endif
+                                    </div>
+                                    {{-- <select wire:model='estados' wire:change="cambioestado()" class="form-select">
+
+                                        <option value="ACTIVE">Activo</option>
+                                        <option value="LOCKED">Inactivo</option>
+
+                                    </select> --}}
+
+                                </div>
+                                <div class="col-md-4">
+
+
+
+                                </div>
+                           
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <br>
 
 
             <div class="card mb-4">
@@ -116,7 +169,7 @@
                                                         ACTIVO
                                                     </span>
                                                 @else
-                                                    <span class="badge badge-sm bg-gradient-danger">
+                                                    <span class="badge badge-sm bg-gradient-warning">
                                                         INACTIVO
                                                     </span>
                                                 @endif

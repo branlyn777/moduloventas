@@ -9,7 +9,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Sucursal</label>
             <select wire:model='sucursal_id' class="form-select">
@@ -22,6 +22,6 @@
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
         </div>
-    </div>
+    </div> --}}
 </div>
 @include('common.modalFooter')
