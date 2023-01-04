@@ -15,14 +15,14 @@
 @endsection
 
 
-@section('empresacollapse')
+{{-- @section('empresacollapse')
     nav-link
 @endsection
 
 
 @section('empresaarrow')
     true
-@endsection
+@endsection --}}
 
 
 @section('ingresosegresosnav')
@@ -30,9 +30,9 @@
 @endsection
 
 
-@section('empresashow')
+{{-- @section('empresashow')
     "collapse show"
-@endsection
+@endsection --}}
 
 @section('ingresosegresosli')
     "nav-item active"
@@ -45,7 +45,7 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Categoria cartera movimiento</h5>
+                        <h5 class="text-white" style="font-size: 16px">Categoria Ingresos/Egresos</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">

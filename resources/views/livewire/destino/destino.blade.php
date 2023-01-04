@@ -114,7 +114,7 @@ true
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
-                                <table class="table align-items-center mb-0">
+                                <table class="table align-items-center mb-0 P-0">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
@@ -138,7 +138,7 @@ true
                                                         {{ $d->nombredestino }}
                                                     </td>
                                                     <td>
-                                                        {{ $d->observacion }}
+                                                        {{substr( $d->observacion, 0 ,90)}}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
@@ -180,7 +180,7 @@ true
                                                     </td>
 
                                                     <td>
-                                                        {{ $d->observacion }}
+                                                        {{substr($d->observacion,0,90)}}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
