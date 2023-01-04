@@ -50,15 +50,15 @@
 
             <div class="card mb-4">
                 <div class="card-body p-4 m-2">
-                    <div class="d-flex pt-4">
-                        <div class="col-12 col-sm-12 col-md-3">
+                  <div class="col-12 col-sm-12 col-md-3">
+                            <h6>Buscar</h6>
                            <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search" placeholder="Buscar Nombre o Area de Permiso"
+                                <input type="text" wire:model="search" placeholder="nombre o área de permiso"
                                     class="form-control ">
                             </div>
                         </div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -90,7 +90,7 @@
                                                 {{ $permiso->area }}
                                             </td>
                                             <td class="text-sm mb-0 text-left">
-                                                {{ $permiso->descripcion }}
+                                                {{ $permiso->descripcion == null ? 'S/N' : substr($permiso->descripcion,0,35)  }}
                                             </td>
 
                                             <td class="text-sm ps-0 text-center">

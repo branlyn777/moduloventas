@@ -237,20 +237,11 @@ class CarteraController extends Component
                 {
                     $this->emit('alert');
                 }
-
-
-
             }
             else
             {
                 $this->emit('alert');
             }
-                
-
-
-
-
-
         }
 
 

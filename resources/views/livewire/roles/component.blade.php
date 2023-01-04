@@ -63,8 +63,19 @@
                  
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
+
+
+
+
+
                             <h6>Buscar</h6>
-                            @include('common.searchbox')
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="nombre de rol" class="form-control ">
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                     
@@ -80,9 +91,9 @@
                                     <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Nombre de Rol</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Descripción</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Creación</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha <br>Actualización</th>
-                                    <th class="text-uppercase text-sm text-center">ACCIONES.</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha Creación</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Fecha Actualización</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>
 
@@ -103,7 +114,7 @@
 
                                         <td>
                                             <p class="text-sm mb-0 text-left">
-                                                {{ $rol->descripcion == null ? 'S/N' : $rol->descripcion }}
+                                                {{ $rol->descripcion == null ? 'S/N' : substr($rol->descripcion,1,15)  }}
                                             </p>
                                         </td>
 

@@ -7,35 +7,35 @@
                 </a>
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-                    href="{{url("")}}">Inicio</a></li>
+                    href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
         <h6 class="font-weight-bolder mb-0 text-white">Usuarios</h6>
-    </nav> 
+    </nav>
 @endsection
 
 
 @section('userscollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('userarrow')
-true
+    true
 @endsection
 
 
 @section('usernav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('usershow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('userli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
@@ -54,47 +54,78 @@ true
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Usuario</button>
+                            <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
+                                Nuevo Usuario</button>
                         </div>
                     </div>
                 </div>
             </div><br>
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="row justify-content-between mt-4">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
-                            @include('common.searchbox')
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="nombre o numero de telefono" class="form-control ">
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row justify-content-end">
+                                <div class="col-md-5">
 
-                                  
-                                        <h6>Seleccionar Sucursal</h6>
-                                        <select wire:model='sucursal' class="form-select">
-                                            @foreach($sucursales as $s)
-                                            <option value="{{$s->id}}">{{$s->name}}</option>
-                                            @endforeach
-                                            <option value="Todos">Todas las Sucursales</option>
-                                        </select>
-                             
-                                </div>
-                                <div class="col-md-6">
+                                    <h6>Filtrar por Estado</h6>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" wire:model='estados' wire:change="cambioestado()" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        @if ($estados == true)
+                                        <label style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Activos</label>
+                                        @else
+                                        <label style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;" >Inactivos</label>
+                                        @endif
+                                    </div>
+                                    {{-- <select wire:model='estados' wire:change="cambioestado()" class="form-select">
 
-                                        <h6>Estado</h6>
-                                        <select wire:model='estados' class="form-select">
-    
-                                            <option value="ACTIVE">ACTIVO</option>
-                                            <option value="LOCKED">INACTIVO</option>
-                                            <option value="TODOS">TODOS</option>
-                                        </select>
-                                 
+                                        <option value="ACTIVE">Activo</option>
+                                        <option value="LOCKED">Inactivo</option>
+
+                                    </select> --}}
+
                                 </div>
+                                <div class="col-md-4">
+
+
+                                    <h6>Filtrar por Sucursal</h6>
+                                    <select wire:model='sucursal'  class="form-select">
+                                        @if ($lista_sucursales!=null)
+                                        @foreach ($sucursales as $s)
+                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                        @endforeach
+                                        <option value="Todos">Todas las Sucursales</option> 
+                                        @else
+                                        <option value=null>-- --</option> 
+                                        @endif
+                                      
+                                    </select>
+
+                                </div>
+                           
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,7 +133,7 @@ true
 
             <br>
             <div class="card mb-4">
-            
+
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -207,15 +238,15 @@ true
 
         window.livewire.on('item-added', Msg => {
             $('#formUsers').modal('hide')
-         
+
         })
         window.livewire.on('item-updated', Msg => {
             $('#formUsers').modal('hide')
-           
+
         })
         window.livewire.on('sucursal-actualizada', Msg => {
             $('#modal-details').modal('hide')
-     
+
         })
         window.livewire.on('atencion', Msg => {
             const toast = swal.mixin({

@@ -164,34 +164,34 @@
                         <div class="row m-2 mt-6">
                             <div class="col-sm-12 col-md-8">
                                 <div class="form-group">
-                                    <label>Nombre</label>
+                                    <label> <span class="text-primary">* </span> Nombre</label>
                                     <input type="text" wire:model.lazy="name" class="form-control"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                     @error('name')
-                                        <span class="text-danger er">{{ $message }}</span>
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label>Teléfono</label>
+                                    <label> <span class="text-primary">* </span>Teléfono</label>
                                     <input type="text" wire:model.lazy="phone" class="form-control" maxlength="8"
-                                        {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
+                                        {{ $status == 'LOCKED' ? "disabled='true'" : ''}}>
                                     @error('phone')
-                                        <span class="text-danger er">{{ $message }}</span>
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label> <span class="text-primary">* </span>Email</label>
                                     <input type="text" wire:model.lazy="email" class="form-control"
                                         placeholder="ej: correo@correo.com"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                     @error('email')
-                                        <span class="text-danger er">{{ $message }}</span>
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -199,21 +199,21 @@
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     @if ($selected_id == 0)
-                                        <label>Contraseña</label>
+                                        <label><span class="text-primary">* </span>Contraseña</label>
                                     @else
                                         <label>Nueva contraseña (opcional)</label>
                                     @endif
                                     <input type="password" date-type='currency' wire:model.lazy="password"
                                         class="form-control" {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                     @error('password')
-                                        <span class="text-danger er">{{ $message }}</span>
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label>Asignar rol</label>
+                                    <label> <span class="text-primary">* </span>Asignar rol</label>
                                     <select wire:model='profile' class="form-select"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                         <option value="Elegir" disabled selected>Elegir</option>
@@ -222,7 +222,7 @@
                                         @endforeach
                                     </select>
                                     @error('profile')
-                                        <span class="text-danger er">{{ $message }}</span>
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                             @if ($selected_id == 0)
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label>Sucursal</label>
+                                        <label><span class="text-primary" >* </span>Sucursal</label>
                                         <select wire:model='sucursal_id' class="form-select">
                                             <option value="Elegir" disabled selected>Elegir</option>
                                             @foreach ($sucursales as $item)
@@ -240,7 +240,7 @@
                                             @endforeach
                                         </select>
                                         @error('sucursal_id')
-                                            <span class="text-danger er">{{ $message }}</span>
+                                            <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -264,7 +264,7 @@
                                     </div>
 
                                 @endif
-
+                                {{-- <span style="color: red; font-size: 0.8rem">* Campos Obligatorios</span> --}}
                             </div>
                         </div>
                     </div>

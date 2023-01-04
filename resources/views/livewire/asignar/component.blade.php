@@ -51,8 +51,8 @@
 
                         {{-- Boton de Sincronizar --}}
                         @if ($permisosseleccionado != 'Todos')
-                            <button wire:click.prevent="SyncAll2()" type="button" <span
-                                class="btn btn-add mb-0">
+                            <button wire:click.prevent="SyncAll2()" type="button" class="btn btn-success mb-0">
+                            <span class="btn-inner--icon">
                                 <i class="fas fa-rotate me-2"></i>
                                 </span class="btn-inner--text"> Sincronizar Todos
                                 Area</button>
@@ -87,12 +87,12 @@
         </div>
         <div class="card mb-4">
             <div class="card-body p-3">
-                <div class="d-lg-flex m-3">
-                    <div class="col-md-4 col-12 col-sm-12 text-left">
+                <div class="row m-3 justify-content-end">
+                    <div class="col-md-3 col-12 col-sm-12 text-left">
                         <div class="form-group me-3">
                             <b class="text-dark">Seleccione Rol</b>
                             <select wire:model="role" class="form-select">
-                                <option value="Elegir" selected>==Seleccione el rol==</option>
+                                <option value="Elegir" selected>Seleccione el rol</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
                                 @endforeach
@@ -100,11 +100,11 @@
                         </div>
                     </div>
     
-                    <div class="ms-auto col-md-4 col-12 col-sm-12 text-left">
+                    <div class="col-md-3 col-12 col-sm-12 text-left">
                         <div class="form-group me-2">
                             <b class="text-dark">Área Permiso</b>
                             <select wire:model="permisosseleccionado" class="form-select">
-                                <option value="Todos"><b>==Todos los Permisos==</b></option>
+                                <option value="Todos"><b>Todos los Permisos</b></option>
                                 @foreach ($listaareas as $u)
                                     <option value="{{ $u->id }}">{{ $u->name }}</option>
                                 @endforeach
@@ -160,7 +160,7 @@
                                         {{ $permiso->area }}
                                     </td>
                                     <td class="text-sm mb-0 text-left">
-                                        {{ $permiso->descripcion }}
+                                        {{ $permiso->descripcion == null ? 'S/N' : substr($permiso->descripcion,0,50)  }}
                                     </td>
                                 </tr>
                             @endforeach

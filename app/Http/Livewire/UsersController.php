@@ -21,8 +21,8 @@ class UsersController extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $name, $phone, $email, $image, $password, $selected_id,$estados,$fileLoaded, $profile,
-        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status,$random,$imagen;
+    public $name, $phone, $email, $image, $password, $selected_id, $estados, $fileLoaded, $profile,
+        $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname, $status, $random, $imagen, $lista_sucursales;
     public $pageTitle, $componentName, $search, $sucursal;
     private $pagination = 10;
 
@@ -38,24 +38,20 @@ class UsersController extends Component
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
-        $this->sucursalUsuario = 'Elegir';
-        $this->sucursalUserUsuario = '';
-        $this->usuarioACTIVO = '';
+        // $this->sucursalUsuario = 'Elegir';
+        // $this->sucursalUserUsuario = '';
+        // $this->usuarioACTIVO = '';
         $this->details = [];
-        $this->estados='TODOS';
-        $this->imagen='noimagen.png';
+        $this->estados = true;
+        $this->imagen = 'noimagen.png';
+        if ($this->estados == true) {
+            $this->sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->first()->sucursal_id;
+        }
     }
 
     public function render()
     {
-        // if (strlen($this->search) > 0) {
-        //     $data = User::where('users.name', 'like', '%' . $this->search . '%')
-        //         ->orderBy('name', 'asc')
-        //         ->paginate($this->pagination);
-        // } else {
-        //     $data = User::orderBy('users.name', 'asc')
-        //         ->paginate($this->pagination);
-        // }
+
 
         if ($this->selected_id > 0) {
             $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
@@ -67,21 +63,46 @@ class UsersController extends Component
         }
 
 
-        $data = User::join('sucursal_users','sucursal_users.user_id','users.id')
-        ->select('users.name','users.phone','users.status','sucursal_users.sucursal_id')
-        ->where(function($querys){
-            $querys->where('users.name', 'like', '%' . $this->search . '%')
-                   ->orWhere('users.phone', 'like', '%' . $this->search . '%');
-   
-        })
-        ->when($this->estados !='TODOS',function($query){
-            return $query->where('users.status',$this->estados);
-     })
-        ->when($this->sucursal !='Todos',function($query){
-            return $query->where('sucursal_users.sucursal_id',$this->sucursal);
-     })
-        ->paginate($this->pagination);
+        // $data = User::join('sucursal_users', 'sucursal_users.user_id', 'users.id')
+        //     ->select('users.name', 'users.phone', 'users.status', 'sucursal_users.sucursal_id')
+        //     ->where(function ($querys) {
+        //         $querys->where('users.name', 'like', '%' . $this->search . '%')
+        //             ->orWhere('users.phone', 'like', '%' . $this->search . '%');
+        //     })
+        //     ->when($this->estados != 'TODOS', function ($query) {
+        //         return $query->where('users.status', $this->estados);
+        //     })
+        //     ->when($this->sucursal != 'Todos', function ($query) {
+        //         return $query->where('sucursal_users.sucursal_id', $this->sucursal);
+        //     })
+        //     ->paginate($this->pagination);
 
+
+        // Opciones del select para mostrar de acuerdo al estado, si es inactivo no debe mostrar nada en el select
+        if ($this->estados == false) {
+            $this->lista_sucursales = null;
+            //seleccionar el valor null option por defecto
+            $this->sucursal = null;
+            $data = User::select('users.*')->where('users.status', $this->estados)
+                ->where(function ($querys) {
+                    $querys->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.phone', 'like', '%' . $this->search . '%');
+                })->paginate($this->pagination);
+        } else {
+            $this->lista_sucursales = Sucursal::orderBy('name', 'asc')->get();
+            // $this->sucursal = Auth()->user()->sucursal;
+            $data = User::join('sucursal_users', 'sucursal_users.user_id', 'users.id')
+                ->select('users.*', 'sucursal_users.sucursal_id as sucursal_id')
+                ->where('sucursal_users.estado', 'ACTIVO')
+                ->where(function ($querys) {
+                    $querys->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.phone', 'like', '%' . $this->search . '%');
+                })
+                ->when($this->sucursal != 'Todos', function ($query) {
+                    return $query->where('sucursal_id', $this->sucursal);
+                })
+                ->paginate($this->pagination);
+        }
 
 
         return view('livewire.users.component', [
@@ -107,6 +128,7 @@ class UsersController extends Component
             'profile' => 'required|not_in:Elegir',
             'password' => 'required|min:3',
             'sucursal_id' => 'required|not_in:Elegir',
+            'phone'=>'required'
         ];
         $messages = [
             'name.required' => 'Ingresa el nombre del usuario',
@@ -120,6 +142,7 @@ class UsersController extends Component
             'password.min' => 'El password debe tener al menos 3 caracteres',
             'sucursal_id.required' => 'Seleccione la sucursal del usuario',
             'sucursal_id.not_in' => 'Seleccione una sucursal distinto a Elegir',
+            'phone.required' => 'Ingresa un numero de telefono'
         ];
         $this->validate($rules, $messages);
 
@@ -162,7 +185,7 @@ class UsersController extends Component
 
     public function Edit(User $user)
     {
-        $this->image='';
+        $this->image = '';
         $this->selected_id = $user->id;
         $this->name = $user->name;
         $this->phone = $user->phone;
@@ -170,7 +193,7 @@ class UsersController extends Component
         $this->email = $user->email;
         $this->status = $user->status;
         $this->password = '';
-        $this->imagen=$user->imagen;
+        $this->imagen = $user->imagen;
 
         $this->emit('show-modal', 'open!');
     }
@@ -213,7 +236,7 @@ class UsersController extends Component
             ]);
         }
         $user->syncRoles($this->profile);
-        
+
         if ($this->image) {
             $customFileName = uniqid() . '_.' . $this->image->extension();
             $this->image->storeAs('public/usuarios', $customFileName);
@@ -236,16 +259,15 @@ class UsersController extends Component
     protected $listeners = [
         'deleteRow' => 'destroy',
         'resetUI' => 'resetUI',
-        'deleteRowPermanently'=>'deleteRowPermanently'
+        'deleteRowPermanently' => 'deleteRowPermanently'
     ];
 
     public function destroy(User $user)
     {
-       
-        if(Auth::user()->id != $user->id)
-        {
+
+        if (Auth::user()->id != $user->id) {
             $usuario = User::find($user->id);
-    
+
             $usuario->update([
                 'status' => "LOCKED"
             ]);
@@ -253,48 +275,35 @@ class UsersController extends Component
 
             $imageName = $user->image;
 
-            if ($imageName != null)
-            {
+            if ($imageName != null) {
                 unlink('storage/usuarios/' . $imageName);
             }
             $this->resetUI();
             $this->emit('item-deleted');
 
 
-             /* EDITAR ANTERIOR SUCURSAL_USER, PONIENDO FECHA FIN O NO SEGUN EL CASO */
-             $su = SucursalUser::find($user->id);
-             $DateAndTime = date('Y-m-d H:i:s', time());
-             if ($su->fecha_fin == null) {
-                 $su->update([
-                     'estado' => 'FINALIZADO',
-                     'fecha_fin' => $DateAndTime
-                 ]);
-             }
-        }
-        else
-        {
+            /* EDITAR ANTERIOR SUCURSAL_USER, PONIENDO FECHA FIN O NO SEGUN EL CASO */
+            $su = SucursalUser::find($user->id);
+            $DateAndTime = date('Y-m-d H:i:s', time());
+            if ($su->fecha_fin == null) {
+                $su->update([
+                    'estado' => 'FINALIZADO',
+                    'fecha_fin' => $DateAndTime
+                ]);
+            }
+        } else {
             $this->emit("atencion");
         }
-
-
     }
     public function deleteRowPermanently(User $user)
     {
         try {
-            if(Auth::user()->id != $user->id)
-            {
-            
-
-           $us= SucursalUser::where('user_id',$user->id)->first()->delete();
-
-        
-            $user->delete();
-            }
-            else
-            {
+            if (Auth::user()->id != $user->id) {
+                $us = SucursalUser::where('user_id', $user->id)->delete();
+                $user=User::where('id', $user->id)->delete();
+            } else {
                 $this->emit("atencion");
             }
-          
         } catch (Exception $e) {
             dd($e);
         }
@@ -366,7 +375,7 @@ class UsersController extends Component
     }
     public function Activar()
     {
-        $ult_sucursal=  SucursalUser::where('user_id',$this->selected_id)->where('estado','FINALIZADO')->latest('updated_at')->first();
+        $ult_sucursal =  SucursalUser::where('user_id', $this->selected_id)->where('estado', 'FINALIZADO')->latest('updated_at')->first();
 
 
         SucursalUser::create([
@@ -389,11 +398,11 @@ class UsersController extends Component
         $usuario = User::find($this->selected_id);
         $usuario->update([
             'status' => 'LOCKED',
-         
+
         ]);
         $usuario->save();
 
-        $su = SucursalUser::where('user_id',$usuario->id)->where('estado','ACTIVO')->first();
+        $su = SucursalUser::where('user_id', $usuario->id)->where('estado', 'ACTIVO')->first();
         $su->update([
             'estado' => 'FINALIZADO',
             'fecha_fin' => $DateAndTime
@@ -407,8 +416,9 @@ class UsersController extends Component
         $this->email = '';
         $this->password = '';
         $this->phone = '';
-        $this->imagen='noimagen.png';
-        $this->image='';
+        $this->imagen = 'noimagen.png';
+        $this->image = '';
+        $this->status=null;
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
@@ -419,5 +429,13 @@ class UsersController extends Component
 
         $this->resetValidation();
         $this->resetPage();
+    }
+
+    public function cambioestado()
+    {
+        if ($this->estados == true) {
+            
+            $this->sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->first()->sucursal_id;
+        }
     }
 }
