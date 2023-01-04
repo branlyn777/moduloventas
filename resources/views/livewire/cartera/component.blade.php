@@ -53,9 +53,8 @@
                             <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva
                                 Cartera</button>
 
-                            <a href="carteras" class="btn btn-secondary" data-type="csv" type="button">
-                                <span style="margin-right: 7px;" class="btn-inner--text">Ir a Categoria
-                                    Movimiento</span>
+                            <a href="cortecajas" class="btn btn-secondary" data-type="csv" type="button">
+                                <span style="margin-right: 7px;" class="btn-inner--text">Ir a Corte de Caja</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -85,6 +84,7 @@
                                         <th class="text-uppercase text-sm ps-2 text-left"> DESCRIPCION</th>
                                         <th class="text-uppercase text-sm ps-2 text-left">TIPO</th>
                                         <th class="text-uppercase text-sm ps-2 text-left">CAJA</th>
+                                        <th class="text-uppercase text-sm ps-2 text-left">ESTADO</th>
                                         <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                     </tr>
                                 </thead>
@@ -109,16 +109,38 @@
                                             <td class="text-sm mb-0 text-left">
                                                 {{ $item->caja->nombre }}
                                             </td>
-                                            <td class="text-sm ps-0 text-center">
+                                            <td class="text-sm mb-0 text-left">
+
+                                                @if ($item->estado == 'ACTIVO')
+                                                    <span class="badge badge-sm bg-gradient-success">
+                                                        ACTIVO
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-sm bg-gradient-danger">
+                                                        INACTIVO
+                                                    </span>
+                                                @endif
+    
+                                            </td>
+                                            <td class="text-sm ps-0 text-center">    
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
                                                     <i class="fas fa-edit text-default" aria-hidden="true"></i>
-                                                </a>
+                                                </a>                                  
+                                                @if ($item->estado == 'ACTIVO')
+                                                
+                                                    <a href="javascript:void(0)"
+                                                        onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
+                                                        class="mx-3" title="Borrar">
+                                                        <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                                    </a>                                             
+                                                @else
                                                 <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
-                                                    class="mx-3" title="Borrar">
-                                                    <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                                </a>
+                                                onclick="Activar('{{ $item->id }}')"
+                                                    class="mx-3" title="Activar">
+                                                    <i class="fas fa-store text-warning" aria-hidden="true"></i>
+                                                </a> 
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -168,29 +190,58 @@
         });
     });
 
-    function Confirm(id, name, movimientos) {
-        if (movimientos > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                text: 'No se puede eliminar la cartera "' + name + '" porque tiene ' +
-                    movimientos + ' transacciones.'
-            })
-            return;
-        }
-
+function Confirm(id, name, movimientos) {
+    if (movimientos > 0)
+    {
         swal({
-                title: 'CONFIRMAR',
-                text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?',
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Aceptar',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('deleteRow', id)
-                }
-            })
+            title: 'CONFIRMAR',
+            text: '¿Confirmar inactivar la cartera ' + '"' + name + '"?',
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('cancelRow', id)
+            }
+        })
     }
+    else
+    {
+        swal({
+            title: 'CONFIRMAR',
+            text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?',
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('deleteRow', id)
+            }
+        })
+    }
+
+
+}
+
+function Activar(id) {
+    swal({
+            title: 'CONFIRMAR',
+            text: '¿Confirma activar la cartera ' + '"' + name + '"?',
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Aceptar',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('activarRow', id)
+            }
+        })
+
+
+}
 </script>

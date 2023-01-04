@@ -49,8 +49,8 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'><i
-                                class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+                        <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
+                            <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@ class UsersController extends Component
 
     public $name, $phone, $email, $image, $password, $selected_id,$estados,$fileLoaded, $profile,
         $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname,$status,$random,$imagen;
-    public $pageTitle, $componentName, $search, $sucur;
+    public $pageTitle, $componentName, $search, $sucursal;
     private $pagination = 10;
 
     public function paginationView()
@@ -67,13 +67,20 @@ class UsersController extends Component
         }
 
 
-        $data = User::select('users.*')
+        $data = User::join('sucursal_users','sucursal_users.user_id','users.id')
+        ->select('users.name','users.phone','users.status','sucursal_users.sucursal_id')
         ->where(function($querys){
             $querys->where('users.name', 'like', '%' . $this->search . '%')
-            ->when($this->estados !='TODOS',function($query){
-                    return $query->where('status',$this->estados);
-             });
-        })->paginate($this->pagination);
+                   ->orWhere('users.phone', 'like', '%' . $this->search . '%');
+   
+        })
+        ->when($this->estados !='TODOS',function($query){
+            return $query->where('users.status',$this->estados);
+     })
+        ->when($this->sucursal !='Todos',function($query){
+            return $query->where('sucursal_users.sucursal_id',$this->sucursal);
+     })
+        ->paginate($this->pagination);
 
 
 

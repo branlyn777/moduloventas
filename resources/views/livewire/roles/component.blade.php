@@ -42,37 +42,36 @@
 
 
 <div>
-
     <div class="row">
         <div class="col-12">
-            <div class="card-header pt-0 mb-4">
-                <div class="d-lg-flex">
-                    <div>
-                        <h5 class="text-white" style="font-size: 16px">Lista de Roles</h5>
-                    </div>
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add mb-0">    <i class="fas fa-plus me-2"></i> Nuevo Rol</button>
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class=" text-white" style="font-size: 16px">Lista de Roles</h5>
+                </div>
+
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        <a class="btn btn-add mb-0" wire:click="Agregar()">
+                            <i class="fas fa-plus me-2"></i> Nuevo Rol</a>
+                    </div>
+                </div>
+            </div>
+
+             <div class="card">
+                <div class="card-body">
+                 
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-3">
+                            <h6>Buscar</h6>
+                            @include('common.searchbox')
                         </div>
                     </div>
+                    
                 </div>
             </div>
+            <br>
             <div class="card mb-4">
-                <div class="card-body p-4 m-2">
-                    <div class="d-flex pt-4">
-                    <div class="col-12 col-sm-12 col-md-3">
-                        @include('common.searchbox')
-                    </div>
-                    </div>
-                </div>
-
-            </div>
-            
-
-
-            <div class="card mb-4">
-
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-left mb-0">
@@ -87,7 +86,7 @@
                                 </tr>
                             </thead>
 
-                            
+
                             <tbody>
                                 @foreach ($data as $rol)
                                     <tr>
@@ -103,7 +102,8 @@
                                         </td>
 
                                         <td>
-                                            <p class="text-sm mb-0 text-left">{{ $rol->descripcion == null ? 'S/N Descripcion' : $rol->descripcion }}
+                                            <p class="text-sm mb-0 text-left">
+                                                {{ $rol->descripcion == null ? 'S/N' : $rol->descripcion }}
                                             </p>
                                         </td>
 
@@ -121,7 +121,8 @@
 
                                         <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)"
-                                                wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3" title="Editar rol">
+                                                wire:click.prevent="Edit('{{ $rol->id }}')" class="mx-3"
+                                                title="Editar rol">
                                                 <i class="fas fa-user-edit text-info"></i>
                                             </a>
                                             <a href="javascript:void(0)"

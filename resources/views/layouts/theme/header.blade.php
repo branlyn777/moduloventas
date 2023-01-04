@@ -18,7 +18,7 @@
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                
             </div>
-            <ul class="navbar-nav  justify-content-end">
+            <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex px-2 align-items-center">
                     <a class="nav-link text-white font-weight-bold px-0" target="_blank">
 
@@ -48,7 +48,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item px-2 d-flex align-items-center">
+                {{-- <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
                         <div class="form-check form-switch ps-0 ms-auto my-auto">
                             @if (true)
@@ -62,9 +62,9 @@
                       
                             @endif
                           </div>
-                        {{-- <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i> --}}
+                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">

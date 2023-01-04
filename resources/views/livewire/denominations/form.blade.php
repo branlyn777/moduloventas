@@ -4,7 +4,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Tipo</label>
-            <select wire:model='type' class="form-control">
+            <select wire:model='type' class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="BILLETE">BILLETE</option>
                 <option value="MONEDA">MONEDA</option>

@@ -86,13 +86,17 @@ class CarteraController extends Component
     public function Store()
     {
         $rules = [
-            'nombre' => 'required|unique:carteras',
+            'nombre' => 'required|unique:carteras|max:255',
             'caja_id' => 'required|not_in:Elegir',
-            'tipo' => 'required|not_in:Elegir',
+            'tipo' => 'required|not_in:Elegir',       
+            'descripcion' => 'required|max:255',     
             // 'telefonoNum' => 'required_if:variable,==,1',
         ];
         $messages = [
             'nombre.required' => 'Nombre de la cartera requerido.',
+            'descripcion.required' => ' Descripción requerido.',
+            'nombre.max' => 'Texto no mayor a 255 caracteres',
+            'descripcion.max' => 'Texto no mayor a 255 caracteres',
             'nombre.unique' => 'Ese nombre de cartera ya existe.',
             'caja_id.required' => 'La caja es requerido.',
             'caja_id.not_in' => 'La caja debe ser distinto de Elegir.',
@@ -162,12 +166,16 @@ class CarteraController extends Component
     public function Update()
     {
         $rules = [
-            'nombre' => "required|unique:carteras,nombre,{$this->selected_id}",
+            'nombre' => "required|unique:carteras,nombre,{$this->selected_id}|max:255",
             'caja_id' => 'required|not_in:Elegir',
-            'tipo' => 'required|not_in:Elegir'
+            'tipo' => 'required|not_in:Elegir',
+            'descripcion' => 'required|max:255',  
         ];
         $messages = [
             'nombre.required' => 'Nombre de la cartera requerido.',
+            'descripcion.required' => ' Descripción requerido.',
+            'nombre.max' => 'Texto no mayor a 255 caracteres',
+            'descripcion.max' => 'Texto no mayor a 255 caracteres',
             'nombre.unique' => 'Ese nombre de cartera ya existe.',
             'caja_id.required' => 'La caja es requerido.',
             'caja_id.not_in' => 'La caja debe ser distinto de Elegir.',
@@ -248,13 +256,33 @@ class CarteraController extends Component
 
 
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'cancelRow' => 'cancel',
+        'activarRow' => 'activar'
+    ];
 
     public function Destroy(Cartera $cartera)
     {
         $cartera->delete();
         $this->resetUI();
         $this->emit('item-deleted', 'Cartera Eliminada');
+    }
+    public function cancel($idcartera)
+    {
+        $cartera = Cartera::find($idcartera);
+        $cartera->update([
+            'estado' => "INACTIVO"
+        ]);
+        $cartera->save();
+    }
+    public function activar($idcartera)
+    {
+        $cartera = Cartera::find($idcartera);
+        $cartera->update([
+            'estado' => "ACTIVO"
+        ]);
+        $cartera->save();
     }
 
     public function resetUI()

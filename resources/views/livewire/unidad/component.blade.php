@@ -64,7 +64,8 @@ true
 
                     <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
-                            <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal"><i class="fas fa-plus"></i> Agregar Unidad</a>
+                            <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal">
+                                <i class="fas fa-plus"></i> Agregar Unidad</a>
                         </div>
                     </div>
 

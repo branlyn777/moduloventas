@@ -4,10 +4,12 @@
 <link href="css/nucleo-icons.css" rel="stylesheet" />
 <!-- Font Awesome Icons -->
 <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-<link href="css/nucleo-svg.css" rel="stylesheet" />
+<link href="css/nucleo-svg.css" rel="stylesheet"/>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <!-- CSS Files -->
 <link id="pagestyle" href="css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+{{-- cdn fontawesome --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
