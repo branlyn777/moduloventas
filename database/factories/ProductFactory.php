@@ -41,8 +41,8 @@ class ProductFactory extends Factory
         //     'control' => $this->faker->randomElement(['AUTOMATICO','MANUAL']),
         // ];
 
-        $costo = rand(10,999);
-        $utilidad = rand(1,100);
+        $costo = $this->faker->biasedNumberBetween(10,999);
+        $utilidad = $this->faker->biasedNumberBetween(1,100);
         $precio = $costo + $utilidad;
 
 
@@ -51,8 +51,8 @@ class ProductFactory extends Factory
             'nombre' => $this->faker->name(),
             'costo' => $costo,
             'caracteristicas' => $this->faker->randomElement(['Nuevo','Usado','SemiNuevo']),
-            'codigo' => rand(100000,999999),
-            'lote' => rand(100000,999999),
+            'codigo' => $this->faker->ean8(),
+            'lote' => $this->faker->isbn10(),
             'unidad' => $this->faker->randomElement(['Pieza','Kg','Ltrs']),
             'marca' => $this->faker->randomElement(['Samsung','Lg','Xiaomi','Apple','Huawei']),
             'garantia' => $this->faker->randomElement([2,5,10,20]),
@@ -61,7 +61,7 @@ class ProductFactory extends Factory
             'precio_venta' => $precio,
             'status' => 'ACTIVO',
             'control' => $this->faker->randomElement(['AUTOMATICO','MANUAL']),
-            'category_id' => 1,
+            'category_id' => rand(1,Category::all()->count()),
             'control' => $this->faker->randomElement(['AUTOMATICO','MANUAL']),
         ];
     }

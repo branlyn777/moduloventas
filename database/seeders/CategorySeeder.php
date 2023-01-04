@@ -16,7 +16,27 @@ class CategorySeeder extends Seeder
     {
         //ID = 1
         Category::create([
-            'name' => 'No definido',
+            'name' => 'Televisores',
+            'descripcion' => 'ninguna',
+            'categoria_padre' => '0',
+        ]);
+        Category::create([
+            'name' => 'Teclados',
+            'descripcion' => 'ninguna',
+            'categoria_padre' => '0',
+        ]);
+        Category::create([
+            'name' => 'Cables',
+            'descripcion' => 'ninguna',
+            'categoria_padre' => '0',
+        ]);
+        Category::create([
+            'name' => 'Accesorios',
+            'descripcion' => 'ninguna',
+            'categoria_padre' => '0',
+        ]);
+        Category::create([
+            'name' => 'Pantallas',
             'descripcion' => 'ninguna',
             'categoria_padre' => '0',
         ]);

@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="nombre" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre cartera" class="form-control ">
                                 </div>
                             </div>
                             
@@ -85,7 +85,7 @@
 
                                     <h6>Filtrar por Estado</h6>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" wire:model='estados' wire:change="cambioestado()" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        <input class="form-check-input" wire:change="cambioestado()" type="checkbox" role="switch" {{ $this->estados == true ? 'checked' : '' }}>
                                         @if ($estados)
                                         <label style="font-size: 16px;
                                         font-weight: 400;
@@ -181,7 +181,6 @@
                                                     <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                 </a>                                  
                                                 @if ($item->estado == 'ACTIVO')
-                                                
                                                     <a href="javascript:void(0)"
                                                         onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
                                                         class="mx-3" title="Borrar">

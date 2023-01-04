@@ -70,7 +70,13 @@
                 <div class="card-body">
                     <div class="d-flex pt-4">
                         <div class="col-12 col-sm-12 col-md-3">
-                            @include('common.searchbox')
+                            <div class="form-group">
+                                <h6>Buscar</h6>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="nombre caja" class="form-control ">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,8 +92,8 @@
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
                                     <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
                             </thead>
@@ -101,10 +107,20 @@
                                             {{ $item->nombre }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $item->estado }}
+                                            {{ $item->sucursal }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $item->sucursal }}
+
+                                            
+                                            @if($item->estado != "Inactivo")
+                                                {{ $item->estado }}
+                                            @else
+                                                <span class="badge badge-sm bg-gradient-warning">
+                                                    INACTIVO
+                                                </span>
+                                            @endif
+
+
                                         </td>
                                         <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"

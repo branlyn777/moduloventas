@@ -76,7 +76,13 @@
             <div class="d-flex m-3">
                 <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
                     <div class="form-group">
-                        @include('common.searchbox')
+                        <div class="form-group">
+                            <h6>Buscar</h6>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                <input type="text" wire:model="search" placeholder="nombre sucursal" class="form-control ">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

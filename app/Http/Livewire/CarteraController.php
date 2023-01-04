@@ -36,22 +36,52 @@ class CarteraController extends Component
 
     public function render()
     {
-        if (strlen($this->search) > 0) {
-            $data = Cartera::select(
-                'carteras.*',
-                DB::raw('0 as movimientos')
-            )
+
+        if($this->estados)
+        {
+            if(strlen($this->search) > 0)
+            {
+                $data = Cartera::select('carteras.*',DB::raw('0 as movimientos'))
+                ->where('nombre', 'like', '%' . $this->search . '%')
+                ->where('estado','ACTIVO')
+                ->orwhere('tipo', 'like', '%' . $this->search . '%')
+                ->paginate($this->pagination);
+            }
+            else
+            {
+                $data = Cartera::select('carteras.*', DB::raw('0 as movimientos'))
+                ->where('estado','ACTIVO')
+                ->orderBy('id', 'desc')
+                ->paginate($this->pagination);
+            }
+        }
+        else
+        {
+            if (strlen($this->search) > 0)
+            {
+                $data = Cartera::select('carteras.*', DB::raw('0 as movimientos'))
+                ->where('estado','INACTIVO')
                 ->where('nombre', 'like', '%' . $this->search . '%')
                 ->orwhere('tipo', 'like', '%' . $this->search . '%')
                 ->paginate($this->pagination);
-        } else {
-            $data = Cartera::select(
-                'carteras.*',
-                DB::raw('0 as movimientos')
-            )
+            }
+            else
+            {
+                $data = Cartera::select('carteras.*', DB::raw('0 as movimientos'))
+                ->where('estado','INACTIVO')
                 ->orderBy('id', 'desc')
                 ->paginate($this->pagination);
+            }
         }
+
+
+
+
+
+
+
+
+
         // CONTAR MOVIMIENTOS DE LA CARTERA PARA PERMITIR O NO PERMITIR ELIMINARLA
         foreach ($data as $value) {
             $movimientos = Cartera::join('cartera_movs as cm', 'cm.cartera_id', 'carteras.id')
@@ -62,10 +92,14 @@ class CarteraController extends Component
             $value->movimientos = $movimientos->count();
         }
 
-        if ($this->tipo != 'Elegir') {
-            if ($this->tipo == 'Telefono' || $this->tipo == 'Sistema') {
+        if($this->tipo != 'Elegir')
+        {
+            if($this->tipo == 'Telefono' || $this->tipo == 'Sistema')
+            {
                 $this->variable = 1;
-            } else {
+            }
+            else
+            {
                 $this->variable = 0;
             }
         }
@@ -77,13 +111,11 @@ class CarteraController extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
     public function Agregar()
     {
         $this->resetUI();
         $this->emit('show-modal', 'show modal!');
     }
-
     public function Store()
     {
         $rules = [
@@ -125,11 +157,8 @@ class CarteraController extends Component
             $this->emit('alert');
         }
     }
-
     public function VerificarCartera()
     {
-
-
         if($this->tipo == "efectivo")
         {
             $consulta = Cartera::select("carteras.nombre")
@@ -152,6 +181,18 @@ class CarteraController extends Component
 
 
         
+    }
+    //Cambia la variable estados para los filtros de activo e inactivo
+    public function cambioestado()
+    {
+        if($this->estados)
+        {
+            $this->estados = false;
+        }
+        else
+        {
+            $this->estados = true;
+        }
     }
     public function Edit(Cartera $cartera)
     {
@@ -253,7 +294,6 @@ class CarteraController extends Component
         'cancelRow' => 'cancel',
         'activarRow' => 'activar'
     ];
-
     public function Destroy(Cartera $cartera)
     {
         $cartera->delete();
@@ -276,7 +316,6 @@ class CarteraController extends Component
         ]);
         $cartera->save();
     }
-
     public function resetUI()
     {
         $this->nombre = '';

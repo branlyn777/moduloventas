@@ -17,13 +17,14 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->string('nombre',255)->nullable();
             $table->string('cedula',10)->nullable();
-            $table->string('celular',10)->default(0);
-            $table->string('telefono',10)->default(0);
+            $table->string('celular',20)->default(0);
+            $table->string('telefono',20)->default(0);
             $table->string('direccion',255)->nullable();
             $table->string('email',100)->nullable();
             $table->date('fecha_nacim')->nullable();
-            $table->string('razon_social')->nullable();
-            $table->integer('nit')->nullable();
+            $table->string('razon_social',255)->nullable();
+            $table->string('nit',100)->nullable();
+            $table->enum('estado', ['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->unsignedBigInteger('procedencia_cliente_id');
             $table->foreign('procedencia_cliente_id')->references('id')->on('procedencia_clientes');
             $table->timestamps();

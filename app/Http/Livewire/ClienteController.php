@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Cliente;
+use App\Models\ClienteMov;
 use App\Models\Origen;
 use App\Models\ProcedenciaCliente;
 use Carbon\Carbon;
+use Facade\FlareClient\Http\Client;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -14,9 +16,9 @@ class ClienteController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image;
+    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id;
     public  $pageTitle, $componentName;
-    private $pagination = 6;
+    private $pagination = 100;
 
     public function paginationView()
     {
@@ -71,20 +73,28 @@ class ClienteController extends Component
     public function Store()
     {
         $rules = [
-            'nombre' => 'required',
-            'cedula' => 'required|min:5,unique|unique:clientes',
+            'nombre' => 'required|max:255',
+            'cedula' => 'required|min:5|max:10,unique|unique:clientes',
             'celular' => 'required|min:8',
-
             'procedencia' => 'required|not_in:Elegir',
+            'email' => 'max:100',
+            'direccion' => 'max:255',
+            'nit' => 'max:12',
+            'razonsocial' => 'max:255',
         ];
         $messages = [
             'nombre.required' => 'El nombre es requerido.',
+            'nombre.max' => 'Numero de caracteres no mayor a 255',
             'cedula.required' => 'Numero de cédula es requerido.',
+            'cedula.max' => 'Numero de caracteres no mayor a 10',
             'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
             'cedula.unique' => 'El CI ya existe',
             'celular.required' => 'Numero de celular es requerido.',
             'celular.min' => 'Ingrese un celular superior a 7 dígitos.',
-
+            'email.max'  => 'Numero de caracteres no mayor a 100',
+            'nit.max'  => 'Numero de caracteres no mayor a 100',
+            'razonsocial.max'  => 'Numero de caracteres no mayor a 255',
+            'direccion.max'  => 'Numero de caracteres no mayor a 255',
             'procedencia.required' => 'Selecciona procedencia',
             'procedencia.not_in' => 'Selecciona procedencia',
         ];
@@ -157,13 +167,41 @@ class ClienteController extends Component
         $this->emit('item-updated', 'Cliente Actualizado');
     }
 
-    protected $listeners = ['deleteRow' => 'Destroy'];
-
-    public function Destroy(Cliente $cli)
+    //Verifica que el cliente no tenga movimientos en el sistema para ser eliminado
+    public function VerificarMovimientos($id)
     {
+        $movimientos = ClienteMov::where("cliente_id",$id)->get();
+
+        $this->cliente_id = $id;
+
+        if($movimientos->count() > 0)
+        {
+            $this->emit("inactivar-cliente");
+        }
+        else
+        {
+            $this->emit("eliminar-cliente");
+        }
+    }
+
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'cancelRow' => 'Cancel',
+    ];
+
+    public function Destroy()
+    {
+        $cli = Cliente::find($this->cliente_id);
         $cli->delete();
         $this->resetUI();
-        $this->emit('item-deleted', 'Cliente Eliminado');
+    }
+    public function Cancel()
+    {
+        $cliente = Cliente::find($this->cliente_id);
+        $cliente->update([
+            'estado' => 'INACTIVO'
+        ]);
+        $cliente->save();
     }
 
     public function resetUI()
