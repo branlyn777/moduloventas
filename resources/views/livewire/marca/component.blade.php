@@ -77,7 +77,12 @@ true
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
-                            @include('common.searchbox')
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Nombre" class="form-control ">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

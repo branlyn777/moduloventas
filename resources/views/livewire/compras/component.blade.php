@@ -42,21 +42,21 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
-                    <div>
-                        <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
-                    </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            <a href="detalle_compras" class="btn btn-add btn-sm mb-0"><i class="fas fa-plus me-2"></i>
-                                Registrar Compra</a>
-                        </div>
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
+                </div>
+
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        <a class="btn btn-add mb-0" href="detalle_compras">
+                            Registrar Compra</a>
                     </div>
                 </div>
+
             </div>
-            <br>
+
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
@@ -69,7 +69,8 @@
                                             <i class="fa fa-search"></i>
                                         </span>
                                         <input type="text" wire:model="search"
-                                            placeholder="Buscar por Nro.Documento,Proveedor,Usuario" class="form-control">
+                                            placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
+                                            class="form-control">
                                     </div>
                                     <div class="input-group mb-4">
                                         <select wire:model="tipo_search" class="form-select">
@@ -81,8 +82,8 @@
                                     </div>
                                 </div>
                             </div>
-    
-    
+
+
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Seleccionar Sucursal</label>
                                 <div class="">
@@ -94,7 +95,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>
                                 <div class="">
@@ -105,7 +106,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Tipo de Fecha</label>
                                 <div class="">
@@ -117,7 +118,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             @if ($this->fecha != 'hoy' and $this->fecha != 'ayer' and $this->fecha != 'semana')
                                 <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
                                     <label>Fecha Inicio</label>
@@ -125,7 +126,7 @@
                                         <input type="date" wire:model="fromDate" class="form-control flatpickr">
                                     </div>
                                 </div>
-    
+
                                 <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
                                     <label>Fecha Fin</label>
                                     <div class="form-group">
@@ -133,7 +134,7 @@
                                     </div>
                                 </div>
                             @endif
-    
+
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Otros</label>
                                 <div class="">
@@ -150,10 +151,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
-            <br>
+
             <div class="card">
                 {{-- tabla que muestra todas las compras --}}
                 <div class="card-body px-0 pb-0">

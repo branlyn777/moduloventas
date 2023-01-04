@@ -42,20 +42,24 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
+           
+                <div class="d-lg-flex my-auto p-0 mb-3">
                     <div>
-                        <h6 class="text-white">Lista Transferencias</h6>
+                        <h5 class=" text-white" style="font-size: 16px">Lista Transferencias</h5>
                     </div>
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
-                            <a href="transferencia" class="btn btn-add btn-sm mb-0"> Transferir Productos <i class="fas fa-arrow-right"></i></a>
+                            <a href="transferencia" class="btn btn-secondary" type="button">
+                                <span class="btn-inner--text">Transferir Productos</span>
+                                <span class="btn-inner--icon"><i class="fas fa-arrow-right"></i></span>
+                            </a>
+
+                            {{-- <a href="transferencia" class="btn btn-add btn-sm mb-0"> Transferir Productos <i class="fas fa-arrow-right"></i></a> --}}
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
+            
             <div class="card">
                 <div class="card-body">
 

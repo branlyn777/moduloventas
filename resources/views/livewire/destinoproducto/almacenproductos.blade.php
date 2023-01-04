@@ -41,7 +41,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-
+           
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">Almacen Producto</h5>
@@ -80,9 +80,9 @@
                                 </div>
                                 <div class="col-md-6">
 
-                                    <h6>Estado</h6>
+                                    <h6>Filtro por Stock</h6>
                                     <select wire:model='selected_mood' class="form-select">
-                                        <option value="todos">TODOS</option>
+                                        <option value="todos">Todos</option>
                                         <option value='cero'>Productos agotados</option>
                                         <option value='bajo'>Productos bajo stock</option>
                                     </select>

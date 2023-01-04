@@ -60,22 +60,22 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
+           
+            <div class="d-lg-flex my-auto p-0 mb-3">
                     <div>
                         <h5 class="mb-0 text-white" style="font-size: 16px"><b>Proveedores</b></h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal"
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal"
                                 data-bs-target="#theModal" wire:click="resetUI()">
                                 <i class="fas fa-plus me-2"></i> Agregar Proveedor
                             </a>
                         </div>
                     </div>
-                </div>
+                
             </div>
-            <br>
+
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;" style="margin-bottom: 7px;">
@@ -84,7 +84,7 @@
                                 <label style="font-size: 1rem;">Buscar</label>
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                    <input type="text" wire:model="search" placeholder="Nombre" class="form-control">
                                 </div>
                             </div>
 
@@ -92,16 +92,16 @@
                                 <label style="font-size: 1rem;">Estado</label>
                                 <select wire:model='estados' class="form-select">
                                     <option value="null" disabled>Estado</option>
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="INACTIVO">INACTIVO</option>
-                                    <option value="TODOS">TODOS</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="TODOS">Todos</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
+            
             <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
