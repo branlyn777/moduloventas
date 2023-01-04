@@ -138,7 +138,7 @@ true
                                                         {{ $d->nombredestino }}
                                                     </td>
                                                     <td>
-                                                        {{substr( $d->observacion, 0 ,35)}}
+                                                        {{substr( $d->observacion, 0 ,90)}}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
@@ -180,7 +180,7 @@ true
                                                     </td>
 
                                                     <td>
-                                                        {{substr($d->observacion,0,35)}}
+                                                        {{substr($d->observacion,0,90)}}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
