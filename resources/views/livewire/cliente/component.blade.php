@@ -59,9 +59,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex pt-4">
+                    <div class="">
                         <div class="col-12 col-sm-12 col-md-3">
                             <div class="form-group">
                                 <h6>Buscar</h6>
@@ -74,6 +74,8 @@
                     </div>
                 </div>
             </div>
+
+            <br>
 
 
 
@@ -88,7 +90,7 @@
                                     <th class="text-uppercase text-sm ps-2 text-left">CÉDULA</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">CELULAR</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">EMAIL</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">FECHA NACIM</th>
+                                    {{-- <th class="text-uppercase text-sm ps-2 text-left">FECHA NACIM</th> --}}
                                     <th class="text-uppercase text-sm ps-2 text-left">NIT</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">DIRECCIÓN</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">RAZÓN SOCIAL</th>
@@ -115,14 +117,14 @@
                                         <td class="text-sm mb-0 text-left">
                                             {{ $c->email }}
                                         </td>
-                                        <td class="text-sm mb-0 text-left">
+                                        {{-- <td class="text-sm mb-0 text-left">
                                             {{ \Carbon\Carbon::parse($c->fecha_nacim)->format('d/m/Y') }}
-                                        </td>
+                                        </td> --}}
                                         <td class="text-sm mb-0 text-left">
                                             {{ $c->nit }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $c->direccion }}
+                                            {{  substr($c->direccion, 0, 25) }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
                                             {{ $c->razon_social }}
@@ -160,7 +162,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $data->links() }}
+                    <div style="max-width: 1rem;">
+                        {{ $data->onEachSide(0)->links() }}
+                    </div>
                 </div>
             </div>
         </div>

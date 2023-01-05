@@ -17,6 +17,8 @@ class CarteraController extends Component
     public  $pageTitle, $componentName, $variable, $estados;
     private $pagination = 10;
 
+    public $mostrar_caja;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -113,6 +115,7 @@ class CarteraController extends Component
     }
     public function Agregar()
     {
+        $this->mostrar_caja = true;
         $this->resetUI();
         $this->emit('show-modal', 'show modal!');
     }
@@ -202,7 +205,7 @@ class CarteraController extends Component
         $this->tipo = $cartera->tipo;
         $this->telefonoNum = $cartera->telefonoNum;
         $this->caja_id = $cartera->caja_id;
-
+        $this->mostrar_caja = false;
         $this->emit('show-modal', 'show modal!');
     }
     public function Update()

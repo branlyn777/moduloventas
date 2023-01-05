@@ -63,9 +63,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex pt-4">
+                    <div class="">
                         <div class="col-12 col-sm-12 col-md-3">
                             <div class="form-group">
                                 <h6>Buscar</h6>
@@ -78,6 +78,8 @@
                     </div>
                 </div>
             </div>
+
+            <br>
 
 
             <div class="card mb-4">

@@ -70,11 +70,11 @@
 
 
 
-    <div class="card mb-4">
-        <div class="card-body p-3">
+    <div class="card">
+        <div class="card-body">
 
-            <div class="d-flex m-3">
-                <div class="col-12 col-sm-12 col-md-3 mt-3 pt-3">
+            <div class="">
+                <div class="col-12 col-sm-12 col-md-3">
                     <div class="form-group">
                         <div class="form-group">
                             <h6>Buscar</h6>

@@ -18,7 +18,7 @@ class ClienteController extends Component
     use WithFileUploads;
     public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id;
     public  $pageTitle, $componentName;
-    private $pagination = 100;
+    private $pagination = 40;
 
     public function paginationView()
     {

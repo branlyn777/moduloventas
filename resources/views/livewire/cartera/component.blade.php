@@ -67,7 +67,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="row justify-content-between mt-4">
+                    <div class="row">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             <div class="form-group">
@@ -81,8 +81,12 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <div class="row justify-content-end">
-                                <div class="col-md-5">
+                            
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <div class="ms-auto my-auto mt-lg-0 px-5">
+                                <div class="">
 
                                     <h6>Filtrar por Estado</h6>
                                     <div class="form-check form-switch">

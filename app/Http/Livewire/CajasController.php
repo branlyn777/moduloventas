@@ -17,6 +17,9 @@ class CajasController extends Component
     public  $pageTitle, $componentName;
     private $pagination = 15;
 
+
+    public $mostrar_sucursal;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -56,6 +59,7 @@ class CajasController extends Component
 
     public function Agregar()
     {
+        $this->mostrar_sucursal = true;
         $this->resetUI();
         $this->emit('show-modal', 'show modal!');
     }
@@ -97,6 +101,7 @@ class CajasController extends Component
         $this->nombre = $caja->nombre;
         $this->sucursal_id = $caja->sucursal_id;
 
+        $this->mostrar_sucursal = false;
         $this->emit('show-modal', 'show modal!');
     }
     public function Update()

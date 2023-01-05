@@ -30,39 +30,9 @@
             @enderror
         </div>
     </div>
+    
 
     <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com">
-            @error('email')
-                <span class="text-danger er">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-            <label>Fecha de Nacimiento</label>
-            <input type="date" wire:model.lazy="fnacim" class="form-control" placeholder="Click para elegir">
-            @error('fnacim')
-                <span class="text-danger er">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-            <label>Dirección</label>
-            <input type="text" date-type='currency' wire:model.lazy="direccion" class="form-control"
-                placeholder="ej: Av. Ayacucho">
-            @error('direccion')
-                <span class="text-danger er">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-4">
         <div class="form-group">
             <label>Nit</label>
             <input type="text" date-type='currency' wire:model.lazy="nit" class="form-control"
@@ -73,7 +43,38 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com">
+            @error('email')
+                <span class="text-danger er">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+
+    {{-- <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label>Fecha de Nacimiento</label>
+            <input type="date" wire:model.lazy="fnacim" class="form-control" placeholder="Click para elegir">
+            @error('fnacim')
+                <span class="text-danger er">{{ $message }}</span>
+            @enderror
+        </div>
+    </div> --}}
+
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" date-type='currency' wire:model.lazy="direccion" class="form-control"
+                placeholder="ej: Av. Ayacucho">
+            @error('direccion')
+                <span class="text-danger er">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Razón Social</label>
             <input type="text" date-type='currency' wire:model.lazy="razonsocial" class="form-control"
@@ -84,7 +85,7 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Procedencia</label>
             <select wire:model='procedencia' class="form-select">
