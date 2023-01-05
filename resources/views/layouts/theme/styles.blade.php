@@ -111,6 +111,9 @@
         position: relative;
         text-align: center;
         width: 10px;
+
+
+
         -webkit-transform: translateZ(0);
         /* webkit flicker fix */
         -webkit-font-smoothing: antialiased;
@@ -119,7 +122,7 @@
 
     .wrapper .tooltip {
         background: #ffffff;
-        border: rgb(100, 99, 99) solid 0.1px;
+        /* border: #5e72e4 solid 0.1px; */
         border-radius: 15px;
         bottom: 100%;
         color: rgb(0, 0, 0);
@@ -151,11 +154,12 @@
     .wrapper .tooltip:after {
         border-left: solid transparent 10px;
         border-right: solid transparent 10px;
-        border-top: solid #000000 10px;
+        border-top: solid #5e72e4 10px;
+        
         bottom: -10px;
         content: " ";
         height: 0;
-        left: 50%;
+        left: 90%;
         margin-left: -13px;
         position: absolute;
         width: 0;
@@ -165,6 +169,12 @@
         opacity: 1;
         width: 250px;
         left: -220px;
+
+        
+        box-shadow: 1px 1px 1px 1px #5e72e4;
+
+
+
         pointer-events: auto;
         -webkit-transform: translateY(0px);
         -moz-transform: translateY(0px);
