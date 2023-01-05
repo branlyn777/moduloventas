@@ -30,8 +30,6 @@ class ProductoDestino2Seeder extends Seeder
             ]);
 
 
-            $stock_producto = $ProductoDestino->stock;
-
             //Determinando la cantidad de lotes que tendrá el producto
             for($i = 0; $i < 100; $i++)
             {
