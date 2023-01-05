@@ -46,7 +46,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="card-header pt-0">
+          
                 <div class="d-lg-flex">
                     <div>
                         <h5 class="text-white" style="font-size: 16px">Lista de Usuarios</h5>
@@ -59,20 +59,17 @@
                         </div>
                     </div>
                 </div>
-            </div><br>
+            <br>
             <div class="card">
                 <div class="card-body">
 
-                    <div class="row justify-content-between mt-4">
+                    <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
-                            <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     <input type="text" wire:model="search" placeholder="nombre o numero de telefono" class="form-control ">
                                 </div>
-                            </div>
-                            
                         </div>
 
                         <div class="col-12 col-md-6">

@@ -19,7 +19,7 @@
                 <textarea type="text" wire:model="descripcion" placeholder="ej: Descripción de Rol" class="form-control "></textarea>
             </div>
         </div>
-        @error('descripcion') <span class="text-danger er">{{ $message }}</span> @enderror
+        @error('descripcion') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 </div>
 <div class="modal-footer">

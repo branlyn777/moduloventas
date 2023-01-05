@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="d-lg-flex my-auto p-0 mb-3">
+            <div class="d-lg-flex">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">Lista de Roles</h5>
                 </div>
@@ -57,10 +57,10 @@
                     </div>
                 </div>
             </div>
-
-             <div class="card">
+            <br>
+            <div class="card">
                 <div class="card-body">
-                 
+
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
 
@@ -72,13 +72,14 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="nombre de rol" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre de rol"
+                                        class="form-control ">
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <br>
@@ -114,7 +115,7 @@
 
                                         <td>
                                             <p class="text-sm mb-0 text-left">
-                                                {{ $rol->descripcion == null ? 'S/N' : substr($rol->descripcion,1,15)  }}
+                                                {{ $rol->descripcion == null ? 'S/N' : substr($rol->descripcion, 1, 15) }}
                                             </p>
                                         </td>
 

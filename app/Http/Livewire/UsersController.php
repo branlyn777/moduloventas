@@ -38,15 +38,12 @@ class UsersController extends Component
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
-        // $this->sucursalUsuario = 'Elegir';
-        // $this->sucursalUserUsuario = '';
-        // $this->usuarioACTIVO = '';
         $this->details = [];
         $this->estados = true;
         $this->imagen = 'noimagen.png';
-        if ($this->estados == true) {
-            $this->sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->first()->sucursal_id;
-        }
+    
+        $this->sucursal = $this->sucursalusuario();
+   
     }
 
     public function render()
@@ -62,28 +59,13 @@ class UsersController extends Component
                 ->get();
         }
 
-
-        // $data = User::join('sucursal_users', 'sucursal_users.user_id', 'users.id')
-        //     ->select('users.name', 'users.phone', 'users.status', 'sucursal_users.sucursal_id')
-        //     ->where(function ($querys) {
-        //         $querys->where('users.name', 'like', '%' . $this->search . '%')
-        //             ->orWhere('users.phone', 'like', '%' . $this->search . '%');
-        //     })
-        //     ->when($this->estados != 'TODOS', function ($query) {
-        //         return $query->where('users.status', $this->estados);
-        //     })
-        //     ->when($this->sucursal != 'Todos', function ($query) {
-        //         return $query->where('sucursal_users.sucursal_id', $this->sucursal);
-        //     })
-        //     ->paginate($this->pagination);
-
-
         // Opciones del select para mostrar de acuerdo al estado, si es inactivo no debe mostrar nada en el select
         if ($this->estados == false) {
+         
             $this->lista_sucursales = null;
             //seleccionar el valor null option por defecto
             $this->sucursal = null;
-            $data = User::select('users.*')->where('users.status', $this->estados)
+            $data = User::select('users.*')->where('users.status', 'LOCKED')
                 ->where(function ($querys) {
                     $querys->where('users.name', 'like', '%' . $this->search . '%')
                         ->orWhere('users.phone', 'like', '%' . $this->search . '%');
@@ -422,10 +404,10 @@ class UsersController extends Component
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
-        $this->sucursalUsuario = '';
-        $this->sucursalUserUsuario = '';
-        $this->details = [];
-        $this->usuarioACTIVO = '';
+        // $this->sucursalUsuario = '';
+        // $this->sucursalUserUsuario = '';
+        // $this->details = [];
+        // $this->usuarioACTIVO = '';
 
         $this->resetValidation();
         $this->resetPage();
@@ -435,7 +417,18 @@ class UsersController extends Component
     {
         if ($this->estados == true) {
             
-            $this->sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->first()->sucursal_id;
+            $this->sucursal = $this->sucursalusuario();
         }
+    }
+
+    public function sucursalusuario()
+    {
+        $sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->get();
+   
+        if ($sucursal->isNotEmpty()) {
+            
+            return $sucursal->first()->sucursal_id;
+        }
+        return 'Todos';
     }
 }
