@@ -13,9 +13,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label> Nombre </label>
+                            <label><span class="text-warning">* </span> Nombre </label>
                             <input type="text" wire:model.lazy="name" class="form-control" placeholder="ej: Impresoras">
-                            @error('name')<span class="text-danger er" style="font-size: 13px">{{ $message }}</span> @enderror
+                            @error('name')<span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label>Descripción</label>
                             <input type="text" wire:model.lazy="descripcion" class="form-control" placeholder="ej: Breve descripción">
-                            @error('descripcion')<span class="text-danger er" style="font-size: 13px">{{ $message }}</span> @enderror
+                            @error('descripcion')<span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span> @enderror
                         </div> 
                     </div>
                     {{-- @if ($selected_id !=0)
