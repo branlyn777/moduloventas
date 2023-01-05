@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
-                            <label>Aparador</label>
+                            <label>*Aparador</label>
                             <select wire:model='tipo' class="form-control">
                                 <option value="Elegir">Elegir</option>
                                 <option value="VITRINA">Vitrina</option>
@@ -26,7 +26,7 @@
                     
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
-                            <label>Código</label>
+                            <label>*Código</label>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <input type="text" wire:model.lazy="codigo" class="form-control" placeholder="ej: 012020222">
                                 <button type="button" wire:click.prevent="asd()" class="btn btn-primary m-0 p-l-0 p-r-0"
@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label>Descripción</label>
+                            <label>*Descripción</label>
                             <textarea  wire:model.lazy="descripcion" class="form-control"
                                 placeholder="ej: Vitrina nueva de 3 niveles"></textarea>
                             @error('descripcion') 
@@ -62,7 +62,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-8">
                         <div class="form-group">
-                            <label>Sucursal</label>
+                            <label>*Sucursal</label>
                             <select wire:model='destino' class="form-control">
                                 <option value="Elegir">Elegir</option>
                                 @foreach ($data_suc as $data)
