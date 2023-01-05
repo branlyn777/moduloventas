@@ -73,10 +73,11 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="nombre cartera" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre cartera"
+                                        class="form-control ">
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="col-12 col-md-6">
@@ -85,21 +86,24 @@
 
                                     <h6>Filtrar por Estado</h6>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" wire:change="cambioestado()" type="checkbox" role="switch" {{ $this->estados == true ? 'checked' : '' }}>
+                                        <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
+                                            role="switch" {{ $this->estados == true ? 'checked' : '' }}>
                                         @if ($estados)
-                                        <label style="font-size: 16px;
+                                            <label
+                                                style="font-size: 16px;
                                         font-weight: 400;
                                         line-height: 1.7;
                                         margin:0px 0.9rem;
                                         align-self: left;
                                         color: #525f7f;">Activos</label>
                                         @else
-                                        <label style="font-size: 16px;
+                                            <label
+                                                style="font-size: 16px;
                                         font-weight: 400;
                                         line-height: 1.7;
                                         margin:0px 0.9rem;
                                         align-self: left;
-                                        color: #525f7f;" >Inactivos</label>
+                                        color: #525f7f;">Inactivos</label>
                                         @endif
                                     </div>
                                     {{-- <select wire:model='estados' wire:change="cambioestado()" class="form-select">
@@ -115,7 +119,7 @@
 
 
                                 </div>
-                           
+
                             </div>
                         </div>
                     </div>
@@ -173,25 +177,25 @@
                                                         INACTIVO
                                                     </span>
                                                 @endif
-    
+
                                             </td>
-                                            <td class="text-sm ps-0 text-center">    
+                                            <td class="text-sm ps-0 text-center">
                                                 <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                     class="mx-3" title="Editar">
                                                     <i class="fas fa-edit text-default" aria-hidden="true"></i>
-                                                </a>                                  
+                                                </a>
                                                 @if ($item->estado == 'ACTIVO')
                                                     <a href="javascript:void(0)"
                                                         onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
                                                         class="mx-3" title="Borrar">
                                                         <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                                    </a>                                             
+                                                    </a>
                                                 @else
-                                                <a href="javascript:void(0)"
-                                                onclick="Activar('{{ $item->id }}')"
-                                                    class="mx-3" title="Activar">
-                                                    <i class="fas fa-store text-warning" aria-hidden="true"></i>
-                                                </a> 
+                                                    <a href="javascript:void(0)"
+                                                        onclick="Activar('{{ $item->id }}')" class="mx-3"
+                                                        title="Activar">
+                                                        <i class="fas fa-store text-warning" aria-hidden="true"></i>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -242,45 +246,42 @@
         });
     });
 
-function Confirm(id, name, movimientos) {
-    if (movimientos > 0)
-    {
-        swal({
-            title: 'CONFIRMAR',
-            text: '¿Confirmar inactivar la cartera ' + '"' + name + '"?',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Aceptar',
-            padding: '2em'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('cancelRow', id)
-            }
-        })
+    function Confirm(id, name, movimientos) {
+        if (movimientos > 0) {
+            swal({
+                title: 'CONFIRMAR',
+                text: '¿Confirmar inactivar la cartera ' + '"' + name + '"?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('cancelRow', id)
+                }
+            })
+        } else {
+            swal({
+                title: 'CONFIRMAR',
+                text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow', id)
+                }
+            })
+        }
+
+
     }
-    else
-    {
+
+    function Activar(id) {
         swal({
-            title: 'CONFIRMAR',
-            text: '¿Confirmar eliminar la cartera ' + '"' + name + '"?',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Aceptar',
-            padding: '2em'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-            }
-        })
-    }
-
-
-}
-
-function Activar(id) {
-    swal({
             title: 'CONFIRMAR',
             text: '¿Confirma activar la cartera ' + '"' + name + '"?',
             type: 'warning',
@@ -295,5 +296,5 @@ function Activar(id) {
         })
 
 
-}
+    }
 </script>
