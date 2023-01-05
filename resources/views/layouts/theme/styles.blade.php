@@ -4,19 +4,21 @@
 <link href="css/nucleo-icons.css" rel="stylesheet" />
 <!-- Font Awesome Icons -->
 <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-<link href="css/nucleo-svg.css" rel="stylesheet"/>
+<link href="css/nucleo-svg.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <!-- CSS Files -->
 <link id="pagestyle" href="css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
 {{-- cdn fontawesome --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
 
 
 
-@yield('asd',view('layouts.theme.estiloextra'))
+@yield('asd', view('layouts.theme.estiloextra'))
 
 {{-- <link id="pagestyle" href="css/argon-dashboard.min.css" rel="stylesheet"/> --}}
 
@@ -66,7 +68,7 @@
 </script>
 
 
-	{{-- <script>
+{{-- <script>
 		(function(w, d, s, l, i) {
 		w[l] = w[l] || [];
 		w[l].push({
@@ -82,5 +84,112 @@
 		f.parentNode.insertBefore(j, f);
 		})(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
 	</script> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .wrapper {
+        text-transform: uppercase;
+        background: #ececec;
+        color: #555;
+        font-family: "Gill Sans", Impact, sans-serif;
+        font-size: 20px;
+        position: relative;
+        text-align: center;
+        width: 10px;
+        -webkit-transform: translateZ(0);
+        /* webkit flicker fix */
+        -webkit-font-smoothing: antialiased;
+        /* webkit text rendering fix */
+    }
+
+    .wrapper .tooltip {
+        background: #ffffff;
+        border: rgb(100, 99, 99) solid 0.1px;
+        border-radius: 15px;
+        bottom: 100%;
+        color: rgb(0, 0, 0);
+        display: block;
+        left: -20px;
+        
+
+
+        margin-bottom: 15px;
+        opacity: 0;
+        padding: 20px;
+        pointer-events: none;
+        position: absolute;
+        width: 200%;
+    }
+
+    /* This bridges the gap so you can mouse into the tooltip without it disappearing */
+    .wrapper .tooltip:before {
+        bottom: -20px;
+        content: " ";
+        display: block;
+        height: 20px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+    }
+
+    /* CSS Triangles - see Trevor's post */
+    .wrapper .tooltip:after {
+        border-left: solid transparent 10px;
+        border-right: solid transparent 10px;
+        border-top: solid #000000 10px;
+        bottom: -10px;
+        content: " ";
+        height: 0;
+        left: 50%;
+        margin-left: -13px;
+        position: absolute;
+        width: 0;
+    }
+
+    .wrapper:hover .tooltip {
+        opacity: 1;
+        width: 250px;
+        left: -220px;
+        pointer-events: auto;
+        -webkit-transform: translateY(0px);
+        -moz-transform: translateY(0px);
+        -ms-transform: translateY(0px);
+        -o-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+
+    /* IE can just show/hide with no transition */
+    .lte8 .wrapper .tooltip {
+        display: none;
+    }
+
+    .lte8 .wrapper:hover .tooltip {
+        display: block;
+    }
+</style>
+
+
+
+
+
+
+
+
+
 
 @livewireStyles
