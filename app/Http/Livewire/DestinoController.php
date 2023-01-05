@@ -124,12 +124,12 @@ public function mount()
     public function Store()
     {
         $rules = [
-            'nombre' => 'required|unique:unidads',
+            'nombre' => 'required|unique:destinos',
             'sucursal' => 'required'
             
         ];
         $messages = [
-            'nombre.required' => 'El nombre de la unidad es requerido.',
+            'nombre.required' => 'El nombre del producto es requerido.',
             'nombre.unique' => 'Ya existe una unidad con ese nombre.',
             'sucursal.required' => 'La sucursal es requerida'
         ];
@@ -238,11 +238,12 @@ public function mount()
     }
     public function resetUI()
     {
-        $this->nombre = '';
+        $this->nombre = null;
         $this->selected_id = 0;
-        $this->observacion = '';
-        $this->sucursal = '';
+        $this->observacion = null;
+        $this->sucursal = null;
         $this->verificar=true;
+        $this->resetValidation();
     }
 
 

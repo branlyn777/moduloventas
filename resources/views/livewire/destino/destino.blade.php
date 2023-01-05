@@ -76,7 +76,13 @@ true
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
-                            @include('common.searchbox')
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Buscar por nombre de destino" class="form-control ">
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <div class="col-12 col-md-6">
@@ -130,15 +136,15 @@ true
                                     <tbody>
                                         @foreach ($destinos as $d)
                                             @if($d->venta == "No")
-                                                <tr style="font-size: 14px">
-                                                    <td class="text-center">
+                                                <tr>
+                                                    <td class="align-middle text-center">
                                                         {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
-                                                    <td style="text-align: left">
+                                                    <td>
                                                         {{ $d->nombredestino }}
                                                     </td>
                                                     <td>
-                                                        {{substr( $d->observacion, 0 ,90)}}
+                                                        {{substr( $d->observacion, 0 ,50)}}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
@@ -163,19 +169,19 @@ true
                                                             <i class="fas fa-edit" style="font-size: 14px"></i>
                                                         </a>
 
-                                                        <a href="javascript:void(0)" onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombre }}')"
+                                                        <a href="javascript:void(0)" onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
                                                             class="boton-rojo mx-3" title="Anular Estancia">
                                                             <i class="fas fa-trash text-danger"  style="font-size: 14px"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
                                             @else
-                                                <tr style="background-color: rgb(248, 248, 178); font-size: 12px;">
-                                                    <td class="text-center">
+                                                <tr style="background-color: #ececec">
+                                                    <td class="align-middle text-center">
                                                         {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
                                                     
-                                                    <td style="text-align: left; font-size: 12px">
+                                                    <td>
                                                        {{ $d->nombredestino }}
                                                     </td>
 
@@ -225,6 +231,7 @@ true
     @include('livewire.destino.form')
 </div>
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -240,21 +247,17 @@ true
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
         });
-        $('theModal').on('hidden.bs.modal',function(e) {
-            $('.er').css('display','none')
-        })
+    
 
     });
 
     function Confirm(id,nombre) {
-        swal.fire({
+        swal({
             title: 'CONFIRMAR',
-            icon: 'warning',
-            text: 'Confirmar eliminar Destino ' + '"' + nombre + '"',
+            type: 'warning',
+            text: 'Confirmar eliminar el destino ' + '"' + nombre + '"',
             showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
+            cancelButtonText: 'Cancelar',
             confirmButtonText: 'Aceptar'
         }).then(function(result) {
             if (result.value) {

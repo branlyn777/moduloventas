@@ -50,7 +50,7 @@
 
                     <div class="ms-auto my-auto mt-lg-1">
                         <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal"
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal" wire:click='resetUI()'
                                 data-bs-target="#theModal">
                                 <i class="fas fa-plus me-2"></i> Nuevo Producto
                             </a>

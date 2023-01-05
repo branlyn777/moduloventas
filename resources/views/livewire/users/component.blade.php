@@ -324,7 +324,7 @@
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Eliminar',
+                confirmButtonText: 'Aceptar',
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {

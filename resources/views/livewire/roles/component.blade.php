@@ -115,7 +115,7 @@
 
                                         <td>
                                             <p class="text-sm mb-0 text-left">
-                                                {{ $rol->descripcion == null ? 'S/N' : substr($rol->descripcion, 1, 15) }}
+                                                {{ $rol->descripcion == null ? 'S/N' : substr($rol->descripcion, 0, 15) }}
                                             </p>
                                         </td>
 
