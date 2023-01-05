@@ -41,7 +41,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-           
+
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">Almacen Producto</h5>
@@ -64,7 +64,8 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Nombre producto, codigo" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre producto, codigo"
+                                        class="form-control ">
                                 </div>
                             </div>
                         </div>
@@ -98,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
@@ -119,7 +120,7 @@
                                         @foreach ($destinos_almacen as $destino)
                                             @if ($destino->stock_s < $destino->cant_min)
                                                 <tr style="font-size: 14px">
-                                                @else
+                                            @else
                                                 <tr style="font-size: 14px">
                                             @endif
                                             <td class="text-center">
@@ -169,11 +170,11 @@
                                                     {{ $destino->cantidad_minima }}
                                                 </td>
                                                 @can('Admin_Views')
-                                                    <td>
+                                                    <td class="align-middle text-center">
                                                         <a href="javascript:void(0)"
                                                             wire:click="ajuste({{ $destino->id }})"
                                                             title="Ajuste de inventarios" class="mx-3">
-                                                            <i class="fas fa-pen"></i>
+                                                            <i class="fas fa-edit" style="font-size: 14px"></i>
                                                         </a>
                                                     </td>
                                                 @endcan

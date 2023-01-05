@@ -4,9 +4,13 @@
             <div class="modal-header bg-primary">
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">{{$selected_id > 0 ? 'Editar':'Crear'}} {{$componentName}} </h5>
-                    {{-- {{$componentName}}</b> | {{$selected_id > 0 ? 'EDITAR':'CREAR'}} --}}
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+
+                <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto"
+                    data-bs-dismiss="modal">
+                    <i class="fas fa-error text-white" aria-hidden="true">x</i>
+                </button>
             </div>
             <div class="modal-body">
 
@@ -26,20 +30,6 @@
                             @error('descripcion')<span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span> @enderror
                         </div> 
                     </div>
-                    {{-- @if ($selected_id !=0)
-                    
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Estado</label>
-                            <select wire:model='estado' class="form-control">
-                                <option value="Elegir" disabled>Elegir</option>
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                            </select>
-                            @error('estado') <span class="text-danger er">{{ $message }}</span>@enderror
-                        </div>
-                    </div>
-                    @endif --}}
                 </div>
 
             </div>
