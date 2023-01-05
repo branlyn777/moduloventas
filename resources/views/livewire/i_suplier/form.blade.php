@@ -11,7 +11,7 @@
                 <div class="row">
 
                         <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
-                            <label>Nombre</label>
+                            <label>*Nombre</label>
                             <input type="text" wire:model.lazy="nombre_prov" class="form-control" placeholder=""
                             maxlenght="25">
                             @error('nombre_prov') <span class="text-danger er">{{ $message }}</span>@enderror

@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="col-sm-12 col-lg-4 col-md-4">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Categoría</label>
@@ -250,13 +250,11 @@
                     data-bs-dismiss="modal">Cancelar</button>
                 @if ($selected_id < 1)
                     <button type="button" wire:click.prevent="Store()"
-                        class="btn btn-warning close-btn">Guardar</button>
+                        class="btn btn-primary close-btn">Guardar</button>
                 @else
                     <button type="button" wire:click.prevent="Update()"
-                        class="btn btn-warning close-btn">Actualizar</button>
+                        class="btn btn-primary close-btn">Actualizar</button>
                 @endif
-
-
             </div>
         </div>
 

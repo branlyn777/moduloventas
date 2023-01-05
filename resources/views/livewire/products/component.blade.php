@@ -78,7 +78,7 @@
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         <input type="text" wire:model="search"
-                                            placeholder="Nombre de producto, Codigo" class="form-control">
+                                            placeholder="nombre de producto, codigo" class="form-control">
                                     </div>
                                 </div>
                             </div>
