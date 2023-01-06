@@ -48,4 +48,29 @@
 
 
 
+
+
+<script>
+  function irventa(valor)
+  {
+    if(valor == 1)
+    {
+      window.location.href = "pos";
+    }
+    else
+    {
+      if(valor == 2)
+      {
+        window.location.href = "resumenmovimientos";
+      }
+      else
+      {
+        window.location.href = "ingresoegreso";
+      }
+    }
+  }
+</script>
+
+
+
 @livewireScripts

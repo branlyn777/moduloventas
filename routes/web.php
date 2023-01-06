@@ -32,6 +32,7 @@ use App\Http\Livewire\MercanciaController;
 use App\Http\Livewire\OrdenCompra;
 use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\PosController;
+use App\Http\Livewire\PosController2;
 use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\ProvidersController;
@@ -85,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
     // VENTAS
     Route::get('monedas', CoinsController::class)->name('monedas')->middleware('permission:Coins_Index');
     Route::get('pos', PosController::class)->name('ventas')->middleware('permission:Sales_Index');
+    Route::get('pos2', PosController2::class)->name('ventas')->middleware('permission:Sales_Index');
     Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
     Route::get('salelist', SaleListController::class)->name('salelist')->middleware('permission:VentasLista_Index');
     Route::get('editarventa', SaleEditController::class)->name('editarventa');
