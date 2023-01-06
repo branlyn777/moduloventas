@@ -18,13 +18,13 @@
 
                     
                     
-                    <div type="button" class="btn-venta" title="Nueva Venta">
+                    <div onclick="irventa(1)" type="button" class="btn-venta" title="Nueva Venta">
                         <i class="ni ni-cart"></i>
                     </div>
-                    <div type="button" class="btn-movimiento" title="Movimiento Diario">
+                    <div onclick="irventa(2)" type="button" class="btn-movimiento" title="Movimiento Diario">
                         <i class="ni ni-chart-bar-32"></i>
                     </div>
-                    <div type="button" class="btn-ie" title="Ingresos/Egresos">
+                    <div onclick="irventa(3)" type="button" class="btn-ie" title="Ingresos/Egresos">
                         <i class="ni ni-money-coins"></i>
                     </div>
 
