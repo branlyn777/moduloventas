@@ -104,13 +104,16 @@
 <style>
     .wrapper {
         text-transform: uppercase;
-        background: #ececec;
+        background: #5e72e4;
         color: #555;
         font-family: "Gill Sans", Impact, sans-serif;
         font-size: 20px;
         position: relative;
         text-align: center;
-        width: 10px;
+        width: 35px;
+
+
+        border-radius: 50px;
 
 
 
@@ -128,7 +131,6 @@
         color: rgb(0, 0, 0);
         display: block;
         left: -20px;
-        
 
 
         margin-bottom: 15px;
@@ -155,11 +157,11 @@
         border-left: solid transparent 10px;
         border-right: solid transparent 10px;
         border-top: solid #5e72e4 10px;
-        
+
         bottom: -10px;
         content: " ";
         height: 0;
-        left: 90%;
+        left: 40%;
         margin-left: -13px;
         position: absolute;
         width: 0;
@@ -167,11 +169,11 @@
 
     .wrapper:hover .tooltip {
         opacity: 1;
-        width: 250px;
-        left: -220px;
+        width: 7rem;
+        left: -25px;
 
-        
-        box-shadow: 1px 1px 1px 1px #5e72e4;
+
+        /* box-shadow: 1px 1px 1px 1px #5e72e4; */
 
 
 
@@ -190,6 +192,125 @@
 
     .lte8 .wrapper:hover .tooltip {
         display: block;
+    }
+
+
+
+
+
+
+
+
+
+
+    .btn-venta {
+        background-color: #fb6340;
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        margin-bottom: 7px;
+    }
+
+    .btn-venta:hover {
+        border: #fb6340 solid 1px;
+        background-color: #ffffff;
+        color: #fb6340;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        /* height: 4rem; */
+    }
+
+
+
+
+
+    .btn-movimiento {
+        background-color: #2dce89;
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        margin-bottom: 7px;
+    }
+
+    .btn-movimiento:hover {
+        border: #2dce89 solid 1px;
+        background-color: #ffffff;
+        color: #2dce89;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        /* height: 4rem; */
+    }
+
+
+    .btn-ie {
+        background-color: #11cdef;
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        margin-bottom: 7px;
+    }
+
+    .btn-ie:hover {
+        border: #11cdef solid 1px;
+        background-color: #ffffff;
+        color: #11cdef;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 3rem;
+        padding: 0;
+        position: relative;
+        text-align: center;
+        transform-origin: center;
+        transition: all 0.25s;
+        width: 3rem;
+        /* height: 4rem; */
     }
 </style>
 

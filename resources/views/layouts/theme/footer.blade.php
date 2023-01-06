@@ -13,29 +13,20 @@
         <div>
             <!--<![endif]-->
             <div class="wrapper">
-                <i class="ni ni-tag text-primary text-lg-6"></i>
+                <i class="ni ni-tag text-lg-6" style="color: white;"></i>
                 <div class="tooltip">
 
                     
-                    <button type="button" class="btn bg-gradient-default form-control">Nueva Venta</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-primary form-control">Lista de Ventas</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-secondary form-control">Movimiento Diario</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-info form-control">Compras</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-success form-control">Ingresos / Egresos</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-danger form-control">Danger</button>
-                    <br>
-                    <br>
-                    <button type="button" class="btn bg-gradient-warning form-control">Warning</button>
+                    
+                    <div type="button" class="btn-venta" title="Nueva Venta">
+                        <i class="ni ni-cart"></i>
+                    </div>
+                    <div type="button" class="btn-movimiento" title="Movimiento Diario">
+                        <i class="ni ni-chart-bar-32"></i>
+                    </div>
+                    <div type="button" class="btn-ie" title="Ingresos/Egresos">
+                        <i class="ni ni-money-coins"></i>
+                    </div>
 
 
 
