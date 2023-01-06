@@ -42,7 +42,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-
+            
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
@@ -69,7 +69,7 @@
                                             <i class="fa fa-search"></i>
                                         </span>
                                         <input type="text" wire:model="search"
-                                            placeholder="Buscar por Nro.Documento,Proveedor,Usuario"
+                                            placeholder="nro.documento,proveedor,usuario"
                                             class="form-control">
                                     </div>
                                     <div class="input-group mb-4">
@@ -169,8 +169,8 @@
                                             <th class="text-uppercase text-sm">FECHA</th>
                                             <th class="text-uppercase text-sm">PROVEEDOR</th>
                                             <th class="text-uppercase text-sm">DOCUMENTO</th>
-                                            <th class="text-uppercase text-sm">TIPO<br>COMPRA</br></th>
-                                            <th class="text-uppercase text-sm">TOTAL<br>COMPRA</br></th>
+                                            <th class="text-uppercase text-sm">TIPO COMPRA</th>
+                                            <th class="text-uppercase text-sm">TOTAL COMPRA</th>
                                             <th class="text-uppercase text-sm">ESTADO</th>
                                             <th class="text-uppercase text-sm">USUARIO</th>
                                             <th class="text-uppercase text-sm text-center">ACCIONES</th>

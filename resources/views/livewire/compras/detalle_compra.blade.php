@@ -177,18 +177,15 @@
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
-                                                <th>Producto</th>
-                                                <th class="text-center">Acción</th>
+                                                <th style="width: 500px;">Producto</th>
+                                                <th>Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($data_prod as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px"
-                                                            type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
-                                                        <label>{{ $prod->unidad }}|{{ $prod->marca }}|{{ $prod->industria }}</label>
-                                                        <label>|{{ $prod->caracteristicas }}</label>
+                                                        <label style="font-size: 14px" type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">

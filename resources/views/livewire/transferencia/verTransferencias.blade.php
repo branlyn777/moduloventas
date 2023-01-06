@@ -96,7 +96,7 @@ true
                                         <thead>
                                             <tr>
                                                 <th class="text-center" style="width: 6%">N°</th>
-                                                <th class="text-center">Codigo <br> Transf.</th>
+                                                <th class="text-center">Codigo Transf.</th>
                                                 {{-- <th class="text-center">DETALLE</th> --}}
                                                 <th class="text-left">Estado</th>
                                                 <th class="text-left">Usuario</th>
@@ -158,30 +158,31 @@ true
                                                                 <i class="fas fa-print"></i>
                                                             </a>
 
-
-
                                                         </td>
                                                     @else
                                                         <td class="text-center">
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    onclick="Confirm({{ $data_td->t_id }})"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                    title="Editar">
+                                                                    <i class="fas fa-edit" style="font-size: 14px"></i>
+                                                                </button>
 
-                                                            <a href="javascript:void(0)"
-                                                                onclick="Confirm({{ $data_td->t_id }})"
-                                                                class="text-secondary p-1 m-0" title="Editar">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
+                                                                <button type="button" class="btn btn-danger"
+                                                                    onclick="Confirmarborrado('{{ $data_td->t_id }}')"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                    title="Eliminar">
+                                                                    <i class="fas fa-trash text-white" style="font-size: 14px"></i>
+                                                                </button>
 
-                                                            <a href="javascript:void(0)"
-                                                                onclick="Confirmarborrado('{{ $data_td->t_id }}')"
-                                                                class="text-danger p-1 m-0" title="Eliminar">
-                                                                <i class="fas fa-trash"></i>
-                                                            </a>
-
-                                                            <a href="javascript:void(0)" wire:key="do"
-                                                                wire:click="ver({{ $data_td->t_id }})" class="p-1 m-0"
-                                                                title="Ver">
-                                                                <i class="fas fa-list"></i>
-                                                            </a>
-
+                                                                <button type="button" class="btn btn-secondary" wire:key="do"
+                                                                    wire:click="ver({{ $data_td->t_id }})" class="p-1 m-0"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                                    title="Ver">
+                                                                    <i class="fas fa-list text-white" style="font-size: 14px"></i>
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     @endif
                                                 </tr>
