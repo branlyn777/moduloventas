@@ -209,7 +209,7 @@ class SaleEditController2 extends Component
         $this->descuento_recargo = $bs_total_original - $this->total_bs;
 
 
-        return view('livewire.sales_edit.saleedit', [
+        return view('livewire.sales_edit2.saleedit', [
             'listaproductos' => $listaproductos,
             'carteras' => $this->listarcarteras(),
             'carterasg' => $this->listarcarterasg(),
