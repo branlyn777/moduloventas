@@ -296,12 +296,12 @@
                 </a>
                 <div class=@yield('Reportesshow', 'collapse ') id="componentsExamples4">
                     <ul class="nav ms-4">
-                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
+                        {{-- <li class=@yield('movimientodiarioventasli', 'nav-item ')>
                             <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal">Movimiento Diario Ventas</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <ul class="nav ms-4">
                         <li class=@yield('productosmasvendidosli', 'nav-item ')>
