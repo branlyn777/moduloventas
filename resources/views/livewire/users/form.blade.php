@@ -164,7 +164,7 @@
                         <div class="row m-2 mt-6">
                             <div class="col-sm-12 col-md-8">
                                 <div class="form-group">
-                                    <label> <span class="text-primary">* </span> Nombre</label>
+                                    <label> <span class="text-warning">* </span> Nombre</label>
                                     <input type="text" wire:model.lazy="name" class="form-control"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                     @error('name')
@@ -175,7 +175,7 @@
 
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label> <span class="text-primary">* </span>Teléfono</label>
+                                    <label> <span class="text-warning">* </span>Teléfono</label>
                                     <input type="text" wire:model.lazy="phone" class="form-control" maxlength="8"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : ''}}>
                                     @error('phone')
@@ -186,7 +186,7 @@
 
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label> <span class="text-primary">* </span>Email</label>
+                                    <label> <span class="text-warning">* </span>Email</label>
                                     <input type="text" wire:model.lazy="email" class="form-control"
                                         placeholder="ej: correo@correo.com"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
@@ -199,7 +199,7 @@
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     @if ($selected_id == 0)
-                                        <label><span class="text-primary">* </span>Contraseña</label>
+                                        <label><span class="text-warning">* </span>Contraseña</label>
                                     @else
                                         <label>Nueva contraseña (opcional)</label>
                                     @endif
@@ -213,7 +213,7 @@
 
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label> <span class="text-primary">* </span>Asignar rol</label>
+                                    <label> <span class="text-warning">* </span>Asignar rol</label>
                                     <select wire:model='profile' class="form-select"
                                         {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                         <option value="Elegir" disabled selected>Elegir</option>
@@ -232,7 +232,7 @@
                             @if ($selected_id == 0)
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label><span class="text-primary" >* </span>Sucursal</label>
+                                        <label><span class="text-warning" >* </span>Sucursal</label>
                                         <select wire:model='sucursal_id' class="form-select">
                                             <option value="Elegir" disabled selected>Elegir</option>
                                             @foreach ($sucursales as $item)

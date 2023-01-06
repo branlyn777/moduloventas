@@ -73,35 +73,22 @@
 
             <div class="card mb-4">
                 <div class="card-body  p-4">
-
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar por nombre de destino" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="Buscar por nombre de destino"
+                                        class="form-control ">
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <div class="row">
+                            <div class="row justify-content-end">
                                 <div class="col-md-6">
-
-
-                                    <h6>Seleccionar Sucursal</h6>
-                                    <select wire:model='sucursal_id' class="form-select">
-                                        @foreach ($sucursales as $s)
-                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
-                                        @endforeach
-                                        <option value="Todos">Todas las Sucursales</option>
-                                    </select>
-
-                                </div>
-                                <div class="col-md-6">
-
                                     <h6>Filtrar por Estado</h6>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
@@ -125,7 +112,6 @@
                                         @endif
                                     </div>
 
-
                                     {{-- <select wire:model='estados' class="form-select">
                                         <option value="ACTIVO">ACTIVO</option>
                                         <option value="INACTIVO">INACTIVO</option>
@@ -133,6 +119,17 @@
                                     </select> --}}
 
                                 </div>
+                                <div class="col-md-5">
+                                    <h6>Seleccionar Sucursal</h6>
+                                    <select wire:model='sucursal_id' class="form-select">
+                                        @foreach ($sucursales as $s)
+                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                        @endforeach
+                                        <option value="Todos">Todas las Sucursales</option>
+                                    </select>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -159,16 +156,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($destinos as $d)
-                                            @if($d->venta == "No")
+                                            @if ($d->venta == 'No')
                                                 <tr>
                                                     <td class="align-middle text-center">
-                                                        {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
+                                                        {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombredestino }}
                                                     </td>
                                                     <td>
-                                                        {{substr( $d->observacion, 0 ,50)}}
+                                                        {{ substr($d->observacion, 0, 50) }}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
@@ -196,7 +193,8 @@
                                                             <i class="fas fa-edit" style="font-size: 14px"></i>
                                                         </a>
 
-                                                        <a href="javascript:void(0)" onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
                                                             class="boton-rojo mx-3" title="Anular Estancia">
                                                             <i class="fas fa-trash text-danger"
                                                                 style="font-size: 14px"></i>
@@ -206,15 +204,15 @@
                                             @else
                                                 <tr style="background-color: #ececec">
                                                     <td class="align-middle text-center">
-                                                        {{ ($destinos->currentpage()-1) * $destinos->perpage() + $loop->index + 1 }}
-                                                    </td>
-                                                    
-                                                    <td>
-                                                       {{ $d->nombredestino }}
+                                                        {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                                     </td>
 
                                                     <td>
-                                                        {{ substr($d->observacion, 0, 90) }}
+                                                        {{ $d->nombredestino }}
+                                                    </td>
+
+                                                    <td>
+                                                        {{ substr($d->observacion, 0, 58) }}
                                                     </td>
                                                     <td>
                                                         {{ $d->nombresucursal }}
@@ -278,11 +276,11 @@
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
         });
-    
+
 
     });
 
-    function Confirm(id,nombre) {
+    function Confirm(id, nombre) {
         swal({
             title: 'CONFIRMAR',
             type: 'warning',
