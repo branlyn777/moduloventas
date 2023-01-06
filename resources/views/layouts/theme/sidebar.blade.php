@@ -107,12 +107,12 @@
                                 <span class="sidenav-normal"> Procedencia Clientes </span>
                             </a>
                         </li>
-                        <li class=@yield('cortecajali', 'nav-item ')>
+                        {{-- <li class=@yield('cortecajali', 'nav-item ')>
                             <a class=@yield('cortecajanav', 'nav-link ') href="{{ url('cortecajas') }}">
                                 <span class="sidenav-mini-icon"> C </span>
                                 <span class="sidenav-normal"> Corte de Caja </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>

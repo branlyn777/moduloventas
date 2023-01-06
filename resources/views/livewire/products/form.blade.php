@@ -246,11 +246,16 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" wire:click.prevent="Store()"
+                class="btn btn-primary close-btn">Guardar y Agregar Cantidad Inicial</button>
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
                     data-bs-dismiss="modal">Cancelar</button>
                 @if ($selected_id < 1)
                     <button type="button" wire:click.prevent="Store()"
-                        class="btn btn-primary close-btn">Guardar</button>
+                        class="btn btn-primary close-btn">Guardar y Cerrar</button>
+       
+                    
+                    
                 @else
                     <button type="button" wire:click.prevent="Update()"
                         class="btn btn-primary close-btn">Actualizar</button>
