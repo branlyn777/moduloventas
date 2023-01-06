@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ventasreportecantidad', SaleReporteCantidadController::class)->name('ventasreportecantidad')->middleware('permission:Reportes_Sale_Index');
     Route::get('salelist', SaleListController::class)->name('salelist')->middleware('permission:VentasLista_Index');
     Route::get('editarventa', SaleEditController::class)->name('editarventa');
-    Route::get('editarventa2', SaleEditController2::class)->name('editarventa');
+    Route::get('editarventa2', SaleEditController2::class)->name('editarventa2');
     Route::get('devolucionventa', SaleDevolutionController::class)->name('devolucionventa');
     Route::get('devolucionventa2', SaleDevolucionController::class)->name('devolucionventa2');
     Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
