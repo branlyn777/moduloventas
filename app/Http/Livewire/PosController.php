@@ -92,7 +92,7 @@ class PosController extends Component
     public $procedencia_cliente_id;
     //Guarda el id Destino de donde se sacaran las ventas
     public $destino_id;
-
+    //variable para guardar el id de caja abierta
     public $caja_abierta_id;
 
 
