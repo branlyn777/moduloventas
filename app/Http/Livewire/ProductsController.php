@@ -112,67 +112,133 @@ class ProductsController extends Component
     public function render()
     {
         /**sssssssss */
-        if ($this->selected_categoria !== null) {
+        if($this->estados)
+        {
+            if ($this->selected_categoria !== null) {
 
-            if ($this->selected_sub == null) {
+                if ($this->selected_sub == null) {
+                    $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                        ->select('products.*', 'c.name as cate')
+                        ->where('products.status', $this->estados)
+                        ->where(function ($query) {
+                            $query->where('c.categoria_padre', $this->selected_categoria)
+                                ->orWhere('c.id', $this->selected_categoria);
+                        })
+                        ->where(function ($query) {
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                        })
+                        ->orderBy('products.created_at', 'desc');
+                } else {
+    
+                    $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                        ->select('products.*', 'c.name as cate')
+                        ->where('products.status', $this->estados)
+                        ->where('c.id', $this->selected_sub)
+                        ->where(function ($querys) {
+                            $querys->where('products.nombre', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                        })
+    
+                        ->orderBy('products.created_at', 'desc');
+                }
+            } elseif (strlen($this->search) > 0) {
+    
+    
                 $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                     ->select('products.*', 'c.name as cate')
                     ->where('products.status', $this->estados)
-                    ->where(function ($query) {
-                        $query->where('c.categoria_padre', $this->selected_categoria)
-                            ->orWhere('c.id', $this->selected_categoria);
-                    })
-                    ->where(function ($query) {
-                        $query->where('products.nombre', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.marca', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.costo', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
-                    })
-                    ->orderBy('products.created_at', 'desc');
-            } else {
-
-                $prod = Product::join('categories as c', 'products.category_id', 'c.id')
-                    ->select('products.*', 'c.name as cate')
-                    ->where('products.status', $this->estados)
-                    ->where('c.id', $this->selected_sub)
                     ->where(function ($querys) {
                         $querys->where('products.nombre', 'like', '%' . $this->search . '%')
                             ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                            ->orWhere('c.name', 'like', '%' . $this->search . '%')
                             ->orWhere('products.marca', 'like', '%' . $this->search . '%')
                             ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
                             ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                             ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
                     })
-
+    
+    
+                    ->orderBy('products.created_at', 'desc');
+            } else {
+    
+                $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                    ->select('products.*', 'c.name as cate')
+                    ->where('products.status', $this->estados)
                     ->orderBy('products.created_at', 'desc');
             }
-        } elseif (strlen($this->search) > 0) {
+        }else{
+            if ($this->selected_categoria !== null) {
 
-
-            $prod = Product::join('categories as c', 'products.category_id', 'c.id')
-                ->select('products.*', 'c.name as cate')
-                ->where('products.status', $this->estados)
-                ->where(function ($querys) {
-                    $querys->where('products.nombre', 'like', '%' . $this->search . '%')
-                        ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
-                        ->orWhere('c.name', 'like', '%' . $this->search . '%')
-                        ->orWhere('products.marca', 'like', '%' . $this->search . '%')
-                        ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
-                        ->orWhere('products.costo', 'like', '%' . $this->search . '%')
-                        ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
-                })
-
-
-                ->orderBy('products.created_at', 'desc');
-        } else {
-
-            $prod = Product::join('categories as c', 'products.category_id', 'c.id')
-                ->select('products.*', 'c.name as cate')
-                ->where('products.status', $this->estados)
-                ->orderBy('products.created_at', 'desc');
+                if ($this->selected_sub == null) {
+                    $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                        ->select('products.*', 'c.name as cate')
+                        ->where('products.status','INACTIVO')
+                        ->where(function ($query) {
+                            $query->where('c.categoria_padre', $this->selected_categoria)
+                                ->orWhere('c.id', $this->selected_categoria);
+                        })
+                        ->where(function ($query) {
+                            $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                        })
+                        ->orderBy('products.created_at', 'desc');
+                } else {
+    
+                    $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                        ->select('products.*', 'c.name as cate')
+                        ->where('products.status','INACTIVO')
+                        ->where('c.id', $this->selected_sub)
+                        ->where(function ($querys) {
+                            $querys->where('products.nombre', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                        })
+    
+                        ->orderBy('products.created_at', 'desc');
+                }
+            } elseif (strlen($this->search) > 0) {
+    
+    
+                $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                    ->select('products.*', 'c.name as cate')
+                    ->where('products.status','INACTIVO')
+                    ->where(function ($querys) {
+                        $querys->where('products.nombre', 'like', '%' . $this->search . '%')
+                            ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                            ->orWhere('c.name', 'like', '%' . $this->search . '%')
+                            ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                            ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                            ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                            ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                    })
+    
+    
+                    ->orderBy('products.created_at', 'desc');
+            } else {
+    
+                $prod = Product::join('categories as c', 'products.category_id', 'c.id')
+                    ->select('products.*', 'c.name as cate')
+                    ->where('products.status','INACTIVO')
+                    ->orderBy('products.created_at', 'desc');
+            }
         }
+        
 
 
         $this->sub = Category::select('categories.*')
@@ -649,5 +715,18 @@ class ProductsController extends Component
     public function downloadex()
     {
         return Storage::disk('public')->download('plantilla_productos.xlsx');
+    }
+
+    //Cambia estado con switch
+    public function cambioestado()
+    {
+        if($this->estados)
+        {
+            $this->estados = false;
+        }
+        else
+        {
+            $this->estados = true;
+        }
     }
 }

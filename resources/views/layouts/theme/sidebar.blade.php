@@ -336,8 +336,8 @@
             </li>
 
             <ul class="nav ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('ingresoegreso') }}">
+                <li class=@yield('nuevoIngresoE', 'nav-item ')>
+                    <a class=@yield('nuevoIngresoEg', 'nav-link ') href="{{ url('ingresoegreso') }}">
                         <span class="sidenav-mini-icon"> G </span>
                         <span class="sidenav-normal">Nuevo I/G</span>
                     </a>
@@ -345,8 +345,8 @@
             </ul>
 
             <ul class="nav ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('carteramovcategoria') }}">
+                <li class=@yield('categoriaIE', 'nav-item ')>
+                    <a class=@yield('categoriaEI', 'nav-link ') href="{{ url('carteramovcategoria') }}">
                         <span class="sidenav-mini-icon"> C </span>
                         <span class="sidenav-normal">Categorias I/G </span>
                     </a>

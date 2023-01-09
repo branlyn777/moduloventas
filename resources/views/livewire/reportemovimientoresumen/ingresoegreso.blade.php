@@ -1,24 +1,49 @@
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Ingresos y Egresos</h6>
+    </nav>
+@endsection
+
+@section('nuevoIngresoEg')
+    "nav-link active"
+@endsection
+
+@section('nuevoIngresoE')
+    "nav-item active"
+@endsection
+
+
 <div>
     <div class="row">
         <div class="col-12">
 
-
-
-
-            <div class="d-lg-flex">
+            <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class="text-white" style="font-size: 16px">Ingresos y Egresos</h5>
                 </div>
-                <div class="ms-auto my-auto mt-lg-0 mt-4">
-                    @can('Ver_Generar_Ingreso_Egreso_Boton')
-                        <button wire:click.prevent="viewDetails()" class="btn btn-add">
-                            <i class="fas fa-arrow-alt-circle-down"></i> <i class="fas fa-arrow-alt-circle-up"></i> Generar
-                            Ingreso/Egreso
-                        </button>
-                        <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
-                            <i class="fas fa-print"></i> Generar PDF
-                        </button>
-                    @endcan
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        @can('Ver_Generar_Ingreso_Egreso_Boton')
+                            <button wire:click.prevent="viewDetails()" class="btn btn-add">
+                                <i class="fas fa-arrow-alt-circle-down"></i> <i class="fas fa-arrow-alt-circle-up"></i>
+                                Generar
+                                Ingreso/Egreso
+                            </button>
+                            <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
+                                <i class="fas fa-print"></i> Generar PDF
+                            </button>
+                        @endcan
+                    </div>
                 </div>
             </div>
 
@@ -28,22 +53,20 @@
                     <div class="card mx-2">
                         <div class="card-body position-relative">
                             <div class="row">
-                          
-                                    <h6> Caja: {{ $key }}</h6>
-                                    <h6>
-                                        @foreach ($item as $dum)
-                                            <div>{{ $dum->carteraNombre }}:{{ $dum->monto }}</div>
-                                        @endforeach
-                                    </h6>
-                                
-                             
-                                    <div class="dropdown text-end">
-                                        <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
-                                        </a>
 
-                            
+                                <h6> Caja: {{ $key }}</h6>
+                                <h6>
+                                    @foreach ($item as $dum)
+                                        <div>{{ $dum->carteraNombre }}:{{ $dum->monto }}</div>
+                                    @endforeach
+                                </h6>
+
+
+                                <div class="dropdown text-end">
+                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -58,22 +81,30 @@
 
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Buscar</label>
-                                <div class="input-group mb-4">
+                                <label style="font-size: 1rem">Buscar</label>
+                                {{-- <div class="input-group mb-4">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text input-gp">
                                             <i class="fas fa-search"></i>
                                         </span>
                                     </div>
                                     <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
-                                </div>
+                                </div> --}}
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control ">
+                                    </div>
+                                </div> 
                             </div>
+
+                                                       
 
                         </div>
 
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Fecha inicial</label>
+                                <label style="font-size: 1rem">Fecha inicial</label>
                                 <input type="date" wire:model="fromDate" class="form-control">
                                 @error('fromDate')
                                     <span class="text-danger">{{ $message }}</span>
@@ -82,7 +113,7 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Fecha final</label>
+                                <label style="font-size: 1rem">Fecha final</label>
                                 <input type="date" wire:model="toDate" class="form-control">
                                 @error('toDate')
                                     <span class="text-danger">{{ $message }}</span>
@@ -92,7 +123,7 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Cajas</label>
+                                <label style="font-size: 1rem">Cajas</label>
                                 <select wire:model="caja" class="form-control">
                                     @foreach ($cajas2 as $item)
                                         <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -104,7 +135,7 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Sucursal</label>
+                                <label style="font-size: 1rem">Sucursal</label>
                                 <select wire:model="sucursal" class="form-control">
                                     @foreach ($sucursals as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -115,7 +146,7 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label>Categoria</label>
+                                <label style="font-size: 1rem">Categoria</label>
                                 <select wire:model='categoria_id' class="form-control">
                                     <option value="Todos">Todas las Categorias</option>
                                     @foreach ($categorias as $c)
@@ -220,49 +251,58 @@
                                         </td>
 
                                         @if ($p->movstatus == 'ACTIVO')
-
-
-
                                             <td>
-                                              
-                                        <span class="badge badge-sm bg-gradient-success">
-                                            {{ $p->movstatus }}
-                                        </span>
+
+                                                <span class="badge badge-sm bg-gradient-success">
+                                                    {{ $p->movstatus }}
+                                                </span>
                                             </td>
                                         @else
                                             <td>
-                                             
-                                        <span class="badge badge-sm bg-gradient-danger">
-                                       ANULADO
-                                        </span>
+
+                                                <span class="badge badge-sm bg-gradient-danger">
+                                                    ANULADO
+                                                </span>
                                             </td>
                                         @endif
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
                                         @if ($p->movstatus == 'INACTIVO')
                                             <td class="align-middle text-center">
-                                       
-                                               --
-                                                   
 
-                                       
+                                                --
+
+
+
                                             </td>
                                         @else
                                             <td class="align-middle text-center">
-                                                <a href="javascript:void(0)" wire:click="editarOperacion({{ $p->movid }})"
-                                                    title="Editar Ingreso/egreso"
-                                                    >
+                                                <a href="javascript:void(0)"
+                                                    wire:click="editarOperacion({{ $p->movid }})"
+                                                    title="Editar Ingreso/egreso">
                                                     <i class="fas fa-edit text-info"></i>
                                                 </a>
-                                     
-                                                    <a href="javascript:void(0)" href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $p->movid }}')" 
-                                                        title="Anular Ingreso/Egreso" >
-                                                <i class="fas fa-trash text-danger"></i>
-                                                    </a>
 
-                                                 
+                                                <a href="javascript:void(0)" href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $p->movid }}')"
+                                                    title="Anular Ingreso/Egreso">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+
+
                                             </td>
                                         @endif
 
