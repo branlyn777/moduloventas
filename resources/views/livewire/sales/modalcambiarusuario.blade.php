@@ -42,10 +42,10 @@
                                         </p>
                                     </td>
                                     <td class="text-center">
-                                        <button wire:click="seleccionarusuario({{ $dv->id }})" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                            title="Seleccionar Usuario">
-                                            <i class="fas fa-check"></i>
-                                        </button>
+
+                                        <a href="javascript:void(0)" wire:click="seleccionarusuario({{ $dv->id }})" title="Seleccionar Usuario">
+                                            <i class="fas fa-plus text-primary"></i>
+                                        </a>
 
 
 
