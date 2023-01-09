@@ -1,3 +1,86 @@
+<style>
+    .container {
+        width: 18rem;
+        height: 18rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .outer {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 18rem !important;
+        /* any size */
+        max-height: 18rem !important;
+        /* any size */
+        margin: auto;
+
+        position: relative;
+    }
+
+    .outer img {
+        width: 15rem;
+        height: 15rem;
+        margin: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        -webkit-mask-image: radial-gradient(circle 10rem at 50% 50%, black 75%, transparent 75%);
+        border: 5px solid #d7d7d8;
+        border-radius: 50%;
+        padding: 3px;
+
+    }
+
+    .inner {
+        background-color: #5e72e4;
+        width: 45px;
+        height: 45px;
+        border-radius: 100%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        -ms-transform: translate(-70%, -60%);
+        transform: translate(-50%, -50%);
+        z-index: 999999999;
+    }
+
+    .inner:hover {
+        background-color: #69696d;
+    }
+
+    .inputfile {
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: 1;
+        width: 50px;
+        height: 50px;
+    }
+
+    .inputfile+label {
+        font-size: 1.2rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        width: 50px;
+        height: 50px;
+        pointer-events: none;
+        cursor: pointer;
+        line-height: 43px;
+        margin: 0px -2px;
+        text-align: center;
+    }
+
+    .inputfile+label svg {
+        fill: #fff;
+    }
+</style>
+
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -14,6 +97,32 @@
             <div class="modal-body">
 
                 <div class="row">
+
+
+                    <div class="col-lg-12">
+                        <div class="row">
+
+                            <div class="container">
+                                <div class="outer">
+                                    @if ($image) 
+                                    <img src="{{$image->temporaryUrl()}}">
+                                    @else
+                                    <img src="{{ asset('storage/productos/' . $imagen) }}">
+                                    @endif
+                                    <div class="inner">
+                                        <input class="inputfile" type="file" wire:model='image'
+                                            name="pic" accept="image/*">
+                                        <label>
+                                            <i class="fas fa-camera text-white text-center"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                     <div class="col-sm-12 col-lg-7 col-md-8">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Nombre</label>
@@ -32,13 +141,16 @@
                         <div class="form-group">
                             <label class="col-lg-3"><span class="text-warning">* </span>Código</label>
                             <div class="input-group input-group-sm" role="group" aria-label="Basic example">
-                                <input type="text" wire:model.lazy="codigo" class="form-control" placeholder="ej: 20202225">
-                                <button type="button" wire:click="GenerateCode()"  class="btn btn-info m-0"
+                                <input type="text" wire:model.lazy="codigo" class="form-control"
+                                    placeholder="ej: 20202225">
+                                <button type="button" wire:click="GenerateCode()" class="btn btn-info m-0"
                                     title="Generar Codigo">
                                     <i class="fas fa-barcode"></i>
                                 </button>
                             </div>
-                            @error('codigo') <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>@enderror
+                            @error('codigo')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
@@ -69,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-sm-12 col-md-4">
                         <div class="form-group">
                             <label>Unidad de Medida</label>
@@ -126,7 +238,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-4">
+                    {{-- <div class="col-sm-12 col-md-4">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Costo</label>
                             <div class="input-group-sm mb-3">
@@ -150,8 +262,8 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    
+                    </div> --}}
+
                     <div class="col-sm-12 col-lg-4 col-md-4">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Categoría</label>
@@ -163,7 +275,8 @@
                                     @endforeach
                                 </select>
                                 <button type="button" class="btn btn-primary" title="Agregar categoria"
-                                    data-bs-toggle="modal" data-bs-target="#modalCategory"> <i class="fas fa-plus text-white"></i> 
+                                    data-bs-toggle="modal" data-bs-target="#modalCategory"> <i
+                                        class="fas fa-plus text-white"></i>
                                 </button>
                             </div>
                             @error('selected_id2')
@@ -226,36 +339,18 @@
                         </div>
                     @endif
 
-                    <div class="col-sm-12 col-md-12">
-                        <label> <b> Subir Imagen</b></label>
-                        <div class="input-group-sm mb-3">
-                            <div class="custom-file p-1">
-                                <label class="custom-file p-0">
-                                    <input type="file" wire:model="image" id="im"
-                                        class="form-control custom-file" style="padding-top:0.4rem"
-                                        accept="image/x-png,image/gif,image/jpeg" class="custom-file-input"
-                                        id="inputGroupFile03">
-                                </label>
-                            </div>
-                            <div wire:loading wire:target="image" wire:key="image"><i
-                                    class="fa fa-spinner fa-spin mt-2 ml-2"></i> Subiendo...</div>
-                        </div>
-                    </div>
-
+               
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="Store()"
-                class="btn btn-primary close-btn">Guardar y Agregar Cantidad Inicial</button>
+                <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">Guardar y
+                    Agregar Cantidad Inicial</button>
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
                     data-bs-dismiss="modal">Cancelar</button>
                 @if ($selected_id < 1)
-                    <button type="button" wire:click.prevent="Store()"
-                        class="btn btn-primary close-btn">Guardar y Cerrar</button>
-       
-                    
-                    
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">Guardar y
+                        Cerrar</button>
                 @else
                     <button type="button" wire:click.prevent="Update()"
                         class="btn btn-primary close-btn">Actualizar</button>

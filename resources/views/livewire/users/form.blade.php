@@ -82,8 +82,8 @@
 </style>
 
 
-<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true" style="z-index: 999999999999999999999999999999">
+<div wire:ignore.self class="modal fade" id="formUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    style="z-index: 999999999999999999999999999999">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -94,8 +94,8 @@
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
-          
+                </button>
+
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -116,9 +116,9 @@
 
                                                 <div class="container">
                                                     <div class="outer">
-                                                        <img src="{{ $image->temporaryUrl()}}">
+                                                        <img src="{{ $image->temporaryUrl() }}">
                                                         <div class="inner">
-                                                            <input class="inputfile"  type="file" wire:model='image'
+                                                            <input class="inputfile" type="file" wire:model='image'
                                                                 name="pic" accept="image/*">
                                                             <label>
                                                                 <i class="fas fa-camera text-white text-center"></i>
@@ -177,7 +177,7 @@
                                 <div class="form-group">
                                     <label> <span class="text-primary">* </span>Teléfono</label>
                                     <input type="text" wire:model.lazy="phone" class="form-control" maxlength="8"
-                                        {{ $status == 'LOCKED' ? "disabled='true'" : ''}}>
+                                        {{ $status == 'LOCKED' ? "disabled='true'" : '' }}>
                                     @error('phone')
                                         <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -232,7 +232,7 @@
                             @if ($selected_id == 0)
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label><span class="text-primary" >* </span>Sucursal</label>
+                                        <label><span class="text-primary">* </span>Sucursal</label>
                                         <select wire:model='sucursal_id' class="form-select">
                                             <option value="Elegir" disabled selected>Elegir</option>
                                             @foreach ($sucursales as $item)
@@ -240,7 +240,8 @@
                                             @endforeach
                                         </select>
                                         @error('sucursal_id')
-                                            <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                            <span style="font-size: 0.8rem"
+                                                class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
