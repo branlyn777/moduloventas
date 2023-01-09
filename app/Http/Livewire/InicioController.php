@@ -27,13 +27,7 @@ class InicioController extends Component
 
         $variable = "";
        
-        $users = User::select(DB::raw("COUNT(*) as count"))
-        ->whereYear('created_at', date('Y'))
-        ->orderBy('id','ASC')
-        ->pluck('count');
 
-        $labels = $users->keys();
-        $data = $users->values();
         
         // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior
 
@@ -157,8 +151,7 @@ class InicioController extends Component
 
         return view('livewire.inicio.inicio', [
             'variable' => $variable,
-            'labels'=>$labels,
-            'data'=>$data
+          
         ])
         ->extends('layouts.theme.app')
         ->section('content');

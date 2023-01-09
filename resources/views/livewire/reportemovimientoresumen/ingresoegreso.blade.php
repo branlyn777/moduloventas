@@ -238,18 +238,6 @@
                                             </td>
                                         @endif
 
-                                
-
-
-
-
-
-
-
-
-
-
-
 
 
                                         @if ($p->movstatus == 'INACTIVO')

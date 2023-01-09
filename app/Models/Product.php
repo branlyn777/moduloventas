@@ -65,7 +65,7 @@ class Product extends Model
     {
         if ($this->image == null)
         {
-           return 'noimagen.png';
+           return 'noimagenproduct.png';
         }
         if (file_exists('storage/productos/'. $this->image))
             return $this->image;
