@@ -330,11 +330,17 @@
                                                     <br>
                                                 @else
                                                     @if ($lv->totaldescuento < 0)
-                                                        <div style="color: rgb(250, 12, 12);"><b>Descuento Bs
-                                                                {{ $lv->totaldescuento }}</b></div>
+                                                        <div style="color: rgb(250, 12, 12);">
+                                                            <b>Descuento Bs
+                                                                {{ $lv->totaldescuento }}
+                                                            </b>
+                                                        </div>
                                                     @else
-                                                        <div style="color: #002df3;"><b>Recargo Bs
-                                                                {{ $lv->totaldescuento }}</b></div>
+                                                        <div style="color: #004666;">
+                                                            <b>Recargo Bs
+                                                                {{ $lv->totaldescuento }}
+                                                            </b>
+                                                        </div>
                                                     @endif
                                                 @endif
                                                 <b>Total Bs {{ $lv->totalbs }}</b>
