@@ -55,6 +55,20 @@ class Product extends Model
     public function location()
     {
         return $this->belongsToMany(Location::class,'location_productos','product','id');
+        
+    }
+
+    public function precioActivo(){
+        $var=Lote::where('status','Activo')->where('product_id',$this->id)->get();
+        foreach ($var as $value) {
+            return $value->pv_lote;
+        }
+    }
+    public function costoActivo(){
+        $var=Lote::where('status','Activo')->where('product_id',$this->id)->get();
+        foreach ($var as $value) {
+            return $value->costo;
+        }
     }
     
 

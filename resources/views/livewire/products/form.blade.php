@@ -1,7 +1,7 @@
 <style>
     .container {
-        width: 18rem;
-        height: 18rem;
+        width: 13rem;
+        height: 13rem;
         display: block;
         margin: 0 auto;
     }
@@ -19,8 +19,8 @@
     }
 
     .outer img {
-        width: 15rem;
-        height: 15rem;
+        width: 10rem;
+        height: 10rem;
         margin: auto;
         position: absolute;
         bottom: 0;

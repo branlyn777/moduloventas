@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('lote',255)->nullable();
             $table->string('unidad')->nullable();
             $table->string('marca')->nullable();
-            $table->integer('garantia')->nullable();
+            $table->integer('garantia')->default(0)->nullable();
             $table->integer('cantidad_minima')->default(0)->nullable();
             $table->string('industria')->nullable();
             $table->decimal('precio_venta',10,2)->nullable();

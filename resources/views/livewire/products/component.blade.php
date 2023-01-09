@@ -162,8 +162,8 @@
                                             <th class="text-uppercase text-sm">Categoría</th>
                                             <th class="text-uppercase text-sm">Sub Categoría</th>
                                             <th class="text-uppercase text-sm">Código</th>
-                                            <th class="text-uppercase text-sm">Precio</th>
-                                            <th class="text-uppercase text-sm">Costo</th>
+                                            <th class="text-uppercase text-sm text-center">Precio Activo</th>
+                                            <th class="text-uppercase text-sm text-center">Costo Activo</th>
                                             <th class="text-uppercase text-sm">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
@@ -184,7 +184,7 @@
                                                                 value="{{ $products->id }}">
                                                         </div>
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                            alt="hoodie" width="80">
+                                                            alt="hoodie" width="50">
                                                         <label style="font-size: 14px">{{ $products->nombre }}</label>
                                                     </div>
                                                 </td>
@@ -201,11 +201,11 @@
                                                 <td>
                                                     {{ $products->codigo }}
                                                 </td>
-                                                <td>
-                                                    {{ $products->precio_venta }}
+                                                <td class="text-center">
+                                                    {{ $products->precioActivo()==null?'--': $products->precioActivo()}}
                                                 </td>
-                                                <td>
-                                                    {{ $products->costo }}
+                                                <td class="text-center">
+                                                    {{ $products->costoActivo()==null?'--': $products->costoActivo()}}
                                                 </td>
 
                                                 <td>

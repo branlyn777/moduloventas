@@ -262,10 +262,7 @@ class ProductsController extends Component
             $this->image->storeAs('public/productos/', $customFileName);
             $product->image = $customFileName;
             $product->save();
-        } else {
-            $product->image = 'noimagenproduct.png';
-            $product->save();
-        }
+        } 
 
         $this->emit('product-added', 'Producto Registrado');
         $this->resetUI();
@@ -293,11 +290,10 @@ class ProductsController extends Component
         $this->cantidad_minima = $product->cantidad_minima;
         $this->codigo = $product->codigo;
         $this->estado = $product->status;
-        $this->imagen = $product->image;
+        $this->imagen = $product->image==null?'noimagenproduct.png':$product->image;
         $this->marca = $product->marca;
         $this->unidad = $product->unidad;
         $this->cont_lote = $product->control;
-
         $this->emit('modal-show');
     }
     public function Update()
@@ -416,7 +412,8 @@ class ProductsController extends Component
         $this->garantia = null;
         $this->cantidad_minima = null;
         $this->categoryid = null;
-        $this->image = null;
+        $this->image=null;
+        $this->imagen = 'noimagenproduct.png';
         $this->marca = null;
         $this->unidad = null;
         $this->cont_lote = null;
