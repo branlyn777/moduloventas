@@ -599,7 +599,6 @@
                                                                     <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $c['id'] }}', '{{ $c['name'] }}')">
                                                                         <i class="fas fa-trash text-danger"></i>
                                                                     </a>
-                                                                    
                                                                 </td>
                                                             </tr>
                                                         @endforeach
