@@ -15,26 +15,13 @@
 @endsection
 
 
-{{-- @section('empresacollapse')
-    nav-link
-@endsection
 
 
-@section('empresaarrow')
-    true
-@endsection --}}
-
-
-@section('ingresosegresosnav')
+@section('categoriaEI')
     "nav-link active"
 @endsection
 
-
-{{-- @section('empresashow')
-    "collapse show"
-@endsection --}}
-
-@section('ingresosegresosli')
+@section('categoriaIE')
     "nav-item active"
 @endsection
 
