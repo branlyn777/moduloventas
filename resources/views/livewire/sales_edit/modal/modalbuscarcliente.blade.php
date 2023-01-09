@@ -2,11 +2,13 @@
 <div wire:ignore.self class="modal fade" id="modalbuscarcliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-            <h5 class="modal-title" id="exampleModalLongTitle">Buscar Cliente</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
+            <div class="modal-header bg-primary">
+            <h5 class="modal-title text-white" id="exampleModalLongTitle">
+                <p class="text-sm mb-0">
+                    Buscar Cliente
+                </p>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -14,12 +16,8 @@
                 <div class="col-sm-12">
                     
                     <div class="input-group" style="padding-right: 20px;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text input-gp">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
-                        <input type="text" wire:model="buscarcliente" placeholder="Buscar o Crear Cliente..." class="form-control">
+                        <span style="background-color: #5e72e4; color: white" class="input-group-text"><i class="fa fa-search"></i></span>
+                        <input type="text" wire:model="buscarcliente" placeholder="Buscar o Crear Cliente..." class="form-control" style="padding-left: 10px;">
                     </div>
                     <br>
                     <div class="table-wrapper">
@@ -38,9 +36,11 @@
                                         {{ ucwords(strtolower($lc->nombre)) }}
                                     </td>
                                     <td class="text-center">
-                                        <button title="Seleccionar Cliente" wire:click.prevent="seleccionarcliente({{ $lc->id }})" class="btn btn-sm" style="background-color: rgb(10, 137, 235); color:white">
-                                            <i class="fas fa-check"></i>
-                                        </button>
+                                        
+                                        <a href="javascript:void(0)" title="Seleccionar Cliente" wire:click.prevent="seleccionarcliente({{ $lc->id }})">
+                                            <i class="fas fa-plus text-primary"></i>
+                                        </a>
+
                                     </td>
                                 </tr>
                                 @empty
@@ -50,12 +50,6 @@
 
                                         <br>
                                         <div class="row">
-
-                                            <div class="col-sm-12">
-                                                <button class="boton-azul" wire:click.prevent="crearcliente()">
-                                                    Crear y Usar: {{$this->buscarcliente}}
-                                                </button>
-                                            </div>
 
 
                                             <div class="col-sm-6">
@@ -76,9 +70,19 @@
                                                 </select>
                                                 @error('procedencia_cliente_id') <span class="text-danger er">{{ $message }}</span>@enderror
                                             </div>
+
+
+                                            
+
                                         </div>
 
                                         <br>
+
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary" wire:click.prevent="crearcliente()">
+                                                Crear y Usar: {{$this->buscarcliente}}
+                                            </button>
+                                        </div>
 
                                     </td>
                                 </tr>
