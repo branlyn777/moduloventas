@@ -92,7 +92,6 @@
                     <h5 class="modal-title text-white" id="exampleModalLabel">Registrar Producto</h5>
                 @endif
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
             </div>
             <div class="modal-body">
 
@@ -104,14 +103,14 @@
 
                             <div class="container">
                                 <div class="outer">
-                                    @if ($image) 
-                                    <img src="{{$image->temporaryUrl()}}">
+                                    @if ($image)
+                                        <img src="{{ $image->temporaryUrl() }}">
                                     @else
-                                    <img src="{{ asset('storage/productos/' . $imagen) }}">
+                                        <img src="{{ asset('storage/productos/' . $imagen) }}">
                                     @endif
                                     <div class="inner">
-                                        <input class="inputfile" type="file" wire:model='image'
-                                            name="pic" accept="image/*">
+                                        <input class="inputfile" type="file" wire:model='image' name="pic"
+                                            accept="image/*">
                                         <label>
                                             <i class="fas fa-camera text-white text-center"></i>
                                         </label>
@@ -338,16 +337,51 @@
                             </div>
                         </div>
                     @endif
-
-               
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">Guardar y
-                    Agregar Cantidad Inicial</button>
+
+                {{-- <div class="input-group">
+                    <div class="input-group mb-4">
+                        <div class="card-body">
+                            <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                                Guardar y Agregar Cantidad Inicial</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-4">
+                        <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
+                            data-bs-dismiss="modal">Cancelar</button><br>
+                        @if ($selected_id < 1)
+                            <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                                Guardar y Cerrar</button>
+                        @else
+                            <button type="button" wire:click.prevent="Update()"
+                                class="btn btn-primary close-btn">Actualizar</button>
+                        @endif
+                    </div>
+                </div>
+                <div class="card-body">
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                        Guardar y Agregar Cantidad Inicial</button>
+                </div>
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
-                    data-bs-dismiss="modal">Cancelar</button>
+                    data-bs-dismiss="modal">Cancelar</button><br>
+                @if ($selected_id < 1)
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                        Guardar y Cerrar</button>
+                @else
+                    <button type="button" wire:click.prevent="Update()"
+                        class="btn btn-primary close-btn">Actualizar</button>
+                @endif --}}
+
+                
+                <div class="card-body">
+                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
+                        Guardar y Agregar Cantidad Inicial</button>
+                </div>
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
+                    data-bs-dismiss="modal">Cancelar</button><br>
                 @if ($selected_id < 1)
                     <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">Guardar y
                         Cerrar</button>
