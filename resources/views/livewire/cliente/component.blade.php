@@ -115,19 +115,19 @@
                                             {{ $c->celular }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $c->email }}
+                                            {{ $c->email == null ? '--': $c->email}}
                                         </td>
                                         {{-- <td class="text-sm mb-0 text-left">
                                             {{ \Carbon\Carbon::parse($c->fecha_nacim)->format('d/m/Y') }}
                                         </td> --}}
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $c->nit }}
+                                            {{ $c->nit == null ? '--': $c->nit }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{  substr($c->direccion, 0, 25) }}
+                                            {{  substr($c->direccion, 0, 25) == null ? '--': substr($c->direccion, 0, 25) }}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
-                                            {{ $c->razon_social }}
+                                            {{ $c->razon_social == null ? '--': $c->razon_social}}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
                                             {{ $c->procedencia }}

@@ -51,7 +51,7 @@
                         <div class="ms-auto my-auto">
 
                             <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva
-                                Cartera</button>
+                                Cartera Digital</button>
 
                             <a href="cortecajas" class="btn btn-secondary" data-type="csv" type="button">
                                 <span style="margin-right: 7px;" class="btn-inner--text">Ir a Corte de Caja</span>
@@ -162,7 +162,7 @@
                                                 {{ $item->descripcion }}
                                             </td>
                                             <td class="text-sm mb-0 text-left">
-                                                {{ $item->tipo }}
+                                                {{ $item->tipo=='efectivo'?'EFECTIVO':'DIGITAL' }}
                                             </td>
                                             {{-- <td>
                                                     {{ $item->telefonoNum }}

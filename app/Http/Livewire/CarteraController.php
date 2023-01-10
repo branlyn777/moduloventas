@@ -123,8 +123,8 @@ class CarteraController extends Component
     {
         $rules = [
             'nombre' => 'required|unique:carteras|max:255',
-            'caja_id' => 'required|not_in:Elegir',
-            'tipo' => 'required|not_in:Elegir',       
+
+       
             'descripcion' => 'required|max:255',     
             // 'telefonoNum' => 'required_if:variable,==,1',
         ];
@@ -133,11 +133,8 @@ class CarteraController extends Component
             'descripcion.required' => ' Descripción requerido.',
             'nombre.max' => 'Texto no mayor a 255 caracteres',
             'descripcion.max' => 'Texto no mayor a 255 caracteres',
-            'nombre.unique' => 'Ese nombre de cartera ya existe.',
-            'caja_id.required' => 'La caja es requerido.',
-            'caja_id.not_in' => 'La caja debe ser distinto de Elegir.',
-            'tipo.required' => 'El tipo es requerido.',
-            'tipo.not_in' => 'El tipo debe ser distinto de Elegir.',
+            'nombre.unique' => 'Ese nombre de cartera ya existe.'
+    
             // 'telefonoNum.required_if' => 'El teléfono es requerido.',
         ];
 
@@ -147,9 +144,9 @@ class CarteraController extends Component
             Cartera::create([
                 'nombre' => $this->nombre,
                 'descripcion' => $this->descripcion,
-                'tipo' => $this->tipo,
+                'tipo' =>'digital',
                 'telefonoNum' => 0,
-                'caja_id' => $this->caja_id
+                'caja_id' => 1
             ]);
 
             $this->resetUI();

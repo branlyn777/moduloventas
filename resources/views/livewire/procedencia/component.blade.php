@@ -131,9 +131,18 @@
                                             <p class="text-sm mb-0 text-left">{{ $item->procedencia }}</p>
                                         </td>
 
-                                        <td>
+                                        @if ($item->estado == 'Activo')
+                                            <td>
+                                                <span class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span class="badge badge-sm bg-gradient-danger">{{ $item->estado }}</span>
+                                            </td>
+                                        @endif
+                                        {{-- <td>
                                             <p class="text-sm mb-0 text-left">{{ $item->estado }}</p>
-                                        </td>
+                                        </td> --}}
 
                                         <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)"

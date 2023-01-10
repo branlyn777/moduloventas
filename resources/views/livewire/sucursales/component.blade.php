@@ -64,11 +64,8 @@
                 </div>
             </div>
         </div>
-    </div><br>
-
-
-
-
+    </div>
+<br>
 
     <div class="card">
         <div class="card-body">
@@ -89,7 +86,7 @@
         </div>
     </div>
 
-
+<br>
 
 
 
@@ -150,7 +147,7 @@
                                                         ACTIVO
                                                     </span>
                                                 @else
-                                                    <span class="badge badge-sm bg-gradient-warning">
+                                                    <span class="badge badge-sm bg-gradient-danger">
                                                         INACTIVO
                                                     </span>
                                                 @endif

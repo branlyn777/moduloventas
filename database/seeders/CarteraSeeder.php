@@ -22,21 +22,6 @@ class CarteraSeeder extends Seeder
             'telefonoNum' => null,
             'caja_id' => '1',
         ]);
-        Cartera::create([
-            'nombre' => 'Efectivo',
-            'saldocartera' => 0,
-            'descripcion' => 'Dinero en Efectivo',
-            'tipo' => 'efectivo',
-            'telefonoNum' => null,
-            'caja_id' => '2',
-        ]);
-        Cartera::create([
-            'nombre' => 'Efectivo',
-            'saldocartera' => 0,
-            'descripcion' => 'Dinero en Efectivo',
-            'tipo' => 'efectivo',
-            'telefonoNum' => null,
-            'caja_id' => '3',
-        ]);
+    
     }
 }

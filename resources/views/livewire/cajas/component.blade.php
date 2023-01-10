@@ -74,7 +74,8 @@
                                 <h6>Buscar</h6>
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="nombre caja" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre caja"
+                                        class="form-control ">
                                 </div>
                             </div>
                         </div>
@@ -113,17 +114,23 @@
                                         </td>
                                         <td class="text-sm mb-0 text-left">
 
+                                            {{-- @if ($item->estado != 'Inactivo')
                                             
-                                            @if($item->estado != "Inactivo")
                                                 {{ $item->estado }}
                                             @else
-                                                <span class="badge badge-sm bg-gradient-warning">
-                                                    INACTIVO
-                                                </span>
+                                                <span class="badge badge-sm bg-gradient-danger">INACTIVO</span>
+                                            @endif --}}
+
+                                            @if ($item->estado == 'Abierto')
+                                                <span class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
+                                            @elseif($item->estado == 'Cerrado')
+                                                <span class="badge badge-sm bg-gradient-secondary">CERRADO</span>
+                                            @else
+                                                <span class="badge badge-sm bg-gradient-danger">INACTIVO</span>
                                             @endif
 
-
                                         </td>
+                                        
                                         <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                 class="mx-3" title="Edit">
