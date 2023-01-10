@@ -362,7 +362,7 @@
             <div class="card  mb-4">
                 <div class="card-body p-3">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <div class="col-12 col-sm-6 col-md-2 text-left">
                             <b>Tipo de Pago</b>
                             <div class="form-group">
                                 <select wire:model="cartera_id" class="form-select">
@@ -393,7 +393,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-5 text-center">
+                        <div class="col-12 col-sm-6 col-md-5 text-left">
                             <b>Observación</b>
                             <div class="form-group">
                                 <input type="text" wire:model="observacion" class="form-control">
@@ -531,12 +531,12 @@
                                                             <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b></th>
                                                             <th class="text-uppercase text-sm ps-2 text-left"><b>CANTIDAD</b></th>
                                                             <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b></th>
-                                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                                            <th><p class="text-uppercase text-sm text-center"><b>ACCIONES</b></p></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($this->carrito_venta->sortBy('order') as $c)
-                                                            <tr class="text-left">
+                                                            <tr>
                                                                 <td class="text-sm mb-0 text-center">
                                                                     {{ $c['order'] }}
                                                                 </td>
@@ -582,7 +582,7 @@
                                                                         {{ $c['price'] * $c['quantity'], 2 }}
                                                                     </p>
                                                                 </td>
-                                                                <td class="text-sm ps-0 text-center">
+                                                                <td class="text-sm mb-0 text-center">
 
                                                                     <div class="btn-group" role="group" aria-label="Basic example">
 

@@ -680,9 +680,9 @@ class PosController extends Component
                 ->get()->first();
 
 
-                /* $tiendaproducto->update([
+                $tiendaproducto->update([
                     'stock' => $tiendaproducto->stock - $p->quantity
-                ]); */
+                ]);
 
             }
 

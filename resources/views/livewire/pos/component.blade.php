@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                                        color: rgb(0, 0, 0); */
+                            color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                                            border-top: 0.3px solid rgb(0, 0, 0);
-                                        } */
+                                border-top: 0.3px solid rgb(0, 0, 0);
+                            } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -325,6 +325,7 @@
     {{-- Verificando que se haya realizado el corte de caja --}}
     @if ($this->corte_caja)
 
+
         <div class="row">
             <div class="col-12">
                 <div class="d-lg-flex">
@@ -343,20 +344,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+
+        <br>
 
 
 
-                <br>
 
 
 
-
-
-
-                <div class="card  mb-4">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            {{-- <div class="col-12 col-sm-6 col-md-2 text-center">
+        <div class="card  mb-4">
+            <div class="card-body p-3">
+                <div class="row">
+                    {{-- <div class="col-12 col-sm-6 col-md-2 text-center">
                         <b>Seleccionar Cliente</b>
                         <button wire:click="modalbuscarcliente()" type="button" class="btn btn-default">
                             Buscar/Crear
@@ -365,405 +367,377 @@
 
 
                     </div> --}}
-                            <div class="col-12 col-sm-6 col-md-2 text-left">
-                                <b>Tipo de Pago</b>
-                                <div class="form-group">
-                                    <select wire:model="cartera_id" class="form-select">
-                                        <option value="Elegir">Elegir</option>
-                                        @foreach ($carteras as $c)
-                                            <option value="{{ $c->idcartera }}">{{ $c->nombrecartera }} -
-                                                {{ $c->dc }}
-                                            </option>
-                                        @endforeach
-                                        @foreach ($carterasg as $g)
-                                            <option value="{{ $g->idcartera }}">{{ $g->nombrecartera }} -
-                                                {{ $g->dc }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-2 text-center">
-                                <b>Total Artículos</b>
-                                <div class="form-group">
-                                    <h6>{{ $this->total_items }}</h6>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-3 text-center">
-                                <b>Total Venta</b>
-                                <div class="form-group">
-                                    <h6>{{ number_format($this->total_bs, 2) }} Bs</h6>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-5 text-left">
-                                <b>Observación</b>
-                                <div class="form-group">
-                                    <input type="text" wire:model="observacion" class="form-control">
-                                </div>
-                            </div>
-
+                    <div class="col-12 col-sm-6 col-md-2 text-left">
+                        <b>Tipo de Pago</b>
+                        <div class="form-group">
+                            <select wire:model="cartera_id" class="form-select">
+                                <option value="Elegir">Elegir</option>
+                                @foreach ($carteras as $c)
+                                    <option value="{{ $c->idcartera }}">{{ $c->nombrecartera }} - {{ $c->dc }}
+                                    </option>
+                                @endforeach
+                                @foreach ($carterasg as $g)
+                                    <option value="{{ $g->idcartera }}">{{ $g->nombrecartera }} - {{ $g->dc }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+
+                    <div class="col-12 col-sm-6 col-md-2 text-center">
+                        <b>Total Artículos</b>
+                        <div class="form-group">
+                            <h6>{{ $this->total_items }}</h6>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                        <b>Total Venta</b>
+                        <div class="form-group">
+                            <h6>{{ number_format($this->total_bs, 2) }} Bs</h6>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-5 text-left">
+                        <b>Observación</b>
+                        <div class="form-group">
+                            <input type="text" wire:model="observacion" class="form-control">
+                        </div>
+                    </div>
+
                 </div>
+            </div>
+        </div>
 
 
-                <div class="form-group">
-                    <div class="row">
+        <div class="form-group">
+            <div class="row">
 
 
-                        <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-sm-6 col-md-4">
 
-                            <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 500px;">
-
-
+                    <div class="card p-3" style="min-height: 500px; padding-top: 10px;">
 
 
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <span style="background-color: #5e72e4; color: white; border: #5e72e4;"
-                                            class="input-group-text"><i class="fa fa-search"></i></span>
-                                        <input id="code" type="text" style="padding-left: 10px;"
-                                            wire:keydown.enter.prevent="$emit('scan-code',$('#code').val())"
-                                            wire:model="buscarproducto" class="form-control "
-                                            placeholder="Escanear o Buscar Producto..." autofocus>
+
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span style="background-color: #5e72e4; color: white; border: #5e72e4;"
+                                    class="input-group-text"><i class="fa fa-search"></i></span>
+                                <input id="code" type="text" style="padding-left: 10px;"
+                                    wire:keydown.enter.prevent="$emit('scan-code',$('#code').val())"
+                                    wire:model="buscarproducto" class="form-control "
+                                    placeholder="Escanear o Buscar Producto..." autofocus>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            @if (strlen($this->buscarproducto) > 0)
+
+
+                                <div class="card mb-4">
+                                    <div class="card-body p-3">
+                                        <div class="table-wrapper">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <p class="text-sm mb-0">
+                                                                <b>DESCRIPCION</b>
+                                                            </p>
+                                                        </th>
+                                                        <th>
+                                                            <p class="text-sm mb-0">
+                                                                <b>ACCIONES</b>
+                                                            </p>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($listaproductos as $p)
+                                                        <tr>
+                                                            <td class="text-left">
+                                                                <p class="text-sm mb-0">
+                                                                    {{ $p->nombre }}
+                                                                    <b>({{ $p->barcode }})</b>
+                                                                    {{ $p->precio_venta }} Bs
+                                                                </p>
+                                                            </td>
+                                                            <td class="text-center">
+
+                                                                <button title="Añadir al Carrito de Ventas"
+                                                                    wire:click="increase({{ $p->id }})"
+                                                                    class="btn btn-primary"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
 
-
+                                {{ $listaproductos->links() }}
+                            @else
                                 <div>
-                                    @if (strlen($this->buscarproducto) > 0)
 
-
-                                        <div class="card mb-4">
-                                            <div class="card-body p-3">
-                                                <div class="table-wrapper">
-                                                    <table>
-                                                        <thead>
-                                                            <tr class="text-center">
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>DESCRIPCION</b>
-                                                                    </p>
-                                                                </th>
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>ACCIONES</b>
-                                                                    </p>
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($listaproductos as $p)
-                                                                <tr>
-                                                                    <td class="text-left">
-                                                                        <p class="text-sm mb-0">
-                                                                            {{ $p->nombre }}
-                                                                            <b>({{ $p->barcode }})</b>
-                                                                            {{ $p->precio_venta }} Bs
-                                                                        </p>
-                                                                    </td>
-                                                                    <td class="text-center">
-
-                                                                        <button title="Añadir al Carrito de Ventas"
-                                                                            wire:click="increase({{ $p->id }})"
-                                                                            class="btn btn-primary"
-                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
-
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{ $listaproductos->links() }}
-                                    @else
-                                        <div>
-
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-12 text-center">
-                                                    PARA BUSCAR USE EL CUADRO: BUSCAR PRODUCTOS...
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                        </div>
-
-
-                                    @endif
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-sm-6 col-md-8">
-
-                            <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 555px;">
-
-                                <div>
-                                    @if ($this->total_items > 0)
-
-
-                                        <div class="card mb-4">
-                                            <div class="card-body p-3">
-                                                <div class="table-wrapper">
-                                                    <table>
-                                                        <thead>
-                                                            <tr class="text-center">
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>DESCRIPCION</b>
-                                                                    </p>
-                                                                </th>
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>PRECIO</b>
-                                                                    </p>
-                                                                </th>
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>CANTIDAD</b>
-                                                                    </p>
-                                                                </th>
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>IMPORTE</b>
-                                                                    </p>
-                                                                </th>
-                                                                <th>
-                                                                    <p class="text-sm mb-0">
-                                                                        <b>ACCIONES</b>
-                                                                    </p>
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($cart as $item)
-                                                                <tr>
-                                                                    <td>
-                                                                        <p class="text-sm mb-0">
-                                                                            {{ $item->name }}
-                                                                        </p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="input-group"
-                                                                            style="min-width: 120px; max-width: 130px; align-items: center;">
-                                                                            <input type="number"
-                                                                                style="max-height: 30px;"
-                                                                                id="p{{ $item->id }}"
-                                                                                wire:change="cambiarprecio({{ $item->id }}, $('#p' + {{ $item->id }}).val())"
-                                                                                value="{{ $item->price }}"
-                                                                                class="form-control" placeholder="Bs.."
-                                                                                aria-label="Recipient's username"
-                                                                                aria-describedby="basic-addon2">
-                                                                            <div class="input-group-append">
-                                                                                <span
-                                                                                    class="input-group-text">Bs</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="input-group"
-                                                                            style="min-width: 120px; max-width: 130px; align-items: center;">
-                                                                            <input type="number"
-                                                                                style="max-height: 30px;"
-                                                                                id="c{{ $item->id }}"
-                                                                                wire:change="cambiarcantidad({{ $item->id }}, $('#c' + {{ $item->id }}).val())"
-                                                                                value="{{ $item->quantity }}"
-                                                                                class="form-control"
-                                                                                placeholder="Cantidad..."
-                                                                                aria-label="Recipient's username"
-                                                                                aria-describedby="basic-addon2">
-                                                                            <div class="input-group-append">
-                                                                                <span
-                                                                                    class="input-group-text">Uds</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="align-middle text-center">
-                                                                        <p class="text-sm mb-0">
-                                                                            {{ $item->price * $item->quantity, 2 }}
-                                                                        </p>
-                                                                    </td>
-                                                                    <td class="text-center">
-
-                                                                        <div class="btn-group" role="group"
-                                                                            aria-label="Basic example">
-
-                                                                            <button title="Eliminar Producto"
-                                                                                href="#"
-                                                                                onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')"
-                                                                                class="btn btn-danger"
-                                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                                <i class="fas fa-trash-alt"></i>
-                                                                            </button>
-                                                                            <button title="Quitar una unidad"
-                                                                                wire:click.prevent="decrease({{ $item->id }})"
-                                                                                class="btn btn-secondary"
-                                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                                <i class="fas fa-minus"></i>
-                                                                            </button>
-                                                                            <button title="Incrementar una unidad"
-                                                                                wire:click.prevent="increase({{ $item->id }})"
-                                                                                class="btn btn-primary"
-                                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                                <i class="fas fa-plus"></i>
-                                                                            </button>
-
-                                                                        </div>
-
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-
-                                            <div class="row">
-                                                <div class="col-12 text-center">
-                                                    AGREGAR PRODUCTOS A LA VENTA
-                                                </div>
-                                            </div>
-
-
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <br>
-                                        </div>
-
-
-                                    @endif
-                                </div>
-
-                            </div>
-
-
-
-
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <p class="text-sm">
-                                        Nombre Cliente: <b>{{ ucwords(strtolower($nombrecliente)) }}</b>
-                                    </p>
                                     <br>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        @if ($this->total_items > 0)
-                                            <button onclick="ConfirmarLimpiar()" type="button"
-                                                class="btn btn-danger">
-                                                <p class="text-sm mb-0">
-                                                    VACIAR
-                                                </p>
-                                            </button>
-                                        @endif
-                                        <a href="{{ url('salelist') }}" class="btn btn-add mb-0"
-                                            style="background-color: #2e48dc; color: white;">
-                                            <p class="text-sm mb-0">
-                                                LISTA VENTAS
-                                            </p>
-                                        </a>
-
-                                        <button wire:click.prevent="modalfinalizarventa()" type="button"
-                                            class="btn btn-success">
-                                            <p class="text-sm mb-0">
-                                                FINALIZAR VENTA
-                                            </p>
-                                        </button>
-
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            PARA BUSCAR USE EL CUADRO: BUSCAR PRODUCTOS...
+                                        </div>
                                     </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
                                 </div>
-                                <div class="col-1 text-right">
-                                </div>
-                            </div>
 
 
+                            @endif
                         </div>
                     </div>
+
                 </div>
 
 
-                @include('livewire.pos.modal.modalfinalizarventa')
-                @include('livewire.pos.modal.modalbuscarcliente')
-                @include('livewire.pos.modal.modal_stock_insuficiente')
-                @include('livewire.pos.modal.modallotesproducto')
+                <div class="col-12 col-sm-6 col-md-8">
+
+                    <div class="card" style="min-height: 555px;">
+
+                        <div>
+                            @if ($this->total_items > 0)
 
 
-                @if ($descuento_recargo >= 0)
-                    <button class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
-                @else
-                    <button class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
-                @endif
-            @else
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card mb-4">
+                                    <div class="card-body p-3">
+                                        <div class="table-wrapper">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-uppercase text-sm text-center">Nº</th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>DESCRIPCION</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>CANTIDAD</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b></th>
+                                                        <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($cart as $item)
+                                                        <tr>                                                    
+                                                            <td class="text-sm mb-0 text-center">
+                                                                {{ $loop->iteration }}
+                                                            </td>
+                                                            <td class="text-sm mb-0 text-left">
+                                                                <p class="text-sm mb-0">
+                                                                    {{ $item->name }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="text-sm mb-0 text-left">
+                                                                <div class="input-group"
+                                                                    style="min-width: 120px; max-width: 130px;">
+                                                                    <input type="number" style="max-height: 30px;"
+                                                                        id="p{{ $item->id }}"
+                                                                        wire:change="cambiarprecio({{ $item->id }}, $('#p' + {{ $item->id }}).val())"
+                                                                        value="{{ $item->price }}"
+                                                                        class="form-control" placeholder="Bs.."
+                                                                        aria-label="Recipient's username"
+                                                                        aria-describedby="basic-addon2">
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text">Bs</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-sm mb-0 text-left">
+                                                                <div class="input-group"
+                                                                    style="min-width: 120px; max-width: 130px;">
+                                                                    <input type="number" style="max-height: 30px;"
+                                                                        id="c{{ $item->id }}"
+                                                                        wire:change="cambiarcantidad({{ $item->id }}, $('#c' + {{ $item->id }}).val())"
+                                                                        value="{{ $item->quantity }}"
+                                                                        class="form-control" placeholder="Cantidad..."
+                                                                        aria-label="Recipient's username"
+                                                                        aria-describedby="basic-addon2">
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text">Uds</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-sm mb-0 text-left">
+                                                                <p class="text-sm mb-0">
+                                                                    {{ $item->price * $item->quantity, 2 }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="text-sm mb-0 text-center">
+                                                                
+                                                                <div class="btn-group" role="group"
+                                                                    aria-label="Basic example">
 
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card  mb-4">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-12 text-center">
-                                        <div class="numbers">
-                                            <a href="{{ url('cortecajas') }}">
-                                                <h5 class="font-weight-bolder">
-                                                    NO SE SELECCIONO NINGUNA CAJA
-                                                </h5>
-                                            </a>
+                                                                    <button title="Quitar una unidad"
+                                                                        wire:click.prevent="decrease({{ $item->id }})"
+                                                                        class="btn btn-secondary"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button title="Incrementar una unidad"
+                                                                        wire:click.prevent="increase({{ $item->id }})"
+                                                                        class="btn btn-primary"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                    <button title="Eliminar Producto" href="#"
+                                                                        onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')"
+                                                                        class="btn btn-danger"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-trash-alt"></i>
+                                                                    </button>
+
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
+                            @else
+                                <div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            AGREGAR PRODUCTOS A LA VENTA
+                                        </div>
+                                    </div>
+
+
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+
+
+                            @endif
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="text-sm">
+                                Nombre Cliente: <b>{{ ucwords(strtolower($nombrecliente)) }}</b>
+                            </p>
+                            <br>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                @if ($this->total_items > 0)
+                                    <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">
+                                        <p class="text-sm mb-0">
+                                            VACIAR
+                                        </p>
+                                    </button>
+                                @endif
+                                <a href="{{ url('salelist') }}" class="btn btn-add mb-0"
+                                    style="background-color: #2e48dc; color: white;">
+                                    <p class="text-sm mb-0">
+                                        LISTA VENTAS
+                                    </p>
+                                </a>
+
+                                <button wire:click.prevent="modalfinalizarventa()" type="button"
+                                    class="btn btn-success">
+                                    <p class="text-sm mb-0">
+                                        FINALIZAR VENTA
+                                    </p>
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-1 text-right">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        @include('livewire.pos.modal.modalfinalizarventa')
+        @include('livewire.pos.modal.modalbuscarcliente')
+        @include('livewire.pos.modal.modal_stock_insuficiente')
+        @include('livewire.pos.modal.modallotesproducto')
+
+
+        @if ($descuento_recargo >= 0)
+            <button class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
+        @else
+            <button class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
+        @endif
+    @else
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card  mb-4">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 text-center">
+                                <div class="numbers">
+                                    <a href="{{ url('cortecajas') }}">
+                                        <h5 class="font-weight-bolder">
+                                            NO SE SELECCIONO NINGUNA CAJA
+                                        </h5>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4">
-
-                    </div>
                 </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
 
             </div>
         </div>
 
+
+
     @endif
+
+
 </div>
 
 
