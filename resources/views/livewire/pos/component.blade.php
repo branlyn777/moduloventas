@@ -681,14 +681,14 @@
                                         </p>
                                     </button>
                                 @endif
-                                <a href="{{ url('salelist') }}" class="btn btn-dark">
+                                <a href="{{ url('salelist') }}"  class="btn btn-add mb-0" style="background-color: #2e48dc; color: white;">
                                     <p class="text-sm mb-0">
                                         LISTA VENTAS
                                     </p>
                                 </a>
 
                                 <button wire:click.prevent="modalfinalizarventa()" type="button"
-                                    class="btn btn-primary">
+                                    class="btn btn-success">
                                     <p class="text-sm mb-0">
                                         FINALIZAR VENTA
                                     </p>

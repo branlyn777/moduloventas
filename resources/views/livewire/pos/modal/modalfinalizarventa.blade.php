@@ -37,7 +37,7 @@
                                     @else
 
                                         <div class="col-sm-4 mt-1 px-1">
-                                            <button wire:click.prevent="sumar({{ $d->value }})" class="btn btn-success" style="width: 100%">
+                                            <button wire:click.prevent="sumar({{ $d->value }})" class="btn btn-add mb-0" style="background-color: #2e48dc; color: white;width: 100%">
                                                 <p class="text-xs mb-0">
                                                     Exacto
                                                 </p>
@@ -63,16 +63,16 @@
                                         <b>{{ number_format($this->total_bs, 2, ",", ".")}} Bs</b>
                                     </h5>
                                     <div class="input-group input-group-md mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" 
-                                            style="background-color: #5e72e4; color: white;">Bs Recibido
+                                        <div class="input-group-append">
+                                            <span class="input-group-text form-control" style="background-color: #e9e9e9; color: rgb(0, 0, 0);">
+                                                Bs Recibido
                                             </span>
                                         </div>
                                         <input type="number" id="cash" wire:model="dinero_recibido" class="form-control text-center">
 
                                             
                                         <div class="input-group-append">
-                                            <span wire:click="$set('dinero_recibido',0)" class="input-group-text" title="Borrar Todo"
+                                            <span wire:click="$set('dinero_recibido',0)" class="input-group-text ml-2" title="Borrar Todo"
                                             style="background-color: #5e72e4; color: white; cursor: pointer;">
                                                 <i class="fas fa-backspace fa-2x"></i>
                                             </span>
@@ -128,7 +128,7 @@
                         <div wire:loading.remove>
 
 
-                            <button wire:click.prevent="savesale()" class="btn btn-add mb-0" style="background-color: #2e48dc; color: white;">
+                            <button wire:click.prevent="savesale()" class="btn btn-success mb-0">
                                 <p class="text-sm mb-0">
                                     Vender
                                 </p>
