@@ -139,6 +139,7 @@ class ClienteController extends Component
     {
         $rules = [
             'nombre' => 'required|max:255',
+            
             'cedula' => 'required|min:5|max:10,unique',
             'celular' => 'required|min:8',
             'procedencia' => 'required|not_in:Elegir',

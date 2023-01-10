@@ -69,7 +69,7 @@
             <div class="card mb-4">
                 <div class="card-body m-0">
                     <div class="padding-left: 12px; padding-right: 12px;">
-                        <div class="row justify-content-end">
+                        <div class="row justify-content-between">
                             <div class="mt-lg-0  col-md-3">
                                 <label style="font-size: 1rem">Buscar</label>
                                 <div class="form-group">
@@ -81,39 +81,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Categoría</label>
-                                <div class="input-group">
-                                    <select wire:model='selected_categoria' class="form-control">
-                                        <option value="null" disabled>Elegir Categoría</option>
-                                        @foreach ($categories as $key => $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <button class="btn btn-primary" wire:click="resetCategorias()">
-                                        <i class="fas fa-redo-alt text-white"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Subcategorías</label>
-                                <div class="input-group">
-                                    <select wire:model='selected_sub' class="form-control">
-                                        <option value="null" disabled>Elegir Subcategoría</option>
-                                        @foreach ($sub as $subcategoria)
-                                            <option value="{{ $subcategoria->id }}">{{ $subcategoria->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                    <button wire:click="resetSubcategorias()" class="btn btn-primary">
-                                        <i class="fas fa-redo-alt text-white"></i>
-                                    </button>
-                                    </tbody>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem">Filtrar por Estado</label>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
@@ -135,13 +103,44 @@
                                         align-self: left;
                                         color: #525f7f;">Inactivos</label>
                                     @endif
-                                </div><br>
-                                {{-- <select wire:model='estados' class="form-select">
-                                    <option value="null" disabled>Estado</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
-                                </select> --}}
+                                </div>
                             </div>
+
+                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem">Categoría</label>
+                                <div class="input-group">
+                                    <select wire:model='selected_categoria' class="form-select">
+                                        <option value="null" disabled>Elegir Categoría</option>
+                                        @foreach ($categories as $key => $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="btn btn-primary" wire:click="resetCategorias()">
+                                        <i class="fa-sharp fa-solid fa-xmark"></i>
+                                        {{-- <i class="fas fa-redo-alt text-white"></i> --}}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem">Subcategorías</label>
+                                <div class="input-group">
+                                    <select wire:model='selected_sub' class="form-select">
+                                        <option value="null" disabled>Elegir Subcategoría</option>
+                                        @foreach ($sub as $subcategoria)
+                                            <option value="{{ $subcategoria->id }}">{{ $subcategoria->name }}</option>
+                                        @endforeach
+
+                                    </select>
+                                    <button wire:click="resetSubcategorias()" class="btn btn-primary">
+                                        <i class="fa-sharp fa-solid fa-xmark"></i>
+                                        {{-- <i class="fas fa-redo-alt text-white"></i> --}}
+                                    </button>
+                                    </tbody>
+                                </div>
+                            </div>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -205,7 +204,9 @@
                                                         </div>
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                             alt="hoodie" width="50">
-                                                        <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td>

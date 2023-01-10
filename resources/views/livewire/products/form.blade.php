@@ -91,7 +91,9 @@
                 @else
                     <h5 class="modal-title text-white" id="exampleModalLabel">Registrar Producto</h5>
                 @endif
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-sharp fa-solid fa-xmark"></i>
+                </button>
             </div>
             <div class="modal-body">
 
@@ -185,7 +187,7 @@
                         <div class="form-group">
                             <label>Unidad de Medida</label>
                             <div class="input-group input-group-sm mb-3">
-                                <select wire:model.lazy='unidad' class="form-control">
+                                <select wire:model.lazy='unidad' class="form-select">
                                     <option value=null selected disabled>Elegir</option>
                                     @foreach ($unidades as $unidad)
                                         <option value="{{ $unidad->nombre }}" selected>{{ $unidad->nombre }}</option>
@@ -207,7 +209,7 @@
                         <div class="form-group">
                             <label>Marca</label>
                             <div class="input-group input-group-sm mb-3">
-                                <select wire:model.lazy='marca' class="form-control">
+                                <select wire:model.lazy='marca' class="form-select">
                                     <option value=null selected disabled>Elegir</option>
                                     @foreach ($marcas as $marca)
                                         <option value="{{ $marca->nombre }}" selected>{{ $marca->nombre }}</option>
@@ -267,7 +269,7 @@
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Categoría</label>
                             <div class="input-group input-group-sm">
-                                <select wire:model='selected_id2' class="form-control">
+                                <select wire:model='selected_id2' class="form-select">
                                     <option value=null selected disabled>Elegir</option>
                                     @foreach ($categories as $Key => $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -289,7 +291,7 @@
                             <label>Subcategoría</label>
                             <div class="input-group input-group-sm mb-3">
 
-                                <select wire:model='categoryid' class="form-control">
+                                <select wire:model='categoryid' class="form-select">
                                     <option value=null selected disabled>Elegir</option>
                                     @foreach ($subcat as $Key => $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->name }}</option>
