@@ -2,31 +2,31 @@
 <div class="row">
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Nombre</label>
+            <label><span class="text-warning">* </span>Nombre</label>
             <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="ej: Fenris">
             @error('nombre')
-                <span class="text-danger er">{{ $message }}</span>
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
             @enderror
         </div>
     </div>
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Cédula</label>
+            <label><span class="text-warning">* </span>Cédula</label>
             <input type="text" wire:model.lazy="cedula" class="form-control" placeholder="12121212">
             @error('cedula')
-                <span class="text-danger er">{{ $message }}</span>
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
             @enderror
         </div>
     </div>
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Celular</label>
+            <label><span class="text-warning">* </span>Celular</label>
             <input type="text" wire:model.lazy="celular" class="form-control" placeholder="ej: 79564859"
                 maxlength="8">
             @error('celular')
-                <span class="text-danger er">{{ $message }}</span>
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
             @enderror
         </div>
     </div>
@@ -87,7 +87,7 @@
 
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Procedencia</label>
+            <label><span class="text-warning">* </span>Procedencia</label>
             <select wire:model='procedencia' class="form-select">
                 <option value="Elegir">Elegir</option>
                 @foreach ($procedenciaClientes as $item)
@@ -95,7 +95,7 @@
                 @endforeach
             </select>
             @error('procedencia')
-                <span class="text-danger er">{{ $message }}</span>
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
             @enderror
         </div>
     </div>

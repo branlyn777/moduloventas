@@ -137,18 +137,33 @@ class ClienteController extends Component
 
     public function Update()
     {
-        // $rules = [
-        //     'cedula' => "required|min:5|unique:clientes,cedula,{$this->selected_id}",
-        //     'celular' => 'required|min:8'
-        // ];
-        // $messages = [
-        //     'cedula.required' => 'Numero de cédula es requerido.',
-        //     'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
-        //     'cedula.unique' => 'El CI ya existe',
-        //     'celular.required' => 'Numero de celular es requerido.',
-        //     'celular.min' => 'Ingrese un celular superior a 7 dígitos.'
-        // ];
-        // $this->validate($rules, $messages);
+        $rules = [
+            'nombre' => 'required|max:255',
+            'cedula' => 'required|min:5|max:10,unique',
+            'celular' => 'required|min:8',
+            'procedencia' => 'required|not_in:Elegir',
+            'email' => 'max:100',
+            'direccion' => 'max:255',
+            'nit' => 'max:12',
+            'razonsocial' => 'max:255',
+        ];
+        $messages = [
+            'nombre.required' => 'El nombre es requerido.',
+            'nombre.max' => 'Numero de caracteres no mayor a 255',
+            'cedula.required' => 'Numero de cédula es requerido.',
+            'cedula.max' => 'Numero de caracteres no mayor a 10',
+            'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
+            // 'cedula.unique' => 'El CI ya existe',
+            'celular.required' => 'Numero de celular es requerido.',
+            'celular.min' => 'Ingrese nro de celular de 8 dígitos.',
+            'email.max'  => 'Numero de caracteres no mayor a 100',
+            'nit.max'  => 'Numero de caracteres no mayor a 100',
+            'razonsocial.max'  => 'Numero de caracteres no mayor a 255',
+            'direccion.max'  => 'Numero de caracteres no mayor a 255',
+            'procedencia.required' => 'Selecciona procedencia',
+            'procedencia.not_in' => 'Selecciona procedencia',
+        ];
+        $this->validate($rules, $messages);
 
         $cliente = Cliente::find($this->selected_id);
         $cliente->update([

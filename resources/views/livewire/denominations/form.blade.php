@@ -3,23 +3,23 @@
     
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Tipo</label>
+            <label><span class="text-warning">* </span>Tipo</label>
             <select wire:model='type' class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="BILLETE">BILLETE</option>
                 <option value="MONEDA">MONEDA</option>
                 <option value="OTRO">OTRO</option>
             </select>
-            @error('type') <span class="text-danger er">{{ $message }}</span>@enderror
+            @error('type') <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>@enderror
         </div>
     </div>
     
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
-            <label>Valor</label>
+            <label><span class="text-warning">* </span>Valor</label>
             <input type="number" wire:model.lazy="value" class="form-control" placeholder="ej: 1000"
             maxlenght="25">
-            @error('value') <span class="text-danger er">{{ $message }}</span>@enderror
+            @error('value') <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>@enderror
         </div>
     </div>
     <div class="col-sm-12">
