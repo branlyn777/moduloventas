@@ -17,13 +17,13 @@ class CarteraMovCategoriaSeeder extends Seeder
     {
         //Categorias de ingresos
         CarteraMovCategoria::create([
-            'nombre' => "Ingreso General",
+            'nombre' => "Ingreso por Inversión",
             'detalle' => "Para registrar ingresos generales",
             'tipo' => 'INGRESO',
             'subcategoria' => ""
         ]);
         CarteraMovCategoria::create([
-            'nombre' => "Ajuste",
+            'nombre' => "Ajuste Ingreso",
             'detalle' => "Para ajustar algun egreso",
             'tipo' => 'INGRESO',
             'subcategoria' => ""
@@ -32,13 +32,13 @@ class CarteraMovCategoriaSeeder extends Seeder
 
         //Categorias de ingresos
         CarteraMovCategoria::create([
-            'nombre' => "Egreso General",
-            'detalle' => "Para registrar egresos generales",
+            'nombre' => "Adelanto de Sueldos",
+            'detalle' => "Para registrar adelanto de sueldos de los empleados",
             'tipo' => 'EGRESO',
             'subcategoria' => ""
         ]);
         CarteraMovCategoria::create([
-            'nombre' => "Ajuste",
+            'nombre' => "Ajuste Egreso",
             'detalle' => "Para ajustar algun ingreso",
             'tipo' => 'EGRESO',
             'subcategoria' => ""
