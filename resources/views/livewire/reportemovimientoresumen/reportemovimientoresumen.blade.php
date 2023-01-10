@@ -1,18 +1,49 @@
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white"> Movimientos </h6>
+    </nav>
+@endsection
+
+
+@section('Reportescollapse')
+    nav-link
+@endsection
+
+
+@section('Reportesarrow')
+    true
+@endsection
+
+
+@section('movimientosnav')
+    "nav-link active"
+@endsection
+
+
+@section('Reportesshow')
+    "collapse show"
+@endsection
+
+@section('movimientosli')
+    "nav-item active"
+@endsection
+
+
 <div>
-    <br>
-    <br>
-    <div class="row mt-n6 ml-5">
-        <div class="col-12 text-white">
-            <h5 class="text-center text-white">
-                Movimientos Diarios
-            </h5>
-        </div>
+    <div class="d-lg-flex" style="margin-bottom: 2.3rem">
+        <h5 class="text-white" style="font-size: 16px">Movimientos Diarios </h5>
+
     </div>
-
-
-
-    <br>
-
 
     <div class="card">
         <div class="card-body">
