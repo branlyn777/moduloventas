@@ -65,15 +65,41 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="">
-                        <div class="col-12 col-sm-12 col-md-3">
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-3">
                             <div class="form-group">
                                 <h6>Buscar</h6>
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="nombre procedencia" class="form-control ">
+                                    <input type="text" wire:model="search" placeholder="nombre procedencia"
+                                        class="form-control ">
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-12 col-md-2 " style="margin-bottom: 7px;">
+                            <label style="font-size: 1rem">Filtrar por Estado</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
+                                    role="switch" {{ $this->estados == true ? 'checked' : '' }}>
+                                @if ($estados)
+                                    <label
+                                        style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Activos</label>
+                                @else
+                                    <label
+                                        style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Inactivos</label>
+                                @endif
+                            </div><br>
                         </div>
                     </div>
                 </div>
