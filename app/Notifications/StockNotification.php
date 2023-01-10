@@ -55,7 +55,7 @@ class StockNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'nombre' => $this->product->nombre,
+            'nombre' => $this->product->product_id,
             'cantidad' => $this->product->stock,
         ];   
     }
