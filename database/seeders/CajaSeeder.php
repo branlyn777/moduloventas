@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Caja;
+use App\Models\Cartera;
 use Illuminate\Database\Seeder;
 
 class CajaSeeder extends Seeder
@@ -20,17 +21,33 @@ class CajaSeeder extends Seeder
             'estado' => 'Cerrado',
             'sucursal_id' => '1',
         ]);
-        Caja::create([
+        $caja= Caja::create([
             'nombre' => 'Caja 1',
             'monto_base' => 100,
             'estado' => 'Cerrado',
             'sucursal_id' => '1',
         ]);
-        Caja::create([
+        Cartera::create([
+            'nombre' => 'Efectivo-'.$caja->nombre,
+            'saldocartera' => '0',
+            'descripcion' => 'Cuenta de dinero en efectivo',
+            'tipo' => 'efectivo',
+            'estado' => 'ACTIVO',
+            'caja_id' => $caja->id
+        ]);
+        $caja=Caja::create([
             'nombre' => 'Caja 2',
             'monto_base' => 100,
             'estado' => 'Cerrado',
             'sucursal_id' => '1',
+        ]);
+        Cartera::create([
+            'nombre' => 'Efectivo-'.$caja->nombre,
+            'saldocartera' => '0',
+            'descripcion' => 'Cuenta de dinero en efectivo',
+            'tipo' => 'efectivo',
+            'estado' => 'ACTIVO',
+            'caja_id' => $caja->id
         ]);
     }
 }

@@ -84,9 +84,9 @@ class CajasController extends Component
         ]);
 
         Cartera::create([
-            'nombre' => 'Efectivo',
+            'nombre' => 'Efectivo-'.$caja->nombre,
             'saldocartera' => '0',
-            'descripcion' => 'Dinero en efectivo de la caja: ' . $caja->nombre,
+            'descripcion' => 'Cuenta de dinero en efectivo',
             'tipo' => 'efectivo',
             'estado' => 'ACTIVO',
             'caja_id' => $caja->id

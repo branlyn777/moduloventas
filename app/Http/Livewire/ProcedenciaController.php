@@ -13,7 +13,7 @@ class ProcedenciaController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $search, $procedencia, $estado, $selected_id;
-    public  $pageTitle, $componentName;
+    public  $pageTitle, $componentName, $estados;
     private $pagination = 5;
 
     public function paginationView()
@@ -23,6 +23,8 @@ class ProcedenciaController extends Component
 
     public function mount()
     {
+        $this->estados = 'Activo';
+
         $this->pageTitle = 'Listado';
         $this->componentName = 'Procedencias';
         $this->estado = 'Elegir';
@@ -33,9 +35,10 @@ class ProcedenciaController extends Component
     {
         if (strlen($this->search) > 0)
             $procedencia = ProcedenciaCliente::where('procedencia', 'like', '%' . $this->search . '%')
+                ->orWhere('estado', $this->estado)
                 ->paginate($this->pagination);
         else
-            $procedencia = ProcedenciaCliente::orderBy('id', 'desc')
+            $procedencia = ProcedenciaCliente::where('estado', $this->estado)->orderBy('id', 'desc')
                 ->paginate($this->pagination);
         return view('livewire.procedencia.component', [
             'data' => $procedencia,
@@ -114,22 +117,15 @@ class ProcedenciaController extends Component
     public function Destroy(ProcedenciaCliente $pro)
     {
 
-        $verificar = Cliente::where("clientes.procedencia_cliente_id",$pro->id)->get();
+        $verificar = Cliente::where("clientes.procedencia_cliente_id", $pro->id)->get();
 
-        if($verificar->count() == 0)
-        {
+        if ($verificar->count() == 0) {
             $pro->delete();
             $this->resetUI();
             $this->emit('item-deleted', 'Procedencia Eliminada');
-        }
-        else
-        {
+        } else {
             $this->emit('alerta-procedencia');
         }
-
-
-
-
     }
 
     public function resetUI()
@@ -139,5 +135,13 @@ class ProcedenciaController extends Component
         $this->search = '';
         $this->selected_id = 0;
         $this->resetValidation();
+    }
+
+    public function cambioestado()
+    {
+        if ($this->estados == true) {
+            
+            $this->sucursal = $this->sucursalusuario();
+        }
     }
 }
