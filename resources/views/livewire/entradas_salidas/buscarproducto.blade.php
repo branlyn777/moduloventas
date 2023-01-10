@@ -1,23 +1,23 @@
-<div wire:ignore.self class="modal fade" id="buscarproducto" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div wire:ignore.self class="modal fade" id="buscarproducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="text-white" id="exampleModalCenterTitle">Detalle de Movimiento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                <div>
+                    <h5 class="mb-0 text-white" style="font-size: 1rem">Detalle de Movimiento</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-                <div class="modal-body">
-                    <div class="row">
-                        @if ($detalle)
+            <div class="modal-body">
+                <div class="row">
+
+                    @if ($detalle)
                         <div class="col-md-12 ">
                             <div class="row m-1">
-
                                 <div class="table-responsive">
                                     <table class="table align-items-center mb-0">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
+                                            <tr style="font-size: 0.9rem">
+                                                <th class="text-center">N°</th>
                                                 <th class="text-center">Producto</th>
                                                 <th class="text-center">Cantidad</th>
                                                 <th class="text-center">Costo</th>
@@ -25,21 +25,17 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($detalle as $d)
-                                            <tr>
-
-                                                <td class="text-center">
+                                            <tr class="text-center" style="font-size: 0.9rem">
+                                                <td>
                                                     {{$loop->index+1}}
                                                 </td>
-                                                <td class="text-center">
-                                                    <h6 class="text-center">{{ $d->productos->nombre}}
-                                                    </h6>
+                                                <td>
+                                                    {{ $d->productos->nombre}}
                                                 </td>
-                                                <td class="text-center">
-
+                                                <td>
                                                     {{$d->cantidad}}
                                                 </td>
-                                                <td class="text-center">
-
+                                                <td>
                                                     {{$d->costo}}
                                                 </td>
                                             </tr>
@@ -48,12 +44,11 @@
                                     </table>
                                 </div>
                             </div>
-
-
                         </div>
                         @endif
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>

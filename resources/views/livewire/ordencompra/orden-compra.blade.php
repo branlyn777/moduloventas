@@ -199,39 +199,11 @@
                                                         </button>
                                                     </div>
                                                 </td>
-                                                {{-- <td class="text-center">
-                                                        <a href="javascript:void(0)" wire:click= "VerDetalleCompra('{{$data->id}}')" class="mx-3"
-                                                            title="Listar orden de compra">
-                                                            <i class="fas fa-list" style="font-size: 14px"></i>
-                                                        </a>
-                                                        <a href="{{ url('OrdenCompra/pdf' . '/' . $data->id)}}" class="mx-3"
-                                                            class="btn btn-success p-1" title="Imprimir orden de compra">
-                                                            <i class="fas fa-print" style="font-size: 14px"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)" wire:click="anularOrden('{{ $data->id }}')" class="mx-3"
-                                                            title="Anular orden compra">
-                                                            <i class="fas fa-minus-circle text-danger" style="font-size: 14px"></i>
-                                                        </a>
-                                                    </td> --}}
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    {{-- <tfoot class="text-white text-right">
-                                            <tr>
-                                                <td colspan="5">
-                                                     <h5 class="text-dark">Total Bs.-</h5>
-                                                     <h5 class="text-dark">Total $us.-</h5>
-                                                </td>
-                                                <td>
-                                                    <h5 class="text-dark text-center">{{$totales}}</h5>
-                                                    <h5 class="text-dark text-center">{{round($totales/6.96,2)}}</h5>
-                                                </td>
-                                                <td  colspan="4">
-
-                                                </td>
-                                            </tr>
-                                            
-                                        </tfoot> --}}
+                                    
                                 </table><br>
                             </div>
                         </div>

@@ -128,7 +128,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Producto</th>
+                                                <th style="width: 500px">Producto</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -136,12 +136,9 @@
                                             @foreach ($prod as $producto)
                                                 <tr>
                                                     <td>
-                                                        <strong>{{ $producto->nombre }}({{ $producto->codigo }})</strong>
-                                                        <label>{{ $producto->unidad }}|{{ $producto->marca }}|{{ $producto->industria }}</label>
-                                                        <label>|{{ $producto->caracteristicas }}</label>
+                                                        <strong>{{ $producto->nombre }}</strong> ({{ $producto->codigo }})
                                                     </td>
                                                     <td class="text-center">
-
                                                         <a wire:click="InsertarProducto({{ $producto->id }})"
                                                             class="btn btn-primary"
                                                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
