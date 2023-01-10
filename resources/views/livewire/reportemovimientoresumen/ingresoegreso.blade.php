@@ -124,7 +124,7 @@
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label style="font-size: 1rem">Cajas</label>
-                                <select wire:model="caja" class="form-control">
+                                <select wire:model="caja" class="form-select">
                                     @foreach ($cajas2 as $item)
                                         <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                     @endforeach
@@ -136,7 +136,7 @@
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label style="font-size: 1rem">Sucursal</label>
-                                <select wire:model="sucursal" class="form-control">
+                                <select wire:model="sucursal" class="form-select">
                                     @foreach ($sucursals as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
@@ -147,7 +147,7 @@
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label style="font-size: 1rem">Categoria</label>
-                                <select wire:model='categoria_id' class="form-control">
+                                <select wire:model='categoria_id' class="form-select">
                                     <option value="Todos">Todas las Categorias</option>
                                     @foreach ($categorias as $c)
                                         <option value="{{ $c->id }}">{{ $c->nombre }} -

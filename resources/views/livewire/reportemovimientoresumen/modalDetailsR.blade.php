@@ -16,7 +16,7 @@
                     <div class="col-sm-4 col-md-6 col-lg-3">
                         
                             <h6>Cartera</h6>
-                            <select wire:model='cartera_id' class="form-control">
+                            <select wire:model='cartera_id' class="form-select">
                                 <option value=null selected>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
                                 @if($item->tipo=="efectivo")

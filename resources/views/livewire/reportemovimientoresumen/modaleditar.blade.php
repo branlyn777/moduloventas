@@ -1,12 +1,12 @@
 <div wire:ignore.self id="modal-mov" class="modal fade" tabindex="1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
                     <b>GENERAR INGRESO / EGRESO</b>
                 </h5>
-                <button class="close" data-dismiss="modal" type="button" aria-label="Close">
-                    <span class="text-white">&times;</span>
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
