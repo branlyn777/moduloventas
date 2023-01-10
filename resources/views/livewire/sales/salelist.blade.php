@@ -330,11 +330,17 @@
                                                     <br>
                                                 @else
                                                     @if ($lv->totaldescuento < 0)
-                                                        <div style="color: rgb(250, 12, 12);"><b>Descuento Bs
-                                                                {{ $lv->totaldescuento }}</b></div>
+                                                        <div style="color: rgb(250, 12, 12);">
+                                                            <b>Descuento Bs
+                                                                {{ $lv->totaldescuento }}
+                                                            </b>
+                                                        </div>
                                                     @else
-                                                        <div style="color: #002df3;"><b>Recargo Bs
-                                                                {{ $lv->totaldescuento }}</b></div>
+                                                        <div style="color: #004666;">
+                                                            <b>Recargo Bs
+                                                                {{ $lv->totaldescuento }}
+                                                            </b>
+                                                        </div>
                                                     @endif
                                                 @endif
                                                 <b>Total Bs {{ $lv->totalbs }}</b>
@@ -385,11 +391,22 @@
                                                         <a href="javascript:void(0)" wire:click="modalcambiarusuario({{ $lv->codigo }})"
                                                             class="mx-3" title="Cambiar Usuario Vendedor">
                                                             <i class="fas fa-user-edit text-primary" aria-hidden="true"></i>
-                                                        </a>                                                                                                                                               
+                                                        </a>
+                                                        
+                                                        
+                                                        @if(\Carbon\Carbon::parse($lv->fechaventa)->format('d/m/Y') == \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d/m/Y'))
+
+
                                                         <a href="javascript:void(0)" wire:click="editsale({{ $lv->codigo }})"
                                                             class="mx-3" title="Editar Venta">
                                                             <i class="fas fa-edit text-default" aria-hidden="true"></i>
-                                                        </a>   
+                                                        </a>
+                                                        @endif
+                                                        
+                                                        
+
+
+
                                                         <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{ $lv->nombrecartera }}')"
                                                             class="mx-3" title="Anular Venta">
                                                             <i class="fas fa-trash text-danger" aria-hidden="true"></i>

@@ -31,15 +31,15 @@ class DatabaseSeeder extends Seeder
         $this->call(CajaSeeder::class);
         $this->call(CarteraSeeder::class);
         $this->call(CategorySeeder::class);
-        // $this->call(ProductSeeder::class);
-        // $this->call(ProductoDestinoSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ProductoDestinoSeeder::class);
         $this->call(CarteraMovCategoriaSeeder::class);
         $this->call(ProcedenciaClienteSeeder::class);
 
 
 
         //Factories
-        Product::factory(10)->create();
+        /* Product::factory(10)->create();
         // ProductosDestino::factory(10)->create()->each(function ($productodestino) {
         //     $productodestino->ingresoproductos()->create([
         //         'destino' => 1,
@@ -49,6 +49,6 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // });
         $this->call(ProductoDestino2Seeder::class);
-        Cliente::factory(1000)->create();
+        Cliente::factory(1000)->create(); */
     }
 }

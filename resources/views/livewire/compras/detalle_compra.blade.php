@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Lista de Compras </h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Registro de Compras </h6>
     </nav>
 @endsection
 
@@ -25,7 +25,7 @@
 @endsection
 
 
-@section('listacomprasnav')
+@section('registrarcomprasnav')
     "nav-link active"
 @endsection
 
@@ -37,6 +37,7 @@
 @section('listacomprasli')
     "nav-item active"
 @endsection
+
 
 <div>
     <div class="row">

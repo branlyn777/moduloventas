@@ -42,32 +42,30 @@
 <div>
     <div class="row">
         <div class="col-12">
-           
-                <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class=" text-white" style="font-size: 16px">Lista Productos</h5>
-                    </div>
 
-                    <div class="ms-auto my-auto mt-lg-1">
-                        <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal" wire:click='resetUI()'
-                                data-bs-target="#theModal">
-                                <i class="fas fa-plus me-2"></i> Nuevo Producto
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class=" text-white" style="font-size: 16px">Lista Productos</h5>
+                </div>
+
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        <a href="javascript:void(0)" class="btn btn-add mb-0" data-bs-toggle="modal"
+                            wire:click='resetUI()' data-bs-target="#theModal">
+                            <i class="fas fa-plus me-2"></i> Nuevo Producto
+                        </a>
+                        @can('Reportes_Inventarios_Export')
+                            <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
+                                {{-- <i class="fas fa-arrow-down"></i> --}} Importar
+                            </button>
+                            <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
+                                {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar
                             </a>
-                            @can('Reportes_Inventarios_Export')
-                                <button wire:click="$emit('modal-import')" type="button"
-                                    class="btn btn-light mb-0">
-                                    {{--<i class="fas fa-arrow-down"></i>--}} Importar
-                                </button>
-                                <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0"
-                                    type="button">
-                                    {{--<i class="fas fa-arrow-alt-circle-up"></i>--}} Exportar
-                                </a>
-                            @endcan
-                        </div>
+                        @endcan
                     </div>
                 </div>
-            
+            </div>
+
             <div class="card mb-4">
                 <div class="card-body m-0">
                     <div class="padding-left: 12px; padding-right: 12px;">
@@ -116,18 +114,39 @@
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Estado</label>
-                                <select wire:model='estados' class="form-select">
+                                <label style="font-size: 1rem">Filtrar por Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
+                                        role="switch" {{ $this->estados == true ? 'checked' : '' }}>
+                                    @if ($estados)
+                                        <label
+                                            style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Activos</label>
+                                    @else
+                                        <label
+                                            style="font-size: 16px;
+                                        font-weight: 400;
+                                        line-height: 1.7;
+                                        margin:0px 0.9rem;
+                                        align-self: left;
+                                        color: #525f7f;">Inactivos</label>
+                                    @endif
+                                </div><br>
+                                {{-- <select wire:model='estados' class="form-select">
                                     <option value="null" disabled>Estado</option>
                                     <option value="ACTIVO">Activo</option>
                                     <option value="INACTIVO">Inactivo</option>
-                                </select>
+                                </select> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -139,7 +158,8 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar Seleccionados</button>
+                        <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
+                            Seleccionados</button>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-0">
@@ -162,8 +182,8 @@
                                             <th class="text-uppercase text-sm">Categoría</th>
                                             <th class="text-uppercase text-sm">Sub Categoría</th>
                                             <th class="text-uppercase text-sm">Código</th>
-                                            <th class="text-uppercase text-sm">Precio</th>
-                                            <th class="text-uppercase text-sm">Costo</th>
+                                            <th class="text-uppercase text-sm text-center">Precio Activo</th>
+                                            <th class="text-uppercase text-sm text-center">Costo Activo</th>
                                             <th class="text-uppercase text-sm">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
@@ -184,7 +204,7 @@
                                                                 value="{{ $products->id }}">
                                                         </div>
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                            alt="hoodie" width="80">
+                                                            alt="hoodie" width="50">
                                                         <label style="font-size: 14px">{{ $products->nombre }}</label>
                                                     </div>
                                                 </td>
@@ -201,11 +221,11 @@
                                                 <td>
                                                     {{ $products->codigo }}
                                                 </td>
-                                                <td>
-                                                    {{ $products->precio_venta }}
+                                                <td class="text-center">
+                                                    {{ $products->precioActivo()==null?'--': $products->precioActivo()}}
                                                 </td>
-                                                <td>
-                                                    {{ $products->costo }}
+                                                <td class="text-center">
+                                                    {{ $products->costoActivo()==null?'--': $products->costoActivo()}}
                                                 </td>
 
                                                 <td>

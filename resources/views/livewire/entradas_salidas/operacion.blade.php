@@ -9,113 +9,124 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <label>Seleccione un tipo de operación:</label>
+                    @if ($nextpage != true)
+                        <div class="col-md-6">
+                            <label>Seleccione un tipo de operación:</label>
 
-                        <select wire:model='tipo_proceso' class="form-select">
-                            <option value="null" selected disabled>Elegir</option>
-                            <option value="Entrada">Entrada</option>
-                            <option value="Salida">Salida</option>
-                        </select>
-                        @error('tipo_proceso')
-                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione la
-                            ubicación:</label>
-                        <select wire:model='destino' class="form-select">
-                            <option value='Elegir' disabled>Elegir</option>
-                            @foreach ($destinosp as $item)
-                                <option value="{{ $item->destino_id }}">{{ $item->sucursal }}-{{ $item->destino }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('destino')
-                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
-                            concepto:</label>
-                        <select wire:model='concepto' class="form-select">
-                            <option value="Elegir" disabled selected>Elegir</option>
-                            @if ($tipo_proceso == 'Entrada')
-                                <option wire:key="foo" value='INGRESO'>Operaciones Varias</option>
-                                <option wire:key="bar" value="AJUSTE">Ajuste de inventarios
-                                </option>
-                            @else
-                                <option wire:key="gj" value="SALIDA">Operaciones Varias</option>
-                                <option wire:key="kl" value="AJUSTE">Ajuste de inventarios
-                                </option>
-                            @endif
+                            <select wire:model='tipo_proceso' class="form-select">
+                                <option value="null" selected disabled>Elegir</option>
+                                <option value="Entrada">Entrada</option>
+                                <option value="Salida">Salida</option>
+                            </select>
+                            @error('tipo_proceso')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
+                                concepto:</label>
+                            <select wire:model='concepto' class="form-select"
+                                {{ $tipo_proceso == null ? 'disabled=true' : '' }}>
+                                <option value="Elegir" disabled selected>Elegir</option>
+                                @if ($tipo_proceso == 'Entrada')
+                                    <option wire:key="foo" value='INGRESO'>Varios: Bonificaciones,etc</option>
+                                    <option wire:key="bar" value="AJUSTE">Ajuste de inventarios
+                                    </option>
+                                @else
+                                    <option wire:key="gj" value="SALIDA">Varios: Regalos,etc</option>
+                                    <option wire:key="kl" value="AJUSTE">Ajuste de inventarios
+                                    </option>
+                                @endif
 
 
-                            @if ($tipo_proceso == 'Entrada')
-                                <option value="INICIAL">Inventario Inicial</option>
-                            @endif
+                                @if ($tipo_proceso == 'Entrada')
+                                    <option value="INICIAL">Inventario Inicial</option>
+                                @endif
 
 
-                        </select>
-                        @error('concepto')
-                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                        @enderror
-                    </div>
+                            </select>
+                            @error('concepto')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione la
+                                ubicación:</label>
+                            <select wire:model='destino' class="form-select">
+                                <option value='Elegir' disabled>Elegir</option>
+                                @foreach ($destinosp as $item)
+                                    <option value="{{ $item->destino_id }}">{{ $item->sucursal }}-{{ $item->destino }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('destino')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
 
 
-                    <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)">Tipo de registro</label>
-                        <select wire:model='registro' class="form-select">
-                            <option value="Manual" selected>Registrar Manualmente</option>
-                            @if ($concepto == 'INICIAL')
-                                <option value="Documento">Subir Archivo</option>
-                            @endif
-                        </select>
 
-                        @if ($registro != 'Manual')
-                            <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
 
-                                <div>
 
-                                    {{ $archivo }}
-                                    <center>
-                                        <div wire:loading wire:target="archivo">
-                                            <div class="d-flex align-items-center">
-                                                <strong>Cargando Archivo, Espere por favor...</strong>
-                                                <div class="spinner-border ms-auto"></div>
+                        <div class="col-md-6 mb-2">
+                            <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Agregue una
+                                observación:</label>
+
+
+                            <textarea class="form-control" wire:model='observacion' cols="10" rows="1"></textarea>
+
+                            @error('observacion')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @else
+                        {{-- Proxima pagina del modal --}}
+                        <div class="col-md-5">
+                            <label style="color: rgb(74, 74, 74)">Tipo de registro</label>
+                            <select wire:model='registro' class="form-select">
+                                <option value="Manual" selected>Registrar Manual</option>
+                                @if ($concepto == 'INICIAL')
+                                    <option value="Documento">Registro Masivo (Subir Documento Excel)</option>
+                                @endif
+                            </select>
+
+                            @if ($registro == 'Documento')
+                                <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+
+                                    <div>
+
+                                        {{ $archivo }}
+                                        <center>
+                                            <div wire:loading wire:target="archivo">
+                                                <div class="d-flex align-items-center">
+                                                    <strong>Cargando Archivo, Espere por favor...</strong>
+                                                    <div class="spinner-border ms-auto"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </center>
+                                        </center>
 
-                                </div>
-                                <input type="file" name="import_file" wire:model="archivo" />
-
-
-                            </form>
-                        @endif
-                    </div>
-
-                    <div class="col-md-6">
-                        <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Agregue una
-                            observación:</label>
+                                    </div>
+                                    <label for="">Archivo Seleccionado</label>
+                                    <input type="file" class="form-control" name="import_file" wire:model="archivo" />
 
 
-                        <textarea class="form-control" wire:model='observacion' cols="10" rows="3"></textarea>
+                                </form>
+                            @endif
+                        </div>
 
-                        @error('observacion')
-                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                        @enderror
-                    </div>
+
+                    @endif
+
+
 
 
 
 
                 </div>
 
-                @if ($registro == 'Manual')
+                @if ($registro == 'Manual' and $nextpage == true)
 
                     <div class="row mt-4">
 
@@ -136,13 +147,15 @@
                                                 <i class="fas fa-times"></i>
                                             </button>
                                             @error('result')
-                                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                                <span class="text-danger er"
+                                                    style="font-size: 0.8rem">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     @else
                                         <input wire:model="searchproduct" class="form-control">
                                         @error('result')
-                                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                            <span class="text-danger er"
+                                                style="font-size: 0.8rem">{{ $message }}</span>
                                         @enderror
                                     @endif
 
@@ -223,20 +236,20 @@
                     </div>
 
                 @endif
-
-                <div class="row">
-                    @if (count($col) > 0)
+                {{-- lista de productos de la operacion si no es un documento de excel --}}
+                @if ($nextpage == true)
+                    <div class="row">
                         <div class="card-body p-4">
                             <div class="title">
-                                <h6 class="text-center">Detalle Operación</h6>
+                                <h6 class="text-left">Lista de Productos</h6>
+                                <hr style="height: 3px; background-color: black">
                             </div>
                             <div class="table-responsive">
-
 
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">#</th>
+                                            <th class="text-center">N°</th>
                                             <th>Producto</th>
                                             @if ($tipo_proceso != 'Salida')
                                                 <th class="text-center">Costo</th>
@@ -247,57 +260,75 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($col as $key => $value)
-                                            <tr>
-                                                <td class="text-center">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td>
-                                                    <h6>{{ $value['product-name'] }}</h6>
-                                                </td>
+                                        
+                                @if (count($col) > 0)
+                                @foreach ($col as $key => $value)
+                                    <tr>
+                                        <td class="text-center">
+                                            {{ $loop->iteration }}
+                                        </td>
+                                        <td>
+                                           {{ $value['product-name'] }}
+                                        </td>
 
-                                                @if ($tipo_proceso != 'Salida')
-                                                    <td class="text-center">
-                                                        <h6>{{ $value['costo'] }}</h6>
-                                                    </td>
-                                                @endif
+                                        @if ($tipo_proceso != 'Salida')
+                                            <td class="text-center">
+                                           {{ $value['costo'] }}
+                                            </td>
+                                        @endif
 
-                                                <td class="text-center">
-                                                    <h6>{{ $value['cantidad'] }}</h6>
-                                                </td>
-                                                <td class="text-center">
+                                        <td class="text-center">
+                                          {{ $value['cantidad'] }}
+                                        </td>
+                                        <td class="text-center">
 
 
-                                                    <a type="button" wire:key="{{ $loop->index }}"
-                                                        wire:click="eliminaritem({{ $value['product_id'] }})"
-                                                        class="mx-3" title="Quitar producto de la lista">
-                                                        <i class="fas fa-times text-danger"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            <a type="button" wire:key="{{ $loop->index }}"
+                                                wire:click="eliminaritem({{ $value['product_id'] }})"
+                                                class="mx-3" title="Quitar producto de la lista">
+                                                <i class="fas fa-times text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="row justify-content-center align-items-center mx-auto my-5">
+
+                                           <label class="text-center">S/N ITEMS</label> 
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                                     </tbody>
                                 </table>
 
 
                             </div>
                         </div>
-                    @endif
-                </div>
+                @endif
+            </div>
+            {{-- fin  lista de productos de la operacion --}}
 
 
 
-                <div class="modal-footer">
-                    <button type="button" wire:click="Exit()" class="btn btn-secondary close-btn"
-                        data-bs-dismiss="modal">Cancelar</button>
+            <div class="modal-footer">
+                <button type="button" wire:click="Exit()" class="btn btn-secondary close-btn"
+                    data-bs-dismiss="modal">Cancelar</button>
 
+                @if ($nextpage == false)
+                    <button type="button" wire:click="ValidarDatos()"
+                        class="btn btn-primary close-btn">Siguiente</button>
+                @else
                     <button type="button" wire:click="GuardarOperacion()"
                         class="btn btn-primary close-btn">Guardar</button>
-
-                </div>
+                @endif
 
             </div>
 
         </div>
+
     </div>
+</div>
 </div>

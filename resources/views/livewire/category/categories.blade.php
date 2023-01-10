@@ -42,21 +42,22 @@
 <div>
     <div class="row">
         <div class="col-12">
-           
-                <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class=" text-white" style="font-size: 16px">Categorías</h5>
-                    </div>
 
-                    <div class="ms-auto my-auto mt-lg-1">
-                        <div class="ms-auto my-auto">
-                            <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal" wire:click="resetUI()">
-                                <i class="fas fa-plus"></i> Agregar Categoría</a>
-                        </div>
-                    </div>
-
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class=" text-white" style="font-size: 16px">Categorías</h5>
                 </div>
-            
+
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal"
+                            wire:click="resetUI()">
+                            <i class="fas fa-plus"></i> Agregar Categoría</a>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
@@ -72,7 +73,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="ms-auto my-auto mt-lg-0 col-md-2">
                                 <div class="ms-auto my-auto">
                                     <label style="font-size: 1rem">Estado</label>
@@ -88,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">

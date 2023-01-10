@@ -107,12 +107,12 @@
                                 <span class="sidenav-normal"> Procedencia Clientes </span>
                             </a>
                         </li>
-                        <li class=@yield('cortecajali', 'nav-item ')>
+                        {{-- <li class=@yield('cortecajali', 'nav-item ')>
                             <a class=@yield('cortecajanav', 'nav-link ') href="{{ url('cortecajas') }}">
                                 <span class="sidenav-mini-icon"> C </span>
                                 <span class="sidenav-normal"> Corte de Caja </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>
@@ -219,6 +219,12 @@
                 <div class=@yield('Comprasshow', 'collapse ') id="componentsExamples">
                     <ul class="nav ms-4">
                         <li class=@yield('listacomprasli', 'nav-item ')>
+                            <a class=@yield('registrarcomprasnav', 'nav-link ') href="{{ url('detalle_orden_compras') }}">
+                                <span class="sidenav-mini-icon"> L </span>
+                                <span class="sidenav-normal"> Registrar Compra </span>
+                            </a>
+                        </li>
+                        <li class=@yield('listacomprasli', 'nav-item ')>
                             <a class=@yield('listacomprasnav', 'nav-link ') href="{{ url('compras') }}">
                                 <span class="sidenav-mini-icon"> L </span>
                                 <span class="sidenav-normal"> Lista de Compras </span>
@@ -296,12 +302,12 @@
                 </a>
                 <div class=@yield('Reportesshow', 'collapse ') id="componentsExamples4">
                     <ul class="nav ms-4">
-                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
+                        {{-- <li class=@yield('movimientodiarioventasli', 'nav-item ')>
                             <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal">Movimiento Diario Ventas</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <ul class="nav ms-4">
                         <li class=@yield('productosmasvendidosli', 'nav-item ')>
@@ -330,8 +336,8 @@
             </li>
 
             <ul class="nav ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('ingresoegreso') }}">
+                <li class=@yield('nuevoIngresoE', 'nav-item ')>
+                    <a class=@yield('nuevoIngresoEg', 'nav-link ') href="{{ url('ingresoegreso') }}">
                         <span class="sidenav-mini-icon"> G </span>
                         <span class="sidenav-normal">Nuevo I/G</span>
                     </a>
@@ -339,8 +345,8 @@
             </ul>
 
             <ul class="nav ms-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('carteramovcategoria') }}">
+                <li class=@yield('categoriaIE', 'nav-item ')>
+                    <a class=@yield('categoriaEI', 'nav-link ') href="{{ url('carteramovcategoria') }}">
                         <span class="sidenav-mini-icon"> C </span>
                         <span class="sidenav-normal">Categorias I/G </span>
                     </a>

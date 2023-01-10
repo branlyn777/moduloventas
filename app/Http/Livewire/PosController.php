@@ -92,6 +92,8 @@ class PosController extends Component
     public $procedencia_cliente_id;
     //Guarda el id Destino de donde se sacaran las ventas
     public $destino_id;
+    //variable para guardar el id de caja abierta
+    public $caja_abierta_id;
 
 
     use WithPagination;
@@ -101,6 +103,29 @@ class PosController extends Component
     }
     public function mount()
     {
+
+        /* Caja en la cual se encuentra el usuario */
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+        ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+        ->join('carteras as car', 'cajas.id', 'car.caja_id')
+        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+        ->where('mov.user_id', Auth()->user()->id)
+        ->where('mov.status', 'ACTIVO')
+        ->where('mov.type', 'APERTURA')
+        ->select('cajas.id as id')
+        ->get();
+
+
+        if($cajausuario->count() > 0)
+        {
+            $this->corte_caja = true;
+            $this->caja_abierta_id = $cajausuario->first()->id;
+        }
+        else
+        {
+            $this->corte_caja = false;
+        }
 
         $this->destino_id = DestinoSucursal::where("destino_sucursals.sucursal_id",$this->idsucursal())->first()->destino_id;
 
@@ -145,9 +170,12 @@ class PosController extends Component
         ->select('cajas.id as id')
         ->get();
 
+        
+
         if($cajausuario->count() > 0)
         {
             $this->corte_caja = true;
+            $this->caja_abierta_id = $cajausuario->first()->id;
         }
         else
         {
@@ -707,16 +735,28 @@ class PosController extends Component
     //Listar las Carteras disponibles en su corte de caja
     public function listarcarteras()
     {
-        $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
-        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
-        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
-        ->where('cajas.estado', 'Abierto')
-        ->where('mov.user_id', Auth()->user()->id)
-        ->where('mov.status', 'ACTIVO')
-        ->where('mov.type', 'APERTURA')
-        ->where('cajas.sucursal_id', $this->idsucursal())
-        ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc','car.tipo as tipo')
+
+
+
+        // $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
+        // ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+        // ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+        // ->where('cajas.estado', 'Abierto')
+        // ->where('mov.user_id', Auth()->user()->id)
+        // ->where('mov.status', 'ACTIVO')
+        // ->where('mov.type', 'APERTURA')
+        // ->where('cajas.sucursal_id', $this->idsucursal())
+        // ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc','car.tipo as tipo')
+        // ->get();
+
+
+        $carteras = Cartera::select('carteras.id as idcartera', 'carteras.nombre as nombrecartera', 'carteras.descripcion as dc','carteras.tipo as tipo')
+        ->where("carteras.caja_id", $this->caja_abierta_id)
         ->get();
+
+
+
+
         return $carteras;
     }
     //Listar las carteras generales
@@ -742,7 +782,7 @@ class PosController extends Component
         $this->dinero_recibido = "";
         foreach($this->listarcarteras() as $list)
         {
-            if($list->tipo == 'CajaFisica')
+            if($list->tipo == "efectivo")
             {
                 $this->cartera_id = $list->idcartera;
                 break;

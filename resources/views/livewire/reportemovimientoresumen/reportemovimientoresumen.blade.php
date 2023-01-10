@@ -1,6 +1,6 @@
 <div>
     <div class="row mt-n6 ml-5">
-        <div class="col-12 text-left text-white">
+        <div class="col-12 text-white">
             <h5 class="text-center text-white">
                 Movimientos Diarios
             </h5>
@@ -61,63 +61,33 @@
 
             </div>
         </div>
-
-
-    </ul>
-    <ul class="row justify-content-end">
-
-        {{--
-        <button wire:click="viewDetailsR()" class="boton-azul-g">
-            Generar Recaudo
-        </button> --}}
-        <div class="col-md-2">
-
-            <button
-                wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
-                class="btn btn-secondary">
-                <i class="fas fa-print"></i> Generar PDF
-            </button>
+        <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+                <b style="color: #5e72e4;">|</b>
+                <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
+                    class="btn btn-secondary form-control">
+                    <i class="fas fa-print"></i> Generar PDF
+                </button>
+            </div>
         </div>
 
 
     </ul>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table align-items-center mb-0">
+            <div class="table-responsive p-0">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    #
-                                </p>
-                            </th>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    FECHA
-                                </p>
-                            </th>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    DETALLE
-                                </p>
-                            </th>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    INGRESO
-                                </p>
-                            </th>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    EGRESO
-                                </p>
-                            </th>
-                            <th>
-                                <p class="text-xs mb-0">
-                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        UTILIDAD
-                                    @endif
-                                </p>
+                            <th class="text-uppercase text-sm text-center">#</th>
+                            <th class="text-uppercase text-sm">FECHA</th>
+                            <th class="text-uppercase text-sm">DETALLE</th>
+                            <th class="text-uppercase text-sm">INGRESO</th>
+                            <th class="text-uppercase text-sm">EGRESO</th>
+                            <th class="text-uppercase text-sm">
+                                @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                UTILIDAD
+                                @endif
                             </th>
                         </tr>
                     </thead>
@@ -125,23 +95,22 @@
 
                         @foreach ($totalesIngresosV as $p)
                             <tr>
-                                <td>
+                                <td class="text-sm text-center">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td>
+                                <td class="text-sm px-4">
                                     {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                 </td>
-
-                                <td>
+                                <td class="text-sm px-4">
                                     <b>{{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
                                 </td>
-                                <td>
+                                <td class="text-sm px-4">
                                     {{ number_format($p->importe, 2) }}
                                 </td>
                                 <td>
 
                                 </td>
-                                <td>
+                                <td class="text-sm px-4">
                                     @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         {{ number_format($p->utilidadventa, 3) }}
                                     @endif
@@ -153,26 +122,38 @@
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <table>
+                                    <table style="width: 100%">
                                         <thead class="cabeza">
                                             <tr class="text-center">
                                                 <td>
-                                                    Nombre
+                                                    <p class="text-sm mb-0 text-center">
+                                                        <b>Nombre</b>
+                                                    </p>
                                                 </td>
                                                 <td>
-                                                    Precio Original
+                                                    <p class="text-sm mb-0">
+                                                        <b>Precio Original</b>
+                                                    </p>
                                                 </td>
                                                 <td>
-                                                    Desc/Rec
+                                                    <p class="text-sm mb-0">
+                                                        <b>Desc/Rec</b>
+                                                    </p>
                                                 </td>
                                                 <td>
-                                                    Precio Venta
+                                                    <p class="text-sm mb-0">
+                                                        <b>Precio Venta</b>
+                                                    </p>
                                                 </td>
                                                 <td>
-                                                    Cantidad
+                                                    <p class="text-sm mb-0">
+                                                        <b>Cantidad</b>
+                                                    </p>
                                                 </td>
                                                 <td>
-                                                    Total
+                                                    <p class="text-sm mb-0">
+                                                        <b>Total</b>
+                                                    </p>
                                                 </td>
                                             </tr>
                                         </thead>
@@ -184,23 +165,25 @@
                                                         {{-- {{$item['nombre']}} --}}
                                                         {{ substr($item->nombre, 0, 17) }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-sm px-4">
                                                         {{ number_format($item->po, 2) }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-sm px-4">
                                                         @if ($item->po - $item->pv == 0)
                                                             {{ $item->po - $item->pv }}
                                                         @else
                                                             {{ ($item->po - $item->pv) * -1 }}
                                                         @endif
                                                     </td>
-                                                    <td>
+                                                    <td class="text-sm px-4">
                                                         {{ number_format($item->pv, 2) }}
                                                     </td>
-                                                    <td>
-                                                        {{ $item->cant }}
+                                                    <td class="text-sm px-4">
+                                                        <p class="text-sm px-3">
+                                                            {{ $item->cant }}
+                                                        </p>
                                                     </td>
-                                                    <td>
+                                                    <td class="text-sm px-4">
                                                         {{ number_format($item->pv * $item->cant, 2) }}
                                                     </td>
                                                 </tr>
@@ -360,23 +343,23 @@
                         <tr>
                             <td colspan="3">
                                 <h5 class="text-dark text-center" style="font-size: 1rem!important;">
-                                    <p class="text-xs mb-0">
+                                    <p class="text-sm mb-0">
                                         <b> Totales.- </b>
                                     </p>
                                 </h5>
                             </td>
                             <td class="text-right">
-                                <p class="text-xs mb-0">
+                                <p class="text-sm mb-0">
                                     <b>{{ number_format($subtotalesIngresos, 2) }}</b>
                                 </p>
                             </td>
                             <td class="text-right">
-                                <p class="text-xs mb-0">
+                                <p class="text-sm mb-0">
                                     <b>{{ number_format($EgresosTotales, 2) }}</b>
                                 </p>
                             </td>
                             <td class="text-right">
-                                <p class="text-xs mb-0">
+                                <p class="text-sm mb-0">
                                     @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         <b>{{ number_format($totalutilidadSV, 2) }}</b>
                                     @endif

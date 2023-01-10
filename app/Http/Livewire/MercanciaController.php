@@ -33,7 +33,7 @@ class MercanciaController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,
-    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete;
+    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete,$nextpage;
     private $pagination = 15;
 
     public function paginationView()    
@@ -49,6 +49,7 @@ class MercanciaController extends Component
         $this->destino = 'Elegir';
         $this->concepto ="Elegir";
         $this->tipo_de_operacion="Entrada";
+        $this->nextpage = false;
       
     // $this->limpiarstock();
     // $this->buscarproducto();
@@ -596,21 +597,7 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
                    
                 }
             }
-            $rules = [
-                'destino' => 'required|not_in:Elegir',
-                'observacion' => 'required',
-                'concepto' => 'required|not_in:Elegir'
-            ];
-    
-            $messages = [
-                'destino.required'=> 'El destino del producto es requerido',
-                'concepto.required'=> 'El concepto es un dato requerido',
-                'destino.not_in' => 'Elija una ubicacion del producto.',
-                'concepto.not_in' => 'Elija un concepto diferente.',
-                'observacion.required' => 'Agregue una observacion',
-            ];
-    
-            $this->validate($rules, $messages);
+          
             
             if ($this->tipo_proceso == 'Entrada') {
                     DB::beginTransaction();
@@ -760,6 +747,7 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
         $this->concepto= 'Elegir';
         $this->registro= "Manual";
         $this->destino= 'Elegir';
+        $this->nextpage=false;
         $this->reset([
         'costo'
         ,'destinosucursal'
@@ -927,6 +915,25 @@ public function eliminar_registro_total()
     $del->delete();
    
 
+}
+
+public function ValidarDatos(){
+    $rules = [
+        'destino' => 'required|not_in:Elegir',
+        'observacion' => 'required',
+        'concepto' => 'required|not_in:Elegir'
+    ];
+
+    $messages = [
+        'destino.required'=> 'El destino del producto es requerido',
+        'concepto.required'=> 'El concepto es un dato requerido',
+        'destino.not_in' => 'Elija una ubicacion del producto.',
+        'concepto.not_in' => 'Elija un concepto diferente.',
+        'observacion.required' => 'Agregue una observacion',
+    ];
+
+    $this->validate($rules, $messages);
+    $this->nextpage=true;
 }
 
 

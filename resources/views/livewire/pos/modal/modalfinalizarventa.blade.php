@@ -21,13 +21,33 @@
                         <div style="padding: 10px;">
                             <div class="row">
                                 @foreach ($denominations as $d)
-                                    <div class="col-sm-4 mt-1 px-1">
-                                        <button wire:click.prevent="sumar({{ $d->value }})" class="btn btn-primary" style="width: 100%">
-                                            <p class="text-xs mb-0">
-                                                {{ $d->value > 0 ? 'Bs '. number_format($d->value, 2, '.', '') : 'Exacto'}}
-                                            </p>
-                                        </button>
-                                    </div>
+
+
+
+                                    @if($d->value > 0)
+                                    
+                                        <div class="col-sm-4 mt-1 px-1">
+                                            <button wire:click.prevent="sumar({{ $d->value }})" class="btn btn-primary" style="width: 100%">
+                                                <p class="text-xs mb-0">
+                                                    {{ number_format($d->value, 2, '.', '')}}
+                                                </p>
+                                            </button>
+                                        </div>
+
+                                    @else
+
+                                        <div class="col-sm-4 mt-1 px-1">
+                                            <button wire:click.prevent="sumar({{ $d->value }})" class="btn btn-success" style="width: 100%">
+                                                <p class="text-xs mb-0">
+                                                    Exacto
+                                                </p>
+                                            </button>
+                                        </div>
+
+                                    @endif
+
+
+
                                 @endforeach
                                     
                                     
@@ -106,11 +126,18 @@
                 <div class="col-4 text-center">
                     @if ($dinero_recibido >= $total_bs && $total_bs>0)
                         <div wire:loading.remove>
-                            <button wire:click.prevent="savesale()" type="button" class="btn btn-primary">
+
+
+                            <button wire:click.prevent="savesale()" class="btn btn-add mb-0" style="background-color: #2e48dc; color: white;">
                                 <p class="text-sm mb-0">
                                     Vender
                                 </p>
                             </button>
+
+
+
+
+
                         </div>
 
                         <div id="preloader_3" wire:loading>
