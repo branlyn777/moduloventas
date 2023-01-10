@@ -18,7 +18,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    {{-- <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Tipo</label>
             <select wire:model='tipo' class="form-select">
@@ -30,7 +30,7 @@
                 <span class="text-danger er">{{ $message }}</span>
             @enderror
         </div>
-    </div>
+    </div> --}}
     @if ($variable == 1)
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
@@ -42,7 +42,7 @@
             </div>
         </div>
     @endif
-    @if ($this->mostrar_caja)
+    {{-- @if ($this->mostrar_caja)
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Caja</label>
@@ -57,6 +57,6 @@
             @enderror
         </div>
     </div>
-    @endif
+    @endif --}}
 </div>
 @include('common.modalFooter')
