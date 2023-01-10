@@ -22,7 +22,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <h6>Cartera</h6>
-                            <select wire:model='cartera_id' class="form-control">
+                            <select wire:model='cartera_id' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
                                     <option value="{{ $item->id }}">{{ $item->cajaNombre }},
@@ -39,7 +39,7 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <h6>Ingreso / Egreso</h6>
-                            <select wire:model='type' class="form-control">
+                            <select wire:model='type' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 <option value="EGRESO">EGRESO</option>
                                 <option value="INGRESO">INGRESO</option>
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             @if ($this->type != 'Elegir')
                                 <h6>Categoria</h6>
-                                <select wire:model='categoria_ie_id' class="form-control">
+                                <select wire:model='categoria_ie_id' class="form-select">
                                     <option value="Elegir" selected disabled>Elegir</option>
                                     @foreach ($categorias_ie as $c)
                                         <option value="{{ $c->id }}">{{ $c->nombre }}</option>

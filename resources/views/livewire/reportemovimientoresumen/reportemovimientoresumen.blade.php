@@ -1,4 +1,6 @@
 <div>
+    <br>
+    <br>
     <div class="row mt-n6 ml-5">
         <div class="col-12 text-white">
             <h5 class="text-center text-white">
@@ -7,72 +9,98 @@
         </div>
     </div>
 
-    <ul class="row justify-content-start">
-        <div class="col-sm-12 col-md-2">
 
-            @can('Reporte_Movimientos_General')
-                <div class="form-group">
-                    <b class="text-white">Sucursal</b>
-                    <select wire:model="sucursal" class="form-select">
-                        @foreach ($sucursales as $item)
-                            <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->name }}
-                            </option>
-                        @endforeach
-                        <option value="TODAS">TODAS</option>
 
-                    </select>
+    <br>
 
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-2">
+
+                    @can('Reporte_Movimientos_General')
+                        <div class="form-group">
+                            <b class="">Sucursal</b>
+                            <select wire:model="sucursal" class="form-select">
+                                @foreach ($sucursales as $item)
+                                    <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->name }}
+                                    </option>
+                                @endforeach
+                                <option value="TODAS">TODAS</option>
+                            </select>
+                        </div>
+                    @endcan
+        
                 </div>
-            @endcan
-
-        </div>
-        <div class="col-sm-12 col-md-2">
-            <div class="form-group">
-                <b class="text-white">Caja</b>
-                <select wire:model="caja" class="form-select">
-                    @foreach ($cajas as $item)
-                        <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->nombre }}
-                        </option>
-                    @endforeach
-                    <option value="TODAS">TODAS</option>
-
-                </select>
-
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+                        <b class="">Caja</b>
+                        <select wire:model="caja" class="form-select">
+                            @foreach ($cajas as $item)
+                                <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->nombre }}
+                                </option>
+                            @endforeach
+                            <option value="TODAS">TODAS</option>
+        
+                        </select>
+        
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+        
+                        <b class="">Fecha inicial</b>
+        
+                        <input type="date" wire:model="fromDate" class="form-control">
+                        @error('fromDate')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+                        <b class="">Fecha Final</b>
+                        <input type="date" wire:model="toDate" class="form-control">
+                        @error('toDate')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+        
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+                        <b style="color: #ffffff;">|</b>
+                        <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
+                            class="btn btn-secondary form-control">
+                            <i class="fas fa-print"></i> Generar PDF
+                        </button>
+                    </div>
+                </div>
             </div>
+
+
+
+
+    
+    
+        
         </div>
-        <div class="col-sm-12 col-md-2">
-            <div class="form-group">
+    </div>
 
-                <b class="text-white">Fecha inicial</b>
-
-                <input type="date" wire:model="fromDate" class="form-control">
-                @error('fromDate')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-            <div class="form-group">
-                <b class="text-white">Fecha Final</b>
-                <input type="date" wire:model="toDate" class="form-control">
-                @error('toDate')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-2">
-            <div class="form-group">
-                <b style="color: #5e72e4;">|</b>
-                <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
-                    class="btn btn-secondary form-control">
-                    <i class="fas fa-print"></i> Generar PDF
-                </button>
-            </div>
-        </div>
+    <br>
 
 
-    </ul>
+
+
+
+
+
+
+
+
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive p-0">
@@ -382,64 +410,58 @@
 
                         <tr>
                             <td>
-                                <h5 class="text-center">Ingresos en Efectivo</h5>
+                                Ingresos en Efectivo
                             </td>
                             <td class="ml-2">
-                                <h5 class="text-center">{{ number_format($ingresosTotalesCF, 2) }}</h5>
+                                {{ number_format($ingresosTotalesCF, 2) }}
                             </td>
                         </tr>
 
 
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center"> Ingresos por Bancos</h5>
+                                Ingresos por Bancos
                             </td>
                             <td class="ml-2">
-                                <h5 class="text-dark text-center">
-                                    {{ number_format($this->ingresosTotalesNoCFBancos, 2) }}
-                                </h5>
+                                {{ number_format($this->ingresosTotalesNoCFBancos, 2) }}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center m-0">Ingresos Totales</h5>
+                                Ingresos Totales
                             </td>
                             <td>
                                 <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                <h5 class="text-dark text-center m-0">{{ number_format($subtotalesIngresos, 2) }}
-                                </h5>
+                                {{ number_format($subtotalesIngresos, 2) }}
                             </td>
                         </tr>
 
 
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center"> Egresos Totales en Efectivo</h5>
+                                Egresos Totales en Efectivo
                             </td>
                             <td>
-                                <h5 class="text-dark text-center m-0">{{ number_format($EgresosTotalesCF, 2) }} </h5>
-
-
+                                {{ number_format($EgresosTotalesCF, 2) }}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center"> Saldo Ingresos/Egresos Totales </h5>
+                                Saldo Ingresos/Egresos Totales
                             </td>
                             <td>
                                 <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                <h5 class="text-dark text-center m-0"> {{ number_format($subtotalcaja, 2) }}</h5>
+                                {{ number_format($subtotalcaja, 2) }}
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center"> Saldo en Efectivo Hoy</h5>
+                                Saldo en Efectivo Hoy
                             </td>
                             <td>
-                                <h5 class="text-dark text-center m-0"> {{ number_format($operacionesefectivas, 2) }}
-                                </h5>
+                                {{ number_format($operacionesefectivas, 2) }}
                             </td>
                         </tr>
                         {{-- <tr>
@@ -454,10 +476,10 @@
                         </tr> --}}
                         <tr>
                             <td>
-                                <h5 class="text-dark text-center"> Saldo Acumulado Dia Ant. </h5>
+                                Saldo Acumulado Dia Ant.
                             </td>
                             <td>
-                                <h5 class="text-dark text-center m-0">{{ number_format($ops, 2) }} </h5>
+                                {{ number_format($ops, 2) }}
                             </td>
                         </tr>
 
@@ -468,7 +490,7 @@
                             </td>
                             <td>
                                 <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                <h5 class="text-dark text-center"> {{ number_format($operacionesW, 2) }}</h5>
+                                {{ number_format($operacionesW, 2) }}
                             </td>
                         </tr>
 
@@ -485,11 +507,10 @@
 
                             <tr class="p-5">
                                 <td>
-                                    <h5 class="text-dark text-center"> Recaudo </h5>
+                                    Recaudo
                                 </td>
                                 <td>
-                                    <h5 class="text-dark text-center m-0"> {{ number_format($op_recaudo, 2) }}</h5>
-
+                                    {{ number_format($op_recaudo, 2) }}
                                 </td>
 
                             </tr>
@@ -498,23 +519,20 @@
 
                                 @foreach ($op_sob_falt as $values)
                                     <td>
-                                        <h5 class="text-dark text-center"> {{ $values->tipo_sob_fal }} </h5>
+                                        {{ $values->tipo_sob_fal }}
                                     </td>
                                     <td>
-                                        <h5 class="text-dark text-center m-0"> {{ number_format($values->import, 2) }}
-                                        </h5>
-
+                                        {{ number_format($values->import, 2) }}
                                     </td>
                                 @endforeach
 
                             </tr>
                             <tr class="p-5">
                                 <td>
-                                    <h5 class="text-dark text-center"> Nuevo Saldo Caja Fisica </h5>
+                                    Nuevo Saldo Caja Fisica
                                 </td>
                                 <td>
-                                    <h5 class="text-dark text-center m-0"> {{ number_format($operacionesZ, 2) }}</h5>
-
+                                    {{ number_format($operacionesZ, 2) }}
                                 </td>
 
                             </tr>
