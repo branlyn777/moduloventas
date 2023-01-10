@@ -47,16 +47,24 @@
 
             <div class="d-lg-flex">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px">Lista de Roles</h5>
+                    <h5 class="text-white" style="font-size: 16px">Nueva Venta</h5>
                 </div>
-
-                <div class="ms-auto my-auto mt-lg-1">
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-add mb-0" wire:click="Agregar()">
-                            <i class="fas fa-plus me-2"></i> Nuevo Rol</a>
+
+                        
+                        <button wire:click="modalbuscarcliente()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
+                            Nuevo Usuario</button>
+
                     </div>
                 </div>
             </div>
+           
+
+
+
+
+
             <br>
             <div class="card">
                 <div class="card-body">

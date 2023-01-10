@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-            color: rgb(0, 0, 0); */
+                color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                border-top: 0.3px solid rgb(0, 0, 0);
-            } */
+                    border-top: 0.3px solid rgb(0, 0, 0);
+                } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -305,7 +305,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Editar Venta N° {{ session('venta_id') }}</h6>
+        <h6 class="font-weight-bolder mb-0 text-white"> Editar Venta</h6>
     </nav>
 @endsection
 
@@ -332,10 +332,14 @@
         <div class="col-12">
 
             <div class="d-lg-flex">
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Editar Venta N° {{ session('venta_id') }}</h5>
+                </div>
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
 
-                        <button wire:click="modalbuscarcliente()" type="button" class="btn btn-outline-dark"  style="background-color: #2e48dc; color: white">
+                        <button wire:click="modalbuscarcliente()" type="button" class="btn btn-outline-dark"
+                            style="background-color: #2e48dc; color: white">
                             <i class="fas fa-plus me-2"></i>
                             Buscar/Crear Cliente
                         </button>
@@ -343,6 +347,15 @@
                 </div>
 
             </div>
+     
+
+
+
+
+
+
+
+
 
             <br>
 
@@ -392,26 +405,25 @@
             </div>
             <div class="form-group">
                 <div class="row">
-
-
                     <div class="col-12 col-sm-6 col-md-4">
 
-                        <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 500px;">
+                        <div class="card  p-3"" style="min-height: 500px;">
                             <div class="form-group">
                                 <div class="input-group mb-4">
-                                    <span style="background-color: #5e72e4; color: white" class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <span style="background-color: #5e72e4; color: white" class="input-group-text"><i
+                                            class="fa fa-search"></i></span>
                                     <input id="code" type="text" style="padding-left: 10px;"
                                         wire:keydown.enter.prevent="$emit('scan-code',$('#code').val())"
                                         wire:model="buscarproducto" class="form-control "
                                         placeholder="Escanear o Buscar Producto..." autofocus>
                                 </div>
                             </div>
-    
-    
+
+
                             <div class="caja">
                                 @if (strlen($this->buscarproducto) > 0)
-    
-    
+
+
                                     <div class="">
                                         <div class="">
                                             <div class="table-wrapper">
@@ -440,11 +452,13 @@
                                                                         {{ $p->precio_venta }} Bs
                                                                     </p>
                                                                 </td>
-                                                                <td class="text-center">
-                                                                    <a href="javascript:void(0)" title="Añadir al Carrito de Ventas"
-                                                                    wire:click="insert({{ $p->id }})">
-                                                                    <i class="fas fa-plus text-primary"></i>
-                                                                    </a>
+                                                                <td class="text-center">                                                                 
+                                                                    <button title="Incrementar una unidad"
+                                                                            wire:click.prevent="insert({{ $p->id }})"
+                                                                            class="btn btn-primary"
+                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -453,11 +467,11 @@
                                             </div>
                                         </div>
                                     </div>
-    
+
                                     {{ $listaproductos->links() }}
                                 @else
                                     <div>
-    
+
                                         <br>
                                         <br>
                                         <br>
@@ -481,14 +495,14 @@
                                         <br>
                                         <br>
                                     </div>
-    
-    
+
+
                                 @endif
                             </div>
                         </div>
 
 
-                       
+
 
 
 
@@ -502,7 +516,7 @@
                     <div class="col-12 col-sm-6 col-md-8">
 
 
-                        <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 555px;">
+                        <div class="card p-3" style="min-height: 555px;">
 
                             <div>
                                 @if ($this->total_items > 0)
@@ -511,49 +525,27 @@
                                             <div class="table-wrapper">
                                                 <table>
                                                     <thead>
-                                                        <tr class="text-center">
-                                                            <th>
-                                                                No
-                                                            </th>
-                                                            <th>
-                                                                <p class="text-sm mb-0">
-                                                                    <b>DESCRIPCION</b>
-                                                                </p>
-                                                            </th>
-                                                            <th>
-                                                                <p class="text-sm mb-0">
-                                                                    <b>PRECIO</b>
-                                                                </p>
-                                                            </th>
-                                                            <th>
-                                                                <p class="text-sm mb-0">
-                                                                    <b>CANTIDAD</b>
-                                                                </p>
-                                                            </th>
-                                                            <th>
-                                                                <p class="text-sm mb-0">
-                                                                    <b>IMPORTE</b>
-                                                                </p>
-                                                            </th>
-                                                            <th>
-                                                                <p class="text-sm mb-0">
-                                                                    <b>ACCIONES</b>
-                                                                </p>
-                                                            </th>
+                                                        <tr>
+                                                            <th class="text-uppercase text-sm text-center">Nº</th>                                                       
+                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>DESCRIPCION</b></th>                                                       
+                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b></th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>CANTIDAD</b></th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b></th>
+                                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($this->carrito_venta->sortBy('order') as $c)
-                                                            <tr>
-                                                                <td>
+                                                            <tr class="text-left">
+                                                                <td class="text-sm mb-0 text-center">
                                                                     {{ $c['order'] }}
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-sm mb-0 text-left">
                                                                     <p class="text-sm mb-0">
                                                                         {{ $c['name'] }}
                                                                     </p>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-sm mb-0 text-left">
                                                                     <div class="input-group"
                                                                         style="min-width: 120px; max-width: 130px; align-items: center;">
                                                                         <input type="number" style="max-height: 30px;"
@@ -568,14 +560,16 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-sm mb-0 text-left">
                                                                     <div class="input-group"
                                                                         style="min-width: 120px; max-width: 130px; align-items: center;">
-                                                                        <input type="number" style="max-height: 30px;"
+                                                                        <input type="number"
+                                                                            style="max-height: 30px;"
                                                                             id="c{{ $c['id'] }}"
                                                                             wire:change="cambiarcantidad({{ $c['id'] }}, $('#c' + {{ $c['id'] }}).val())"
                                                                             value="{{ $c['quantity'] }}"
-                                                                            class="form-control" placeholder="Cantidad..."
+                                                                            class="form-control"
+                                                                            placeholder="Cantidad..."
                                                                             aria-label="Recipient's username"
                                                                             aria-describedby="basic-addon2">
                                                                         <div class="input-group-append">
@@ -583,22 +577,36 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td class="align-middle text-center">
+                                                                <td class="text-sm mb-0 text-left">
                                                                     <p class="text-sm mb-0">
                                                                         {{ $c['price'] * $c['quantity'], 2 }}
                                                                     </p>
                                                                 </td>
-                                                                <td class="text-center">
+                                                                <td class="text-sm ps-0 text-center">
 
-                                                                    <a href="javascript:void(0)" title="Quitar una unidad" wire:click.prevent="decrease({{ $c['id'] }})">
-                                                                        <i class="fas fa-minus text-default"></i>
-                                                                    </a>
-                                                                    <a href="javascript:void(0)" title="Incrementar una unidad" wire:click.prevent="increase({{ $c['id'] }})">
-                                                                        <i class="fas fa-plus text-primary"></i>
-                                                                    </a>
-                                                                    <a title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $c['id'] }}', '{{ $c['name'] }}')">
-                                                                        <i class="fas fa-trash text-danger"></i>
-                                                                    </a>
+                                                                    <div class="btn-group" role="group" aria-label="Basic example">
+
+                                                                        <button title="Quitar una unidad"
+                                                                            wire:click.prevent="decrease({{ $c['id'] }})"
+                                                                            class="btn btn-secondary"
+                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <button title="Incrementar una unidad"
+                                                                            wire:click.prevent="increase({{ $c['id'] }})"
+                                                                            class="btn btn-primary"
+                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                        <button title="Eliminar Producto"
+                                                                            href="#"
+                                                                            onclick="ConfirmarEliminar('{{ $c['id'] }}', '{{ $c['name'] }}')"
+                                                                            class="btn btn-danger"
+                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </button>
+                                                                    </div>
+
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -643,7 +651,7 @@
                         </div>
 
 
-                        
+
 
 
 
@@ -662,7 +670,7 @@
                                             </p>
                                         </button>
                                     @endif
-                                    <a href="{{ url('salelist') }}" class="btn btn-dark">
+                                    <a href="{{ url('salelist') }}" class="btn btn-add mb-0" style="background-color: #2e48dc;color: white;">
                                         <p class="text-sm mb-0">
                                             CANCELAR
                                         </p>
@@ -670,7 +678,7 @@
 
                                     @if ($this->total_items > 0)
                                         <button wire:click.prevent="update_sale()" type="button"
-                                            class="btn btn-primary">
+                                            class="btn btn-success">
                                             <p class="text-sm mb-0">
                                                 ACTUALIZAR
                                             </p>
