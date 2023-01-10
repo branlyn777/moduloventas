@@ -12,7 +12,7 @@ class ProcedenciaController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $procedencia, $estado, $selected_id;
+    public  $search, $procedencia, $estado, $selected_id, $estado_0;
     public  $pageTitle, $componentName, $estados;
     private $pagination = 5;
 
@@ -23,23 +23,29 @@ class ProcedenciaController extends Component
 
     public function mount()
     {
-        $this->estados = 'Activo';
+        $this->estados = true;
+        $this->estado = 'Activo';
 
         $this->pageTitle = 'Listado';
         $this->componentName = 'Procedencias';
-        $this->estado = 'Elegir';
         $this->selected_id = 0;
     }
 
     public function render()
     {
         if (strlen($this->search) > 0)
+        {
             $procedencia = ProcedenciaCliente::where('procedencia', 'like', '%' . $this->search . '%')
-                ->orWhere('estado', $this->estado)
-                ->paginate($this->pagination);
+            ->orWhere('estado', $this->estado)
+            ->paginate($this->pagination);
+        }
         else
-            $procedencia = ProcedenciaCliente::where('estado', $this->estado)->orderBy('id', 'desc')
-                ->paginate($this->pagination);
+        {
+            $procedencia = ProcedenciaCliente::where('estado', $this->estado)
+            ->paginate($this->pagination);
+        }
+
+
         return view('livewire.procedencia.component', [
             'data' => $procedencia,
         ])
@@ -69,7 +75,7 @@ class ProcedenciaController extends Component
 
         ProcedenciaCliente::create([
             'procedencia' => $this->procedencia,
-            'estado' => $this->estado
+            'estado' => $this->estado_0
         ]);
 
         $this->resetUI();
@@ -103,7 +109,7 @@ class ProcedenciaController extends Component
 
         $pro->update([
             'procedencia' => $this->procedencia,
-            'estado' => $this->estado
+            'estado' => $this->estado_0
         ]);
 
         $pro->save();
@@ -131,7 +137,7 @@ class ProcedenciaController extends Component
     public function resetUI()
     {
         $this->procedencia = '';
-        $this->estado = 'Elegir';
+        // $this->estado = 'Elegir';
         $this->search = '';
         $this->selected_id = 0;
         $this->resetValidation();
@@ -139,9 +145,15 @@ class ProcedenciaController extends Component
 
     public function cambioestado()
     {
-        if ($this->estados == true) {
-            
-            $this->sucursal = $this->sucursalusuario();
+        if ($this->estados == true)
+        {
+            $this->estados = false;
+            $this->estado = "Desactivado";
+        }
+        else
+        {
+            $this->estado = "Activo";
+            $this->estados = true;
         }
     }
 }

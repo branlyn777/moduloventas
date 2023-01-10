@@ -668,8 +668,7 @@ class PosController extends Component
                     }
                 }
 
-
-                //Decrementando el stock en tienda
+                //Decrementando el stock
                 $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
                 ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
                 ->select("productos_destinos.id as id","p.nombre as name",
@@ -680,9 +679,13 @@ class PosController extends Component
                 ->get()->first();
 
 
-                $tiendaproducto->update([
+                $product_destination = ProductosDestino::find($tiendaproducto->id);
+
+
+                $product_destination->update([
                     'stock' => $tiendaproducto->stock - $p->quantity
                 ]);
+                $product_destination->save();
 
             }
 
@@ -702,11 +705,12 @@ class PosController extends Component
                 
 
             //verificar que esta venta no tuvo operaciones en caja general
-            if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id)) {
-            
-            $op = OperacionesCarterasCompartidas::create([
-                    'caja_id'=>$cajaId,
-                    'cartera_mov_id'=>$cv->id]);}
+            if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id))
+            {
+                $op = OperacionesCarterasCompartidas::create([
+                'caja_id'=>$cajaId,
+                'cartera_mov_id'=>$cv->id]);
+            }
 
 
             $this->resetUI();
