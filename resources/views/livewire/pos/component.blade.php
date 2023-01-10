@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                    color: rgb(0, 0, 0); */
+                        color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                        border-top: 0.3px solid rgb(0, 0, 0);
-                    } */
+                            border-top: 0.3px solid rgb(0, 0, 0);
+                        } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -467,12 +467,12 @@
                                                             </td>
                                                             <td class="text-center">
 
-                                                                <a href="javascript:void(0)"
-                                                                    title="Añadir al Carrito de Ventas"
+                                                                <button title="Añadir al Carrito de Ventas"
                                                                     wire:click="increase({{ $p->id }})"
-                                                                    style="color: #5e72e4;">
+                                                                    class="btn btn-primary"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                                     <i class="fas fa-plus"></i>
-                                                                </a>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -605,21 +605,33 @@
                                                             </td>
                                                             <td class="text-center">
 
-                                                                <a href="javascript:void(0)" title="Quitar una unidad"
-                                                                    wire:click.prevent="decrease({{ $item->id }})">
-                                                                    <i class="fas fa-minus text-default"></i>
-                                                                </a>
+                                                                <div class="btn-group" role="group"
+                                                                aria-label="Basic example">
 
-                                                                <a href="javascript:void(0)"
-                                                                    title="Incrementar una unidad"
-                                                                    wire:click.prevent="increase({{ $item->id }})">
-                                                                    <i class="fas fa-plus text-primary"></i>
-                                                                </a>
+                                                                <button title="Eliminar Producto" href="#"
+                                                                    onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')"
+                                                                    class="btn btn-danger"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                                <button title="Quitar una unidad"
+                                                                    wire:click.prevent="decrease({{ $item->id }})"
+                                                                    class="btn btn-secondary"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <button title="Incrementar una unidad"
+                                                                    wire:click.prevent="increase({{ $item->id }})"
+                                                                    class="btn btn-primary"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
 
-                                                                <a title="Eliminar Producto" href="#"
-                                                                    onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')">
-                                                                    <i class="fas fa-trash text-danger"></i>
-                                                                </a>
+
+
+
+
+                                                            </div>
 
                                                             </td>
                                                         </tr>
@@ -681,7 +693,8 @@
                                         </p>
                                     </button>
                                 @endif
-                                <a href="{{ url('salelist') }}"  class="btn btn-add mb-0" style="background-color: #2e48dc; color: white;">
+                                <a href="{{ url('salelist') }}" class="btn btn-add mb-0"
+                                    style="background-color: #2e48dc; color: white;">
                                     <p class="text-sm mb-0">
                                         LISTA VENTAS
                                     </p>
