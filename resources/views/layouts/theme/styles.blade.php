@@ -124,7 +124,7 @@
     }
 
     .wrapper .tooltip {
-        background: #ffffff;
+        background: rgba(231, 0, 0, 0);
         /* border: #5e72e4 solid 0.1px; */
         border-radius: 15px;
         bottom: 100%;

@@ -416,13 +416,13 @@
 
                 <div class="col-12 col-sm-6 col-md-4">
 
-                    <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 500px;">
+                    <div class="card p-3" style="min-height: 500px; padding-top: 10px;">
 
 
 
 
                         <div class="form-group">
-                            <div class="input-group mb-4">
+                            <div class="input-group">
                                 <span style="background-color: #5e72e4; color: white; border: #5e72e4;"
                                     class="input-group-text"><i class="fa fa-search"></i></span>
                                 <input id="code" type="text" style="padding-left: 10px;"
@@ -442,7 +442,7 @@
                                         <div class="table-wrapper">
                                             <table>
                                                 <thead>
-                                                    <tr class="text-center">
+                                                    <tr>
                                                         <th>
                                                             <p class="text-sm mb-0">
                                                                 <b>DESCRIPCION</b>
@@ -521,7 +521,7 @@
 
                 <div class="col-12 col-sm-6 col-md-8">
 
-                    <div class="shadow-lg p-3 mb-5 bg-body rounded" style="min-height: 555px;">
+                    <div class="card" style="min-height: 555px;">
 
                         <div>
                             @if ($this->total_items > 0)
@@ -532,7 +532,7 @@
                                         <div class="table-wrapper">
                                             <table>
                                                 <thead>
-                                                    <tr class="text-center">
+                                                    <tr>
                                                         <th>
                                                             <p class="text-sm mb-0">
                                                                 <b>DESCRIPCION</b>
@@ -570,7 +570,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="input-group"
-                                                                    style="min-width: 120px; max-width: 130px; align-items: center;">
+                                                                    style="min-width: 120px; max-width: 130px;">
                                                                     <input type="number" style="max-height: 30px;"
                                                                         id="p{{ $item->id }}"
                                                                         wire:change="cambiarprecio({{ $item->id }}, $('#p' + {{ $item->id }}).val())"
@@ -585,7 +585,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="input-group"
-                                                                    style="min-width: 120px; max-width: 130px; align-items: center;">
+                                                                    style="min-width: 120px; max-width: 130px;">
                                                                     <input type="number" style="max-height: 30px;"
                                                                         id="c{{ $item->id }}"
                                                                         wire:change="cambiarcantidad({{ $item->id }}, $('#c' + {{ $item->id }}).val())"
@@ -603,35 +603,21 @@
                                                                     {{ $item->price * $item->quantity, 2 }}
                                                                 </p>
                                                             </td>
-                                                            <td class="text-center">
+                                                            <td>
 
-                                                                <div class="btn-group" role="group"
-                                                                aria-label="Basic example">
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
 
-                                                                <button title="Eliminar Producto" href="#"
-                                                                    onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')"
-                                                                    class="btn btn-danger"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                                <button title="Quitar una unidad"
-                                                                    wire:click.prevent="decrease({{ $item->id }})"
-                                                                    class="btn btn-secondary"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <button title="Incrementar una unidad"
-                                                                    wire:click.prevent="increase({{ $item->id }})"
-                                                                    class="btn btn-primary"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
+                                                                    <button title="Quitar una unidad" wire:click.prevent="decrease({{ $item->id }})" class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                    <button title="Incrementar una unidad" wire:click.prevent="increase({{ $item->id }})" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                    <button title="Eliminar Producto" href="#" onclick="ConfirmarEliminar('{{ $item->id }}', '{{ $item->name }}')" class="btn btn-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-trash-alt"></i>
+                                                                    </button>
 
-
-
-
-
-                                                            </div>
+                                                                </div>
 
                                                             </td>
                                                         </tr>
@@ -676,9 +662,6 @@
 
                     </div>
 
-
-
-
                     <div class="row">
                         <div class="col-12 text-center">
                             <p class="text-sm">
@@ -712,7 +695,6 @@
                         <div class="col-1 text-right">
                         </div>
                     </div>
-
 
                 </div>
             </div>
