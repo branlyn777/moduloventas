@@ -16,7 +16,7 @@ class ClienteController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id;
+    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 40;
 
@@ -116,6 +116,7 @@ class ClienteController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Cliente Registrado';
         $this->emit('item-added', 'Cliente Registrado');
     }
 
@@ -180,6 +181,7 @@ class ClienteController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Cliente Actualizado';
         $this->emit('item-updated', 'Cliente Actualizado');
     }
 
@@ -210,6 +212,8 @@ class ClienteController extends Component
         $cli = Cliente::find($this->cliente_id);
         $cli->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Cliente Eliminado';
+        $this->emit('item-deleted', 'Cliente Eliminado');
     }
     public function Cancel()
     {

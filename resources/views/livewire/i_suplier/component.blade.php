@@ -244,7 +244,7 @@
         if (compras != 0) {
             swal.fire({
                 title: 'Error',
-                icon: 'warning',
+                type: 'warning',
                 text: 'El proveedor' + nombre +
                     ' tiene relacion con otros registros del sistema, no puede ser eliminado',
 
@@ -257,12 +257,12 @@
 
             swal.fire({
                 title: 'CONFIRMAR',
-                icon: 'warning',
+                type: 'warning',
                 text: 'Confirmar eliminar la proveedor ' + '"' + nombre + '"',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar',
-                cancelButtonColor: '#383838',
-                confirmButtonColor: '#3B3F5C',
+                // cancelButtonColor: '#383838',
+                // confirmButtonColor: '#3B3F5C',
                 confirmButtonText: 'Aceptar'
             }).then(function(result) {
                 if (result.value) {

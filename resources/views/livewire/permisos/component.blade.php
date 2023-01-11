@@ -127,10 +127,26 @@
             $('#theModal').modal('hide')
             noty(Msg)
         })
+        // window.livewire.on('item-update', Msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(Msg)
+        // })
+
         window.livewire.on('item-update', Msg => {
             $('#theModal').modal('hide')
-            noty(Msg)
-        })
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
         window.livewire.on('item-deleted', Msg => {
             noty(Msg)
         })

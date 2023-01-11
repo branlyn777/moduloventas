@@ -232,14 +232,44 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        // window.livewire.on('item-added', Msg => {
+        //     $('#formUsers').modal('hide')
+        // })
         window.livewire.on('item-added', Msg => {
-            $('#formUsers').modal('hide')
+            $('#formUsers').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
 
-        })
+        // window.livewire.on('item-updated', Msg => {
+        //     $('#formUsers').modal('hide')
+        // })
         window.livewire.on('item-updated', Msg => {
             $('#formUsers').modal('hide')
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
 
-        })
         window.livewire.on('sucursal-actualizada', Msg => {
             $('#modal-details').modal('hide')
 

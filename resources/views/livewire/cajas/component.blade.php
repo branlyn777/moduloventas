@@ -161,16 +161,61 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        window.livewire.on('item-added', msg => {
-            $('#theModal').modal('hide')
-            noty(msg)
+        // window.livewire.on('item-added', msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(msg)
+        // });
+        window.livewire.on('item-added', Msg => {
+            $('#theModal').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+
         });
-        window.livewire.on('item-updated', msg => {
+        // window.livewire.on('item-updated', msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(msg)
+        // });
+        window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
-            noty(msg)
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
-        window.livewire.on('item-deleted', msg => {
-            noty(msg)
+        // window.livewire.on('item-deleted', msg => {
+        //     noty(msg)
+        // });
+        window.livewire.on('item-deleted', Msg => {
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
         window.livewire.on('show-modal', msg => {
             $('#theModal').modal('show')
@@ -185,6 +230,7 @@
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
+                type: 'warning',
                 text: 'No se puede eliminar la caja "' + name + '" porque tiene ' +
                     carteras + ' carteras.'
             })

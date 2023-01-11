@@ -175,17 +175,61 @@
     document.addEventListener('DOMContentLoaded', function() {
 
 
+        // window.livewire.on('item-added', Msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(Msg)
+        // })
         window.livewire.on('item-added', Msg => {
-            $('#theModal').modal('hide')
-            noty(Msg)
-        })
+            $('#theModal').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+        // window.livewire.on('item-updated', Msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(Msg)
+        // })
         window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
-            noty(Msg)
-        })
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+        // window.livewire.on('item-deleted', Msg => {
+        //     noty(Msg)
+        // })
         window.livewire.on('item-deleted', Msg => {
-            noty(Msg)
-        })
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
         window.livewire.on('item-error', Msg => {
             noty(Msg)
         })
@@ -195,21 +239,6 @@
         window.livewire.on('hide-modal', Msg => {
             $('#theModal').modal('hide')
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         window.livewire.on('eliminar-cliente', Msg => {
             swal({

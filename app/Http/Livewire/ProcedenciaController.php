@@ -12,7 +12,7 @@ class ProcedenciaController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $procedencia, $estado, $selected_id, $estado_0;
+    public  $search, $procedencia, $estado, $selected_id, $estado_0, $mensaje_toast;
     public  $pageTitle, $componentName, $estados;
     private $pagination = 5;
 
@@ -79,6 +79,7 @@ class ProcedenciaController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Procedencia Registrada';
         $this->emit('item-added', 'Procedencia Registrada');
     }
 
@@ -115,6 +116,7 @@ class ProcedenciaController extends Component
         $pro->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Procedencia Actualizada';
         $this->emit('item-updated', 'Procedencia Actualizada');
     }
 
@@ -128,6 +130,7 @@ class ProcedenciaController extends Component
         if ($verificar->count() == 0) {
             $pro->delete();
             $this->resetUI();
+            $this->mensaje_toast = 'Procedencia Eliminada';
             $this->emit('item-deleted', 'Procedencia Eliminada');
         } else {
             $this->emit('alerta-procedencia');

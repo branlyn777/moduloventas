@@ -23,7 +23,7 @@ class DestinoController extends Component
     public  $pageTitle, $componentName;
     private $pagination;
 
-    public $nombre, $sucursal, $observacion, $selected_id, $search, $estados, $estadosmodal, $sucursal_id, $verificar;
+    public $nombre, $sucursal, $observacion, $selected_id, $search, $estados, $estadosmodal, $sucursal_id, $verificar, $mensaje_toast;
 
     public function paginationView()
     {
@@ -175,6 +175,7 @@ class DestinoController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Estancia Registrada';
         $this->emit('unidad-added', 'Estancia Registrada');
     }
 
@@ -240,6 +241,7 @@ class DestinoController extends Component
         ]);
         $destino->save();
         $this->resetUI();
+        $this->mensaje_toast = 'Estancia Actualizada';
         $this->emit('unidad-updated', 'Estancia Actualizada');
     }
 
@@ -262,6 +264,7 @@ class DestinoController extends Component
         $destino->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Estancia Inactivada';
         $this->emit('unidad-deleted', 'Estancia Eliminada');
     }
     public function resetUI()

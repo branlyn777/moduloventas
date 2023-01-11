@@ -5,12 +5,8 @@
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">{{$selected_id > 0 ? 'Editar':'Crear'}} {{$componentName}} </h5>
                 </div>
-                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center ms-auto"
-                    data-bs-dismiss="modal">
-                    <i class="fas fa-error text-white" aria-hidden="true">x</i>
-                </button>
             </div>
             <div class="modal-body">
 

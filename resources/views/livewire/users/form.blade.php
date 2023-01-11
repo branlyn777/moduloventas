@@ -232,7 +232,7 @@
                             @if ($selected_id == 0)
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label><span class="text-primary">* </span>Sucursal</label>
+                                        <label><span class="text-warning">* </span>Sucursal</label>
                                         <select wire:model='sucursal_id' class="form-select">
                                             <option value="Elegir" disabled selected>Elegir</option>
                                             @foreach ($sucursales as $item)
