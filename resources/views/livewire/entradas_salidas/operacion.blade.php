@@ -109,7 +109,8 @@
 
                                     </div>
                                     <label for="">Archivo Seleccionado</label>
-                                    <input type="file" class="form-control" name="import_file" wire:model="archivo" />
+                                    <input type="file" class="form-control" name="import_file"
+                                        wire:model="archivo" />
 
 
                                 </form>
@@ -260,51 +261,50 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                @if (count($col) > 0)
-                                @foreach ($col as $key => $value)
-                                    <tr>
-                                        <td class="text-center">
-                                            {{ $loop->iteration }}
-                                        </td>
-                                        <td>
-                                           {{ $value['product-name'] }}
-                                        </td>
 
-                                        @if ($tipo_proceso != 'Salida')
-                                            <td class="text-center">
-                                           {{ $value['costo'] }}
-                                            </td>
+                                        @if (count($col) > 0)
+                                            @foreach ($col as $key => $value)
+                                                <tr>
+                                                    <td class="text-center">
+                                                        {{ $loop->iteration }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $value['product-name'] }}
+                                                    </td>
+
+                                                    @if ($tipo_proceso != 'Salida')
+                                                        <td class="text-center">
+                                                            {{ $value['costo'] }}
+                                                        </td>
+                                                    @endif
+
+                                                    <td class="text-center">
+                                                        {{ $value['cantidad'] }}
+                                                    </td>
+                                                    <td class="text-center">
+
+
+                                                        <a type="button" wire:key="{{ $loop->index }}"
+                                                            wire:click="eliminaritem({{ $value['product_id'] }})"
+                                                            class="mx-3" title="Quitar producto de la lista">
+                                                            <i class="fas fa-times text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="5">
+                                                    <div
+                                                        class="row justify-content-center align-items-center mx-auto my-5">
+
+                                                        <label class="text-center">S/N ITEMS</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         @endif
-
-                                        <td class="text-center">
-                                          {{ $value['cantidad'] }}
-                                        </td>
-                                        <td class="text-center">
-
-
-                                            <a type="button" wire:key="{{ $loop->index }}"
-                                                wire:click="eliminaritem({{ $value['product_id'] }})"
-                                                class="mx-3" title="Quitar producto de la lista">
-                                                <i class="fas fa-times text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td colspan="5">
-                                        <div class="row justify-content-center align-items-center mx-auto my-5">
-
-                                           <label class="text-center">S/N ITEMS</label> 
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endif
                                     </tbody>
                                 </table>
-
-
                             </div>
                         </div>
                 @endif

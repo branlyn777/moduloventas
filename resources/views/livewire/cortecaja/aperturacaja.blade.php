@@ -60,7 +60,7 @@
 
 
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" wire:click='CorteCaja({{$idcaja}})'>Iniciar Sesion</button>
+                    <button type="button" class="btn btn-primary" wire:click='CorteCaja({{$idcaja}})'>Iniciar Sesion</button>
                 </div>
                 @endif
             </div>

@@ -46,7 +46,6 @@
 <div>
     <div class="row">
         <div class="col-12">
-          
                 <div class="d-lg-flex">
                     <div>
                         <h5 class="text-white" style="font-size: 16px">Lista de Usuarios</h5>
@@ -60,7 +59,7 @@
                     </div>
                 </div>
             <br>
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-body">
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">

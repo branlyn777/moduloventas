@@ -140,7 +140,7 @@
                                 </div>
                             </div>
 
-                            
+
                         </div>
                     </div>
                 </div>
@@ -205,7 +205,8 @@
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                             alt="hoodie" width="50">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                            <label
+                                                                style="font-size: 14px">{{ substr($products->nombre, 0, 30) }}</label>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -220,13 +221,13 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $products->codigo }}
+                                                    {{ substr($products->codigo, 0, 11) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->precioActivo()==null?'--': $products->precioActivo()}}
+                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->costoActivo()==null?'--': $products->costoActivo()}}
+                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
                                                 </td>
 
                                                 <td>

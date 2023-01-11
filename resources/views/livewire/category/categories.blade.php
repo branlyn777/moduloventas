@@ -109,14 +109,14 @@
 
                                     <tbody>
                                         @foreach ($categories as $category)
-                                            <tr style="font-size: 14px">
-                                                <td class="text-center">
+                                            <tr class="text-left">
+                                                <td class="text-sm mb-0 text-center">
                                                     {{ ($categories->currentpage() - 1) * $categories->perpage() + $loop->index + 1 }}
                                                 </td>
-                                                <td>
-                                                    <b>{{ $category->name }}</b><br>
-                                                    <b>Descripción :
-                                                        {{ $category->descripcion == null ? 'S/N Descripcion' : $category->descripcion }}</b>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ substr($category->name, 0, 30) }}<br>
+                                                    Descripción :
+                                                    {{ $category->descripcion == null ? 'S/N Descripcion' : substr($category->descripcion, 0, 45) }}
 
                                                     {{-- <div class="row">
                                                         <div class="col-md-5"> --}}
@@ -131,7 +131,7 @@
                                                     {{-- </div>
                                                     </div> --}}
                                                 </td>
-                                                <td>
+                                                <td class="text-sm mb-0 text-left">
                                                     <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
                                                         class="boton-azul" title="Ver subcategorias"> <b
                                                             class="pl-1">{{ $category->subcategories() }}</b>
