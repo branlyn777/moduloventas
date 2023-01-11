@@ -6,12 +6,18 @@ use App\Http\Controllers\ExportExcelProductosController;
 use App\Imports\ProductsImport;
 use App\Imports\PruebaImport;
 use App\Models\Category;
+use App\Models\Destino;
+use App\Models\DetalleEntradaProductos;
+use App\Models\IngresoProductos;
+use App\Models\Lote;
 use App\Models\Marca;
 use App\Models\Product;
+use App\Models\ProductosDestino;
 use App\Models\Unidad;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -23,8 +29,9 @@ class ProductsController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion,
-        $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado,
-        $image, $imagen,$selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError;
+        $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado,$stockswitch,
+        $image, $imagen,$selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
+        $cantidad,$costoUnitario,$costoTotal,$destinosp,$destino;
     public $checkAll = false;
     public $errormessage;
     public $selectedProduct = [];
@@ -50,6 +57,8 @@ class ProductsController extends Component
         $this->unidad = null;
         $this->cont_lote = null;
         $this->imagen='noimagenproduct.png';
+        $this->stockswitch=false;
+        $this->cantidad=1;
     }
     /**
      * Si sub_seleccionado no es nulo y la matriz de cambios tiene más de un elemento, establezca
@@ -268,6 +277,13 @@ class ProductsController extends Component
             }
         }
 
+        $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
+        ->get();
+
+      
+     
+
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
             'categories' => Category::where('categories.categoria_padre', 0)->where('status', 'ACTIVO')->where('name', '!=', 'No definido')->orderBy('name', 'asc')->get(),
@@ -285,8 +301,7 @@ class ProductsController extends Component
         $rules = [
             'nombre' => 'required|unique:products|min:5',
             'codigo' => 'required|unique:products|min:3',
-            // 'costo' => 'required',
-            // 'precio_venta' => 'required|gt:costo',
+ 
             'selected_id2' => 'required|not_in:Elegir'
         ];
 
@@ -294,11 +309,11 @@ class ProductsController extends Component
             'nombre.required' => 'Nombre del producto requerido',
             'nombre.unique' => 'Ya existe el nombre del producto',
             'nombre.min' => 'El nombre debe  contener al menos 5 caracteres',
-            // 'costo.required' => 'El costo es requerido',
+
             'codigo.required' => 'El codigo es requerido',
             'codigo.unique' => 'El codigo debe ser unico',
             'codigo.min' => 'El codigo debe ser mayor a 3',
-            // 'precio_venta.required' => 'El precio es requerido',
+  
             'precio_venta.gt' => 'El precio debe ser mayor o igual al costo',
             'selected_id2.required' => 'La categoria es requerida',
             'selected_id2.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
@@ -308,7 +323,7 @@ class ProductsController extends Component
 
         $product = Product::create([
             'nombre' => $this->nombre,
-            // 'costo' => $this->costo,
+
             'caracteristicas' => $this->caracteristicas,
             'codigo' => $this->codigo,
             'lote' => $this->lote,
@@ -317,7 +332,7 @@ class ProductsController extends Component
             'garantia' => $this->garantia,
             'cantidad_minima' => $this->cantidad_minima,
             'industria' => $this->industria,
-            // 'precio_venta' => $this->precio_venta,
+
             'category_id' => $this->categoryid,
             'control' => $this->cont_lote
         ]);
@@ -330,8 +345,70 @@ class ProductsController extends Component
             $product->save();
         } 
 
+        if ($this->stockswitch === true) {
+        
+            $rules = [
+                'costoUnitario' => 'required',
+                'destino' => 'required',
+     
+           
+            ];
+    
+            $messages = [
+                'costoUnitario.required' => 'Agregue un costo para el ingreso inicial.',
+                'destino.required' => 'Seleccione un destino.',
+            
+            ];
+    
+            $this->validate($rules, $messages);
+            DB::beginTransaction();
+            try {
+            
+            $rs=IngresoProductos::create([
+                'destino'=>$this->destino,
+                'user_id'=>Auth()->user()->id,
+                'concepto'=>'INICIAL',
+                'observacion'=>'INVENTARIO INICIAL DE PRODUCTOS'
+               ]);
+       
+                               $lot= Lote::create([
+                                'existencia'=>$this->cantidad,
+                                'costo'=>$this->costoUnitario,
+                                'status'=>'Activo',
+                                'product_id'=>$product->id
+                            ]);
+            
+                               DetalleEntradaProductos::create([
+                                    'product_id'=>$product->id,
+                                    'cantidad'=>$this->cantidad,
+                                    'costo'=>$this->costoUnitario,
+                                    'id_entrada'=>$rs->id,
+                                    'lote_id'=>$lot->id
+                               ]);
+
+                               $q=ProductosDestino::where('product_id',$product->id)
+                    ->where('destino_id',$this->destino)->value('stock');
+
+                    ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id'=>$this->destino],['stock'=>$q+$this->cantidad]); 
+                
+            
+            
+
+            DB::commit();
+        }
+         catch (Exception $e)
+        {
+        DB::rollback();
+        dd($e->getMessage());
+
+        }
+        }
+
         $this->emit('product-added', 'Producto Registrado');
         $this->resetUI();
+        
+
+
     }
     public function Edit(Product $product)
     {
@@ -347,7 +424,6 @@ class ProductsController extends Component
         $this->nombre = $product->nombre;
         $this->precio_venta = $product->precio_venta;
         $this->caracteristicas = $product->caracteristicas;
-        $this->barcode = $product->barcode;
         $this->lote = $product->lote;
         $this->unidad = $product->unidad;
         $this->marca = $product->marca;
@@ -370,20 +446,20 @@ class ProductsController extends Component
         $rules = [
             'nombre' => "required|min:2|unique:products,nombre,{$this->selected_id}",
             'codigo' => "required|min:3|unique:products,codigo,{$this->selected_id}",
-            'costo' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
+            // 'costo' => 'required|numeric',
+    
             'categoryid' => 'required|not_in:Elegir',
-            'cantidad_minima' => 'sometimes|numeric'
+      
         ];
         $messages = [
             'nombre.required' => 'Nombre del producto requerido',
             'nombre.unique' => 'Ya existe el nombre del producto',
             'nombre.min' => 'El nombre debe  contener al menos 2 caracteres',
-            'costo.required' => 'El costo es requerido',
-            'precio_venta.required' => 'El precio es requerido',
-            'costo.numeric' => 'El costo tiene que ser un numero',
-            'cantidad_minima.numeric' => 'La cantidad minima solamente puede ser numerico',
-            'precio_venta.numeric' => 'El precio de venta tiene que ser un numero',
+            // 'costo.required' => 'El costo es requerido',
+            // 'precio_venta.required' => 'El precio es requerido',
+            // 'costo.numeric' => 'El costo tiene que ser un numero',
+
+            // 'precio_venta.numeric' => 'El precio de venta tiene que ser un numero',
             'categoryid.required' => 'La categoria es requerida',
             'categoryid.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
         ];
@@ -483,6 +559,7 @@ class ProductsController extends Component
         $this->marca = null;
         $this->unidad = null;
         $this->cont_lote = null;
+        $this->stockswitch=false;
 
 
         $this->resetValidation(); //clear the error bag
@@ -729,4 +806,43 @@ class ProductsController extends Component
             $this->estados = true;
         }
     }
+
+    public function GuardarIrInventario(){
+        $this->Store();
+        return redirect()->route('operacionesinv');
+
+    }
+   public function mostrarOperacionInicial(){
+        if ($this->stockswitch==true) {
+            $this->stockswitch = false;
+        } else {
+            $this->stockswitch = true;
+        }
+        
+   }
+
+   public function costoUnitarioChange(){
+
+if ($this->costoUnitario>0) {
+  
+    $this->costoTotal = $this->costoUnitario*$this->cantidad;
+}
+    
+   }
+
+   public function costoTotalChange(){
+    if ($this->costoTotal>0) {
+    $this->costoUnitario = $this->costoTotal/$this->cantidad;
+   }
+}
+
+
+public function stockChange(){
+    if ($this->cantidad>0) {
+        
+        $this->costoTotal=$this->costoUnitario*$this->cantidad;
+    }
+
+}
+
 }

@@ -321,6 +321,92 @@
                             </div>
                         </div>
                     </div>
+                    @if ($selected_id == null)
+                        <div class="col-sm-12 col-md-4">
+
+                            <label for="">Registrar Stock Inicial</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" wire:change="mostrarOperacionInicial()"
+                                    type="checkbox" role="switch" {{ $this->stockswitch == true ? 'checked' : '' }}>
+                                @if ($stockswitch)
+                                    <label
+                                        style="font-size: 16px;
+                            font-weight: 400;
+                            line-height: 1.7;
+                            margin:0px 0.9rem;
+                            align-self: left;
+                            color: #525f7f;">SI</label>
+                                @else
+                                    <label
+                                        style="font-size: 16px;
+                            font-weight: 400;
+                            line-height: 1.7;
+                            margin:0px 0.9rem;
+                            align-self: left;
+                            color: #525f7f;">NO</label>
+                                @endif
+                            </div>
+                        </div>
+
+           
+                        @if ($stockswitch)
+                         <div class="row mt-4">
+
+                             <div class="col-sm-12 col-md-3">
+                                 <div class="form-group">
+                                     <label>
+                                         Stock Inicial
+                                     </label>
+                                     <input type="number" wire:model="cantidad" class="form-control" wire:change='stockChange()'>
+                                     @error('cantidad')
+                                         <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
+                                     @enderror
+                                 </div>
+                             </div>
+     
+                             <div class="col-sm-12 col-md-3">
+                                 <div class="form-group">
+                                     <label>
+                                         Costo Unitario
+                                     </label>
+                                     <input wire:model="costoUnitario" wire:change='costoUnitarioChange()' type="number" class="form-control  mx-1">
+                                     @error('costoUnitario')
+                                         <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
+                                     @enderror
+                                 </div>
+                             </div>
+                             <div class="col-sm-12 col-md-3">
+                                 <div class="form-group">
+                                     <label>
+                                         Costo Total Lote
+                                     </label>
+                                     <input wire:model="costoTotal" wire:change='costoTotalChange()' type="number" class="form-control  mx-1">
+                                  
+                                 </div>
+                             </div>
+                             <div class="col-sm-12 col-md-3">
+                                 <div class="form-group">
+                                     <label>
+                                         Almacen
+                                     </label>
+                                     <select wire:model='destino' class="form-select">
+                                        <option value='Elegir' disabled>Elegir</option>
+                                        @foreach ($destinosp as $item)
+                                            <option value="{{ $item->destino_id }}">{{ $item->sucursal }}-{{ $item->destino }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('destino')
+                                        <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
+                                    @enderror
+                                  
+                                 </div>
+                             </div>
+                         </div>
+                        @endif
+
+                    @endif
+
 
                     @if ($selected_id)
                         <div class="col-sm-12 col-md-4">
@@ -344,44 +430,8 @@
             </div>
             <div class="modal-footer">
 
-                {{-- <div class="input-group">
-                    <div class="input-group mb-4">
-                        <div class="card-body">
-                            <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                                Guardar y Agregar Cantidad Inicial</button>
-                        </div>
-                    </div>
-                    <div class="input-group mb-4">
-                        <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
-                            data-bs-dismiss="modal">Cancelar</button><br>
-                        @if ($selected_id < 1)
-                            <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                                Guardar y Cerrar</button>
-                        @else
-                            <button type="button" wire:click.prevent="Update()"
-                                class="btn btn-primary close-btn">Actualizar</button>
-                        @endif
-                    </div>
-                </div>
-                <div class="card-body">
-                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                        Guardar y Agregar Cantidad Inicial</button>
-                </div>
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
-                    data-bs-dismiss="modal">Cancelar</button><br>
-                @if ($selected_id < 1)
-                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                        Guardar y Cerrar</button>
-                @else
-                    <button type="button" wire:click.prevent="Update()"
-                        class="btn btn-primary close-btn">Actualizar</button>
-                @endif --}}
 
                 
-                <div class="card-body">
-                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary close-btn">
-                        Guardar y Agregar Cantidad Inicial</button>
-                </div>
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
                     data-bs-dismiss="modal">Cancelar</button><br>
                 @if ($selected_id < 1)

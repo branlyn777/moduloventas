@@ -47,16 +47,9 @@ class CategoriesController extends Component
             ->when($this->estados !='TODOS',function($query){
                     return $query->where('status',$this->estados);
              });
-        })->paginate($this->pagination);
+            })->paginate($this->pagination);
 
-        // if (strlen($this->search) > 0)
-        //     $data = Category::where('name', 'like', '%' . $this->search . '%')
-        //     ->where('categoria_padre',$this->category_s)->where('name','!=','No definido')
-        //     ->paginate($this->pagination);
-        // else
-        //     $data = Category::where('categoria_padre',$this->category_s)->where('name','!=','No definido')
-        //     ->orderBy('id', 'asc')
-        //     ->paginate($this->pagination);
+
 
             $this->data2=Category::where('categoria_padre',$this->selected_id)
             ->select('categories.*')->get();
@@ -64,9 +57,6 @@ class CategoriesController extends Component
         return view('livewire.category.categories', ['categories' => $data,'subcat'=>$this->data2])
             ->extends('layouts.theme.app')
             ->section('content');
-
-
-
     }
 
     public function Edit($id)
@@ -83,8 +73,9 @@ class CategoriesController extends Component
     }
     public function Ver(Category $category)
     {
+
         $this->selected_id = $category->id;
-        //dd($this->data2);
+        
         $this->emit('modal_sub', 'show modal!');
         
     }
@@ -153,7 +144,7 @@ class CategoriesController extends Component
 
         $category->save();
         $this->resetUI();
-        $this->selected_id=0;
+        dd($this->selected_id);
         $this->mensaje_toast='Subcategoria Registrada';
         $this->emit('sub_added');
         $this->emit('modal_sub', 'show modal!');
@@ -197,8 +188,6 @@ class CategoriesController extends Component
     public function resetUI()
     {
         $this->reset('name','descripcion','categoria_padre');
-        $this->selected_id=0;
-       
         $this->resetValidation();
     }
     
