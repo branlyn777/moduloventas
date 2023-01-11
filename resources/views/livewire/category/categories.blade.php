@@ -76,13 +76,34 @@
 
                             <div class="ms-auto my-auto mt-lg-0 col-md-2">
                                 <div class="ms-auto my-auto">
-                                    <label style="font-size: 1rem">Estado</label>
-                                    <select wire:model='estados' class="form-select">
+                                    <label style="font-size: 1rem">Filtrar por Estado</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
+                                            role="switch" {{ $this->estados == true ? 'checked' : '' }}>
+                                        @if ($estados)
+                                            <label
+                                                style="font-size: 16px;
+                                            font-weight: 400;
+                                            line-height: 1.7;
+                                            margin:0px 0.9rem;
+                                            align-self: left;
+                                            color: #525f7f;">Activos</label>
+                                        @else
+                                            <label
+                                                style="font-size: 16px;
+                                            font-weight: 400;
+                                            line-height: 1.7;
+                                            margin:0px 0.9rem;
+                                            align-self: left;
+                                            color: #525f7f;">Inactivos</label>
+                                        @endif
+                                    </div>
+                                    {{-- <select wire:model='estados' class="form-select">
                                         <option value="null" disabled>Estado</option>
                                         <option value="ACTIVO">Activo</option>
                                         <option value="INACTIVO">Inactivo</option>
                                         <option value="TODOS">Todos</option>
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                         </div>
@@ -109,14 +130,14 @@
 
                                     <tbody>
                                         @foreach ($categories as $category)
-                                            <tr style="font-size: 14px">
-                                                <td class="text-center">
+                                            <tr class="text-left">
+                                                <td class="text-sm mb-0 text-center">
                                                     {{ ($categories->currentpage() - 1) * $categories->perpage() + $loop->index + 1 }}
                                                 </td>
-                                                <td>
-                                                    <b>{{ $category->name }}</b><br>
-                                                    <b>Descripción :
-                                                        {{ $category->descripcion == null ? 'S/N Descripcion' : $category->descripcion }}</b>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ substr($category->name, 0, 30) }}<br>
+                                                    Descripción :
+                                                    {{ $category->descripcion == null ? 'S/N Descripcion' : substr($category->descripcion, 0, 45) }}
 
                                                     {{-- <div class="row">
                                                         <div class="col-md-5"> --}}
@@ -131,10 +152,10 @@
                                                     {{-- </div>
                                                     </div> --}}
                                                 </td>
-                                                <td>
+                                                <td class="text-sm mb-0 text-left">
                                                     <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
-                                                        class="boton-azul" title="Ver subcategorias"> <b
-                                                            class="pl-1">{{ $category->subcategories() }}</b>
+                                                        class="boton-azul mx-3" title="Ver subcategorias">
+                                                        <b class="pl-1 mx-3">{{ $category->subcategories() }}</b>
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                 </td>
@@ -201,7 +222,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
                 padding: '2em'
             });
             toast({
@@ -221,7 +242,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
                 padding: '2em'
             });
             toast({
@@ -237,7 +258,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
                 padding: '2em'
             });
             toast({
@@ -251,7 +272,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 5000,
+                timer: 2000,
                 padding: '2em'
             });
             toast({
@@ -268,7 +289,7 @@
 
             swal.fire({
                 title: 'PRECAUCION',
-                icon: 'warning',
+                type: 'warning',
                 text: 'No se puede eliminar la categoria ' + name +
                     ' porque tiene productos y categorias relacionadas.'
             })
@@ -279,7 +300,7 @@
 
             swal.fire({
                 title: 'PRECAUCION',
-                icon: 'warning',
+                type: 'warning',
                 text: 'No se puede eliminar la categoria ' + name + ' porque tiene productos relacionados.'
 
             })
@@ -288,19 +309,19 @@
 
             swal.fire({
                 title: 'PRECAUCION',
-                icon: 'warning',
+                type: 'warning',
                 text: 'No se puede eliminar la categoria ' + name + ' porque tiene subcategorias relacionadas.'
             })
         } else {
 
             swal.fire({
                 title: 'CONFIRMAR',
-                icon: 'warning',
+                type: 'warning',
                 text: 'Confirmar eliminar la categoria ' + '"' + name + '"',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar',
-                cancelButtonColor: '#383838',
-                confirmButtonColor: '#3B3F5C',
+                // cancelButtonColor: '#383838',
+                // confirmButtonColor: '#3B3F5C',
                 confirmButtonText: 'Aceptar'
             }).then(function(result) {
                 if (result.value) {

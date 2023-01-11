@@ -41,6 +41,7 @@ class ProductsController extends Component
     public $cont_lote;
     public $pagination = 100;
     public $selected_id2;
+    public $mensaje_toast;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -121,8 +122,7 @@ class ProductsController extends Component
     public function render()
     {
         /**sssssssss */
-        if($this->estados)
-        {
+        if ($this->estados) {
             if ($this->selected_categoria !== null) {
 
                 if ($this->selected_sub == null) {
@@ -143,7 +143,7 @@ class ProductsController extends Component
                         })
                         ->orderBy('products.created_at', 'desc');
                 } else {
-    
+
                     $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                         ->select('products.*', 'c.name as cate')
                         ->where('products.status', $this->estados)
@@ -156,12 +156,12 @@ class ProductsController extends Component
                                 ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                                 ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
                         })
-    
+
                         ->orderBy('products.created_at', 'desc');
                 }
             } elseif (strlen($this->search) > 0) {
-    
-    
+
+
                 $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                     ->select('products.*', 'c.name as cate')
                     ->where('products.status', $this->estados)
@@ -174,23 +174,23 @@ class ProductsController extends Component
                             ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                             ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
                     })
-    
-    
+
+
                     ->orderBy('products.created_at', 'desc');
             } else {
-    
+
                 $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                     ->select('products.*', 'c.name as cate')
                     ->where('products.status', $this->estados)
                     ->orderBy('products.created_at', 'desc');
             }
-        }else{
+        } else {
             if ($this->selected_categoria !== null) {
 
                 if ($this->selected_sub == null) {
                     $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                         ->select('products.*', 'c.name as cate')
-                        ->where('products.status','INACTIVO')
+                        ->where('products.status', 'INACTIVO')
                         ->where(function ($query) {
                             $query->where('c.categoria_padre', $this->selected_categoria)
                                 ->orWhere('c.id', $this->selected_categoria);
@@ -205,10 +205,10 @@ class ProductsController extends Component
                         })
                         ->orderBy('products.created_at', 'desc');
                 } else {
-    
+
                     $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                         ->select('products.*', 'c.name as cate')
-                        ->where('products.status','INACTIVO')
+                        ->where('products.status', 'INACTIVO')
                         ->where('c.id', $this->selected_sub)
                         ->where(function ($querys) {
                             $querys->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -218,15 +218,15 @@ class ProductsController extends Component
                                 ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                                 ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
                         })
-    
+
                         ->orderBy('products.created_at', 'desc');
                 }
             } elseif (strlen($this->search) > 0) {
-    
-    
+
+
                 $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                     ->select('products.*', 'c.name as cate')
-                    ->where('products.status','INACTIVO')
+                    ->where('products.status', 'INACTIVO')
                     ->where(function ($querys) {
                         $querys->where('products.nombre', 'like', '%' . $this->search . '%')
                             ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
@@ -236,18 +236,18 @@ class ProductsController extends Component
                             ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                             ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
                     })
-    
-    
+
+
                     ->orderBy('products.created_at', 'desc');
             } else {
-    
+
                 $prod = Product::join('categories as c', 'products.category_id', 'c.id')
                     ->select('products.*', 'c.name as cate')
-                    ->where('products.status','INACTIVO')
+                    ->where('products.status', 'INACTIVO')
                     ->orderBy('products.created_at', 'desc');
             }
         }
-        
+
 
 
         $this->sub = Category::select('categories.*')
@@ -300,6 +300,7 @@ class ProductsController extends Component
         }
         $rules = [
             'nombre' => 'required|unique:products|min:5',
+            'nombre' => 'required|unique:products|max:245',
             'codigo' => 'required|unique:products|min:3',
  
             'selected_id2' => 'required|not_in:Elegir'
@@ -309,11 +310,13 @@ class ProductsController extends Component
             'nombre.required' => 'Nombre del producto requerido',
             'nombre.unique' => 'Ya existe el nombre del producto',
             'nombre.min' => 'El nombre debe  contener al menos 5 caracteres',
-
+            'nombre.max' => 'El nombre no debe  tener mas de 245 caracteres',
+            // 'costo.required' => 'El costo es requerido',
             'codigo.required' => 'El codigo es requerido',
             'codigo.unique' => 'El codigo debe ser unico',
             'codigo.min' => 'El codigo debe ser mayor a 3',
-  
+            'codigo.max' => 'El codigo no debe tener mas de ser 45 caracteres',
+            // 'precio_venta.required' => 'El precio es requerido',
             'precio_venta.gt' => 'El precio debe ser mayor o igual al costo',
             'selected_id2.required' => 'La categoria es requerida',
             'selected_id2.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
@@ -343,7 +346,7 @@ class ProductsController extends Component
             $this->image->storeAs('public/productos/', $customFileName);
             $product->image = $customFileName;
             $product->save();
-        } 
+        }
 
         if ($this->stockswitch === true) {
         
@@ -432,7 +435,7 @@ class ProductsController extends Component
         $this->cantidad_minima = $product->cantidad_minima;
         $this->codigo = $product->codigo;
         $this->estado = $product->status;
-        $this->imagen = $product->image==null?'noimagenproduct.png':$product->image;
+        $this->imagen = $product->image == null ? 'noimagenproduct.png' : $product->image;
         $this->marca = $product->marca;
         $this->unidad = $product->unidad;
         $this->cont_lote = $product->control;
@@ -445,9 +448,11 @@ class ProductsController extends Component
         }
         $rules = [
             'nombre' => "required|min:2|unique:products,nombre,{$this->selected_id}",
+            'nombre' => "required|max:245|unique:products,nombre,{$this->selected_id}",
             'codigo' => "required|min:3|unique:products,codigo,{$this->selected_id}",
-            // 'costo' => 'required|numeric',
-    
+            'codigo' => "required|max:45|unique:products,codigo,{$this->selected_id}",
+            'costo' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
             'categoryid' => 'required|not_in:Elegir',
       
         ];
@@ -455,11 +460,14 @@ class ProductsController extends Component
             'nombre.required' => 'Nombre del producto requerido',
             'nombre.unique' => 'Ya existe el nombre del producto',
             'nombre.min' => 'El nombre debe  contener al menos 2 caracteres',
-            // 'costo.required' => 'El costo es requerido',
-            // 'precio_venta.required' => 'El precio es requerido',
-            // 'costo.numeric' => 'El costo tiene que ser un numero',
-
-            // 'precio_venta.numeric' => 'El precio de venta tiene que ser un numero',
+            'nombre.max' => 'El nombre no debe  pasar los 245 caracteres',
+            'codigo.min' => 'El código debe  contener al menos 3 caracteres',
+            'codigo.max' => 'El código no debe pasar los 45 caracteres',
+            'costo.required' => 'El costo es requerido',
+            'precio_venta.required' => 'El precio es requerido',
+            'costo.numeric' => 'El costo tiene que ser un numero',
+            // 'cantidad_minima.numeric' => 'La cantidad minima solamente puede ser numerico',
+            'precio_venta.numeric' => 'El precio de venta tiene que ser un numero',
             'categoryid.required' => 'La categoria es requerida',
             'categoryid.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
         ];
@@ -497,6 +505,7 @@ class ProductsController extends Component
             }
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Actualizado';
         $this->emit('product-updated', 'Producto Actualizado');
     }
     protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently'];
@@ -520,6 +529,7 @@ class ProductsController extends Component
             $data->pivot->delete();
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Eliminado';
         $this->emit('product-deleted', 'Producto Eliminado');
     }
 
@@ -534,6 +544,7 @@ class ProductsController extends Component
             }
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Eliminado';
         $this->emit('product-deleted', 'Producto Eliminado');
     }
 
@@ -554,7 +565,7 @@ class ProductsController extends Component
         $this->garantia = null;
         $this->cantidad_minima = null;
         $this->categoryid = null;
-        $this->image=null;
+        $this->image = null;
         $this->imagen = 'noimagenproduct.png';
         $this->marca = null;
         $this->unidad = null;
@@ -594,11 +605,15 @@ class ProductsController extends Component
     public function StoreCategory()
     {
 
-        $rules = ['name' => 'required|unique:categories|min:3'];
+        $rules = [
+            'name' => 'required|unique:categories|min:3',
+            'name' => 'required|unique:categories|max:245',
+        ];
         $messages = [
             'name.required' => 'El nombre de la categoría es requerido',
             'name.unique' => 'Ya existe el nombre de la categoría',
-            'name.min' => 'El nombre de la categoría debe tener al menos 3 caracteres'
+            'name.min' => 'El nombre de la categoría debe tener al menos 3 caracteres',
+            'name.max' => 'El nombre de la categoría no debe pasar los 245 caracteres'
         ];
         $this->validate($rules, $messages);
         $category = Category::create([
@@ -726,19 +741,17 @@ class ProductsController extends Component
         try {
             try {
                 //$import->import('import-users.xlsx');
-    
+
                 Excel::import(new ProductsImport, $this->archivo);
                 return redirect()->route('productos');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $this->failures = $e->failures();
             }
         } catch (Exception $e) {
-   
+
             $this->emit('sin-archivo');
-            
         }
-      
-    }   
+    }
     /**
      * Si la casilla de verificación está marcada, la matriz de productos seleccionados se completará con
      * todos los ID de productos. Si la casilla de verificación no está marcada, la matriz de productos
@@ -797,12 +810,9 @@ class ProductsController extends Component
     //Cambia estado con switch
     public function cambioestado()
     {
-        if($this->estados)
-        {
+        if ($this->estados) {
             $this->estados = false;
-        }
-        else
-        {
+        } else {
             $this->estados = true;
         }
     }

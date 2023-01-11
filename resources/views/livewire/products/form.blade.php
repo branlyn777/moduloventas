@@ -387,7 +387,7 @@
                              <div class="col-sm-12 col-md-3">
                                  <div class="form-group">
                                      <label>
-                                         Almacen
+                                         Almacenes
                                      </label>
                                      <select wire:model='destino' class="form-select">
                                         <option value='Elegir' disabled>Elegir</option>

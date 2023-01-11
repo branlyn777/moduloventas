@@ -12,7 +12,7 @@ class CoinsController extends Component
     use WithPagination;
     use WithFileUploads;
     
-    public  $search, $image, $selected_id, $type, $value;
+    public  $search, $image, $selected_id, $type, $value, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 50;
 
@@ -63,6 +63,7 @@ class CoinsController extends Component
             $coin->save();
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Moneda Registrada';
         $this->emit('coin-added', 'Moneda Registrada');
     }
     public function Edit(Denomination $coin)
@@ -105,7 +106,8 @@ class CoinsController extends Component
             }
         }
         $this->resetUI();
-        $this->emit('coin-added', 'Producto Registrado');
+        $this->mensaje_toast = 'Moneda Actulizada';
+        $this->emit('coin-added', 'Moneda Actulizada');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
 
@@ -120,6 +122,7 @@ class CoinsController extends Component
             }
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Moneda Eliminado';
         $this->emit('coin-deleted', 'Moneda Eliminado');
     }
     public function resetUI()

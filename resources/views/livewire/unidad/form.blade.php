@@ -12,23 +12,23 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label>Nombre Unidad</label>
+                            <label><span class="text-warning">* </span>Nombre Unidad</label>
                             <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="pieza"
                             maxlenght="25">
-                            @error('nombre') <span class="text-danger er" style="font-size: 13px">{{ $message }}</span>@enderror
+                            @error('nombre') <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 13px">CANCELAR</button>
+                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.8rem">CANCELAR</button>
                 @if ($selected_id < 1)
-                    <button wire:click.prevent="Store()" type="button" class="btn btn-primary" style="font-size: 13px">
+                    <button wire:click.prevent="Store()" type="button" class="btn btn-primary" style="font-size: 0.8rem">
                         GUARDAR
                     </button>
                 @else
-                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary" style="font-size: 13px">
+                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary" style="font-size: 0.8rem">
                         ACTUALIZAR
                     </button>
                 @endif

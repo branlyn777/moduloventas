@@ -13,7 +13,7 @@ class CajasController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $estado, $sucursal_id, $selected_id;
+    public  $search, $nombre, $estado, $sucursal_id, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 15;
 
@@ -93,6 +93,7 @@ class CajasController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Caja Registrada';
         $this->emit('item-added', 'Caja Registrada');
     }
     public function Edit(Caja $caja)
@@ -124,6 +125,7 @@ class CajasController extends Component
         $Caj->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Caja Actualizada';
         $this->emit('item-updated', 'Caja Actualizada');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -132,6 +134,7 @@ class CajasController extends Component
     {
         $caja->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Caja Eliminada';
         $this->emit('item-deleted', 'Caja Eliminada');
     }
 

@@ -135,8 +135,8 @@
 
                                                     <a href="javascript:void(0)" wire:click="ver({{ $location->id }})"
                                                         class="mx-3" title="Ver subcategorias">
-                                                        <b>{{ $location->product->count() }}</b> <i class="fas fa-eye"
-                                                            style="font-size: 14px"></i>
+                                                        <b class="mx-3">{{ $location->product->count() }}</b> 
+                                                        <i class="fas fa-eye" style="font-size: 14px"></i>
                                                     </a>
                                                 </td>
                                                 <td class="text-center">
@@ -214,7 +214,7 @@
             if (locations > 0) {
                 swal.fire({
                     title: 'PRECAUCION',
-                    icon: 'warning',
+                    type: 'warning',
                     text: 'No se puede eliminar el producto, ' + descripcion + ' porque tiene ' +
                         locations + ' ventas relacionadas'
                 })
@@ -222,12 +222,12 @@
             }
             swal.fire({
                 title: 'CONFIRMAR',
-                icon: 'warning',
+                type: 'warning',
                 text: 'Confirmar eliminar la locacion ' + '"' + descripcion + '"',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar',
-                cancelButtonColor: '#383838',
-                confirmButtonColor: '#3B3F5C',
+                // cancelButtonColor: '#383838',
+                // confirmButtonColor: '#3B3F5C',
                 confirmButtonText: 'Aceptar'
             }).then(function(result) {
                 if (result.value) {

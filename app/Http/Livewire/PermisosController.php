@@ -12,7 +12,7 @@ use App\Models\User;
 class PermisosController extends Component
 {
     use WithPagination;
-    public $permissionName,$permissionArea,$permissionDescripcion, $search, $selected_id, $pageTitle, $componentName;
+    public $permissionName,$permissionArea,$permissionDescripcion, $search, $selected_id, $pageTitle, $componentName, $mensaje_toast;
     private $pagination = 20;
 
     public function paginationView()
@@ -123,6 +123,7 @@ class PermisosController extends Component
         $role->descripcion = $this->permissionDescripcion;
         $role->save();
 
+        $this->mensaje_toast = 'Se actualizó el permiso con éxito';
         $this->emit('item-update', 'Se actualizó el permiso con éxito');
         $this->resetUI();
     }

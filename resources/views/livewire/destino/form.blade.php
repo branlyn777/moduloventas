@@ -17,7 +17,7 @@
 
                     <div class="col-12 col-sm-6 col-md-12">
                         <div class="form-group">
-                            <label>Destino</label>
+                            <label><span class="text-warning">* </span>Destino</label>
                             <input type="text" wire:model.lazy="nombre" class="form-control"
                                 placeholder="Nombre de la estancia depósito, tienda, almacén, bodega" maxlenght="25">
                             @error('nombre')
@@ -41,7 +41,7 @@
 
                         <div class="col-12 col-sm-6 col-md-6">
                             <div class="form-group">
-                                <label>Sucursal</label>
+                                <label><span class="text-warning">* </span>Sucursal</label>
                                 <select wire:model='sucursal' class="form-select">
                                     <option value="Elegir">Elegir</option>
                                     @foreach ($sucursales as $s)

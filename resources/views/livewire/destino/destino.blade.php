@@ -264,11 +264,42 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        window.livewire.on('unidad-added', msg => {
-            $('#theModal').modal('hide')
+        // window.livewire.on('unidad-added', msg => {
+        //     $('#theModal').modal('hide')
+        // });
+        window.livewire.on('unidad-added', Msg => {
+            $('#theModal').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+
         });
-        window.livewire.on('unidad-updated', msg => {
+        // window.livewire.on('unidad-updated', msg => {
+        //     $('#theModal').modal('hide')
+        // });
+        window.livewire.on('unidad-updated', Msg => {
             $('#theModal').modal('hide')
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
         window.livewire.on('show-modal', msg => {
             $('#theModal').modal('show')
@@ -277,7 +308,20 @@
             $('#theModal').modal('hide')
         });
 
-
+        window.livewire.on('unidad-deleted', Msg => {
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
     });
 
     function Confirm(id, nombre) {
