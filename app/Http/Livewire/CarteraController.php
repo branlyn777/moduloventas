@@ -300,10 +300,11 @@ class CarteraController extends Component
     ];
     public function Destroy(Cartera $cartera)
     {
+         
         $cartera->delete();
         $this->resetUI();
         $this->mensaje_toast = 'Cartera Eliminada';
-        $this->emit('item-deleted', 'Cartera Eliminada');
+        $this->emit('item-deleted', 'Cartera Eliminada'); 
     }
     public function cancel($idcartera)
     {
