@@ -281,23 +281,69 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            window.livewire.on('product-added', msg => {
+            // window.livewire.on('product-added', msg => {
+            //     $('#theModal').modal('hide')
+            //     $("#im").val('');
+
+            // });
+            window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');
-
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
             });
 
             window.livewire.on('modal-import', msg => {
                 $('#modalimport').modal('show')
             });
 
-            window.livewire.on('product-updated', msg => {
+            // window.livewire.on('product-updated', msg => {
+            //     $('#theModal').modal('hide')
+            //     noty(msg)
+            // });
+            window.livewire.on('product-updated', Msg => {
                 $('#theModal').modal('hide')
-                noty(msg)
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
             });
-            window.livewire.on('product-deleted', msg => {
-                noty(msg)
+            // window.livewire.on('product-deleted', msg => {
+            //     noty(msg)
+            // });
+            window.livewire.on('product-deleted', Msg => {
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
             });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+
             window.livewire.on('modal-show', msg => {
                 $('#theModal').modal('show')
             });
@@ -338,13 +384,13 @@
                 console.log(products);
                 swal.fire({
                     title: 'PRECAUCION',
-                    icon: 'warning',
+                    type: 'warning',
                     text: 'El producto' + name +
                         ' tiene relacion con otros registros del sistema, desea proseguir con la eliminacion de este ITEM?',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
-                    cancelButtonColor: '#383838',
-                    confirmButtonColor: '#3B3F5C',
+                    // cancelButtonColor: '#383838',
+                    // confirmButtonColor: '#3B3F5C',
                     confirmButtonText: 'Aceptar'
                 }).then(function(result) {
                     if (result.value) {
@@ -357,12 +403,12 @@
             } else {
                 swal.fire({
                     title: 'CONFIRMAR',
-                    icon: 'warning',
+                    type: 'warning',
                     text: 'Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente. ',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
-                    cancelButtonColor: '#383838',
-                    confirmButtonColor: '#3B3F5C',
+                    // cancelButtonColor: '#383838',
+                    // confirmButtonColor: '#3B3F5C',
                     confirmButtonText: 'Aceptar'
                 }).then(function(result) {
                     if (result.value) {

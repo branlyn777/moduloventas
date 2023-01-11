@@ -50,8 +50,7 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nuevo
-                                Procedencia</button>
+                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nuevo Procedencia</button>
 
                             <a href="clientes" class="btn btn-secondary" data-type="csv" type="button">
                                 <span style="margin-right: 7px;" class="btn-inner--text">Ir a Clientes</span>
@@ -172,16 +171,61 @@
     document.addEventListener('DOMContentLoaded', function() {
 
 
-        window.livewire.on('item-added', msg => {
-            $('#theModal').modal('hide'),
-                noty(msg)
+        // window.livewire.on('item-added', msg => {
+        //     $('#theModal').modal('hide'),
+        //         noty(msg)
+        // });
+        window.livewire.on('item-added', Msg => {
+            $('#theModal').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+
         });
-        window.livewire.on('item-updated', msg => {
+        // window.livewire.on('item-updated', msg => {
+        //     $('#theModal').modal('hide')
+        //     noty(msg)
+        // });
+        window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
-            noty(msg)
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
-        window.livewire.on('item-deleted', msg => {
-            noty(msg)
+        // window.livewire.on('item-deleted', msg => {
+        //     noty(msg)
+        // });
+        window.livewire.on('item-deleted', Msg => {
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
         });
         window.livewire.on('show-modal', msg => {
             $('#theModal').modal('show')

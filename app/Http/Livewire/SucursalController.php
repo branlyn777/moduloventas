@@ -17,7 +17,7 @@ class SucursalController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $name, $adress, $telefono, $celular, $nit_id, $company_id, $selected_id,$sucursal_id;
+    public  $search, $name, $adress, $telefono, $celular, $nit_id, $company_id, $selected_id,$sucursal_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
 
@@ -78,14 +78,8 @@ class SucursalController extends Component
 
             'adress.required' => 'El nombre de la direccion es requerido.',
             'adress.max' => 'Texto no mayor a 500 caracteres',
-
-
             'telefono.max' => 'Texto no mayor a 10 caracteres',
-
-
             'celular.max' => 'Texto no mayor a 10 caracteres',
-
-
             'nit_id.max' => 'Texto no mayor a 20 caracteres',
 
 
@@ -125,6 +119,7 @@ class SucursalController extends Component
 
 
         $this->resetUI();
+        $this->mensaje_toast = 'Sucursal Registrada';
         $this->emit('item-added', 'Sucursal Registrada');
     }
     public function Edit(Sucursal $sucursal)
@@ -175,11 +170,6 @@ class SucursalController extends Component
 
             'nit_id.unique' => 'Ya existe un nit con ese nombre.',
             'nit_id.max' => 'Texto no mayor a 20 caracteres',
-
-
-
-
-
             'company_id.not_in' => 'Seleccione un nombre de Empresa diferente de Elegir',
 
         ];
@@ -196,6 +186,7 @@ class SucursalController extends Component
         $suc->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Sucursal Actualizada';
         $this->emit('item-updated', 'Sucursal Actualizada');
     }
     //Verifica que la sucursal tiene movimientos
@@ -244,6 +235,7 @@ class SucursalController extends Component
         $sucursal = Sucursal::find($this->sucursal_id);
         $sucursal->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Sucursal Eliminada';
         $this->emit('item-deleted', 'Sucursal Eliminada');
     }
     public function Cancel()

@@ -210,10 +210,10 @@ true
             Swal.fire({
                 title: 'Estas seguro de eliminar este registro?',
                 text: "Esta accion es irreversible",
-                icon: 'warning',
+                type: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                // confirmButtonColor: '#3085d6',
+                // cancelButtonColor: '#d33',
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Aceptar'
             }).then((result) => {
@@ -234,10 +234,10 @@ true
             Swal.fire({
                 title: 'Estas seguro de eliminar este registro?',
                 text: "Esta accion es irreversible",
-                icon: 'warning',
+                type: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                // confirmButtonColor: '#3085d6',
+                // cancelButtonColor: '#d33',
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Aceptar'
             }).then((result) => {

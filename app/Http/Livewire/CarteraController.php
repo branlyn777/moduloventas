@@ -13,7 +13,7 @@ class CarteraController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $descripcion, $tipo, $telefonoNum, $selected_id, $caja_id;
+    public  $search, $nombre, $descripcion, $tipo, $telefonoNum, $selected_id, $caja_id, $mensaje_toast;
     public  $pageTitle, $componentName, $variable, $estados;
     private $pagination = 10;
 
@@ -150,6 +150,7 @@ class CarteraController extends Component
             ]);
 
             $this->resetUI();
+            $this->mensaje_toast = 'Cartera Registrada';
             $this->emit('item-added', 'Cartera Registrada');
         }
         else
@@ -241,6 +242,7 @@ class CarteraController extends Component
             ]);
             $cartera->save();
             $this->resetUI();
+            $this->mensaje_toast = 'Cartera Actualizada';
             $this->emit('item-updated', 'Cartera Actualizada');
     
         }
@@ -273,6 +275,7 @@ class CarteraController extends Component
                     ]);
                     $cartera->save();
                     $this->resetUI();
+                    $this->mensaje_toast = 'Cartera Actualizada';
                     $this->emit('item-updated', 'Cartera Actualizada');
                 }
                 else
@@ -288,6 +291,7 @@ class CarteraController extends Component
 
 
 
+
     }
     protected $listeners = [
         'deleteRow' => 'Destroy',
@@ -298,6 +302,7 @@ class CarteraController extends Component
     {
         $cartera->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Cartera Eliminada';
         $this->emit('item-deleted', 'Cartera Eliminada');
     }
     public function cancel($idcartera)

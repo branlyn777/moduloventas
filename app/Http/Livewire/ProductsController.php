@@ -34,6 +34,7 @@ class ProductsController extends Component
     public $cont_lote;
     public $pagination = 100;
     public $selected_id2;
+    public $mensaje_toast;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -333,6 +334,7 @@ class ProductsController extends Component
             $product->save();
         }
 
+        $this->mensaje_toast = 'Producto Registrado';
         $this->emit('product-added', 'Producto Registrado');
         $this->resetUI();
     }
@@ -390,7 +392,7 @@ class ProductsController extends Component
             'costo.required' => 'El costo es requerido',
             'precio_venta.required' => 'El precio es requerido',
             'costo.numeric' => 'El costo tiene que ser un numero',
-            'cantidad_minima.numeric' => 'La cantidad minima solamente puede ser numerico',
+            // 'cantidad_minima.numeric' => 'La cantidad minima solamente puede ser numerico',
             'precio_venta.numeric' => 'El precio de venta tiene que ser un numero',
             'categoryid.required' => 'La categoria es requerida',
             'categoryid.not_in' => 'Elegir un nombre de categoria diferente de Elegir'
@@ -429,6 +431,7 @@ class ProductsController extends Component
             }
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Actualizado';
         $this->emit('product-updated', 'Producto Actualizado');
     }
     protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently'];
@@ -452,6 +455,7 @@ class ProductsController extends Component
             $data->pivot->delete();
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Eliminado';
         $this->emit('product-deleted', 'Producto Eliminado');
     }
 
@@ -466,6 +470,7 @@ class ProductsController extends Component
             }
         }
         $this->resetUI();
+        $this->mensaje_toast = 'Producto Eliminado';
         $this->emit('product-deleted', 'Producto Eliminado');
     }
 

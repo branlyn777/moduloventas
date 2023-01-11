@@ -163,12 +163,12 @@ true
      
         swal.fire({
             title: 'CONFIRMAR',
-            icon: 'warning',
+            type: 'warning',
             text: 'Confirmar eliminar la marca ' + '"' + nombre + '"',
             showCancelButton: true,
             cancelButtonText: 'Cerrar',
-            cancelButtonColor: '#383838',
-            confirmButtonColor: '#3B3F5C',
+            // cancelButtonColor: '#383838',
+            // confirmButtonColor: '#3B3F5C',
             confirmButtonText: 'Aceptar'
         }).then(function(result) {
             if (result.value) {

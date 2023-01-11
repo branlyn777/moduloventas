@@ -23,7 +23,7 @@ class UsersController extends Component
 
     public $name, $phone, $email, $image, $password, $selected_id, $estados, $fileLoaded, $profile,
         $sucursal_id, $fecha_inicio, $fechafin, $idsucursalUser, $details, $sucurid, $sucurname, $status, $random, $imagen, $lista_sucursales;
-    public $pageTitle, $componentName, $search, $sucursal;
+    public $pageTitle, $componentName, $search, $sucursal, $mensaje_toast;
     private $pagination = 10;
 
     public function paginationView()
@@ -158,6 +158,7 @@ class UsersController extends Component
 
             DB::commit();
             $this->resetUI();
+            $this->mensaje_toast = 'Usuario Registrado';
             $this->emit('item-added', 'Usuario Registrado');
         } catch (Exception $e) {
             DB::rollback();
@@ -235,6 +236,7 @@ class UsersController extends Component
         }
 
         $this->resetUI();
+        $this->mensaje_toast = 'Usuario Actualizado';
         $this->emit('item-updated', 'Usuario Actualizado');
     }
 
