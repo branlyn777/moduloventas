@@ -47,13 +47,13 @@
 
             <div class="d-lg-flex">
                 <div>
-                    <h5 class="text-white" style="font-size: 16px">Nueva Venta</h5>
+                    <h5 class="text-white" style="font-size: 16px">Roles</h5>
                 </div>
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
 
                         
-                        <button wire:click="modalbuscarcliente()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
+                        <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
                             Nuevo Usuario</button>
 
                     </div>

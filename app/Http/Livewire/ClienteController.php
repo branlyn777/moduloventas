@@ -74,8 +74,8 @@ class ClienteController extends Component
     {
         $rules = [
             'nombre' => 'required|max:255',
-            'cedula' => 'required|min:5|max:10,unique|unique:clientes',
-            'celular' => 'required|min:8',
+            /* 'cedula' => 'required|min:5|max:10,unique|unique:clientes', */
+           /*  'celular' => 'required|min:8', */
             'procedencia' => 'required|not_in:Elegir',
             'email' => 'max:100',
             'direccion' => 'max:255',
@@ -85,11 +85,11 @@ class ClienteController extends Component
         $messages = [
             'nombre.required' => 'El nombre es requerido.',
             'nombre.max' => 'Numero de caracteres no mayor a 255',
-            'cedula.required' => 'Numero de cédula es requerido.',
+            /* 'cedula.required' => 'Numero de cédula es requerido.', */
             'cedula.max' => 'Numero de caracteres no mayor a 10',
             'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
             'cedula.unique' => 'El CI ya existe',
-            'celular.required' => 'Numero de celular es requerido.',
+           /*  'celular.required' => 'Numero de celular es requerido.', */
             'celular.min' => 'Ingrese un celular superior a 7 dígitos.',
             'email.max'  => 'Numero de caracteres no mayor a 100',
             'nit.max'  => 'Numero de caracteres no mayor a 100',
@@ -141,8 +141,8 @@ class ClienteController extends Component
         $rules = [
             'nombre' => 'required|max:255',
             
-            'cedula' => 'required|min:5|max:10,unique',
-            'celular' => 'required|min:8',
+            /* 'cedula' => 'required|min:5|max:10,unique', */
+            /* 'celular' => 'required|min:8', */
             'procedencia' => 'required|not_in:Elegir',
             'email' => 'max:100',
             'direccion' => 'max:255',
@@ -152,11 +152,11 @@ class ClienteController extends Component
         $messages = [
             'nombre.required' => 'El nombre es requerido.',
             'nombre.max' => 'Numero de caracteres no mayor a 255',
-            'cedula.required' => 'Numero de cédula es requerido.',
+            /* 'cedula.required' => 'Numero de cédula es requerido.', */
             'cedula.max' => 'Numero de caracteres no mayor a 10',
             'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
             // 'cedula.unique' => 'El CI ya existe',
-            'celular.required' => 'Numero de celular es requerido.',
+           /*  'celular.required' => 'Numero de celular es requerido.', */
             'celular.min' => 'Ingrese nro de celular de 8 dígitos.',
             'email.max'  => 'Numero de caracteres no mayor a 100',
             'nit.max'  => 'Numero de caracteres no mayor a 100',

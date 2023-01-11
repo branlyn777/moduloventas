@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            
+
                         </div>
 
                         <div class="col-12 col-md-3">
@@ -162,7 +162,7 @@
                                                 {{ $item->descripcion }}
                                             </td>
                                             <td class="text-sm mb-0 text-left">
-                                                {{ $item->tipo=='efectivo'?'EFECTIVO':'DIGITAL' }}
+                                                {{ $item->tipo == 'efectivo' ? 'EFECTIVO' : 'DIGITAL' }}
                                             </td>
                                             {{-- <td>
                                                     {{ $item->telefonoNum }}
@@ -189,20 +189,23 @@
                                                     <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                 </a>
                                                 @if ($item->estado == 'ACTIVO')
-                                                    <a href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
-                                                        class="mx-3" title="Borrar">
-                                                        <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                                    </a>
+
+                                                    @if ($item->tipo == 'digital')
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->movimientos }}')"
+                                                            class="mx-3" title="Borrar">
+                                                            <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                                        </a>
+                                                    @endif
                                                 @else
-                                                    <a href="javascript:void(0)"
-                                                        onclick="Activar('{{ $item->id }}')" class="mx-3"
-                                                        title="Activar">
-                                                        <i class="fas fa-store text-warning" aria-hidden="true"></i>
-                                                    </a>
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Activar('{{ $item->id }}')" class="mx-3"
+                                                            title="Activar">
+                                                            <i class="fas fa-store text-warning" aria-hidden="true"></i>
+                                                        </a>
                                                 @endif
-                                            </td>
-                                        </tr>
+                                    </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
