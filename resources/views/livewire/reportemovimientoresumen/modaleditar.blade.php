@@ -64,12 +64,10 @@
                     </div>
 
                 </div>
-                <div>
-                    <a href="javascript:void(0)" class="btn btn-dark" wire:click.prevent="guardarEdicion()">Actualizar</a>
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click.prevent="resetUIedit()">Cancelar</a>
+                <div class="modal-footer">
+                    <a href="javascript:void(0)" class="btn btn-secondary" wire:click.prevent="resetUIedit()">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary" wire:click.prevent="guardarEdicion()">Actualizar</a>
                 </div>
-             
-
             </div>
 
 

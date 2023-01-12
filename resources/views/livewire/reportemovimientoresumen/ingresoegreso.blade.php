@@ -60,8 +60,6 @@
                                         <div>{{ $dum->carteraNombre }}:{{ $dum->monto }}</div>
                                     @endforeach
                                 </h6>
-
-
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,12 +91,13 @@
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                        <input type="text" wire:model="search" placeholder="Buscar" class="form-control ">
+                                        <input type="text" wire:model="search" placeholder="Buscar"
+                                            class="form-control ">
                                     </div>
-                                </div> 
+                                </div>
                             </div>
 
-                                                       
+
 
                         </div>
 
