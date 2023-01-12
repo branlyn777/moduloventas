@@ -111,97 +111,93 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body px-0 pb-0">
-                    <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-container">
-                                <table class="table align-items-center mb-0">
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center">#</th>
+                                    <th class="text-uppercase text-sm">NOMBRE</th>
+                                    <th class="text-uppercase text-sm">SUBCATEGORÍAS</th>
+                                    <th class="text-uppercase text-sm">ESTADO</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                </tr>
+                            </thead>
 
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-sm text-center">#</th>
-                                            <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                            <th class="text-uppercase text-sm">SUBCATEGORÍAS</th>
-                                            <th class="text-uppercase text-sm">ESTADO</th>
-                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
-                                        </tr>
-                                    </thead>
+                            <tbody>
+                                @foreach ($categories as $category)
+                                    <tr class="text-left">
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ ($categories->currentpage() - 1) * $categories->perpage() + $loop->index + 1 }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            {{ substr($category->name, 0, 30) }}<br>
+                                            Descripción :
+                                            {{ $category->descripcion == null ? 'S/N Descripcion' : substr($category->descripcion, 0, 45) }}
 
-                                    <tbody>
-                                        @foreach ($categories as $category)
-                                            <tr class="text-left">
-                                                <td class="text-sm mb-0 text-center">
-                                                    {{ ($categories->currentpage() - 1) * $categories->perpage() + $loop->index + 1 }}
-                                                </td>
-                                                <td class="text-sm mb-0 text-left">
-                                                    {{ substr($category->name, 0, 30) }}<br>
-                                                    Descripción :
-                                                    {{ $category->descripcion == null ? 'S/N Descripcion' : substr($category->descripcion, 0, 45) }}
-
-                                                    {{-- <div class="row">
+                                            {{-- <div class="row">
                                                         <div class="col-md-5"> --}}
-                                                    {{-- <div class="row">
+                                            {{-- <div class="row">
                                                                 <div class="col">
                                                                 </div>
                                                             </div> --}}
-                                                    {{-- <div class="row">
+                                            {{-- <div class="row">
                                                                 <div class="col">
                                                                 </div>
                                                             </div> --}}
-                                                    {{-- </div>
+                                            {{-- </div>
                                                     </div> --}}
-                                                </td>
-                                                <td class="text-sm mb-0 text-left">
-                                                    <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
-                                                        class="boton-azul mx-3" title="Ver subcategorias">
-                                                        <b class="pl-1 mx-3">{{ $category->subcategories() }}</b>
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
+                                        </td>
+                                        <td class="text-sm mb-0 text-left">
+                                            <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
+                                                class="boton-azul mx-3" title="Ver subcategorias">
+                                                <b class="pl-1 mx-3">{{ $category->subcategories() }}</b>
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
 
-                                                @if ($category->status == 'ACTIVO')
-                                                    <td>
-                                                        {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
-                                                        <span
-                                                            class="badge badge-sm bg-gradient-success">{{ $category->status }}</span>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <span
-                                                            class="badge badge-sm bg-gradient-danger">{{ $category->status }}</span>
-                                                        {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
-                                                    </td>
-                                                @endif
+                                        @if ($category->status == 'ACTIVO')
+                                            <td>
+                                                {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
+                                                <span
+                                                    class="badge badge-sm bg-gradient-success">{{ $category->status }}</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span
+                                                    class="badge badge-sm bg-gradient-danger">{{ $category->status }}</span>
+                                                {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
+                                            </td>
+                                        @endif
 
 
-                                                <td class="text-center">
-                                                    <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                                        class="mx-3" class="boton-azul" title="Editar">
-                                                        <i class="fas fa-edit" style="font-size: 14px"></i>
-                                                    </a>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
+                                                class="mx-3" class="boton-azul" title="Editar">
+                                                <i class="fas fa-edit" style="font-size: 14px"></i>
+                                            </a>
 
-                                                    <a href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{ $category->products->count() }}','{{ $category->subcategories() }}')"
-                                                        class="boton-rojo mx-3" title="Eliminar">
-                                                        <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table><br>
-                            </div>
-                        </div>
+                                            <a href="javascript:void(0)"
+                                                onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{ $category->products->count() }}','{{ $category->subcategories() }}')"
+                                                class="boton-rojo mx-3" title="Eliminar">
+                                                <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                {{ $categories->links() }}
             </div>
-        </div>
+        {{ $categories->links() }}
     </div>
-    @include('livewire.category.form')
-    @include('livewire.category.form_subcategory')
-    @include('livewire.category.subcategories')
+</div>
+</div>
+@include('livewire.category.form')
+@include('livewire.category.form_subcategory')
+@include('livewire.category.subcategories')
 
 </div>
 

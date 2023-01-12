@@ -100,102 +100,96 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body px-0 pb-0">
-                    <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-container">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-sm text-center"><b>N°</b></th>
-                                            <th class="text-uppercase text-sm">IMAGEN</th>
-                                            <th class="text-uppercase text-sm" style="width: 50px">PRODUCTO</th>
-                                            <th class="text-uppercase text-sm text-center">STOCK</th>
-                                            <th class="text-uppercase text-sm text-center">CANT.MIN</th>
-                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($destinos_almacen as $destino)
-                                            @if ($destino->stock_s < $destino->cant_min)
-                                                <tr style="font-size: 14px">
-                                            @else
-                                                <tr style="font-size: 14px">
-                                            @endif
-                                            <td class="text-center">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <img src="{{ 'storage/productos/' . $destino->image }}"
-                                                        height="40" class="rounded">
-                                                </span>
-                                            </td>
-                                            <td class="text-left" style="width: 15%">
-                                                <b>{{ $destino->nombre }}</b><br>
-                                                Codigo: {{ $destino->codigo }}
-                                            </td>
-                                            {{--
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center"><b>N°</b></th>
+                                    <th class="text-uppercase text-sm">IMAGEN</th>
+                                    <th class="text-uppercase text-sm">PRODUCTO</th>
+                                    <th class="text-uppercase text-sm text-center">STOCK</th>
+                                    <th class="text-uppercase text-sm text-center">CANT.MIN</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($destinos_almacen as $destino)
+                                    @if ($destino->stock_s < $destino->cant_min)
+                                        <tr style="font-size: 14px">
+                                        @else
+                                        <tr style="font-size: 14px">
+                                    @endif
+                                    <td class="text-center">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <img src="{{ 'storage/productos/' . $destino->image }}" height="40"
+                                                class="rounded">
+                                        </span>
+                                    </td>
+                                    <td class="text-left" style="width: 15%">
+                                        <b>{{ $destino->nombre }}</b><br>
+                                        Codigo: {{ $destino->codigo }}
+                                    </td>
+                                    {{--
                                                     <td class="text-left" style="width: 15%">
                                                     <strong class="text-left" >{{$destino->nombre}}</strong><br>
                                                     <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
                                                     {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})</td>
                                                 --}}
 
-                                            @if ($selected_id == 'General')
-                                                <td class="text-center">
-                                                    {{ $destino->stock_s }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $destino->cantidad_minima }}
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})"
-                                                        class="mx-3" title="Ver">
-                                                        <i class="fas fa-list"></i>
-                                                    </a>
+                                    @if ($selected_id == 'General')
+                                        <td class="text-center">
+                                            {{ $destino->stock_s }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $destino->cantidad_minima }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})"
+                                                class="mx-3" title="Ver">
+                                                <i class="fas fa-list"></i>
+                                            </a>
 
-                                                    <a href="javascript:void(0)"
-                                                        wire:click="lotes({{ $destino->id }})" class="mx-3"
-                                                        title="Lotes">
-                                                        <i class="fas fa-box-open text-info"></i>
-                                                    </a>
-                                                </td>
-                                            @else
-                                                <td class="text-center">
-                                                    <h6 class="text-center">{{ $destino->stock }}</h6>
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $destino->cantidad_minima }}
-                                                </td>
-                                                @can('Admin_Views')
-                                                    <td class="align-middle text-center">
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="ajuste({{ $destino->id }})"
-                                                            title="Ajuste de inventarios" class="mx-3">
-                                                            <i class="fas fa-edit" style="font-size: 14px"></i>
-                                                        </a>
-                                                    </td>
-                                                @endcan
-                                            @endif
+                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})"
+                                                class="mx-3" title="Lotes">
+                                                <i class="fas fa-box-open text-info"></i>
+                                            </a>
+                                        </td>
+                                    @else
+                                        <td class="text-center">
+                                            <h6 class="text-center">{{ $destino->stock }}</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $destino->cantidad_minima }}
+                                        </td>
+                                        @can('Admin_Views')
+                                            <td class="align-middle text-center">
+                                                <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})"
+                                                    title="Ajuste de inventarios" class="mx-3">
+                                                    <i class="fas fa-edit" style="font-size: 14px"></i>
+                                                </a>
+                                            </td>
+                                        @endcan
+                                    @endif
 
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <br>
-                            </div>
-                        </div>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                {{ $destinos_almacen->links() }}
             </div>
+            {{ $destinos_almacen->links() }}
         </div>
     </div>
-    @include('livewire.destinoproducto.detallemobiliario')
-    @include('livewire.destinoproducto.ajusteinventario')
-    @include('livewire.destinoproducto.lotesproductos')
+</div>
+@include('livewire.destinoproducto.detallemobiliario')
+@include('livewire.destinoproducto.ajusteinventario')
+@include('livewire.destinoproducto.lotesproductos')
 </div>
 
 @section('javascript')

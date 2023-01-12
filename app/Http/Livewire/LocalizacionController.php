@@ -24,6 +24,7 @@ class LocalizacionController extends Component
     $selected_id, $categoria,$subcategoria,$location, $pageTitle, $componentName,$search,$search2,$destino,$listaproductos,$auxi=[],$arr,$vista,$data_prod_mob;
     private $pagination = 20;
     public $col,$selectedmob;
+    public $mensaje_toast;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -143,7 +144,8 @@ class LocalizacionController extends Component
         
         $localizacion->save();
         $this->resetUI();
-        $this->emit('localizacion-added', 'Localizacion Registrada Exitosamente');
+        $this->mensaje_toast = 'Mobiliario Registrado';
+        $this->emit('localizacion-added', 'Mobiliario Registrado Exitosamente');
     }
     public function Edit(Location $loc)
     {
@@ -183,7 +185,8 @@ class LocalizacionController extends Component
         ]);
        
         $this->resetUI();
-        $this->emit('location-updated', 'Locacion Actualizada');
+        $this->mensaje_toast = 'Mobiliario Actualizado';
+        $this->emit('location-updated', 'Mobiliario Actualizado');
     }
 
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -194,7 +197,8 @@ class LocalizacionController extends Component
         $loc->delete();
 
         $this->resetUI();
-        $this->emit('localizacion-deleted', 'Localizacion Eliminada');
+        $this->mensaje_toast = 'Mobiliario Eliminado';
+        $this->emit('localizacion-deleted', 'Mobiliario Eliminado');
     }
 
     public function asignarMobiliario()

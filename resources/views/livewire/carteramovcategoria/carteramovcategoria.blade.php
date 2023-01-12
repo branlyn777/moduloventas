@@ -153,7 +153,7 @@
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 2000,
                     padding: '2em'
                 });
                 toast({
@@ -179,7 +179,7 @@
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 2000,
                     padding: '2em'
                 });
                 toast({

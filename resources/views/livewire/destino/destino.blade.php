@@ -136,137 +136,126 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body px-0 pb-0">
-                    <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-container">
-                                <table class="table align-items-center mb-0 P-0">
-                                    <thead>
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0 P-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center">N°</th>
+                                    <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
+                                    <th class="text-uppercase text-sm">OBSERVACIÓN</th>
+                                    <th class="text-uppercase text-sm">SUCURSAL</th>
+                                    <th class="text-uppercase text-sm">FECHA CREACIÓN</th>
+                                    <th class="text-uppercase text-sm">FECHA ACTUALIZACIÓN</th>
+                                    <th class="text-uppercase text-sm">ESTADO</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($destinos as $d)
+                                    @if ($d->venta == 'No')
                                         <tr>
-                                            <th class="text-uppercase text-sm text-center">N°</th>
-                                            <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                            <th class="text-uppercase text-sm">OBSERVACIÓN</th>
-                                            <th class="text-uppercase text-sm">SUCURSAL</th>
-                                            <th class="text-uppercase text-sm">FECHA CREACIÓN</th>
-                                            <th class="text-uppercase text-sm">FECHA ACTUALIZACIÓN</th>
-                                            <th class="text-uppercase text-sm">ESTADO</th>
-                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                            <td class="align-middle text-center">
+                                                {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ $d->nombredestino }}
+                                            </td>
+                                            <td>
+                                                {{ substr($d->observacion, 0, 50) }}
+                                            </td>
+                                            <td>
+                                                {{ $d->nombresucursal }}
+                                            </td>
+
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                            </td>
+                                            <td>
+                                                @if ($d->estado == 'ACTIVO')
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-success">{{ $d->estado }}</span>
+                                                @else
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-danger">{{ $d->estado }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $d->iddestino }})"
+                                                    class="mx-3" class="boton-azul" title="Editar Estancia">
+                                                    <i class="fas fa-edit" style="font-size: 14px"></i>
+                                                </a>
+
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
+                                                    class="boton-rojo mx-3" title="Anular Estancia">
+                                                    <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
+                                                </a>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($destinos as $d)
-                                            @if ($d->venta == 'No')
-                                                <tr>
-                                                    <td class="align-middle text-center">
-                                                        {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $d->nombredestino }}
-                                                    </td>
-                                                    <td>
-                                                        {{ substr($d->observacion, 0, 50) }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $d->nombresucursal }}
-                                                    </td>
+                                    @else
+                                        <tr style="background-color: #ececec">
+                                            <td class="align-middle text-center">
+                                                {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                            </td>
 
-                                                    <td>
-                                                        {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
-                                                    </td>
-                                                    <td>
-                                                        {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
-                                                    </td>
-                                                    <td>
-                                                        @if ($d->estado == 'ACTIVO')
-                                                            <span
-                                                                class="badge badge-sm bg-gradient-success">{{ $d->estado }}</span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-sm bg-gradient-danger">{{ $d->estado }}</span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="Edit({{ $d->iddestino }})" class="mx-3"
-                                                            class="boton-azul" title="Editar Estancia">
-                                                            <i class="fas fa-edit" style="font-size: 14px"></i>
-                                                        </a>
+                                            <td>
+                                                {{ $d->nombredestino }}
+                                            </td>
 
-                                                        <a href="javascript:void(0)"
-                                                            onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
-                                                            class="boton-rojo mx-3" title="Anular Estancia">
-                                                            <i class="fas fa-trash text-danger"
-                                                                style="font-size: 14px"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @else
-                                                <tr style="background-color: #ececec">
-                                                    <td class="align-middle text-center">
-                                                        {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
-                                                    </td>
+                                            <td>
+                                                {{ substr($d->observacion, 0, 58) }}
+                                            </td>
+                                            <td>
+                                                {{ $d->nombresucursal }}
+                                            </td>
 
-                                                    <td>
-                                                        {{ $d->nombredestino }}
-                                                    </td>
-
-                                                    <td>
-                                                        {{ substr($d->observacion, 0, 58) }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $d->nombresucursal }}
-                                                    </td>
-
-                                                    <td>
-                                                        {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
-                                                    </td>
-                                                    <td>
-                                                        {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
-                                                    </td>
-                                                    <td>
-                                                        @if ($d->estado == 'ACTIVO')
-                                                            <span
-                                                                class="badge badge-sm bg-gradient-success">{{ $d->estado }}</span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-sm bg-gradient-danger">{{ $d->estado }}</span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="Edit({{ $d->iddestino }})" class="mx-3"
-                                                            class="boton-azul" title="Editar Estancia">
-                                                            <i class="fas fa-edit" style="font-size: 14px"></i>
-                                                        </a>
-                                                        {{-- <button wire:click="Edit({{ $d->iddestino }})" class="boton-celeste" title="Editar Estancia">
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                            </td>
+                                            <td>
+                                                @if ($d->estado == 'ACTIVO')
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-success">{{ $d->estado }}</span>
+                                                @else
+                                                    <span
+                                                        class="badge badge-sm bg-gradient-danger">{{ $d->estado }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $d->iddestino }})"
+                                                    class="mx-3" class="boton-azul" title="Editar Estancia">
+                                                    <i class="fas fa-edit" style="font-size: 14px"></i>
+                                                </a>
+                                                {{-- <button wire:click="Edit({{ $d->iddestino }})" class="boton-celeste" title="Editar Estancia">
                                                             <i class="fas fa-edit"></i>
                                                         </button> --}}
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <br>
-                            </div>
-                        </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                {{ $destinos->links() }}
             </div>
+            {{ $destinos->links() }}
         </div>
     </div>
-    @include('livewire.destino.form')
+</div>
+@include('livewire.destino.form')
 </div>
 
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
-        // window.livewire.on('unidad-added', msg => {
-        //     $('#theModal').modal('hide')
-        // });
         window.livewire.on('unidad-added', Msg => {
             $('#theModal').modal('hide');
             const toast = swal.mixin({
@@ -281,11 +270,7 @@
                 title: @this.mensaje_toast,
                 padding: '2em',
             })
-
         });
-        // window.livewire.on('unidad-updated', msg => {
-        //     $('#theModal').modal('hide')
-        // });
         window.livewire.on('unidad-updated', Msg => {
             $('#theModal').modal('hide')
             const toast = swal.mixin({
