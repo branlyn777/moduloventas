@@ -175,8 +175,8 @@ class DestinoController extends Component
         ]);
 
         $this->resetUI();
-        $this->mensaje_toast = 'Estancia Registrada';
-        $this->emit('unidad-added', 'Estancia Registrada');
+        $this->mensaje_toast = 'Destino Registrada';
+        $this->emit('unidad-added', 'Destino Registrada');
     }
 
 
@@ -241,8 +241,8 @@ class DestinoController extends Component
         ]);
         $destino->save();
         $this->resetUI();
-        $this->mensaje_toast = 'Estancia Actualizada';
-        $this->emit('unidad-updated', 'Estancia Actualizada');
+        $this->mensaje_toast = 'Destino Actualizada';
+        $this->emit('unidad-updated', 'Destino Actualizada');
     }
 
     public function modalestancia()
@@ -264,8 +264,8 @@ class DestinoController extends Component
         $destino->save();
 
         $this->resetUI();
-        $this->mensaje_toast = 'Estancia Inactivada';
-        $this->emit('unidad-deleted', 'Estancia Eliminada');
+        $this->mensaje_toast = 'Destino Inactivada';
+        $this->emit('unidad-deleted', 'Destino Eliminada');
     }
     public function resetUI()
     {
