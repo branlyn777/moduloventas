@@ -13,7 +13,7 @@ class PermisosController extends Component
 {
     use WithPagination;
     public $permissionName,$permissionArea,$permissionDescripcion, $search, $selected_id, $pageTitle, $componentName, $mensaje_toast;
-    private $pagination = 20;
+    public $pagination = 20;
 
     public function paginationView()
     {
@@ -37,7 +37,6 @@ class PermisosController extends Component
             ->where('permissions.name', 'like', '%' . $this->search . '%')
             ->orWhere('a.name', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
-
 
         }
         else

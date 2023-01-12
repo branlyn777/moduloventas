@@ -39,7 +39,7 @@ class ProductsController extends Component
     public $des_subcategory;
     //Variable para configurar el seguimiento de los lotes, de acuerdo a si quiere que sea manual la eleccion del lote o si quiere que sea por defecto automatico FIFO
     public $cont_lote;
-    public $pagination = 100;
+    public $pagination = 10;
     public $selected_id2;
     public $mensaje_toast;
     public function paginationView()

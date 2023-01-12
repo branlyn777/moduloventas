@@ -278,6 +278,10 @@
             </div>
         </div>
     </div>
+    <div class="table-5">
+
+        {{ $data->links() }}
+    </div>
     @include('livewire.products.form')
     @include('livewire.products.importarproductos')
     @include('livewire.products.modalunidad')
