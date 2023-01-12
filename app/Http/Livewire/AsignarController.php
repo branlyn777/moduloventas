@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\Areaspermissions;
+use App\Models\RoleHasPermissions;
 use Livewire\WithPagination;
 
 
@@ -35,33 +36,40 @@ class AsignarController extends Component
     public function render()
     {
         //Listar Todas las areas de los permisos
-        $listaareas = Areaspermissions::select('id','name')
-        ->get();
+        $listaareas = Areaspermissions::select('id','name')->get();
         
         //listar Todos los Permisos
         if($this->permisosseleccionado == "Todos")
         {
             $permisos = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
-            ->select('permissions.name', 'permissions.id','a.name as area','permissions.descripcion', DB::raw('0 as checked'))
+            ->select('permissions.name', 'permissions.id as idpermiso','a.name as area','permissions.descripcion', DB::raw('0 as checked'), DB::raw('0 as cantidad'))
             ->orderBy('permissions.name', 'asc')
             ->paginate($this->pagination);
         }
         else
         {
             $permisos = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
-            ->select('permissions.name', 'permissions.id','a.name as area','permissions.descripcion', DB::raw('0 as checked'))
+            ->select('permissions.name', 'permissions.id as idpermiso','a.name as area','permissions.descripcion', DB::raw('0 as checked'), DB::raw('0 as cantidad'))
             ->where("a.id", $this->permisosseleccionado)
             ->orderBy('permissions.name', 'asc')
             ->paginate($this->pagination);
         }
+
+        //Actualizando la columna cantidad para saber cuantos usuarios tiene cada permiso
+        foreach ($permisos as $p)
+        {
+            $cantidad = RoleHasPermissions::where("role_has_permissions.permission_id",$p->idpermiso)->get();
+            $p->cantidad = $cantidad->count();
+        }
+
+
         
-        //Listar Todos los Permisos por Area       
-            //dd($this->permisosseleccionado);
+        //Listar Todos los Permisos por Area
         $permisosarea = Permission::join('areaspermissions as a','a.id','permissions.areaspermissions_id')
             ->select('permissions.name', 'permissions.id','a.name as area','permissions.descripcion', DB::raw('0 as checked2'))
             ->where('a.id',$this->permisosseleccionado)
             ->orderBy('permissions.name', 'asc')
-            ->paginate($this->pagination);    
+            ->paginate($this->pagination);
 
 
         if ($this->role != 'Elegir')
