@@ -45,13 +45,13 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Listado de monedas</h5>
+                        <h5 class="text-white" style="font-size: 16px">Listado de monedassss</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
-                                    class="fas fa-plus me-2"></i>Nueva Moneda</button>
+                            {{-- <button wire:click="$emit('modal-show')" class="btn btn-add "> <i
+                                    class="fas fa-plus me-2"></i>Nueva Moneda</button> --}}
 
                         </div>
 
@@ -87,7 +87,7 @@
                                     <th class="text-uppercase text-sm ps-2 text-left">TIPO</th>
                                     <th class="text-uppercase text-sm ps-2 text-left"> VALOR</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">IMAGEN</th>
-                                    <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
+                                   {{--  <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th> --}}
                                 </tr>
                             </thead>
 
@@ -112,7 +112,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-sm ps-0 text-center">
+                                        {{-- <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)"
                                                 wire:click.prevent="Edit('{{ $coin->id }}')" class="mx-3">
                                                 <i class="fas fa-edit text-default"></i>
@@ -122,7 +122,7 @@
                                                 class="mx-3">
                                                 <i class="fas fa-trash text-danger"></i>
                                             </a>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
