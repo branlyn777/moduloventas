@@ -33,7 +33,7 @@ class MercanciaController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,
-    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete,$nextpage;
+    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete,$nextpage,$fromDate,$toDate;
     private $pagination = 15;
 
     public function paginationView()    
@@ -50,6 +50,8 @@ class MercanciaController extends Component
         $this->concepto ="Elegir";
         $this->tipo_de_operacion="Entrada";
         $this->nextpage = false;
+        $this->fromDate=Carbon::now();
+        $this->toDate=Carbon::now();
       
     // $this->limpiarstock();
     // $this->buscarproducto();
@@ -66,13 +68,20 @@ class MercanciaController extends Component
     public function render()
     {
         
-        if ($this->tipo_de_operacion == "Entrada") {
-            
-            $ingprod= IngresoProductos::with(['detalleingreso'])->orderBy('ingreso_productos.created_at','desc')->paginate($this->pagination);
+        if ($this->tipo_de_operacion == "Entrada") 
+        {
+            $ingprod= IngresoProductos::with(['detalleingreso'])
+            ->whereBetween('ingreso_productos.created_at',[Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d'). ' 23:59:59'])
+            ->orderBy('ingreso_productos.created_at','desc')
+            ->paginate($this->pagination);
+
         }
         else{
 
-            $ingprod=SalidaProductos::with(['detallesalida'])->orderBy('salida_productos.created_at','desc')->paginate($this->pagination);
+            $ingprod=SalidaProductos::with(['detallesalida'])
+            ->whereBetween('salida_productos.created_at',[Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d'). ' 23:59:59'])
+            ->orderBy('salida_productos.created_at','desc')
+            ->paginate($this->pagination);
         }
 
         //dd($ingprod);

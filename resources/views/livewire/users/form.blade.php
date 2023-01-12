@@ -89,7 +89,7 @@
             <div class="modal-header bg-primary">
                 <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
                     <p class="text-sm mb-0">
-                        {{ $componentName }}</b> | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
+                      {{ $selected_id > 0 ? 'Editar ' : 'Crear ' }}   {{ $componentName }}
                     </p>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">

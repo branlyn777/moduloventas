@@ -76,7 +76,7 @@
 
                                     <h6>Seleccionar Sucursal</h6>
                                     <select wire:model='selected_id' class="form-select">
-                                        <option value="General">Almacen Total</option>
+                                        <option value="General">Todas las sucursales</option>
                                         @foreach ($data_suc as $data)
                                             <option value="{{ $data->id }}">
                                                 {{ $data->sucursal }}-{{ $data->destino }}</option>

@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white">
-                    <b>{{$componentSub}}</b> | {{$selected_id > 0 ? 'EDITAR':'CREAR'}}
-                </h5>
+                <p class="text-white text-sm mb-0">
+               {{$selected_id > 0 ? 'Editar ':'Crear '}}  {{$componentSub}}
+                </p>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
             <div class="modal-body">

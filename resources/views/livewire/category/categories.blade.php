@@ -156,7 +156,7 @@
                                                     <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
                                                         class="boton-azul mx-3" title="Ver subcategorias">
                                                         <b class="pl-1 mx-3">{{ $category->subcategories() }}</b>
-                                                        <i class="fas fa-eye"></i>
+                                                        <i class="fas fa-eye text-primary"></i>
                                                     </a>
                                                 </td>
 
