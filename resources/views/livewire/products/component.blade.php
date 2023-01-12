@@ -386,7 +386,7 @@
                     title: 'PRECAUCION',
                     type: 'warning',
                     text: 'El producto' + name +
-                        ' tiene relacion con otros registros del sistema, desea proseguir con la eliminacion de este ITEM?',
+                        ' tiene relacion con otros registros del sistema, pasara a ser inactivado!',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
                     // cancelButtonColor: '#383838',

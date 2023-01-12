@@ -26,7 +26,9 @@ class ProductObserver
     public function updated(ProductosDestino $productosDestino)
     {
         $stockTotal=ProductosDestino::where('product_id',$productosDestino->id)->sum('stock');
-        dd($productosDestino);
+       if ($stockTotal<5) {
+            
+       }
     }
 
     /**

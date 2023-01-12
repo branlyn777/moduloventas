@@ -369,7 +369,7 @@
                                      <label>
                                          Costo Unitario
                                      </label>
-                                     <input wire:model="costoUnitario" wire:change='costoUnitarioChange()' type="number" class="form-control  mx-1">
+                                     <input wire:model="costoUnitario"  type="number" class="form-control  mx-1">
                                      @error('costoUnitario')
                                          <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
                                      @enderror
@@ -380,17 +380,26 @@
                                      <label>
                                          Costo Total Lote
                                      </label>
-                                     <input wire:model="costoTotal" wire:change='costoTotalChange()' type="number" class="form-control  mx-1">
+                                     <input wire:model="costoTotal"  type="number" class="form-control  mx-1">
                                   
                                  </div>
                              </div>
                              <div class="col-sm-12 col-md-3">
                                  <div class="form-group">
                                      <label>
-                                         Almacenes
+                                         Precio Venta Lote
+                                     </label>
+                                     <input wire:model="precioVenta"  type="number" class="form-control  mx-1">
+                                  
+                                 </div>
+                             </div>
+                             <div class="col-sm-12 col-md-6">
+                                 <div class="form-group">
+                                     <label>
+                                         Almacen
                                      </label>
                                      <select wire:model='destino' class="form-select">
-                                        <option value='Elegir' disabled>Elegir</option>
+                                        <option value=null disabled>Elegir</option>
                                         @foreach ($destinosp as $item)
                                             <option value="{{ $item->destino_id }}">{{ $item->sucursal }}-{{ $item->destino }}
                                             </option>
