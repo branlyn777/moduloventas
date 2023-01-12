@@ -173,11 +173,10 @@
             <p>Seleccione la caja en la cual va a trabajar</p>
         </div>
     </div>
-
     <div class="card mb-4">
-        <div class="card-body p-4 m-3">
-            <div class="row">
-                <div class="col-12 col-md-5">
+        <div class="card-body p-4 m-0">
+            <div class="row m-3 justify-content-end">
+                <div class="col-md-4 col-12 col-sm-12">
                     <h6>Sucursal</h6>
                     <select wire:model="idsucursal" class="form-select" name="" id="">
                         @foreach ($sucursales as $s)
@@ -187,7 +186,10 @@
                     </select>
                 </div>
 
-                <div class="col-12 col-md-2">
+                {{-- Botones de Cerrar y Ajustar --}}
+
+
+                {{-- <div class="col-12 col-md-2">
                     <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
                     <button wire:click.prevent="cerrartodo()" class="btn btn-primary form-control">
                         Cerrar Todo
@@ -198,7 +200,7 @@
                     <button wire:click.prevent="ajustarcarteras()" class="btn btn-primary form-control">
                         Ajustar
                     </button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -220,85 +222,90 @@
             </div>
         </div>
     </center>
-    <div class="row">
+    <div class="col-sm-12 col-md-12 d-flex">
         @foreach ($cajas as $c)
-            <div class="col-12 col-sm-6 col-md-3 ">
-                <div class="{{ $c->estado == 'Abierto' ? 'shadow-lg p-3 mb-5 bg-body rounded' : 'shadow-lg p-3 mb-5 bg-body rounded' }}">
-                    <div class="connect-sorting text-left">
-                        <h5> <b>{{ $c->nombre }}</b> </h5>
-                        <br>
-                        <b>Sucursal:</b> {{ $c->nombresucursal }}
-                    </div>
-                    @if ($c->carteras->count() > 0 || $carteras_generales->count() > 0)
-
+            <div class="card mx-2">
+                <div class="card-body position-relative">
+                    <div
+                        class="{{ $c->estado == 'Abierto' ? 'card-body position-relative' : 'card-body position-relative' }}">
                         <div class="connect-sorting text-left">
-                            <b>Abierta por:</b> {{ $c->abiertapor }}
+                            <h5> <b>{{ $c->nombre }}</b> </h5>
+                            <br>
+                            <b>Sucursal:</b> {{ $c->nombresucursal }}
                         </div>
-                        <br>
-                        <div class="connect-sorting text-center">
+                        @if ($c->carteras->count() > 0 || $carteras_generales->count() > 0)
 
-                            @if ($c->estado == 'Abierto')
+                            <div class="connect-sorting text-left">
+                                <b>Abierta por:</b> {{ $c->abiertapor }}
+                            </div>
+                            <br>
+                            <div class="connect-sorting text-center">
 
-                                @if ($this->nombre_caja != null)
-                                    @if ($c->id == $this->id_caja)
-                                        <button type="button"
-                                            onclick="ConfirmarCerrar({{ $c->id }},'{{ $c->nombre }}')"
-                                            class="btn btn-success">
-                                            <i class="fas fa-arrow-right"></i>
-                                            Cerrar Sesion
-                                        </button>
+                                @if ($c->estado == 'Abierto')
+
+                                    @if ($this->nombre_caja != null)
+                                        @if ($c->id == $this->id_caja)
+                                            <button type="button"
+                                                onclick="ConfirmarCerrar({{ $c->id }},'{{ $c->nombre }}')"
+                                                class="btn btn-danger">
+                                                <i class="fas fa-arrow-right"></i>
+                                                Cerrar Sesion
+                                            </button>
+                                        @else
+                                            @if ($c->misucursal)
+                                                <p>
+                                                    <b>Para usar esta caja cierre la caja "{{ $this->nombre_caja }}"</b>
+                                                </p>
+                                            @endif
+                                        @endif
                                     @else
+                                        <button
+                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}')"
+                                            class="btn btn-primary">
+                                            CERRAR CAJA DE OTRO USUARIO
+                                        </button>
+                                    @endif
+                                @else
+                                    @if ($this->nombre_caja != null)
                                         @if ($c->misucursal)
                                             <p>
-                                                <b>Para usar esta caja cierre la caja "{{ $this->nombre_caja }}"</b>
+                                                <b class='text-xs'>Para usar esta caja cierre la caja
+                                                    "{{ $this->nombre_caja }}"</b>
                                             </p>
                                         @endif
-                                    @endif
-                                @else
-                                    <button
-                                        onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}')"
-                                        class="btn btn-primary">
-                                        CERRAR CAJA DE OTRO USUARIO
-                                    </button>
-                                @endif
-                            @else
-                                @if ($this->nombre_caja != null)
-                                    @if ($c->misucursal)
-                                        <p>
-                                            <b class='text-xs'>Para usar esta caja cierre la caja "{{ $this->nombre_caja }}"</b>
-                                        </p>
-                                    @endif
-                                @else
-                                    @if ($c->misucursal)
-                                        <button wire:click.prevent="confirmarAbrir({{ $c->id }})"
-                                            class="btn btn-primary">
-                                            <i class="fas fa-arrow-up"></i>
+                                    @else
+                                        @if ($c->misucursal)
+                                            <button wire:click.prevent="confirmarAbrir({{ $c->id }})"
+                                                class="btn btn-primary">
+                                                <i class="fas fa-arrow-up"></i>
 
-                                            Abrir Caja
+                                                Abrir Caja
 
-                                        </button>
+                                            </button>
+                                        @endif
                                     @endif
+
+
                                 @endif
 
+                            </div>
+                        @else
+                            <div class="connect-sorting text-center">
+                                <br>
+                                <br>
+                                <p class="h1">Esta caja no tiene carteras</p>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
 
-                            @endif
+                        @endif
 
-                        </div>
-                    @else
-                        <div class="connect-sorting text-center">
-                            <br>
-                            <br>
-                            <p class="h1">Esta caja no tiene carteras</p>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
-
-                    @endif
-
+                    </div>
+                    <br>
                 </div>
-                <br>
             </div>
+
         @endforeach
 
     </div>
