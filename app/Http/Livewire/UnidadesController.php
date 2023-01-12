@@ -11,7 +11,7 @@ class UnidadesController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $selected_id;
+    public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
 
@@ -62,6 +62,7 @@ class UnidadesController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Unidad Registrada';
         $this->emit('unidad-added', 'Unidad Registrada');
     }
     public function Edit(Unidad $unity)
@@ -89,6 +90,7 @@ class UnidadesController extends Component
         $uni->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Unidad Actualizada';
         $this->emit('unidad-updated', 'Unidad Actualizada');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -97,6 +99,7 @@ class UnidadesController extends Component
     {
         $uni->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Unidad Eliminada';
         $this->emit('unidad-deleted', 'Unidad Eliminada');
     }
 

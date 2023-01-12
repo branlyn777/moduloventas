@@ -11,7 +11,7 @@ class MarcasController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $selected_id;
+    public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
 
@@ -58,6 +58,7 @@ class MarcasController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Marca Registrada';
         $this->emit('marca-added', 'Marca Registrada');
     }
     public function Edit(Marca $unity)
@@ -88,6 +89,7 @@ class MarcasController extends Component
         $uni->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Marca Actualizada';
         $this->emit('marca-updated', 'Marca Actualizada');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -96,6 +98,7 @@ class MarcasController extends Component
     {
         $uni->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Marca Eliminada';
         $this->emit('marca-deleted', 'Marca Eliminada');
     }
 

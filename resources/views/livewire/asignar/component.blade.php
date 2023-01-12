@@ -121,7 +121,7 @@
         <div class="card mb-4">
 
             <div class="card-body px-0 pt-0 pb-2">
-                <div class="table-responsive p-0"">
+                <div class="table-responsive p-0">
                     <table class="table align-items-left mb-0">
                         <thead>
                             <tr class="text-left">
@@ -154,7 +154,8 @@
                                         {{ $permiso->name }}
                                     </td>
                                     <td class="text-sm mb-0 text-center">
-                                        {{ \App\Models\User::permission($permiso->name)->count() }}
+                                        {{-- {{ \App\Models\User::permission($permiso->name)->count() }} --}}
+                                        {{$permiso->cantidad}}
                                     </td>
                                     <td class="text-sm mb-0 text-left">
                                         {{ $permiso->area }}
