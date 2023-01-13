@@ -133,7 +133,7 @@
                         <li class=@yield('almacenstokcli', 'nav-item ')>
                             <a class=@yield('almacenstokcnav', 'nav-link ') href="{{ url('destino_prod') }}">
                                 <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal"> Almacen Stock </span>
+                                <span class="sidenav-normal"> Existencias Almacen </span>
                             </a>
                         </li>
                         <li class=@yield('listaproducli', 'nav-item ')>

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header  bg-primary text-white" style="background: #f8f6f6">
-                <b>Lista de Subcategorias</b>
+                Lista de Subcategorias
 
             </div>
             <div class="modal-body">
@@ -12,33 +12,35 @@
 
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable">
                             <div class="dataTable-container">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr class="text-center" style="font-size: 12px">
-                                            <th style="width: 5%">#</th>
-                                            <th>Nombre</th>
-                                            <th style="width: 20%">Descripcion</th>
-                                            <th> Acc.</th>
+                                        <tr class="text-center">
+                                            <th class="text-uppercase text-sm">#</th>
+                                            <th class="text-uppercase text-sm"> Nombre </th>
+                                            <th class="text-uppercase text-sm">Descripcion</th>
+                                            <th class="text-uppercase text-sm"> Acc.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <a href="javascript:void(0)"
-                                            wire:click="asignarCategoria('{{ $selected_id }}')"
-                                            class="btn btn-secondary p-1" data-dismiss="modal"
-                                            style="color: #fff">Agregar Subcategorias</i></a>
+                                        <div class="d-flex justify-content-end mb-2">
+
+                                            <a href="javascript:void(0)"
+                                                wire:click="asignarCategoria('{{ $selected_id }}')"
+                                                class="btn btn-add" data-dismiss="modal"> <i class="fas fa-plus"></i> Agregar Subcategorias </a>
+                                        </div>
                                         @if (count($subcat) > 0)
                                             @foreach ($subcat as $category)
                                                 <tr class="text-center">
                                                     <td>
-                                                        <h6 style="font-size: 13px">{{ $loop->index + 1 }}</h6>
+                                                        <h6 style="font-size: 0.9rem">{{ $loop->index + 1 }}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6 style="font-size: 13px">{{ $category->name }}</h6>
+                                                        <h6 style="font-size: 0.9rem">{{ $category->name }}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6 style="font-size: 13px">
+                                                        <h6 style="font-size: 0.9rem">
                                                             {{ $category->descripcion == null ? 'S/N Descripcion' : $category->descripcion }}
                                                         </h6>
                                                     </td>

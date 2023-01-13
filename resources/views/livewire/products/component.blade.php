@@ -79,6 +79,15 @@
                                             placeholder="nombre de producto, codigo" class="form-control">
                                     </div>
                                 </div>
+                                <div class="col-lg-12 mb-2">
+
+                                    @forelse ($searchData as $key=>$value)    
+                                    <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{$value}} <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0" wire:click="outSearchData('{{$value}}')"></button></span>
+                         
+                                    @empty
+                                        <p></p>
+                                    @endforelse
+                                </div>
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
