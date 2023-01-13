@@ -17,11 +17,11 @@
 
 
 
-@section('categoriaEI')
+@section('categoriasnav')
     "nav-link active"
 @endsection
 
-@section('categoriaIE')
+@section('categoriasli')
     "nav-item active"
 @endsection
 

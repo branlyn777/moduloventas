@@ -218,7 +218,7 @@
                 </a>
                 <div class=@yield('Comprasshow', 'collapse ') id="componentsExamples">
                     <ul class="nav ms-4">
-                        <li class=@yield('listacomprasli', 'nav-item ')>
+                        <li class=@yield('registrarcomprasli', 'nav-item ')>
                             <a class=@yield('registrarcomprasnav', 'nav-link ') href="{{ url('detalle_orden_compras') }}">
                                 <span class="sidenav-mini-icon"> L </span>
                                 <span class="sidenav-normal"> Registrar Compra </span>
@@ -335,23 +335,19 @@
                 </a>
             </li>
 
-            <ul class="nav ms-4">
-                <li class=@yield('nuevoIngresoE', 'nav-item ')>
-                    <a class=@yield('nuevoIngresoEg', 'nav-link ') href="{{ url('ingresoegreso') }}">
-                        <span class="sidenav-mini-icon"> G </span>
-                        <span class="sidenav-normal">Nuevo I/G</span>
-                    </a>
-                </li>
-            </ul>
+            <li class=@yield('nuevoingresoli', 'nav-item ')>
+                <a class=@yield('nuevoingresonav', 'nav-link ') href="{{ url('ingresoegreso') }}">
+                    <span class="sidenav-mini-icon"> G </span>
+                    <span class="sidenav-normal">Nuevo I/G</span>
+                </a>
+            </li>
 
-            <ul class="nav ms-4">
-                <li class=@yield('categoriaIE', 'nav-item ')>
-                    <a class=@yield('categoriaEI', 'nav-link ') href="{{ url('carteramovcategoria') }}">
-                        <span class="sidenav-mini-icon"> C </span>
-                        <span class="sidenav-normal">Categorias I/G </span>
-                    </a>
-                </li>
-            </ul>
+            <li class=@yield('categoriasli', 'nav-item ')>
+                <a class=@yield('categoriasnav', 'nav-link ') href="{{ url('carteramovcategoria') }}">
+                    <span class="sidenav-mini-icon"> C </span>
+                    <span class="sidenav-normal">Categorias I/G </span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="sidenav-footer mx-3 my-3">

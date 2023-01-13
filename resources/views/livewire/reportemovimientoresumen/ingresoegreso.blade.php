@@ -10,15 +10,17 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Ingresos y Egresos</h6>
+        <h6 class="font-weight-bolder mb-0 text-white"> Ingresos y Egresos </h6>
     </nav>
 @endsection
 
-@section('nuevoIngresoEg')
+
+@section('nuevoingresonav')
     "nav-link active"
 @endsection
 
-@section('nuevoIngresoE')
+
+@section('nuevoingresoli')
     "nav-item active"
 @endsection
 
