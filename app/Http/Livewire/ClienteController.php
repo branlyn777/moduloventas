@@ -16,10 +16,9 @@ class ClienteController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id, $mensaje_toast;
+    public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id, $mensaje_toast,$estado;
     public  $pageTitle, $componentName;
     private $pagination = 40;
-    public $estado;
 
     public function paginationView()
     {
@@ -28,6 +27,7 @@ class ClienteController extends Component
 
     public function mount()
     {
+        $this->estado2 = "ACTIVO";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Cliente';
         $this->selected_id = 0;
@@ -113,6 +113,7 @@ class ClienteController extends Component
             'fecha_nacim' => $this->fnacim,
             'razon_social' => $this->razonsocial,
             'nit' => $this->nit,
+            'estado' => $this->estado,
             'procedencia_cliente_id' => $this->procedencia,
         ]);
 
@@ -133,7 +134,7 @@ class ClienteController extends Component
         $this->direccion = $cli->direccion;
         $this->razonsocial = $cli->razon_social;
         $this->procedencia = $cli->procedencia_cliente_id;
-        
+        $this->estado = $cli->estado;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -179,8 +180,10 @@ class ClienteController extends Component
             'fecha_nacim' => $this->fnacim,
             'razon_social' => $this->razonsocial,
             'nit' => $this->nit,
+            'estado' => $this->estado,
             'procedencia_cliente_id' => $this->procedencia
         ]);
+
 
         $this->resetUI();
         $this->mensaje_toast = 'Cliente Actualizado';

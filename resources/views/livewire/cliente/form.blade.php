@@ -105,8 +105,8 @@
         <div class="form-group">
             <label><span class="text-warning">* </span>Estado</label>
             <select wire:model='estado' class="form-select">
-                <option value="activo">ACTIVO</option>
-                <option value="inactivo">INACTIVO</option>
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
             </select>
             @error('estado')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
