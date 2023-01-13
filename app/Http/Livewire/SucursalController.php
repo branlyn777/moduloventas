@@ -109,7 +109,7 @@ class SucursalController extends Component
             'areaspermissions_id' => '2',
             'descripcion' => 'Ingresar al destino',
         ]);
-
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
 
         DestinoSucursal::create([
             'destino_id' => $destino->id,

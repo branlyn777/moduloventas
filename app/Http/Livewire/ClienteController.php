@@ -224,6 +224,25 @@ class ClienteController extends Component
         $cliente->save();
     }
 
+    /* public function finalizar()
+    {
+        $DateAndTime = date('Y-m-d H:i:s', time());
+
+        $usuario = Cliente::find($this->selected_id);
+        $usuario->update([
+            'status' => 'LOCKED',
+
+        ]);
+        $usuario->save();
+
+        $su = ClienteMov::where('user_id', $usuario->id)->where('estado', 'ACTIVO')->first();
+        $su->update([
+            'estado' => 'FINALIZADO',
+            'fecha_fin' => $DateAndTime
+        ]);
+        $this->emit('sm');
+    } */
+
     public function resetUI()
     {
         $this->selected_id = 0;

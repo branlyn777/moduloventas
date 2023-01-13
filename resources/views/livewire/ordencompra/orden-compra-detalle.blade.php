@@ -25,7 +25,7 @@
 @endsection
 
 
-@section('ordencompranav')
+@section('registrarcomprasnav')
     "nav-link active"
 @endsection
 
@@ -34,7 +34,7 @@
     "collapse show"
 @endsection
 
-@section('ordencomprali')
+@section('registrarcomprasli')
     "nav-item active"
 @endsection
 

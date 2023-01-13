@@ -17,7 +17,7 @@ class CategoriesController extends Component
     use WithFileUploads;
     use WithPagination;
 
-    public $name, $descripcion, $search, $categoryid, $selected_id, $pageTitle, $componentName, $categoria_padre, $data2, $estados, $mensaje_toast;
+    public $name, $descripcion, $search, $categoryid, $selected_id, $pageTitle, $componentName, $categoria_padre, $data2, $estadocategoria,$estados,$subcat, $mensaje_toast;
     private $pagination = 20;
     public $category_s = 0;
     public $subcat_s = false;
@@ -49,38 +49,53 @@ class CategoriesController extends Component
             })->paginate($this->pagination);
 
 
-        $this->data2 = Category::where('categoria_padre', $this->selected_id)
-            ->select('categories.*')->get();
 
-        return view('livewire.category.categories', ['categories' => $data, 'subcat' => $this->data2])
+        return view('livewire.category.categories', ['categories' => $data])
             ->extends('layouts.theme.app')
             ->section('content');
     }
 
     public function Edit($id)
     {
-        $this->emit('hide_modal_sub');
-        $record = Category::find($id, ['id', 'name', 'descripcion', 'status']);
+        // $this->emit('hide_modal_sub');
 
+        $record = Category::find($id, ['id', 'name', 'descripcion', 'status']);
+        //dd($record);
         $this->selected_id = $record->id;
+
         $this->name = $record->name;
         $this->descripcion = $record->descripcion;
-        $this->estado = $record->status;
+        $this->estadocategoria = $record->status;
         $this->emit('show-modal');
     }
-    public function Ver(Category $category)
+
+    public function EditSubcategoria($id)
+    {
+        // $this->emit('hide_modal_sub');
+
+        $record = Category::find($id, ['id', 'name', 'descripcion', 'status']);
+        //dd($record);
+        $this->selected_id = $record->id;
+
+        $this->name = $record->name;
+        $this->descripcion = $record->descripcion;
+        $this->estadocategoria = $record->status;
+        $this->emit('sub-show');
+    }
+    public function Ver($category)
     {
 
-        $this->selected_id = $category->id;
-        
+      $this->categoria_padre=$category;
+        $this->subcat = Category::where('categoria_padre', $category)
+        ->select('categories.*')->get();
+
         $this->emit('modal_sub', 'show modal!');
     }
 
-    public function asignarCategoria($cat)
+    public function asignarCategoria()
     {
 
-        $this->selected_id = 0;
-        $this->categoria_padre = $cat;
+        $this->resetUI();
         $this->emit('hide_modal_sub');
         $this->emit('sub-show');
     }
@@ -125,12 +140,12 @@ class CategoriesController extends Component
 
     public function Store_Subcategoria()
     {
-        $this->selected_id = 0;
+  
 
         $rules = [
             'name' => 'required|unique:categories|min:3',
             'name' => 'required|unique:categories|max:255'
-            
+
         ];
         $messages = [
             'name.required' => 'El nombre de la categoría es requerido',
@@ -147,11 +162,13 @@ class CategoriesController extends Component
         ]);
 
         $category->save();
-        $this->resetUI();
-        dd($this->selected_id);
-        $this->mensaje_toast='Subcategoria Registrada';
+        
+        $this->mensaje_toast = 'Subcategoria Registrada';
         $this->emit('sub_added');
-        $this->emit('modal_sub', 'show modal!');
+ 
+        $this->Ver($this->categoria_padre);
+        $this->resetUI();
+        // $this->emit('modal_sub', 'show modal!');
     }
 
     public function Update()
@@ -173,7 +190,7 @@ class CategoriesController extends Component
         $category->update([
             'name' => $this->name,
             'descripcion' => $this->descripcion,
-            'status' => $this->estado
+            'status' => $this->estadocategoria
         ]);
         $this->resetUI();
         $this->mensaje_toast = 'Categoria Actualizada';
@@ -186,17 +203,16 @@ class CategoriesController extends Component
     {
         $imageName = $category->image;
         $category->delete();
-        if ($imageName != null) {
-            unlink('storage/categorias/' . $imageName);
-        }
+  
         $this->resetUI();
         $this->mensaje_toast = 'Categoria Eliminada';
-        $this->emit('item-deleted', 'Categoria eliminada');
+        $this->Ver($this->categoria_padre);
+        $this->emit('item-deleted');
     }
 
     public function resetUI()
     {
-        $this->reset('name','descripcion','categoria_padre');
+        $this->reset('name', 'descripcion','selected_id');
         $this->resetValidation();
     }
 
@@ -223,12 +239,9 @@ class CategoriesController extends Component
 
     public function cambioestado()
     {
-        if($this->estados)
-        {
+        if ($this->estados) {
             $this->estados = false;
-        }
-        else
-        {
+        } else {
             $this->estados = true;
         }
     }

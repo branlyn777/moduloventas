@@ -50,8 +50,7 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-add mb-0" data-bs-toggle="modal" data-bs-target="#theModal"
-                            wire:click="resetUI()">
+                        <a class="btn btn-add mb-0" wire:click="resetUI()" data-bs-toggle="modal"  data-bs-target="#theModalCategory">
                             <i class="fas fa-plus"></i> Agregar Categoría</a>
                     </div>
                 </div>
@@ -174,13 +173,13 @@
 
                                         <td class="text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $category->id }})"
-                                                class="mx-3" class="boton-azul" title="Editar">
+                                                class="mx-3" class="boton-azul" title="Editar Categoria">
                                                 <i class="fas fa-edit" style="font-size: 14px"></i>
                                             </a>
 
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $category->id }}','{{ $category->name }}','{{ $category->products->count() }}','{{ $category->subcategories() }}')"
-                                                class="boton-rojo mx-3" title="Eliminar">
+                                                class="boton-rojo mx-3" title="Eliminar Categoria">
                                                 <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                             </a>
                                         </td>
@@ -191,20 +190,20 @@
                     </div>
                 </div>
             </div>
-        {{ $categories->links() }}
+            {{ $categories->links() }}
+        </div>
     </div>
+    @include('livewire.category.form')
+    @include('livewire.category.form_subcategory')
+    @include('livewire.category.subcategories')
 </div>
-</div>
-@include('livewire.category.form')
-@include('livewire.category.form_subcategory')
-@include('livewire.category.subcategories')
 
-</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         window.livewire.on('show-modal', Msg => {
-            $('#theModal').modal('show')
+            $('#theModalCategory').modal('show')
         });
         window.livewire.on('hide_modal_sub', Msg => {
             $('#theModal_subcategory').modal('hide')
@@ -229,6 +228,7 @@
 
         });
         window.livewire.on('sub-show', Msg => {
+            $('#theModal_subcategory').modal('hide')
             $('#theModal_s').modal('show')
 
         });
@@ -249,7 +249,8 @@
 
         });
         window.livewire.on('item-updated', Msg => {
-            $('#theModal').modal('hide')
+            $('#theModalCategory').modal('hide')
+            $('#theModal_s').modal('hide')
             const toast = swal.mixin({
                 toast: true,
                 position: 'top-end',

@@ -27,6 +27,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
 
+
 use Darryldecode\Cart\Facades\ComprasFacade as Compras;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -40,13 +41,13 @@ class DetalleComprasController extends Component
     public  $nro_compra,$search,$provider,$fecha_compra,$vs=[],
     $usuario,$metodo_pago,$pago_parcial=0,$tipo_documento,$nro_documento,$observacion
     ,$selected_id,$descuento=0,$saldo=0,$subtotal,$cantidad_minima,
-    $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra;
+    $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destinocompra,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra;
 
     public $nombre_prov, $apellido, $correo,$direccion,$nit,
     $telefono;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
-    $categoryid,$component,$selected_categoria,$image,$selected_id2,$name,$descripcion;
+    $categoryid,$component,$stockswitch,$destino,$imagen,$destinosp,$selected_categoria,$image,$selected_id2,$name,$descripcion;
 
     public $orden,$ordencompraselected;
 
@@ -60,14 +61,16 @@ class DetalleComprasController extends Component
         $this->estado_compra = "finalizada";
         $this->selected_id = 0;
         $this->pago_parcial = 0;
-        $this->destino = 'Elegir';
+        $this->destinocompra = 'Elegir';
         $this->tipo_transaccion = "CONTADO";
         $this->tipo_documento = "FACTURA";
+        $this->imagen='noimagenproduct.png';
         $this->status = "ACTIVO";
         $this->itemsQuantity = Compras::getTotalQuantity();
         $this->subtotal = Compras::getTotal();
         $this->total_compra= $this->subtotal-$this->dscto;
         $this->porcentaje=0;
+        $this->stockswitch=false;
         $this->verPermisos();
 
     }
@@ -84,7 +87,7 @@ class DetalleComprasController extends Component
         ->get();
         else
         $prod = "cero";
-//---------------Select destino de la compra----------------------//
+//---------------Select destinocompra de la compra----------------------//
        $data_destino= Sucursal::join('destinos as dest','sucursals.id','dest.sucursal_id')
                                 ->whereIn('dest.id',$this->vs)
                                 ->select('dest.*','dest.id as destino_id','sucursals.*')
@@ -94,6 +97,11 @@ class DetalleComprasController extends Component
        $data_provider= Provider::where('status','ACTIVO')
        ->select('providers.*')
        ->get();
+
+       $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+       ->select ('suc.name as sucursal','destinos.nombre as destinocompra','destinos.id as destino_id')
+       ->get();
+
         return view('livewire.compras.detalle_compra',['data_prod' => $prod,
         'cart' => Compras::getContent()->sortBy('name'),
         'data_suc'=>$data_destino,
@@ -446,14 +454,14 @@ class DetalleComprasController extends Component
     {
         $rules = [
             'provider'=>'required|exists:providers,nombre_prov',
-            'destino'=>'required|not_in:Elegir',
+            'destinocompra'=>'required|not_in:Elegir',
           
         ];
         $messages = [
             'provider.required' => 'El nombre del proveedor es requerido.',
             'provider.exists' => 'El proveedor es inexistente.',
-            'destino.required'=>'Elige un destino',
-            'destino.not_in'=>'Elija un destino del producto',
+            'destinocompra.required'=>'Elige un destinocompra',
+            'destinocompra.not_in'=>'Elija un destinocompra del producto',
            
         ];
 
@@ -491,7 +499,7 @@ if ($this->validateCarrito()) {
             'proveedor_id'=>Provider::select('providers.id')->where('nombre_prov',$this->provider)->value('providers.id'),
             'estado_compra'=>$this->estado_compra,
             'status'=>$this->status,
-            'destino_id'=>$this->destino,
+            'destino_id'=>$this->destinocompra,
             'user_id'=> Auth()->user()->id
           
         ]);
@@ -554,12 +562,12 @@ if ($this->validateCarrito()) {
                
                     
                     /*DB::table('productos_destinos')
-                    ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destino]);*/
+                    ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destinocompra]);*/
                     
                     $q=ProductosDestino::where('product_id',$item->id)
-                    ->where('destino_id',$this->destino)->value('stock');
+                    ->where('destino_id',$this->destinocompra)->value('stock');
 
-                    ProductosDestino::updateOrCreate(['product_id' => $item->id, 'destino_id'=>$this->destino],['stock'=>$q+$item->quantity]);
+                    ProductosDestino::updateOrCreate(['product_id' => $item->id, 'destino_id'=>$this->destinocompra],['stock'=>$q+$item->quantity]);
 
                 }
             }
@@ -586,12 +594,12 @@ if ($this->validateCarrito()) {
                     ]);
                     
                     /*DB::table('productos_destinos')
-                    ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destino]);*/
+                    ->updateOrInsert(['stock'],$item->quantity, ['product_id' => $item->id, 'destino_id'=>$this->destinocompra]);*/
                     
                     $q=ProductosDestino::where('product_id',$item->id)
-                    ->where('destino_id',$this->destino)->value('stock');
+                    ->where('destino_id',$this->destinocompra)->value('stock');
 
-                    ProductosDestino::updateOrCreate(['product_id' => $item->id, 'destino_id'=>$this->destino],['stock'=>$q+$item->quantity]);
+                    ProductosDestino::updateOrCreate(['product_id' => $item->id, 'destino_id'=>$this->destinocompra],['stock'=>$q+$item->quantity]);
 
                 }
             }
@@ -604,7 +612,7 @@ if ($this->validateCarrito()) {
         $this->total_compra = 0;
         $this->subtotal = 0;
         $this->provider="";
-        $this-> destino ="";
+        $this-> destinocompra ="";
         $this-> descuento =0;
         $this-> porcentaje =0;
         $this->  tipo_transaccion ="Contado";
@@ -648,6 +656,15 @@ if ($this->validateCarrito()) {
 
 
     }
+
+    public function mostrarOperacionInicial(){
+        if ($this->stockswitch==true) {
+            $this->stockswitch = false;
+        } else {
+            $this->stockswitch = true;
+        }
+        
+   }
 
 
 

@@ -27,10 +27,11 @@
                                         <div class="d-flex justify-content-end mb-2">
 
                                             <a href="javascript:void(0)"
-                                                wire:click="asignarCategoria('{{ $selected_id }}')"
-                                                class="btn btn-add" data-dismiss="modal"> <i class="fas fa-plus"></i> Agregar Subcategorias </a>
+                                                wire:click="asignarCategoria()" class="btn btn-add"
+                                                data-dismiss="modal"> <i class="fas fa-plus"></i> Agregar Subcategorias
+                                            </a>
                                         </div>
-                                        @if (count($subcat) > 0)
+                                        @if ($subcat !=null and count($subcat) > 0)
                                             @foreach ($subcat as $category)
                                                 <tr class="text-center">
                                                     <td>
@@ -52,7 +53,7 @@
                                                         </button> --}}
 
                                                         <a href="javascript:void(0)"
-                                                            wire:click="Edit({{ $category->id }})" class="mx-3"
+                                                            wire:click="EditSubcategoria({{ $category->id }})" class="mx-3"
                                                             class="boton-azul" title="Editar Subcategoria">
                                                             <i class="fas fa-edit" style="font-size: 13px"></i>
                                                         </a>
