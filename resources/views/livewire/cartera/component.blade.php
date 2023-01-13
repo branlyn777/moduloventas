@@ -293,6 +293,13 @@
         window.livewire.on('show-modal', msg => {
             $('#theModal').modal('show')
         });
+        window.livewire.on('no-reactivar', msg => {
+            Swal.fire(
+            'Accion no disponible',
+            'La caja asociada a esta cartera esta inactivada',
+            'info'
+            )
+        });
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
         });
@@ -335,7 +342,7 @@
     function Activar(id) {
         swal({
             title: 'CONFIRMAR',
-            text: '¿Confirma activar la cartera ' + '"' + name + '"?',
+            text: '¿Confirma activar la cartera?',
             type: 'warning',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',

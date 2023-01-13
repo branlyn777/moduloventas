@@ -9,7 +9,7 @@
             @enderror
         </div>
     </div>
-    @if ($this->mostrar_sucursal)
+    @if(!$this->selected_id)
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
                 <label><span class="text-warning">* </span>Sucursal</label>
@@ -24,6 +24,22 @@
                 @enderror
             </div>
         </div>
+    @else
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label>Estado</label>
+            <select wire:model='estado2' class="form-select">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
+            @error('sucursal_id')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+
+
     @endif
 
 </div>

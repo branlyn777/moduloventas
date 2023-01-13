@@ -316,11 +316,24 @@ class CarteraController extends Component
     }
     public function activar($idcartera)
     {
-        $cartera = Cartera::find($idcartera);
-        $cartera->update([
-            'estado' => "ACTIVO"
-        ]);
-        $cartera->save();
+        $cajaid = Cartera::find($idcartera)->caja_id;
+
+        $caja = Caja::find($cajaid);
+
+
+        if($caja->status != "Inactivo")
+        {
+            $cartera = Cartera::find($idcartera);
+            $cartera->update([
+                'estado' => "ACTIVO"
+            ]);
+            $cartera->save();
+        }
+        else
+        {
+            $this->emit("no-reactivar");
+        }
+
     }
     public function resetUI()
     {

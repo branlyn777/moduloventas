@@ -190,11 +190,20 @@
                                                     <i class="fas fa-edit" style="font-size: 14px"></i>
                                                 </a>
 
+
+
+
+                                                @if ($d->estado == 'ACTIVO')
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
                                                     class="boton-rojo mx-3" title="Anular Estancia">
                                                     <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                                 </a>
+                                                @endif
+
+
+
+                                                
                                             </td>
                                         </tr>
                                     @else
@@ -249,9 +258,10 @@
             {{ $destinos->links() }}
         </div>
     </div>
+    
+    @include('livewire.destino.form')
 </div>
-@include('livewire.destino.form')
-</div>
+
 
 
 <script>
