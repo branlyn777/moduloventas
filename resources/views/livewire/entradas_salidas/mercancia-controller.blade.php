@@ -58,60 +58,43 @@
             </div>
 
             <div class="card mb-4">
-                <div class="card-body p-4">
-                    <div class="padding-left: 12px; padding-right: 12px;">
+                <div class="card-body p-4 m-1">
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-3">
+                            <h6>Buscar</h6>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" placeholder="Tipo de Operación, Almacén" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="row justify-content-end">
 
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="mt-lg-0 col-md-6">
-                                    <label style="font-size: 1rem">Buscar</label>
+                                <div class="col-md-4">
+                                    <h6>Fecha Inicio</h6>
                                     <div class="form-group">
-                                        <div class="input-group mb-4">
-                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                            <input type="text" placeholder="Tipo de Operación, Almacén"
-                                                class="form-control">
-                                        </div>
+                                        <input type="date" wire:model="fromDate" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
 
-
-
-                                    <div class="col-12 col-sm-6 col-md-3">
-                                        <label>Fecha Inicio</label>
-                                        <div class="form-group">
-                                            <input type="date" wire:model="fromDate" class="form-control">
-                                        </div>
+                                <div class="col-md-4">
+                                    <h6>Fecha Fin</h6>
+                                    <div class="form-group">
+                                        <input type="date" wire:model="toDate" class="form-control">
                                     </div>
-
-                                    <div class="col-12 col-sm-6 col-md-3">
-                                        <label>Fecha Fin</label>
-                                        <div class="form-group">
-                                            <input type="date" wire:model="toDate" class="form-control">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <label style="font-size: 1rem">Tipo Operacion</label>
-                                        <select wire:model='tipo_de_operacion' class="form-select">
-                                            <option value="Entrada">Entrada</option>
-                                            <option value="Salida">Salida</option>
-                                        </select>
-                                    </div>
-
                                 </div>
 
 
+                                <div class="col-md-4">
+                                    <h6 style="font-size: 1rem">Tipo Operacion</h6>
+                                    <select wire:model='tipo_de_operacion' class="form-select">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Salida">Salida</option>
+                                    </select>
+                                </div>
                             </div>
-
-
-
-
-
                         </div>
                     </div>
                 </div>

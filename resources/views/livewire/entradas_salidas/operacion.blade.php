@@ -5,6 +5,7 @@
             <div class="modal-header bg-primary">
                 <h5 class="text-white" id="exampleModalCenterTitle">Entrada/Salida de Productos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -144,7 +145,7 @@
 
                                             <input type="text" wire:model="result" placeholder="Buscar"
                                                 class="form-control">
-                                            <button type="button" class="btn btn-warning" wire:click="deleteItem()">
+                                            <button type="button" class="btn btn-danger" wire:click="deleteItem()">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                             @error('result')
@@ -175,18 +176,20 @@
                                                                 <tbody>
                                                                     @foreach ($sm as $d)
                                                                         <tr>
-                                                                            <td class="text-center">
-                                                                                <h6 class="text-center">
+                                                                            <td class="text-left">
+                                                                                <p class="text-sm mb-0">
                                                                                     {{ $d->nombre }}
-                                                                                </h6>
+                                                                                    <b>({{$d->codigo}})</b>
+                                                                                </p>
                                                                             </td>
                                                                             <td class="text-center">
-                                                                                <a href="javascript:void(0)"
+                                                                                <button
+                                                                                    title="Seleccionar"
                                                                                     wire:click="Seleccionar('{{ $d->id }}')"
-                                                                                    class="btn btn-warning mtmobile"
-                                                                                    title="Seleccionar">
-                                                                                    <i class="fas fa-check"></i>
-                                                                                </a>
+                                                                                    class="btn btn-primary"
+                                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
                                                                             </td>
                                                                         </tr>
                                                                     @endforeach
@@ -231,7 +234,7 @@
 
                                 <button type="button" wire:click="addProduct({{ $selected }})"
                                     title="Agregar producto a la lista" class="btn btn-primary"
-                                    style="width: 6rem"><i class="fas fa-plus"></i></button>
+                                    style="width: 4rem"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
