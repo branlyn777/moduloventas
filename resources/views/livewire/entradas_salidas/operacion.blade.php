@@ -207,7 +207,7 @@
                                 <label>
                                     Cantidad
                                 </label>
-                                <input type="number" wire:model="cantidad" class="form-control">
+                                <input type="number" onkeypress="if(event.keyCode < 44 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model="cantidad" class="form-control">
                                 @error('cantidad')
                                     <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                 @enderror
@@ -219,7 +219,7 @@
                                     <label>
                                         Costo/Valor
                                     </label>
-                                    <input wire:model="costo" class="form-control  mx-1">
+                                    <input wire:model="costo" onkeypress="if(event.keyCode < 44 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required class="form-control  mx-1">
                                     @error('costo')
                                         <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                     @enderror

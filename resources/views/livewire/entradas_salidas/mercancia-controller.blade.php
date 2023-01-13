@@ -215,9 +215,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            window.livewire.on('product-added', msg => {
-                $('#operacion').modal('hide')
-
+            window.livewire.on('operacion-added', Msg => {
+                $('#operacion').modal('hide');
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
             });
             window.livewire.on('show-detail', msg => {
                 $('#buscarproducto').modal('show')
@@ -231,6 +242,22 @@
                     'error'
                 )
             });
+
+            window.livewire.on('item-deleted', Msg => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
+            });
+
 
             window.livewire.on('confirmar', event => {
 
@@ -247,11 +274,7 @@
                     if (result.value) {
 
                         window.livewire.emit('eliminar_registro');
-                        Swal.fire(
-                            'Eliminado!',
-                            'El registro fue eliminado con exito',
-                            'success'
-                        )
+                        
                     }
                 })
 
@@ -271,11 +294,7 @@
                     if (result.value) {
 
                         window.livewire.emit('eliminar_registro_total');
-                        Swal.fire(
-                            'Eliminado!',
-                            'El registro fue eliminado con exito',
-                            'success'
-                        )
+                       
                     }
                 })
 

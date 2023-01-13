@@ -33,7 +33,8 @@ class MercanciaController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,
-    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete,$nextpage,$fromDate,$toDate;
+    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,
+    $result,$arr,$ing_prod_id,$destino_delete,$nextpage,$fromDate,$toDate, $mensaje_toast;
     private $pagination = 15;
 
     public function paginationView()    
@@ -121,7 +122,7 @@ class MercanciaController extends Component
         $this->result= $id->nombre;
         $this->selected=$id->id;
         $this->searchproduct=null;
-        // $this->emit('product-added');
+        // $this->emit('operacion-added');
     }
     
     public function Incrementar(){
@@ -745,8 +746,8 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
                    
        
 
-
-            $this->emit('product-added');
+            $this->mensaje_toast = 'Operacion Registrada';
+            $this->emit('operacion-added');
             $this->resetui();
     }
 
@@ -775,7 +776,6 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
        // dd("S");
         $this->resetui();
         $this->resetErrorBag();
-        $this->emit('product-added');
     }
 public function ver($id){
 
@@ -898,9 +898,11 @@ public function eliminar_registro()
 
 
     }
+
     $del=IngresoProductos::find($this->ing_prod_id);
     $del->delete();
-   
+    $this->mensaje_toast = 'Registro eliminado';
+    $this->emit('item-deleted');
 
 }
 
@@ -924,7 +926,8 @@ public function eliminar_registro_total()
     }
     $del=IngresoProductos::find($this->ing_prod_id);
     $del->delete();
-   
+    $this->mensaje_toast = 'Registro eliminado';
+    $this->emit('item-deleted');
 
 }
 
