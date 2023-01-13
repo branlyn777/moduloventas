@@ -122,14 +122,14 @@
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Sucursal Destino</strong>
-                                <select wire:model.lazy="destino" class="form-select">
+                                <select wire:model.lazy="destinocompra" class="form-select">
                                     <option value='Elegir'>Elegir Destino</option>
                                     @foreach ($data_suc as $data)
                                         <option value="{{ $data->destino_id }}">{{ $data->nombre }}-{{ $data->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('destino')
+                                @error('destinocompra')
                                     <span class="text-danger er" style="font-size: 14px">{{ $message }}</span>
                                 @enderror
                             </div>

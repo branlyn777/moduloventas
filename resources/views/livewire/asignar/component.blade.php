@@ -154,8 +154,9 @@
                                         {{ $permiso->name }}
                                     </td>
                                     <td class="text-sm mb-0 text-center">
-                                        {{-- {{ \App\Models\User::permission($permiso->name)->count() }} --}}
-                                        {{$permiso->cantidad}}
+                                        {{-- YA FUNCIONA LA CREACION DE PERMISOS  --}}
+                                        {{ \App\Models\User::permission($permiso->name)->count()}}
+                                        {{-- {{$permiso->cantidad}} --}}
                                     </td>
                                     <td class="text-sm mb-0 text-left">
                                         {{ $permiso->area }}

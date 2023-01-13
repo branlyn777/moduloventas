@@ -50,8 +50,8 @@ class MercanciaController extends Component
         $this->concepto ="Elegir";
         $this->tipo_de_operacion="Entrada";
         $this->nextpage = false;
-        $this->fromDate=Carbon::now();
-        $this->toDate=Carbon::now();
+        $this->fromDate=Carbon::now()->format('Y-m-d') ;
+        $this->toDate=Carbon::now()->format('Y-m-d') ;
       
     // $this->limpiarstock();
     // $this->buscarproducto();
@@ -782,12 +782,14 @@ public function ver($id){
     if ($this->tipo_de_operacion == 'Entrada') {
         
         $this->detalle= DetalleEntradaProductos::where('id_entrada',$id)->get();
+        $this->emit('show-detail');
+        
     }
     else{
         $this->detalle= DetalleSalidaProductos::where('id_salida',$id)->get();
+        $this->emit('show-detail');
 
     }
-    $this->emit('show-detail');
 
 }
 

@@ -1,4 +1,5 @@
-<div wire:ignore.self class="modal fade" id="buscarproducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="buscarproducto" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -25,27 +26,29 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($detalle as $d)
-                                            <tr class="text-center" style="font-size: 0.9rem">
-                                                <td>
-                                                    {{$loop->index+1}}
-                                                </td>
-                                                <td>
-                                                    {{ $d->productos->nombre}}
-                                                </td>
-                                                <td>
-                                                    {{$d->cantidad}}
-                                                </td>
-                                                <td>
-                                                    {{$d->costo}}
-                                                </td>
-                                            </tr>
+                                                <tr class="text-center" style="font-size: 0.9rem">
+                                                    <td>
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $d->product_id }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $d->cantidad }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $d->costo }}
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        @endif
+                    @else
+                        <p>{{ $detalle }}</p>
+                    @endif
 
                 </div>
             </div>

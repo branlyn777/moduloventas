@@ -78,40 +78,40 @@
                             <div class="col-md-6">
                                 <div class="row">
 
-                               
-                                      
-                                            <div class="col-12 col-sm-6 col-md-3">
-                                                <label>Fecha Inicio</label>
-                                                <div class="form-group">
-                                                    <input type="date" wire:model="fromDate" class="form-control">
-                                                </div>
-                                            </div>
-            
-                                            <div class="col-12 col-sm-6 col-md-3">
-                                                <label>Fecha Fin</label>
-                                                <div class="form-group">
-                                                    <input type="date" wire:model="toDate" class="form-control">
-                                                </div>
-                                            </div>
-                             
-                      
-                                        <div class="col-md-6">
-                                            <label style="font-size: 1rem">Tipo Operacion</label>
-                                            <select wire:model='tipo_de_operacion' class="form-select">
-                                                <option value="Entrada">Entrada</option>
-                                                <option value="Salida">Salida</option>
-                                            </select>
+
+
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <label>Fecha Inicio</label>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="fromDate" class="form-control">
                                         </div>
-                             
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-3">
+                                        <label>Fecha Fin</label>
+                                        <div class="form-group">
+                                            <input type="date" wire:model="toDate" class="form-control">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <label style="font-size: 1rem">Tipo Operacion</label>
+                                        <select wire:model='tipo_de_operacion' class="form-select">
+                                            <option value="Entrada">Entrada</option>
+                                            <option value="Salida">Salida</option>
+                                        </select>
+                                    </div>
+
                                 </div>
 
 
                             </div>
-                       
 
 
-                       
-                       
+
+
+
                         </div>
                     </div>
                 </div>
@@ -203,12 +203,12 @@
                 </div>
             </div>
 
+        </div>
     </div>
+    @include('livewire.entradas_salidas.operacion')
+    @include('livewire.entradas_salidas.buscarproducto')
 </div>
-</div>
-@include('livewire.entradas_salidas.operacion')
-@include('livewire.entradas_salidas.buscarproducto')
-</div>
+
 
 
 @section('javascript')
