@@ -738,18 +738,22 @@ class ProductsController extends Component
      * @return El método de importación devuelve una colección de las filas importadas.
      */
 
-    public function import($archivo)
+    public function import()
     {
-        try {
-            try {
-                //$import->import('import-users.xlsx');
-
+        try
+        {
+            try
+            {
                 Excel::import(new ProductsImport, $this->archivo);
                 return redirect()->route('productos');
-            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            }
+            catch (\Maatwebsite\Excel\Validators\ValidationException $e)
+            {
                 $this->failures = $e->failures();
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
 
             $this->emit('sin-archivo');
         }

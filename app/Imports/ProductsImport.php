@@ -20,7 +20,6 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
     public function __construct()
     {
         $this->categories = Category::pluck('id', 'name');
-       
     }
     /**
     * @param array $row
@@ -32,16 +31,19 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
       
         $product = new Product();
         $product->nombre = preg_replace('/\s+/', ' ',trim($row['nombre']));
-        $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
+        // $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
+        $product->costo = 0;
         $product->caracteristicas = preg_replace('/\s+/', ' ',trim($row['caracteristicas']));
         $product->codigo = preg_replace('/\s+/', ' ',trim($row['codigo']));
-        $product->lote = preg_replace('/\s+/', ' ',trim($row['lote']));
+        // $product->lote = preg_replace('/\s+/', ' ',trim($row['lote']));
+        $product->lote = 0;
         $product->unidad = preg_replace('/\s+/', ' ',trim($row['unidad']));
         $product->marca = preg_replace('/\s+/', ' ',trim($row['marca']));
         $product->garantia = preg_replace('/\s+/', ' ',trim($row['garantia']));
         $product->cantidad_minima = preg_replace('/\s+/', ' ',trim($row['cantidad_minima']));
         $product->industria = preg_replace('/\s+/', ' ',trim($row['industria']));
-        $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio_venta']));
+        // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio_venta']));
+        $product->precio_venta = 0;
         $product->status = preg_replace('/\s+/', ' ',trim($row['status']));
 
         
@@ -130,26 +132,23 @@ class ProductsImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChun
             '*.codigo' =>[
                 'distinct','numeric','required','unique:products'
             ],
-            '*.costo' =>[
-                'numeric','required'
-            ],
-            '*.precio_venta' =>[
-                'numeric','required'
-            ],
-
-            
+            // '*.costo' =>[
+            //     'numeric','required'
+            // ],
+            // '*.precio_venta' =>[
+            //     'numeric','required'
+            // ],
         ];
     }
 
     public function customValidationMessages()
-{
-    return [
-        'nombre.unique' => 'El nombre del producto ya existe, revise su archivo por favor, campo :attribute',
-        'nombre.distinct' => 'Nombres duplicados del producto',
-        'codigo.unique' =>'El codigo ya existe',
-        'codigo.distinct' =>'Tiene codigos duplicados, revise su archivo',
-
-    ];
-}
+    {
+        return [
+            'nombre.unique' => 'El nombre del producto ya existe, revise su archivo por favor, campo :attribute',
+            'nombre.distinct' => 'Nombres duplicados del producto',
+            'codigo.unique' =>'El codigo ya existe',
+            'codigo.distinct' =>'Tiene codigos duplicados, revise su archivo',
+        ];
+    }
 
 }
