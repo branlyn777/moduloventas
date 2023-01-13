@@ -788,6 +788,8 @@ class ProductsController extends Component
             $product->detalleSalida->count() > 0 ? $auxi++ :  '';
             $product->detalleTransferencia->count() > 0 ? $auxi++ :  '';
             $this->productError = $product->nombre;
+            $this->mensaje_toast = 'Acccion realizada con exito';
+            $this->emit('product-deleted');
         }
 
         if ($auxi != 0) {
@@ -797,6 +799,7 @@ class ProductsController extends Component
             Product::whereIn('id', $this->selectedProduct)->delete();
             $this->selectedProduct = [];
             $this->checkAll = false;
+           
         }
     }
 

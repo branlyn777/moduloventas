@@ -19,6 +19,7 @@ class ClienteController extends Component
     public  $search, $nombre, $cedula, $celular, $direccion, $email, $fnacim, $razonsocial, $nit, $procedencia, $selected_id, $image, $cliente_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 40;
+    public $estado;
 
     public function paginationView()
     {
@@ -132,6 +133,7 @@ class ClienteController extends Component
         $this->direccion = $cli->direccion;
         $this->razonsocial = $cli->razon_social;
         $this->procedencia = $cli->procedencia_cliente_id;
+        
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -141,8 +143,8 @@ class ClienteController extends Component
         $rules = [
             'nombre' => 'required|max:255',
             //'cedula' => 'required|min:5|max:10,unique',
-            'cedula' => "required|min:5|unique:clientes,cedula,{$this->cliente_id}",
-            'celular' => 'required|min:8',
+            /* 'cedula' => "required|min:5|unique:clientes,cedula,{$this->cliente_id}", */
+            /* 'celular' => 'required|min:8', */
             'procedencia' => 'required|not_in:Elegir',
             'email' => 'max:100',
             'direccion' => 'max:255',
@@ -154,10 +156,10 @@ class ClienteController extends Component
             'nombre.max' => 'Numero de caracteres no mayor a 255',
             /* 'cedula.required' => 'Numero de cédula es requerido.', */
             'cedula.max' => 'Numero de caracteres no mayor a 10',
-            'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.',
+            /* 'cedula.min' => 'Ingrese un numero de cédula superior a 5 dígitos.', */
             'cedula.unique' => 'El CI ya existe',
            /*  'celular.required' => 'Numero de celular es requerido.', */
-            'celular.min' => 'Ingrese nro de celular de 8 dígitos.',
+            /* 'celular.min' => 'Ingrese nro de celular de 8 dígitos.', */
             'email.max'  => 'Numero de caracteres no mayor a 100',
             'nit.max'  => 'Numero de caracteres no mayor a 100',
             'razonsocial.max'  => 'Numero de caracteres no mayor a 255',
