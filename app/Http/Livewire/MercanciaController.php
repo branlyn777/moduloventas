@@ -657,8 +657,8 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
 
                 }
                     
-                    
-                $this->emit('product-added');
+                $this->mensaje_toast="Operacion Registrada";
+                $this->emit('operacion-added');
                 $this->resetui();
                 }
                 elseif($this->col->isNotEmpty()){
@@ -747,19 +747,18 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
                     dd($e->getMessage());
                     }
                     
-                    
-                                $this->emit('product-added');
+                                $this->mensaje_toast="Operacion Registrada";
+                                $this->emit('operacion-added');
                                 $this->resetui();
                 }
+                else{
+
+                    $this->emit('sinproductos');
+                }
                 
-                $this->emit('sinproductos');
       
                    
-       
 
-            $this->mensaje_toast = 'Operacion Registrada';
-            $this->emit('operacion-added');
-            $this->resetui();
     }
 
     public function resetui(){
