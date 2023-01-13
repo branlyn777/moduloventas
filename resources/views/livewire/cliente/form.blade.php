@@ -99,6 +99,20 @@
             @enderror
         </div>
     </div>
+
+
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label><span class="text-warning">* </span>Estado</label>
+            <select wire:model='estado' class="form-select">
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
+            </select>
+            @error('estado')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
 </div>
 
 @include('common.modalFooter')

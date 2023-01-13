@@ -467,12 +467,23 @@
                                                             </td>
                                                             <td class="text-center">
 
+                                                                @if ($p->estado =="ACTIVO")
+
                                                                 <button title="Añadir al Carrito de Ventas"
                                                                     wire:click="increase({{ $p->id }})"
                                                                     class="btn btn-primary"
                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
+
+                                                                @else                                                 
+                                                                <button title="Producto inactivado"
+                                                                    wire:click="increase({{ $p->id }})"
+                                                                    class="btn btn-default"
+                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                                @endif
 
                                                             </td>
                                                         </tr>

@@ -196,7 +196,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 500,
                 padding: '2em'
             });
             toast({

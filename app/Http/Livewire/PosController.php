@@ -190,7 +190,7 @@ class PosController extends Component
             $listaproductos = Product::join("productos_destinos as pd", "pd.product_id", "products.id")
             ->join('destinos as des', 'des.id', 'pd.destino_id')
             ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
-            "pd.stock as stock", "products.codigo as barcode")
+            "pd.stock as stock", "products.codigo as barcode", "products.status as estado")
             ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
             ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
             ->distinct()
