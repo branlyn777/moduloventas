@@ -174,11 +174,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-
-        // window.livewire.on('item-added', Msg => {
-        //     $('#theModal').modal('hide')
-        //     noty(Msg)
-        // })
         window.livewire.on('item-added', Msg => {
             $('#theModal').modal('hide');
             const toast = swal.mixin({
@@ -194,10 +189,7 @@
                 padding: '2em',
             })
         });
-        // window.livewire.on('item-updated', Msg => {
-        //     $('#theModal').modal('hide')
-        //     noty(Msg)
-        // })
+        
         window.livewire.on('item-updated', Msg => {
             $('#theModal').modal('hide')
             const toast = swal.mixin({
@@ -213,9 +205,7 @@
                 padding: '2em',
             })
         });
-        // window.livewire.on('item-deleted', Msg => {
-        //     noty(Msg)
-        // })
+        
         window.livewire.on('item-deleted', Msg => {
             const toast = swal.mixin({
                 toast: true,
