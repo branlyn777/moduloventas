@@ -212,7 +212,7 @@
             $('#theModal_subcategory').modal('show')
         });
         window.livewire.on('item-added', Msg => {
-            $('#theModal').modal('hide');
+            $('#theModalCategory').modal('hide');
             const toast = swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -282,34 +282,18 @@
     });
 
     function Confirm(id, name, products, subcategories) {
-        if (products > 0 && subcategories > 0) {
+        if (products > 0 || subcategories > 0) {
 
             swal.fire({
                 title: 'PRECAUCION',
                 type: 'warning',
                 text: 'No se puede eliminar la categoria ' + name +
-                    ' porque tiene productos y categorias relacionadas.'
+                    ' porque tiene productos o categorias relacionadas.'
             })
             return;
 
         }
-        if (products > 0) {
-
-            swal.fire({
-                title: 'PRECAUCION',
-                type: 'warning',
-                text: 'No se puede eliminar la categoria ' + name + ' porque tiene productos relacionados.'
-
-            })
-        }
-        if (subcategories > 0) {
-
-            swal.fire({
-                title: 'PRECAUCION',
-                type: 'warning',
-                text: 'No se puede eliminar la categoria ' + name + ' porque tiene subcategorias relacionadas.'
-            })
-        } else {
+    else {
 
             swal.fire({
                 title: 'CONFIRMAR',
