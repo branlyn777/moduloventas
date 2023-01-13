@@ -206,7 +206,10 @@ class CategoriesController extends Component
   
         $this->resetUI();
         $this->mensaje_toast = 'Categoria Eliminada';
-        $this->Ver($this->categoria_padre);
+        if ($this->categoria_padre != null) {
+      
+            $this->Ver($this->categoria_padre);
+        }
         $this->emit('item-deleted');
     }
 
