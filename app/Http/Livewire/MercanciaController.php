@@ -96,6 +96,10 @@ class MercanciaController extends Component
 
           $arr= $this->col->pluck('product-name');
           $this->sm=$st->whereNotIn('nombre',$arr);
+
+          $this->sm=$st->whereNotIn('codigo',$arr);
+          
+
           //dd($this->sm);
 
           $this->buscarproducto=1;
