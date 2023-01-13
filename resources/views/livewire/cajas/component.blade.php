@@ -122,7 +122,8 @@
                                             @endif --}}
 
                                             @if ($item->estado == 'Abierto')
-                                                <span class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
+                                                <span
+                                                    class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
                                             @elseif($item->estado == 'Cerrado')
                                                 <span class="badge badge-sm bg-gradient-secondary">CERRADO</span>
                                             @else
@@ -130,17 +131,24 @@
                                             @endif
 
                                         </td>
-                                        
+
                                         <td class="text-sm ps-0 text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
                                                 class="mx-3" title="Edit">
                                                 <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                             </a>
+
+                                            @if ($item->estado != 'Inactivo')
+
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $item->id }}','{{ $item->nombre }}','{{ $item->carteras->count() }}')"
                                                 class="mx-3" title="Delete">
                                                 <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
+
+                                            @endif
+
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -223,33 +231,62 @@
         window.livewire.on('modal-hide', msg => {
             $('#theModal').modal('hide')
         });
+
+
+        window.livewire.on('no-se-puede', msg => {
+            Swal.fire(
+            'Accion no disponible',
+            'La caja debe estar cerrada para realizar esta acción',
+            'info'
+            )
+        });
+
+
+
+        window.livewire.on('no-eliminar', msg => {
+            swal({
+                title: 'CONFIRMAR',
+                text: '¿Confirmar inactivar la caja y todas las carteras de esta?',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('cancelRow')
+                }
+            })
+        });
+
+
+        window.livewire.on('confirmar', msg => {
+            swal({
+                title: 'CONFIRMAR',
+                text: '¿Confirmar eliminar la caja',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRow')
+                }
+            })
+        });
+
+
+
     });
 
     function Confirm(id, name, carteras) {
         if (carteras > 0) {
-            swal.fire({
-                title: 'PRECAUCION',
-                icon: 'warning',
-                type: 'warning',
-                text: 'No se puede eliminar la caja "' + name + '" porque tiene ' +
-                    carteras + ' carteras.'
-            })
+            window.livewire.emit('verificarcarteras', id)
             return;
         }
 
 
-        swal({
-            title: 'CONFIRMAR',
-            text: '¿Confirmar eliminar la caja ' + '"' + name + '"?.',
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Aceptar',
-            padding: '2em'
-        }).then(function(result) {
-            if (result.value) {
-                window.livewire.emit('deleteRow', id)
-            }
-        })
+
     }
 </script>

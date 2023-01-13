@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Caja;
 use App\Models\Cartera;
+use App\Models\CarteraMov;
 use App\Models\Sucursal;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,10 +14,9 @@ class CajasController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $estado, $sucursal_id, $selected_id, $mensaje_toast;
+    public  $search, $nombre, $estado, $sucursal_id, $selected_id, $mensaje_toast, $caja_id, $estado2;
     public  $pageTitle, $componentName;
     private $pagination = 15;
-
 
     public $mostrar_sucursal;
 
@@ -26,6 +26,7 @@ class CajasController extends Component
     }
     public function mount()
     {
+        $this->estado2 = "Activo";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Cajas';
         $this->sucursal_id = 'Elegir';
@@ -56,14 +57,12 @@ class CajasController extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
     public function Agregar()
     {
         $this->mostrar_sucursal = true;
         $this->resetUI();
         $this->emit('show-modal', 'show modal!');
     }
-
     public function Store()
     {
         $rules = [
@@ -101,7 +100,7 @@ class CajasController extends Component
         $this->selected_id = $caja->id;
         $this->nombre = $caja->nombre;
         $this->sucursal_id = $caja->sucursal_id;
-
+        $this->estado2 = $caja->status;
         $this->mostrar_sucursal = false;
         $this->emit('show-modal', 'show modal!');
     }
@@ -124,20 +123,110 @@ class CajasController extends Component
         ]);
         $Caj->save();
 
+
+
+        if($this->estado2 == "Activo")
+        {
+            $lista_carteras = Cartera::where("carteras.caja_id",$this->selected_id)->get();
+            foreach($lista_carteras as $cartera)
+            {
+                $cartera->update([
+                    'estado' => "ACTIVO"
+                ]);
+                $cartera->save();
+            }
+
+            $caja = Caja::find($this->selected_id);
+
+            $caja->update([
+                'estado' => "Cerrado",
+                'status' => "Activo"
+            ]);
+            $caja->save();
+        }
+
+
         $this->resetUI();
         $this->mensaje_toast = 'Caja Actualizada';
         $this->emit('item-updated', 'Caja Actualizada');
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
-
-    public function Destroy(Caja $caja)
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'cancelRow' => 'Cancel',
+        'verificarcarteras' => 'verificar_carteras'
+    ];
+    public function Cancel()
     {
-        $caja->delete();
-        $this->resetUI();
+        $lista_carteras = Cartera::where("carteras.caja_id",$this->caja_id)->get();
+        foreach($lista_carteras as $cartera)
+        {
+            $cartera->update([
+                'estado' => "INACTIVO"
+            ]);
+            $cartera->save();
+        }
+
+        $caja = Caja::find($this->caja_id);
+
+        $caja->update([
+            'estado' => "Inactivo",
+            'status' => "Inactivo"
+        ]);
+        $caja->save();
+
+
+        $this->mensaje_toast = 'Caja Inactivada';
+        $this->emit('item-deleted');
+    }
+
+
+    //Verifica que todas las carteras de la caja no tengan movimientos
+    public function verificar_carteras($idcaja)
+    {
+        $caja_seleccionada = Caja::find($idcaja);
+
+        if($caja_seleccionada->estado == "Abierto")
+        {
+            $this->emit("no-se-puede");
+        }
+        else
+        {
+            $lista_carteras = Cartera::where("carteras.caja_id",$idcaja)->get();
+            $contador = 0;
+            foreach($lista_carteras as $c)
+            {
+                $verificar = CarteraMov::where("cartera_movs.cartera_id",$c->id)->get();
+                if($verificar->count() > 0)
+                {
+                    $contador++;
+                    break;
+                }
+            }
+            if($contador > 0)
+            {
+                $this->caja_id = $idcaja;
+                $this->emit("no-eliminar");
+            }
+            else
+            {
+                $this->caja_id = $idcaja;
+                $this->emit("confirmar");
+            }
+        }
+    }
+    public function Destroy()
+    {
+        $lista_carteras = Cartera::where("carteras.caja_id",$this->caja_id)->get();
+        foreach($lista_carteras as $cartera)
+        {
+            $cartera->delete();
+        }
+
+            $caja = Caja::find($this->caja_id);
+            $caja->delete();
         $this->mensaje_toast = 'Caja Eliminada';
         $this->emit('item-deleted', 'Caja Eliminada');
     }
-
     public function resetUI()
     {
         $this->nombre = '';

@@ -81,9 +81,11 @@
                                 </div>
                                 <div class="col-lg-12 mb-2">
 
-                                    @forelse ($searchData as $key=>$value)    
-                                    <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{$value}} <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0" wire:click="outSearchData('{{$value}}')"></button></span>
-                         
+                                    @forelse ($searchData as $key=>$value)
+                                        <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{ $value }}
+                                            <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0"
+                                                wire:click="outSearchData('{{ $value }}')"></button></span>
+
                                     @empty
                                         <p></p>
                                     @endforelse
@@ -343,19 +345,19 @@
             //     noty(msg)
             // });
             window.livewire.on('product-deleted', Msg => {
-            const toast = swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                padding: '2em'
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
             });
-            toast({
-                type: 'success',
-                title: @this.mensaje_toast,
-                padding: '2em',
-            })
-        });
 
             window.livewire.on('modal-show', msg => {
                 $('#theModal').modal('show')

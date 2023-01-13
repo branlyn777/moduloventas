@@ -77,7 +77,7 @@
                     data-bs-dismiss="modal">
                 CANCELAR</button>
                 @if ($selected_id < 1)
-                    <button wire:click.prevent="Store()" type="button" class="btn btn-primary" style="font-size: 13px">
+                    <button wire:click="Store()" type="button" class="btn btn-primary" style="font-size: 13px">
                         GUARDAR
                     </button>
                 @else
