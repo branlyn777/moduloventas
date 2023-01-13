@@ -32,8 +32,8 @@ class MercanciaController extends Component
 
     use WithPagination;
     use WithFileUploads;
-    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,
-    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$ing_prod_id,$destino_delete,$nextpage,$fromDate,$toDate;
+    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,
+    $archivo,$searchproduct,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$id_operacion,$destino_delete,$nextpage,$fromDate,$toDate;
     private $pagination = 15;
 
     public function paginationView()    
@@ -608,7 +608,7 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
             }
           
             
-            if ($this->tipo_proceso == 'Entrada') {
+            if ($this->tipo_proceso == 'Entrada' and $this->col->isNotEmpty()) {
                     DB::beginTransaction();
                     try {
                     
@@ -653,8 +653,11 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
 
                 }
                     
+                    
+                $this->emit('product-added');
+                $this->resetui();
                 }
-                else{
+                elseif($this->col->isNotEmpty()){
                     
                     try {
         
@@ -739,15 +742,16 @@ EXISTEN PRODUCTOS QUE HAN INGRESADO POR AJUSTE DE INVENTARIOS O INVENTARIO INICI
                     DB::rollback();
                     dd($e->getMessage());
                     }
+                    
+                    
+                                $this->emit('product-added');
+                                $this->resetui();
                 }
                 
+                $this->emit('sinproductos');
       
                    
        
-
-
-            $this->emit('product-added');
-            $this->resetui();
     }
 
     public function resetui(){
@@ -813,93 +817,103 @@ public function buscarl(){
 
     dd($object);
 }
-protected $listeners = ['eliminar_registro' => 'eliminar_registro', 'eliminar_registro_total'=>'eliminar_registro_total'];
+protected $listeners = ['eliminar_registro_operacion' => 'eliminar_registro_operacion', 'eliminar_registro_total'=>'eliminar_registro_total'];
 
-public function verifySale(IngresoProductos $id)
+public function verificarOperaciones($id)
 {
-    //$id->delete();
-    $auxi=0;
-    $auxi1=IngresoProductos::join('detalle_entrada_productos','detalle_entrada_productos.id_entrada','ingreso_productos.id')
-    ->join('lotes','detalle_entrada_productos.lote_id','lotes.id')
-    ->where('ingreso_productos.id',$id->id)
-    ->select('lotes.id as lote_id','detalle_entrada_productos.id as detalle_ent_id','ingreso_productos.id as ing_prod','lotes.product_id as product_id')
-    ->get();
-    $def=0;
-    $rt=0;
-    $er=[];
 
-    //dd($auxi);
-    if (count($auxi1)>0) {
+    $operaciones=0;
+    if ($this->tipo_de_operacion == 'Entrada') {
+     
+        // Buscamos el detalle de ingreso producto
+        $auxi1=IngresoProductos::join('detalle_entrada_productos','detalle_entrada_productos.id_entrada','ingreso_productos.id')
+        ->join('lotes','detalle_entrada_productos.lote_id','lotes.id')
+        ->where('ingreso_productos.id',$id)
+        ->select('lotes.*')
+        ->get();
+
+        // Recorremos los lotes obtenidos de la operacion entrada para verificar si tiene salidas o ventas de esos lotes
         foreach ($auxi1 as $data) {
-
-            SaleLote::where('lote_id',$data->lote_id)->get()->count()>0 ? $er="m" : $er='';
-            SalidaLote::where('lote_id',$data->lote_id)->get()->count()>0 ? $er="" : $er='';
-
-            //dd($rt);
-          
-            // if ($rt>0) 
-            // {
-            //    $def++;
-            // }
-
-
-        //     $product= Product::find($data->product_id);
-        //     //$product->destinos->count()>0 ? $auxi++ : '' ;
-        //    //$product->detalleCompra->count()>0 ? $auxi++ :'';
-        //     $product->detalleSalida->count()>0 ? $auxi++ :'';
-        //     $product->detalleTransferencia->count()>0 ? $auxi++ :'';
-        //     $product->detalleVenta->count()>0 ? $auxi++ : '' ;
-
+        //Aumentamos el contador de operaciones si tiene relaciones con ventas y salidas de productos
+            SaleLote::where('lote_id',$data->lote_id)->get()->count()>0 ? $operaciones++:'';
+            SalidaLote::where('lote_id',$data->lote_id)->get()->count()>0 ? $operaciones++:'';
         }
 
-        if ($er) {
-            dd($er);
-            $this->emit('venta');
+        if ($operaciones>0) {
+            //Mostramos un mensaje de error si existe relaciones con el sistema
+            $this->emit('operacion_fallida');
         }
         else{
-       
-            if ($auxi == 0) 
-            {
-
-                $this->emit('confirmarAll');
-                $this->ing_prod_id= $id->id;
-                $this->destino_delete=$id->destino;
-
-            }
-            else{
-
-                $this->emit('confirmar');
-                $this->ing_prod_id= $id->id;
-                $this->destino_delete=$id->destino;
-            }
-            
+        
+            //Si no tiene operaciones relacionadas se podra eliminar el registro, llama al metodo de eliminar registro una vez confirmado
+                $this->emit('confirmareliminacion');
+               
+                $this->id_operacion= $id;
+                $this->destino_delete=$auxi1->first()->destino;
+      
         }
+
     }
+    else{
+        $this->emit('confirmareliminacion');
+        $this->id_operacion= $id;
+
+    }
+
 }
 
-public function eliminar_registro()
+
+public function eliminar_registro_operacion()
 {
-   
-    $rel=DetalleEntradaProductos::where('id_entrada',$this->ing_prod_id)->get();
-    foreach ($rel as $data) {
-        
-        
-        $data->delete();
-        $lot=Lote::find($data->lote_id);
-        $lot->delete();
 
-        $q=ProductosDestino::where('product_id',$data->product_id)
-        ->where('destino_id',$this->destino_delete)->value('stock');
+    if ($this->tipo_de_operacion == 'Entrada') {
+    
+        $detalle=DetalleEntradaProductos::where('id_entrada',$this->id_operacion)->get();
+        foreach ($detalle as $data) {
+            $data->delete();
+            $lot=Lote::find($data->lote_id);
+            $lot->delete();
+    
+            $q=ProductosDestino::where('product_id',$data->product_id)
+            ->where('destino_id',$this->destino_delete)->value('stock');
 
-        
-        $gh=ProductosDestino::updateOrCreate(['product_id'=>$data->product_id,'destino_id'=>$this->destino_delete],['stock'=>$q-$data->cantidad]);
-        
+            $gh=ProductosDestino::where(['product_id'=>$data->product_id,
+            'destino_id'=>$this->destino_delete,
+        ]);
 
+        $gh->update([
+            'stock'=>$q-$data->cantidad
+        ]);
 
-
+            
+        }
+        $del=IngresoProductos::find($this->id_operacion);
+        $del->delete();
+      
     }
-    $del=IngresoProductos::find($this->ing_prod_id);
-    $del->delete();
+    else{
+        $detalle=DetalleSalidaProductos::where('id_salida',$this->id_operacion)->get();
+        foreach ($detalle as $data) {
+            $data->delete();
+   
+
+    
+            $q=ProductosDestino::where('product_id',$data->product_id)
+            ->where('destino_id',$this->destino_delete)->value('stock');
+
+            $gh=ProductosDestino::where(['product_id'=>$data->product_id,
+            'destino_id'=>$this->destino_delete
+        ]);
+
+        $gh->update([
+            'stock'=>$q+$data->cantidad
+        ]);
+    
+            
+        }
+        $del=SalidaProductos::find($this->id_operacion);
+        $del->delete();
+    }
    
 
 }

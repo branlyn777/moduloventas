@@ -116,32 +116,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-body">
-                    
-                    <div class="d-lg-flex m-3">
-                        <div class="col-12 col-sm-12 col-md-3 mt-2 pt-2">
-                            <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-md-2">
-                            <div class="ms-auto my-auto">
-                                <label>Estado</label>
-                                <select wire:model='tipo_de_operacion' class="form-select">
-                                    <option value="Entrada">Entrada</option>
-                                    <option value="Salida">Salida</option>
-                                  </select>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div> --}}
 
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
@@ -188,7 +163,7 @@
                                                 class="text-primary  mx-3">
                                                 <i class="fas fa-list"></i>
                                             </a>
-                                            <a wire:click="verifySale({{ $data2->id }})" type="button"
+                                            <a wire:click="verificarOperaciones({{ $data2->id }})" type="button"
                                                 class="text-danger mx-3">
                                                 <i class="fas fa-trash"></i>
                                             </a>
@@ -224,7 +199,7 @@
 
             });
 
-            window.livewire.on('venta', event => {
+            window.livewire.on('operacion_fallida', event => {
                 swal(
                     '¡No se puede eliminar el registro!',
                     'Uno o varios de los productos de este registro ya fueron distribuidos y/o tiene relacion con varios registros del sistema.',
@@ -232,21 +207,19 @@
                 )
             });
 
-            window.livewire.on('confirmar', event => {
+            window.livewire.on('confirmareliminacion', event => {
 
                 Swal.fire({
                     title: 'Estas seguro de eliminar este registro?',
-                    text: "Esta accion es irreversible",
+                    text: "Esta accion es irreversible y modificara la cantidad de su inventario.",
                     type: 'warning',
                     showCancelButton: true,
-                    // confirmButtonColor: '#3085d6',
-                    // cancelButtonColor: '#d33',
                     cancelButtonText: 'Cancelar',
                     confirmButtonText: 'Aceptar'
                 }).then((result) => {
                     if (result.value) {
 
-                        window.livewire.emit('eliminar_registro');
+                        window.livewire.emit('eliminar_registro_operacion');
                         Swal.fire(
                             'Eliminado!',
                             'El registro fue eliminado con exito',
@@ -292,6 +265,21 @@
                 toast({
                     type: 'error',
                     title: 'Stock insuficiente para la salida del producto en esta ubicacion.',
+                    padding: '2em',
+                })
+            });
+            window.livewire.on('sinproductos', event => {
+
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'error',
+                    title: 'Error, No has agregado items a tu operacion',
                     padding: '2em',
                 })
             });

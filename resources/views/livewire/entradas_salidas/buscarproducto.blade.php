@@ -31,7 +31,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        {{ $d->product_id }}
+                                                        {{ $d->productos->nombre }}
                                                     </td>
                                                     <td>
                                                         {{ $d->cantidad }}
