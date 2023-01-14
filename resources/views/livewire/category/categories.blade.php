@@ -73,7 +73,7 @@
                                 </div>
                             </div>
 
-                            <div class="ms-auto my-auto mt-lg-0 col-md-2">
+                            {{-- <div class="ms-auto my-auto mt-lg-0 col-md-2">
                                 <div class="ms-auto my-auto">
                                     <label style="font-size: 1rem">Filtrar por Estado</label>
                                     <div class="form-check form-switch">
@@ -97,14 +97,9 @@
                                             color: #525f7f;">Inactivos</label>
                                         @endif
                                     </div>
-                                    {{-- <select wire:model='estados' class="form-select">
-                                        <option value="null" disabled>Estado</option>
-                                        <option value="ACTIVO">Activo</option>
-                                        <option value="INACTIVO">Inactivo</option>
-                                        <option value="TODOS">Todos</option>
-                                    </select> --}}
+                
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -119,7 +114,7 @@
                                     <th class="text-uppercase text-sm text-center">#</th>
                                     <th class="text-uppercase text-sm">NOMBRE</th>
                                     <th class="text-uppercase text-sm">SUBCATEGORÍAS</th>
-                                    <th class="text-uppercase text-sm">ESTADO</th>
+                                    {{-- <th class="text-uppercase text-sm">ESTADO</th> --}}
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>
@@ -135,18 +130,6 @@
                                             Descripción :
                                             {{ $category->descripcion == null ? 'S/N Descripcion' : substr($category->descripcion, 0, 45) }}
 
-                                            {{-- <div class="row">
-                                                        <div class="col-md-5"> --}}
-                                            {{-- <div class="row">
-                                                                <div class="col">
-                                                                </div>
-                                                            </div> --}}
-                                            {{-- <div class="row">
-                                                                <div class="col">
-                                                                </div>
-                                                            </div> --}}
-                                            {{-- </div>
-                                                    </div> --}}
                                         </td>
                                         <td class="text-sm mb-0 text-left">
                                             <a href="javascript:void(0)" wire:click="Ver({{ $category->id }})"
@@ -155,20 +138,6 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
-
-                                        @if ($category->status == 'ACTIVO')
-                                            <td>
-                                                {{-- <span class="badge badge-success mb-0">{{$category->status}}</span> --}}
-                                                <span
-                                                    class="badge badge-sm bg-gradient-success">{{ $category->status }}</span>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <span
-                                                    class="badge badge-sm bg-gradient-danger">{{ $category->status }}</span>
-                                                {{-- <span class="badge badge-danger mb-0">{{$category->status}}</span> --}}
-                                            </td>
-                                        @endif
 
 
                                         <td class="text-center">

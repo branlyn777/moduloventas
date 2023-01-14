@@ -125,6 +125,7 @@
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
+                                        <option value="no_definido">No definido</option>
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>

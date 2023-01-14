@@ -151,7 +151,7 @@
                         <li class=@yield('entradasalidali', 'nav-item ')>
                             <a class=@yield('entradasalidanav', 'nav-link ') href="{{ url('operacionesinv') }}">
                                 <span class="sidenav-mini-icon"> E </span>
-                                <span class="sidenav-normal"> Entrada/Salida </span>
+                                <span class="sidenav-normal"> Ajuste Inventarios </span>
                             </a>
                         </li>
                         <li class=@yield('tranferenciasli', 'nav-item ')>

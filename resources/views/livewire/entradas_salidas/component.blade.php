@@ -50,8 +50,7 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-add mb-0" data-bs-toggle="modal" wire:click='resetui()'
-                            data-bs-target="#operacion">
+                        <a href="registraroperacion" class="btn btn-add mb-0">
                             <i class="fas fa-plus"></i> Registrar Operación</a>
                     </div>
                 </div>
@@ -164,7 +163,7 @@
         </div>
     </div>
     @include('livewire.entradas_salidas.operacion')
-    @include('livewire.entradas_salidas.buscarproducto')
+    @include('livewire.entradas_salidas.verdetalle')
 </div>
 
 
@@ -189,7 +188,7 @@
                 })
             });
             window.livewire.on('show-detail', msg => {
-                $('#buscarproducto').modal('show')
+                $('#verdetalle').modal('show')
 
             });
 

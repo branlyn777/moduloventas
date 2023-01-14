@@ -25,11 +25,8 @@ class CategoriesController extends Component
 
     public function mount()
     {
-        $this->pageTitle = 'Listado';
         $this->componentName = 'Categoria';
-        $this->componentSub = 'Subcategorias';
-        $this->subcat_fill = 'Elegir';
-        $this->estados = 'TODOS';
+        $this->estados = 'ACTIVO';
     }
 
     public function paginationView()
@@ -43,9 +40,8 @@ class CategoriesController extends Component
             ->where(function ($querys) {
                 $querys->where('name', 'like', '%' . $this->search . '%')->where('categoria_padre', 0)
                     ->where('name', '!=', 'No definido')
-                    ->when($this->estados != 'TODOS', function ($query) {
-                        return $query->where('status', $this->estados);
-                    });
+                   ->where('status', $this->estados==true?'ACTIVO':'INACTIVO');
+                  
             })->paginate($this->pagination);
 
 

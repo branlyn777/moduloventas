@@ -479,7 +479,7 @@
                                                                 @else                                                 
                                                                 <button title="Producto inactivado"
                                                                     wire:click="increase({{ $p->id }})"
-                                                                    class="btn btn-default"
+                                                                    class="btn btn-secondary"
                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>

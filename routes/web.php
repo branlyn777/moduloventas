@@ -35,6 +35,7 @@ use App\Http\Livewire\PosController;
 use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\ProvidersController;
+use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporteMovimientoResumenController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\SaleDailyMovementController;
@@ -114,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('trans', EditTransferenceController::class)->name('editdest');
     });
     Route::get('operacionesinv', MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
+    Route::get('registraroperacion', RegistrarAjuste::class)->name('registraroperacion')->middleware('permission:Entradas_Salidas');
     Route::get('destino_prod', DestinoProductoController::class)->name('destination')->middleware('permission:Almacenes');
 
     Route::group(['middleware' => ['permission:Compras']], function () {

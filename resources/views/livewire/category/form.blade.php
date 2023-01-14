@@ -33,24 +33,7 @@
                             @enderror
                         </div>
                     </div>
-                    @if ($selected_id != null)
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label>Estado</label>
-                            <div class="form-group">
-                              <select class="form-select" wire:model="estadocategoria">
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
-                            
-                              </select>
-                            </div>
-                          
-                            @error('estadocategoria')
-                                <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    @endif
+          
                 </div>
 
             </div>
