@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Marca;
 use App\Models\Unidad;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -11,9 +12,24 @@ class UnidadesController extends Component
 {
     use WithPagination;
     use WithFileUploads;
+
+
+
+    //UNIDADES
+
+
+
     public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
+
+
+
+    //MARCAS
+
+    public $search_marca, $nombre_marca, $selected_id_marca;
+    private $pagination_marca = 5;
+
 
     public function paginationView()
     {
@@ -29,7 +45,7 @@ class UnidadesController extends Component
 
     public function render()
     {
-        
+        //UNIDADES
             if (strlen($this->search) > 0)
                 $uni = Unidad::select('unidads.*')
                 ->where('nombre', 'like', '%' . $this->search . '%')
@@ -38,8 +54,30 @@ class UnidadesController extends Component
             $uni = Unidad::select('unidads.*')
             ->paginate($this->pagination);
 
+
+
+
+
+
+
+        //MARCAS
+        if (strlen($this->search_marca) > 0)
+        {
+            $marcas = Marca::select('marcas.*')
+            ->where('nombre', 'like', '%' . $this->search_marca . '%')->paginate($this->pagination_marca);
+        }
+        else
+        {
+            $marcas = Marca::select('marcas.*')->paginate($this->pagination_marca);
+        }
+
+
+
+
+
             return view('livewire.unidad.component', [
-                'data_unidad' => $uni
+                'data_unidad' => $uni,
+                'marcas' => $marcas
             ])
                 ->extends('layouts.theme.app')
                 ->section('content');
@@ -93,7 +131,10 @@ class UnidadesController extends Component
         $this->mensaje_toast = 'Unidad Actualizada';
         $this->emit('unidad-updated', 'Unidad Actualizada');
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'deleteRowMarca' => 'Destroy_marca'
+    ];
 
     public function Destroy(Unidad $uni)
     {
@@ -102,11 +143,77 @@ class UnidadesController extends Component
         $this->mensaje_toast = 'Unidad Eliminada';
         $this->emit('unidad-deleted', 'Unidad Eliminada');
     }
-
     public function resetUI()
     {
         $this->nombre = '';
         $this->selected_id=0;
        
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //MARCAS
+
+    public function Store_marca()
+    {
+        $rules = [
+            'nombre_marca' => 'required',
+            
+        ];
+        $messages = [
+            'nombre_marca.required' => 'El nombre de la unidad es requerido.',
+        ];
+        $this->validate($rules, $messages);
+        
+        Marca::create([
+            'nombre' => $this->nombre_marca
+        ]);
+
+        $this->resetUI_marca();
+        $this->mensaje_toast = 'Marca Registrada';
+        $this->emit('marca-added', 'Marca Registrada');
+    }
+
+    public function Edit_marca(Marca $unity)
+    {
+        $this->selected_id_marca = $unity->id;
+        $this->nombre_marca = $unity->nombre;
+        
+       
+
+        $this->emit('show-modal_marca', 'show modal!');
+    }
+
+    public function resetUI_marca()
+    {
+        $this->nombre_marca = '';
+        $this->selected_id_marca=0;
+       
+    }
+
+
+
+    public function Destroy_marca(Marca $uni)
+    {
+        $uni->delete();
+        $this->resetUI();
+        $this->mensaje_toast = 'Marca Eliminada';
+        $this->emit('marca-deleted', 'Marca Eliminada');
+    }
+
+
+
 }

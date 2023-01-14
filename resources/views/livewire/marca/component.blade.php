@@ -55,7 +55,7 @@
 
 <div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
