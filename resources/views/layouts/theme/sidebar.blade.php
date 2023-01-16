@@ -187,15 +187,15 @@
                                     <li class=@yield('unidadesli', 'nav-item ')>
                                         <a class=@yield('unidadesnav', 'nav-link ') href="{{ url('unidades') }}">
                                             <span class="sidenav-mini-icon text-xs"> U </span>
-                                            <span class="sidenav-normal"> Unidades </span>
+                                            <span class="sidenav-normal"> Unidades y Marcas </span>
                                         </a>
                                     </li>
-                                    <li class=@yield('marcasli', 'nav-item ')>
+                                    {{-- <li class=@yield('marcasli', 'nav-item ')>
                                         <a class=@yield('marcasnav', 'nav-link ') href="{{ url('marcas') }}">
                                             <span class="sidenav-mini-icon text-xs"> M </span>
                                             <span class="sidenav-normal"> Marcas </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </li>

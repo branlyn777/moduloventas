@@ -49,6 +49,11 @@
         <div class="card-body">
 
             <div class="row">
+
+                <div class="col-12 col-sm-6 col-md-2">
+
+                </div>
+
                 <div class="col-12 col-sm-6 col-md-2">
 
                     @can('Reporte_Movimientos_General')
@@ -56,34 +61,36 @@
                             <b class="">Sucursal</b>
                             <select wire:model="sucursal" class="form-select">
                                 @foreach ($sucursales as $item)
-                                    <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->name }}
+                                    <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">
+                                        {{ $item->name }}
                                     </option>
                                 @endforeach
                                 <option value="TODAS">TODAS</option>
                             </select>
                         </div>
                     @endcan
-        
+
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
                         <b class="">Caja</b>
                         <select wire:model="caja" class="form-select">
                             @foreach ($cajas as $item)
-                                <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">{{ $item->nombre }}
+                                <option wire:key="item-{{ $item->id }}" value="{{ $item->id }}">
+                                    {{ $item->nombre }}
                                 </option>
                             @endforeach
                             <option value="TODAS">TODAS</option>
-        
+
                         </select>
-        
+
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
-        
+
                         <b class="">Fecha inicial</b>
-        
+
                         <input type="date" wire:model="fromDate" class="form-control">
                         @error('fromDate')
                             <span class="text-danger">{{ $message }}</span>
@@ -97,13 +104,14 @@
                         @error('toDate')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-        
+
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
                         <b style="color: #ffffff;">|</b>
-                        <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
+                        <button
+                            wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
                             class="btn btn-secondary form-control">
                             <i class="fas fa-print"></i> Generar PDF
                         </button>
@@ -114,9 +122,9 @@
 
 
 
-    
-    
-        
+
+
+
         </div>
     </div>
 
@@ -135,17 +143,17 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive p-0">
-                <table class="table">
+                <table style="width: 100%">
                     <thead>
                         <tr>
                             <th class="text-uppercase text-sm text-center">#</th>
                             <th class="text-uppercase text-sm">FECHA</th>
                             <th class="text-uppercase text-sm">DETALLE</th>
-                            <th class="text-uppercase text-sm">INGRESO</th>
-                            <th class="text-uppercase text-sm">EGRESO</th>
-                            <th class="text-uppercase text-sm">
+                            <th class="text-uppercase text-sm text-right">INGRESO</th>
+                            <th class="text-uppercase text-sm text-right">EGRESO</th>
+                            <th class="text-uppercase text-sm text-right">
                                 @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                UTILIDAD
+                                    UTILIDAD
                                 @endif
                             </th>
                         </tr>
@@ -154,28 +162,176 @@
 
                         @foreach ($totalesIngresosV as $p)
                             <tr>
-                                <td class="text-sm text-center">
+                                <td>
                                     {{ $loop->iteration }}
                                 </td>
-                                <td class="text-sm px-4">
+                                <td>
                                     {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                 </td>
-                                <td class="text-sm px-4">
-                                    <b>{{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
+                                <td>
+
+
+
+
+                                    <div class="accordion-1">
+                                        <div class="">
+                                            <div class="row">
+                                                <div class="col-md-10 mx-auto">
+                                                    <div class="accordion" id="accordionRental">
+
+                                                        <div class="accordion-item mb-3">
+                                                            <h6 class="accordion-header" id="headingOne">
+                                                                <button
+                                                                    class="accordion-button border-bottom font-weight-bold collapsed"
+                                                                    type="button" data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapseOne{{ $loop->iteration }}" aria-expanded="false"
+                                                                    aria-controls="collapseOne{{ $loop->iteration }}">
+                                                                    DetalledeVentaDetalledeVentaDetalledeVentaDetalledeVentaDetalledeVenta
+                                                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                                        aria-hidden="true"></i>
+                                                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                                        aria-hidden="true"></i>
+                                                                </button>
+                                                            </h6>
+                                                            <div id="collapseOne{{ $loop->iteration }}" class="accordion-collapse collapse"
+                                                                aria-labelledby="headingOne"
+                                                                data-bs-parent="#accordionRental" style="">
+                                                                <div class="accordion-body text-sm">
+
+
+                                                                    <table class="text-dark">
+                                                                        <thead class="cabeza">
+                                                                            <tr class="text-center">
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0 text-center">
+                                                                                        <b>Nombre</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0">
+                                                                                        <b>Precio Original</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0">
+                                                                                        <b>Desc/Rec</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0">
+                                                                                        <b>Precio Venta</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0">
+                                                                                        <b>Cantidad</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="text-sm mb-0">
+                                                                                        <b>Total</b>
+                                                                                    </p>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach ($p->detalle as $item)
+                                                                                <tr class="fila">
+                                                                                    <td>
+                                                                                        {{ substr($item->nombre, 0, 17) }}
+                                                                                    </td>
+                                                                                    <td class="text-sm px-4">
+                                                                                        {{ number_format($item->po, 2) }}
+                                                                                    </td>
+                                                                                    <td class="text-sm px-4">
+                                                                                        @if ($item->po - $item->pv == 0)
+                                                                                            {{ $item->po - $item->pv }}
+                                                                                        @else
+                                                                                            {{ ($item->po - $item->pv) * -1 }}
+                                                                                        @endif
+                                                                                    </td>
+                                                                                    <td class="text-sm px-4">
+                                                                                        {{ number_format($item->pv, 2) }}
+                                                                                    </td>
+                                                                                    <td class="text-sm px-4">
+                                                                                        <p class="text-sm px-3">
+                                                                                            {{ $item->cant }}
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td class="text-sm px-4">
+                                                                                        {{ number_format($item->pv * $item->cant, 2) }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </td>
-                                <td class="text-sm px-4">
-                                    {{ number_format($p->importe, 2) }}
+
+                                <td>
+
                                 </td>
                                 <td>
 
                                 </td>
-                                <td class="text-sm px-4">
-                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        {{ number_format($p->utilidadventa, 3) }}
-                                    @endif
+                                <td>
+
                                 </td>
 
 
+
+
+                            </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+                            {{-- <tr>
+                                <td class="text-sm text-center">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="text-sm">
+                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                                </td>
+                                <td class="text-sm">
+                                    <b>{{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
+                                </td>
+                                <td class="text-sm text-right">
+
+                                    <span class="badge badge-sm bg-gradient-success">
+                                        {{ number_format($p->importe, 2) }}
+                                    </span>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td class="text-sm text-right">
+                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        {{ number_format($p->utilidadventa, 2) }}
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -220,8 +376,6 @@
                                             @foreach ($p->detalle as $item)
                                                 <tr class="fila">
                                                     <td>
-                                                        {{-- {{rtrim(mb_strimwidth($item['nombre'], 2, 2, '...', 'UTF-8'))}} --}}
-                                                        {{-- {{$item['nombre']}} --}}
                                                         {{ substr($item->nombre, 0, 17) }}
                                                     </td>
                                                     <td class="text-sm px-4">
@@ -253,7 +407,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                            </tr>
+                            </tr> --}}
                         @endforeach
                         @foreach ($totalesIngresosS as $p)
                             <tr>
