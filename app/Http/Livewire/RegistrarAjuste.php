@@ -14,12 +14,13 @@ use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RegistrarAjuste extends Component
 {
-    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,$precioventa,
+    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,
         $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $destinosucursal, $observacion, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate;
     private $pagination = 15;
 
@@ -28,9 +29,10 @@ class RegistrarAjuste extends Component
         $this->col = collect([]);
         $this->tipo_proceso = "Elegir";
         $this->registro = 'Manual';
-        $this->destino = 'Elegir';
+        $this->destino = 1;
         $this->concepto = "Elegir";
-        $this->tipo_proceso=null;
+        $this->tipo_proceso = null;
+
     }
 
 
@@ -39,20 +41,41 @@ class RegistrarAjuste extends Component
     {
         if (strlen($this->searchproduct) > 0) {
 
-            $st = Product::select('products.*')
-                ->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
-                ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
-                ->get()->take(3);
-
+            if ($this->tipo_proceso == 'Salida') {
+                $st = Product::join('productos_destinos as pd','pd.product_id','products.id')
+                ->join('destinos','destinos.id','pd.destino_id')
+                ->select('products.*','pd.stock as pstock')
+                ->where(function ($query) {
+                    $query->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%');
+                })
+                ->where('destinos.id',$this->destino)
+                ->where('pd.stock','>',0)
+   
+                ->get()
+                ->take(3);
+            //Extraemos en un array todos los registros que ya se encuentran en la colleccion de items
             $arr = $this->col->pluck('product_id');
-            // $this->sm = $st->whereNotIn('nombre', $arr);
-
+            
+            //Filtramos de la coleccion de productos los productos seleccionados
             $this->sm = $st->whereNotIn('id', $arr);
 
+            }
 
-            //dd($this->sm);
+            else{
 
-            $this->buscarproducto = 1;
+                $st = Product::select('products.*')
+                    ->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
+                    ->get()->take(3);
+    
+                $arr = $this->col->pluck('product_id');
+                $this->sm = $st->whereNotIn('id', $arr);
+            }
+
+         
+            
+
         }
 
         $destinosuc = Destino::join('sucursals as suc', 'suc.id', 'destinos.sucursal_id')
@@ -66,42 +89,35 @@ class RegistrarAjuste extends Component
 
     public function addProduct(Product $id)
     {
-        if ($this->tipo_proceso == 'Salida') {
-            $this->col->push(['product_id' => $id->id, 'product-name' => $id->nombre, 'costo' => $this->costo, 'cantidad' => $this->cantidad]);
-
-            $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
-
-            if ($pd > 0 and $this->cantidad < $pd) {
-
-                $rules = [
-                    'result' => 'required',
-                    'cantidad' => 'required'
-                ];
-
-                $messages = [   
-
-                    'result.required' => 'El producto es requerido',
-                    'cantidad.required' => 'La cantidad es requerida'
-                ];
-
-                $this->validate($rules, $messages);
-
-                $this->col->push(['product_id' => $id->id, 'product-name' => $id->nombre, 'cantidad' => $this->cantidad]);
-
-                $this->result = null;
-                $this->cantidad = null;
-                $this->costo = null;
-            } else {
-                $this->emit('stock-insuficiente');
-            }
-        }
-        else{
-            $this->col->push(['product_id' => $id->id, 'product-name' => $id->nombre, 'costo' => $this->costo, 'precioventa'=>$this->precioventa,'cantidad' => $this->cantidad]);
-        }
-
-            
-
+     
+    
+            if ($this->tipo_proceso == 'Salida') {
+                try {
+                    $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
+                    if ($pd > 0 ) {
+                    $this->col->push(['product_id' => $id->id, 'product_name' => $id->nombre, 'cantidad' => 1]);
         
+                    } else {
+                        $this->emit('stock-insuficiente');
+                    }
+                } catch (Exception $e) {
+                    //cuando el producto no esta registrado
+                    $this->mensaje_toast="Error de salida de productos";
+                    $this->emit('error_salida');
+                }
+              
+            } else
+             {
+                $this->col->push([
+                    'product_id' => $id->id,
+                    'product_name' => $id->nombre,
+                    'costo' => 0,
+                    'precioventa' => 0,
+                    'cantidad' => 1
+                ]);
+            }
+        
+
     }
 
     public function eliminaritem($id)
@@ -120,216 +136,272 @@ class RegistrarAjuste extends Component
     }
 
 
-    
-    public function GuardarOperacion(){
+
+    public function GuardarOperacion()
+    {
         //dd($this->col);
         if ($this->concepto === "INICIAL" && $this->registro === "Documento") {
-         
+
             try {
                 //$import->import('import-users.xlsx');
-                Excel::import(new StockImport($this->destino,$this->concepto,$this->observacion),$this->archivo);
+                Excel::import(new StockImport($this->destino, $this->concepto, $this->observacion), $this->archivo);
                 return redirect()->route('operacionesinv');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
 
-                 $this->failures = $e->failures();
-                 dd($this->failures);
-               
+                $this->failures = $e->failures();
+                dd($this->failures);
             }
         }
-      
-        
-        if ($this->tipo_proceso == 'Entrada' and $this->col->isNotEmpty()) {
-                DB::beginTransaction();
-                try {
-                
-                $rs=IngresoProductos::create([
-                    'destino'=>$this->destino,
-                    'user_id'=>Auth()->user()->id,
-                    'concepto'=>$this->concepto,
-                    'observacion'=>$this->observacion
-                   ]);
+
+
+        if ($this->tipo_proceso == 'Entrada' and $this->col->isNotEmpty() ) {
+            DB::beginTransaction();
+            try {
+
+                $rs = IngresoProductos::create([
+                    'destino' => $this->destino,
+                    'user_id' => Auth()->user()->id,
+                    'concepto' => $this->concepto,
+                    'observacion' => $this->observacion
+                ]);
                 foreach ($this->col as $datas) {
-                   
-    
-                                   $lot= Lote::create([
-                                    'existencia'=>$datas['cantidad'],
-                                    'costo'=>$datas['costo'],
-                                    'status'=>'Activo',
-                                    'product_id'=>$datas['product_id']
-                                ]);
-                
-                                   DetalleEntradaProductos::create([
-                                        'product_id'=>$datas['product_id'],
-                                        'cantidad'=>$datas['cantidad'],
-                                        'costo'=>$datas['costo'],
-                                        'id_entrada'=>$rs->id,
-                                        'lote_id'=>$lot->id
-                                   ]);
-    
-                                   $q=ProductosDestino::where('product_id',$datas['product_id'])
-                        ->where('destino_id',$this->destino)->value('stock');
-    
-                        ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id'=>$this->destino],['stock'=>$q+$datas['cantidad']]); 
-                    
-                
+
+
+                    $lot = Lote::create([
+                        'existencia' => $datas['cantidad'],
+                        'costo' => $datas['costo'],
+                        'status' => 'Activo',
+                        'product_id' => $datas['product_id']
+                    ]);
+
+                    DetalleEntradaProductos::create([
+                        'product_id' => $datas['product_id'],
+                        'cantidad' => $datas['cantidad'],
+                        'costo' => $datas['costo'],
+                        'id_entrada' => $rs->id,
+                        'lote_id' => $lot->id
+                    ]);
+
+                    $q = ProductosDestino::where('product_id', $datas['product_id'])
+                        ->where('destino_id', $this->destino)->value('stock');
+
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $q + $datas['cantidad']]);
                 }
 
                 DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                dd($e->getMessage());
             }
-             catch (Exception $e)
-            {
-            DB::rollback();
-            dd($e->getMessage());
 
-            }
-                
-            $this->mensaje_toast="Operacion Registrada";
+            $this->mensaje_toast = "Operacion Registrada";
             $this->emit('operacion-added');
+            return Redirect::to('operacionesinv');
             $this->resetui();
-            }
-            elseif($this->col->isNotEmpty()){
-                
-                try {
-    
-                    $operacion= SalidaProductos::create([
-        
-                        'destino'=>$this->destino,
-                        'user_id'=> Auth()->user()->id,
-                        'concepto'=>$this->concepto,
-                        'observacion'=>$this->observacion]);
-                        // dd($auxi2->pluck('stock')[0]);
+        } 
+        elseif ($this->col->isNotEmpty()) {
+
+            try {
+
+                $operacion = SalidaProductos::create([
+                    'destino' => $this->destino,
+                    'user_id' => Auth()->user()->id,
+                    'concepto' => $this->concepto,
+                    'observacion' => $this->observacion
+                ]);
+                // dd($auxi2->pluck('stock')[0]);
 
                 foreach ($this->col as $datas) {
 
-                    $auxi=DetalleSalidaProductos::create([
-                    'product_id'=>$datas['product_id'],
-                    'cantidad'=> $datas['cantidad'],
-                    'id_salida'=>$operacion->id
-                ]);
+                    $auxi = DetalleSalidaProductos::create([
+                        'product_id' => $datas['product_id'],
+                        'cantidad' => $datas['cantidad'],
+                        'id_salida' => $operacion->id
+                    ]);
 
 
-                $lot=Lote::where('product_id',$datas['product_id'])->where('status','Activo')->get();
+                    $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
 
-                //obtener la cantidad del detalle de la venta 
-                $this->qq=$datas['cantidad'];//q=8
-                foreach ($lot as $val) { //lote1= 3 Lote2=3 Lote3=3
-                  $this->lotecantidad = $val->existencia;
-                  //dd($this->lotecantidad);
-                   if($this->qq>0){
-                    //true//5//2
-                       //dd($val);
-                       if ($this->qq > $this->lotecantidad) {
-                           $ss=SalidaLote::create([
-                               'salida_detalle_id'=>$auxi->id,
-                               'lote_id'=>$val->id,
-                               'cantidad'=>$val->existencia
-                               
-                           ]);
-                           $val->update([
-                               
-                               'existencia'=>0,
-                               'status'=>'Inactivo'
-                               
-                            ]);
-                            $val->save();
-                            $this->qq=$this->qq-$this->lotecantidad;
-                            //dump("dam",$this->qq);
-                       }
-                       else{
+                    //obtener la cantidad del detalle de la venta 
+                    $this->qq = $datas['cantidad']; //q=8
+                    foreach ($lot as $val) { 
+                        //lote1= 3 Lote2=3 Lote3=3
+                        $this->lotecantidad = $val->existencia;
                         //dd($this->lotecantidad);
-                        $ss=SalidaLote::create([
-                           'salida_detalle_id'=>$auxi->id,
-                           'lote_id'=>$val->id,
-                           'cantidad'=>$this->qq
-                           
-                       ]);
-                         
-       
-                           $val->update([ 
-                               'existencia'=>$this->lotecantidad-$this->qq
-                           ]);
-                           $val->save();
-                           $this->qq=0;
-                           //dd("yumi",$this->qq);
-                       }
-                   }
-       
-       
-            
-                     }
+                        if ($this->qq > 0) {
+                            //true//5//2
+                            //dd($val);
+                            if ($this->qq > $this->lotecantidad) {
+                                $ss = SalidaLote::create([
+                                    'salida_detalle_id' => $auxi->id,
+                                    'lote_id' => $val->id,
+                                    'cantidad' => $val->existencia
+                                ]);
+                                $val->update([
 
-                     
-                     $q=ProductosDestino::where('product_id',$datas['product_id'])
-                     ->where('destino_id',$this->destino)->value('stock');
- 
-                     ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id'=>$this->destino],['stock'=>$q-$datas['cantidad']]); 
+                                    'existencia' => 0,
+                                    'status' => 'Inactivo'
+
+                                ]);
+                                $val->save();
+                                $this->qq = $this->qq - $this->lotecantidad;
+                                //dump("dam",$this->qq);
+                            } else {
+                                //dd($this->lotecantidad);
+                                $ss = SalidaLote::create([
+                                    'salida_detalle_id' => $auxi->id,
+                                    'lote_id' => $val->id,
+                                    'cantidad' => $this->qq
+
+                                ]);
+
+
+                                $val->update([
+                                    'existencia' => $this->lotecantidad - $this->qq
+                                ]);
+                                $val->save();
+                                $this->qq = 0;
+                                //dd("yumi",$this->qq);
+                            }
+                        }
+                    }
+
+
+                    $q = ProductosDestino::where('product_id', $datas['product_id'])
+                        ->where('destino_id', $this->destino)->value('stock');
+
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $q - $datas['cantidad']]);
                 }
-  
-                    DB::commit();
-         }
-                 catch (Exception $e)
-                {
+
+                DB::commit();
+            } catch (Exception $e) {
                 DB::rollback();
                 dd($e->getMessage());
-                }
-                
-                            $this->mensaje_toast="Operacion Registrada";
-                            $this->emit('operacion-added');
-                            $this->resetui();
             }
-            else{
 
-                $this->emit('sinproductos');
-            }
-            
-  
-               
+            $this->mensaje_toast = "Operacion Registrada";
+            $this->emit('operacion-added');
+            $this->resetui();
+            return Redirect::to('operacionesinv');
 
-}
+        } else {
 
-public function resetui(){
-    $this->tipo_proceso=null;
-    $this->archivo=null;
-    $this->concepto= 'Elegir';
-    $this->registro= "Manual";
-    $this->destino= 'Elegir';
-    $this->nextpage=false;
-    $this->reset([
-    'costo'
-    ,'destinosucursal'
-    ,'observacion'
-    ,'cantidad']);
-
-
-    foreach ($this->col as $key => $value)
-    {
-        $this->col->pull($key);
+            $this->emit('sinproductos');
+        }
     }
 
-}
-public function UpdateCosto($product){
-    $item=$this->col->where('product_id',$product);
-    $cantidad=$item->first()['cantidad'];
-    $precioventa=$item->first()['precio_venta'];
-    $this->col->pull($item->keys()->first());
-    $this->col->push(['product_id' => $id->id, 
-    'product-name' => $id->nombre, 
-    'costo' => $this->costo, 
-    'precioventa'=>$this->precioventa,
-    'cantidad' => $this->cantidad]);
-}
-public function UpdatePrecioVenta(){
+    public function resetui()
+    {
+        $this->tipo_proceso = null;
+        $this->archivo = null;
+        $this->concepto = 'Elegir';
+        $this->registro = "Manual";
+        $this->destino = 'Elegir';
+        $this->nextpage = false;
+        $this->reset([
+            'costo', 'destinosucursal', 'observacion', 'cantidad'
+        ]);
 
-}
-public function UpdateQty(){
 
-}
+        foreach ($this->col as $key => $value) {
+            $this->col->pull($key);
+        }
+    }
+    public function UpdateCosto(Product $product, $costo)
+    {
+        $item = $this->col->where('product_id', $product->id);
+        $cantidad = $item->first()['cantidad'];
+        $precioventa = $item->first()['precioventa'];
+        // $costo=$item->first()['costo'];
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'costo' => $costo,
+            'precioventa' => $precioventa,
+            'cantidad' => $cantidad
+        ]);
+    }
+    public function UpdatePrecioVenta(Product $product, $preciov)
+    {
 
-public function Exit(){
-   // dd("S");
-    $this->resetui();
-    $this->resetErrorBag();
-    $this->redirect('inicio');
-}
 
+        $item = $this->col->where('product_id', $product->id);
+        $cantidad = $item->first()['cantidad'];
+        $costo = $item->first()['costo'];
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'costo' => $costo,
+            'precioventa' => $preciov,
+            'cantidad' => $cantidad
+        ]);
+    }
+    public function UpdateQty(Product $product, $cant)
+    {
+
+        $item = $this->col->where('product_id', $product->id);
+        if ($this->tipo_proceso == "Entrada") {
+          
+            if ($cant == 0) {
+                $this->col->pull($item->keys()->first());
+            }
+            else{
+                $precioventa = $item->first()['precioventa'];
+                $costo = $item->first()['costo'];
+                $this->col->pull($item->keys()->first());
+                $this->col->push([
+                    'product_id' => $product->id,
+                    'product_name' => $product->nombre,
+                    'costo' => $costo,
+                    'precioventa' => $precioventa,
+                    'cantidad' => $cant
+                ]);
+            }
+        }
+        else{
+            if ($cant == 0) {
+                $this->col->pull($item->keys()->first());
+            }
+            else{
+                $stock_p=ProductosDestino::where('product_id',$product->id)
+                ->where('destino_id',$this->destino)->select('stock')->value('stock');
+                if ($cant<=$stock_p) {
+      
+                    $this->col->pull($item->keys()->first());
+                    $this->col->push([
+                        'product_id' => $product->id,
+                        'product_name' => $product->nombre,
+                        'cantidad' => $cant
+                    ]);
+                }
+                else{
+                    $this->emit('stock-insuficiente');
+                }
+            }
+        }
+    }
+
+    public function removeItem(Product $product)
+    {
+        $item = $this->col->where('product_id', $product->id);
+        $this->col->pull($item->keys()->first());
+    }
+
+    public function UpdateQtyAjuste(){
+
+    }
+
+    public function removeItemAjuste(){
+
+    }
+
+    public function Exit()
+    {
+        // dd("S");
+        $this->resetui();
+        $this->resetErrorBag();
+        $this->redirect('inicio');
+    }
 }

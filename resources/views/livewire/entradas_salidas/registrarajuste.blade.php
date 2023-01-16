@@ -44,34 +44,35 @@
         <div class="col-12">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class="text-white" style="font-size: 16px">Ajuste de Inventarios</h5>
-                    </div>
-             
-                
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Ajuste de Inventarios</h5>
+                </div>
+
+
             </div>
             <div class="card  mb-4">
                 <div class="card-body p-3">
                     <div class="row">
 
-                 
+
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Seleccione el concepto:</strong>
                                 <select wire:model='concepto' class="form-select">
-                                <option value="Elegir" disabled selected>Elegir</option>
-             
-                                    <option wire:key="foo" value='INGRESO'>Varios: Productos Defectuosos,Bonificaciones,etc</option>
+                                    <option value="Elegir" disabled selected>Elegir</option>
+
                                     <option wire:key="bar" value="AJUSTE">Ajuste de inventarios</option>
                                     <option value="INICIAL">Inventario Inicial</option>
-                            
+                                    <option wire:key="foo" value='INGRESO'>Varios: Productos
+                                        Defectuosos,Bonificaciones,etc</option>
 
 
-                            </select>
-                            @error('concepto')
-                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                            @enderror
+
+                                </select>
+                                @error('concepto')
+                                    <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
@@ -79,13 +80,13 @@
                             <strong style="color: rgb(74, 74, 74)">Seleccione el tipo de operacion:</strong>
                             <select wire:model='tipo_proceso' class="form-select">
                                 @if ($concepto == 'INGRESO')
-                                <option value="null" selected disabled>Elegir</option>
-                                <option value="Entrada">Entrada</option>
-                                <option value="Salida">Salida</option>
+                                    <option value="null" selected disabled>Elegir</option>
+                                    <option value="Entrada">Entrada</option>
+                                    <option value="Salida">Salida</option>
                                 @else
-                                <option value="null" selected disabled>--</option>
+                                    <option value="null" selected disabled>--</option>
                                 @endif
-                           
+
                             </select>
                             @error('tipo_proceso')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
@@ -93,18 +94,18 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Seleccione la
-                                    ubicación:</strong>
-                                    <select wire:model='destino' class="form-select">
-                                        <option value='Elegir' disabled>Elegir</option>
-                                        @foreach ($destinosp as $item)
-                                            <option value="{{ $item->destino_id }}">{{ $item->sucursal }}-{{ $item->destino }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('destino')
-                                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                                    @enderror
+                                <strong style="color: rgb(74, 74, 74)">Seleccione el almacen:</strong>
+                                <select wire:model='destino' class="form-select">
+                                    <option value='Elegir' disabled>Elegir</option>
+                                    @foreach ($destinosp as $item)
+                                        <option value="{{ $item->destino_id }}">
+                                            {{ $item->sucursal }}-{{ $item->destino }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('destino')
+                                    <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-3">
@@ -147,7 +148,8 @@
                                             @foreach ($sm as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px" type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
+                                                        <label style="font-size: 14px"
+                                                            type="button">{{ substr($prod->nombre, 0, 40) }}({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -174,75 +176,84 @@
                         </div>
                         <div class="table-responsive">
                             @if ($col->isNotEmpty())
-                                <table class="table align-items-center">
-                                    <thead>
-                                        <tr style="font-size: 14px; color: black;">
-                                            <th class="text-center">Producto</th>
-                        
-                                       
-                                            @if ($tipo_proceso == 'Entrada')
-                                            <th class="text-center">Costo</th>
-                                            <th class="text-center">Precio Venta</th>
-                                            @endif
-                                            <th>Cantidad</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                 
-                                        @foreach ($col as $prod)
+                                <div class="table-wrapper">
+                                    <table class="table align-items-center">
+                                        <thead>
                                             <tr style="font-size: 14px; color: black;">
-                                                <td style="width: 60px;">
-                                                    {{ $prod['product-name'] }}
-                                                </td>
-                                                @if ($tipo_proceso == 'Entrada')
-                                                <td>
-                                                    <input type="text" id="rr{{ $prod['product_id'] }}"
-                                                        wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"
-                                                        style="padding:0!important" class="form-control text-center"
-                                                        value="{{ $prod['costo'] }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="rs{{ $prod['product_id']}}"
-                                                        wire:change="UpdatePrecioVenta({{ $prod['product_id'] }}, $('#rs' + {{ $prod['product_id']}}).val() )"
-                                                        style="padding:0!important" class="form-control text-center"
-                                                        value="">
-                                                </td>
-                                                @endif
-                                                <td>
-                                                    <input type="text" id="rr{{ $prod['product_id'] }}"
-                                                        wire:change="UpdateQty({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"
-                                                        style="padding:0!important" class="form-control text-center"
-                                                        value="{{ $prod['cantidad'] }}">
-                                                </td>
+                                                <th class="text-center">Producto</th>
 
-                                             
-                                                <td class="text-center">
-                                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <button title="Quitar Item" href="javascript:void(0)"
-                                                            wire:click="removeItem({{ $prod['product_id'] }})"
-                                                            class="btn btn-danger"
-                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
+
+                                                @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
+                                                    <th class="text-center">Costo</th>
+                                                    <th class="text-center">Precio Venta</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Acción</th>
+                                                @elseif($concepto == 'AJUSTE')
+                                                    <th>Cantidad Actual Sistema</th>
+                                                    <th>Conteo Manual</th>
+                                                    <th>Acción</th>
+                                                @else
+                                                    <th>Cantidad</th>
+                                                    <th>Acción</th>
+                                                @endif
                                             </tr>
-                                        @endforeach
-                               
-                            
-                                    </tbody>
-                                </table>
-                                <div class="text-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" wire:click="resetUI()"
-                                            class="btn btn-danger">Vaciar</button>
-                                        <button type="button" wire:click="exit()" class="btn btn-secondary"
-                                            style="background-color: #373839; color: white; border-color: black;">Ir
-                                            Ajuste</button>
-                                        <button type="button" wire:click="guardarCompra()"
-                                            class="btn btn-primary">Finalizar</button>
-                                    </div>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach ($col as $prod)
+                                                <tr style="font-size: 14px; color: black;">
+                                                    <td style="width: 60px;">
+                                                        {{ substr($prod['product_name'], 0, 90) }}
+                                                    </td>
+                                                    @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
+                                                        <td>
+                                                            <input type="text" id="pc{{ $prod['product_id'] }}"
+                                                                wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#pc' + {{ $prod['product_id'] }}).val())"
+                                                                style="padding:0!important"
+                                                                class="form-control text-center"
+                                                                value="{{ $prod['costo'] }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="pv{{ $prod['product_id'] }}"
+                                                                wire:change="UpdatePrecioVenta({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val() )"
+                                                                style="padding:0!important"
+                                                                class="form-control text-center"
+                                                                value="{{ $prod['precioventa'] }}">
+                                                        </td>
+                                                    @endif
+                                                    @if ($concepto == 'AJUSTE')
+                                                        <td>
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            
+                                                        </td>
+                                                    @endif
+                                                    <td>
+                                                        <input type="text" id="pq{{ $prod['product_id'] }}"
+                                                            wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val() )"
+                                                            style="padding:0!important"
+                                                            class="form-control text-center"
+                                                            value="{{ $prod['cantidad'] }}">
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <div class="btn-group" role="group"
+                                                            aria-label="Basic example">
+                                                            <button title="Quitar Item" href="javascript:void(0)"
+                                                                wire:click="removeItem({{ $prod['product_id'] }})"
+                                                                class="btn btn-danger"
+                                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
@@ -254,6 +265,17 @@
                         </div>
 
                     </div>
+                    @if ($col->isNotEmpty())
+                        <div class="text-center mt-2">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" wire:click="resetUI()" class="btn btn-danger">Vaciar</button>
+                                <button type="button" wire:click="exit()" class="btn btn-primary">Ir
+                                    Ajuste</button>
+                                <button type="button" wire:click="GuardarOperacion()"
+                                    class="btn btn-success">Finalizar</button>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -265,16 +287,38 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-        
-        
-
-            window.livewire.on('operacion_fallida', event => {
-                swal(
-                    '¡No se puede eliminar el registro!',
-                    'Uno o varios de los productos de este registro ya fueron distribuidos y/o tiene relacion con varios registros del sistema.',
-                    'error'
-                )
+            window.livewire.on('operacion-added', Msg => {
+                $('#operacion').modal('hide');
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
             });
+
+            window.livewire.on('error_salida', Msg => {
+
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
+            });
+
 
             window.livewire.on('item-deleted', Msg => {
                 const toast = swal.mixin({
@@ -292,48 +336,7 @@
             });
 
 
-            window.livewire.on('confirmar', event => {
 
-                Swal.fire({
-                    title: 'Estas seguro de eliminar este registro?',
-                    text: "Esta accion es irreversible y modificara la cantidad de su inventario.",
-                    type: 'warning',
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.value) {
-
-                        window.livewire.emit('eliminar_registro_operacion');
-                        Swal.fire(
-                            'Eliminado!',
-                            'El registro fue eliminado con exito',
-                            'success'
-                        )
-                    }
-                })
-
-            });
-            window.livewire.on('confirmarAll', event => {
-
-                Swal.fire({
-                    title: 'Estas seguro de eliminar este registro?',
-                    text: "Esta accion es irreversible",
-                    type: 'warning',
-                    showCancelButton: true,
-                    // confirmButtonColor: '#3085d6',
-                    // cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.value) {
-
-                        window.livewire.emit('eliminar_registro_total');
-                       
-                    }
-                })
-
-            });
             window.livewire.on('stock-insuficiente', event => {
 
                 const toast = swal.mixin({
@@ -349,6 +352,7 @@
                     padding: '2em',
                 })
             });
+
             window.livewire.on('sinproductos', event => {
 
                 const toast = swal.mixin({
