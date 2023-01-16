@@ -76,10 +76,16 @@
                         </div>
 
                         <div class="col-12 col-sm-6 col-md-3">
+                            <strong style="color: rgb(74, 74, 74)">Seleccione el tipo de operacion:</strong>
                             <select wire:model='tipo_proceso' class="form-select">
+                                @if ($concepto == 'INGRESO')
                                 <option value="null" selected disabled>Elegir</option>
                                 <option value="Entrada">Entrada</option>
                                 <option value="Salida">Salida</option>
+                                @else
+                                <option value="null" selected disabled>--</option>
+                                @endif
+                           
                             </select>
                             @error('tipo_proceso')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
@@ -189,11 +195,12 @@
                                                 <td style="width: 60px;">
                                                     {{ $prod['product-name'] }}
                                                 </td>
+                                                @if ($tipo_proceso == 'Entrada')
                                                 <td>
-                                                    <input type="text" id="rs{{ $prod['product_id'] }}"
-                                                        wire:change="UpdateCosto({{$prod['product_id'] }}, $('#rs' + {{ $prod['product_id'] }}).val() )"
+                                                    <input type="text" id="rr{{ $prod['product_id'] }}"
+                                                        wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"
                                                         style="padding:0!important" class="form-control text-center"
-                                                        value="">
+                                                        value="{{ $prod['costo'] }}">
                                                 </td>
                                                 <td>
                                                     <input type="text" id="rs{{ $prod['product_id']}}"
@@ -201,7 +208,7 @@
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="">
                                                 </td>
-
+                                                @endif
                                                 <td>
                                                     <input type="text" id="rr{{ $prod['product_id'] }}"
                                                         wire:change="UpdateQty({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"

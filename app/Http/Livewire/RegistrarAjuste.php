@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class RegistrarAjuste extends Component
 {
-    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,
+    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,$precioventa,
         $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $destinosucursal, $observacion, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate;
     private $pagination = 15;
 
@@ -30,6 +30,7 @@ class RegistrarAjuste extends Component
         $this->registro = 'Manual';
         $this->destino = 'Elegir';
         $this->concepto = "Elegir";
+        $this->tipo_proceso=null;
     }
 
 
@@ -43,10 +44,10 @@ class RegistrarAjuste extends Component
                 ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
                 ->get()->take(3);
 
-            $arr = $this->col->pluck('product-name');
-            $this->sm = $st->whereNotIn('nombre', $arr);
+            $arr = $this->col->pluck('product_id');
+            // $this->sm = $st->whereNotIn('nombre', $arr);
 
-            $this->sm = $st->whereNotIn('codigo', $arr);
+            $this->sm = $st->whereNotIn('id', $arr);
 
 
             //dd($this->sm);
@@ -95,7 +96,7 @@ class RegistrarAjuste extends Component
             }
         }
         else{
-            $this->col->push(['product_id' => $id->id, 'product-name' => $id->nombre, 'costo' => $this->costo, 'cantidad' => $this->cantidad]);
+            $this->col->push(['product_id' => $id->id, 'product-name' => $id->nombre, 'costo' => $this->costo, 'precioventa'=>$this->precioventa,'cantidad' => $this->cantidad]);
         }
 
             
@@ -306,6 +307,23 @@ public function resetui(){
     }
 
 }
+public function UpdateCosto($product){
+    $item=$this->col->where('product_id',$product);
+    $cantidad=$item->first()['cantidad'];
+    $precioventa=$item->first()['precio_venta'];
+    $this->col->pull($item->keys()->first());
+    $this->col->push(['product_id' => $id->id, 
+    'product-name' => $id->nombre, 
+    'costo' => $this->costo, 
+    'precioventa'=>$this->precioventa,
+    'cantidad' => $this->cantidad]);
+}
+public function UpdatePrecioVenta(){
+
+}
+public function UpdateQty(){
+
+}
 
 public function Exit(){
    // dd("S");
@@ -313,4 +331,5 @@ public function Exit(){
     $this->resetErrorBag();
     $this->redirect('inicio');
 }
+
 }
