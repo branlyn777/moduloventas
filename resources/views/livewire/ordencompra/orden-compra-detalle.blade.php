@@ -67,8 +67,9 @@
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-3">
                             <strong style="color: rgb(74, 74, 74)">Proveedor</strong>
-                            <div class="input-group-prepend mb-3">
-                                <input list="provider" wire:model="provider" class="form-select">
+
+                            <select wire:model.lazy="provider" class="form-select">
+                                <option value="Elegir">Elegir Proveedor</option>
                                 <datalist id="provider">
                                     @foreach ($data_prov as $datas)
                                         <option value="{{ $datas->nombre_prov }}">{{ $datas->nombre_prov }}</option>
@@ -78,7 +79,8 @@
                                     <button data-toggle="modal" class="btn btn-dark pl-2 pr-2"
                                         data-target="#modal_prov" > <i class="fas fa-plus text-white"></i> </button> 
                                 --}}
-                            </div>
+                            </select>
+
                             @error('provider')
                                 <span class="text-danger er">{{ $message }}</span>
                             @enderror
@@ -136,7 +138,8 @@
                                             @foreach ($prod as $producto)
                                                 <tr>
                                                     <td>
-                                                        <strong>{{ $producto->nombre }}</strong> ({{ $producto->codigo }})
+                                                        <strong>{{ $producto->nombre }}</strong>
+                                                        ({{ $producto->codigo }})
                                                     </td>
                                                     <td class="text-center">
                                                         <a wire:click="InsertarProducto({{ $producto->id }})"
@@ -237,9 +240,10 @@
                         <div class="text-center mb-4">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 @if ($this->itemsQuantity > 0)
-                                    <button type="button" wire:click="resetUI()" class="btn btn-danger">Vaciar</button>
+                                    <button type="button" wire:click="resetUI()"
+                                        class="btn btn-danger">Vaciar</button>
                                 @endif
-    
+
                                 <button type="button" wire:click="exit()" class="btn btn-secondary"
                                     style="background-color: #373839; color: white; border-color: black;">Ir Orden
                                     Compras</button>
