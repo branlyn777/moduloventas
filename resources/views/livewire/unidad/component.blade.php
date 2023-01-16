@@ -147,7 +147,7 @@
                                 @foreach ($data_unidad as $data)
                                     <tr class="text-center" style="font-size: 14px">
                                         <td>
-                                            {{ $data->id }}
+                                            {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td>
                                             {{ $data->nombre }}
@@ -236,7 +236,7 @@
                                 @foreach ($marcas as $data)
                                     <tr class="text-center" style="font-size: 14px">
                                         <td>
-                                            {{ $loop->index + 1 }}
+                                            {{ ($marcas->currentpage() - 1) * $marcas->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td>
                                             {{ $data->nombre }}
@@ -394,6 +394,23 @@
 
         window.livewire.on('marca-added', Msg => {
             $('#marca').modal('hide');
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+
+
+        window.livewire.on('marca-updated', Msg => {
+            $('#marca').modal('hide')
             const toast = swal.mixin({
                 toast: true,
                 position: 'top-end',

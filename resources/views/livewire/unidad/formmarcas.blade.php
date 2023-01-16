@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
-                    <p class="text-sm mb-0">{{$selected_id_marca > 0 ? 'Editar':'Crear'}} Marca</p>
+                    <p class="text-sm mb-0">{{$this->selected_id_marca > 0 ? 'Editar':'Crear'}} Marca </p>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -23,7 +23,7 @@
             </div>
             <div class="modal-footer">
                 <button wire:click.prevent="resetUI_marca()" type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 0.8rem">CANCELAR</button>
-                @if ($selected_id < 1)
+                @if ($this->selected_id_marca < 1)
                     <button wire:click.prevent="Store_marca()" type="button" class="btn btn-primary" style="font-size: 0.8rem">
                         GUARDAR
                     </button>

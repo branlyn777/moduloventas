@@ -24,12 +24,10 @@ class UnidadesController extends Component
     private $pagination = 5;
 
 
-
     //MARCAS
 
     public $search_marca, $nombre_marca, $selected_id_marca;
     private $pagination_marca = 5;
-
 
     public function paginationView()
     {
@@ -41,8 +39,6 @@ class UnidadesController extends Component
         $this->componentName = 'Unidades';
         $this->selected_id = 0;
     }
-
-
     public function render()
     {
         //UNIDADES
@@ -131,11 +127,6 @@ class UnidadesController extends Component
         $this->mensaje_toast = 'Unidad Actualizada';
         $this->emit('unidad-updated', 'Unidad Actualizada');
     }
-    protected $listeners = [
-        'deleteRow' => 'Destroy',
-        'deleteRowMarca' => 'Destroy_marca'
-    ];
-
     public function Destroy(Unidad $uni)
     {
         $uni->delete();
@@ -153,20 +144,15 @@ class UnidadesController extends Component
 
 
 
-
-
-
-
-
-
-
-
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'deleteRowMarca' => 'Destroy_marca'
+    ];
 
 
 
 
     //MARCAS
-
     public function Store_marca()
     {
         $rules = [
@@ -186,7 +172,6 @@ class UnidadesController extends Component
         $this->mensaje_toast = 'Marca Registrada';
         $this->emit('marca-added', 'Marca Registrada');
     }
-
     public function Edit_marca(Marca $unity)
     {
         $this->selected_id_marca = $unity->id;
@@ -196,16 +181,33 @@ class UnidadesController extends Component
 
         $this->emit('show-modal_marca', 'show modal!');
     }
+    public function Update_marca()
+    {
+        $rules = [
+            'nombre_marca' => 'required'
+        ];
+        $messages = [
+            'nombre_marca.required' => 'El nombre de la marca es requerido',
+            
 
+        ];
+        $this->validate($rules, $messages);
+        $uni = Marca::find($this->selected_id_marca);
+        $uni->update([
+            'nombre' => $this->nombre_marca,
+        ]);
+        $uni->save();
+
+        $this->resetUI_marca();
+        $this->mensaje_toast = 'Marca Actualizada';
+        $this->emit('marca-updated', 'Marca Actualizada');
+    }
     public function resetUI_marca()
     {
         $this->nombre_marca = '';
         $this->selected_id_marca=0;
        
     }
-
-
-
     public function Destroy_marca(Marca $uni)
     {
         $uni->delete();
@@ -213,7 +215,4 @@ class UnidadesController extends Component
         $this->mensaje_toast = 'Marca Eliminada';
         $this->emit('marca-deleted', 'Marca Eliminada');
     }
-
-
-
 }
