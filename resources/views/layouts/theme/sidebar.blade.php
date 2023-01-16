@@ -325,6 +325,14 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('cotizationli', 'nav-item ')>
+                            <a class=@yield('cotizationnav', 'nav-link ') href="{{ url('cotizacion') }}">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Cotización </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </li>
 

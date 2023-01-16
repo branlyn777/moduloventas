@@ -451,7 +451,7 @@ class ProductsController extends Component
         }
         $rules = [
             'nombre' => "required|min:2|unique:products,nombre,{$this->selected_id}",
-            'nombre' => "required|max:245|unique:products,nombre,{$this->selected_id}",
+            'nombre' => "required|max:60|unique:products,nombre,{$this->selected_id}",
             'codigo' => "required|min:3|unique:products,codigo,{$this->selected_id}",
             'codigo' => "required|max:45|unique:products,codigo,{$this->selected_id}",
             // 'costo' => 'required|numeric',

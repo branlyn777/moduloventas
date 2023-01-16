@@ -26,6 +26,7 @@ use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
 use App\Http\Livewire\CierreCajaController;
+use App\Http\Livewire\CotizationController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
@@ -80,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     //Route::get('itsolutionstuff/tag/{id}', array('as'=> 'itsolutionstuff.tag', 'uses' => 'HomeController@tags'));
 
     Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
+    Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 
 

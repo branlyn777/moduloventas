@@ -5,7 +5,7 @@
             <div class="modal-header bg-primary">
                 <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
                     <p class="text-sm mb-0">
-                        Buscar Cliente
+                        Buscar Producto
                     </p>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -18,20 +18,20 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="buscarcliente" placeholder="Buscar o Crear Cliente..."
+                                <input type="text" wire:model="buscarproducto" placeholder="Buscar o Producto..."
                                     class="form-control ">
                             </div>
                         </div>
                         <br>
                         <div class="table-wrapper">
-                            @if (strlen($this->buscarcliente) > 0)
+                            @if (strlen($this->buscarproducto) > 0)
                                 <table>
                                     <thead>
-                                        @if ($listaclientes->count() > 0)
+                                        @if ($listaproducto->count() > 0)
                                             <tr>
                                                 <th class="text-center">
                                                     <p class="text-sm mb-0">
-                                                        <b>Nombre Cliente</b>
+                                                        <b>Nombre Producto</b>
                                                     </p>
                                                 </th>
                                                 <th class="text-center">
@@ -43,16 +43,16 @@
                                         @endif
                                     </thead>
                                     <tbody>
-                                        @forelse ($listaclientes as $lc)
+                                        @forelse ($listaproducto as $lp)
                                             <tr>
                                                 <td class="text-left">
                                                     <p class="text-sm mb-0">
-                                                        {{ ucwords(strtolower($lc->nombre)) }}
+                                                        {{ ucwords(strtolower($lp->nombre)) }}
                                                     </p>
                                                 </td>
                                                 <td class="text-center">
                                                     <button title="Seleccionar Cliente"
-                                                        wire:click.prevent="seleccionarcliente({{ $lc->id }})"
+                                                        wire:click.prevent="seleccionarcliente({{ $lp->id }})"
                                                         class="btn btn-primary"
                                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                         <i class="fas fa-check"></i>
