@@ -41,9 +41,8 @@ class UsersController extends Component
         $this->details = [];
         $this->estados = true;
         $this->imagen = 'noimagen.png';
-    
+
         $this->sucursal = $this->sucursalusuario();
-   
     }
 
     public function render()
@@ -61,7 +60,7 @@ class UsersController extends Component
 
         // Opciones del select para mostrar de acuerdo al estado, si es inactivo no debe mostrar nada en el select
         if ($this->estados == false) {
-         
+
             $this->lista_sucursales = null;
             //seleccionar el valor null option por defecto
             $this->sucursal = null;
@@ -110,7 +109,7 @@ class UsersController extends Component
             'profile' => 'required|not_in:Elegir',
             'password' => 'required|min:3',
             'sucursal_id' => 'required|not_in:Elegir',
-            'phone'=>'required'
+            'phone' => 'required'
         ];
         $messages = [
             'name.required' => 'Ingresa el nombre del usuario',
@@ -284,7 +283,7 @@ class UsersController extends Component
         try {
             if (Auth::user()->id != $user->id) {
                 $us = SucursalUser::where('user_id', $user->id)->delete();
-                $user=User::where('id', $user->id)->delete();
+                $user = User::where('id', $user->id)->delete();
             } else {
                 $this->emit("atencion");
             }
@@ -402,7 +401,7 @@ class UsersController extends Component
         $this->phone = '';
         $this->imagen = 'noimagen.png';
         $this->image = '';
-        $this->status=null;
+        $this->status = null;
         $this->selected_id = 0;
         $this->profile = 'Elegir';
         $this->sucursal_id = 'Elegir';
@@ -418,7 +417,7 @@ class UsersController extends Component
     public function cambioestado()
     {
         if ($this->estados == true) {
-            
+
             $this->sucursal = $this->sucursalusuario();
         }
     }
@@ -426,9 +425,9 @@ class UsersController extends Component
     public function sucursalusuario()
     {
         $sucursal = SucursalUser::where('user_id', Auth()->user()->id)->where('estado', 'ACTIVO')->get();
-   
+
         if ($sucursal->isNotEmpty()) {
-            
+
             return $sucursal->first()->sucursal_id;
         }
         return 'Todos';

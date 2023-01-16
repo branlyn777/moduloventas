@@ -87,7 +87,6 @@
                                     class="mt-2"></center>
                         @endif
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
