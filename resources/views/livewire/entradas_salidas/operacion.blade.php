@@ -179,12 +179,11 @@
                                                                             <td class="text-left">
                                                                                 <p class="text-sm mb-0">
                                                                                     {{ $d->nombre }}
-                                                                                    <b>({{$d->codigo}})</b>
+                                                                                    <b>({{ $d->codigo }})</b>
                                                                                 </p>
                                                                             </td>
                                                                             <td class="text-center">
-                                                                                <button
-                                                                                    title="Seleccionar"
+                                                                                <button title="Seleccionar"
                                                                                     wire:click="Seleccionar('{{ $d->id }}')"
                                                                                     class="btn btn-primary"
                                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
@@ -210,7 +209,9 @@
                                 <label>
                                     Cantidad
                                 </label>
-                                <input type="number" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model="cantidad" class="form-control">
+                                <input type="number"
+                                    onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;"
+                                    required wire:model="cantidad" class="form-control">
                                 @error('cantidad')
                                     <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                 @enderror
@@ -222,7 +223,9 @@
                                     <label>
                                         Costo/Valor
                                     </label>
-                                    <input wire:model="costo" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required class="form-control  mx-1">
+                                    <input wire:model="costo"
+                                        onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;"
+                                        required class="form-control  mx-1">
                                     @error('costo')
                                         <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                     @enderror

@@ -20,6 +20,7 @@ class StockImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
     private $products,$ingreso,$destino,$concepto,$observacion;
     public function __construct($destino,$concepto,$observacion)
     {
+
         $this->products = Product::pluck('id', 'nombre');
         $this->ingreso= IngresoProductos::create([
             'destino'=>$destino,
