@@ -52,10 +52,6 @@
 
                 <div class="col-12 col-sm-6 col-md-2">
 
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-2">
-
                     @can('Reporte_Movimientos_General')
                         <div class="form-group">
                             <b class="">Sucursal</b>
@@ -112,8 +108,16 @@
                         <b style="color: #ffffff;">|</b>
                         <button
                             wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
-                            class="btn btn-secondary form-control">
+                            class="btn btn-warning form-control">
                             <i class="fas fa-print"></i> Generar PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+                        <b style="color: #ffffff;">|</b>
+                        <button wire:click="$emit('show-modaltotales')" class="btn btn-success form-control">
+                            Mostrar Totales
                         </button>
                     </div>
                 </div>
@@ -148,10 +152,10 @@
                         <tr>
                             <th class="text-uppercase text-sm text-center">#</th>
                             <th class="text-uppercase text-sm">FECHA</th>
-                            <th class="text-uppercase text-sm">DETALLE</th>
-                            <th class="text-uppercase text-sm text-right">INGRESO</th>
-                            <th class="text-uppercase text-sm text-right">EGRESO</th>
-                            <th class="text-uppercase text-sm text-right">
+                            <th class="text-uppercase text-sm text-center">DETALLE</th>
+                            <th class="text-uppercase text-sm">INGRESO</th>
+                            <th class="text-uppercase text-sm">EGRESO</th>
+                            <th class="text-uppercase text-sm">
                                 @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                     UTILIDAD
                                 @endif
@@ -162,17 +166,16 @@
 
                         @foreach ($totalesIngresosV as $p)
                             <tr>
-                                <td>
+
+                                <td class="text-sm text-center">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td>
+
+                                <td class="text-sm">
                                     {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                 </td>
+
                                 <td>
-
-
-
-
                                     <div class="accordion-1">
                                         <div class="">
                                             <div class="row">
@@ -181,19 +184,26 @@
 
                                                         <div class="accordion-item mb-3">
                                                             <h6 class="accordion-header" id="headingOne">
-                                                                <button
+                                                                <button style="width: 510px;"
                                                                     class="accordion-button border-bottom font-weight-bold collapsed"
                                                                     type="button" data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapseOne{{ $loop->iteration }}" aria-expanded="false"
+                                                                    data-bs-target="#collapseOne{{ $loop->iteration }}"
+                                                                    aria-expanded="false"
                                                                     aria-controls="collapseOne{{ $loop->iteration }}">
-                                                                    DetalledeVentaDetalledeVentaDetalledeVentaDetalledeVentaDetalledeVenta
+
+                                                                    <div class="text-sm">
+                                                                        {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
+                                                                    </div>
+
+                                                                    
                                                                     <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
                                                                         aria-hidden="true"></i>
                                                                     <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
                                                                         aria-hidden="true"></i>
                                                                 </button>
                                                             </h6>
-                                                            <div id="collapseOne{{ $loop->iteration }}" class="accordion-collapse collapse"
+                                                            <div id="collapseOne{{ $loop->iteration }}"
+                                                                class="accordion-collapse collapse"
                                                                 aria-labelledby="headingOne"
                                                                 data-bs-parent="#accordionRental" style="">
                                                                 <div class="accordion-body text-sm">
@@ -277,23 +287,24 @@
                                             </div>
                                         </div>
                                     </div>
+                                </td>
 
-
+                                <td style="float: right">
+                                    <span class="badge badge-sm bg-gradient-success">
+                                        {{ number_format($p->importe, 2) }}
+                                    </span>
                                 </td>
 
                                 <td>
 
                                 </td>
-                                <td>
 
+                                <td style="float: right">
+                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        {{ number_format($p->utilidadventa, 2) }}
+                                    @endif
                                 </td>
-                                <td>
-
-                                </td>
-
-
-
-
+                                
                             </tr>
 
 
@@ -586,154 +597,9 @@
         </div>
 
     </div>
-    <div class="row justify-content-center mt-3">
-        <div class="card col-md-5">
-
-            <div class="table-responsive">
-                <table class="table align-items-center mb-0 table-borderless">
-                    <tbody>
-
-                        <tr>
-                            <td>
-                                Ingresos en Efectivo
-                            </td>
-                            <td class="ml-2">
-                                {{ number_format($ingresosTotalesCF, 2) }}
-                            </td>
-                        </tr>
 
 
-                        <tr>
-                            <td>
-                                Ingresos por Bancos
-                            </td>
-                            <td class="ml-2">
-                                {{ number_format($this->ingresosTotalesNoCFBancos, 2) }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Ingresos Totales
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($subtotalesIngresos, 2) }}
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                Egresos Totales en Efectivo
-                            </td>
-                            <td>
-                                {{ number_format($EgresosTotalesCF, 2) }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Saldo Ingresos/Egresos Totales
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($subtotalcaja, 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Saldo en Efectivo Hoy
-                            </td>
-                            <td>
-                                {{ number_format($operacionesefectivas, 2) }}
-                            </td>
-                        </tr>
-                        {{-- <tr>
-                            <td>
-                                <h5 class="text-dark text-center mr-1"><b> Saldo por Operaciones en TigoMoney </b></h5>
-                            </td>
-    
-                            <td>
-                                <h5 class="text-dark text-center mr-1">{{ number_format($total,2)}} </h5>
-                            </td>
-    
-                        </tr> --}}
-                        <tr>
-                            <td>
-                                Saldo Acumulado Dia Ant.
-                            </td>
-                            <td>
-                                {{ number_format($ops, 2) }}
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                <h5 class="text-dark text-center"> Total Efectivo </h5>
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($operacionesW, 2) }}
-                            </td>
-                        </tr>
-
-
-            </div>
-            <div class="table-responsive">
-                <h5 class="text-center mt-3" style="border-bottom: 1px">
-                    <b>Cuadro Resumen de Efectivo</b>
-                </h5>
-                <table class="table align-items-center mb-0">
-                    <tbody>
-                        @if ($caja != 'TODAS')
-                            <tr style="height: 2rem"></tr>
-
-                            <tr class="p-5">
-                                <td>
-                                    Recaudo
-                                </td>
-                                <td>
-                                    {{ number_format($op_recaudo, 2) }}
-                                </td>
-
-                            </tr>
-                            <tr class="p-5">
-
-
-                                @foreach ($op_sob_falt as $values)
-                                    <td>
-                                        {{ $values->tipo_sob_fal }}
-                                    </td>
-                                    <td>
-                                        {{ number_format($values->import, 2) }}
-                                    </td>
-                                @endforeach
-
-                            </tr>
-                            <tr class="p-5">
-                                <td>
-                                    Nuevo Saldo Caja Fisica
-                                </td>
-                                <td>
-                                    {{ number_format($operacionesZ, 2) }}
-                                </td>
-
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-
-
-
-
-    </div>
-
+    @include('livewire.reportemovimientoresumen.modaltotales')
     @include('livewire.reportemovimientoresumen.modalDetailsr')
 
 </div>
@@ -751,6 +617,11 @@
         window.livewire.on('tigo-delete', Msg => {
             noty(Msg)
         })
+
+        window.livewire.on('show-modaltotales', Msg => {
+            $('#modaltotales').modal('show')
+        })
+
         //Llamando a una nueva pestaña donde estará el pdf modal
         window.livewire.on('opentap', Msg => {
             var win = window.open('report/pdfmovdiaresumen');
