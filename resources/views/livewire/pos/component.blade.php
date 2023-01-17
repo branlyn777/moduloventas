@@ -460,7 +460,7 @@
                                                         <tr>
                                                             <td class="text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{ $p->nombre }}
+                                                                    {{substr($p->name,0 ,60) }}
                                                                     <b>({{ $p->barcode }})</b>
                                                                     {{ $p->precio_venta }} Bs
                                                                 </p>
@@ -560,7 +560,8 @@
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{ $item->name }}
+                                                                    
+                                                                    {{ substr($item->name,0 , 60) }}
                                                                 </p>
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
