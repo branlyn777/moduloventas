@@ -38,6 +38,60 @@
     "nav-item active"
 @endsection
 
+<style>
+    .file-drop-area {
+        border: 3px dashed #7c7db3;
+        border-radius: 3px;
+        position: relative;
+        width: 90%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 26px 20px 30px;
+        -webkit-transition: 0.2s;
+        transition: 0.2s;
+    }
+
+    .file-drop-area.is-active {
+        border: 1px dashed #ce2097;
+    }
+
+    .fake-btn {
+        background-color: #675cc5;
+        border: 1px solid #ffffff;
+        border-radius: 3px;
+        padding: 8px 15px;
+        margin-right: 8px;
+        color: #ffffff;
+
+
+    }
+
+    .file-msg {
+        font-size: small;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: calc(100% - 130px);
+        vertical-align: middle;
+    }
+
+    .file-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+    .file-input:focus {
+        outline: none;
+    }
+</style>
+
 
 <div>
     <div class="row">
@@ -54,75 +108,145 @@
                 <div class="card-body p-3">
                     <div class="row">
 
+                        <div class="col-md-4">
+
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong style="color: rgb(74, 74, 74)">Seleccione el concepto:</strong>
+                                    <select wire:model='concepto' class="form-select">
+                                        <option value="Elegir" disabled selected>Elegir</option>
+
+                                        <option wire:key="bar" value="AJUSTE">Ajuste de inventarios</option>
+                                        <option value="INICIAL">Inventario Inicial</option>
+                                        <option wire:key="foo" value='INGRESO'>Varios: Productos
+                                            Defectuosos,Bonificaciones,etc</option>
 
 
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Seleccione el concepto:</strong>
-                                <select wire:model='concepto' class="form-select">
-                                    <option value="Elegir" disabled selected>Elegir</option>
 
-                                    <option wire:key="bar" value="AJUSTE">Ajuste de inventarios</option>
-                                    <option value="INICIAL">Inventario Inicial</option>
-                                    <option wire:key="foo" value='INGRESO'>Varios: Productos
-                                        Defectuosos,Bonificaciones,etc</option>
+                                    </select>
+                                    @error('concepto')
+                                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
 
-
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <strong style="color: rgb(74, 74, 74)">Seleccione el tipo de operacion:</strong>
+                                <select wire:model='tipo_proceso' class="form-select">
+                                    @if ($concepto == 'INGRESO')
+                                        <option value="null" selected disabled>Elegir</option>
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Salida">Salida</option>
+                                    @else
+                                        <option value="null" selected disabled>--</option>
+                                    @endif
 
                                 </select>
-                                @error('concepto')
+                                @error('tipo_proceso')
                                     <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                 @enderror
                             </div>
+
+
+
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <strong style="color: rgb(74, 74, 74)">Seleccione el tipo de operacion:</strong>
-                            <select wire:model='tipo_proceso' class="form-select">
-                                @if ($concepto == 'INGRESO')
-                                    <option value="null" selected disabled>Elegir</option>
-                                    <option value="Entrada">Entrada</option>
-                                    <option value="Salida">Salida</option>
-                                @else
-                                    <option value="null" selected disabled>--</option>
-                                @endif
+                        <div class="col-md-4">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong style="color: rgb(74, 74, 74)">Seleccione la sucursal:</strong>
+                                    <select wire:model='sucursal' class="form-select">
+                                        <option value='Elegir' disabled>Elegir</option>
+                                        @foreach ($sucursales as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('destino')
+                                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong style="color: rgb(74, 74, 74)">Seleccione el almacen:</strong>
+                                    <select wire:model='destino' class="form-select">
+                                        <option value=null disabled>--</option>
+                                        @foreach ($destinos as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('destino')
+                                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
 
-                            </select>
-                            @error('tipo_proceso')
-                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                            @enderror
+
+
+
+
                         </div>
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Seleccione el almacen:</strong>
-                                <select wire:model='destino' class="form-select">
-                                    <option value='Elegir' disabled>Elegir</option>
-                                    @foreach ($destinosp as $item)
-                                        <option value="{{ $item->destino_id }}">
-                                            {{ $item->sucursal }}-{{ $item->destino }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('destino')
-                                    <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                                @enderror
+
+                        <div class="col-md-4">
+
+
+
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong style="color: rgb(74, 74, 74)">Observación: </strong>
+                                    <textarea wire:model='observacion' rows="1" class="form-control" aria-label="With textarea"></textarea>
+                                    @error('observacion')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
+
+
+
+
+
                         </div>
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Observación: </strong>
-                                <textarea wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
-                                @error('observacion')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-4">
+
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
@@ -223,10 +347,10 @@
                                                     @endif
                                                     @if ($concepto == 'AJUSTE')
                                                         <td>
-                                                            
+
                                                         </td>
                                                         <td>
-                                                            
+
                                                         </td>
                                                     @endif
                                                     <td>
@@ -278,6 +402,36 @@
                     @endif
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-12">
+
+                </div>
+                <div class="card p-2">
+                    
+                    <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
+                        enctype="multipart/form-data">
+                    <div class="file-drop-area">
+                        <span class="fake-btn">Elegir Documento</span>
+                        <span class="file-msg js-set-number">Arrastre su documento aqui.</span>
+                        <input class="file-input" wire:model='archivo' type="file" multiple>
+                    </div>
+                    <div style="text-align: right">
+                        <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                    </div>
+                    
+                </form>
+
+                @if ($failures)
+                <div class=" card p-2 m-1" style="background-color: rgb(224, 224, 224)" role="alert">
+                    @foreach ($failures as $failure)
+                        @foreach ($failure->errors() as $error)
+                            <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
+                        @endforeach
+                    @endforeach
+                </div>
+            @endif
+                </div>
+            </div>
         </div>
     </div>
 
@@ -285,6 +439,40 @@
 
 @section('javascript')
     <script>
+        var fileinput = document.querySelector('.file-input');
+        var filedroparea = document.querySelector('.file-drop-area');
+        var jssetnumber = document.querySelector('.js-set-number');
+        fileinput.addEventListener('dragenter', isactive);
+        fileinput.addEventListener('focus', isactive);
+        fileinput.addEventListener('click', isactive);
+
+        // back to normal state
+        fileinput.addEventListener('dragleave', isactive);
+        fileinput.addEventListener('blur', isactive);
+        fileinput.addEventListener('drop', isactive);
+
+        // add Class
+        function isactive() {
+            filedroparea.classList.add('is-active');
+        }
+
+        // change inner text
+        fileinput.addEventListener('change', function() {
+            var count = fileinput.files.length;
+            if (count === 1) {
+                // if single file then show file name
+                jssetnumber.innerText = fileinput.value.split('\\').pop();
+            } else {
+                // otherwise show number of files
+                jssetnumber.innerText = count + ' files selected';
+            }
+        });
+
+
+
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
 
             window.livewire.on('operacion-added', Msg => {

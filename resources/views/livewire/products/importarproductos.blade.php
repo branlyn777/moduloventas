@@ -65,9 +65,6 @@
                         @csrf
                         {{ $archivo }}
                         <input type="file" name="import_file" wire:model="archivo" />
-
-
-
                         <div style="text-align: right">
                             <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
                         </div>

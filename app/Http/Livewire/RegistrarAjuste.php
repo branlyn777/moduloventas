@@ -12,7 +12,9 @@ use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
+use App\Models\Sucursal;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
@@ -20,8 +22,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class RegistrarAjuste extends Component
 {
-    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,
-        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $destinosucursal, $observacion, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate;
+    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
+        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate;
     private $pagination = 15;
 
     public function mount()
@@ -29,7 +31,9 @@ class RegistrarAjuste extends Component
         $this->col = collect([]);
         $this->tipo_proceso = "Elegir";
         $this->registro = 'Manual';
-        $this->destino = 1;
+        $this->sucursal=Auth()->user()->sucursalusers->where('estado','ACTIVO')->first()->sucursal_id;
+    
+        $this->destino = null;
         $this->concepto = "Elegir";
         $this->tipo_proceso = null;
 
@@ -78,10 +82,13 @@ class RegistrarAjuste extends Component
 
         }
 
-        $destinosuc = Destino::join('sucursals as suc', 'suc.id', 'destinos.sucursal_id')
-            ->select('suc.name as sucursal', 'destinos.nombre as destino', 'destinos.id as destino_id')
+        $this->sucursales=Sucursal::all();
+
+        $this->destinos = Destino::where('sucursal_id',$this->sucursal)
             ->get();
-        return view('livewire.entradas_salidas.registrarajuste', ['destinosp' => $destinosuc])
+
+
+        return view('livewire.entradas_salidas.registrarajuste')
             ->extends('layouts.theme.app')
             ->section('content');
     }
