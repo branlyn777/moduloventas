@@ -107,8 +107,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center"><b>N°</b></th>
-                                    <th class="text-uppercase text-sm">IMAGEN</th>
-                                    <th class="text-uppercase text-sm">PRODUCTO</th>
+                                    <th class="text-uppercase text-sm ps-2">IMAGEN</th>
+                                    <th class="text-uppercase text-sm ps-2">PRODUCTO</th>
                                     <th class="text-uppercase text-sm text-center">STOCK</th>
                                     <th class="text-uppercase text-sm text-center">CANT.MIN</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>

@@ -199,24 +199,6 @@
                                     </tbody>
                                 </table>
 
-                                <div class="text-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        @if ($this->itemsQuantity > 0)
-                                            <button wire:click="resetUI()" class="btn btn-button"
-                                                style="background-color: #373839; color: white; border-color: black;">
-                                                Vaciar
-                                            </button>
-                                        @endif
-                                        <a wire:click="exit()" class="btn btn-button"
-                                            style="background-color: rgb(255, 255, 255); border: 1.8px solid #000000; color: black;">
-                                            <b>Ir Transferencias</b>
-                                        </a>
-                                        <button wire:click="finalizar_tr()" class="btn btn-button"
-                                            style="background-color: #11be32; color: white;">
-                                            Finalizar
-                                        </button>
-                                    </div>
-                                </div><br>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
                                     <div class="col-lg-12">
@@ -226,6 +208,26 @@
                             @endif
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+                        <div class="text-center">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                @if ($this->itemsQuantity > 0)
+                                    <button wire:click="resetUI()" class="btn btn-danger">
+                                        Vaciar
+                                    </button>
+                                @endif
+                                <a wire:click="exit()" class="btn btn-add"
+                                    style="background-color: #2e48dc; color: white;">
+                                    <b>Ir Transferencias</b>
+                                </a>
+                                <button wire:click="finalizar_tr()" class="btn btn-success">
+                                    Finalizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
 
             </div>

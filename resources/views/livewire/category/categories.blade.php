@@ -111,9 +111,9 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-sm text-center">#</th>
-                                    <th class="text-uppercase text-sm">NOMBRE</th>
-                                    <th class="text-uppercase text-sm">SUBCATEGORÍAS</th>
+                                    <th class="text-uppercase text-sm text-center">N°</th>
+                                    <th class="text-uppercase text-sm ps-2">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2">SUBCATEGORÍAS</th>
                                     {{-- <th class="text-uppercase text-sm">ESTADO</th> --}}
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>

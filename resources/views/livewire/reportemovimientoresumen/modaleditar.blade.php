@@ -1,13 +1,14 @@
 <div wire:ignore.self id="modal-mov" class="modal fade" tabindex="1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
+
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white">
-                    <b>GENERAR INGRESO / EGRESO</b>
-                </h5>
-                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                <h4 class="text-white text-sm" id="exampleModalLabel">
+                    Generar Ingreso/Egreso
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                  </button>
             </div>
 
             <div class="modal-body">
@@ -15,7 +16,7 @@
 
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
-                            <h6>Cartera</h6>
+                            <label>Cartera</label>
                             <select wire:model='cartera_id_edit' disabled class="form-control">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
@@ -31,7 +32,7 @@
 
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
-                            <h6>Ingreso / Egreso</h6>
+                            <label>Ingreso / Egreso</label>
                             <select wire:model='type_edit' class="form-control" disabled>
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 <option value="EGRESO">EGRESO</option>
@@ -45,8 +46,8 @@
 
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
-                            <h6>Cantidad</h6>
-                            <input type="number" wire:model.lazy="cantidad_edit" class="form-control">
+                            <label>Cantidad</label>
+                            <input type="number" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model.lazy="cantidad_edit" class="form-control">
                             @error('cantidad_edit')
                                 <span class="text-danger er">{{ $message }}</span>
                             @enderror
@@ -55,7 +56,7 @@
 
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-                            <h6>Comentario (Obligatorio)</h6>
+                            <label>Comentario (Obligatorio)</label>
                             <textarea wire:model.lazy="comentario_edit" class="form-control" name="" rows="2"></textarea>
                             @error('comentario_edit')
                                 <span class="text-danger er">{{ $message }}</span>

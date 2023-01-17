@@ -109,12 +109,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm">NOMBRE</th>
-                                    <th class="text-uppercase text-sm">TELÉFONO</th>
-                                    <th class="text-uppercase text-sm">CORREO</th>
-                                    <th class="text-uppercase text-sm">DIRECCIÓN</th>
-                                    <th class="text-uppercase text-sm">NIT</th>
-                                    <th class="text-uppercase text-sm">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2">TELÉFONO</th>
+                                    <th class="text-uppercase text-sm ps-2">CORREO</th>
+                                    <th class="text-uppercase text-sm ps-2">DIRECCIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">NIT</th>
+                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>

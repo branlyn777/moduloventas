@@ -143,12 +143,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm" style="text-align: left">NOMBRE</th>
-                                    <th class="text-uppercase text-sm">OBSERVACIÓN</th>
-                                    <th class="text-uppercase text-sm">SUCURSAL</th>
-                                    <th class="text-uppercase text-sm">FECHA CREACIÓN</th>
-                                    <th class="text-uppercase text-sm">FECHA ACTUALIZACIÓN</th>
-                                    <th class="text-uppercase text-sm">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2">OBSERVACIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">SUCURSAL</th>
+                                    <th class="text-uppercase text-sm ps-2">FECHA CREACIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">FECHA ACTUALIZACIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>

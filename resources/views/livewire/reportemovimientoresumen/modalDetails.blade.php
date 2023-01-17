@@ -12,16 +12,12 @@
                   </button>
             </div>
 
-
-
-      
-
             <div class="modal-body">
                 <div class="row">
 
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
-                            <h6>Cartera</h6>
+                            <label><span class="text-warning">* </span>Cartera</label>
                             <select wire:model='cartera_id' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
@@ -30,7 +26,7 @@
                                 @endforeach
                             </select>
                             @error('cartera_id')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -38,21 +34,21 @@
 
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
-                            <h6>Ingreso / Egreso</h6>
+                            <label><span class="text-warning">* </span>Ingreso/Egreso</label>
                             <select wire:model='type' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 <option value="EGRESO">EGRESO</option>
                                 <option value="INGRESO">INGRESO</option>
                             </select>
                             @error('type')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             @if ($this->type != 'Elegir')
-                                <h6>Categoria</h6>
+                                <label><span class="text-warning">* </span>Categoria</label>
                                 <select wire:model='categoria_ie_id' class="form-select">
                                     <option value="Elegir" selected disabled>Elegir</option>
                                     @foreach ($categorias_ie as $c)
@@ -60,32 +56,32 @@
                                     @endforeach
                                 </select>
                                 @error('categoria_ie_id')
-                                    <span class="text-danger er">{{ $message }}</span>
+                                    <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                                 @enderror
                             @else
-                                <h6>Categoria</h6>
+                                <label><span class="text-warning">* </span>Categoria</label>
                                 <p class="form-control">---</p>
                             @endif
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
-                            <h6>Cantidad</h6>
-                            <input type="number" wire:model.lazy="cantidad" class="form-control">
+                            <label><span class="text-warning">* </span>Cantidad</label>
+                            <input type="number" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model.lazy="cantidad" class="form-control">
                             @error('cantidad')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
 
                     <div class="col-sm-12 col-md-12" style="padding-left: 27px;">
                         @if ($this->categoria_ie_id != 'Elegir')
-                            <b>Detalles de la Categoria Seleccionada:</b>
+                            <label>Detalles de la Categoria Seleccionada:</label>
                             <br>
                             @if ($detalle)
-                                {{ $detalle }}
+                                <label>{{ $detalle }}</label>
                             @else
-                                No se puso ningún detalle a la categoria seleccionada
+                                <label>No se puso ningún detalle a la categoria seleccionada</label>
                             @endif
 
 
@@ -97,10 +93,10 @@
 
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-                            <h6><b>Comentario (Obligatorio)</b></h6>
+                            <label><span class="text-warning">* </span>Comentario (Obligatorio)</label>
                             <textarea wire:model.lazy="comentario" class="form-control" name="" rows="2"></textarea>
                             @error('comentario')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>

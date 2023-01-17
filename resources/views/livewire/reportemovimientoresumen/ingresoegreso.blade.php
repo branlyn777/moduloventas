@@ -166,36 +166,69 @@
             </div>
 
             <br>
+            <div class="card">
+                <div class="text-center ">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <table>
+                            <tr>
+                                <td colspan="5">
+                                    <h6 style="font-size: 100%">
+                                        <b>TOTAL Bs.</b>
+                                    </h6>
+                                </td>
+                                <td colspan="1">
+                                    <h6 class="text-left" style="font-size: 100%">
+                                        {{ number_format($sumaTotal, 2) }} </h6>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="5">
+                                    <h6 class="text-right p-l-1" colspan="5" style="font-size: 100%">
+                                        <b>TOTAL $us.</b>
+                                    </h6>
+                                </td>
+                                <td colspan="1">
+                                    <h6 class="text-left" colspan="5" style="font-size: 100%">
+                                        {{ number_format($sumaTotal / $cot_dolar, 2) }} </h6>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br>
             <div class="card mb-4">
 
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
-                        <table class="table align-items-left mb-0">
+                        <table class="table align-items-center mb-0">
 
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-sm text-left">#</th>
-                                    <th class="text-uppercase text-sm text-left">FECHA</th>
-                                    <th class="text-uppercase text-sm text-left">MOVIMIENTO</th>
-                                    <th class="text-uppercase text-sm text-left">CATEGORIA</th>
-                                    <th class="text-uppercase text-sm text-left">CAJA</th>
-                                    <th class="text-uppercase text-sm text-left">CARTERA</th>
-                                    <th class="text-uppercase text-sm text-left">IMPORTE</th>
-                                    <th class="text-uppercase text-sm text-left">MOTIVO</th>
-                                    <th class="text-uppercase text-sm text-left">USUARIO</th>
-                                    <th class="text-uppercase text-sm text-left">ESTADO</th>
-                                    <th class="text-uppercase text-sm text-left">ACC.</th>
+                                    <th class="text-uppercase text-sm text-center">#</th>
+                                    <th class="text-uppercase text-sm ps-2">FECHA</th>
+                                    <th class="text-uppercase text-sm ps-2">MOVIMIENTO</th>
+                                    <th class="text-uppercase text-sm ps-2">CATEGORIA</th>
+                                    <th class="text-uppercase text-sm ps-2">CAJA</th>
+                                    <th class="text-uppercase text-sm ps-2">CARTERA</th>
+                                    <th class="text-uppercase text-sm ps-2">IMPORTE</th>
+                                    <th class="text-uppercase text-sm ps-2">MOTIVO</th>
+                                    <th class="text-uppercase text-sm ps-2">USUARIO</th>
+                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
+                                    <th class="text-uppercase text-sm text-center">ACCION</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $p)
                                     <tr>
                                         <td>
-                                            <h6 class="text-left" style="font-size: 100%">{{ $loop->iteration }}
+                                            <h6 class="text-sm mb-0 text-center" style="font-size: 100%">{{ $loop->iteration }}
                                             </h6>
                                         </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">
+                                        <td class="d-flex px-2 py-1">
+                                            <h6 class="me-3" style="font-size: 100%">
                                                 {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y H:i') }}
                                             </h6>
                                         </td>
@@ -267,20 +300,6 @@
                                             </td>
                                         @endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         @if ($p->movstatus == 'INACTIVO')
                                             <td class="align-middle text-center">
 
@@ -310,32 +329,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
 
-                                    <td colspan="5">
-                                        <h6 class="text-right p-l-1" colspan="5" style="font-size: 100%">
-                                            <b>TOTAL Bs.</b>
-                                        </h6>
-                                    </td>
-                                    <td colspan="1">
-                                        <h6 class="text-left" colspan="5" style="font-size: 100%">
-                                            {{ number_format($sumaTotal, 2) }} </h6>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                    <td colspan="5">
-                                        <h6 class="text-right p-l-1" colspan="5" style="font-size: 100%">
-                                            <b>TOTAL $us.</b>
-                                        </h6>
-                                    </td>
-                                    <td colspan="1">
-                                        <h6 class="text-left" colspan="5" style="font-size: 100%">
-                                            {{ number_format($sumaTotal / $cot_dolar, 2) }} </h6>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

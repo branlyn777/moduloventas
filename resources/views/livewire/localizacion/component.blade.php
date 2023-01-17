@@ -97,11 +97,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm" style="text-align: left">TIPO</th>
-                                    <th class="text-uppercase text-sm">CÓDIGO</th>
-                                    <th class="text-uppercase text-sm">DESCRIPCIÓN</th>
-                                    <th class="text-uppercase text-sm">UBICACIÓN</th>
-                                    <th class="text-uppercase text-sm">PRODUCTOS</th>
+                                    <th class="text-uppercase text-sm ps-2">TIPO</th>
+                                    <th class="text-uppercase text-sm ps-2">CÓDIGO</th>
+                                    <th class="text-uppercase text-sm ps-2">DESCRIPCIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">UBICACIÓN</th>
+                                    <th class="text-uppercase text-sm ps-2">PRODUCTOS</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>

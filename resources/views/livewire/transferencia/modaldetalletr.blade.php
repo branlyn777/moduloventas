@@ -9,7 +9,7 @@
                 @if ($detalle != null)
 
                     <div class="table-responsive">
-                        <table class="table mb-4" >
+                        <table class="table mb-4">
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>

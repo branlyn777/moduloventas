@@ -111,8 +111,7 @@
                                     <tr>
                                         <th class="text-uppercase text-sm text-center">N°</th>
                                         <th class="text-uppercase text-sm  ps-2">NOMBRE DE LA SUCURSAL</th>
-                                        <th class="text-uppercase text-sm  ps-2">DIRECCIÓN
-                                        </th>
+                                        <th class="text-uppercase text-sm  ps-2">DIRECCIÓN</th>
                                         <th class="text-uppercase text-sm  ps-2">TELÉFONO</th>
                                         <th class="text-uppercase text-sm  ps-2">CELULAR</th>
                                         <th class="text-uppercase text-sm  ps-2">NÚMERO NIT</th>

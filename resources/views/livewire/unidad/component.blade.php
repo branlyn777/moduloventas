@@ -139,21 +139,21 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th> {{-- style="width: 150px;" --}}
-                                    <th class="text-uppercase text-sm text-center">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2">NOMBRE</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data_unidad as $data)
-                                    <tr class="text-center" style="font-size: 14px">
-                                        <td>
+                                    <tr style="font-size: 14px">
+                                        <td class="text-center">
                                             {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
                                         </td>
-                                        <td>
+                                        <td >
                                             {{ $data->nombre }}
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
                                                 class="mx-3" title="Editar Unidad">
                                                 <i class="fas fa-edit text-info"></i>
@@ -226,23 +226,23 @@
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
-                                <tr class="text-center">
+                                <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm text-center">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2">NOMBRE</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($marcas as $data)
-                                    <tr class="text-center" style="font-size: 14px">
-                                        <td>
+                                    <tr style="font-size: 14px">
+                                        <td class="text-center">
                                             {{ ($marcas->currentpage() - 1) * $marcas->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td>
                                             {{ $data->nombre }}
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             <a href="javascript:void(0)" wire:click="Edit_marca({{ $data->id }})"
                                                 class="mx-3" title="Editar marca">
                                                 <i class="fas fa-edit text-info"></i>

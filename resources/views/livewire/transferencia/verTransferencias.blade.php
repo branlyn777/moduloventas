@@ -98,8 +98,8 @@ true
                                                 <th class="text-center" style="width: 6%">N°</th>
                                                 <th class="text-center">Codigo Transf.</th>
                                                 {{-- <th class="text-center">DETALLE</th> --}}
-                                                <th class="text-left">Estado</th>
-                                                <th class="text-left">Usuario</th>
+                                                <th class="text-uppercase text-sm ps-2">Estado</th>
+                                                <th class="text-uppercase text-sm ps-2">Usuario</th>
                                                 <th class="text-center">Acc.</th>
                                             </tr>
                                         </thead>
@@ -203,8 +203,8 @@ true
                                             <th class="text-center" style="width: 6%">N°</th>
                                             <th class="text-center">Codigo <br> Transf.</th>
                                             {{-- <th class="text-center">DETALLE</th> --}}
-                                            <th class="text-left">Estado</th>
-                                            <th class="text-left">Usuario</th>
+                                            <th class="text-uppercase text-sm ps-2">Estado</th>
+                                            <th class="text-uppercase text-sm ps-2">Usuario</th>
                                             <th class="text-center">Acc.</th>
                                         </tr>
                                     </thead>
