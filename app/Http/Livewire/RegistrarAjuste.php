@@ -14,16 +14,20 @@ use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
 use App\Models\Sucursal;
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use Livewire\WithFileUploads;
 
 class RegistrarAjuste extends Component
 {
+    use WithFileUploads;
     public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
-        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate;
+        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,
+         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures;
     private $pagination = 15;
 
     public function mount()
@@ -142,17 +146,37 @@ class RegistrarAjuste extends Component
         $this->col->pull($item);
     }
 
+    public function import(){
+
+        try {
+            //$import->import('import-users.xlsx');
+            Excel::import(new StockImport(1, 'INICIAL',"sdfafdasfa"), $this->archivo);
+            return redirect()->route('operacionesinv');
+        } 
+        catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+      
+            $this->failures = $e->failures();
+           
+        }
+        catch(FileNotFoundException $errorarchivo){
+            $this->emit('sinarchivo');
+        }
+        catch(Exception $e){
+         $this->emit('errorarchivo');
+        }
+    }
+
 
 
     public function GuardarOperacion()
     {
-        //dd($this->col);
-        if ($this->concepto === "INICIAL" && $this->registro === "Documento") {
+       dd("hola");
+        if ($this->concepto === "INICIAL") {
 
             try {
                 //$import->import('import-users.xlsx');
                 Excel::import(new StockImport($this->destino, $this->concepto, $this->observacion), $this->archivo);
-                return redirect()->route('operacionesinv');
+              dd("hoa");
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
 
                 $this->failures = $e->failures();
