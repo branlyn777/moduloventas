@@ -43,6 +43,7 @@
 
     <div class="row">
         <div class="col-12">
+
             <div class="d-lg-flex">
                 <div>
                     <h5 class="text-white" style="font-size: 16px">Cotizaciones</h5>
@@ -50,16 +51,63 @@
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
 
-                        <button {{-- wire:click="modalbuscarcliente()" --}} class="btn btn-add mb-0"
-                            style="background-color: #2e48dc; color: white;">
-                            <i class="fas fa-plus me-2"></i>
-                            Nueva cotización
-                        </button>
-
+                        <button wire:click="modalbuscarproducto()" class="btn btn-add mb-0"> <i
+                                class="fas fa-plus me-2"></i>
+                            Nueva cotización</button>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
-
+    @include('livewire.cotizacion.modal')
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mètodo JavaScript para llamar al modal para buscar un producto
+        window.livewire.on('show-buscarproducto', Msg => {
+            $("#modalbuscarproducto").modal("show");
+        });
+
+        //Cierra la ventana Modal Buscar Cliente y muestra mensaje Toast cuando se selecciona un producto
+        window.livewire.on('hide-buscarproducto', msg => {
+            $("#modalbuscarproducto").modal("hide");
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: @this.mensaje_toast,
+                padding: '2em',
+            })
+        });
+
+
+
+    });
+
+
+    // Código para lanzar la Alerta para eliminar un producto del Carrito de cotizaciones
+    function ConfirmarEliminar(idproducto, nombreproducto) {
+            swal({
+                title: '¿Eliminar el Producto?',
+                text: "Se eliminará el producto '" + nombreproducto + "' del Carrito de Cotizaciones",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar Producto',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('clear-Product', idproducto)
+                }
+            })
+        }
+</script>
