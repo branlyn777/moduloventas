@@ -14,7 +14,7 @@
 
         .slider {
             position: absolute;
-            cursor: pointer;
+            cursor: default;
             top: 0;
             left: 0;
             right: 0;
@@ -460,7 +460,7 @@
                                                         <tr>
                                                             <td class="text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{substr($p->name,0 ,60) }}
+                                                                    {{ substr($p->name,0 ,60) }}
                                                                     <b>({{ $p->barcode }})</b>
                                                                     {{ $p->precio_venta }} Bs
                                                                 </p>
@@ -561,7 +561,7 @@
                                                             <td class="text-sm mb-0 text-left">
                                                                 <p class="text-sm mb-0">
                                                                     
-                                                                    {{ substr($item->name,0 , 60) }}
+                                                                    {{ substr($item->name, 0, 60) }}
                                                                 </p>
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
@@ -714,9 +714,9 @@
 
 
         @if ($descuento_recargo >= 0)
-            <button class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
+            <button style="cursor: default" class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
         @else
-            <button class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
+            <button style="cursor: default" class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
         @endif
     @else
         <div class="row">
