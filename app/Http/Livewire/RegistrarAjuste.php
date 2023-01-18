@@ -27,7 +27,8 @@ class RegistrarAjuste extends Component
     use WithFileUploads;
     public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
         $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,
-         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures;
+         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
+         ,$active1,$active2,$active3;
     private $pagination = 15;
 
     public function mount()
@@ -40,6 +41,9 @@ class RegistrarAjuste extends Component
         $this->destino = null;
         $this->concepto = "Elegir";
         $this->tipo_proceso = null;
+        $this->active1='js-active';
+        $this->active2=null;
+        $this->active3=null;
 
     }
 
