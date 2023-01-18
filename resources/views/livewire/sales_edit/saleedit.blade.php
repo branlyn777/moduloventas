@@ -447,7 +447,7 @@
                                                             <tr>
                                                                 <td class="text-left">
                                                                     <p class="text-sm mb-0">
-                                                                        {{ $p->nombre }}
+                                                                        {{ substr($p->nombre,0,60) }}
                                                                         <b>({{ $p->barcode }})</b>
                                                                         {{ $p->precio_venta }} Bs
                                                                     </p>
@@ -706,9 +706,9 @@
     @include('livewire.sales_edit.modal.modal_stock_insuficiente')
 
     @if ($descuento_recargo >= 0)
-        <button class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
+        <button style="cursor: default" class="btn-flotante">Descuento {{ $descuento_recargo }} Bs</button>
     @else
-        <button class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
+        <button style="cursor: default" class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
     @endif
 
 
