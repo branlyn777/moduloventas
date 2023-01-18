@@ -109,21 +109,21 @@
 
             <div class="row mb-5">
                 <div class="col-12">
-                    <div class="multisteps-form mb-5">
+                    <div wire:ignore.self class="multisteps-form mb-5">
 
                         <div class="row">
-                            <div class="col-12 col-lg-12 mx-auto my-4">
+                            <div class="col-12 col-lg-10 mx-auto my-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="multisteps-form__progress">
-                                            <button  class=@yield('entradasalidali', 'multisteps-form__progress-btn ')
-                                                title="User Info">
+                                            <button  class='multisteps-form__progress-btn {{$active1}}'
+                                                title="User Info" wire:click="cambiar()">
                                                 <span>Datos</span>
                                             </button>
-                                            <button class="multisteps-form__progress-btn" type="button"
-                                                title="Address">Ubicacion</button>
-                                            <button class="multisteps-form__progress-btn" type="button"
-                                                title="Socials">Operacion</button>
+                                            <button class="multisteps-form__progress-btn {{$active2}}" type="button"
+                                                title="Address" wire:click="cambiar()" >Ubicacion</button>
+                                            <button class="multisteps-form__progress-btn {{$active3}}"  type="button"
+                                                title="Socials" wire:click="cambiar2()">Operacion</button>
 
                                         </div>
                                     </div>
@@ -132,14 +132,12 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-lg-12 m-auto">
+                            <div class="col-12 col-lg-10 m-auto">
                                 <form class="multisteps-form__form mb-8" style="height: 408px;">
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{$show1}}"
                                         data-animation="FadeIn">
-                                        @section('entradasalidali')
-                                        multisteps-form__progress-btn js-active
-                                        @endsection
+                                  
                                         <div class="multisteps-form__content">
                                             <div class="row mt-4 p-2">
                                                 <div class="col-md-12">
@@ -222,7 +220,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{$show2}}"
                                         data-animation="FadeIn">
                                         {{-- <h5 class="font-weight-bolder">Address</h5> --}}
                                         <div class="multisteps-form__content">
@@ -277,7 +275,7 @@
                                     </div>
 
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{$show3}}"
                                         data-animation="FadeIn">
 
                                         <div class="multisteps-form__content mt-3">
@@ -287,36 +285,39 @@
 
 
 
-
-                                                    <form wire:submit.prevent="import()" method="POST"
-                                                        enctype="multipart/form-data">
-                                                        <div class="file-drop-area">
-                                                            <span class="fake-btn">Elegir Documento</span>
-                                                            <span class="file-msg js-set-number">Arrastre su documento
-                                                                aqui.</span>
-                                                            <input class="file-input" wire:model='archivo'
-                                                                type="file" accept=".xlsx" multiple>
+                                                <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+            
+                                                <div>
+            
+                                                    {{ $archivo }}
+                                                    <center>
+                                                        <div wire:loading wire:target="archivo">
+                                                            <div class="d-flex align-items-center">
+                                                                <strong>Cargando Archivo, Espere por favor...</strong>
+                                                                <div class="spinner-border ms-auto"></div>
+                                                            </div>
                                                         </div>
-                                                        <div style="text-align: right">
-                                                            <button class="btn btn-sm btn-success mt-1"
-                                                                type="submit">Subir Archivo</button>
-                                                        </div>
+                                                    </center>
+            
+                                                </div>
+                                                <label for="">Archivo Seleccionado</label>
+                                                <input type="file" class="form-control" name="import_file"
+                                                    wire:model="archivo" />
+            
+            
+                                            </form>
+                                            <div style="text-align: right">
+                                                <button class="btn btn-sm btn-success mt-1" wire:click.prevent='import()'
+                                                    >Subir Archivo</button>
+                                            </div>
 
-                                                    </form>
+                                              
 
 
 
 
-                                                    @if ($failures)
-                                                        <div>
-                                                            @foreach ($failures as $failure)
-                                                                @foreach ($failure->errors() as $error)
-                                                                    <li>{{ $error }},numero de fila
-                                                                        {{ $failure->row() }}.</li>
-                                                                @endforeach
-                                                            @endforeach
-                                                        </div>
-                                                    @endif
                                                 @else
                                                     <div class="col-4">
                                                         <div class="card">
@@ -364,7 +365,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-8">
-                                                        <div class="card"><br>
+                                                        <div class="card">
                                                             <div class="text-center">
                                                                 <h5><b>Detalle Ajuste</b></h5>
                                                             </div>
@@ -377,8 +378,6 @@
                                                                                     style="font-size: 14px; color: black;">
                                                                                     <th class="text-center">Producto
                                                                                     </th>
-
-
                                                                                     @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
                                                                                         <th class="text-center">Costo
                                                                                         </th>
@@ -411,7 +410,7 @@
                                                                                                     wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#pc' + {{ $prod['product_id'] }}).val())"
                                                                                                     style="padding:0!important"
                                                                                                     class="form-control text-center"
-                                                                                                    value="{{ $prod['costo'] }}">
+                                                                                                    value="{{ $prod['costo']}}">
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input type="text"
@@ -431,12 +430,13 @@
                                                                                             </td>
                                                                                         @endif
                                                                                         <td>
-                                                                                            <input type="text"
+                                                                                            <input type="number"
                                                                                                 id="pq{{ $prod['product_id'] }}"
-                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val() )"
+                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
+                            
                                                                                                 style="padding:0!important"
                                                                                                 class="form-control text-center"
-                                                                                                value="{{ $prod['cantidad'] }}">
+                                                                                                value="{{$prod['cantidad']}}">
                                                                                         </td>
 
                                                                                         <td class="text-center">
@@ -445,12 +445,12 @@
                                                                                                 aria-label="Basic example">
                                                                                                 <button
                                                                                                     title="Quitar Item"
-                                                                                                    href="javascript:void(0)"
-                                                                                                    wire:click="removeItem({{ $prod['product_id'] }})"
+                                                                                                    type="button"
+                                                                                                    onclick="ConfirmarEliminar('{{ $prod['product_id'] }}')"
+                                                                                               
                                                                                                     class="btn btn-danger"
                                                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                                                    <i
-                                                                                                        class="fas fa-trash-alt"></i>
+                                                                                                    <i class="fas fa-trash"></i>
                                                                                                 </button>
                                                                                             </div>
                                                                                         </td>
@@ -473,8 +473,20 @@
                                                                 @endif
                                                             </div>
 
+                                                            
+                                                    @if ($failures)
+                                                    <div>
+                                                        @foreach ($failures as $failure)
+                                                            @foreach ($failure->errors() as $error)
+                                                                <li>{{ $error }},numero de fila
+                                                                    {{ $failure->row() }}.</li>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+
                                                         </div>
-                                                        @if ($col->isNotEmpty())
+                                                        {{-- @if ($col->isNotEmpty())
                                                             <div class="text-center mt-2">
                                                                 <div class="btn-group" role="group"
                                                                     aria-label="Basic example">
@@ -488,7 +500,7 @@
                                                                         class="btn btn-success">Finalizar</button>
                                                                 </div>
                                                             </div>
-                                                        @endif
+                                                        @endif --}}
                                                     </div>
                                                 @endif
                                             </div>
@@ -631,6 +643,14 @@
 
 
         })
+
+        function ConfirmarEliminar(idproducto) {
+           
+        
+                    window.livewire.emit('clear-Product', idproducto)
+              
+          
+        }
     </script>
 
     <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
