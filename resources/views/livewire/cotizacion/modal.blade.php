@@ -101,10 +101,10 @@
                                 {{ $c['codigo'] }}
                             </td>
                             <td class="text-sm mb-0 text-center">
-                                {{ $c['precio_producto'] }}
+                                {{ $c['cantidad'] }}
                             </td>
                             <td class="text-sm mb-0 text-center">
-                                {{ $c['cantidad'] }}
+                                {{ $c['precio_producto'] }}
                             </td>
                             <td class="text-sm mb-0 text-center">
                                                                 
@@ -112,13 +112,13 @@
                                     aria-label="Basic example">
 
                                     <button title="Quitar una unidad"
-                                       {{--  wire:click.prevent="decrease({{ $item->id }})" --}}
+                                         wire:click.prevent="decrease({{ $c['producto_id'] }})" 
                                         class="btn btn-secondary"
                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <button title="Incrementar una unidad"
-                                       {{--  wire:click.prevent="increase({{ $item->id }})" --}}
+                                        wire:click.prevent="increase({{ $c['producto_id'] }})" 
                                         class="btn btn-primary"
                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                         <i class="fas fa-plus"></i>

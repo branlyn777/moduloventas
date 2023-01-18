@@ -90,24 +90,48 @@
         });
 
 
+         //Mostrar cualquier tipo de mensaje toast de un OK
+         window.livewire.on('message-ok', msg => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.message,
+                    padding: '2em',
+                })
+            });
 
+         //Mostrar Mensaje a ocurrido un error en la venta
+         window.livewire.on('message-error-sale', event => {
+                swal(
+                    'Advertencia',
+                    @this.mensaje_toast,
+                    'info'
+                )
+            });
     });
 
 
     // Código para lanzar la Alerta para eliminar un producto del Carrito de cotizaciones
     function ConfirmarEliminar(idproducto, nombreproducto) {
-            swal({
-                title: '¿Eliminar el Producto?',
-                text: "Se eliminará el producto '" + nombreproducto + "' del Carrito de Cotizaciones",
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Eliminar Producto',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('clear-Product', idproducto)
-                }
-            })
-        }
+        swal({
+            title: '¿Eliminar el Producto?',
+            text: "Se eliminará el producto '" + nombreproducto + "' del Carrito de Cotizaciones",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar Producto',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('clear-Product', idproducto)
+            }
+        })   
+    }
+    
 </script>
