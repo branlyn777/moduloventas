@@ -91,8 +91,8 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
+                        <div class="card-body" style="min-height: 500px; padding-top: 10px;">
+                            <div class="form-group p-2">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text">
                                         <i class="fa fa-search"></i>
@@ -146,7 +146,7 @@
 
                 {{-- AREA DE TRANSFERENCIAS DE PRODUCTOS --}}
                 <div class="col-12 col-md-8 mb-4 mb-md-0">
-                    <div class="card"><br>
+                    <div class="card" style="min-height: 500px; padding-top: 10px;"><br>
                         <div class="text-center">
                             <h5><b>Detalle Transferencia</b></h5>
                         </div>

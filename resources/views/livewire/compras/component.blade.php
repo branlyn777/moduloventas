@@ -42,7 +42,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-            
+
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">Lista de Compras</h5>
@@ -54,7 +54,6 @@
                             Registrar Compra</a>
                     </div>
                 </div>
-
             </div>
 
             <div class="card mb-4">
@@ -69,8 +68,7 @@
                                             <i class="fa fa-search"></i>
                                         </span>
                                         <input type="text" wire:model="search"
-                                            placeholder="nro.documento,proveedor,usuario"
-                                            class="form-control">
+                                            placeholder="nro.documento,proveedor,usuario" class="form-control">
                                     </div>
                                     <div class="input-group mb-4">
                                         <select wire:model="tipo_search" class="form-select">
@@ -137,17 +135,15 @@
 
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Otros</label>
-                                <div class="">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-expanded="false">
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                         Ver
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" wire:click="VerComprasProducto()">Compras por
-                                            producto</a>
-                                        <a class="dropdown-item" wire:click="VerProductosProveedor()">Productos por
-                                            proveedor</a>
-                                    </div>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" wire:click="VerComprasProducto()">Compras por producto</a></li>
+                                        <li><a class="dropdown-item" wire:click="VerProductosProveedor()">Productos por proveedor</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

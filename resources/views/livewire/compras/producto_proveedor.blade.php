@@ -1,80 +1,75 @@
-<div wire:ignore.self class="modal fade" id="prodprov" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div wire:ignore.self class="modal fade" id="prodprov" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Productos por Proveedor </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
+            <div class="modal-header bg-primary">
+                <div>
+                    <h5 class="mb-0 text-white" style="font-size: 16px">Productos por Proveedor</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-6">
-                    <b wire:click="limpiarsearch()" class="ml-3 mt-1" style="cursor: pointer;">Buscar Producto</b>
-                    <div class="form-group">
-                        <div class="input-group mb-4">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text input-gp">
-                                    <i class="fas fa-search"></i>
-                                </span>
+            <div class="modal-body" style="min-height: 500px; padding-top: 10px;">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6">
+                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Proveedor</label>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                <input type="text" wire:model="search3" placeholder="Buscar Proveedor"
+                                    class="form-control ">
                             </div>
-                            <input type="text" wire:model="search3" placeholder="Buscar Producto" class="form-control">
                         </div>
+                    </div>
+
+                    {{-- <div class="col-12 col-sm-6 col-md-6">
+                        <label style="font-size: 1rem;">Filtrar por Fecha</label>
+                        <div class="form-group">
+                            <input type="date"  class="form-control flatpickr">
+                        </div>
+                    </div> --}}
+
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">N°</th>
+                                    <th class="text-uppercase text-sm ps-2">Proveedor</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-center">Cod. Compra</th>
+                                    <th class="text-center">Fecha Compra</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if ($search3 != null)
+                                    @foreach ($productoProveedor as $prp)
+                                        <tr>
+                                            <td class="text-center">
+                                                {{ $loop->index + 1 }}
+                                            </td>
+                                            <td class="text-left">
+                                                {{ $prp->nombre_prov }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ $prp->cantidad }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ $prp->id }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ $prp->created_at }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <p></p>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="table-1 p-2">
-                <table style="min-width: 600px;">
-                    <thead>
-                      <tr>
-                        <th>N°</th>
-                     
-                        <th class="text-center">Proveedor</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">Cod. Compra</th>
-                        <th class="text-center">Fecha Compra</th>
-                       
-                      </tr>
-                    </thead>
-                    
-                    <tbody>
-                        @if ($search3 != null)
-                        @foreach ($productoProveedor as $prp)
-                            
-                        <tr>
-                            <td class="text-center">
-                                {{$loop->index+1}}
-                            </td>
-                            <td class="text-left">
-                                {{ $prp->nombre_prov}}
-                            </td>
-                            <td class="text-right">
-                                {{ $prp->cantidad}}
-                            </td>
-                            <td class="text-right">
-                                {{ $prp->id}}
-                            </td>
-                            <td class="text-right">
-                                {{ $prp->created_at}}
-                            </td>
-                          
-                        </tr>
-                        @endforeach
-                            
-                        @else
-                            <p></p>
-                        @endif
-                       
-                    </tbody>
-                
-                  </table>
-            
-            
-            
-            
-            </div>
-          
-       
-            <br>
+            {{-- {{ $productoProveedor->links() }} --}}
         </div>
     </div>
 </div>

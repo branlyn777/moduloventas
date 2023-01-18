@@ -26,8 +26,9 @@ class RegistrarAjuste extends Component
 {
     use WithFileUploads;
     public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
-        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,
-         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures;
+        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show3,
+         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
+         ,$active1,$active2,$active3;
     private $pagination = 15;
 
     public function mount()
@@ -40,6 +41,10 @@ class RegistrarAjuste extends Component
         $this->destino = null;
         $this->concepto = "Elegir";
         $this->tipo_proceso = null;
+        $this->active1='js-active';
+        $this->active2=null;
+        $this->active3=null;
+        $this->show1='js-active';
 
     }
 
@@ -148,6 +153,7 @@ class RegistrarAjuste extends Component
 
     public function import(){
 
+     
         try {
             //$import->import('import-users.xlsx');
             Excel::import(new StockImport(1, 'INICIAL',"sdfafdasfa"), $this->archivo);
@@ -162,7 +168,9 @@ class RegistrarAjuste extends Component
             $this->emit('sinarchivo');
         }
         catch(Exception $e){
-         $this->emit('errorarchivo');
+       
+            dd($e);
+         //$this->emit('errorarchivo');
         }
     }
 
@@ -372,16 +380,16 @@ class RegistrarAjuste extends Component
     public function UpdateQty(Product $product, $cant)
     {
 
+    
         $item = $this->col->where('product_id', $product->id);
         if ($this->tipo_proceso == "Entrada") {
-          
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
             }
             else{
                 $precioventa = $item->first()['precioventa'];
                 $costo = $item->first()['costo'];
-                $this->col->pull($item->keys()->first());
+            
                 $this->col->push([
                     'product_id' => $product->id,
                     'product_name' => $product->nombre,
@@ -389,6 +397,9 @@ class RegistrarAjuste extends Component
                     'precioventa' => $precioventa,
                     'cantidad' => $cant
                 ]);
+                $this->col->pull($item->keys()->first());
+                 
+             
             }
         }
         else{
@@ -408,16 +419,22 @@ class RegistrarAjuste extends Component
                     ]);
                 }
                 else{
+                  
                     $this->emit('stock-insuficiente');
                 }
             }
         }
     }
 
+
+protected $listeners = ['clear-Product' => 'removeItem'];
+
     public function removeItem(Product $product)
     {
+      
         $item = $this->col->where('product_id', $product->id);
         $this->col->pull($item->keys()->first());
+     
     }
 
     public function UpdateQtyAjuste(){
@@ -434,5 +451,24 @@ class RegistrarAjuste extends Component
         $this->resetui();
         $this->resetErrorBag();
         $this->redirect('inicio');
+    }
+
+    public function cambiar(){
+        
+        if ($this->active2 != 'js-active') {
+            $this->active2='js-active';
+            $this->show2='js-active';
+        }
+
+    }
+
+    public function cambiar2(){
+
+        if ($this->active3 != 'js-active' and $this->active2=='js-active') {
+            $this->active3='js-active';
+            $this->show1='';
+            $this->show2='';
+            $this->show3='js-active';
+        }
     }
 }

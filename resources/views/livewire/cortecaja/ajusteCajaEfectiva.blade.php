@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 @if ($idcaja !== null)
-                    <div class="row justify-content-center">
+                    {{-- <div class="row justify-content-center">
                         <div class="col-lg-12 mb-2">
                             <div class="row mt-2">
                                 <div class="col-lg-7">
@@ -26,11 +26,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-5">
-                                    {{-- <div class="row">
-                                        <button type="button" class="btn btn-sm btn-primary">
-                                            Ajuste de Cierre de Caja
-                                        </button>
-                                </div> --}}
+                                    
                                 </div>
                             </div>
                             @if ($active1 == true)
@@ -68,10 +64,7 @@
                                                             <input type="text" class="form-control"
                                                                 wire:model='efectivo_actual' placeholder="">
                                                         </div>
-
                                                     </td>
-
-
                                                 </tr>
 
                                                 <br>
@@ -82,7 +75,7 @@
                                                                     {{ $efectivo_actual > $saldoAcumulado
                                                                         ? 'Efectivo Sobrante:'
                                                                         : 'Efectivo
-                                                                                                                                                                                                                                                                                                                                    Faltante: ' }}</b>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Faltante: ' }}</b>
                                                             </h6>
                                                         </td>
                                                         <td class="text-right">
@@ -168,94 +161,196 @@
                             @endif
 
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row justify-content-center">
                         <div class="card">
                             <div class="card-header pb-0 p-3">
-                                <h6 class="mb-0">Arqueo de Caja</h6>
+                                @if ($active1 == true)
+                                    <h6 class="text-left">
+                                        <b>Arqueo de Caja</b>
+                                    </h6>
+                                @else
+                                    <h5>
+                                        <b>Recaudar Efectivo</b>
+                                    </h5>
+                                @endif
                             </div>
-                            <div class="card-body p-3">
-                                <ul class="list-group">
-                                    <li
-                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                <i class="ni ni-mobile-button text-white opacity-10"></i>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Transacciones Del Dia</h6>
-                                                <h6 class="text-xs"> Bs. {{ $hoyTransacciones }}</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                <i class="ni ni-tag text-white opacity-10"></i>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Esperado En Efectivo</h6>
-                                                <h6 class="text-xs"> Bs. {{ $saldoAcumulado }}</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                <i class="ni ni-box-2 text-white opacity-10"></i>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
-                                            </div>
-                                        </div>
-                                        <tr>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <button class="btn btn-outline-primary mb-0" type="button"
-                                                        id="button-addon1" data-bs-toggle="modal"
-                                                        data-bs-target="#contador_monedas"><i
-                                                            class="fas fa-calculator"></i></button>
-                                                    <input type="text" class="form-control" wire:model='efectivo_actual'
-                                                        placeholder="">
+                            @if ($active1 == true)
+                                <div class="card-body p-3">
+                                    <ul class="list-group">
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-mobile-button text-white opacity-10"></i>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        
-                                        
-                                    </li>
-                                    <li
-                                        class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                            <div
-                                                class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Transacciones Del Dia</h6>
+                                                    <h6 class="text-xs"> Bs. {{ $hoyTransacciones }}</h6>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Efectivo Sob./Falt.</h6>
-                                                <span class="text-xs font-weight-bold"> Bs. 0</span>
+                                        </li>
+
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-tag text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Esperado En Efectivo</h6>
+                                                    <h6 class="text-xs"> Bs. {{ $saldoAcumulado }}</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <div
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-box-2 text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
+                                                    <div class="input-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-outline-primary mb-0"
+                                                            id="button-addon1" data-bs-toggle="modal"
+                                                            data-bs-target="#contador_monedas"><i
+                                                                class="fas fa-calculator"></i></button>
+                                                        <input type="text" class="form-control"
+                                                            wire:model='efectivo_actual'>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex">
-                                            <button
-                                                class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                                    class="ni ni-bold-right" aria-hidden="true"></i></button>
+
+                                        @if ($efectivo_actual != null)
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                        <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">
+                                                            <h6> <b>
+                                                                    {{ $efectivo_actual > $saldoAcumulado
+                                                                        ? 'Efectivo Sobrante:'
+                                                                        : 'Efectivo
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Faltante: ' }}</b>
+                                                            </h6>
+
+                                                        </h6>
+                                                        <span class="text-xs font-weight-bold">Bs.
+                                                            {{ $efectivo_actual - $saldoAcumulado }} </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                        <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">Nota/Comentario</h6>
+                                                        {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
+                                                        <textarea wire:model='nota_ajuste'></textarea>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @else
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                        <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">Efectivo Sob./Falt.</h6>
+                                                        <span class="text-xs font-weight-bold"> Bs. 0</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            @else
+                                <div class="card-body p-3">
+                                    <ul class="list-group">
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Monto Limite Efectivo:</h6>
+                                                    <span class="text-xs font-weight-bold">{{ $monto_limite }}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Efectivo Excedente</h6>
+                                                    <span class="text-xs font-weight-bold">
+                                                        {{ number_format($saldoAcumulado - $monto_limite, 2) }}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <div
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-1 text-dark text-sm">Recaudo</h6>
+                                                    <input type="number" wire:model='recaudo' style="direction: rtl;" class="form-control">
+                                                    {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </li>
-                                </ul>
-                            </div>
+
+                                        <li
+                                            class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                    <i class="ni ni-satisfied text-white opacity-10"></i>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <button type="button" class="btn btn-danger btn-sm mb-3"
+                                                        wire:click='RecaudarEfectivo()'
+                                                        {{ $recaudo == null ? "disabled='true'" : '' }}>Recaudar</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
-
-
                     <div class="modal-footer justify-content-center">
-
                         @if ($active1 == true)
                             <button type="button" class="btn btn-dark btn-sm mb-3"
                                 wire:click='finArqueo()'>Finalizar
@@ -264,9 +359,6 @@
                             <button type="button" class="btn btn-dark btn-sm mb-3"
                                 wire:click='finalizarCierre()'>Finalizar Cierre</button>
                         @endif
-
-
-
                     </div>
                 @endif
             </div>

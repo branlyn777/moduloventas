@@ -9,9 +9,18 @@ class CotizationController extends Component
 {
     //Variable para Buscar por el Nombre o Código los productos
     public $buscarproducto;
-     //Variable para guardar el id del cliente
-     public $producto_id;
+    //Variable para guardar el id del producto
+    public $producto_id;
+     //Lista la tabla procedencias de producto
+     public $procedencias;
+     //Carrito de cotizacion
+    public $carrito_cotizacion;
 
+    public function mount()
+    {
+        //Creando el carrito de venta en una colección
+        $this->carrito_cotizacion = collect([]);
+    }
 
     public function render()
     {
@@ -29,18 +38,27 @@ class CotizationController extends Component
         }
         return view('livewire.cotizacion.cotization', [
             'coti' => $asd,
-            'listaproductos' => $listaproducto,
+            'listaproducto' => $listaproducto,
         ])
             ->extends('layouts.theme.app')
             ->section('content');
     }
+    public function increase($idproducto)
+    {
+        $producto = Product:: find($idproducto);
 
-     //Cierra la ventana modal Buscar Producto y Cambia el id de la variable $producto_id
-     public function seleccionarcliente($idproducto)
-     {
-         $this->producto_id = $idproducto;
-         $nombrecliente = Product::find($idproducto)->nombre;
-         /* $this->mensaje_toast = "Se seleccionó al cliente: '" . ucwords(strtolower($nombrecliente)) . "' para esta venta";
-         $this->emit('hide-buscarcliente'); */
-     }
+         //Insertando un producto a la coleccion 
+         $this->carrito_cotizacion->push([
+            'orden' => 1,
+            'producto_id' => $idproducto,
+            'nombre_producto' => $producto->nombre,
+            'codigo' => $producto->codigo,
+            'precio_producto' => 0,
+            'cantidad' => '1',
+        ]);     
+    }
+    public function modalbuscarproducto()
+    {
+        $this->emit('show-buscarproducto');
+    }
 }

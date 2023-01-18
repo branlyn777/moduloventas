@@ -52,10 +52,6 @@
 
                 <div class="col-12 col-sm-6 col-md-2">
 
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-2">
-
                     @can('Reporte_Movimientos_General')
                         <div class="form-group">
                             <b class="">Sucursal</b>
@@ -112,8 +108,16 @@
                         <b style="color: #ffffff;">|</b>
                         <button
                             wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
-                            class="btn btn-secondary form-control">
+                            class="btn btn-warning form-control">
                             <i class="fas fa-print"></i> Generar PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="form-group">
+                        <b style="color: #ffffff;">|</b>
+                        <button wire:click="$emit('show-modaltotales')" class="btn btn-success form-control">
+                            Mostrar Totales
                         </button>
                     </div>
                 </div>
@@ -128,341 +132,267 @@
         </div>
     </div>
 
+    
+
+
+
+
+
+
+
+
+
+
+    @if($totalesIngresosV->count() > 0)
     <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive p-0">
+                    <table style="width: 100%">
 
-
-
-
-
-
-
-
-
-
-
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive p-0">
-                <table style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th class="text-uppercase text-sm text-center">#</th>
-                            <th class="text-uppercase text-sm">FECHA</th>
-                            <th class="text-uppercase text-sm">DETALLE</th>
-                            <th class="text-uppercase text-sm text-right">INGRESO</th>
-                            <th class="text-uppercase text-sm text-right">EGRESO</th>
-                            <th class="text-uppercase text-sm text-right">
-                                @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                    UTILIDAD
-                                @endif
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach ($totalesIngresosV as $p)
+                        <thead>
                             <tr>
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-                                <td>
+                                <th class="text-uppercase text-sm text-center">#</th>
+                                <th class="text-uppercase text-sm">FECHA</th>
+                                <th class="text-uppercase text-sm text-center">DETALLE</th>
+                                <th class="text-uppercase text-sm">INGRESO</th>
+                                <th class="text-uppercase text-sm">EGRESO</th>
+                                <th class="text-uppercase text-sm">
+                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        UTILIDAD
+                                    @endif
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach ($totalesIngresosV as $p)
+                                <tr>
+                                    <td class="text-sm text-center">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm">
+                                        {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                                    </td>
+                                    <td>
+                                        <div class="accordion-1">
+                                            <div class="">
+                                                <div class="row">
+                                                    <div class="col-md-10 mx-auto">
+                                                        <div class="accordion" id="accordionRental">
+
+                                                            <div class="accordion-item mb-3">
+                                                                <h6 class="accordion-header" id="headingOne">
+                                                                    <button style="width: 510px;"
+                                                                        class="accordion-button border-bottom font-weight-bold collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapseOne{{ $loop->iteration }}"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapseOne{{ $loop->iteration }}">
+
+                                                                        <div class="text-sm">
+                                                                            {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
+                                                                        </div>
+
+                                                                        
+                                                                        <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                                            aria-hidden="true"></i>
+                                                                        <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                                            aria-hidden="true"></i>
+                                                                    </button>
+                                                                </h6>
+                                                                <div id="collapseOne{{ $loop->iteration }}"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="headingOne"
+                                                                    data-bs-parent="#accordionRental" style="">
+                                                                    <div class="accordion-body text-sm">
 
 
-
-
-                                    <div class="accordion-1">
-                                        <div class="">
-                                            <div class="row">
-                                                <div class="col-md-10 mx-auto">
-                                                    <div class="accordion" id="accordionRental">
-
-                                                        <div class="accordion-item mb-3">
-                                                            <h6 class="accordion-header" id="headingOne">
-                                                                <button
-                                                                    class="accordion-button border-bottom font-weight-bold collapsed"
-                                                                    type="button" data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapseOne{{ $loop->iteration }}" aria-expanded="false"
-                                                                    aria-controls="collapseOne{{ $loop->iteration }}">
-                                                                    DetalledeVentaDetalledeVentaDetalledeVentaDetalledeVentaDetalledeVenta
-                                                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
-                                                                        aria-hidden="true"></i>
-                                                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
-                                                                        aria-hidden="true"></i>
-                                                                </button>
-                                                            </h6>
-                                                            <div id="collapseOne{{ $loop->iteration }}" class="accordion-collapse collapse"
-                                                                aria-labelledby="headingOne"
-                                                                data-bs-parent="#accordionRental" style="">
-                                                                <div class="accordion-body text-sm">
-
-
-                                                                    <table class="text-dark">
-                                                                        <thead class="cabeza">
-                                                                            <tr class="text-center">
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0 text-center">
-                                                                                        <b>Nombre</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0">
-                                                                                        <b>Precio Original</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0">
-                                                                                        <b>Desc/Rec</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0">
-                                                                                        <b>Precio Venta</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0">
-                                                                                        <b>Cantidad</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <p class="text-sm mb-0">
-                                                                                        <b>Total</b>
-                                                                                    </p>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach ($p->detalle as $item)
-                                                                                <tr class="fila">
+                                                                        <table class="table text-dark">
+                                                                            <thead>
+                                                                                <tr>
                                                                                     <td>
-                                                                                        {{ substr($item->nombre, 0, 17) }}
-                                                                                    </td>
-                                                                                    <td class="text-sm px-4">
-                                                                                        {{ number_format($item->po, 2) }}
-                                                                                    </td>
-                                                                                    <td class="text-sm px-4">
-                                                                                        @if ($item->po - $item->pv == 0)
-                                                                                            {{ $item->po - $item->pv }}
-                                                                                        @else
-                                                                                            {{ ($item->po - $item->pv) * -1 }}
-                                                                                        @endif
-                                                                                    </td>
-                                                                                    <td class="text-sm px-4">
-                                                                                        {{ number_format($item->pv, 2) }}
-                                                                                    </td>
-                                                                                    <td class="text-sm px-4">
-                                                                                        <p class="text-sm px-3">
-                                                                                            {{ $item->cant }}
+                                                                                        <p class="text-sm mb-0 text-center">
+                                                                                            <b>Nombre</b>
                                                                                         </p>
                                                                                     </td>
-                                                                                    <td class="text-sm px-4">
-                                                                                        {{ number_format($item->pv * $item->cant, 2) }}
+                                                                                    <td>
+                                                                                        <p class="text-sm mb-0">
+                                                                                            <b>Precio Original</b>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p class="text-sm mb-0">
+                                                                                            <b>Desc/Rec</b>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p class="text-sm mb-0">
+                                                                                            <b>Precio V</b>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p class="text-sm mb-0">
+                                                                                            <b>Cantidad</b>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p class="text-sm mb-0">
+                                                                                            <b>Total</b>
+                                                                                        </p>
                                                                                     </td>
                                                                                 </tr>
-                                                                            @endforeach
-                                                                        </tbody>
-                                                                    </table>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach ($p->detalle as $item)
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            {{ substr($item->nombre, 0, 17) }}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {{ number_format($item->po, 2) }}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @if ($item->po - $item->pv == 0)
+                                                                                                {{ $item->po - $item->pv }}
+                                                                                            @else
+                                                                                                {{ ($item->po - $item->pv) * -1 }}
+                                                                                            @endif
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {{ number_format($item->pv, 2) }}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {{ $item->cant }}
+                                                                                        </td>
+                                                                                        <td class="text-right">
+                                                                                            {{ number_format($item->pv * $item->cant, 2) }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                @endforeach
+                                                                            </tbody>
+                                                                        </table>
 
 
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </td>
+                                    <td style="float: right">
+                                        <span class="badge badge-sm bg-gradient-success text-sm">
+                                            {{ number_format($p->importe, 2) }}
+                                        </span>
+                                    </td>
+                                    <td>
 
+                                    </td>
+                                    <td style="float: right">
+                                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                            <span class="badge badge-sm bg-gradient-primary text-sm">
+                                                {{ number_format($p->utilidadventa, 2) }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
 
-                                </td>
+                            {{-- @foreach ($totalesIngresosS as $p)
+                                <tr>
+                                    <td class="text-sm text-center">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm text-center">
+                                        {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                                    </td>
 
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-
-
-
-
-                            </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-                            {{-- <tr>
-                                <td class="text-sm text-center">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm">
-                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-                                <td class="text-sm">
-                                    <b>{{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
-                                </td>
-                                <td class="text-sm text-right">
-
-                                    <span class="badge badge-sm bg-gradient-success">
+                                    <td class="text-sm text-center">
+                                        <b>{{ $p->idordenservicio }},{{ $p->tipoDeMovimiento }},
+                                            {{ $p->nombrecategoria }}
+                                            ,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
+                                    </td>
+                                    <td class="text-sm text-right">
                                         {{ number_format($p->importe, 2) }}
-                                    </span>
+                                    </td>
+                                    <td>
 
-                                </td>
-                                <td>
+                                    </td>
+                                    <td class="text-sm text-right">
+                                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        <span class="badge badge-sm bg-gradient-primary text-sm">
+                                            {{ number_format($p->utilidadservicios, 2) }}
+                                        </span>
+                                        @endif
+                                    </td>
 
-                                </td>
-                                <td class="text-sm text-right">
-                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        {{ number_format($p->utilidadventa, 2) }}
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-sm text-center">
+                                        {{ ucwords(strtolower($p->solucion)) }}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endforeach --}}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    @endif
+
+    
+
+    @if($totalesIngresosIE->count() > 0)
+    <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive p-0">
+                    <table style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-sm text-center">#</th>
+                                <th class="text-uppercase text-sm">FECHA</th>
+                                <th class="text-uppercase text-sm text-center">DETALLE</th>
+                                <th class="text-uppercase text-sm">INGRESO</th>
+                                <th class="text-uppercase text-sm">EGRESO</th>
+                                <th class="text-uppercase text-sm">
+                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        UTILIDAD
                                     @endif
-                                </td>
+                                </th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($totalesIngresosIE as $m)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <table style="width: 100%">
-                                        <thead class="cabeza">
-                                            <tr class="text-center">
-                                                <td>
-                                                    <p class="text-sm mb-0 text-center">
-                                                        <b>Nombre</b>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm mb-0">
-                                                        <b>Precio Original</b>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm mb-0">
-                                                        <b>Desc/Rec</b>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm mb-0">
-                                                        <b>Precio Venta</b>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm mb-0">
-                                                        <b>Cantidad</b>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="text-sm mb-0">
-                                                        <b>Total</b>
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($p->detalle as $item)
-                                                <tr class="fila">
-                                                    <td>
-                                                        {{ substr($item->nombre, 0, 17) }}
-                                                    </td>
-                                                    <td class="text-sm px-4">
-                                                        {{ number_format($item->po, 2) }}
-                                                    </td>
-                                                    <td class="text-sm px-4">
-                                                        @if ($item->po - $item->pv == 0)
-                                                            {{ $item->po - $item->pv }}
-                                                        @else
-                                                            {{ ($item->po - $item->pv) * -1 }}
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-sm px-4">
-                                                        {{ number_format($item->pv, 2) }}
-                                                    </td>
-                                                    <td class="text-sm px-4">
-                                                        <p class="text-sm px-3">
-                                                            {{ $item->cant }}
-                                                        </p>
-                                                    </td>
-                                                    <td class="text-sm px-4">
-                                                        {{ number_format($item->pv * $item->cant, 2) }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr> --}}
-                        @endforeach
-                        @foreach ($totalesIngresosS as $p)
-                            <tr>
-                                <td>
+                                <td class="text-sm">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td class="text-center">
-                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-
-                                <td class="text-center">
-                                    <b>{{ $p->idordenservicio }},{{ $p->tipoDeMovimiento }},
-                                        {{ $p->nombrecategoria }}
-                                        ,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
-                                </td>
-                                <td class="text-right">
-                                    {{ number_format($p->importe, 2) }}
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="text-right">
-                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        {{ number_format($p->utilidadservicios, 2) }}
-                                    @endif
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    {{ ucwords(strtolower($p->solucion)) }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-
-                        @foreach ($totalesIngresosIE as $m)
-                            <tr>
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-center">
+                                <td class="text-sm text-center">
                                     {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
                                 </td>
 
-                                <td class="text-center">
+                                <td class="text-sm text-center">
                                     <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
 
                                 </td>
-                                <td class="text-right">
-                                    {{ number_format($m->importe, 2) }}
+                                <td class="text-sm text-right">
+                                    <span class="badge badge-sm bg-gradient-success text-sm">
+                                        {{ number_format($m->importe, 2) }}
+                                    </span>
                                 </td>
                                 <td>
 
@@ -475,265 +405,189 @@
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center">
+                                <td class="text-sm text-center">
                                     {{ $m->coment }}
                                 </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                        @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
 
+    
 
-                        @foreach ($totalesEgresosV as $p)
+    @if($totalesEgresosV->count() > 0)
+    <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive p-0">
+                    <table style="width: 100%">
+                        <thead>
                             <tr>
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-center">
-                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-
-                                <td class="text-center">
-                                    <b>{{ $p->tipoDeMovimiento }},Devolución,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},{{ $p->nombrecartera }}</b>
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="text-right">
-                                    {{ number_format($p->importe, 2) }}
-                                </td>
-                                <td>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-                        @foreach ($totalesEgresosIE as $st)
-                            <tr>
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($st->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-
-                                <td class="text-center">
-                                    <b>{{ $st->ctipo == 'CajaFisica' ? 'Efectivo' : $st->ctipo }},({{ $st->nombrecartera }})</b>
-                                </td>
-                                <td>
-
-                                </td>
-                                <td class="text-right">
-                                    {{ number_format($st->importe, 2) }}
-                                </td>
-                                <td>
-
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    {{ $st->coment }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-
-
-                    <tfoot>
-                        <tr>
-                            <td colspan="6">
-
-                            </td>
-                        </tr>
-                        {{-- SUBTOTAL OPERACIONES --}}
-                        <tr>
-                            <td colspan="3">
-                                <h5 class="text-dark text-center" style="font-size: 1rem!important;">
-                                    <p class="text-sm mb-0">
-                                        <b> Totales.- </b>
-                                    </p>
-                                </h5>
-                            </td>
-                            <td class="text-right">
-                                <p class="text-sm mb-0">
-                                    <b>{{ number_format($subtotalesIngresos, 2) }}</b>
-                                </p>
-                            </td>
-                            <td class="text-right">
-                                <p class="text-sm mb-0">
-                                    <b>{{ number_format($EgresosTotales, 2) }}</b>
-                                </p>
-                            </td>
-                            <td class="text-right">
-                                <p class="text-sm mb-0">
-                                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                <th class="text-uppercase text-sm text-center">#</th>
+                                <th class="text-uppercase text-sm">FECHA</th>
+                                <th class="text-uppercase text-sm text-center">DETALLE</th>
+                                <th class="text-uppercase text-sm">INGRESO</th>
+                                <th class="text-uppercase text-sm">EGRESO</th>
+                                <th class="text-uppercase text-sm">
+                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        UTILIDAD
                                     @endif
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($totalesEgresosV as $p)
+                                <tr>
+                                    <td class="text-sm">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm text-center">
+                                        {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                                    </td>
+
+                                    <td class="text-sm text-center">
+                                        <b>{{ $p->tipoDeMovimiento }},Devolución,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},{{ $p->nombrecartera }}</b>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td class="text-sm text-right">
+                                        {{ number_format($p->importe, 2) }}
+                                    </td>
+                                    <td>
+
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    
+
+    @if($totalesEgresosIE->count() > 0)
+    <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive p-0">
+                    <table style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-sm text-center">#</th>
+                                <th class="text-uppercase text-sm">FECHA</th>
+                                <th class="text-uppercase text-sm text-center">DETALLE</th>
+                                <th class="text-uppercase text-sm">INGRESO</th>
+                                <th class="text-uppercase text-sm">EGRESO</th>
+                                <th class="text-uppercase text-sm">
+                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                        UTILIDAD
+                                    @endif
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($totalesEgresosIE as $st)
+                                <tr>
+                                    <td class="text-sm">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm">
+                                        {{ \Carbon\Carbon::parse($st->movcreacion)->format('d/m/Y H:i') }}
+                                    </td>
+
+                                    <td class="text-sm text-center">
+                                        <b>{{ $st->ctipo == 'CajaFisica' ? 'Efectivo' : $st->ctipo }},({{ $st->nombrecartera }})</b>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td class="text-sm text-right">
+                                        <span class="badge badge-sm bg-gradient-danger text-sm">
+                                            {{ number_format($st->importe, 2) }}
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-sm text-center">
+                                        {{ $st->coment }}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive p-0">
+                <table style="width: 100%">
+                    <tr>
+                        <td colspan="6">
+        
+                        </td>
+                    </tr>
+                    {{-- SUBTOTAL OPERACIONES --}}
+                    <tr>
+                        <td colspan="3">
+                            <h5 class="text-dark text-center" style="font-size: 1rem!important;">
+                                <p class="text-sm mb-0">
+                                    <b> Totales.- </b>
                                 </p>
-                            </td>
-                        </tr>
-                    </tfoot>
-                    </tbody>
-                </table>
-            </div>
+                            </h5>
+                        </td>
+                        <td class="text-right">
+                            <p class="text-sm mb-0">
+                                <b>{{ number_format($subtotalesIngresos, 2) }}</b>
+                            </p>
+                        </td>
+                        <td class="text-right">
+                            <p class="text-sm mb-0">
+                                <b>{{ number_format($EgresosTotales, 2) }}</b>
+                            </p>
+                        </td>
+                        <td class="text-right">
+                            <p class="text-sm mb-0">
+                                @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                @endif
+                            </p>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-
-    </div>
-    <div class="row justify-content-center mt-3">
-        <div class="card col-md-5">
-
-            <div class="table-responsive">
-                <table class="table align-items-center mb-0 table-borderless">
-                    <tbody>
-
-                        <tr>
-                            <td>
-                                Ingresos en Efectivo
-                            </td>
-                            <td class="ml-2">
-                                {{ number_format($ingresosTotalesCF, 2) }}
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                Ingresos por Bancos
-                            </td>
-                            <td class="ml-2">
-                                {{ number_format($this->ingresosTotalesNoCFBancos, 2) }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Ingresos Totales
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($subtotalesIngresos, 2) }}
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                Egresos Totales en Efectivo
-                            </td>
-                            <td>
-                                {{ number_format($EgresosTotalesCF, 2) }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                Saldo Ingresos/Egresos Totales
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($subtotalcaja, 2) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Saldo en Efectivo Hoy
-                            </td>
-                            <td>
-                                {{ number_format($operacionesefectivas, 2) }}
-                            </td>
-                        </tr>
-                        {{-- <tr>
-                            <td>
-                                <h5 class="text-dark text-center mr-1"><b> Saldo por Operaciones en TigoMoney </b></h5>
-                            </td>
-    
-                            <td>
-                                <h5 class="text-dark text-center mr-1">{{ number_format($total,2)}} </h5>
-                            </td>
-    
-                        </tr> --}}
-                        <tr>
-                            <td>
-                                Saldo Acumulado Dia Ant.
-                            </td>
-                            <td>
-                                {{ number_format($ops, 2) }}
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                <h5 class="text-dark text-center"> Total Efectivo </h5>
-                            </td>
-                            <td>
-                                <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                {{ number_format($operacionesW, 2) }}
-                            </td>
-                        </tr>
-
-
-            </div>
-            <div class="table-responsive">
-                <h5 class="text-center mt-3" style="border-bottom: 1px">
-                    <b>Cuadro Resumen de Efectivo</b>
-                </h5>
-                <table class="table align-items-center mb-0">
-                    <tbody>
-                        @if ($caja != 'TODAS')
-                            <tr style="height: 2rem"></tr>
-
-                            <tr class="p-5">
-                                <td>
-                                    Recaudo
-                                </td>
-                                <td>
-                                    {{ number_format($op_recaudo, 2) }}
-                                </td>
-
-                            </tr>
-                            <tr class="p-5">
-
-
-                                @foreach ($op_sob_falt as $values)
-                                    <td>
-                                        {{ $values->tipo_sob_fal }}
-                                    </td>
-                                    <td>
-                                        {{ number_format($values->import, 2) }}
-                                    </td>
-                                @endforeach
-
-                            </tr>
-                            <tr class="p-5">
-                                <td>
-                                    Nuevo Saldo Caja Fisica
-                                </td>
-                                <td>
-                                    {{ number_format($operacionesZ, 2) }}
-                                </td>
-
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-
-
-
-
     </div>
 
+
+
+
+
+    @include('livewire.reportemovimientoresumen.modaltotales')
     @include('livewire.reportemovimientoresumen.modalDetailsr')
 
 </div>
@@ -751,6 +605,11 @@
         window.livewire.on('tigo-delete', Msg => {
             noty(Msg)
         })
+
+        window.livewire.on('show-modaltotales', Msg => {
+            $('#modaltotales').modal('show')
+        })
+
         //Llamando a una nueva pestaña donde estará el pdf modal
         window.livewire.on('opentap', Msg => {
             var win = window.open('report/pdfmovdiaresumen');

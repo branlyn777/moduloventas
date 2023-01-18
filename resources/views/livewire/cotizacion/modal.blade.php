@@ -1,6 +1,6 @@
-<div wire:ignore.self class="modal fade" id="modalbuscarcliente" tabindex="-1" role="dialog"
+<div wire:ignore.self class="modal fade" id="modalbuscarproducto" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
@@ -11,6 +11,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+
+
+
+
+
                 <div class="row">
 
                     <div class="col-sm-12">
@@ -27,109 +33,116 @@
                             @if (strlen($this->buscarproducto) > 0)
                                 <table>
                                     <thead>
-                                        @if ($listaproducto->count() > 0)
-                                            <tr>
-                                                <th class="text-center">
-                                                    <p class="text-sm mb-0">
-                                                        <b>Nombre Producto</b>
-                                                    </p>
-                                                </th>
-                                                <th class="text-center">
-                                                    <p class="text-sm mb-0">
-                                                        <b>Seleccionar</b>
-                                                    </p>
-                                                </th>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <th class="text-center">
+                                                <p class="text-sm mb-0">
+                                                    <b>Nombre Producto</b>
+                                                </p>
+                                            </th>
+                                            <th class="text-center">
+                                                <p class="text-sm mb-0">
+                                                    <b>Seleccionar</b>
+                                                </p>
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($listaproducto as $lp)
+                                        @foreach ($listaproducto as $lp)
                                             <tr>
                                                 <td class="text-left">
                                                     <p class="text-sm mb-0">
-                                                        {{ ucwords(strtolower($lp->nombre)) }}
+                                                        {{ ucwords(strtolower(substr($lp->nombre, 0, 85))) }}
                                                     </p>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button title="Seleccionar Cliente"
-                                                        wire:click.prevent="seleccionarcliente({{ $lp->id }})"
+                                                    <button title="Seleccionar Producto"
+                                                        wire:click.prevent="increase({{ $lp->id }})"
                                                         class="btn btn-primary"
                                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                                         <i class="fas fa-check"></i>
                                                     </button>
                                                 </td>
                                             </tr>
-                                        @empty
-
-                                            <tr class="text-center">
-                                                <td colspan="2">
-                                                    <br>
-                                                    <div class="row">
-
-
-
-                                                        <div class="col-sm-6">
-                                                            <label for="validationTooltip01">
-                                                                <p class="text-sm mb-0">
-                                                                    <b>CI</b>
-                                                                </p>
-                                                            </label>
-                                                            <input wire:model.lazy="cliente_ci" class="form-control"
-                                                                type="text" placeholder="Opcional...">
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label for="validationTooltipUsername">
-                                                                <p class="text-sm mb-0">
-                                                                    <b>Celular</b>
-                                                                </p>
-                                                            </label>
-                                                            <input wire:model.lazy="cliente_celular"
-                                                                class="form-control" type="number"
-                                                                placeholder="Opcional...">
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <br>
-                                                            <label for="validationTooltipUsername">
-                                                                <p class="text-sm mb-0">
-                                                                    <b>Procedencia Cliente</b>
-                                                                </p>
-                                                            </label>
-                                                            <select wire:model="procedencia_cliente_id"
-                                                                class="form-select">
-                                                                <option value="Elegir">Elegir</option>
-                                                                @foreach ($this->procedencias as $p)
-                                                                    <option value="{{ $p->id }}">
-                                                                        {{ $p->procedencia }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            @error('procedencia_cliente_id')
-                                                                <span class="text-danger er">{{ $message }}</span>
-                                                            @enderror
-                                                        </div>
-
-                                                        <div class="col-sm-12">
-                                                            <br>
-                                                            <button class="btn btn-primary"
-                                                                wire:click.prevent="crearcliente()">
-                                                                <p class="text-sm mb-0">
-                                                                    Crear y Usar: {{ $this->buscarcliente }}
-                                                                </p>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <br>
-
-                                                </td>
-                                            </tr>
-                                        @endforelse
-
+                                        @endforeach
                                     </tbody>
                                 </table>
                             @endif
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+                @if ($this->carrito_cotizacion->count() > 0)
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">N°</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($this->carrito_cotizacion->sortBy('orden') as $c)
+                        <tr>
+                            <td class="text-sm mb-0 text-center">
+                                {{ $c['orden'] }}
+                            </td>
+                            <td class="text-sm mb-0 text-center">
+                                {{ $c['nombre_producto'] }}
+                            </td>
+                            <td class="text-sm mb-0 text-center">
+                                {{ $c['codigo'] }}
+                            </td>
+                            <td class="text-sm mb-0 text-center">
+                                {{ $c['precio_producto'] }}
+                            </td>
+                            <td class="text-sm mb-0 text-center">
+                                {{ $c['cantidad'] }}
+                            </td>
+                            <td class="text-sm mb-0 text-center">
+                                                                
+                                <div class="btn-group" role="group"
+                                    aria-label="Basic example">
+
+                                    <button title="Quitar una unidad"
+                                       {{--  wire:click.prevent="decrease({{ $item->id }})" --}}
+                                        class="btn btn-secondary"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button title="Incrementar una unidad"
+                                       {{--  wire:click.prevent="increase({{ $item->id }})" --}}
+                                        class="btn btn-primary"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button title="Eliminar Producto" href="#"
+                                        onclick="ConfirmarEliminar('  {{ $c['producto_id'] }}', '{{ $c['nombre_producto'] }}')"                                   
+                                        class="btn btn-danger"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                        @endforeach                               
+                    </tbody>
+                </table>
+                @endif
+
+
+
+                            
+
             </div>
             <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Ventana</button> --}}
