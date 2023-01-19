@@ -107,11 +107,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm">Fecha de Registro</th>
-                                    <th class="text-uppercase text-sm">Almacén</th>
-                                    <th class="text-uppercase text-sm">Tipo Operación</th>
-                                    <th class="text-uppercase text-sm">Observación</th>
-                                    <th class="text-uppercase text-sm">Usuario</th>
+                                    <th class="text-uppercase text-sm ps-2">Fecha de Registro</th>
+                                    <th class="text-uppercase text-sm ps-2">Almacén</th>
+                                    <th class="text-uppercase text-sm ps-2">Tipo Operación</th>
+                                    <th class="text-uppercase text-sm ps-2">Observación</th>
+                                    <th class="text-uppercase text-sm ps-2">Usuario</th>
                                     <th class="text-uppercase text-sm text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -131,13 +131,13 @@
                                             Sucursal {{ $data2->destinos->sucursals->name }}
                                             {{ $data2->destinos->nombre }}
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-left">
                                             {{ $data2->concepto }}
                                         </td>
-                                        <td>
+                                        <td class="text-left">
                                             {{ $data2->observacion }}
                                         </td>
-                                        <td>
+                                        <td class="text-left">
                                             {{ $data2->usuarios->name }}
                                         </td>
                                         <td class="text-center">

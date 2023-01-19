@@ -164,11 +164,12 @@
             {{ $data_locations->links() }}
         </div>
     </div>
+    @include('livewire.localizacion.form')
+    @include('livewire.localizacion.verproductos')
+    @include('livewire.localizacion.modal_asignar_mobiliario')
 </div>
-@include('livewire.localizacion.form')
-@include('livewire.localizacion.verproductos')
-@include('livewire.localizacion.modal_asignar_mobiliario')
-</div>
+
+
 
 
 

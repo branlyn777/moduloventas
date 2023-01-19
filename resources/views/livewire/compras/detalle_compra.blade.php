@@ -44,24 +44,24 @@
         <div class="col-12">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class="text-white" style="font-size: 16px">Registro de Compras</h5>
-                    </div>
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            {{-- <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Registro de Compras</h5>
+                </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
+                        {{-- <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
                                 <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
 
                             <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
                                 <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a> --}}
 
-                            <button data-bs-toggle="modal" data-bs-target="#theModal"
-                                class="btn btn-add mb-0">Registrar Producto</button>
-                            <button data-bs-toggle="modal" wire:click='mostrarOrdenes()'
-                                class="btn btn-add mb-0">Ordenes De Compra</button>
-                        </div>
+                        <button data-bs-toggle="modal" data-bs-target="#theModal" class="btn btn-add mb-0">Registrar
+                            Producto</button>
+                        <button data-bs-toggle="modal" wire:click='mostrarOrdenes()' class="btn btn-add mb-0">Ordenes De
+                            Compra</button>
                     </div>
-                
+                </div>
+
             </div>
             <div class="card  mb-4">
                 <div class="card-body p-3">
@@ -186,7 +186,8 @@
                                             @foreach ($data_prod as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px" type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
+                                                        <label style="font-size: 14px"
+                                                            type="button">{{ substr($prod->nombre, 0, 10) }}({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -229,7 +230,7 @@
                                         @foreach ($cart as $prod)
                                             <tr style="font-size: 14px; color: black;">
                                                 <td style="width: 60px;">
-                                                    {{ $prod->name }}
+                                                    {{ substr($prod->name, 0, 10) }}
                                                 </td>
                                                 <td>
                                                     <strong>{{ $prod->attributes->codigo }}</strong>

@@ -195,41 +195,46 @@
                                         data-animation="FadeIn">
                                         {{-- <h5 class="font-weight-bolder">Address</h5> --}}
                                         <div class="multisteps-form__content">
-                                            <div class="row mt-3">
-                                                <div wire:ignore.self class="col">
-                                                    <div class="col-12 col-sm-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <strong style="color: rgb(74, 74, 74)">Seleccione la
-                                                                sucursal:</strong>
-                                                            <select wire:model.lazy='sucursal' class="form-select">
-                                                                <option value='Elegir' disabled>Elegir</option>
-                                                                @foreach ($sucursales as $item)
-                                                                    <option value="{{ $item->id }}">
-                                                                        {{ $item->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-
+                                            <div class="row mt-4 p-2">
+                                                <div wire:ignore.self class="col-md-12">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span> Seleccione la
+                                                                    sucursal:</strong>
+                                                                <select wire:model.lazy='sucursal' class="form-select">
+                                                                    <option value='Elegir' disabled>Elegir</option>
+                                                                    @foreach ($sucursales as $item)
+                                                                        <option value="{{ $item->id }}">
+                                                                            {{ $item->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+    
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-sm-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <strong style="color: rgb(74, 74, 74)">Seleccione el
-                                                                almacen:</strong>
-                                                            <select wire:model.lazy='destino' class="form-select">
-                                                                <option value=null disabled>--</option>
-                                                                @foreach ($destinos as $item)
-                                                                    <option value="{{ $item->id }}">
-                                                                        {{ $item->nombre }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                            @error('destino')
-                                                                <span class="text-danger er"
-                                                                    style="font-size: 0.8rem">{{ $message }}</span>
-                                                            @enderror
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
+                                                                    almacen:</strong>
+                                                                <select wire:model.lazy='destino' class="form-select">
+                                                                    <option value=null disabled>--</option>
+                                                                    @foreach ($destinos as $item)
+                                                                        <option value="{{ $item->id }}">
+                                                                            {{ $item->nombre }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('destino')
+                                                                    <span class="text-danger er"
+                                                                        style="font-size: 0.8rem">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                             </div>
 

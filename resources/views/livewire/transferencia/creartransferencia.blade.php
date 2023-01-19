@@ -127,7 +127,7 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        {{ $destino->name }}
+                                                        {{ substr($destino->name, 0, 10) }}
                                                     </td>
 
                                                     <td class="text-center">
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-12 col-md-8 mb-4 mb-md-0">
                     <div class="card" style="min-height: 500px; padding-top: 10px;"><br>
                         <div class="text-center">
@@ -175,7 +175,7 @@
                                                     {{ $loop->iteration }}
                                                 </td>
                                                 <td style="width: 60px;">
-                                                    {{ $prod->name }}
+                                                    {{ substr($prod->name, 0, 10) }}
                                                 </td>
                                                 <td>
                                                     <input type="number" id="rr{{ $prod->id }}"
@@ -198,7 +198,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
                                     <div class="col-lg-12">
@@ -227,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>
