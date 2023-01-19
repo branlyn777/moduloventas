@@ -37,62 +37,6 @@
 @section('entradasalidali')
     "nav-item active"
 @endsection
-@section('css')
-    <style>
-        .file-drop-area {
-            border: 2px dashed #7c7db3;
-            border-radius: 3px;
-            position: relative;
-            width: 90%;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 26px 20px 30px;
-            -webkit-transition: 0.2s;
-            transition: 0.2s;
-        }
-
-        .file-drop-area.is-active {
-            border: 1px dashed #ce2097;
-        }
-
-        .fake-btn {
-            background-color: #a09faa;
-            border: 1px solid #ffffff;
-            border-radius: 3px;
-            padding: 8px 15px;
-            margin-right: 8px;
-            color: #ffffff;
-
-
-        }
-
-        .file-msg {
-            font-size: small;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: inline-block;
-            max-width: calc(100% - 130px);
-            vertical-align: middle;
-        }
-
-        .file-input {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            cursor: pointer;
-            opacity: 0;
-        }
-
-        .file-input:focus {
-            outline: none;
-        }
-    </style>
-@endsection
-
 
 
 <div>
@@ -116,14 +60,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="multisteps-form__progress">
-                                            <button  class='multisteps-form__progress-btn {{$active1}}'
-                                                title="User Info" wire:click="cambiar()">
+                                            <button class='multisteps-form__progress-btn {{ $active1 }}'
+                                                title="User Info" style="pointer-events: none">
                                                 <span>Datos</span>
                                             </button>
-                                            <button class="multisteps-form__progress-btn {{$active2}}" type="button"
-                                                title="Address" wire:click="cambiar()" >Ubicacion</button>
-                                            <button class="multisteps-form__progress-btn {{$active3}}"  type="button"
-                                                title="Socials" wire:click="cambiar2()">Operacion</button>
+                                            <button class="multisteps-form__progress-btn {{ $active2 }}"
+                                                type="button" title="Address"
+                                                style="pointer-events: none">Ubicacion</button>
+                                            <button class="multisteps-form__progress-btn {{ $active3 }}"
+                                                type="button" title="Socials"
+                                                style="pointer-events: none">Operacion</button>
 
                                         </div>
                                     </div>
@@ -135,45 +81,52 @@
                             <div class="col-12 col-lg-10 m-auto">
                                 <form class="multisteps-form__form mb-8" style="height: 408px;">
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{$show1}}"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show }}"
                                         data-animation="FadeIn">
-                                  
+
                                         <div class="multisteps-form__content">
                                             <div class="row mt-4 p-2">
                                                 <div class="col-md-12">
-                                                    <div class="row">
-                                                     
-                                                        <div class="form-group">
-                                                            <strong style="color: rgb(74, 74, 74)">Seleccione el
-                                                                concepto:</strong>
-                                                            <select wire:model='concepto' class="form-select">
-                                                                <option value="Elegir" disabled selected>Elegir</option>
+                                                    <div class="row justify-content-center">
 
-                                                                <option wire:key="bar" value="AJUSTE">Ajustar
-                                                                    inventarios
-                                                                </option>
-                                                                <option value="INICIAL">Inventario Inicial</option>
-                                                                <option wire:key="foo" value='INGRESO'>Varios: Productos
-                                                                    Defectuosos,Bonificaciones,etc</option>
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group">
+                                                                <label style="color: rgb(74, 74, 74)"><span
+                                                                        class="text-warning">* </span>Seleccione el
+                                                                    concepto::</label>
+                                                                <select wire:model='concepto' class="form-select">
+                                                                    <option value="Elegir" disabled selected>Elegir
+                                                                    </option>
+
+                                                                    <option wire:key="bar" value="AJUSTE">Ajustar
+                                                                        inventarios
+                                                                    </option>
+                                                                    <option value="INICIAL">Inventario Inicial</option>
+                                                                    <option wire:key="foo" value='INGRESO'>Varios:
+                                                                        Productos
+                                                                        Defectuosos,Bonificaciones,etc</option>
 
 
 
-                                                            </select>
-                                                            @error('concepto')
-                                                                <span class="text-danger er"
-                                                                    style="font-size: 0.8rem">{{ $message }}</span>
-                                                            @enderror
+                                                                </select>
+                                                                @error('concepto')
+                                                                    <span class="text-danger er"
+                                                                        style="font-size: 0.8rem">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
+
+                                                    <div class="row justify-content-center">
 
                                                         @if ($concepto == 'INGRESO')
 
-                                                            <div class="col-12 col-sm-12 col-md-12">
-                                                                <strong style="color: rgb(74, 74, 74)">Seleccione el
-                                                                    tipo de
-                                                                    operacion:</strong>
+                                                            <div class="col-12 col-sm-12 col-md-6">
+                                                                <label style="color: rgb(74, 74, 74)"><span
+                                                                        class="text-warning">* </span>Tipo
+                                                                    Operacion:</label>
                                                                 <select wire:model='tipo_proceso' class="form-select">
                                                                     @if ($concepto == 'INGRESO')
                                                                         <option value="null" selected disabled>Elegir
@@ -193,18 +146,36 @@
                                                             </div>
                                                         @endif
                                                         @if ($concepto == 'INICIAL')
-                                                            
-                                                        <div class="col-12 col-sm-12 col-md-12">
-                                                            <label style="color: rgb(74, 74, 74)">Tipo de registro</label>
-                                                            <select wire:model='registro' class="form-select">
-                                                                <option value="Manual" selected>Registrar Manual</option>
-                                                                @if ($concepto == 'INICIAL')
-                                                                    <option value="Documento">Registro Masivo (Subir Documento
-                                                                        Excel)</option>
-                                                                @endif
-                                                            </select>
-                                                        </div>
+
+                                                            <div class="col-12 col-sm-12 col-md-6">
+                                                                <label style="color: rgb(74, 74, 74)">Tipo de
+                                                                    registro</label>
+                                                                <select wire:model='registro' class="form-select">
+                                                                    <option value="Manual" selected>Registrar Manual
+                                                                    </option>
+                                                                    @if ($concepto == 'INICIAL')
+                                                                        <option value="Documento">Registro Masivo (Subir
+                                                                            Documento
+                                                                            Excel)</option>
+                                                                    @endif
+                                                                </select>
+                                                            </div>
                                                         @endif
+                                                    </div>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6 mb-2">
+                                                            <label style="color: rgb(74, 74, 74)"><span
+                                                                    class="text-warning">* </span>Agregue una
+                                                                observación:</label>
+
+
+                                                            <textarea class="form-control" wire:model='observacion' cols="10" rows="1"></textarea>
+
+                                                            @error('observacion')
+                                                                <span class="text-danger er"
+                                                                    style="font-size: 0.8rem">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -214,18 +185,18 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                                    type="button" title="Next">Siguiente</button>
+                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{$show2}}"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show1 }}"
                                         data-animation="FadeIn">
                                         {{-- <h5 class="font-weight-bolder">Address</h5> --}}
                                         <div class="multisteps-form__content">
                                             <div class="row mt-3">
-                                                <div class="col">
+                                                <div wire:ignore.self class="col">
                                                     <div class="col-12 col-sm-12 col-md-12">
                                                         <div class="form-group">
                                                             <strong style="color: rgb(74, 74, 74)">Seleccione la
@@ -238,10 +209,7 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
-                                                            @error('destino')
-                                                                <span class="text-danger er"
-                                                                    style="font-size: 0.8rem">{{ $message }}</span>
-                                                            @enderror
+
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-12 col-md-12">
@@ -266,16 +234,16 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                                <button class="btn bg-gradient-light mb-0" type="button"
                                                     title="Prev">Anterior</button>
-                                                <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                                    type="button" title="Next">Siguiente</button>
+                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{$show3}}"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{ $show2 }}"
                                         data-animation="FadeIn">
 
                                         <div class="multisteps-form__content mt-3">
@@ -285,39 +253,26 @@
 
 
 
-                                                <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
-                                                enctype="multipart/form-data">
-                                                @csrf
-            
-                                                <div>
-            
-                                                    {{ $archivo }}
-                                                    <center>
-                                                        <div wire:loading wire:target="archivo">
-                                                            <div class="d-flex align-items-center">
-                                                                <strong>Cargando Archivo, Espere por favor...</strong>
-                                                                <div class="spinner-border ms-auto"></div>
-                                                            </div>
+                                                    <form>
+
+                                                        <div>
+
+
+                                                            <center>
+                                                                <div wire:loading wire:target="archivo">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <strong>Cargando Archivo, Espere por
+                                                                            favor...</strong>
+                                                                        <div class="spinner-border ms-auto"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </center>
+
                                                         </div>
-                                                    </center>
-            
-                                                </div>
-                                                <label for="">Archivo Seleccionado</label>
-                                                <input type="file" class="form-control" name="import_file"
-                                                    wire:model="archivo" />
-            
-            
-                                            </form>
-                                            <div style="text-align: right">
-                                                <button class="btn btn-sm btn-success mt-1" wire:click.prevent='import()'
-                                                    >Subir Archivo</button>
-                                            </div>
-
-                                              
-
-
-
-
+                                                        <label for="">Archivo Seleccionado</label>
+                                                        <input type="file" class="form-control" name="import_file"
+                                                            wire:model.lazy="archivo" wire:click='resetes()' />
+                                                    </form>
                                                 @else
                                                     <div class="col-4">
                                                         <div class="card">
@@ -410,7 +365,7 @@
                                                                                                     wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#pc' + {{ $prod['product_id'] }}).val())"
                                                                                                     style="padding:0!important"
                                                                                                     class="form-control text-center"
-                                                                                                    value="{{ $prod['costo']}}">
+                                                                                                    value="{{ $prod['costo'] }}">
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input type="text"
@@ -420,37 +375,43 @@
                                                                                                     class="form-control text-center"
                                                                                                     value="{{ $prod['precioventa'] }}">
                                                                                             </td>
-                                                                                        @endif
-                                                                                        @if ($concepto == 'AJUSTE')
+                                                                                        
+                                                                                        @elseif ($concepto == 'AJUSTE')
                                                                                             <td>
-
+                                                                                               
+                                                                                                {{ $prod['stockactual'] }}
                                                                                             </td>
                                                                                             <td>
-
-                                                                                            </td>
-                                                                                        @endif
-                                                                                        <td>
-                                                                                            <input type="number"
-                                                                                                id="pq{{ $prod['product_id'] }}"
-                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
-                            
+                                                                                                <input type="number"
+                                                                                                id="cf{{ $prod['product_id'] }}"
+                                                                                                wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
                                                                                                 style="padding:0!important"
                                                                                                 class="form-control text-center"
-                                                                                                value="{{$prod['cantidad']}}">
+                                                                                                value="{{ $prod['recuento'] }}">
+                                                                                            </td>
+                                                                                        @else
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                id="pq{{ $prod['product_id'] }}"
+                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
+                                                                                                style="padding:0!important"
+                                                                                                class="form-control text-center"
+                                                                                                value="{{ $prod['cantidad'] }}">
                                                                                         </td>
 
+                                                                                        @endif
                                                                                         <td class="text-center">
                                                                                             <div class="btn-group"
                                                                                                 role="group"
                                                                                                 aria-label="Basic example">
                                                                                                 <button
-                                                                                                    title="Quitar Item"
+                                                                                                title="Quitar Item"
                                                                                                     type="button"
                                                                                                     onclick="ConfirmarEliminar('{{ $prod['product_id'] }}')"
-                                                                                               
                                                                                                     class="btn btn-danger"
                                                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                                                    <i class="fas fa-trash"></i>
+                                                                                                    <i
+                                                                                                        class="fas fa-trash"></i>
                                                                                                 </button>
                                                                                             </div>
                                                                                         </td>
@@ -473,45 +434,41 @@
                                                                 @endif
                                                             </div>
 
-                                                            
-                                                    @if ($failures)
-                                                    <div>
-                                                        @foreach ($failures as $failure)
-                                                            @foreach ($failure->errors() as $error)
-                                                                <li>{{ $error }},numero de fila
-                                                                    {{ $failure->row() }}.</li>
-                                                            @endforeach
-                                                        @endforeach
-                                                    </div>
-                                                @endif
+
 
                                                         </div>
-                                                        {{-- @if ($col->isNotEmpty())
-                                                            <div class="text-center mt-2">
-                                                                <div class="btn-group" role="group"
-                                                                    aria-label="Basic example">
-                                                                    <button type="button" wire:click="resetUI()"
-                                                                        class="btn btn-danger">Vaciar</button>
-                                                                    <button type="button" wire:click="exit()"
-                                                                        class="btn btn-primary">Ir
-                                                                        Ajuste</button>
-                                                                    <button type="button"
-                                                                        wire:click="GuardarOperacion()"
-                                                                        class="btn btn-success">Finalizar</button>
-                                                                </div>
-                                                            </div>
-                                                        @endif --}}
-                                                    </div>
+
                                                 @endif
                                             </div>
+
+                                            @if ($failures != false)
+                                                <div>
+                                                    @foreach ($failures as $failure)
+                                                        @foreach ($failure->errors() as $error)
+                                                            <li>{{ $error }},numero de fila
+                                                                {{ $failure->row() }}.</li>
+                                                        @endforeach
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                                <button class="btn bg-gradient-light mb-0" type="button"
                                                     title="Prev">Anterior</button>
-                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
-                                                    title="Send">Guardar</button>
+                                                @if ($archivo)
+                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                        wire:click='GuardarSubir()' title="Send">Guardar y Subir
+                                                        Archivo</button>
+                                                @else
+                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                        wire:click='GuardarOperacion()'
+                                                        title="Send">Guardar</button>
+                                                @endif
+
                                             </div>
+
                                         </div>
-                                    </div>
+
                                 </form>
                             </div>
                         </div>
@@ -621,7 +578,7 @@
                 });
                 toast({
                     type: 'error',
-                    title: 'Existe un error al subir el archivo, vuelva a intentarlo',
+                    title: 'Existe un error al subir el archivo o el formato no es el adecuado, vuelva a intentarlo',
                     padding: '2em',
                 })
             });
@@ -645,11 +602,11 @@
         })
 
         function ConfirmarEliminar(idproducto) {
-           
-        
-                    window.livewire.emit('clear-Product', idproducto)
-              
-          
+
+
+            window.livewire.emit('clear-Product', idproducto)
+
+
         }
     </script>
 

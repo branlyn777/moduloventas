@@ -89,4 +89,14 @@ class StockImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
         ];
     }
 
+    public function customValidationMessages()
+    {
+        return [
+            'nombre.required' => 'El campo nombre es requerido',
+            'stock.required' => 'El campo stock es requerido',
+            'costo.required' => 'El campo costo es requerido',
+
+        ];
+    }
+
 }

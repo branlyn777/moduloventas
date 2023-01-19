@@ -26,7 +26,7 @@ class RegistrarAjuste extends Component
 {
     use WithFileUploads;
     public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
-        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show3,
+        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show,
          $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
          ,$active1,$active2,$active3;
     private $pagination = 15;
@@ -44,7 +44,7 @@ class RegistrarAjuste extends Component
         $this->active1='js-active';
         $this->active2=null;
         $this->active3=null;
-        $this->show1='js-active';
+        $this->show='js-active';
 
     }
 
@@ -76,7 +76,7 @@ class RegistrarAjuste extends Component
             }
 
             else{
-
+                
                 $st = Product::select('products.*')
                     ->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
                     ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
@@ -124,13 +124,27 @@ class RegistrarAjuste extends Component
               
             } else
              {
-                $this->col->push([
-                    'product_id' => $id->id,
-                    'product_name' => $id->nombre,
-                    'costo' => 0,
-                    'precioventa' => 0,
-                    'cantidad' => 1
-                ]);
+                if ($this->tipo_proceso =='Entrada' or $this->concepto=='INICIAL') {
+             
+                    $this->col->push([
+                        'product_id' => $id->id,
+                        'product_name' => $id->nombre,
+                        'costo' => 0,
+                        'precioventa' => 0,
+                        'cantidad' => 1
+                    ]);
+                }
+                else{
+                    $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
+
+                    $this->col->push([
+                        'product_id' => $id->id,
+                        'product_name' => $id->nombre,
+                        'stockactual' =>  $pd!=null?$pd:0,
+                        'recuento' => 0,
+                       
+                    ]);
+                }
             }
         
 
@@ -151,26 +165,26 @@ class RegistrarAjuste extends Component
         $this->col->pull($item);
     }
 
+
     public function import(){
 
-     
         try {
             //$import->import('import-users.xlsx');
-            Excel::import(new StockImport(1, 'INICIAL',"sdfafdasfa"), $this->archivo);
+            Excel::import(new StockImport($this->destino, 'INICIAL',$this->observacion), $this->archivo);
             return redirect()->route('operacionesinv');
         } 
         catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
       
             $this->failures = $e->failures();
-           
+          
         }
         catch(FileNotFoundException $errorarchivo){
             $this->emit('sinarchivo');
         }
         catch(Exception $e){
        
-            dd($e);
-         //$this->emit('errorarchivo');
+            
+         $this->emit('errorarchivo');
         }
     }
 
@@ -178,25 +192,27 @@ class RegistrarAjuste extends Component
 
     public function GuardarOperacion()
     {
-       dd("hola");
-        if ($this->concepto === "INICIAL") {
+      
+        // if ($this->concepto === "INICIAL") {
 
-            try {
-                //$import->import('import-users.xlsx');
-                Excel::import(new StockImport($this->destino, $this->concepto, $this->observacion), $this->archivo);
-              dd("hoa");
-            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+        //     try {
+        //         //$import->import('import-users.xlsx');
+        //         Excel::import(new StockImport($this->destino, $this->concepto, $this->observacion), $this->archivo);
+        //       dd("hoa");
+        //     } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
 
-                $this->failures = $e->failures();
-                dd($this->failures);
-            }
-        }
+        //         $this->failures = $e->failures();
+        //         dd($this->failures);
+        //     }
+        // }
 
 
-        if ($this->tipo_proceso == 'Entrada' and $this->col->isNotEmpty() ) {
+        $this->ValidarDatos();
+        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='INICIAL' and $this->col->isNotEmpty() ) {
             DB::beginTransaction();
             try {
-
+                
+           
                 $rs = IngresoProductos::create([
                     'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
@@ -382,7 +398,7 @@ class RegistrarAjuste extends Component
 
     
         $item = $this->col->where('product_id', $product->id);
-        if ($this->tipo_proceso == "Entrada") {
+        if ($this->tipo_proceso == "Entrada" or $this->concepto=='INICIAL') {
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
             }
@@ -426,6 +442,20 @@ class RegistrarAjuste extends Component
         }
     }
 
+    public function UpdateRecuento(Product $product, $cant){
+        $item = $this->col->where('product_id', $product->id);
+        $st = $item->first()['stockactual'];
+ 
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'stockactual' =>  $st,
+            'recuento' => $cant,
+           
+        ]);
+    }
+
 
 protected $listeners = ['clear-Product' => 'removeItem'];
 
@@ -437,13 +467,6 @@ protected $listeners = ['clear-Product' => 'removeItem'];
      
     }
 
-    public function UpdateQtyAjuste(){
-
-    }
-
-    public function removeItemAjuste(){
-
-    }
 
     public function Exit()
     {
@@ -462,13 +485,82 @@ protected $listeners = ['clear-Product' => 'removeItem'];
 
     }
 
-    public function cambiar2(){
+    
 
-        if ($this->active3 != 'js-active' and $this->active2=='js-active') {
-            $this->active3='js-active';
-            $this->show1='';
-            $this->show2='';
-            $this->show3='js-active';
-        }
+    public function resetes(){
+        $this->failures=false;
     }
+
+    public function ValidarDatos(){
+        $rules = [
+            'destino' => 'required|not_in:Elegir',
+            'observacion' => 'required',
+            'concepto' => 'required|not_in:Elegir'
+        ];
+    
+        $messages = [
+            'destino.required'=> 'El destino del producto es requerido',
+            'concepto.required'=> 'El concepto es un dato requerido',
+            'destino.not_in' => 'Elija una ubicacion del producto.',
+            'concepto.not_in' => 'Elija un concepto diferente.',
+            'observacion.required' => 'Agregue una observacion',
+        ];
+    
+        $this->validate($rules, $messages);
+        $this->nextpage=true;
+    }
+
+    public function proxima(){
+        $rules = [
+        
+            'observacion' => 'required',
+            'concepto' => 'required|not_in:Elegir'
+        ];
+    
+        $messages = [
+           
+            'concepto.required'=> 'El concepto es un dato requerido',
+   
+            'concepto.not_in' => 'Elija un concepto diferente.',
+            'observacion.required' => 'Agregue una observacion',
+        ];
+    
+        $this->validate($rules, $messages);
+       
+        $this->show='';
+       $this->show1='js-active';
+       $this->active1='js-active';
+       $this->active2='js-active';
+
+    }
+    public function proxima2(){
+        $rules = [
+        
+          
+            'destino' => 'required|not_in:Elegir'
+        ];
+    
+        $messages = [
+            'destino.required'=> 'El destino es requerido',
+            'destino.not_in' => 'Elija un destino.',
+         
+        ];
+    
+        $this->validate($rules, $messages);
+       
+        $this->show='';
+       $this->show1='';
+       $this->show2='js-active';
+       $this->active1='js-active';
+       $this->active2='js-active';
+       $this->active3='js-active';
+
+    }
+
+    public function GuardarSubir(){
+        $this->import();
+   
+    }
+
+
 }

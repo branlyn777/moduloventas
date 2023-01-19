@@ -162,7 +162,7 @@
 
         </div>
     </div>
-    @include('livewire.entradas_salidas.operacion')
+
     @include('livewire.entradas_salidas.verdetalle')
 </div>
 
@@ -216,7 +216,7 @@
             });
 
 
-            window.livewire.on('confirmar', event => {
+            window.livewire.on('confirmareliminacion', event => {
 
                 Swal.fire({
                     title: 'Estas seguro de eliminar este registro?',
@@ -238,26 +238,26 @@
                 })
 
             });
-            window.livewire.on('confirmarAll', event => {
+            // window.livewire.on('confirmarAll', event => {
 
-                Swal.fire({
-                    title: 'Estas seguro de eliminar este registro?',
-                    text: "Esta accion es irreversible",
-                    type: 'warning',
-                    showCancelButton: true,
-                    // confirmButtonColor: '#3085d6',
-                    // cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.value) {
+            //     Swal.fire({
+            //         title: 'Estas seguro de eliminar este registro?',
+            //         text: "Esta accion es irreversible",
+            //         type: 'warning',
+            //         showCancelButton: true,
+            //         // confirmButtonColor: '#3085d6',
+            //         // cancelButtonColor: '#d33',
+            //         cancelButtonText: 'Cancelar',
+            //         confirmButtonText: 'Aceptar'
+            //     }).then((result) => {
+            //         if (result.value) {
 
-                        window.livewire.emit('eliminar_registro_total');
-                       
-                    }
-                })
+            //             window.livewire.emit('eliminar_registro_total');
 
-            });
+            //         }
+            //     })
+
+            // });
             window.livewire.on('stock-insuficiente', event => {
 
                 const toast = swal.mixin({

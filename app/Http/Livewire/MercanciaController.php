@@ -581,7 +581,7 @@ public function verificarOperaciones($id)
             $this->emit('operacion_fallida');
         }
         else{
-        
+
             //Si no tiene operaciones relacionadas se podra eliminar el registro, llama al metodo de eliminar registro una vez confirmado
                 $this->emit('confirmareliminacion');
                
