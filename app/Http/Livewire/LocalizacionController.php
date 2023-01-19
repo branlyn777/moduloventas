@@ -129,7 +129,7 @@ class LocalizacionController extends Component
             'destino.required' => 'La ubicacion es requerida',
             'destino.not_in' => 'Elegir una ubicacion  diferente de Elegir',
             'descripcion.required' => 'La descripcion es requerida',
-            'descripcion.min' => 'La descripcion debe contener al menos 5 caracteres',
+            'descripcion.min' => 'La descripcion debe contener al menos 5 caracteres'
         ];
 
         $this->validate($rules, $messages);

@@ -185,7 +185,11 @@
                                                 <tr>
                                                     <td>
                                                         <label style="font-size: 14px"
+<<<<<<< HEAD
                                                             type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
+=======
+                                                            type="button">{{ substr($prod->nombre, 0, 10) }}({{ $prod->codigo }})</label>
+>>>>>>> c675277ddab5b8208a5383b2e21ca8df846a5482
                                                     </td>
 
                                                     <td class="text-center">
@@ -227,8 +231,13 @@
                                     <tbody>
                                         @foreach ($cart as $prod)
                                             <tr style="font-size: 14px; color: black;">
+<<<<<<< HEAD
                                                 <td class="text-center">
                                                     {{ $prod->name }}
+=======
+                                                <td style="width: 60px;">
+                                                    {{ substr($prod->name, 0, 10) }}
+>>>>>>> c675277ddab5b8208a5383b2e21ca8df846a5482
                                                 </td>
                                                 <td>
                                                     <strong>{{ $prod->attributes->codigo }}</strong>
