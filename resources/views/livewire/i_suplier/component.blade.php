@@ -170,9 +170,10 @@
             {{ $data_proveedor->links() }}
         </div>
     </div>
+    @include('livewire.i_suplier.form')
 </div>
-@include('livewire.i_suplier.form')
-</div>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

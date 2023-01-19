@@ -5,9 +5,9 @@
                 <h4 class="text-white text-sm" id="exampleModalLabel">
                     Historial Sucursales
                 </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
 
             <div class="modal-body">

@@ -44,7 +44,7 @@
             <div class="card-header pb-0">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="mb-0 text-white" style="font-size: 16px">Orden de Compra</h5>
+                        <h5 class="mb-0 text-white" style="font-size: 16px">Orden Compra</h5>
                     </div>
 
                     {{--

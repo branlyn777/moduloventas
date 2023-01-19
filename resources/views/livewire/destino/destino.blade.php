@@ -163,7 +163,7 @@
                                                 {{ $d->nombredestino }}
                                             </td>
                                             <td>
-                                                {{ substr($d->observacion, 0, 50) }}
+                                                {{ substr($d->observacion, 0, 58) }}
                                             </td>
                                             <td>
                                                 {{ $d->nombresucursal }}
