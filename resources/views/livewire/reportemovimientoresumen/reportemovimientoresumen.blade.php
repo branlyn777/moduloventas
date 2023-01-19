@@ -286,13 +286,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="badge badge-sm bg-gradient-success text-sm">
+                                        <span class="badge badge-sm bg-success text-sm">
                                             {{ number_format($p->importe, 2) }}
                                         </span>
                                     </td>
                                     <td>
                                         @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                            <span class="badge badge-sm bg-gradient-primary text-sm">
+                                            <span class="badge badge-sm bg-primary text-sm">
                                                 {{ number_format($p->utilidadventa, 2) }}
                                             </span>
                                         @endif
@@ -322,7 +322,7 @@
                                     </td>
                                     <td class="text-sm text-right">
                                         @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        <span class="badge badge-sm bg-gradient-primary text-sm">
+                                        <span class="badge badge-sm bg-primary text-sm">
                                             {{ number_format($p->utilidadservicios, 2) }}
                                         </span>
                                         @endif
@@ -392,7 +392,7 @@
 
                                     </td>
                                     <td class="text-sm text-right">
-                                        <span class="badge badge-sm bg-gradient-success text-sm">
+                                        <span class="badge badge-sm bg-success text-sm">
                                             {{ number_format($p->importe, 2) }}
                                         </span>
                                     </td>
@@ -444,7 +444,7 @@
                                     </div>
                                 </td>
                                 <td class="text-sm">
-                                    <span class="badge badge-sm bg-gradient-success text-sm">
+                                    <span class="badge badge-sm bg-success text-sm">
                                         {{ number_format($m->importe, 2) }}
                                     </span>
                                 </td>
@@ -506,7 +506,7 @@
                                         <b>{{ $st->ctipo == 'CajaFisica' ? 'Efectivo' : $st->ctipo }},({{ $st->nombrecartera }})</b>
                                     </td>
                                     <td class="text-sm text-right">
-                                        <span class="badge badge-sm bg-gradient-danger text-sm">
+                                        <span class="badge badge-sm bg-danger text-sm">
                                             {{ number_format($st->importe, 2) }}
                                         </span>
                                     </td>
