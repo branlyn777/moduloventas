@@ -5,7 +5,9 @@
                 <div>
                     <h5 class="mb-0 text-white" style="font-size: 16px">{{$selected_id > 0 ? 'Editar':'Crear'}} {{$componentName}} </h5>
                 </div>
-                {{-- <h6 class="text-center text-light" wire:loading>POR FAVOR ESPERE</h6> --}}
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
 

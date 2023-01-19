@@ -50,7 +50,6 @@ class ProvidersController extends Component
             'correo' => 'sometimes|email',
             'apellido' => 'alpha',
             'direccion' => 'sometimes|alpha',
-
             'telefono' => 'numeric'
         ];
         $messages = [
@@ -62,7 +61,6 @@ class ProvidersController extends Component
             'correo.email' => 'Ingrese un correo valido.',
             'nit.numeric' => 'El numero de nit solamente puede ser numeros.',
             'telefono.numeric' => 'El numero de telefono debe contener solamente numeros.'
-
         ];
         $this->validate($rules, $messages);
 
@@ -87,7 +85,7 @@ class ProvidersController extends Component
 
         $this->resetUI();
         $this->mensaje_toast = 'Proveedor Registrado';
-        $this->emit('proveedor-added');
+        $this->emit('proveedor-added', 'proveedor Registrada');
     }
     public function Edit(Provider $sup)
     {
@@ -107,13 +105,10 @@ class ProvidersController extends Component
         $rules = [
             'nombre_prov.required' => 'El nombre del proveedor es requerido.',
             'nombre_prov.unique' => 'Ya existe un proveedor  con ese nombre.',
-
         ];
         $messages = [
             'nombre_prov.required' => 'El nombre del proveedor es requerido.',
             'nombre_prov.unique' => 'Ya existe un proveedor  con ese nombre.',
-
-
         ];
         $this->validate($rules, $messages);
         $uni = Provider::find($this->selected_id);

@@ -5,7 +5,9 @@
                 <h5 class="modal-title text-white">
                     <p class="text-sm mb-0">{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName }}</p>
                 </h5>
-                <h6 class="text-center text-white" wire:loading>POR FAVOR ESPERE</h6>
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -18,42 +20,48 @@
                             <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class="col-sm-12 col-md-6 col-lg-6 form-group">
                         <label>Apellidos</label>
                         <input type="text" wire:model="apellido" class="form-control" placeholder="" maxlenght="25">
                         @error('apellido')
-                            <span class="text-danger er">{{ $message }}</span>
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
                         <label>Dirección</label>
                         <input type="text" wire:model="direccion" class="form-control" placeholder="" maxlenght="25">
                         @error('direccion')
-                            <span class="text-danger er">{{ $message }}</span>
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class=" col-sm-12 col-md-6 col-lg-6 form-group">
                         <label>NIT</label>
                         <input type="text" wire:model="nit" class="form-control" placeholder="" maxlenght="25">
                         @error('nit')
-                            <span class="text-danger er">{{ $message }}</span>
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class="col-sm-12 col-md-6 col-lg-6 form-group">
                         <label>Correo</label>
                         <input type="text" wire:model.lazy="correo" class="form-control" placeholder=""
                             maxlenght="25">
                         @error('correo')
-                            <span class="text-danger er">{{ $message }}</span>
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class="col-sm-12 col-md-6 col-lg-6 form-group">
                         <label>Teléfono</label>
                         <input type="text" wire:model="telefono" class="form-control" placeholder="" maxlenght="25">
                         @error('telefono')
-                            <span class="text-danger er">{{ $message }}</span>
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                         @enderror
                     </div>
+                    
                     @if ($selected_id != 0)
                         <div class="col-sm-12 col-md-6 form-group">
 
@@ -64,9 +72,8 @@
                                 <option value="INACTIVO">INACTIVO</option>
                             </select>
                             @error('estado')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
-
                         </div>
                     @endif
 

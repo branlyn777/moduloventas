@@ -4,7 +4,9 @@
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">Operaciones en Inventarios</h5>
                 {{-- <button type="button" wire:click="resetajuste()" class="btn btn-sm btn-success text-center"> Cerrar </button> --}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="resetajuste()"></button>
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="modal-body">

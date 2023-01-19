@@ -4,8 +4,8 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="exampleModalLabel">Ajuste de Efectivo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
 
             </div>
@@ -242,7 +242,7 @@
                                                                     {{ $efectivo_actual > $saldoAcumulado
                                                                         ? 'Efectivo Sobrante:'
                                                                         : 'Efectivo
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Faltante: ' }}</b>
+                                                                       Faltante: ' }}</b>
                                                             </h6>
 
                                                         </h6>
@@ -324,7 +324,8 @@
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <h6 class="mb-1 text-dark text-sm">Recaudo</h6>
-                                                    <input type="number" wire:model='recaudo' style="direction: rtl;" class="form-control">
+                                                    <input type="number" wire:model='recaudo' style="direction: rtl;"
+                                                        class="form-control">
                                                     {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
                                                 </div>
                                             </div>

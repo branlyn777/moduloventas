@@ -44,24 +44,22 @@
         <div class="col-12">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class="text-white" style="font-size: 16px">Registro de Compras</h5>
-                    </div>
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            {{-- <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Registro de Compras</h5>
+                </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
+                        {{-- <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
                                 <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
 
                             <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
                                 <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a> --}}
 
-                            <button data-bs-toggle="modal" data-bs-target="#theModal"
-                                class="btn btn-add mb-0">Registrar Producto</button>
-                            <button data-bs-toggle="modal" wire:click='mostrarOrdenes()'
-                                class="btn btn-add mb-0">Ordenes De Compra</button>
-                        </div>
+                        <button data-bs-toggle="modal" data-bs-target="#theModal" class="btn btn-add mb-0">Registrar Producto</button>
+                        <button data-bs-toggle="modal" wire:click='mostrarOrdenes()' class="btn btn-add mb-0">Ordenes De Compra</button>
                     </div>
-                
+                </div>
+
             </div>
             <div class="card  mb-4">
                 <div class="card-body p-3">
@@ -76,8 +74,8 @@
                                         <option value="{{ $datas->nombre_prov }}">{{ $datas->nombre_prov }}</option>
                                     @endforeach
                                 </datalist>
-                                <button data-bs-toggle="modal" class="btn btn-dark pl-2 pr-2"
-                                    data-bs-target="#modal_prov"> <i class="fas fa-plus text-white"></i></button>
+                                <button type="button" data-bs-toggle="modal" class="btn btn-add pl-2 pr-2"
+                                    data-bs-target="#modal_prov"><i class="fas fa-plus"></i></button>
                             </div>
                             @error('provider')
                                 <span class="text-danger er" style="font-size: 14px">{{ $message }}</span>
@@ -135,7 +133,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
+                        {{-- <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Tipo transacción:</strong>
                                 <select wire:model='tipo_transaccion' class="form-select">
@@ -147,12 +145,13 @@
                                     <span class="text-danger er">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Código Orden de Compra: </strong>
-                                <label class="form-control">{{ $ordencompraselected }}</label>
+                                <label
+                                    class="form-control">{{ $ordencompraselected == null ? '--' : $ordencompraselected }}</label>
                             </div>
                         </div>
                     </div>
@@ -168,8 +167,7 @@
                                     <span class="input-group-text">
                                         <i class="fa fa-search"></i>
                                     </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar"
-                                        class="form-control">
+                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
                                 </div>
                             </div>
 
@@ -186,7 +184,8 @@
                                             @foreach ($data_prod as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px" type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
+                                                        <label style="font-size: 14px"
+                                                            type="button">{{ $prod->nombre }}({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -216,19 +215,19 @@
                                 <table class="table align-items-center">
                                     <thead>
                                         <tr style="font-size: 14px; color: black;">
-                                            <th class="text-center">Producto</th>
-                                            <th style="text-align: left">Código</th>
-                                            <th>Precio Compra</th>
-                                            <th>Precio Venta</th>
-                                            <th>Cantidad</th>
-                                            <th>Total</th>
-                                            <th>Acción</th>
+                                            <th class="text-uppercase text-sm text-center">Producto</th>
+                                            <th class="text-uppercase text-sm ps-2">Código</th>
+                                            <th class="text-uppercase text-sm text-center">Precio Compra</th>
+                                            <th class="text-uppercase text-sm text-center">Precio Venta</th>
+                                            <th class="text-uppercase text-sm text-center">Cantidad</th>
+                                            <th class="text-uppercase text-sm text-center">Total</th>
+                                            <th class="text-uppercase text-sm text-center">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($cart as $prod)
                                             <tr style="font-size: 14px; color: black;">
-                                                <td style="width: 60px;">
+                                                <td class="text-center">
                                                     {{ $prod->name }}
                                                 </td>
                                                 <td>
@@ -271,29 +270,19 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+
+                                    </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="5" style="text-align: right">
                                                 <h4><b>TOTAL.-</b></h4>
                                             </td>
-                                            <td colspan="2">
+                                            <td colspan="2" >
                                                 <h4><b>{{ $total_compra }}</b></h4>
                                             </td>
                                         </tr>
                                     </tfoot>
-                                    </tbody>
                                 </table>
-                                <div class="text-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" wire:click="resetUI()"
-                                            class="btn btn-danger">Vaciar</button>
-                                        <button type="button" wire:click="exit()" class="btn btn-secondary"
-                                            style="background-color: #373839; color: white; border-color: black;">Ir
-                                            Compras</button>
-                                        <button type="button" wire:click="guardarCompra()"
-                                            class="btn btn-primary">Finalizar</button>
-                                    </div>
-                                </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
                                     <div class="col-lg-12">
@@ -302,7 +291,17 @@
                                 </div>
                             @endif
                         </div>
-
+                    </div><br>
+                    <div class="text-center">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @if ($this->itemsQuantity > 0)
+                                <button type="button" wire:click="resetUI()" class="btn btn-danger">Vaciar</button>
+                            @endif
+                            <button type="button" wire:click="exit()" class="btn btn-secondary"
+                                style="background-color: #2e48dc; color: white;">Ir Compras</button>
+                            <button type="button" wire:click="guardarCompra()"
+                                class="btn btn-success">Finalizar</button>
+                        </div>
                     </div>
                 </div>
             </div>

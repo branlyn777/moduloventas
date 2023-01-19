@@ -355,70 +355,7 @@
 
     
 
-    @if($totalesIngresosIE->count() > 0)
-    <br>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive p-0">
-                    <table style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase text-sm text-center">#</th>
-                                <th class="text-uppercase text-sm">FECHA</th>
-                                <th class="text-uppercase text-sm text-center">DETALLE</th>
-                                <th class="text-uppercase text-sm">INGRESO</th>
-                                <th class="text-uppercase text-sm">EGRESO</th>
-                                <th class="text-uppercase text-sm">
-                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        UTILIDAD
-                                    @endif
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($totalesIngresosIE as $m)
-                            <tr>
-                                <td class="text-sm">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm text-center">
-                                    {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-
-                                <td class="text-sm text-center">
-                                    <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
-
-                                </td>
-                                <td class="text-sm text-right">
-                                    <span class="badge badge-sm bg-gradient-success text-sm">
-                                        {{ number_format($m->importe, 2) }}
-                                    </span>
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td class="text-sm text-center">
-                                    {{ $m->coment }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    @endif
+ 
 
     
 
