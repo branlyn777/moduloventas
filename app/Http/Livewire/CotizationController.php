@@ -35,7 +35,8 @@ class CotizationController extends Component
         //Lista a todos los productos que tengan el nombre de la variable $this->buscarproducto
         $listaproducto = [];
         if (strlen($this->buscarproducto) > 0) {
-            $listaproducto = Product::select("products.*")
+            $listaproducto = Product::Join('lotes as l', 'products.id', 'l.product_id')
+            ->select("products.*")
                 ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
                 ->where('products.status', 'ACTIVO')
                 ->orderBy("products.nombre", "desc")
@@ -56,15 +57,16 @@ class CotizationController extends Component
         if ($p == null) {
 
             $producto = Product::find($idproducto);
-            //Insertando un producto a la coleccion 
+            //Insertando un producto a la coleccion
+          
             
-            $precio =  Lote::select("lotes.pv_lote as pv")
+            $precio = Lote::select('lotes.pv_lote as pv')
             ->where("lotes.product_id",$idproducto)
-            ->where("lotes.status","Activo")
+            // ->where("lotes.status","Activo")
             ->orderby("lotes.created_at","desc")
-            ->first();
-            dd( $precio);
+            ->first()->pv;
 
+            
             $this->carrito_cotizacion->push([
                 'orden' => $this->carrito_cotizacion->count() + 1,
                 'producto_id' => $idproducto,
