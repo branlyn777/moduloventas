@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Imports\StockImport;
+use App\Models\Ajustes;
 use App\Models\Destino;
+use App\Models\DetalleAjustes;
 use App\Models\DetalleEntradaProductos;
 use App\Models\DetalleSalidaProductos;
 use App\Models\IngresoProductos;
@@ -193,20 +195,6 @@ class RegistrarAjuste extends Component
     public function GuardarOperacion()
     {
       
-        // if ($this->concepto === "INICIAL") {
-
-        //     try {
-        //         //$import->import('import-users.xlsx');
-        //         Excel::import(new StockImport($this->destino, $this->concepto, $this->observacion), $this->archivo);
-        //       dd("hoa");
-        //     } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-
-        //         $this->failures = $e->failures();
-        //         dd($this->failures);
-        //     }
-        // }
-
-
         $this->ValidarDatos();
         if ($this->tipo_proceso == 'Entrada' or $this->concepto=='INICIAL' and $this->col->isNotEmpty() ) {
             DB::beginTransaction();
@@ -254,7 +242,7 @@ class RegistrarAjuste extends Component
             return Redirect::to('operacionesinv');
             $this->resetui();
         } 
-        elseif ($this->col->isNotEmpty()) {
+        elseif ($this->tipo_proceso == 'Salida' and $this->col->isNotEmpty()) {
 
             try {
 
@@ -339,8 +327,117 @@ class RegistrarAjuste extends Component
             $this->resetui();
             return Redirect::to('operacionesinv');
 
-        } else {
+        } 
+        elseif($this->concepto=='AJUSTE')
+        {
+            try {
 
+                $ajuste = Ajustes::create([
+                    'destino' => $this->destino,
+                    'user_id' => Auth()->user()->id,
+                    'observacion' => $this->observacion
+                ]);
+                // dd($auxi2->pluck('stock')[0]);
+
+                foreach ($this->col as $datas) {
+
+                    $auxi =DetalleAjustes::create([
+                        'product_id' => $datas['product_id'],
+                        'recuentofisico' => $datas['recuento'],
+                        'diferencia' =>$datas['recuento']-$datas['stockactual']>0?$datas['recuento']-$datas['stockactual']:($datas['recuento']-$datas['stockactual'])*-1,
+                        'tipo' => $datas['recuento']-$datas['stockactual']>0?'positiva':'negativa'
+
+                    ]);
+
+                    if ( $datas['recuento']-$datas['stockactual']>0) 
+                    {
+                        $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
+                        $lot->update([
+    
+                            'existencia' =>$lot->existencia+( $datas['recuento']-$datas['stockactual'])
+                       
+
+                        ]);
+                        $lot->save();
+
+
+                 
+
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
+
+                    }
+                     else
+                    {
+                        
+                        $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
+                        //obtener la cantidad del detalle de la venta 
+                        $this->qq = $datas['cantidad']; //q=8
+                        foreach ($lot as $val) { 
+                            //lote1= 3 Lote2=3 Lote3=3
+                            $this->lotecantidad = $val->existencia;
+                            //dd($this->lotecantidad);
+                            if ($this->qq > 0) {
+                                //true//5//2
+                                //dd($val);
+                                if ($this->qq > $this->lotecantidad) {
+                                    $ss = SalidaLote::create([
+                                        'salida_detalle_id' => $auxi->id,
+                                        'lote_id' => $val->id,
+                                        'cantidad' => $val->existencia
+                                    ]);
+                                    $val->update([
+    
+                                        'existencia' => 0,
+                                        'status' => 'Inactivo'
+    
+                                    ]);
+                                    $val->save();
+                                    $this->qq = $this->qq - $this->lotecantidad;
+                                    //dump("dam",$this->qq);
+                                } else {
+                                    //dd($this->lotecantidad);
+                                    $ss = SalidaLote::create([
+                                        'salida_detalle_id' => $auxi->id,
+                                        'lote_id' => $val->id,
+                                        'cantidad' => $this->qq
+    
+                                    ]);
+    
+    
+                                    $val->update([
+                                        'existencia' => $this->lotecantidad - $this->qq
+                                    ]);
+                                    $val->save();
+                                    $this->qq = 0;
+                                    //dd("yumi",$this->qq);
+                                }
+                            }
+                        }
+    
+    
+                        $q = ProductosDestino::where('product_id', $datas['product_id'])
+                            ->where('destino_id', $this->destino)->value('stock');
+    
+                        ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' =>$datas['recuento']]);
+                    }
+                    
+
+
+                }
+
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                dd($e->getMessage());
+            }
+
+            $this->mensaje_toast = "Operacion Registrada";
+            $this->emit('operacion-added');
+            $this->resetui();
+            return Redirect::to('operacionesinv');
+        }
+        else
+        {
             $this->emit('sinproductos');
         }
     }

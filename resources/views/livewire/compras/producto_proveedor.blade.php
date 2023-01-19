@@ -11,7 +11,7 @@
             <div class="modal-body" style="min-height: 500px; padding-top: 10px;">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6">
-                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Proveedor</label>
+                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Producto</label>
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>

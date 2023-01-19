@@ -375,6 +375,14 @@
                                                                                                     class="form-control text-center"
                                                                                                     value="{{ $prod['precioventa'] }}">
                                                                                             </td>
+                                                                                            <td>
+                                                                                                <input type="number"
+                                                                                                id="pq{{ $prod['product_id'] }}"
+                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
+                                                                                                style="padding:0!important"
+                                                                                                class="form-control text-center"
+                                                                                                value="{{ $prod['cantidad'] }}">
+                                                                                        </td>
                                                                                         
                                                                                         @elseif ($concepto == 'AJUSTE')
                                                                                             <td>
