@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Lote;
 use App\Models\Product;
 use Darryldecode\Cart\Cart;
 use Exception;
@@ -53,14 +54,23 @@ class CotizationController extends Component
         $p = $this->carrito_cotizacion->where('producto_id', $idproducto)->first();
 
         if ($p == null) {
+
             $producto = Product::find($idproducto);
             //Insertando un producto a la coleccion 
+            
+            $precio =  Lote::select("lotes.pv_lote as pv")
+            ->where("lotes.product_id",$idproducto)
+            ->where("lotes.status","Activo")
+            ->orderby("lotes.created_at","desc")
+            ->first();
+            dd( $precio);
+
             $this->carrito_cotizacion->push([
                 'orden' => $this->carrito_cotizacion->count() + 1,
                 'producto_id' => $idproducto,
                 'nombre_producto' => $producto->nombre,
                 'codigo' => $producto->codigo,
-                'precio_producto' => 0,
+                'precio_producto' => $precio,
                 'cantidad' => 1,
             ]);
 

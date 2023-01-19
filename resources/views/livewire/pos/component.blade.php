@@ -436,23 +436,14 @@
                         <div>
                             @if (strlen($this->buscarproducto) > 0)
 
-
                                 <div class="card mb-4">
                                     <div class="card-body p-3">
                                         <div class="table-wrapper">
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                            <p class="text-sm mb-0">
-                                                                <b>DESCRIPCION</b>
-                                                            </p>
-                                                        </th>
-                                                        <th>
-                                                            <p class="text-sm mb-0">
-                                                                <b>ACCIONES</b>
-                                                            </p>
-                                                        </th>
+                                                        <th><p class=""><b>DESCRIPCION</b></p></th>
+                                                        <th><p class=""><b>ACCIONES</b></p></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
