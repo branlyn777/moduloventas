@@ -398,12 +398,20 @@ class SaleEditController extends Component
             $result = $this->carrito_venta->where('product_id', $idproducto);
             //Eliminando la fila del elemento en la coleccion
             $this->carrito_venta->pull($result->keys()->first());
+            
+            $precio = Lote::select("lotes.pv_lote as pv")
+            ->where("lotes.product_id",$idproducto)
+            // ->where("lotes.status","Activo")
+            ->orderby("lotes.created_at","desc")
+            ->first()->pv;
+            
+            
             //Insertando otra vez el producto con la cantidad actualizada
             $this->carrito_venta->push([
                 'order' => $p['order'],
                 'product_id' => $p['product_id'],
                 'name' => $p['name'],
-                'price' => $p['price'],
+                'price' => $precio,
                 'quantity' => $cantidad_nueva,
                 'id' => $p['id'],
             ]);
