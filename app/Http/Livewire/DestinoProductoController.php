@@ -538,22 +538,23 @@ dd($e->getMessage());
     public function lotes($id){
 
         //dd($id);
+        $this->grouped=false;
       $this->productid= $id;
         $this->nombre_prodlote=Product::find($id)->nombre;
       
         //dd($this->loteproducto);
         $this->emit('show-modal-lotes');
     }
-    public function export() 
+    public function export($destino) 
     {
-        $destino=$this->selected_id;
+      
         if ($this->selected_id=='General') {
           
-            return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
+            return Excel::download(new ExportExcelAlmacenController($destino), 'almacen.xlsx');
 
         }
         else{
-            return Excel::download(new ExportExcelAlmacenController, 'almacen.xlsx');
+            return Excel::download(new ExportExcelAlmacenController($destino), 'almacen.xlsx');
         }
     }
 
