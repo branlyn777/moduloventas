@@ -121,7 +121,7 @@
                                 <label style="font-size: 1rem">Categoría</label>
                                 <div class="input-group">
                                     <select wire:model='selected_categoria' class="form-select">
-                                        <option value="null" disabled>Elegir Categoría</option>
+                                        <option value="todas" disabled>Elegir Categoría</option>
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach

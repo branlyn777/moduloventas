@@ -16,6 +16,11 @@ class CategorySeeder extends Seeder
     {
         //ID = 1
         Category::create([
+            'name' => 'No definido',
+            'descripcion' => 'ninguna',
+            'categoria_padre' => '0',
+        ]);
+        Category::create([
             'name' => 'Televisores',
             'descripcion' => 'ninguna',
             'categoria_padre' => '0',
@@ -40,6 +45,7 @@ class CategorySeeder extends Seeder
             'descripcion' => 'ninguna',
             'categoria_padre' => '0',
         ]);
+     
 
     }
 }
