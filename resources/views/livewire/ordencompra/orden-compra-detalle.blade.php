@@ -137,7 +137,7 @@
                                             @foreach ($prod as $producto)
                                                 <tr>
                                                     <td>
-                                                        <strong>{{ $producto->nombre }}</strong>
+                                                        <strong>{{ substr($producto->nombre, 0, 15) }}</strong>
                                                         ({{ $producto->codigo }})
                                                     </td>
                                                     <td class="text-center">
@@ -177,8 +177,8 @@
                                     <tbody>
                                         @foreach ($cart->sortBy('order') as $prod)
                                             <tr style="font-size: 14px; color: black;">
-                                                <td class="text-center">
-                                                    {{ $prod['product_name'] }}
+                                                <td>
+                                                    <h6>{{ substr($prod['product_name'], 0, 15) }}</h6>
                                                 </td>
 
                                                 <td>

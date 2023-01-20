@@ -54,43 +54,7 @@
 
 
 <div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="row">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="col-6">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
@@ -144,28 +108,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data_unidad as $data)
-                                    <tr style="font-size: 14px">
-                                        <td class="text-center">
-                                            {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
-                                        </td>
-                                        <td >
-                                            {{ $data->nombre }}
-                                        </td>
+                                @if ($data_unidad != null and count($data_unidad) > 0)
+                                    @foreach ($data_unidad as $data)
+                                        <tr style="font-size: 14px">
+                                            <td class="text-center">
+                                                {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ substr($data->nombre, 0, 15) }}
+                                            </td>
 
-                                        <td class="text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
-                                                class="mx-3" title="Editar Unidad">
-                                                <i class="fas fa-edit text-info"></i>
-                                            </a>
-                                            <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')"
-                                                class="mx-3" title="Eliminar unidad">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
+                                                    class="mx-3" title="Editar Unidad">
+                                                    <i class="fas fa-edit text-info"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')"
+                                                    class="mx-3" title="Eliminar unidad">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="row justify-content-center align-items-center mx-auto my-5">
+
+                                                <label class="text-center">No tiene unidades que
+                                                    mostrar</label>
+                                            </div>
                                         </td>
                                     </tr>
-                                @endforeach
+
+                                @endif
+
                             </tbody>
                         </table>
                     </div>
@@ -177,18 +155,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
         <div class="col-6">
-
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">Marcas</h5>
@@ -200,13 +167,10 @@
                                 class="fas fa-plus"></i> Agregar Marca</a>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="card mb-4">
                 <div class="card-body  p-4">
-
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-6">
                             <h6>Buscar Marca</h6>
@@ -233,13 +197,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($marcas != null and count($marcas) > 0)
                                 @foreach ($marcas as $data)
                                     <tr style="font-size: 14px">
                                         <td class="text-center">
                                             {{ ($marcas->currentpage() - 1) * $marcas->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td>
-                                            {{ $data->nombre }}
+                                            {{ substr($data->nombre, 0, 15) }}
                                         </td>
 
                                         <td class="text-center">
@@ -255,6 +220,18 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="5">
+                                        <div
+                                            class="row justify-content-center align-items-center mx-auto my-5">
+
+                                            <label class="text-center">No tiene marcas que
+                                                mostrar</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

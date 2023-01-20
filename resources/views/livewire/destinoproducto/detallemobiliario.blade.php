@@ -4,7 +4,7 @@
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" style="font-size: 14px">Ubicacion Producto</h5>
                 {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="cerrar()"></button> --}}
-                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close fs-3"  wire:click="cerrar()"  data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

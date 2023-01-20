@@ -94,9 +94,9 @@
                                                             <div class="form-group">
                                                                 <label style="color: rgb(74, 74, 74)"><span
                                                                         class="text-warning">* </span>Seleccione el
-                                                                    concepto::</label>
+                                                                    concepto:</label>
                                                                 <select wire:model='concepto' class="form-select">
-                                                                    <option value="Elegir" disabled selected>Elegir
+                                                                    <option value="Elegir" disabled>Elegir
                                                                     </option>
 
                                                                     <option wire:key="bar" value="AJUSTE">Ajustar
@@ -185,7 +185,7 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
                                         </div>
@@ -200,9 +200,11 @@
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span> Seleccione la
-                                                                    sucursal:</strong>
-                                                                <select wire:model.lazy='sucursal' class="form-select">
+                                                                <label style="color: rgb(74, 74, 74)"><span
+                                                                        class="text-warning">* </span> Seleccione la
+                                                                    sucursal:</label>
+                                                                <select wire:model.lazy='sucursal'
+                                                                    class="form-select">
                                                                     <option value='Elegir' disabled>Elegir</option>
                                                                     @foreach ($sucursales as $item)
                                                                         <option value="{{ $item->id }}">
@@ -210,15 +212,16 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-    
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
-                                                                    almacen:</strong>
+                                                                <label style="color: rgb(74, 74, 74)"><span
+                                                                        class="text-warning">* </span>Seleccione el
+                                                                    almacen:</label>
                                                                 <select wire:model.lazy='destino' class="form-select">
                                                                     <option value=null disabled>--</option>
                                                                     @foreach ($destinos as $item)
@@ -234,14 +237,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
-                                                    title="Prev">Anterior</button>
-                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+
+                                                <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
                                         </div>
@@ -306,7 +308,7 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                            type="button">{{ substr($prod->nombre, 0, 40) }}({{ $prod->codigo }})</label>
+                                                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -361,7 +363,7 @@
                                                                                     <tr
                                                                                         style="font-size: 14px; color: black;">
                                                                                         <td style="width: 60px;">
-                                                                                            {{ substr($prod['product_name'], 0, 90) }}
+                                                                                            {{ substr($prod['product_name'], 0, 15) }}
                                                                                         </td>
                                                                                         @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
                                                                                             <td>
@@ -382,43 +384,44 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input type="number"
-                                                                                                id="pq{{ $prod['product_id'] }}"
-                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
-                                                                                                style="padding:0!important"
-                                                                                                class="form-control text-center"
-                                                                                                value="{{ $prod['cantidad'] }}">
-                                                                                        </td>
-                                                                                        
-                                                                                        @elseif ($concepto == 'AJUSTE')
+                                                                                                    id="pq{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control text-center"
+                                                                                                    value="{{ $prod['cantidad'] }}">
+                                                                                            </td>
+                                                                                            @elseif
+                                                                                            ($concepto == 'AJUSTE')
                                                                                             <td class='text-center'>
-                                                                                               
+
                                                                                                 {{ $prod['stockactual'] }}
                                                                                             </td>
                                                                                             <td class='text-center'>
                                                                                                 <input type="number"
-                                                                                                id="cf{{ $prod['product_id'] }}"
-                                                                                                wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
-                                                                                                style="padding:0!important"
-                                                                                                class="form-control text-center"
-                                                                                                value="{{ $prod['recuento'] }}">
+                                                                                                    onkeypress="return event.charCode >= 48"
+                                                                                                    min="1"
+                                                                                                    id="cf{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control text-center"
+                                                                                                    value="{{ $prod['recuento'] }}">
                                                                                             </td>
                                                                                         @else
                                                                                             <td>
                                                                                                 <input type="number"
-                                                                                                id="pq{{ $prod['product_id'] }}"
-                                                                                                wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
-                                                                                                style="padding:0!important"
-                                                                                                class="form-control text-center"
-                                                                                                value="{{ $prod['cantidad'] }}">
-                                                                                        </td>
-
+                                                                                                    id="pq{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control text-center"
+                                                                                                    value="{{ $prod['cantidad'] }}">
+                                                                                            </td>
                                                                                         @endif
                                                                                         <td class="text-center">
                                                                                             <div class="btn-group"
                                                                                                 role="group"
                                                                                                 aria-label="Basic example">
                                                                                                 <button
-                                                                                                title="Quitar Item"
+                                                                                                    title="Quitar Item"
                                                                                                     type="button"
                                                                                                     onclick="ConfirmarEliminar('{{ $prod['product_id'] }}')"
                                                                                                     class="btn btn-danger"
@@ -466,14 +469,14 @@
                                             @endif
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
+                                                <button class="btn btn-secondary mb-0 js-btn-prev" type="button"
                                                     title="Prev">Anterior</button>
                                                 @if ($archivo)
-                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    <button class="btn btn-success ms-auto mb-0" type="button"
                                                         wire:click='GuardarSubir()' title="Send">Guardar y Subir
                                                         Archivo</button>
                                                 @else
-                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    <button class="btn btn-success ms-auto mb-0" type="button"
                                                         wire:click='GuardarOperacion()'
                                                         title="Send">Guardar</button>
                                                 @endif
@@ -608,6 +611,23 @@
                     type: 'error',
                     title: 'No ha seleccionado ningun archivo para subir',
                     padding: '2em',
+                })
+            });
+            window.livewire.on('vaciarlista', event => {
+
+                Swal.fire({
+                    title: 'Confirmar',
+                    text: "Esta accion vaciara la lista de ajuste",
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    if (result.value) {
+
+                        window.livewire.emit('confirmarvaciar');
+
+                    }
                 })
             });
 

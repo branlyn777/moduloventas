@@ -104,6 +104,47 @@ class RegistrarAjuste extends Component
             ->section('content');
     }
 
+    public function updatedDestino(){
+        if ($this->col->isNotEmpty()) {
+            $this->emit('vaciarlista');
+        }
+        if ($this->failures!=null and $this->archivo!=null) {
+      
+            $this->failures=null;
+            $this->archivo=null;
+        }
+
+        $this->show='';
+        $this->show1='js-active';
+        $this->active1='js-active';
+        $this->active2='js-active';
+        $this->active3='';
+        $this->show2='';
+
+    }
+
+    public function updatedConcepto(){
+
+   
+        if ($this->col->isNotEmpty()) {
+            $this->emit('vaciarlista');
+            
+        }
+        if ($this->failures!=null and $this->archivo!=null) {
+      
+            $this->failures=null;
+            $this->archivo=null;
+        }
+
+        $this->show='js-active';
+        $this->show1='';
+        $this->active1='js-active';
+        $this->active2='';
+        $this->active3='';
+        $this->show2='';
+
+    }
+
 
     public function addProduct(Product $id)
     {
@@ -196,7 +237,7 @@ class RegistrarAjuste extends Component
     {
       
         $this->ValidarDatos();
-        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='INICIAL' and $this->col->isNotEmpty() ) {
+        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='INICIAL' and $this->col->isNotEmpty()) {
             DB::beginTransaction();
             try {
                 
@@ -328,7 +369,7 @@ class RegistrarAjuste extends Component
             return Redirect::to('operacionesinv');
 
         } 
-        elseif($this->concepto=='AJUSTE')
+        elseif($this->concepto=='AJUSTE' and $this->col->isNotEmpty())
         {
             try {
 
@@ -546,7 +587,9 @@ class RegistrarAjuste extends Component
     }
 
 
-protected $listeners = ['clear-Product' => 'removeItem'];
+
+
+protected $listeners = ['clear-Product' => 'removeItem','confirmarvaciar'=>'vaciarlistaop'];
 
     public function removeItem(Product $product)
     {
@@ -554,6 +597,13 @@ protected $listeners = ['clear-Product' => 'removeItem'];
         $item = $this->col->where('product_id', $product->id);
         $this->col->pull($item->keys()->first());
      
+    }
+
+    public function vaciarlistaop(){
+        $this->col=collect();
+        $this->arr=null;
+        $this->searchproduct=null;
+        $this->destino=null;
     }
 
 
@@ -573,6 +623,8 @@ protected $listeners = ['clear-Product' => 'removeItem'];
         }
 
     }
+
+
 
     
 
@@ -620,6 +672,7 @@ protected $listeners = ['clear-Product' => 'removeItem'];
        $this->show1='js-active';
        $this->active1='js-active';
        $this->active2='js-active';
+       $this->failures=null;
 
     }
     public function proxima2(){
@@ -643,6 +696,7 @@ protected $listeners = ['clear-Product' => 'removeItem'];
        $this->active1='js-active';
        $this->active2='js-active';
        $this->active3='js-active';
+       $this->failures=null;
 
     }
 

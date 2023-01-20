@@ -185,7 +185,7 @@
                                                 <tr>
                                                     <td>
                                                         <label style="font-size: 14px"
-                                                            type="button">{{ substr($prod->nombre, 0, 10) }}({{ $prod->codigo }})</label>
+                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -227,8 +227,8 @@
                                     <tbody>
                                         @foreach ($cart as $prod)
                                             <tr style="font-size: 14px; color: black;">
-                                                <td class="text-center">
-                                                    {{ $prod->name }}
+                                                <td style="width: 60px;">
+                                                    {{ substr($prod->name, 0, 15) }}
                                                 </td>
                                                 <td>
                                                     <strong>{{ $prod->attributes->codigo }}</strong>

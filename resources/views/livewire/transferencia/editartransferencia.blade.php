@@ -171,7 +171,8 @@
                                                     {{ $prod->name }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" id="rr{{ $prod->id }}"
+                                                    <input type="number" onkeypress="return event.charCode >= 48"
+                                                        min="1" id="rr{{ $prod->id }}"
                                                         wire:change="UpdateQty({{ $prod->id }}, $('#rr' + {{ $prod->id }}).val())"
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="{{ $prod->quantity }}">
@@ -201,7 +202,7 @@
                         </div>
                     </div>
                     <br>
-                    
+
                     <div class="text-center">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @if ($this->itemsQuantity > 0)
