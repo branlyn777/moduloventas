@@ -96,7 +96,7 @@
                                                                         class="text-warning">* </span>Seleccione el
                                                                     concepto::</label>
                                                                 <select wire:model='concepto' class="form-select">
-                                                                    <option value="Elegir" disabled selected>Elegir
+                                                                    <option value="Elegir" disabled>Elegir
                                                                     </option>
 
                                                                     <option wire:key="bar" value="AJUSTE">Ajustar
@@ -239,8 +239,7 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
-                                                    title="Prev">Anterior</button>
+                                            
                                                 <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
@@ -466,7 +465,7 @@
                                             @endif
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
+                                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
                                                     title="Prev">Anterior</button>
                                                 @if ($archivo)
                                                     <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
@@ -608,6 +607,23 @@
                     type: 'error',
                     title: 'No ha seleccionado ningun archivo para subir',
                     padding: '2em',
+                })
+            });
+            window.livewire.on('vaciarlista', event => {
+
+                Swal.fire({
+                    title: 'Confirmar',
+                    text: "Esta accion vaciara la lista de ajuste",
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    if (result.value) {
+
+                        window.livewire.emit('confirmarvaciar');
+                     
+                    }
                 })
             });
 
