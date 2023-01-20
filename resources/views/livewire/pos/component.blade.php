@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                            color: rgb(0, 0, 0); */
+                                color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                                border-top: 0.3px solid rgb(0, 0, 0);
-                            } */
+                                    border-top: 0.3px solid rgb(0, 0, 0);
+                                } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -442,8 +442,12 @@
                                             <table>
                                                 <thead>
                                                     <tr>
-                                                        <th><p class=""><b>DESCRIPCION</b></p></th>
-                                                        <th><p class=""><b>ACCIONES</b></p></th>
+                                                        <th>
+                                                            <p class=""><b>DESCRIPCION</b></p>
+                                                        </th>
+                                                        <th>
+                                                            <p class=""><b>ACCIONES</b></p>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -451,29 +455,27 @@
                                                         <tr>
                                                             <td class="text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{ substr($p->nombre,0,60) }}
+                                                                    {{ substr($p->nombre, 0, 15) }}
                                                                     <b>({{ $p->barcode }})</b>
                                                                     {{ $p->precio_venta }} Bs
                                                                 </p>
                                                             </td>
                                                             <td class="text-center">
 
-                                                                @if ($p->estado =="ACTIVO")
-
-                                                                <button title="Añadir al Carrito de Ventas"
-                                                                    wire:click="increase({{ $p->id }})"
-                                                                    class="btn btn-primary"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-
-                                                                @else                                                 
-                                                                <button title="Producto inactivado"
-                                                                    wire:click="increase({{ $p->id }})"
-                                                                    class="btn btn-secondary"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
+                                                                @if ($p->estado == 'ACTIVO')
+                                                                    <button title="Añadir al Carrito de Ventas"
+                                                                        wire:click="increase({{ $p->id }})"
+                                                                        class="btn btn-primary"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                @else
+                                                                    <button title="Producto inactivado"
+                                                                        wire:click="increase({{ $p->id }})"
+                                                                        class="btn btn-secondary"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
                                                                 @endif
 
                                                             </td>
@@ -536,23 +538,27 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-uppercase text-sm text-center">Nº</th>
-                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>DESCRIPCION</b></th>
-                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b></th>
-                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>CANTIDAD</b></th>
-                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left">
+                                                            <b>DESCRIPCION</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b>
+                                                        </th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left">
+                                                            <b>CANTIDAD</b></th>
+                                                        <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b>
+                                                        </th>
                                                         <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($cart as $item)
-                                                        <tr>                                                    
+                                                        <tr>
                                                             <td class="text-sm mb-0 text-center">
                                                                 {{ $loop->iteration }}
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    
-                                                                    {{ substr($item->name,0,60) }}
+
+                                                                    {{ substr($item->name, 0, 15) }}
                                                                 </p>
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
@@ -591,7 +597,7 @@
                                                                 </p>
                                                             </td>
                                                             <td class="text-sm mb-0 text-center">
-                                                                
+
                                                                 <div class="btn-group" role="group"
                                                                     aria-label="Basic example">
 

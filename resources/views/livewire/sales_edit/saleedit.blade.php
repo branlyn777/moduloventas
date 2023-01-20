@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                color: rgb(0, 0, 0); */
+                    color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                    border-top: 0.3px solid rgb(0, 0, 0);
-                } */
+                        border-top: 0.3px solid rgb(0, 0, 0);
+                    } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -347,7 +347,7 @@
                 </div>
 
             </div>
-     
+
 
 
 
@@ -447,18 +447,18 @@
                                                             <tr>
                                                                 <td class="text-left">
                                                                     <p class="text-sm mb-0">
-                                                                        {{ substr($p->nombre,0,60) }}
+                                                                        {{ $p->nombre }}
                                                                         <b>({{ $p->barcode }})</b>
                                                                         {{ $p->precio_venta }} Bs
                                                                     </p>
                                                                 </td>
-                                                                <td class="text-center">                                                                 
+                                                                <td class="text-center">
                                                                     <button title="Incrementar una unidad"
-                                                                            wire:click.prevent="insert({{ $p->id }})"
-                                                                            class="btn btn-primary"
-                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </button>
+                                                                        wire:click.prevent="insert({{ $p->id }})"
+                                                                        class="btn btn-primary"
+                                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -526,12 +526,19 @@
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-uppercase text-sm text-center">Nº</th>                                                       
-                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>DESCRIPCION</b></th>                                                       
-                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b></th>
-                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>CANTIDAD</b></th>
-                                                            <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b></th>
-                                                            <th><p class="text-uppercase text-sm text-center"><b>ACCIONES</b></p></th>
+                                                            <th class="text-uppercase text-sm text-center">Nº</th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left">
+                                                                <b>DESCRIPCION</b></th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left">
+                                                                <b>PRECIO</b></th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left">
+                                                                <b>CANTIDAD</b></th>
+                                                            <th class="text-uppercase text-sm ps-2 text-left">
+                                                                <b>IMPORTE</b></th>
+                                                            <th>
+                                                                <p class="text-uppercase text-sm text-center">
+                                                                    <b>ACCIONES</b></p>
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -584,7 +591,8 @@
                                                                 </td>
                                                                 <td class="text-sm mb-0 text-center">
 
-                                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <div class="btn-group" role="group"
+                                                                        aria-label="Basic example">
 
                                                                         <button title="Quitar una unidad"
                                                                             wire:click.prevent="decrease({{ $c['id'] }})"
@@ -670,7 +678,8 @@
                                             </p>
                                         </button>
                                     @endif
-                                    <a href="{{ url('salelist') }}" class="btn btn-add mb-0" style="background-color: #2e48dc;color: white;">
+                                    <a href="{{ url('salelist') }}" class="btn btn-add mb-0"
+                                        style="background-color: #2e48dc;color: white;">
                                         <p class="text-sm mb-0">
                                             CANCELAR
                                         </p>

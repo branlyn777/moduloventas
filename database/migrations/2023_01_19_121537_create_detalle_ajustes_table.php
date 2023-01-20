@@ -15,7 +15,6 @@ class CreateDetalleAjustesTable extends Migration
     {
         Schema::create('detalle_ajustes', function (Blueprint $table) {
             $table->id();
-     
             $table->foreignId('product_id')->constrained();
             $table->unsignedBigInteger('id_ajuste');
             $table->foreign('id_ajuste')->references('id')->on('ajustes');

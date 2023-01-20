@@ -10,7 +10,7 @@
                     data-bs-dismiss="modal">
                     <i class="fa fas-circle-xmark text-white" aria-hidden="true">x</i>
                 </button> --}}
-                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close fs-3"   data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -51,6 +51,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
+                                        @if ($loteproducto)
+                                            
                                         @foreach ($loteproducto as $data)
                                         <tr style="font-size: 14px">
                                             {{-- {{$data}} --}}
@@ -76,6 +79,8 @@
                                                 {{$data->status}}
                                             </td>
                                             @endforeach
+                                        @endif
+
                                     </tbody>
                                 </table>
                             </div>

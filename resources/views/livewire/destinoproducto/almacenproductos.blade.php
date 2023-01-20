@@ -49,8 +49,10 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
+                        <a class="btn btn-success mb-0" href="{{ url("almacen/export/{$selected_id}") }}">
                             <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
+
+                          
                     </div>
                 </div>
             </div>
@@ -131,7 +133,7 @@
                                         </span>
                                     </td>
                                     <td style="width: 15%">
-                                        <b>{{substr($destino->nombre,0,58) }}</b><br>
+                                        <b>{{ substr($destino->nombre, 0, 58) }}</b><br>
                                         Codigo: {{ $destino->codigo }}
                                     </td>
                                     {{--
@@ -186,11 +188,11 @@
             {{ $destinos_almacen->links() }}
         </div>
     </div>
+    @include('livewire.destinoproducto.detallemobiliario')
+    @include('livewire.destinoproducto.ajusteinventario')
+    @include('livewire.destinoproducto.lotesproductos')
 </div>
-@include('livewire.destinoproducto.detallemobiliario')
-@include('livewire.destinoproducto.ajusteinventario')
-@include('livewire.destinoproducto.lotesproductos')
-</div>
+
 
 @section('javascript')
     <script>
