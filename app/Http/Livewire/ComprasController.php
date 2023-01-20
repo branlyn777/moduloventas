@@ -105,7 +105,7 @@ class ComprasController extends Component
             ->join('products','products.id','compra_detalles.product_id')
             ->join('providers','providers.id','compras.proveedor_id')
             ->where('products.nombre', 'like', '%' . $this->search3 . '%')
-            ->select('providers.nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
+            ->select('prov.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
             ->get();
             //dd($this->compraProducto);
         }
@@ -113,10 +113,12 @@ class ComprasController extends Component
         ->where("users.status","ACTIVE")
         ->get();
         return view('livewire.compras.component',
-        ['data_compras'=>$datas_compras->paginate($this->pagination), 
-        'totales'=>$this->totales,
-        'listasucursales' => Sucursal::all(),
-        'usuarios' => $usuarios])
+        [
+            'data_compras'=>$datas_compras->paginate($this->pagination), 
+            'totales'=>$this->totales,
+            'listasucursales' => Sucursal::all(),
+            'usuarios' => $usuarios
+        ])
         ->extends('layouts.theme.app')
         ->section('content');
     }

@@ -78,7 +78,7 @@
                                     data-bs-target="#modal_prov"><i class="fas fa-plus"></i></button>
                             </div>
                             @error('provider')
-                                <span class="text-danger er" style="font-size: 14px">{{ $message }}</span>
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -272,17 +272,10 @@
                                         @endforeach
 
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="5" style="text-align: right">
-                                                <h4><b>TOTAL.-</b></h4>
-                                            </td>
-                                            <td colspan="2" >
-                                                <h4><b>{{ $total_compra }}</b></h4>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
                                 </table>
+                                <div class="text-center">
+                                    <h4><b>TOTAL.- {{ $total_compra }}</b></h4>
+                                </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
                                     <div class="col-lg-12">

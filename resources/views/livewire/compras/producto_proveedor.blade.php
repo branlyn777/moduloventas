@@ -17,7 +17,8 @@
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search3" placeholder="Buscar Proveedor"
+                                <input type="text" wire:model="search3"
+                                 placeholder="Buscar Proveedor"
                                     class="form-control ">
                             </div>
                         </div>

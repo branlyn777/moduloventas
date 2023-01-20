@@ -118,95 +118,90 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="card">
-                <div class="card-body px-0 pb-0">
-                    <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-container">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-sm text-center">#</th>
-                                            <th class="text-uppercase text-sm" style="width: 50px;">COD.</th>
-                                            <th class="text-uppercase text-sm">FECHA</th>
-                                            <th class="text-uppercase text-sm">PROVEEDORES</th>
-                                            <th class="text-uppercase text-sm">ESTADO</th>
-                                            <th class="text-uppercase text-sm">USUARIO</th>
-                                            <th class="text-uppercase text-sm">TOTAL</th>
-                                            <th class="text-uppercase text-sm text-center">ACCIONES</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data_orden_compras as $data)
-                                            <tr style="font-size: 14px">
-                                                <td class="text-center">
-                                                    {{ $loop->index + 1 }}
-                                                </td>
-                                                <td>
-                                                    <h6 style="font-size: 12px"><span
-                                                            class="badge bg-secondary">{{ $data->id }}</span></h6>
-                                                    {{-- <span badge bg-secondary>{{ $data->id}}</span> --}}
-                                                </td>
-                                                <td>
-                                                    {{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}
-                                                    <br>
-                                                    {{ \Carbon\Carbon::parse($data->created_at)->format('h:i:s a') }}
-                                                </td>
-                                                <td>
-                                                    <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">
-                                                        {{ $data->proveedor->nombre_prov }}</h6>
-                                                </td>
+            
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center">N°</th>
+                                    <th class="text-uppercase text-sm ps-2">COD.</th>
+                                    <th class="text-uppercase text-sm ps-2">FECHA</th>
+                                    <th class="text-uppercase text-sm ps-2">PROVEEDORES</th>
+                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2">USUARIO</th>
+                                    <th class="text-uppercase text-sm ps-2">TOTAL</th>
+                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_orden_compras as $data)
+                                    <tr style="font-size: 14px">
+                                        <td class="text-center">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td>
+                                            <h6 style="font-size: 12px"><span
+                                                    class="badge bg-secondary">{{ $data->id }}</span></h6>
+                                            {{-- <span badge bg-secondary>{{ $data->id}}</span> --}}
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}
+                                            <br>
+                                            {{ \Carbon\Carbon::parse($data->created_at)->format('h:i:s a') }}
+                                        </td>
+                                        <td>
+                                            <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">
+                                                {{ $data->proveedor->nombre_prov }}</h6>
+                                        </td>
 
-                                                @if ($data->status == 'ACTIVO')
-                                                    <td>
-                                                        <span
-                                                            class="badge badge-sm bg-gradient-success">{{ $data->status }}</span>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <span class="badge text-bg-danger text-white">ANULADO</span>
-                                                    </td>
-                                                @endif
+                                        @if ($data->status == 'ACTIVO')
+                                            <td>
+                                                <span
+                                                    class="badge badge-sm bg-gradient-success">{{ $data->status }}</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span class="badge text-bg-danger text-white">ANULADO</span>
+                                            </td>
+                                        @endif
 
-                                                <td>
-                                                    {{ $data->usuario->name }}
-                                                </td>
-                                                <td>
-                                                    {{ $data->importe_total }}
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <button type="button" class="btn btn-primary"
-                                                            wire:click="VerDetalleCompra('{{ $data->id }}')"
-                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                            title="Listar orden de compra">
-                                                            <i class="fas fa-bars" style="font-size: 14px"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            href="{{ url('OrdenCompra/pdf' . '/' . $data->id) }}"
-                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                            title="Imprimir orden de compra">
-                                                            <i class="fas fa-print text-white"
-                                                                style="font-size: 14px"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger"
-                                                            wire:click="anularOrden('{{ $data->id }}')"
-                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                            title="Anular orden compra">
-                                                            <i class="fas fa-minus-circle text-white"
-                                                                style="font-size: 14px"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                                
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                    
-                                </table><br>
-                            </div>
-                        </div>
+                                        <td>
+                                            {{ $data->usuario->name }}
+                                        </td>
+                                        <td>
+                                            {{ $data->importe_total }}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="VerDetalleCompra('{{ $data->id }}')"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                    title="Listar orden de compra">
+                                                    <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    href="{{ url('OrdenCompra/pdf' . '/' . $data->id) }}"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                    title="Imprimir orden de compra">
+                                                    <i class="fas fa-print text-white" style="font-size: 14px"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger"
+                                                    wire:click="anularOrden('{{ $data->id }}')"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                    title="Anular orden compra">
+                                                    <i class="fas fa-minus-circle text-white"
+                                                        style="font-size: 14px"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
 

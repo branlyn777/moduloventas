@@ -235,7 +235,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
     }
 
     public function guardarOrdenCompra(){
-
+        //dd('finalizar orden de compra');
        $orcompra= OrdenCompra::create([
             'importe_total'=>$this->total,
             'observacion'=>$this->observacion,
@@ -245,6 +245,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
             'user_id'=>Auth()->user()->id,
             'estado_entrega'=>'NORECIBIDO'
         ]);
+        
         foreach ($this->cart as $data) {
             DetalleOrdenCompra::create([
                 'orden_compra'=>$orcompra->id,
@@ -257,7 +258,20 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
         redirect('/orden_compras');
     }
 
+    public function resetUI()
+    {
+        //dd('vaciar orden de compra');
+        $this->provider = 'Elegir Proveedor';
+        $this->destino = 'Elegir Destino';
+        $this->resetOrdenCompra();
+        
+        
+    }
 
-
+    public function exit()
+    {
+        //dd('ir a orden de compras');
+        redirect('/orden_compras');
+    }
 
 }

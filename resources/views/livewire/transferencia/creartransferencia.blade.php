@@ -99,8 +99,8 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card">
-                        <div class="card-body" style="min-height: 500px; padding-top: 10px;">
-                            <div class="form-group p-2">
+                        <div class="card-body">
+                            <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="fa fa-search"></i>
@@ -108,9 +108,8 @@
                                     <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
                                 </div>
                             </div>
-
                             @if ($selected_origen !== 0 && strlen($search) > 0)
-                                <div style="margin-top: 45px; border-radius: 15px;">
+                                <div class="table-wrapper">
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
@@ -153,7 +152,7 @@
                 </div>
 
                 <div class="col-12 col-md-8 mb-4 mb-md-0">
-                    <div class="card" style="min-height: 500px; padding-top: 10px;"><br>
+                    <div class="card"><br>
                         <div class="text-center">
                             <h5><b>Detalle Transferencia</b></h5>
                         </div>
@@ -163,7 +162,7 @@
                                     <thead>
                                         <tr style="font-size: 14px; color: black;">
                                             <th class="text-center">N°</th>
-                                            <th style="width: 600px;">Producto</th>
+                                            <th class="text-uppercase text-sm ps-2" style="width: 600px;">Producto</th>
                                             <th class="text-center">Cantidad</th>
                                             <th class="text-center">ACCIÓN</th>
                                         </tr>
@@ -178,7 +177,8 @@
                                                     {{ substr($prod->name, 0, 10) }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" id="rr{{ $prod->id }}"
+                                                    <input type="number" onkeypress="return event.charCode >= 48"
+                                                        min="1" id="rr{{ $prod->id }}"
                                                         wire:change="UpdateQty({{ $prod->id }}, $('#rr' + {{ $prod->id }}).val())"
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="{{ $prod->quantity }}">
