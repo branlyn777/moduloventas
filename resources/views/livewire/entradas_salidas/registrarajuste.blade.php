@@ -94,7 +94,7 @@
                                                             <div class="form-group">
                                                                 <label style="color: rgb(74, 74, 74)"><span
                                                                         class="text-warning">* </span>Seleccione el
-                                                                    concepto::</label>
+                                                                    concepto:</label>
                                                                 <select wire:model='concepto' class="form-select">
                                                                     <option value="Elegir" disabled selected>Elegir
                                                                     </option>
@@ -185,7 +185,7 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
                                         </div>
@@ -200,8 +200,8 @@
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span> Seleccione la
-                                                                    sucursal:</strong>
+                                                                <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span> Seleccione la
+                                                                    sucursal:</label>
                                                                 <select wire:model.lazy='sucursal' class="form-select">
                                                                     <option value='Elegir' disabled>Elegir</option>
                                                                     @foreach ($sucursales as $item)
@@ -217,8 +217,8 @@
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <strong style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
-                                                                    almacen:</strong>
+                                                                <label style="color: rgb(74, 74, 74)"><span class="text-warning">* </span>Seleccione el
+                                                                    almacen:</label>
                                                                 <select wire:model.lazy='destino' class="form-select">
                                                                     <option value=null disabled>--</option>
                                                                     @foreach ($destinos as $item)
@@ -239,9 +239,9 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
+                                                <button class="btn btn-secondary mb-0" type="button"
                                                     title="Prev">Anterior</button>
-                                                <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
                                         </div>
@@ -306,7 +306,7 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                            type="button">{{ substr($prod->nombre, 0, 40) }}({{ $prod->codigo }})</label>
+                                                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -361,7 +361,7 @@
                                                                                     <tr
                                                                                         style="font-size: 14px; color: black;">
                                                                                         <td style="width: 60px;">
-                                                                                            {{ substr($prod['product_name'], 0, 90) }}
+                                                                                            {{ substr($prod['product_name'], 0, 15) }}
                                                                                         </td>
                                                                                         @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
                                                                                             <td>
@@ -466,14 +466,14 @@
                                             @endif
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0" type="button"
+                                                <button class="btn btn-secondary mb-0" type="button"
                                                     title="Prev">Anterior</button>
                                                 @if ($archivo)
-                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    <button class="btn btn-success ms-auto mb-0" type="button"
                                                         wire:click='GuardarSubir()' title="Send">Guardar y Subir
                                                         Archivo</button>
                                                 @else
-                                                    <button class="btn bg-gradient-dark ms-auto mb-0" type="button"
+                                                    <button class="btn btn-success ms-auto mb-0" type="button"
                                                         wire:click='GuardarOperacion()'
                                                         title="Send">Guardar</button>
                                                 @endif
