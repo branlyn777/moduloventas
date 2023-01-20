@@ -54,43 +54,7 @@
 
 
 <div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="row">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="col-6">
 
             <div class="d-lg-flex my-auto p-0 mb-3">
@@ -149,8 +113,8 @@
                                         <td class="text-center">
                                             {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
                                         </td>
-                                        <td >
-                                            {{ $data->nombre }}
+                                        <td>
+                                            {{ substr($data->nombre, 0, 15) }}
                                         </td>
 
                                         <td class="text-center">
@@ -177,18 +141,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
         <div class="col-6">
-
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">Marcas</h5>
@@ -200,13 +153,10 @@
                                 class="fas fa-plus"></i> Agregar Marca</a>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="card mb-4">
                 <div class="card-body  p-4">
-
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-6">
                             <h6>Buscar Marca</h6>
@@ -239,7 +189,7 @@
                                             {{ ($marcas->currentpage() - 1) * $marcas->perpage() + $loop->index + 1 }}
                                         </td>
                                         <td>
-                                            {{ $data->nombre }}
+                                            {{ substr($data->nombre, 0, 15) }}
                                         </td>
 
                                         <td class="text-center">
