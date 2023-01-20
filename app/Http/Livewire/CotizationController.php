@@ -173,6 +173,7 @@ class CotizationController extends Component
                     // ->where("lotes.status","Activo")
                     ->orderby("lotes.created_at", "desc")
                     ->first()->pv;
+                    
 
                 $this->carrito_cotizacion->push([
                     'orden' => 1,
