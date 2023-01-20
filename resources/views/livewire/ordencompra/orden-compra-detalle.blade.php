@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div><br>
-            <div class="card  mb-4">
+            <div class="card mb-4">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-3">
@@ -80,7 +80,6 @@
                                         data-target="#modal_prov" > <i class="fas fa-plus text-white"></i> </button> 
                                 --}}
                             </select>
-
                             @error('provider')
                                 <span class="text-danger er">{{ $message }}</span>
                             @enderror
@@ -168,18 +167,18 @@
                                 <table class="table align-items-center mb-4">
                                     <thead>
                                         <tr class="text-center" style="font-size: 14px; color: black;">
-                                            <th style="text-align: left">Producto</th>
-                                            <th>Precio Compra</th>
-                                            <th>Cantidad</th>
-                                            <th>Total</th>
-                                            <th>Acción</th>
+                                            <th class="text-uppercase text-sm text-center">Producto</th>
+                                            <th class="text-uppercase text-sm ps-2">Precio Compra</th>
+                                            <th class="text-uppercase text-sm text-center">Cantidad</th>
+                                            <th class="text-uppercase text-sm text-center">Total</th>
+                                            <th class="text-uppercase text-sm text-center">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($cart->sortBy('order') as $prod)
                                             <tr style="font-size: 14px; color: black;">
-                                                <td>
-                                                    <h6>{{ $prod['product_name'] }}</h6>
+                                                <td class="text-center">
+                                                    {{ $prod['product_name'] }}
                                                 </td>
 
                                                 <td>
@@ -217,18 +216,11 @@
 
                                             </tr>
                                         @endforeach
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="3">
-                                                <h3>TOTAL.-</h3>
-                                            </td>
-                                            <td colspan="3">
-                                                <h3>{{ number_format($total, 2) }}</h3>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
                                     </tbody>
                                 </table>
+                                <div class="text-center">
+                                    <h4><b>TOTAL.- {{ number_format($total, 2) }}</b></h4>
+                                </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
                                     <div class="col-lg-12">
@@ -236,20 +228,19 @@
                                     </div>
                                 </div>
                             @endif
-                        </div><br>
-                        <div class="text-center mb-4">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                @if ($this->itemsQuantity > 0)
-                                    <button type="button" wire:click="resetUI()"
-                                        class="btn btn-danger">Vaciar</button>
-                                @endif
+                        </div>
+                    </div><br>
+                    <div class="text-center mb-4">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            @if ($this->itemsQuantity > 0)
+                                <button type="button" wire:click="resetUI()" class="btn btn-danger">Vaciar</button>
+                            @endif
 
-                                <button type="button" wire:click="exit()" class="btn btn-secondary"
-                                    style="background-color: #373839; color: white; border-color: black;">Ir Orden
-                                    Compras</button>
-                                <button type="button" wire:click="guardarOrdenCompra()"
-                                    class="btn btn-primary">Finalizar</button>
-                            </div>
+                            <button type="button" wire:click="exit()" class="btn btn-secondary"
+                                style="background-color: #2e48dc; color: white;">Ir Orden Compras</button>
+                                
+                            <button type="button" wire:click="guardarOrdenCompra()"
+                                class="btn btn-success">Finalizar</button>
                         </div>
                     </div>
                 </div>

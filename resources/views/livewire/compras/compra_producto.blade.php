@@ -13,16 +13,16 @@
             <div class="modal-body" style="min-height: 500px; padding-top: 10px;">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-6">
-                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Producto</label>
+                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar</label>
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search2" placeholder="Buscar Producto"
+                                <input type="text" wire:model="search2" placeholder="producto, proveedor"
                                     class="form-control ">
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6">
+                    {{-- <div class="col-12 col-sm-6 col-md-6">
                         <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Proveedor</label>
                         <div class="form-group">
                             <div class="input-group mb-4">
@@ -31,7 +31,7 @@
                                     class="form-control ">
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -56,7 +56,7 @@
                                                 {{ substr($cp->nombre, 0, 10) }}
                                             </td>
                                             <td class="text-left">
-                                                {{ $cp->nombre_prov }}
+                                                {{ $cp->nombre_prov == null ? '--' : $cp->nombre_prov }}
                                             </td>
                                             <td class="text-center">
                                                 {{ $cp->cantidad }}

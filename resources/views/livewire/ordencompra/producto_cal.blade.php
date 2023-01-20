@@ -80,9 +80,8 @@
                 </div>
 
                 <div class="row justify-content-center m-auto">
-                    <h4 class="col-lg-12">Pronostico del proximo pedido</h4>
-                    <h2>{{ $calculado }} Uds.</h2>
-
+                    <h6 class="col-lg-12">Pronostico del proximo pedido</h6>
+                    <h5>{{ $calculado }} Uds.</h5>
                 </div>
                 <div class="modal-footer">
                     <button wire:click="aplicarPronostico({{ $prod_exp }})" type="button" class="btn btn-primary"

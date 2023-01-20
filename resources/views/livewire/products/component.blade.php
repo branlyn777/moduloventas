@@ -154,7 +154,7 @@
 
 
                         </div>
-                    </div>deleted
+                    </div>
                 </div>
             </div>
 
