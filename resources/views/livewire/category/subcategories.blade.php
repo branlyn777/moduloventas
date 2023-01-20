@@ -26,19 +26,20 @@
                                     <tbody>
                                         <div class="d-flex justify-content-end mb-2">
 
-                                            <a href="javascript:void(0)"
-                                                wire:click="asignarCategoria()" class="btn btn-add"
-                                                data-dismiss="modal"> <i class="fas fa-plus"></i> Agregar Subcategorias
+                                            <a href="javascript:void(0)" wire:click="asignarCategoria()"
+                                                class="btn btn-add" data-dismiss="modal"> <i class="fas fa-plus"></i>
+                                                Agregar Subcategorias
                                             </a>
                                         </div>
-                                        @if ($subcat !=null and count($subcat) > 0)
+                                        @if ($subcat != null and count($subcat) > 0)
                                             @foreach ($subcat as $category)
                                                 <tr class="text-center">
                                                     <td>
                                                         <h6 style="font-size: 0.9rem">{{ $loop->index + 1 }}</h6>
                                                     </td>
                                                     <td>
-                                                        <h6 style="font-size: 0.9rem">{{ $category->name }}</h6>
+                                                        <h6 style="font-size: 0.9rem">{{ substr($category->name, 0, 15) }}
+                                                        </h6>
                                                     </td>
                                                     <td>
                                                         <h6 style="font-size: 0.9rem">
@@ -53,8 +54,9 @@
                                                         </button> --}}
 
                                                         <a href="javascript:void(0)"
-                                                            wire:click="EditSubcategoria({{ $category->id }})" class="mx-3"
-                                                            class="boton-azul" title="Editar Subcategoria">
+                                                            wire:click="EditSubcategoria({{ $category->id }})"
+                                                            class="mx-3" class="boton-azul"
+                                                            title="Editar Subcategoria">
                                                             <i class="fas fa-edit" style="font-size: 13px"></i>
                                                         </a>
 
