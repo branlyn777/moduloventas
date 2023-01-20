@@ -39,6 +39,27 @@
 @endsection
 
 
+
+
+
+@section("css")
+<style>
+    .tablareporte{
+        width: 100%;
+    }
+    .tablareporte .ie{
+        width: 150px;
+        text-align: right;
+    }
+    .tablareporte .fecha{
+        width: 120px;
+    }
+    .tablareporte .no{
+        width: 50px;
+    }
+</style>
+@endsection
+
 <div>
     <div class="d-lg-flex" style="margin-bottom: 2.3rem">
         <h5 class="text-white" style="font-size: 16px">Movimientos Diarios </h5>
@@ -132,46 +153,32 @@
         </div>
     </div>
 
-    
-
-
-
-
-
-
-
-
-
-
     @if($totalesIngresosV->count() > 0)
-    <br>
+        <br>
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive p-0">
-                    <table style="width: 100%">
-
+                <div class="table-responsive">
+                    <table class="tablareporte">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-sm text-center">#</th>
-                                <th class="text-uppercase text-sm">FECHA</th>
-                                <th class="text-uppercase text-sm">DETALLE</th>
-                                <th class="text-uppercase text-sm">INGRESO</th>
-                                <th class="text-uppercase text-sm">
+                                <th class="text-sm text-center">#</th>
+                                <th class="text-sm">FECHA</th>
+                                <th class="text-sm text-left">DETALLE</th>
+                                <th class="text-sm ie">INGRESO</th>
+                                <th class="text-sm ie">
                                     @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         UTILIDAD
                                     @endif
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody>
-
                             @foreach ($totalesIngresosV as $p)
                                 <tr>
-                                    <td class="text-sm text-center">
+                                    <td class="text-sm text-center no">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-sm">
+                                    <td class="text-sm fecha">
                                         {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                     </td>
                                     <td>
@@ -183,7 +190,7 @@
 
                                                             <div class="accordion-item mb-3">
                                                                 <h6 class="accordion-header" id="headingOne">
-                                                                    <button style="width: 510px;"
+                                                                    <button
                                                                         class="accordion-button border-bottom font-weight-bold collapsed"
                                                                         type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#collapseOne{{ $loop->iteration }}"
@@ -285,12 +292,12 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="ie">
                                         <span class="badge badge-sm bg-success text-sm">
                                             {{ number_format($p->importe, 2) }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="ie">
                                         @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                             <span class="badge badge-sm bg-primary text-sm">
                                                 {{ number_format($p->utilidadventa, 2) }}
@@ -299,76 +306,27 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-                            {{-- @foreach ($totalesIngresosS as $p)
-                                <tr>
-                                    <td class="text-sm text-center">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td class="text-sm text-center">
-                                        {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                    </td>
-
-                                    <td class="text-sm text-center">
-                                        <b>{{ $p->idordenservicio }},{{ $p->tipoDeMovimiento }},
-                                            {{ $p->nombrecategoria }}
-                                            ,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})</b>
-                                    </td>
-                                    <td class="text-sm text-right">
-                                        {{ number_format($p->importe, 2) }}
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td class="text-sm text-right">
-                                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        <span class="badge badge-sm bg-primary text-sm">
-                                            {{ number_format($p->utilidadservicios, 2) }}
-                                        </span>
-                                        @endif
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-sm text-center">
-                                        {{ ucwords(strtolower($p->solucion)) }}
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
-
                     </table>
                 </div>
             </div>
-
         </div>
     @endif
 
-    
-
- 
-
-    
-
     @if($totalesEgresosV->count() > 0)
-    <br>
+        <br>
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive p-0">
-                    <table style="width: 100%">
+                <div class="table-responsive">
+                    <table class="tablareporte">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-sm text-center">#</th>
-                                <th class="text-uppercase text-sm">FECHA</th>
-                                <th class="text-uppercase text-sm text-center">DETALLE</th>
-                                <th class="text-uppercase text-sm">INGRESO</th>
-                                <th class="text-uppercase text-sm">EGRESO</th>
-                                <th class="text-uppercase text-sm">
+                                <th class="text-sm text-center">#</th>
+                                <th class="text-sm">FECHA</th>
+                                <th class="text-sm text-center">DETALLE</th>
+                                <th class="text-sm">INGRESO</th>
+                                <th class="text-sm">EGRESO</th>
+                                <th class="text-sm">
                                     @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         UTILIDAD
                                     @endif
@@ -378,10 +336,10 @@
                         <tbody>
                             @foreach ($totalesEgresosV as $p)
                                 <tr>
-                                    <td class="text-sm">
+                                    <td class="text-sm no">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-sm text-center">
+                                    <td class="text-sm text-center fecha">
                                         {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                     </td>
 
@@ -391,7 +349,7 @@
                                     <td>
 
                                     </td>
-                                    <td class="text-sm text-right">
+                                    <td>
                                         <span class="badge badge-sm bg-success text-sm">
                                             {{ number_format($p->importe, 2) }}
                                         </span>
@@ -413,15 +371,15 @@
         <br>
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive p-0">
-                    <table style="width: 100%">
+                <div class="table-responsive">
+                    <table class="tablareporte">
                         <thead>
                             <tr>
                                 <th class="text-sm text-center">#</th>
                                 <th class="text-sm">FECHA</th>
-                                <th class="text-sm" style="width: 510px;">DETALLE</th>
-                                <th class="text-sm">INGRESO</th>
-                                <th class="text-sm">
+                                <th class="text-sm">DETALLE</th>
+                                <th class="text-sm ie">INGRESO</th>
+                                <th class="text-sm ie">
                                     @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         UTILIDAD
                                     @endif
@@ -431,24 +389,24 @@
                         <tbody>
                             @foreach ($totalesIngresosIE as $m)
                             <tr>
-                                <td class="text-center text-sm">
+                                <td class="text-center text-sm no">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td class="text-sm">
+                                <td class="text-sm fecha">
                                     {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
                                 </td>
 
                                 <td class="text-sm">
-                                    <div style="width: 510px;">
+                                    <div>
                                         <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
                                     </div>
                                 </td>
-                                <td class="text-sm">
+                                <td class="text-sm ie">
                                     <span class="badge badge-sm bg-success text-sm">
                                         {{ number_format($m->importe, 2) }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="ie">
 
                                 </td>
 
@@ -461,7 +419,6 @@
                                 </td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -471,21 +428,20 @@
         </div>
     @endif
 
-    
 
     @if($totalesEgresosIE->count() > 0)
-    <br>
+        <br>
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive p-0">
-                    <table style="width: 100%">
+                <div class="table-responsive">
+                    <table class="tablareporte">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-sm text-center">#</th>
-                                <th class="text-uppercase text-sm">FECHA</th>
-                                <th class="text-uppercase text-sm">DETALLE</th>
-                                <th class="text-uppercase text-sm">EGRESO</th>
-                                <th class="text-uppercase text-sm">
+                                <th class="text-sm text-center">#</th>
+                                <th class="text-sm">FECHA</th>
+                                <th class="text-sm">DETALLE</th>
+                                <th class="text-sm ie">EGRESO</th>
+                                <th class="text-sm ie">
                                     @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         UTILIDAD
                                     @endif
@@ -495,22 +451,22 @@
                         <tbody>
                             @foreach ($totalesEgresosIE as $st)
                                 <tr>
-                                    <td class="text-sm">
+                                    <td class="text-sm no">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="text-sm">
+                                    <td class="text-sm fecha">
                                         {{ \Carbon\Carbon::parse($st->movcreacion)->format('d/m/Y H:i') }}
                                     </td>
 
                                     <td class="text-sm">
                                         <b>{{ $st->ctipo == 'CajaFisica' ? 'Efectivo' : $st->ctipo }},({{ $st->nombrecartera }})</b>
                                     </td>
-                                    <td class="text-sm text-right">
+                                    <td class="text-sm text-right ie">
                                         <span class="badge badge-sm bg-danger text-sm">
                                             {{ number_format($st->importe, 2) }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="ie">
 
                                     </td>
 
@@ -518,10 +474,9 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td class="text-sm text-center">
+                                    <td class="text-sm">
                                         {{ $st->coment }}
                                     </td>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -536,7 +491,7 @@
     <br>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive p-0">
+            <div class="table-responsive">
                 <table style="width: 100%">
                     <tr>
                         <td colspan="6">

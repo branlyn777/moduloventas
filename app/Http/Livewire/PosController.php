@@ -333,6 +333,7 @@ class PosController extends Component
                 $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre)."'!";
                 if($producto->image == null)
                 {
+
                     Cart::add($product_cart->id, $product_cart->name, $product_cart->price, 1 , 'noimgproduct.png');
                     $this->emit('increase-ok');
                 }
@@ -347,12 +348,25 @@ class PosController extends Component
                 $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
                 if($producto->image == null)
                 {
-                    Cart::add($producto->id, $producto->nombre, $producto->precio_venta, 1 , 'noimgproduct.png');
+
+                    $precio = Lote::select("lotes.pv_lote as pv")
+                    ->where("lotes.product_id",$producto->id)
+                    // ->where("lotes.status","Activo")
+                    ->orderby("lotes.created_at","desc")
+                    ->first()->pv;
+
+
+                    Cart::add($producto->id, $producto->nombre, $precio, 1 , 'noimgproduct.png');
                     $this->emit('increase-ok');
                 }
                 else
                 {
-                    Cart::add($producto->id, $producto->nombre, $producto->precio_venta, 1 , $producto->image);
+                    $precio = Lote::select("lotes.pv_lote as pv")
+                    ->where("lotes.product_id",$producto->id)
+                    // ->where("lotes.status","Activo")
+                    ->orderby("lotes.created_at","desc")
+                    ->first()->pv;
+                    Cart::add($producto->id, $producto->nombre, $precio, 1 , $producto->image);
                     $this->emit('increase-ok');
                 }
             }
@@ -961,10 +975,12 @@ class PosController extends Component
     //Buscar el Precio Original de un Producto
     public function buscarprecio($id)
     {
-        $tiendaproducto = Product::select("products.id as id","products.precio_venta as precio")
-        ->where("products.id", $id)
-        ->get()->first();
-        return $tiendaproducto->precio;
+        $precio = Lote::select("lotes.pv_lote as pv")
+        ->where("lotes.product_id",$id)
+        // ->where("lotes.status","Activo")
+        ->orderby("lotes.created_at","desc")
+        ->first()->pv;
+        return $precio;
     }
     //Cierra la ventana modal Buscar Cliente y Cambia el id de la variable $cliente_id con un cliente Creado
     public function crearcliente()

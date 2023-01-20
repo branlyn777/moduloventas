@@ -249,11 +249,20 @@ class SaleEditController extends Component
     //Buscar el Precio Original de un Producto
     public function buscarprecio($id)
     {
+<<<<<<< HEAD
         
         $tiendaproducto = Product::select("products.id as id", "products.precio_venta as precio")
             ->where("products.id", $id)
             ->get()->first();
         return $tiendaproducto->precio;
+=======
+        $precio = Lote::select("lotes.pv_lote as pv")
+        ->where("lotes.product_id",$id)
+        // ->where("lotes.status","Activo")
+        ->orderby("lotes.created_at","desc")
+        ->first()->pv;
+        return $precio;
+>>>>>>> 60e74c30a4f2773a83bbf9680158d736be700d14
     }
     //Obtener el id de un cliente anónimo, si no existe creará uno
     public function clienteanonimo_id()
