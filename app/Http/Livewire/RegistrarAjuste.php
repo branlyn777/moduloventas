@@ -27,7 +27,7 @@ use Livewire\WithFileUploads;
 class RegistrarAjuste extends Component
 {
     use WithFileUploads;
-    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa,$sucursales,$destinos,$sucursal,
+    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,$precioventa,$sucursales,$destinos,$sucursal,
         $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show,
          $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
          ,$active1,$active2,$active3;
@@ -313,7 +313,7 @@ class RegistrarAjuste extends Component
                     $q = ProductosDestino::where('product_id', $datas['product_id'])
                         ->where('destino_id', $this->destino)->value('stock');
 
-                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $q - $datas['cantidad']]);
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], [$datas['recuento']]);
                 }
 
                 DB::commit();
@@ -345,11 +345,12 @@ class RegistrarAjuste extends Component
                         'product_id' => $datas['product_id'],
                         'recuentofisico' => $datas['recuento'],
                         'diferencia' =>$datas['recuento']-$datas['stockactual']>0?$datas['recuento']-$datas['stockactual']:($datas['recuento']-$datas['stockactual'])*-1,
-                        'tipo' => $datas['recuento']-$datas['stockactual']>0?'positiva':'negativa'
+                        'tipo' => $datas['recuento']-$datas['stockactual']>0?'positiva':'negativa',
+                        'id_ajuste'=>$ajuste->id
 
                     ]);
 
-                    if ( $datas['recuento']-$datas['stockactual']>0) 
+                    if ( $datas['recuento']>$datas['stockactual']) 
                     {
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
                         $lot->update([
@@ -371,20 +372,16 @@ class RegistrarAjuste extends Component
                         
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
                         //obtener la cantidad del detalle de la venta 
-                        $this->qq = $datas['cantidad']; //q=8
+                        $this->qq =$datas['stockactual']- $datas['recuento']; //q=8
                         foreach ($lot as $val) { 
                             //lote1= 3 Lote2=3 Lote3=3
                             $this->lotecantidad = $val->existencia;
                             //dd($this->lotecantidad);
-                            if ($this->qq > 0) {
+                            if ($this->qq >= 0) {
                                 //true//5//2
                                 //dd($val);
                                 if ($this->qq > $this->lotecantidad) {
-                                    $ss = SalidaLote::create([
-                                        'salida_detalle_id' => $auxi->id,
-                                        'lote_id' => $val->id,
-                                        'cantidad' => $val->existencia
-                                    ]);
+                            
                                     $val->update([
     
                                         'existencia' => 0,
@@ -396,12 +393,7 @@ class RegistrarAjuste extends Component
                                     //dump("dam",$this->qq);
                                 } else {
                                     //dd($this->lotecantidad);
-                                    $ss = SalidaLote::create([
-                                        'salida_detalle_id' => $auxi->id,
-                                        'lote_id' => $val->id,
-                                        'cantidad' => $this->qq
-    
-                                    ]);
+                              
     
     
                                     $val->update([

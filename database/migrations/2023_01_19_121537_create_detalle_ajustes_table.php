@@ -17,6 +17,8 @@ class CreateDetalleAjustesTable extends Migration
             $table->id();
      
             $table->foreignId('product_id')->constrained();
+            $table->unsignedBigInteger('id_ajuste');
+            $table->foreign('id_ajuste')->references('id')->on('ajustes');
             $table->integer('recuentofisico');
             $table->integer('diferencia');
             $table->enum('tipo',['positiva','negativa']);

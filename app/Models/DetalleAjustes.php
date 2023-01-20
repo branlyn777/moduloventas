@@ -9,5 +9,5 @@ class DetalleAjustes extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['product_id','recuentofisico','diferencia','tipo'];
+    protected $fillable = ['product_id','recuentofisico','diferencia','tipo','id_ajuste'];
 }

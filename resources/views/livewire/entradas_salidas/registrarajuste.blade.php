@@ -347,7 +347,7 @@
                                                                                         <th>Acción</th>
                                                                                     @elseif($concepto == 'AJUSTE')
                                                                                         <th>Cantidad Actual Sistema</th>
-                                                                                        <th>Conteo Manual</th>
+                                                                                        <th>Recuento Fisico</th>
                                                                                         <th>Acción</th>
                                                                                     @else
                                                                                         <th>Cantidad</th>
@@ -390,11 +390,11 @@
                                                                                         </td>
                                                                                         
                                                                                         @elseif ($concepto == 'AJUSTE')
-                                                                                            <td>
+                                                                                            <td class='text-center'>
                                                                                                
                                                                                                 {{ $prod['stockactual'] }}
                                                                                             </td>
-                                                                                            <td>
+                                                                                            <td class='text-center'>
                                                                                                 <input type="number"
                                                                                                 id="cf{{ $prod['product_id'] }}"
                                                                                                 wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
