@@ -249,6 +249,7 @@ class SaleEditController extends Component
     //Buscar el Precio Original de un Producto
     public function buscarprecio($id)
     {
+        
         $tiendaproducto = Product::select("products.id as id", "products.precio_venta as precio")
             ->where("products.id", $id)
             ->get()->first();
