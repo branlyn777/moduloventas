@@ -108,28 +108,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data_unidad as $data)
-                                    <tr style="font-size: 14px">
-                                        <td class="text-center">
-                                            {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
-                                        </td>
-                                        <td>
-                                            {{ substr($data->nombre, 0, 15) }}
-                                        </td>
+                                @if ($data_unidad != null and count($data_unidad) > 0)
+                                    @foreach ($data_unidad as $data)
+                                        <tr style="font-size: 14px">
+                                            <td class="text-center">
+                                                {{ ($data_unidad->currentpage() - 1) * $data_unidad->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ substr($data->nombre, 0, 15) }}
+                                            </td>
 
-                                        <td class="text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
-                                                class="mx-3" title="Editar Unidad">
-                                                <i class="fas fa-edit text-info"></i>
-                                            </a>
-                                            <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')"
-                                                class="mx-3" title="Eliminar unidad">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)" wire:click="Edit({{ $data->id }})"
+                                                    class="mx-3" title="Editar Unidad">
+                                                    <i class="fas fa-edit text-info"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $data->id }}','{{ $data->nombre }}')"
+                                                    class="mx-3" title="Eliminar unidad">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="row justify-content-center align-items-center mx-auto my-5">
+
+                                                <label class="text-center">No tiene unidades que
+                                                    mostrar</label>
+                                            </div>
                                         </td>
                                     </tr>
-                                @endforeach
+
+                                @endif
+
                             </tbody>
                         </table>
                     </div>
@@ -183,6 +197,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($marcas != null and count($marcas) > 0)
                                 @foreach ($marcas as $data)
                                     <tr style="font-size: 14px">
                                         <td class="text-center">
@@ -205,6 +220,18 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="5">
+                                        <div
+                                            class="row justify-content-center align-items-center mx-auto my-5">
+
+                                            <label class="text-center">No tiene marcas que
+                                                mostrar</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
