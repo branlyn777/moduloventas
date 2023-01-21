@@ -39,9 +39,10 @@ class ProductsController extends Component
     public $des_subcategory;
     //Variable para configurar el seguimiento de los lotes, de acuerdo a si quiere que sea manual la eleccion del lote o si quiere que sea por defecto automatico FIFO
     public $cont_lote;
-    public $pagination = 10;
+    public $pagination = 25;
     public $selected_id2;
     public $mensaje_toast;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -61,19 +62,11 @@ class ProductsController extends Component
         $this->stockswitch=false;
         $this->cantidad=1;
     }
-    /**
-     * Si sub_seleccionado no es nulo y la matriz de cambios tiene más de un elemento, establezca
-     * sub_seleccionado en nulo.
-     */
+    
 
     public function updatedSelectedCategoria()
     {
-
-        array_push($this->change, $this->selected_categoria);
-
-        if ($this->selected_sub !== null and count($this->change) > 1) {
             $this->selected_sub = null;
-        }
     }
 
     /**
@@ -92,52 +85,35 @@ class ProductsController extends Component
     }
 
 
-    /**
-     * Cuando el usuario cambia los parámetros de búsqueda, restablece la página a 1.
-     */
+  
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
 
-
-    /**
-     * Cuando el usuario cambie el valor del cuadro de selección, restablezca la página a 1 y borre la
-     * matriz searchData.
-     */
-    public function updatingSelected_categoria()
-    {
-        $this->resetPage();
-        $this->searchData = [];
-    }
-    /**
-     * Restablece la página a 1 y borra la matriz searchData.
-     */
     public function updatingSelected_sub()
     {
         $this->resetPage();
         $this->searchData = [];
     }
 
+    public function updatedSelectedId2(){
+        
+        $this->categoryid=null;
 
+    }
 
     public function render()
     {
       
-        if ($this->selected_categoria=='no_definido') {
-            $this->selected_sub=null;
-         }
-         else{
- 
-             $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
-                 ->get();
-         }
+        $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
+        ->get();
 
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
         ->select('products.*')
-        ->where('products.status', $this->estados)
-        ->where(function ($query) {
+        ->where('products.status', $this->estados==true?'ACTIVO':'INACTIVO')
+        ->when($this->search != null,function ($query) {
             $query->where('products.nombre', 'like', '%' . $this->search . '%')
                 ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
                 ->orWhere('products.marca', 'like', '%' . $this->search . '%')
@@ -145,24 +121,20 @@ class ProductsController extends Component
                 ->orWhere('products.costo', 'like', '%' . $this->search . '%')
                 ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
             })
-        ->when($this->selected_categoria!=null and $this->selected_categoria!= 'no_definido',function($query){
-         
-                $query->where('c.categoria_padre', $this->selected_categoria)
-                    ->orWhere('c.id', $this->selected_categoria);
-            
-        })
+        ->when($this->selected_categoria!=null and $this->selected_sub == null ,function($query){
+                $query->where('c.id', $this->selected_categoria)
+                        ->where('c.categoria_padre',0);
+            })
         ->when($this->selected_sub!=null,function($query){
-            $query->where('c.id', $this->selected_sub);
-        })
-        
+                $query->where('c.id', $this->selected_sub)
+                ->where('categoria_padre','!=',0);
+            })
+            
         ->orderBy('products.created_at', 'desc');
-        
+            
+           
 
-
-
-
-
-
+       
         $ss = Category::select('categories.*')
             ->where('categories.categoria_padre', $this->selected_id2)->where('status', 'ACTIVO')->get();
 
@@ -194,11 +166,13 @@ class ProductsController extends Component
 
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
-            'categories' => Category::where('categories.categoria_padre', 0)->where('status', 'ACTIVO')->where('name', '!=', 'No definido')->orderBy('name', 'asc')->get(),
+            'categories' => Category::where('categories.categoria_padre', 0)->where('status', 'ACTIVO')->orderBy('name', 'asc')->get(),
             'unidades' => Unidad::orderBy('nombre', 'asc')->get(),
             'marcas' => Marca::select('nombre')->orderBy('nombre', 'asc')->get(),
             'subcat' => $ss
-        ])->extends('layouts.theme.app')->section('content');
+        ])
+        ->extends('layouts.theme.app')
+        ->section('content');
     }
     public function Store()
     {
@@ -357,7 +331,9 @@ class ProductsController extends Component
     {
         if ($this->categoryid === null) {
             $this->categoryid = $this->selected_id2;
+        
         }
+
         $rules = [
             'nombre' => "required|min:2|unique:products,nombre,{$this->selected_id}",
             'nombre' => "required|max:245|unique:products,nombre,{$this->selected_id}",
@@ -726,15 +702,8 @@ class ProductsController extends Component
         return Storage::disk('public')->download('plantilla_productos.xlsx');
     }
 
-    //Cambia estado con switch
-    public function cambioestado()
-    {
-        if ($this->estados) {
-            $this->estados = false;
-        } else {
-            $this->estados = true;
-        }
-    }
+
+   
 
  
    public function mostrarOperacionInicial(){

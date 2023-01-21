@@ -30,7 +30,7 @@ class RegistrarAjuste extends Component
     public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,$precioventa,$sucursales,$destinos,$sucursal,
         $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show,
          $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
-         ,$active1,$active2,$active3;
+         ,$active1,$active2,$active3,$lugar;
     private $pagination = 15;
 
     public function mount()
@@ -49,6 +49,8 @@ class RegistrarAjuste extends Component
         $this->show='js-active';
 
     }
+
+
 
 
 
@@ -88,7 +90,7 @@ class RegistrarAjuste extends Component
                 $this->sm = $st->whereNotIn('id', $arr);
             }
 
-         
+          
             
 
         }
@@ -103,6 +105,8 @@ class RegistrarAjuste extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
+
+
 
     public function updatedDestino(){
         if ($this->col->isNotEmpty()) {
@@ -120,6 +124,10 @@ class RegistrarAjuste extends Component
         $this->active2='js-active';
         $this->active3='';
         $this->show2='';
+
+               
+        $this->lugar=Sucursal::find($this->sucursal)->name.'-'.Destino::find($this->destino)->nombre;
+     
 
     }
 
@@ -167,7 +175,7 @@ class RegistrarAjuste extends Component
               
             } else
              {
-                if ($this->tipo_proceso =='Entrada' or $this->concepto=='INICIAL') {
+                if ($this->tipo_proceso =='Entrada' or $this->concepto=='Inventario Inicial') {
              
                     $this->col->push([
                         'product_id' => $id->id,
@@ -213,7 +221,7 @@ class RegistrarAjuste extends Component
 
         try {
             //$import->import('import-users.xlsx');
-            Excel::import(new StockImport($this->destino, 'INICIAL',$this->observacion), $this->archivo);
+            Excel::import(new StockImport($this->destino, 'Inventario Inicial',$this->observacion), $this->archivo);
             return redirect()->route('operacionesinv');
         } 
         catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
@@ -237,7 +245,7 @@ class RegistrarAjuste extends Component
     {
       
         $this->ValidarDatos();
-        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='INICIAL' and $this->col->isNotEmpty()) {
+        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='Inventario Inicial' and $this->col->isNotEmpty()) {
             DB::beginTransaction();
             try {
                 
@@ -369,7 +377,7 @@ class RegistrarAjuste extends Component
             return Redirect::to('operacionesinv');
 
         } 
-        elseif($this->concepto=='AJUSTE' and $this->col->isNotEmpty())
+        elseif($this->concepto=='Ajuste Inventarios' and $this->col->isNotEmpty())
         {
             try {
 
@@ -528,7 +536,7 @@ class RegistrarAjuste extends Component
 
     
         $item = $this->col->where('product_id', $product->id);
-        if ($this->tipo_proceso == "Entrada" or $this->concepto=='INICIAL') {
+        if ($this->tipo_proceso == "Entrada" or $this->concepto=='Inventario Inicial') {
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
             }
@@ -605,6 +613,24 @@ protected $listeners = ['clear-Product' => 'removeItem','confirmarvaciar'=>'vaci
         $this->searchproduct=null;
         $this->destino=null;
     }
+    public function anterior(){
+
+        if ($this->col->isNotEmpty()) 
+        {
+            $this->vaciarlistaop();
+      
+        }
+           $this->show='js-active';
+            $this->show1='';
+            $this->show2='';
+            $this->active1='js-active';
+            $this->active2='';
+            $this->active3='';
+            $this->failures=null;
+        
+      
+ 
+    }
 
 
     public function Exit()
@@ -615,14 +641,6 @@ protected $listeners = ['clear-Product' => 'removeItem','confirmarvaciar'=>'vaci
         $this->redirect('inicio');
     }
 
-    public function cambiar(){
-        
-        if ($this->active2 != 'js-active') {
-            $this->active2='js-active';
-            $this->show2='js-active';
-        }
-
-    }
 
 
 

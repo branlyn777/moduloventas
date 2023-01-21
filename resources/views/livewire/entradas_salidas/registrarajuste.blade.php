@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios Inventarios</h6>
     </nav>
 @endsection
 
@@ -45,7 +45,7 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class="text-white" style="font-size: 16px">Ajuste de Inventarios</h5>
+                    <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios de Inventarios</h5>
                 </div>
 
 
@@ -99,11 +99,11 @@
                                                                     <option value="Elegir" disabled>Elegir
                                                                     </option>
 
-                                                                    <option wire:key="bar" value="AJUSTE">Ajustar
+                                                                    <option wire:key="bar" value="Ajuste Inventarios">Ajustar
                                                                         inventarios
                                                                     </option>
-                                                                    <option value="INICIAL">Inventario Inicial</option>
-                                                                    <option wire:key="foo" value='INGRESO'>Varios:
+                                                                    <option value="Inventario Inicial">Inventario Inventario Inicial</option>
+                                                                    <option wire:key="foo" value='Varios'>Varios:
                                                                         Productos
                                                                         Defectuosos,Bonificaciones,etc</option>
 
@@ -121,14 +121,14 @@
 
                                                     <div class="row justify-content-center">
 
-                                                        @if ($concepto == 'INGRESO')
+                                                        @if ($concepto == 'Varios')
 
                                                             <div class="col-12 col-sm-12 col-md-6">
                                                                 <label style="color: rgb(74, 74, 74)"><span
                                                                         class="text-warning">* </span>Tipo
                                                                     Operacion:</label>
                                                                 <select wire:model='tipo_proceso' class="form-select">
-                                                                    @if ($concepto == 'INGRESO')
+                                                                    @if ($concepto == 'Varios')
                                                                         <option value="null" selected disabled>Elegir
                                                                         </option>
                                                                         <option value="Entrada">Entrada</option>
@@ -145,7 +145,7 @@
                                                                 @enderror
                                                             </div>
                                                         @endif
-                                                        @if ($concepto == 'INICIAL')
+                                                        @if ($concepto == 'Inventario Inicial')
 
                                                             <div class="col-12 col-sm-12 col-md-6">
                                                                 <label style="color: rgb(74, 74, 74)">Tipo de
@@ -153,7 +153,7 @@
                                                                 <select wire:model='registro' class="form-select">
                                                                     <option value="Manual" selected>Registrar Manual
                                                                     </option>
-                                                                    @if ($concepto == 'INICIAL')
+                                                                    @if ($concepto == 'Inventario Inicial')
                                                                         <option value="Documento">Registro Masivo (Subir
                                                                             Documento
                                                                             Excel)</option>
@@ -185,6 +185,7 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
+                                      
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
@@ -193,7 +194,7 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show1 }}"
                                         data-animation="FadeIn">
-                                        {{-- <h5 class="font-weight-bolder">Address</h5> --}}
+                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos':''}}</h6>
                                         <div class="multisteps-form__content">
                                             <div class="row mt-4 p-2">
                                                 <div wire:ignore.self class="col-md-12">
@@ -242,7 +243,8 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-
+                                                <button class="btn btn-secondary mb-0 js-btn-prev"  type="button" wire:click="anterior()"
+                                                title="Prev">Anterior</button>
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
@@ -252,14 +254,10 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{ $show2 }}"
                                         data-animation="FadeIn">
-
+                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos ':''}} {{' > '.$lugar}}</h6>
                                         <div class="multisteps-form__content mt-3">
                                             <div class="row">
-                                                @if ($concepto == 'INICIAL' and $registro == 'Documento')
-
-
-
-
+                                                @if ($concepto == 'Inventario Inicial' and $registro == 'Documento')
                                                     <form>
 
                                                         <div>
@@ -329,7 +327,7 @@
                                                     <div class="col-8">
                                                         <div class="card">
                                                             <div class="text-center">
-                                                                <h5><b>Detalle Ajuste</b></h5>
+                                                                <h5><b>Detalle Ajuste Inventarios</b></h5>
                                                             </div>
                                                             <div class="table-responsive">
                                                                 @if ($col->isNotEmpty())
@@ -340,14 +338,14 @@
                                                                                     style="font-size: 14px; color: black;">
                                                                                     <th class="text-center">Producto
                                                                                     </th>
-                                                                                    @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
+                                                                                    @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
                                                                                         <th class="text-center">Costo
                                                                                         </th>
                                                                                         <th class="text-center">Precio
                                                                                             Venta</th>
                                                                                         <th>Cantidad</th>
                                                                                         <th>Acción</th>
-                                                                                    @elseif($concepto == 'AJUSTE')
+                                                                                    @elseif($concepto == 'Ajuste Inventarios')
                                                                                         <th>Cantidad Actual Sistema</th>
                                                                                         <th>Recuento Fisico</th>
                                                                                         <th>Acción</th>
@@ -365,7 +363,7 @@
                                                                                         <td style="width: 60px;">
                                                                                             {{ substr($prod['product_name'], 0, 15) }}
                                                                                         </td>
-                                                                                        @if ($tipo_proceso == 'Entrada' or $concepto == 'INICIAL')
+                                                                                        @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
                                                                                             <td>
                                                                                                 <input type="text"
                                                                                                     id="pc{{ $prod['product_id'] }}"
@@ -390,8 +388,7 @@
                                                                                                     class="form-control text-center"
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
-                                                                                            @elseif
-                                                                                            ($concepto == 'AJUSTE')
+                                                                                            @elseif($concepto == 'Ajuste Inventarios')
                                                                                             <td class='text-center'>
 
                                                                                                 {{ $prod['stockactual'] }}
@@ -617,7 +614,7 @@
 
                 Swal.fire({
                     title: 'Confirmar',
-                    text: "Esta accion vaciara la lista de ajuste",
+                    text: "Esta accion vaciara la lista de Ajuste Inventarios",
                     type: 'warning',
                     showCancelButton: true,
                     cancelButtonText: 'Cancelar',
@@ -626,6 +623,7 @@
                     if (result.value) {
 
                         window.livewire.emit('confirmarvaciar');
+                        
 
                     }
                 })

@@ -219,7 +219,7 @@
                 <div class=@yield('Comprasshow', 'collapse ') id="componentsExamples">
                     <ul class="nav ms-4">
                         <li class=@yield('registrarcomprasli', 'nav-item ')>
-                            <a class=@yield('registrarcomprasnav', 'nav-link ') href="{{ url('detalle_orden_compras') }}">
+                            <a class=@yield('registrarcomprasnav', 'nav-link ') href="{{ url('detalle_compras') }}">
                                 <span class="sidenav-mini-icon"> L </span>
                                 <span class="sidenav-normal"> Registrar Compra </span>
                             </a>

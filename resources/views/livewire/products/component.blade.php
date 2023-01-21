@@ -95,7 +95,7 @@
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem">Filtrar por Estado</label>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
+                                    <input class="form-check-input" wire:model='estados' type="checkbox"
                                         role="switch" {{ $this->estados == true ? 'checked' : '' }}>
                                     @if ($estados)
                                         <label
@@ -125,7 +125,7 @@
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
-                                        <option value='no_definido'>No definido</option>
+                                        
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>

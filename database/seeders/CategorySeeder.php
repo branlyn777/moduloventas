@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
     {
         //ID = 1
         Category::create([
-            'name' => 'No definido',
+            'name' => 'Otros',
             'descripcion' => 'ninguna',
             'categoria_padre' => '0',
         ]);

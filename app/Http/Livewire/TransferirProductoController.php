@@ -144,7 +144,7 @@ class TransferirProductoController extends Component
         }
         else{
             $this->emit('no-stock','Sin stock disponible');
-            $exist = Transferencia::get($productId);
+            $exist = Transferencia::get($productId->id);
             $this->cantidad=$exist->quantity;
 
         }

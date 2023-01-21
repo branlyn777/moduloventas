@@ -5,44 +5,72 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class ExportExcelAlmacenController implements  FromView,ShouldAutoSize
 {
-    private $destino;
-    public function __construct($destino)
+    private $destino,$stock,$search;
+    public function __construct($destino,$stock,$search)
     {
         $this->destino=$destino;
-       
+        $this->stock=$stock;
+        $this->search=$search;
 
+      
+    
     }
     
     public function view():View
     {
 
-        if ($this->destino!='General') {
-      
-            
-            return view ('products.almacen',['destinos_almacen'=> ProductosDestino::join('products as p','p.id','productos_destinos.product_id')
-            ->join('destinos as dest','dest.id','productos_destinos.destino_id')
-            ->where('dest.id',$this->destino)
-            ->select('p.*')
-            ->groupBy('productos_destinos.product_id')
-            ->selectRaw('sum(productos_destinos.stock) as stock_s')->get()
-           
-            ]);
-        } else {
-          
-            return view ('products.almacen',['destinos_almacen'=> ProductosDestino::join('products as p','p.id','productos_destinos.product_id')
-            ->join('destinos as dest','dest.id','productos_destinos.destino_id')
-            ->select('p.*')
-            ->groupBy('productos_destinos.product_id')
-            ->selectRaw('sum(productos_destinos.stock) as stock_s')->get()
-           
-            ]);
-        }
+
+        $almacen = ProductosDestino::join('products as p', 'p.id', 'productos_destinos.product_id')
+        ->join('destinos as dest', 'dest.id', 'productos_destinos.destino_id')
+        ->where(function ($query) {
+            $query->where('p.nombre', 'like', '%' . $this->search . '%')
+                ->orWhere('p.codigo', 'like', '%' . $this->search . '%');
+        })
+        //->select('productos_destinos.stock','p.*')
+        ->when($this->destino == 'General', function ($query) {
+            return $query->select('p.*', 'p.cantidad_minima as cant', DB::raw("SUM(productos_destinos.stock) as stock_s"))->groupBy('p.id');
+        })
+        ->when($this->destino != 'General', function ($query) {
+            return $query->select('p.*', 'p.cantidad_minima as cant2', 'productos_destinos.stock as stock')
+                ->where('productos_destinos.destino_id', $this->destino);
+        })
+        ->when($this->stock == 'cero', function ($query) {
+            if ($this->destino == 'General') {
+                return $query->having('stock_s', 0);
+            } else {
+                return $query->where('stock', 0);
+            }
+        })
+        ->when($this->stock == 'bajo', function ($query) {
+
+            if ($this->destino == 'General') {
+                return $query->having('stock_s', '<', DB::raw("cant"));
+            } else {
+                return $query->whereColumn('stock', '<', 'cantidad_minima');
+            }
+        })
+        ->when($this->stock == 'positivo', function ($query) {
+            if ($this->destino == 'General') {
+                return $query->having('stock_s', '>', 0);
+            } else {
+                return $query->where('stock', '>', 0);
+            }
+        })->get();
+
+
+
+
+
+            return view ('products.almacen',['destinos_almacen'=> $almacen]);
+    
+       
 
     }
 }

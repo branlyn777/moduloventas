@@ -49,7 +49,7 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-success mb-0" href="{{ url("almacen/export/{$selected_id}") }}">
+                        <a class="btn btn-success mb-0" href="{{ url("almacen/export/{$selected_id}/{$selected_mood}/{$search}") }}">
                             <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
 
                           
@@ -91,6 +91,7 @@
                                     <h6>Filtro por Stock</h6>
                                     <select wire:model='selected_mood' class="form-select">
                                         <option value="todos">Todos</option>
+                                        <option value='positivo'>Productos con stock</option>
                                         <option value='cero'>Productos agotados</option>
                                         <option value='bajo'>Productos bajo stock</option>
                                     </select>
