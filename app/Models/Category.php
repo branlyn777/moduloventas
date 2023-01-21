@@ -35,7 +35,7 @@ class Category extends Model
         }
     }
 
-    public function subCat(){
+    public function subcat(){
         return $this->belongsTo(Category::class, 'categoria_padre', 'id');
     }
 }

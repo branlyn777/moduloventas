@@ -121,11 +121,11 @@
                                 <label style="font-size: 1rem">Categoría</label>
                                 <div class="input-group">
                                     <select wire:model='selected_categoria' class="form-select">
-                                        <option value="null" disabled>Elegir Categoría</option>
+                                        <option value=null selected disabled>Elegir Categoría</option>
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
-                                        <option value="no_definido">No definido</option>
+                                        <option value='no_definido'>No definido</option>
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
@@ -222,16 +222,22 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    {{ $products->category->name }}
-                                                </td>
-                                                <td>
-                                                    @if ($products->category->subcat == null)
-                                                        No definido
-                                                    @else
+                                                @if ($products->category->subcat != null)
+                                                    <td>
+                                                        {{ $products->category->subcat->name }}
+                                                    </td>
+                                                    <td>
                                                         {{ $products->category->name }}
-                                                    @endif
-                                                </td>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        {{ $products->category->name }}
+                                                    </td>
+                                                    <td>
+                                                        No definido
+
+                                                    </td>
+                                                @endif
                                                 <td>
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
@@ -255,18 +261,19 @@
                                                     @endif
 
                                                 </td>
-
                                                 <td class="text-sm align-middle text-center">
                                                     <a href="javascript:void(0)"
-                                                        wire:click="Edit({{ $products->id }})" class="mx-3"
-                                                        title="Editar">
-                                                        <i class="fas fa-edit text-secondary"></i>
-                                                    </a>
+                                                    wire:click="Edit({{ $products->id }})" class="mx-3"
+                                                    title="Editar">
+                                                    <i class="fas fa-edit text-secondary"></i>
+                                                </a>
+                                                @if ($products->status == 'ACTIVO')
                                                     <a href="javascript:void(0)"
                                                         onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
                                                         title="Eliminar">
                                                         <i class="fas fa-trash text-danger"></i>
                                                     </a>
+                                                @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -297,11 +304,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // window.livewire.on('product-added', msg => {
-            //     $('#theModal').modal('hide')
-            //     $("#im").val('');
-
-            // });
             window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');
@@ -314,7 +316,7 @@
                 });
                 toast({
                     type: 'success',
-                    title: @this.mensaje_toast,
+                    title: 'Producto registrado.',
                     padding: '2em',
                 })
             });

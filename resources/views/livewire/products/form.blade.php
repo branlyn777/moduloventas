@@ -239,31 +239,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <label><span class="text-warning">* </span>Costo</label>
-                            <div class="input-group-sm mb-3">
-                                <input type="number" min="1" wire:model.lazy="costo" class="form-control"
-                                    placeholder="ej: 12">
-                                @error('costo')
-                                    <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <label><span class="text-warning">* </span>Precio de venta</label>
-                            <div class="input-group-sm mb-3">
-                                <input type="number" min="1" wire:model.lazy="precio_venta"
-                                    class="form-control" placeholder="ej: 24">
-                                @error('precio_venta')
-                                    <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div> --}}
+                  
 
                     <div class="col-sm-12 col-lg-4 col-md-4">
                         <div class="form-group">
