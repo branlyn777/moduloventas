@@ -100,21 +100,20 @@ class TransferirProductoController extends Component
         }
        }
     }
-    public function increaseQty($productId)
+    public function increaseQty(Product $productId)
 
     {
-        $product = Product::select('products.id','products.nombre as name')
-        ->where('products.id',$productId)->first();
-       
-        $exist = Transferencia::get($product->id);
 
-        $stock=ProductosDestino::where('productos_destinos.product_id',$product->id)
+     
+        $exist = Transferencia::get($productId->id);
+
+        $stock=ProductosDestino::where('productos_destinos.product_id',$productId->id)
         ->where('productos_destinos.destino_id',$this->selected_origen)->select('productos_destinos.stock')->value('productos_destinos.stock');
 
       if ($exist) {
         if ($stock>=(1+$exist->quantity))
         {
-            Transferencia::add($product->id, $product->name,0, 1);
+            Transferencia::add($productId->id, $productId->nombre,0, 1);
         }
         else{
            
@@ -122,26 +121,24 @@ class TransferirProductoController extends Component
         }
       }
       else{
-        Transferencia::add($product->id, $product->name,0, 1);
+   
+        Transferencia::add($productId->id, $productId->nombre,0, 1);
       }
 
 
     }
-    public function UpdateQty($productId, $cant =1)
+    public function UpdateQty(Product $productId, $cant =1)
     {
         
-        $product = Product::select('products.id','products.nombre as name')
-        ->where('products.id',$productId)->first();
-       
-        //$exist = Transferencia::get($productId);
+  
         
-        $stock=ProductosDestino::where('productos_destinos.product_id',$product->id)
+        $stock=ProductosDestino::where('productos_destinos.product_id',$productId->id)
         ->where('productos_destinos.destino_id',$this->selected_origen)->select('productos_destinos.stock')->value('productos_destinos.stock');
         
         if ($cant > 0 && $stock>=$cant) 
         {
             $this->removeItem($productId);
-            Transferencia::add($product->id, $product->name,0, $cant);
+            Transferencia::add($productId->id, $productId->nombre,0, $cant);
             $this->itemsQuantity = Transferencia::getTotalQuantity();
            
         }
@@ -153,9 +150,9 @@ class TransferirProductoController extends Component
         }
        // dd($this->selected_origen);
     }
-    public function removeItem($productId)
+    public function removeItem(Product $productId)
     {
-        Transferencia::remove($productId);
+        Transferencia::remove($productId->id);
         $this->itemsQuantity = Transferencia::getTotalQuantity();
         //$this->tipo_tr ='Elegir operacion';
   

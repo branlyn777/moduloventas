@@ -130,6 +130,40 @@
                                 </tr>
                             @endforeach
                         </tbody>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive p-0">
+                                    <table style="width: 100%">
+                                        
+                                        <tr>
+                                            <td colspan="3">
+                                                <h5>
+                                                    <p class="text-sm mb-0">
+                                                        <b> Totales.- </b>
+                                                    </p>
+                                                </h5>
+                                            </td>
+                                            <td class="text-left">
+                                                <p class="text-sm mb-0">
+                                                    <h6>{{ number_format($this->total_cantidad) }}</h6>
+                                                </p>
+                                            </td>
+                                            <td class="text-left">
+                                                <p class="text-sm mb-0">                                                
+                                                    <h6>{{ number_format($this->total_bs, 2) }} Bs</h6>
+                                                </p>
+                                            </td>     
+
+                                            <td class="text-center">
+                                                <p class="text-sm mb-0">
+                                                    <b>---</b>
+                                                </p>
+                                            </td>                                       
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                     </table>
                 @endif
 

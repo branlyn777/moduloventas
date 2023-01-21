@@ -1,65 +1,65 @@
 @section('migaspan')
-      <nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
-				<li class="breadcrumb-item text-sm">
-					<a class="text-white" href="javascript:;">
-						<i class="ni ni-box-2"></i>
-					</a>
-				</li>
-				<li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-						href="{{url("")}}">Inicio</a></li>
-				<li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
-			</ol>
-			<h6 class="font-weight-bolder mb-0 text-white">Transferencias</h6>
-		</nav> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Transferencias</h6>
+    </nav>
 @endsection
 
 
 @section('Gestionproductoscollapse')
-nav-link
+    nav-link
 @endsection
 
 
 @section('Gestionproductosarrow')
-true
+    true
 @endsection
 
 
 @section('tranferenciasnav')
-"nav-link active"
+    "nav-link active"
 @endsection
 
 
 @section('Gestionproductosshow')
-"collapse show"
+    "collapse show"
 @endsection
 
 @section('tranferenciasli')
-"nav-item active"
+    "nav-item active"
 @endsection
 
 
 <div>
     <div class="row">
         <div class="col-12">
-           
-                <div class="d-lg-flex my-auto p-0 mb-3">
-                    <div>
-                        <h5 class=" text-white" style="font-size: 16px">Lista Transferencias</h5>
-                    </div>
 
-                    <div class="ms-auto my-auto mt-lg-1">
-                        <div class="ms-auto my-auto">
-                            <a href="transferencia" class="btn btn-secondary" type="button">
-                                <span class="btn-inner--text">Transferir Productos</span>
-                                <span class="btn-inner--icon"><i class="fas fa-arrow-right"></i></span>
-                            </a>
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class=" text-white" style="font-size: 16px">Lista Transferencias</h5>
+                </div>
 
-                            {{-- <a href="transferencia" class="btn btn-add btn-sm mb-0"> Transferir Productos <i class="fas fa-arrow-right"></i></a> --}}
-                        </div>
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        <a href="transferencia" class="btn btn-secondary" type="button">
+                            <span class="btn-inner--text">Transferir Productos</span>
+                            <span class="btn-inner--icon"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+
+                        {{-- <a href="transferencia" class="btn btn-add btn-sm mb-0"> Transferir Productos <i class="fas fa-arrow-right"></i></a> --}}
                     </div>
                 </div>
-            
+            </div>
+
             <div class="card">
                 <div class="card-body">
 
@@ -69,15 +69,15 @@ true
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
-                                        href="#listar-transferencias" role="tab" aria-controls="listar-transferencias"
-                                        aria-selected="true">
+                                        href="#listar-transferencias" role="tab"
+                                   aria-selected="true">
                                         Listar Transferencias
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
                                         href="#listar-transferencias-pendientes" role="tab"
-                                        aria-controls="listar-transferencias-pendientes" aria-selected="false">
+                                aria-selected="false">
                                         Transferencias Entrantes
                                     </a>
                                 </li>
@@ -87,8 +87,7 @@ true
                     </div>
                     <br>
                     <div class="tab-content">
-                        <div class="tab-pane {{ $show1 }} {{ $estado_lista_tr }}" wire:click="$set('show2','')"
-                            wire:click="$set('$estado_lista_tr','active')" id="listar-transferencias" role="tabpanel">
+                        <div class="tab-pane active" id="listar-transferencias" role="tabpanel">
                             <div class="col-md-12">
 
                                 <div class="table-responsive">
@@ -96,8 +95,9 @@ true
                                         <thead>
                                             <tr>
                                                 <th class="text-center" style="width: 6%">N°</th>
-                                                <th class="text-center">Codigo Transf.</th>
-                                                {{-- <th class="text-center">DETALLE</th> --}}
+                                                <th class="text-center">Codigo Transferencia</th>
+                                                <th class="text-left">Detalle</th>
+
                                                 <th class="text-uppercase text-sm ps-2">Estado</th>
                                                 <th class="text-uppercase text-sm ps-2">Usuario</th>
                                                 <th class="text-center">Acc.</th>
@@ -113,17 +113,20 @@ true
                                                         <span class="badge bg-gradient-info">{{ $data_td->t_id }}</span>
 
                                                     </td>
-                                                    {{-- <td>
-                                                    <h6 class="text-left"> <strong>Fecha:</strong> {{
-                                                        \Carbon\Carbon::parse($data_td->fecha_tr)->format('Y-m-d')}}</h6>
-                                                    <h6 class="text-left"> <strong>Hora:</strong> {{
-                                                        \Carbon\Carbon::parse($data_td->fecha_tr)->format('H:i')}}</h6>
-                                                    <h6 class="text-left"> <strong>Origen:</strong> {{
-                                                        $data_td->origen}}-{{$data_td->origen_name}}</h6>
-                                                    <h6 class="text-left"> <strong>Destino:</strong> {{ $data_td->dst
-                                                        }}-{{$data_td->destino_name}}</h6>
-        
-                                                    </td> --}}
+                                                    <td>
+                                                        <label class="text-left"> <strong>Fecha y Hora Envio:</strong>
+                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('Y-m-d') }}-      {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
+                                                            <br>
+                                                        {{-- <label class="text-left"> <strong>Hora:</strong>
+                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
+                                                            <br> --}}
+                                                        <label class="text-left"> <strong>Origen:</strong>
+                                                            {{ $data_td->origen }}</label>
+                                                            <br>
+                                                        <label class="text-left"> <strong>Destino:</strong>
+                                                            {{ $data_td->dst}}-{{ $data_td->destino_name }}</label>
+    
+                                                    </td>
 
                                                     @if ($data_td->estado_tr == 'En transito')
                                                         <td>
@@ -161,7 +164,8 @@ true
                                                         </td>
                                                     @else
                                                         <td class="text-center">
-                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                            <div class="btn-group" role="group"
+                                                                aria-label="Basic example">
                                                                 <button type="button" class="btn btn-primary"
                                                                     onclick="Confirm({{ $data_td->t_id }})"
                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -173,14 +177,18 @@ true
                                                                     onclick="Confirmarborrado('{{ $data_td->t_id }}')"
                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                                     title="Eliminar">
-                                                                    <i class="fas fa-trash text-white" style="font-size: 14px"></i>
+                                                                    <i class="fas fa-trash text-white"
+                                                                        style="font-size: 14px"></i>
                                                                 </button>
 
-                                                                <button type="button" class="btn btn-secondary" wire:key="do"
-                                                                    wire:click="ver({{ $data_td->t_id }})" class="p-1 m-0"
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    wire:key="do"
+                                                                    wire:click="ver({{ $data_td->t_id }})"
+                                                                    class="p-1 m-0"
                                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                                     title="Ver">
-                                                                    <i class="fas fa-list text-white" style="font-size: 14px"></i>
+                                                                    <i class="fas fa-list text-white"
+                                                                        style="font-size: 14px"></i>
                                                                 </button>
                                                             </div>
                                                         </td>
@@ -193,15 +201,13 @@ true
                             </div>
                         </div>
 
-                        <div class="tab-pane  {{ $show2 }} {{ $estado_lista_te }}"
-                            id="listar-transferencias-pendientes" wire:click="$set('show1', '')"
-                            wire:click="$set('$estado_lista_tr','active')" role="tabpanel">
+                        <div class="tab-pane fade" id="listar-transferencias-pendientes"role="tabpanel">
                             <div class="table-responsive">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="width: 6%">N°</th>
-                                            <th class="text-center">Codigo <br> Transf.</th>
+                                            <th class="text-center">Codigo Transferencia</th>
                                             {{-- <th class="text-center">DETALLE</th> --}}
                                             <th class="text-uppercase text-sm ps-2">Estado</th>
                                             <th class="text-uppercase text-sm ps-2">Usuario</th>
@@ -212,13 +218,14 @@ true
                                         @foreach ($data_d as $data2)
                                             <tr>
                                                 <td>
-                                                    <h6 class="text-center">{{ $nro++ }}</h6>
+                                                    <h6 class="text-center">{{ $loop->iteration }}</h6>
                                                 </td>
                                                 <td class="text-center">
-                                            
-                                                    <span class="badge bg-gradient-info">{{ $data2->tr_des_id }}</span>
+
+                                                    <span
+                                                        class="badge bg-gradient-info">{{ $data2->tr_des_id }}</span>
                                                 </td>
-                                                {{-- <td>
+                                                <td>
                                                     <h6 class="text-left"> <strong>Fecha:</strong>
                                                         {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('Y-m-d') }}</h6>
                                                     <h6 class="text-left"> <strong>Hora:</strong>
@@ -228,7 +235,7 @@ true
                                                     <h6 class="text-left"> <strong>Destino:</strong>
                                                         {{ $data2->dst2 }}-{{ $data2->destino_name }}</h6>
 
-                                                </td> --}}
+                                                </td>
 
 
                                                 @if ($data2->estado_te == 'En transito')

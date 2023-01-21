@@ -45,7 +45,7 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px">Entrada y Salida de Productos</h5>
+                    <h5 class=" text-white" style="font-size: 16px">Ajustes de Inventario</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Tipo de Operación, Almacén" class="form-control">
+                                    <input type="text" placeholder="Tipo de Operación, Almacén" wire:model='search' class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -89,8 +89,9 @@
                                 <div class="col-md-4">
                                     <h6 style="font-size: 1rem">Tipo Operacion</h6>
                                     <select wire:model='tipo_de_operacion' class="form-select">
-                                        <option value="Entrada">Entrada</option>
-                                        <option value="Salida">Salida</option>
+                                        <option value="Ajuste">Ajustes de Inventario</option>
+                                        <option value="Inicial">Inventario Inicial</option>
+                                        <option value="Varios">Varios</option>
                                     </select>
                                 </div>
                             </div>

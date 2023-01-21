@@ -113,7 +113,7 @@
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
-                                                <th style="width: 50px;">N°</th>
+                                              
                                                 <th style="width: 300px;">PRODUCTO</th>
                                                 <th style="width: 50px;">STOCK</th>
                                                 <th class="text-center">ACCIÓN</th>
@@ -122,11 +122,9 @@
                                         <tbody>
                                             @foreach ($destinos_almacen as $destino)
                                                 <tr style="font-size: 14px">
+                                                
                                                     <td>
-                                                        {{ $loop->iteration }}
-                                                    </td>
-                                                    <td>
-                                                        {{ substr($destino->name, 0, 10) }}
+                                                        {{ substr($destino->name, 0, 10) }} ({{$destino->codigo}})
                                                     </td>
 
                                                     <td class="text-center">
@@ -156,9 +154,9 @@
                         <div class="text-center">
                             <h5><b>Detalle Transferencia</b></h5>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive px-5">
                             @if ($cart->isNotEmpty())
-                                <table class="table align-items-center mb-4">
+                                <table class="table align-items-center mb-4 p-2">
                                     <thead>
                                         <tr style="font-size: 14px; color: black;">
                                             <th class="text-center">N°</th>
@@ -169,12 +167,12 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($cart as $prod)
-                                            <tr style="font-size: 14px; color: black;">
+                                            <tr>
                                                 <td class="text-center">
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td style="width: 60px;">
-                                                    {{ substr($prod->name, 0, 10) }}
+                                                <td>
+                                                    {{ substr($prod->name, 0, 20) }}({{App\Models\Product::codigo($prod->id)}})
                                                 </td>
                                                 <td>
                                                     <input type="number" onkeypress="return event.charCode >= 48"

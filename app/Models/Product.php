@@ -58,6 +58,11 @@ class Product extends Model
         
     }
 
+    public function codigo($id){
+        $mn=Product::find($id)->codigo;
+        return $mn;
+    }
+
     public function precioActivo(){
         $var=Lote::where('status','Activo')->where('product_id',$this->id)->get();
         foreach ($var as $value) {

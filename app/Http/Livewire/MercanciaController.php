@@ -33,7 +33,7 @@ class MercanciaController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,
-    $archivo,$searchproduct,$mensaje_toast,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$id_operacion,$destino_delete,$nextpage,$fromDate,$toDate;
+    $archivo,$search,$mensaje_toast,$costo,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$id_operacion,$destino_delete,$nextpage,$fromDate,$toDate;
     private $pagination = 15;
 
     public function paginationView()    
@@ -53,28 +53,22 @@ class MercanciaController extends Component
         $this->fromDate=Carbon::now()->format('Y-m-d') ;
         $this->toDate=Carbon::now()->format('Y-m-d') ;
       
-    // $this->limpiarstock();
-    // $this->buscarproducto();
-    //$this->borrarLotes();
-    //    $this->ajustarLotes();
-    //    $this->productosajustados();
-    //Correr estos metodos para los lotes
-//  $this->limpiarstock();
-// $this->buscarproducto();
-// $this->inactivarlotes();
-        
+
 
     }
     public function render()
     {
         
-        if ($this->tipo_de_operacion == "Entrada") 
+        if ($this->tipo_de_operacion == "Ajuste") 
         {
             $ingprod= IngresoProductos::with(['detalleingreso'])
             ->whereBetween('ingreso_productos.created_at',[Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d'). ' 23:59:59'])
             ->orderBy('ingreso_productos.created_at','desc')
             ->paginate($this->pagination);
 
+        }
+        elseif ($this->tipo_de_operacion == "Inicial"){
+                
         }
         else{
 
@@ -86,7 +80,7 @@ class MercanciaController extends Component
 
         //dd($ingprod);
 
-       if (strlen($this->searchproduct) > 0) 
+       if (strlen($this->search) > 0) 
        {
 
          $st = Product::select('products.*')

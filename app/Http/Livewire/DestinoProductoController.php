@@ -60,21 +60,7 @@ class DestinoProductoController extends Component
     public function render()
     {
 
-        if ($this->toogle == 1) {
-            $this->active1="active show";
-            $this->active2="";
-            $this->active3="";
-        }
-        if ($this->toogle == 2) {
-            $this->active1="";
-            $this->active2="active show";
-            $this->active3="";
-        }
-        if ($this->toogle == 3) {
-            $this->active1="";
-            $this->active2="";
-            $this->active3="active show";
-        }
+       
 
         $almacen= ProductosDestino::join('products as p','p.id','productos_destinos.product_id')
                     ->join('destinos as dest','dest.id','productos_destinos.destino_id')
