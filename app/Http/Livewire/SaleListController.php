@@ -492,11 +492,22 @@ class SaleListController extends Component
     {
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.image as image','p.nombre as nombre','p.precio_venta as po',
+        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre','p.precio_venta as po', DB::raw('0 as po'),
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+
+        foreach($descuento as $dx)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $dx->detalleid)
+            ->first();
+
+            $dx->po = $po->precio_original;
+        }
 
         $totaldescuento = 0;
         foreach($descuento as $d)
@@ -570,11 +581,26 @@ class SaleListController extends Component
         //Listando todos los productos, cantidades, precio, etc...
         $this->detalle_venta = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.id as idproducto','p.image as image','p.nombre as nombre','p.precio_venta as po',
-        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid')
+        ->select('sale_details.id as detalleid','p.id as idproducto','p.image as image','p.nombre as nombre',
+        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid', DB::raw('0 as po'))
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+
+        foreach($this->detalle_venta as $d)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $d->detalleid)
+            ->first();
+
+            $d->po = $po->precio_original;
+        }
+
+
+
+
         
         //Obteniendo detalles generales (observacion, total Bs, etc..) de una venta
         $this->venta = Sale::find($idventa);
@@ -594,11 +620,24 @@ class SaleListController extends Component
         //obteniendo la cantidad total de Bs en Descuento o Recargo
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.image as image','p.nombre as nombre','p.precio_venta as po',
+        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre', DB::raw('0 as po'),
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+        foreach($descuento as $des)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $des->detalleid)
+            ->first();
+
+            $des->po = $po->precio_original;
+        }
+
+
+
 
         $descuento_recargo = 0;
         foreach($descuento as $d)

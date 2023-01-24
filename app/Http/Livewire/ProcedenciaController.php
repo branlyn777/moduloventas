@@ -25,7 +25,7 @@ class ProcedenciaController extends Component
     {
         $this->estados = true;
         $this->estado = 'Activo';
-
+        $this->estado_0 = "Elegir";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Procedencias';
         $this->selected_id = 0;
@@ -63,13 +63,13 @@ class ProcedenciaController extends Component
     {
         $rules = [
             'procedencia' => 'required|unique:procedencia_clientes',
-            'estado' => 'required|not_in:Elegir'
+            'estado_0' => 'required|not_in:Elegir'
         ];
         $messages = [
             'procedencia.required' => 'El nombre de la procedencia es requerido.',
             'procedencia.unique' => 'El nombre de la procedencia debe ser único.',
-            'estado.required' => 'El estado es requerido.',
-            'estado.not_in' => 'El estado debe ser distinto de Elegir.'
+            'estado_0.required' => 'El estado es requerido.',
+            'estado_0.not_in' => 'El estado debe ser distinto de Elegir.'
         ];
         $this->validate($rules, $messages);
 
@@ -87,7 +87,7 @@ class ProcedenciaController extends Component
     {
         $this->selected_id = $proced->id;
         $this->procedencia = $proced->procedencia;
-        $this->estado = $proced->estado;
+        $this->estado_0 = $proced->estado;
 
         $this->emit('show-modal', 'show modal!');
     }
@@ -96,13 +96,13 @@ class ProcedenciaController extends Component
     {
         $rules = [
             'procedencia' => "required|unique:procedencia_clientes,procedencia,{$this->selected_id}",
-            'estado' => 'required|not_in:Elegir'
+            'estado_0' => 'required|not_in:Elegir'
         ];
         $messages = [
             'procedencia.required' => 'El nombre de la procedencia es requerido.',
             'procedencia.unique' => 'El nombre de la procedencia debe ser único.',
-            'estado.required' => 'El estado es requerido.',
-            'estado.not_in' => 'El estado debe ser distinto de Elegir.'
+            'estado_0.required' => 'El estado es requerido.',
+            'estado_0.not_in' => 'El estado debe ser distinto de Elegir.'
         ];
         $this->validate($rules, $messages);
 
