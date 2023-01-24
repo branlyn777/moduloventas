@@ -54,14 +54,14 @@
                             wire:click='resetUI()' data-bs-target="#theModal">
                             <i class="fas fa-plus me-2"></i> Nuevo Producto
                         </a>
-                        @can('Reportes_Inventarios_Export')
+                    
                             <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
                                 {{-- <i class="fas fa-arrow-down"></i> --}} Importar
                             </button>
                             <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
                                 {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar
                             </a>
-                        @endcan
+                    
                     </div>
                 </div>
             </div>
@@ -193,8 +193,8 @@
                                             <th class="text-uppercase text-sm">Categoría</th>
                                             <th class="text-uppercase text-sm">Sub Categoría</th>
                                             <th class="text-uppercase text-sm">Código</th>
-                                            <th class="text-uppercase text-sm text-center">Precio Activo</th>
-                                            <th class="text-uppercase text-sm text-center">Costo Activo</th>
+                                            {{-- <th class="text-uppercase text-sm text-center">Precio Activo</th>
+                                            <th class="text-uppercase text-sm text-center">Costo Activo</th> --}}
                                             <th class="text-uppercase text-sm">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
@@ -241,12 +241,12 @@
                                                 <td>
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
                                                 </td>
                                                 <td class="text-center">
                                                     {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
-                                                </td>
+                                                </td> --}}
 
                                                 <td>
 

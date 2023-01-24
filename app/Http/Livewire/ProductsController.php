@@ -136,7 +136,7 @@ class ProductsController extends Component
 
        
         $ss = Category::select('categories.*')
-            ->where('categories.categoria_padre', $this->selected_id2)->where('status', 'ACTIVO')->get();
+        ->get();
 
         if (count($this->searchData) > 0) {
             //dd($this->searchData);
@@ -166,7 +166,7 @@ class ProductsController extends Component
 
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
-            'categories' => Category::where('categories.categoria_padre', 0)->where('status', 'ACTIVO')->orderBy('name', 'asc')->get(),
+            'categories' => Category::where('categories.categoria_padre', 0)->orderBy('name', 'asc')->get(),
             'unidades' => Unidad::orderBy('nombre', 'asc')->get(),
             'marcas' => Marca::select('nombre')->orderBy('nombre', 'asc')->get(),
             'subcat' => $ss

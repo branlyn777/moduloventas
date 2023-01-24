@@ -12,15 +12,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class ExportExcelAlmacenController implements  FromView,ShouldAutoSize
 {
-    private $destino,$stock,$search;
-    public function __construct($destino,$stock,$search)
+    private $destino,$stock;
+    public function __construct($destino,$stock)
     {
         $this->destino=$destino;
         $this->stock=$stock;
-        $this->search=$search;
+  
 
-      
-    
     }
     
     public function view():View
@@ -29,10 +27,7 @@ class ExportExcelAlmacenController implements  FromView,ShouldAutoSize
 
         $almacen = ProductosDestino::join('products as p', 'p.id', 'productos_destinos.product_id')
         ->join('destinos as dest', 'dest.id', 'productos_destinos.destino_id')
-        ->where(function ($query) {
-            $query->where('p.nombre', 'like', '%' . $this->search . '%')
-                ->orWhere('p.codigo', 'like', '%' . $this->search . '%');
-        })
+     
         //->select('productos_destinos.stock','p.*')
         ->when($this->destino == 'General', function ($query) {
             return $query->select('p.*', 'p.cantidad_minima as cant', DB::raw("SUM(productos_destinos.stock) as stock_s"))->groupBy('p.id');

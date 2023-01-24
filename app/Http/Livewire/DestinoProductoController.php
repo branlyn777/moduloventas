@@ -520,10 +520,10 @@ class DestinoProductoController extends Component
         //dd($this->loteproducto);
         $this->emit('show-modal-lotes');
     }
-    public function export($destino,$stock,$search)
+    public function export($destino,$stock)
     {
             
-            return Excel::download(new ExportExcelAlmacenController($destino,$stock,$search), 'almacen.xlsx');
+            return Excel::download(new ExportExcelAlmacenController($destino,$stock), 'almacen.xlsx');
      
     }
 }

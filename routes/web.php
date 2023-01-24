@@ -105,12 +105,12 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['permission:Inventarios']], function () {
         Route::get('proveedores', ProvidersController::class)->name('supliers');
         Route::get('categories', CategoriesController::class)->name('categorias');
-        Route::get('products', ProductsController::class)->name('productos');
         Route::get('destino', DestinoController::class)->name('dest');
         Route::get('locations', LocalizacionController::class)->name('locations');
         Route::get('unidades', UnidadesController::class)->name('unities');
         Route::get('marcas', MarcasController::class)->name('brands');
     });
+    Route::get('products', ProductsController::class)->name('productos');
     Route::group(['middleware' => ['permission:Transferencias']], function () {
         Route::get('all_transferencias', TransferenciasController::class);
         Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
@@ -118,7 +118,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::get('operacionesinv', MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
     Route::get('registraroperacion', RegistrarAjuste::class)->name('registraroperacion')->middleware('permission:Entradas_Salidas');
-    Route::get('destino_prod', DestinoProductoController::class)->name('destination')->middleware('permission:Almacenes');
+    Route::get('destino_prod', DestinoProductoController::class)->name('destination');
 
     Route::group(['middleware' => ['permission:Compras']], function () {
         Route::get('compras', ComprasController::class)->name('compras');
@@ -128,13 +128,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('detalle_orden_compras', OrdenCompraDetalleController::class)->name('orden_compra_detalle');
     });
     //Inventarios (Pdsf y Excel)
-    Route::group(['middleware' => ['permission:Reportes_Inventarios_Export']], function () {
+ 
         Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
         Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
         Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
         Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
         Route::get('productos/export/', [ProductsController::class, 'export']);
-        Route::get('almacen/export/{destino}/{stock}/{search}', [DestinoProductoController::class, 'export']);
-    });
+        Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
+
     Route::get('chart', [ChartJSController::class, 'index']);
 });
