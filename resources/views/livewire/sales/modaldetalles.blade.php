@@ -23,7 +23,7 @@
                       <tr>                
                         <th class="text-uppercase text-sm text-center">Nº</th>
                         <th class="text-uppercase text-sm ps-2 text-left">Nombre</th>
-                        <th class="text-uppercase text-sm ps-2 text-left">Precio (Bs)</th>
+                        <th class="text-uppercase text-sm ps-2 text-left">Precio Original(Bs)</th>
                         <th class="text-uppercase text-sm ps-2 text-left">Desc/Rec</th>
                         <th class="text-uppercase text-sm ps-2 text-left">Precio Venta</th>
                         <th class="text-uppercase text-sm ps-2 text-left">Cantidad</th>

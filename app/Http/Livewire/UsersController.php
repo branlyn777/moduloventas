@@ -47,8 +47,6 @@ class UsersController extends Component
 
     public function render()
     {
-
-
         if ($this->selected_id > 0) {
             $this->details = User::join('sucursal_users as su', 'users.id', 'su.user_id')
                 ->join('sucursals as s', 's.id', 'su.sucursal_id')
@@ -57,7 +55,6 @@ class UsersController extends Component
                 ->orderBy('su.created_at', 'desc')
                 ->get();
         }
-
         // Opciones del select para mostrar de acuerdo al estado, si es inactivo no debe mostrar nada en el select
         if ($this->estados == false) {
 
@@ -84,7 +81,6 @@ class UsersController extends Component
                 })
                 ->paginate($this->pagination);
         }
-
 
         return view('livewire.users.component', [
             'data' => $data,

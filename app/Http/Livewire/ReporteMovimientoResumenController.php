@@ -634,14 +634,31 @@ class ReporteMovimientoResumenController extends Component
         $listadetalles = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
             ->join("products as p", "p.id", "sale_details.product_id")
             ->select(
+                'sale_details.id as detalleid',
                 'p.nombre as nombre',
                 'sale_details.price as pv',
-                'p.precio_venta as po',
+                DB::raw('0 as po'),
                 'sale_details.quantity as cant'
             )
             ->where('sale_details.sale_id', $idventa)
             ->orderBy('sale_details.id', 'asc')
             ->get();
+
+
+
+
+        foreach($listadetalles as $dx)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $dx->detalleid)
+            ->first();
+
+            $dx->po = $po->precio_original;
+        }
+
+
+
 
         return $listadetalles;
         //dd($this->listadetalles);

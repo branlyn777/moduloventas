@@ -519,55 +519,13 @@ class SaleListController extends Component
     //Devuelve el tiempo en minutos de una venta reciente
     public function ventareciente($idventa)
     {
-        //Variable donde se guardaran los minutos de diferencia entre el tiempo de una venta y el tiempo actual
-        $minutos = -1;
-        //Guardando el tiempo en la cual se realizo la venta
-        $date = Carbon::parse(Sale::find($idventa)->created_at)->format('Y-m-d');
-        //Comparando que el dia-mes-año de la venta sean iguales al tiempo actual
-        if($date == Carbon::parse(Carbon::now())->format('Y-m-d'))
-        {
-            //Obteniendo la hora en la que se realizo la venta
-            $hora = Carbon::parse(Sale::find($idventa)->created_at)->format('H');
-            //Obteniendo la hora de la venta mas 1 para incluir horas diferentes entre una hora venta y la hora actual en el else
-            $hora_mas = $hora + 1;
-            //Si la hora de la venta coincide con la hora actual
-            if($hora == Carbon::parse(Carbon::now())->format('H'))
-            {
-                //Obtenemmos el minuto de la venta
-                $minutos_venta = Carbon::parse(Sale::find($idventa)->created_at)->format('i');
-                //Obtenemos el minuto actual
-                $minutos_actual = Carbon::parse(Carbon::now())->format('i');
-                //Calculamos la diferencia
-                $diferenca = $minutos_actual - $minutos_venta;
-                //Actualizamos la variable $minutos por los minutos de diferencia si la venta fue hace 1 hora antes que la hora actual
-                if($diferenca <= 60)
-                {
-                    $minutos = $diferenca;
-                }
-            }
-            else
-            {
-                //Ejemplo: Si la hora de la venta es 14:59 y la hora actual es 15:01
-                //Usamos la variable $hora_mas para comparar con la hora actual, esto para obtener solo a las ventas que sean una hora antes que la hora actual
-                if($hora_mas == Carbon::parse(Carbon::now())->format('H'))
-                {
-                    //Obtenemmos el minuto de la venta con una hora antes que la hora actual
-                    $minutos_venta = Carbon::parse(Sale::find($idventa)->created_at)->format('i');
-                    //Obtenemos el minuto actual
-                    $minutos_actual = Carbon::parse(Carbon::now())->format('i');
-                    //Restamos el minuto de la venta con el minuto actual y despues le restamos 60 minutos por la hora antes añadida ($hora_mas)
-                    $mv = (($minutos_venta - $minutos_actual) - 60) * -1;
-                    //Actualizamos la variable $minutos por los minutos de diferencia si la venta fue hace 1 hora antes que la hora actual
-                    if($mv <= 60)
-                    {
-                        $minutos = $mv;
-                    }
-                }
-            }
-        }
+        // Crear una instancia de Carbon a partir de la fecha de transacción
+        $transaction_carbon = Sale::find($idventa)->created_at;
 
-        
-        return $minutos;
+        // Obtener la diferencia en minutos entre la fecha de transacción y la fecha actual
+        $diff_in_minutes = Carbon::now()->diffInMinutes($transaction_carbon);
+
+        return $diff_in_minutes;
     }
     //Llama y muestra detalles de una venta
     public function modaldetalle($idventa)
@@ -597,7 +555,6 @@ class SaleListController extends Component
 
             $d->po = $po->precio_original;
         }
-
 
 
 
