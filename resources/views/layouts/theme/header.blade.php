@@ -12,11 +12,11 @@
             </a>
         </div>
         @yield('migaspan')
-     
+
 
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-               
+
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex px-2 align-items-center">
@@ -38,14 +38,57 @@
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-bell me-sm-1" aria-hidden="true"></i>
+                        
+                        <label class="badge badge-danger">{{ auth()->user()->unreadNotifications->count() }}</label>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
 
+                      
 
-                        <li>
-                            {{-- AREA DE NOTIFICACION --}}
 
-                        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        @forelse (auth()->user()->unreadNotifications as $value)
+                            <li>
+                                <li class="mb-2">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                        <div class="d-flex py-1">
+                                            {{-- <div class="my-auto">
+                                                <img src="../../../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 "
+                                                    alt="user image">
+                                            </div> --}}
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="font-weight-bold">Producto agotado {{ $value->data['nombre'] }}</span>
+                                                </h6>
+                                                <p class="text-xs text-secondary mb-0">
+                                                    <i class="fa fa-clock me-1" aria-hidden="true"></i>
+                                                    {{ $value->created_at->diffForHumans()}}
+                                          
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+        
+
+                            </li>
+                            @empty
+                            <p class="text-xs text-secondary mb-0">No tiene notificaciones</p>
+                        @endforelse
                     </ul>
                 </li>
                 {{-- <li class="nav-item px-2 d-flex align-items-center">
@@ -69,7 +112,8 @@
                     <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('storage/usuarios/' . auth()->user()->image) }}"
-                                            class="avatar avatar-sm  me-3 " alt="user image" style="border: 2px solid #adabab;
+                            class="avatar avatar-sm  me-3 " alt="user image"
+                            style="border: 2px solid #adabab;
                                             border-radius: 50%;">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
@@ -120,16 +164,3 @@
     </div>
 </nav>
 <!-- End Navbar -->
-
-
-
-
-
-
-
-
-
-
-
-
-

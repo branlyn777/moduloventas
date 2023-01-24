@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\ProductosDestino;
 use App\Observers\ProductObserver;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      
+        Carbon::setLocale('es');
     }
 }

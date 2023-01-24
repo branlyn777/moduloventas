@@ -99,15 +99,20 @@ class SucursalController extends Component
         $destino = Destino::create([
             'nombre' => "Tienda " . $this->name,
             'observacion' => "Destino donde se almacenarán todos los productos para la venta de la sucursal " . $this->name,
-            'sucursal_id' => $sucursal->id
+            'sucursal_id' => $sucursal->id,
+            'codigo_almacen'=>0
         ]);
         $destino->save();
 
+        $destino->Update([
+            'codigo_almacen'=>substr($destino->nombre,0,3) .'-'.str_pad($destino->id,5,0,STR_PAD_LEFT)
+        ]);
+
         Permission::create([
-            'name' => $destino->nombre .'_'. $destino->id ,
+            'name' => $destino->codigo_almacen,
             'guard_name' => 'web',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar al destino',
+            'descripcion' => 'Ingresar al destino '.$destino->nombre,
         ]);
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
 

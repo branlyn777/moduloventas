@@ -14,23 +14,23 @@
 
                 <div class="col-lg-12">
 
-                    <div class="table-wrapper">
+               
 
-                        <div class="container">
-                            @foreach ($grouped as $key=>$item)
-                                <div class="media">
-                                    <center>
-                                        <label style="font-size: 14px">{{$key}}</label>
-                                    </center>
-                                    <div class="media-body">
+                    @foreach ($grouped as $key=>$item)
+                    <div class="card p-1 bg-success">
+                        
+                        <div class="card-body">
+                            <h4 style="font-size: 14px">{{$key}}</h4>
+                             
+                              
                                         
                                         <div class="table-6">
                                             <table>
                                                 <thead>
                                                     <tr style="font-size: 14px">
                                                         <th class="text-center" style="width: 100px;">N°</th>
-                                                        <th style="width: 500px;">ESTANCIA</th>
-                                                        <th style="width: 200px;">STOCK</th>
+                                                        <th style="width: 500px;">ALMACEN</th>
+                                                        <th style="width: 200px;">CANTIDAD</th>
                                                         <th>MOBILIARIO</th>
                                                     </tr>
                                                 </thead>
@@ -58,19 +58,19 @@
                                                     </tr>
     
                                                     @endforeach
+                                                
                                                 </tbody>
                                             </table><br>
     
                                         </div>
     
     
-                                    </div>
                                 </div>
                            
+                            </div>
                             @endforeach
     
-                        </div>
-                    </div>
+               
 
 
 

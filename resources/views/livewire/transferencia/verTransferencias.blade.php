@@ -69,15 +69,13 @@
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
-                                        href="#listar-transferencias" role="tab"
-                                   aria-selected="true">
+                                        href="#listar-transferencias" role="tab" aria-selected="true">
                                         Listar Transferencias
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
-                                        href="#listar-transferencias-pendientes" role="tab"
-                                aria-selected="false">
+                                        href="#listar-transferencias-pendientes" role="tab" aria-selected="false">
                                         Transferencias Entrantes
                                     </a>
                                 </li>
@@ -115,30 +113,34 @@
                                                     </td>
                                                     <td>
                                                         <label class="text-left"> <strong>Fecha y Hora Envio:</strong>
-                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('Y-m-d') }}-      {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
-                                                            <br>
+                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('Y-m-d') }}-
+                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
+                                                        <br>
                                                         {{-- <label class="text-left"> <strong>Hora:</strong>
                                                             {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
                                                             <br> --}}
                                                         <label class="text-left"> <strong>Origen:</strong>
                                                             {{ $data_td->origen }}</label>
-                                                            <br>
+                                                        <br>
                                                         <label class="text-left"> <strong>Destino:</strong>
-                                                            {{ $data_td->dst}}-{{ $data_td->destino_name }}</label>
-    
+                                                            {{ $data_td->dst }}-{{ $data_td->destino_name }}</label>
+
                                                     </td>
 
                                                     @if ($data_td->estado_tr == 'En transito')
                                                         <td>
-                                                            <h6 class="text-left">{{ $data_td->estado_tr }}</h6>
+                                                            <span
+                                                                class="badge bg-gradient-info">{{ $data_td->estado_tr }}</span>
                                                         </td>
                                                     @elseif($data_td->estado_tr == 'Recibido')
                                                         <td>
-                                                            <h6 class="text-left">{{ $data_td->estado_tr }}</h6>
+                                                            <span
+                                                                class="badge bg-gradient-success">{{ $data_td->estado_tr }}</span>
                                                         </td>
                                                     @else
                                                         <td>
-                                                            <h6 class="text-left">{{ $data_td->estado_tr }}</h6>
+                                                            <span
+                                                                class="badge bg-gradient-danger">{{ $data_td->estado_tr }}</span>
                                                         </td>
                                                     @endif
 
@@ -208,7 +210,7 @@
                                         <tr>
                                             <th class="text-center" style="width: 6%">N°</th>
                                             <th class="text-center">Codigo Transferencia</th>
-                                            {{-- <th class="text-center">DETALLE</th> --}}
+                                            <th class="text-center">DETALLE</th>
                                             <th class="text-uppercase text-sm ps-2">Estado</th>
                                             <th class="text-uppercase text-sm ps-2">Usuario</th>
                                             <th class="text-center">Acc.</th>
@@ -222,33 +224,38 @@
                                                 </td>
                                                 <td class="text-center">
 
-                                                    <span
-                                                        class="badge bg-gradient-info">{{ $data2->tr_des_id }}</span>
+                                                    <span>{{ $data2->tr_des_id }}</span>
                                                 </td>
                                                 <td>
-                                                    <h6 class="text-left"> <strong>Fecha:</strong>
-                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('Y-m-d') }}</h6>
-                                                    <h6 class="text-left"> <strong>Hora:</strong>
-                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('H:i') }}</h6>
-                                                    <h6 class="text-left"> <strong>Origen:</strong>
-                                                        {{ $data2->origen }}-{{ $data2->origen_name }}</h6>
-                                                    <h6 class="text-left"> <strong>Destino:</strong>
-                                                        {{ $data2->dst2 }}-{{ $data2->destino_name }}</h6>
+                                                    <label class="text-left"> <strong>Fecha y Hora envio:</strong>
+                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('Y-m-d') }}-
+                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('H:i') }}</label>
+                                                    <br>
+
+                                                    <label class="text-left"> <strong>Origen:</strong>
+                                                        {{ $data2->origen }}-{{ $data2->origen_name }}</label>
+                                                    <br>
+                                                    <label class="text-left"> <strong>Destino:</strong>
+                                                        {{ $data2->dst2 }}-{{ $data2->destino_name }}</label>
+
 
                                                 </td>
 
 
                                                 @if ($data2->estado_te == 'En transito')
                                                     <td>
-                                                        <h6 class="text-left">{{ $data2->estado_te }}</h6>
+                                                        <span
+                                                            class="badge bg-gradient-info">{{ $data2->estado_te }}</span>
                                                     </td>
                                                 @elseif($data2->estado_te == 'Recibido')
                                                     <td>
-                                                        <h6 class="text-left">{{ $data2->estado_te }}</h6>
+                                                        <span
+                                                            class="badge bg-gradient-success">{{ $data2->estado_te }}</span>
                                                     </td>
                                                 @else
                                                     <td>
-                                                        <h6 class="text-left">{{ $data2->estado_te }}</h6>
+                                                        <span
+                                                            class="badge bg-gradient-danger">{{ $data2->estado_te }}</span>
                                                     </td>
                                                 @endif
 
@@ -270,7 +277,7 @@
                                                         </a>
                                                     @else
                                                         <a href="javascript:void(0)"
-                                                            wire:click="visualizardestino({{ $data2->tr_des_id }})"
+                                                            wire:click="visualizardestino('{{ $data2->tr_des_id }}')"
                                                             class="boton-azul p-1 m-0" title="Ver">
                                                             <i class="fas fa-list"></i>
                                                         </a>

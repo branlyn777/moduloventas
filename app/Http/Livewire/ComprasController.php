@@ -53,7 +53,7 @@ class ComprasController extends Component
     }
     public function render()
     {
-        
+      
         $this->consultar();
         $datas_compras= Compra::join('users','compras.user_id','users.id')
         ->join('providers as prov','compras.proveedor_id','prov.id')

@@ -143,7 +143,7 @@
                                         <div style="padding-top: 5px;">
                                             <label class="switch">
                                                 <input type="checkbox"
-                                                    wire:change="SyncPermiso($('#p' + {{ $permiso->id }}).is(':checked'), '{{ $permiso->name }}')"
+                                                    wire:change="SyncPermiso($('#p' + '{{ $permiso->id }}').is(':checked'), '{{ $permiso->name }}')"
                                                     id="p{{ $permiso->id }}" value="{{ $permiso->id }}"
                                                     {{ $permiso->checked == 1 ? 'checked' : '' }}>
                                                 <span class="slider round"></span>

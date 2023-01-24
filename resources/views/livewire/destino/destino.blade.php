@@ -143,6 +143,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
+                                    <th class="text-uppercase text-sm text-center">CODIGO</th>
+
                                     <th class="text-uppercase text-sm ps-2">NOMBRE</th>
                                     <th class="text-uppercase text-sm ps-2">OBSERVACIÓN</th>
                                     <th class="text-uppercase text-sm ps-2">SUCURSAL</th>
@@ -158,6 +160,9 @@
                                         <tr>
                                             <td class="align-middle text-center">
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ $d->codigo_almacen??'s/n'  }}
                                             </td>
                                             <td>
                                                 {{ $d->nombredestino }}
@@ -210,6 +215,9 @@
                                         <tr style="background-color: #ececec">
                                             <td class="align-middle text-center">
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                            </td>
+                                            <td>
+                                                {{ $d->codigo_almacen??'s/n' }}
                                             </td>
 
                                             <td>

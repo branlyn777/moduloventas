@@ -96,7 +96,7 @@ class TransferenciasController extends Component
     }
     public function visualizardestino($id2)
     {
-        
+     
         $this->selected_id2= $id2;
         
         $this->datalist_destino=DetalleTransferencia::join('products','detalle_transferencias.product_id','products.id')
@@ -113,23 +113,25 @@ class TransferenciasController extends Component
         $this->estado_destino= Transference::join('estado_transferencias','transferences.id','estado_transferencias.id_transferencia')
         ->where('estado_transferencias.op','Activo')
         ->where('transferences.id',$id2)
-        ->select('estado_transferencias.estado')->value('estado_transferencias.estado');
+        ->select('estado_transferencias.estado')
+        ->value('estado_transferencias.estado');
         $this->emit('show2');
         
     }
     public function verPermisos(){
-       
-        $ss= Destino::select('destinos.id','destinos.nombre')->get();
-        $arr=[];
-        foreach ($ss as $item) {
-            $arr[$item->nombre.'_'.$item->id]=($item->id);
-        }
-
-       foreach ($arr as $key => $value) {
-        if (Auth::user()->hasPermissionTo($key)) {
-            array_push($this->vs,$value);   
-        }
-       }
+          
+        $ss= Destino::pluck('codigo_almacen','id');
+     
+        foreach ($ss as $key=>$value) {
+            if ($value!=null) {
+          
+                if (Auth::user()->hasPermissionTo($value)) {
+                    
+                    array_push($this->vs,$key);
+                }
+            }
+            }
+        
     }
     protected $listeners = ['editRow' => 'editar','deleteRow'=>'eliminarTransferencia'];
     public function editar($id)

@@ -2,7 +2,13 @@
 
 namespace App\Observers;
 
+use App\Listeners\EnviarUsuarioStockMinimoNotification;
+use App\Models\Destino;
 use App\Models\ProductosDestino;
+use App\Models\User;
+use App\Notifications\StockNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class ProductObserver
 {
@@ -25,9 +31,18 @@ class ProductObserver
      */
     public function updated(ProductosDestino $productosDestino)
     {
-        $stockTotal=ProductosDestino::where('product_id',$productosDestino->id)->sum('stock');
-       if ($stockTotal<5) {
-            
+        $stockTotal=ProductosDestino::where('product_id',$productosDestino->product_id)->sum('stock');
+       $perm_destinos=Destino::where('id',$productosDestino->destino_id)->pluck('codigo_almacen');
+
+        $users=User::permission($perm_destinos)->get(); 
+
+         if ($stockTotal<1) {
+
+            //$admin = User::where('role', 1)->first();
+
+
+            Notification::send($users, new StockNotification($productosDestino->product_id));
+
        }
     }
 

@@ -53,7 +53,8 @@ class DestinoController extends Component
                             'destinos.created_at as creacion',
                             'destinos.updated_at as actualizacion',
                             'destinos.observacion as observacion',
-                            's.name as nombresucursal'
+                            's.name as nombresucursal',
+                            'destinos.codigo_almacen'
                         )
                         ->where("destinos.sucursal_id", $this->sucursal_id)
                         ->paginate($this->pagination);
@@ -67,7 +68,8 @@ class DestinoController extends Component
                             'destinos.created_at as creacion',
                             'destinos.updated_at as actualizacion',
                             'destinos.observacion as observacion',
-                            's.name as nombresucursal'
+                            's.name as nombresucursal',
+                            'destinos.codigo_almacen'
                         )
                         ->where("destinos.sucursal_id", $this->sucursal_id)
                         ->where('destinos.status', $this->estados==true ? "ACTIVO": "INACTIVO")
@@ -84,7 +86,8 @@ class DestinoController extends Component
                             'destinos.created_at as creacion',
                             'destinos.updated_at as actualizacion',
                             'destinos.observacion as observacion',
-                            's.name as nombresucursal'
+                            's.name as nombresucursal',
+                            'destinos.codigo_almacen'
                         )
                         ->paginate($this->pagination);
                 } else {
@@ -97,7 +100,8 @@ class DestinoController extends Component
                             'destinos.created_at as creacion',
                             'destinos.updated_at as actualizacion',
                             'destinos.observacion as observacion',
-                            's.name as nombresucursal'
+                            's.name as nombresucursal',
+                            'destinos.codigo_almacen'
                         )
                         ->where('destinos.status', $this->estados==true ? "ACTIVO": "INACTIVO")
                         ->paginate($this->pagination);
@@ -113,7 +117,8 @@ class DestinoController extends Component
                     'destinos.created_at as creacion',
                     'destinos.updated_at as actualizacion',
                     'destinos.observacion as observacion',
-                    's.name as nombresucursal'
+                    's.name as nombresucursal',
+                    'destinos.codigo_almacen'
                 )
                 ->where('destinos.nombre', 'like', '%' . $this->search . '%')
                 ->paginate($this->pagination);
@@ -160,19 +165,31 @@ class DestinoController extends Component
         $destino = Destino::create([
             'nombre' => $this->nombre,
             'observacion' => $this->observacion,
-            'sucursal_id' => $this->sucursal
+            'sucursal_id' => $this->sucursal,
+            'codigo_almacen'=>0
 
         ]);
 
 
         $destino->save();
+        $destino->Update([
+            'codigo_almacen'=>substr(strtoupper($destino->nombre),0,3) .'-'.str_pad($destino->id,4,0,STR_PAD_LEFT)
+        ]);
+
 
         Permission::create([
-            'name' => $destino->nombre . '_' . $destino->id,
+            'name' => $destino->codigo_almacen,
             'guard_name' => 'web',
             'areaspermissions_id' => '2',
-            'descripcion' => 'Ingresar al destino',
+            'descripcion' => 'Ingresar al destino '.$destino->nombre,
+     
         ]);
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+
+
+
+
+
 
         $this->resetUI();
         $this->mensaje_toast = 'Destino Registrada';

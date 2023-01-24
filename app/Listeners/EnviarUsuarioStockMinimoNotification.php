@@ -27,10 +27,11 @@ class EnviarUsuarioStockMinimoNotification
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($product)
     {
+        dd($product);
         $admin = User::where('role', 1)->first();
         // $users = User::role('Ad')->get();
-        Notification::send($admin, new StockNotification($event->product));
+        Notification::send($admin, new StockNotification($product));
     }
 }

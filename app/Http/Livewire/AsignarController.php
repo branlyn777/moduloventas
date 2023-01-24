@@ -166,6 +166,7 @@ class AsignarController extends Component
 
     public function SyncPermiso($state, $permisoName)
     {
+     
         if ($this->role != 'Elegir') {
             $roleName = Role::find($this->role);
 
@@ -174,6 +175,7 @@ class AsignarController extends Component
                 $this->emit('permi', 'Permiso asignado correctamente');
             } else {
                 $roleName->revokePermissionTo($permisoName);
+                
                 $this->emit('permi', "Permiso eliminado correctamente");
             }
         } else {
