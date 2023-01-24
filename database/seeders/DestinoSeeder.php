@@ -18,10 +18,17 @@ class DestinoSeeder extends Seeder
         $deposito = Destino::create([
             'nombre'=>'Deposito',
             'observacion'=>'ninguna',
-            'sucursal_id'=>'1'           
+            'sucursal_id'=>'1',          
+            'codigo_almacen' => 0
         ]);
+        $deposito->save();
+        $deposito->Update([
+            'codigo_almacen'=>substr(strtoupper($deposito->nombre),0,3) .'-'.str_pad($deposito->id,4,0,STR_PAD_LEFT)
+        ]);
+
+
         Permission::create([
-            'name' => $deposito->nombre . '_' . $deposito->id,
+            'name' => $deposito->codigo_almacen,
             'areaspermissions_id' => '2',
             'descripcion' => 'Ingresar a Depósito',
             'guard_name' => 'web'
@@ -31,10 +38,17 @@ class DestinoSeeder extends Seeder
         $devoluciones = Destino::create([
             'nombre'=>'Almacen Devoluciones',
             'observacion'=>'ninguna',
-            'sucursal_id'=>'1'           
+            'sucursal_id'=>'1',           
+            'codigo_almacen' => 0
         ]);
+        $devoluciones->save();
+
+        $devoluciones->Update([
+            'codigo_almacen'=>substr(strtoupper($devoluciones->nombre),0,3) .'-'.str_pad($devoluciones->id,4,0,STR_PAD_LEFT)
+        ]);
+
         Permission::create([
-            'name' => $devoluciones->nombre . '_' . $devoluciones->id,
+            'name' => $devoluciones->codigo_almacen,
             'areaspermissions_id' => '2',
             'descripcion' => 'Permite listar el destino en TRANSFERENCIA PRODUCTOS',
             'guard_name' => 'web'

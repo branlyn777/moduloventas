@@ -63,17 +63,18 @@ class OrdenCompraController extends Component
     
     public function verPermisos(){
        
-        $ss= Destino::select('destinos.id','destinos.nombre')->get();
-        $arr=[];
-        foreach ($ss as $item){
-            $arr[$item->nombre.'_'.$item->id]=($item->id);
-        }
-
-       foreach ($arr as $key => $value) {
-        if (Auth::user()->hasPermissionTo($key)) {
-            array_push($this->vs,$value);
-        }
-       }
+        $ss= Destino::pluck('codigo_almacen','id');
+     
+        foreach ($ss as $key=>$value) {
+            if ($value!=null) {
+          
+                if (Auth::user()->hasPermissionTo($value)) {
+                    
+                    array_push($this->vs,$key);
+                }
+            }
+            }
+        
     }
 
     public function VerDetalleCompra(OrdenCompra $id){

@@ -31,12 +31,16 @@ class SucursalSeeder extends Seeder
         $destino = Destino::create([
             'nombre' => "Tienda Sucursal Central",
             'observacion' => "Destino donde se almacenarán todos los productos para la venta de la sucursal Sucursal Central",
-            'sucursal_id' => $sucursal->id
+            'sucursal_id' => $sucursal->id,
+            'codigo_almacen' => 0
         ]);
         $destino->save();
+        $destino->Update([
+            'codigo_almacen'=>substr(strtoupper($destino->nombre),0,3) .'-'.str_pad($destino->id,4,0,STR_PAD_LEFT)
+        ]);
 
         Permission::create([
-            'name' => $destino->nombre .'_'. $destino->id ,
+            'name' => $destino->codigo_almacen,
             'guard_name' => 'web',
             'areaspermissions_id' => '2',
             'descripcion' => 'Ingresar al destino',
@@ -44,7 +48,8 @@ class SucursalSeeder extends Seeder
 
         DestinoSucursal::create([
             'destino_id' => $destino->id,
-            'sucursal_id' => $sucursal->id
+            'sucursal_id' => $sucursal->id,
+            
         ]);
 
 
