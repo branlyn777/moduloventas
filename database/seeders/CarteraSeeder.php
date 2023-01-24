@@ -15,9 +15,9 @@ class CarteraSeeder extends Seeder
     public function run()
     {
         Cartera::create([
-            'nombre' => 'Banco Central',
+            'nombre' => 'Bancos',
             'saldocartera' => 0,
-            'descripcion' => 'Cuenta Bancaria',
+            'descripcion' => 'Cuenta Bancaria xxxx',
             'tipo' => 'digital',
             'telefonoNum' => null,
             'caja_id' => '1',
