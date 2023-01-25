@@ -193,8 +193,8 @@
                                             <th class="text-uppercase text-sm">Categoría</th>
                                             <th class="text-uppercase text-sm">Sub Categoría</th>
                                             <th class="text-uppercase text-sm">Código</th>
-                                            {{-- <th class="text-uppercase text-sm text-center">Precio Activo</th>
-                                            <th class="text-uppercase text-sm text-center">Costo Activo</th> --}}
+                                            <th class="text-uppercase text-sm text-center">Precio</th>
+                                            <th class="text-uppercase text-sm text-center">Costo</th>
                                             <th class="text-uppercase text-sm">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
@@ -241,12 +241,12 @@
                                                 <td>
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
-                                                {{-- <td class="text-center">
-                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
+                                                <td class="text-center">
+                                                    {{ $products->precio_venta}}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
-                                                </td> --}}
+                                                    {{ $products->costo}}
+                                                </td>
 
                                                 <td>
 

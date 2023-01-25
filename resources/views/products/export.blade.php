@@ -62,6 +62,10 @@
 
                     {{ $products->precio_venta }}
                 </td>
+                <td>
+
+                    {{ $products->costo }}
+                </td>
 
                 <td>
                     {{ $products->status }}

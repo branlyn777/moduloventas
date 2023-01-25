@@ -22,10 +22,16 @@
                     {{$destino->codigo}}
                 </td>
               
-           
+                @if ($destino->stock_s != null)
                 <td>
                     {{ $destino->stock_s }} 
                 </td>
+                    
+                @else
+                <td>
+                    {{ $destino->stock }} 
+                </td>
+                @endif
                 <td>
                    {{ $destino->cantidad_minima }}
                 </td>

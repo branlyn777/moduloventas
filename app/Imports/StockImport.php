@@ -41,17 +41,24 @@ class StockImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
     */
     public function model(array $row)
     {
+
+        $pr=Product::where('id',$this->products[preg_replace('/\s+/', ' ',trim($row['nombre']))])->first();
+      
+
         $lot= Lote::create([
             'existencia'=>$row['stock'],
-            'costo'=>$row['costo'],
+            'costo'=>$pr->costo,
+            'pv_lote'=>$pr->precio_venta,
             'status'=>'Activo',
             'product_id'=>$this->products[preg_replace('/\s+/', ' ',trim($row['nombre']))]
         ]);
 
+
+
            DetalleEntradaProductos::create([
                 'product_id'=>$this->products[preg_replace('/\s+/', ' ',trim($row['nombre']))],
                 'cantidad'=>$row['stock'],
-                'costo'=>$row['costo'],
+                'costo'=>$pr->costo,
                 'id_entrada'=>$this->ingreso->id,
                 'lote_id'=>$lot->id
            ]);
@@ -82,10 +89,7 @@ class StockImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
             '*.stock' =>[
                 'required'
             ],
-            '*.costo' =>[
-                'required'
-            ]
-
+         
         ];
     }
 
@@ -94,8 +98,7 @@ class StockImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
         return [
             'nombre.required' => 'El campo nombre es requerido',
             'stock.required' => 'El campo stock es requerido',
-            'costo.required' => 'El campo costo es requerido',
-
+      
         ];
     }
 

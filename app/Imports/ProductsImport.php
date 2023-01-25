@@ -31,8 +31,8 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
         $product = new Product();
         $product->nombre = preg_replace('/\s+/', ' ', trim($row['nombre']));
-        // $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
-        $product->costo = 0;
+        $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
+        // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio']));
         $product->caracteristicas = preg_replace('/\s+/', ' ', trim($row['caracteristicas']??'s/c'));
         $product->codigo = preg_replace('/\s+/', ' ', trim($row['codigo']));
         // $product->lote = preg_replace('/\s+/', ' ',trim($row['lote']));
@@ -42,8 +42,8 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         $product->garantia = preg_replace('/\s+/', ' ', trim($row['garantia'] ?? 0));
         $product->cantidad_minima = preg_replace('/\s+/', ' ', trim($row['cantidad_minima'] ?? 0));
         $product->industria = preg_replace('/\s+/', ' ', trim($row['industria']??'s/i'));
-        // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio_venta']));
-        $product->precio_venta = 0;
+        $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio']));
+
         $product->status = preg_replace('/\s+/', ' ', trim($row['status'] ?? 'ACTIVO'));
 
 

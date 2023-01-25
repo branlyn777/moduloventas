@@ -21,7 +21,7 @@ class CorteCajaController extends Component
     //Guarda el nombre de una caja abierta (si existe)
     public $nombre_caja, $id_caja;
 
-    public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
+    public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $saldoAcumulado,$diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
     $billete10, $billete20, $billete50, $billete100, $billete200, $total, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv,$nota_ajuste,$iniciarturno,$conteoinicial;
 
     public $toogle,
@@ -278,7 +278,15 @@ class CorteCajaController extends Component
     ];
     public function CorteCaja($idcaja)
     {
-        
+        $rules = [
+            'efectivo_actual' => 'required',
+         
+        ];
+        $messages = [
+            'efectivo_actual.required' => 'Ingresa un monto para apertura la caja.',
+          
+        ];
+        $this->validate($rules, $messages);
 
         if($this->VerificarCajaAbierta($idcaja) == false)
         {
@@ -298,6 +306,11 @@ class CorteCajaController extends Component
 
             /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
             $carteras = Cartera::where('caja_id', $idcaja)->where('tipo','efectivo')->get();
+
+
+            if ($this->efectivo_actual!=$this->sal) {
+                
+            }
          
             $movimiento = Movimiento::create([
                 'type' => 'APERTURA',
@@ -308,7 +321,7 @@ class CorteCajaController extends Component
             CarteraMov::create([
                 'type' => 'APERTURA',
                 'tipoDeMovimiento' => 'CORTE',
-                'comentario' => '',
+                'comentario' => $this->nota_ajuste??'ninguno',
                 'cartera_id' => $carteras->first()->id,
                 'movimiento_id' => $movimiento->id,
             ]);
@@ -573,9 +586,6 @@ class CorteCajaController extends Component
         if ($this->efectivo_actual != null) {
             $margen=$this->efectivo_actual-$this->saldoAcumulado;
             $diferenciaCaja= $margen>0?'SOBRANTE':'FALTANTE';
-
-          
-
             $mvt = Movimiento::create([
                 'type' => 'TERMINADO',
                 'status' => 'ACTIVO',
@@ -683,14 +693,11 @@ class CorteCajaController extends Component
     $this->emit('cerrarAjustedeCaja');
     }
 
-    public function confirmarAbrir($id){
-      
-    
-        $this->idcaja=$id;
-        $this->saldoAcumulado = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
-        ->where('cajas.id', $this->idcaja)
-        ->where('c.tipo', 'efectivo')
-        ->sum('c.saldocartera');
+    public function confirmarAbrir(Caja $caja)
+    {
+
+        $this->idcaja=$caja->id;
+        $this->saldoAcumulado = $caja->saldocartera;
         $this->emit('aperturarCaja');
         $this->conteoinicial=true;
     }
