@@ -363,7 +363,7 @@
                              <div class="col-sm-12 col-md-3">
                                  <div class="form-group">
                                      <label>
-                                         Precio Venta Lote
+                                         Precio Venta Unitario
                                      </label>
                                      <input wire:model="precioVenta"  type="number" class="form-control  mx-1">
                                   

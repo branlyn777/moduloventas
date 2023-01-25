@@ -142,23 +142,8 @@
 @endsection
 
 
-@section('empresacollapse')
-    nav-link
-@endsection
-
-
-@section('empresaarrow')
-    true
-@endsection
-
-
 @section('cortecajanav')
     "nav-link active"
-@endsection
-
-
-@section('empresashow')
-    "collapse show"
 @endsection
 
 @section('cortecajali')

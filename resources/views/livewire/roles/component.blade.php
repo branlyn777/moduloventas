@@ -54,7 +54,7 @@
 
                         
                         <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
-                            Nuevo Usuario</button>
+                            Nuevo Rol</button>
 
                     </div>
                 </div>
