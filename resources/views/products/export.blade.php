@@ -1,9 +1,10 @@
 <table>
     <thead>
         <tr>
-          
-      
+
+
             <th> NOMBRE</th>
+            <th> CARACTERISTICAS</th>
             <th> UNIDAD</th>
             <th> MARCA</th>
             <th>INDUSTRIA</th>
@@ -12,59 +13,63 @@
             <th> CODIGO</th>
             <th> PRECIO VENTA</th>
             <th> STATUS</th>
-         
+
         </tr>
     </thead>
     <tbody>
         @foreach ($data as $products)
             <tr>
-          
-          
+
+
                 <td>
-                  {{$products->nombre}}
-                   
-                 
+                    {{ $products->nombre }}
+
+
                 </td>
                 <td>
-                    {{$products->unidad ? $products->unidad : "No definido" }}
+                    {{ $products->caracteristicas }}
                 </td>
                 <td>
-                   {{$products->marca ? $products->marca : "No definido" }} 
+                    {{ $products->unidad ? $products->unidad : 'No definido' }}
                 </td>
                 <td>
-                {{$products->industria ? $products->industria : "No definido" }}
-                </td>
-                @if ($products->category->subcat == null)
-                <td>
-                   {{ $products->category->name}}
+                    {{ $products->marca ? $products->marca : 'No definido' }}
                 </td>
                 <td>
-                  No definido
-               </td>
+                    {{ $products->industria ? $products->industria : 'No definido' }}
+                </td>
+                @if ($products->category->subcat != null)
+                    <td>
+                        {{ $products->category->subcat->name }}
+                    </td>
+                    <td>
+                        {{ $products->category->name }}
+                    </td>
                 @else
-                <td>
-                   {{ $products->category->subcat->name}}
-                </td>
-                <td>
-                  {{ $products->category->name}}
-               </td>
+                    <td>
+                        {{ $products->category->name }}
+                    </td>
+                    <td>
+                        No definido
+
+                    </td>
                 @endif
-               
+
                 <td>
-                    {{ $products->codigo}}
+                    {{ $products->codigo }}
                 </td>
                 <td>
-                
-                   {{ $products->precio_venta }}
+
+                    {{ $products->precio_venta }}
                 </td>
-             
+
                 <td>
                     {{ $products->status }}
                 </td>
-               
-                
-              
-                
+
+
+
+
             </tr>
         @endforeach
 
