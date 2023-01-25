@@ -10,22 +10,8 @@
                 </button>
             </div>
             <div class="modal-body">
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="card">
-                    
-                    <h5 class="text-center">
+                       <h5 class="text-center">
                         <b>Cuadro Resumen de Efectivo</b>
                     </h5>
 
@@ -80,14 +66,14 @@
                                     </td>
                                 </tr>
 
-                                <tr>
+                                {{-- <tr>
                                     <td class="text-sm">
                                         Saldo en Efectivo Hoy
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         {{ number_format($operacionesefectivas, 2) }}
                                     </td>
-                                </tr>
+                                </tr> --}}
 
                                 {{-- <tr>
                                     <td>
@@ -140,14 +126,27 @@
                                     <tr class="p-5">
 
 
-                                        @foreach ($op_sob_falt as $values)
+                        
                                             <td class="text-sm">
-                                                {{ $values->tipo_sob_fal }}
+                                                Sobrantes
                                             </td>
                                             <td class="text-sm" style="float: right">
-                                                {{ number_format($values->import, 2) }}
+                                                {{ number_format($op_sob, 2) }}
                                             </td>
-                                        @endforeach
+                             
+
+                                    </tr>
+                                    <tr class="p-5">
+
+
+                        
+                                            <td class="text-sm">
+                                                Faltantes
+                                            </td>
+                                            <td class="text-sm" style="float: right">
+                                                {{ number_format($op_falt, 2) }}
+                                            </td>
+                             
 
                                     </tr>
                                     <tr class="p-5">

@@ -480,7 +480,7 @@
                                         {{ $st->coment }}
                                     </td>
                                     <td></td>
-                                    {{-- <td></td> --}}
+                                  
                                 </tr>
                             @endforeach
                         </tbody>
@@ -534,10 +534,6 @@
             </table>
         </div>
     </div>
-
-
-
-
 
     @include('livewire.reportemovimientoresumen.modaltotales')
     @include('livewire.reportemovimientoresumen.modalDetailsr')

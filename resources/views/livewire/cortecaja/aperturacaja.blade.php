@@ -73,8 +73,7 @@
                                                         <h6> <b>
                                                                 {{ $efectivo_actual > $saldoAcumulado
                                                                     ? 'Efectivo Sobrante:'
-                                                                    : 'Efectivo Faltante
-                                                                                                                                       Faltante: ' }}</b>
+                                                                    : 'Efectivo Faltante: ' }}</b>
                                                         </h6>
 
                                                     </h6>

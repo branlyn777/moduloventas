@@ -26,7 +26,7 @@ class ReporteMovimientoResumenController extends Component
 {
     public $idsucursal, $totalesIngresos, $totalesEgresos, $fromDate, $toDate, $cartera_id, $cartera_id2, $type, $cantidad, $tipo, $importe, $comentario, $vertotales = 0, $importetotalingresos, $importetotalegresos,
         $operacionefectivoing, $noefectivo, $operacionefectivoeg, $noefectivoeg, $sumaBanco, $op_recaudo, $recaudo, $subtotalcaja, $utilidadtotal = 5, $caja, $op_sob_falt = 0, $ops = 0, $sucursal, $total, $optotal, $sm, $diferenciaCaja, $montoDiferencia, $obsDiferencia,
-        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco;
+        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco,$op_falt,$op_sob,$operacionesZ;
 
 
 
@@ -701,7 +701,7 @@ class ReporteMovimientoResumenController extends Component
         $this->ingresosTotales = $this->totalesIngresosV->sum('importe') + $this->totalesIngresosS->sum('importe') + $this->totalesIngresosIE->sum('importe');
 
 
-
+        
         //Totales carteras tipo Caja Fisica
         $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $this->totalesIngresosS->where('ctipo', 'efectivo')->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe');
 
@@ -738,33 +738,42 @@ class ReporteMovimientoResumenController extends Component
         } else {
             $this->op_recaudo = 0;
         }
-        $this->op_sob_falt = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+        $this->op_falt = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
             ->join('carteras as c', 'c.id', 'crms.cartera_id')
             ->join('cajas as ca', 'ca.id', 'c.caja_id')
             ->where('movimientos.status', 'ACTIVO')
             ->where('ca.id', '=', $this->caja)
-            ->where(function ($query) {
-                $query->where('crms.tipoDeMovimiento','SOBRANTE')
-                    ->orWhere('crms.tipoDeMovimiento','FALTANTE');
-            })
-            //->where('ca.id',$this->caja)
-
+            ->where('crms.tipoDeMovimiento','FALTANTE')
             ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-            ->select('movimientos.import', 'crms.tipoDeMovimiento as tipo_sob_fal')->get();
+            ->sum('movimientos.import');
+
+        $this->op_sob=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+        ->where('movimientos.status', 'ACTIVO')
+        ->where('ca.id', '=', $this->caja)
+        ->where('crms.tipoDeMovimiento','SOBRANTE')        
+        ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+        ->sum('movimientos.import');
+
+
         $auxi_s_f = 0;
-        if (count($this->op_sob_falt)) {
+        // if (count($this->op_sob_falt)) {
 
-            if ($this->op_sob_falt[0]->tipo_sob_fal == 'FALTANTE') {
+        //     if ($this->op_sob_falt[0]->tipo_sob_fal == 'FALTANTE') {
 
-                $auxi_s_f = $this->op_sob_falt[0]->import * -1;
-            } else {
-                $auxi_s_f = $this->op_sob_falt[0]->import;
-            }
-        }
+        //         $auxi_s_f = $this->op_sob_falt[0]->import * -1;
+        //     } else {
+        //         $auxi_s_f = $this->op_sob_falt[0]->import;
+        //     }
+        // }
 
         $this->operacionesW = $this->operacionesefectivas + $this->ops + $this->total;
 
-        $this->operacionesZ =  $this->operacionesW - $this->op_recaudo + $auxi_s_f;
+        $caja=Caja::find($this->caja);
+        dd($this->caja);
+        $this->operacionesZ =$caja->carteras->where('tipo','efectivo')->first()->saldocartera;
+
     }
 
     public function allop($fecha, $sucursal, $caja)
