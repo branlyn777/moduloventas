@@ -228,6 +228,7 @@ class ReporteMovimientoResumenController extends Component
                 ->orderBy('movimientos.created_at', 'asc')
                 ->get();
 
+         
             //dd($totalesIngresosServicios);
 
             $totalesIngresosServiciosGeneral = OperacionesCarterasCompartidas::join('cartera_movs as crms', 'crms.id', 'operaciones_carteras_compartidas.cartera_mov_id')
@@ -768,11 +769,22 @@ class ReporteMovimientoResumenController extends Component
         //     }
         // }
 
-        $this->operacionesW = $this->operacionesefectivas + $this->ops + $this->total;
+        // $this->operacionesW = $this->operacionesefectivas + $this->ops + $this->total;
 
-        $caja=Caja::find($this->caja);
-        dd($this->caja);
-        $this->operacionesZ =$caja->carteras->where('tipo','efectivo')->first()->saldocartera;
+        // if ($this->caja == 'TODAS') {
+        //    if ($this->sucursal =='TODAS') {
+       
+        //           $this->operacionesZ =Caja::join('carteras','carteras.caja_id','caja.id')
+        //           ->where('cajas.nombre','!=','Caja General')
+        //           ->sum('carteras.saldocartera');
+        //    }
+        //    else{
+        //     $this->operacionesZ =
+        //    }
+        // }
+        // $caja=Caja::find($this->caja);
+        // dd($this->caja);
+        // $this->operacionesZ =$caja->carteras->where('tipo','efectivo')->first()->saldocartera;
 
     }
 
