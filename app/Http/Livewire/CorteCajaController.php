@@ -308,24 +308,24 @@ class CorteCajaController extends Component
             $carteras = Cartera::where('caja_id', $idcaja)->where('tipo','efectivo')->get();
 
 
-            if ($this->efectivo_actual!=$this->sal) {
+            if ($this->efectivo_actual!=$this->saldoAcumulado) {
                 
+                
+                   $movimiento = Movimiento::create([
+                       'type' => 'APERTURA',
+                       'status' => 'ACTIVO',
+                       'import' => $this->efectivo_actual,
+                       'user_id' => Auth()->user()->id
+                   ]);
+                   CarteraMov::create([
+                       'type' => 'APERTURA',
+                       'tipoDeMovimiento' => 'CORTE',
+                       'comentario' => $this->nota_ajuste??'s/n',
+                       'cartera_id' => $carteras->first()->id,
+                       'movimiento_id' => $movimiento->id,
+                   ]);
+                   
             }
-         
-            $movimiento = Movimiento::create([
-                'type' => 'APERTURA',
-                'status' => 'ACTIVO',
-                'import' => $this->efectivo_actual,
-                'user_id' => Auth()->user()->id
-            ]);
-            CarteraMov::create([
-                'type' => 'APERTURA',
-                'tipoDeMovimiento' => 'CORTE',
-                'comentario' => $this->nota_ajuste??'ninguno',
-                'cartera_id' => $carteras->first()->id,
-                'movimiento_id' => $movimiento->id,
-            ]);
-            
 
             /* DESABILITAR CAJA */
             $caja = Caja::find($idcaja);
