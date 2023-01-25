@@ -506,7 +506,10 @@ class SaleListController extends Component
             ->where("sale_lotes.sale_detail_id", $dx->detalleid)
             ->first();
 
-            $dx->po = $po->precio_original;
+            if($po != null)
+            {
+                $dx->po = $po->precio_original;
+            }
         }
 
         $totaldescuento = 0;
@@ -553,7 +556,11 @@ class SaleListController extends Component
             ->where("sale_lotes.sale_detail_id", $d->detalleid)
             ->first();
 
-            $d->po = $po->precio_original;
+            if($po != null)
+            {
+                $d->po = $po->precio_original;
+            }
+
         }
 
 
@@ -590,7 +597,10 @@ class SaleListController extends Component
             ->where("sale_lotes.sale_detail_id", $des->detalleid)
             ->first();
 
-            $des->po = $po->precio_original;
+            if($po != null)
+            {
+                $des->po = $po->precio_original;
+            }
         }
 
 

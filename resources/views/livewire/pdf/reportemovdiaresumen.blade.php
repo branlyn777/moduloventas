@@ -249,7 +249,9 @@
                         
                     </td>
                     @if(@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                    <td></td>
+                    <td>
+                        {{ number_format($ie['importe'],2) }}
+                    </td>
                     @endif
                 </tr>
                 <tr>
