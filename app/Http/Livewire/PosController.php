@@ -606,7 +606,7 @@ class PosController extends Component
                 'items' => $this->total_items,
                 'cash' => $this->dinero_recibido,
                 'change' => $this->cambio,
-                'tipopago' => $cartera->nombre,
+                'tipopago' => "",
                 'factura' => $this->invoice,
                 'cartera_id' => $cartera->id,
                 'sucursal_id' => $this->idsucursal(),

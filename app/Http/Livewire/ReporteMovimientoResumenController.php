@@ -28,6 +28,11 @@ class ReporteMovimientoResumenController extends Component
         $operacionefectivoing, $noefectivo, $operacionefectivoeg, $noefectivoeg, $sumaBanco, $op_recaudo, $recaudo, $subtotalcaja, $utilidadtotal = 5, $caja, $op_sob_falt = 0, $ops = 0, $sucursal, $total, $optotal, $sm, $diferenciaCaja, $montoDiferencia, $obsDiferencia,
         $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco;
 
+
+
+        public $subtotalesIngresos;
+
+
     public function mount()
     {
         $this->obtenersucursal();
@@ -706,7 +711,7 @@ class ReporteMovimientoResumenController extends Component
         //dd($this->ingresosTotalesNoCFBancos);
 
         //Total Utilidad Ventas y Servicios
-        $this->totalutilidadSV = $this->totalesIngresosV->sum('utilidadventa') + $this->totalesIngresosS->sum('utilidadservicios');
+        $this->totalutilidadSV = $this->totalesIngresosV->sum('utilidadventa') + $this->totalesIngresosS->sum('utilidadservicios') + $this->totalesIngresosIE->sum('importe');
 
         //Total Egresos
 

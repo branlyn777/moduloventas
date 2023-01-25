@@ -407,7 +407,9 @@
                                     </span>
                                 </td>
                                 <td class="ie">
-
+                                    <span class="badge badge-sm bg-primary text-sm">
+                                        {{ number_format($m->importe, 2) }}
+                                    </span>
                                 </td>
 
                             </tr>
@@ -441,11 +443,11 @@
                                 <th class="text-sm">FECHA</th>
                                 <th class="text-sm">DETALLE</th>
                                 <th class="text-sm ie">EGRESO</th>
-                                <th class="text-sm ie">
+                                {{-- <th class="text-sm ie">
                                     @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                         UTILIDAD
                                     @endif
-                                </th>
+                                </th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -478,7 +480,7 @@
                                         {{ $st->coment }}
                                     </td>
                                     <td></td>
-                                    <td></td>
+                                    {{-- <td></td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -508,16 +510,19 @@
                             </h5>
                         </td>
                         <td class="text-right">
+                            <h6>Ingresos Totales</h6>
                             <p class="text-sm mb-0">
                                 <b>{{ number_format($subtotalesIngresos, 2) }}</b>
                             </p>
                         </td>
                         <td class="text-right">
+                            <h6>Egresos Totales</h6>
                             <p class="text-sm mb-0">
                                 <b>{{ number_format($EgresosTotales, 2) }}</b>
                             </p>
                         </td>
                         <td class="text-right">
+                            <h6>Total Utilidad</h6>
                             <p class="text-sm mb-0">
                                 @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                     <b>{{ number_format($totalutilidadSV, 2) }}</b>
