@@ -228,7 +228,7 @@ class ReporteMovimientoResumenController extends Component
                 ->orderBy('movimientos.created_at', 'asc')
                 ->get();
 
-                dd($this->caja);
+         
             //dd($totalesIngresosServicios);
 
             $totalesIngresosServiciosGeneral = OperacionesCarterasCompartidas::join('cartera_movs as crms', 'crms.id', 'operaciones_carteras_compartidas.cartera_mov_id')
