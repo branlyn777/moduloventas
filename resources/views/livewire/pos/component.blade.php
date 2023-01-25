@@ -416,7 +416,7 @@
 
                 <div class="col-12 col-sm-6 col-md-4">
 
-                    <div class="card p-3" style="min-height: 500px; padding-top: 10px;">
+                    <div class="card p-3" >
 
 
 
@@ -490,29 +490,11 @@
                                 {{ $listaproductos->links() }}
                             @else
                                 <div>
-
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
                                     <div class="row">
                                         <div class="col-12 text-center">
                                             PARA BUSCAR USE EL CUADRO: BUSCAR PRODUCTOS...
                                         </div>
                                     </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
                                 </div>
 
 
@@ -525,7 +507,7 @@
 
                 <div class="col-12 col-sm-6 col-md-8">
 
-                    <div class="card" style="min-height: 555px;">
+                    <div class="card" >
 
                         <div>
                             @if ($this->total_items > 0)
@@ -633,13 +615,6 @@
                             @else
                                 <div>
                                     <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
 
                                     <div class="row">
                                         <div class="col-12 text-center">
@@ -648,14 +623,6 @@
                                     </div>
 
 
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
                                     <br>
                                 </div>
 
@@ -666,11 +633,11 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12 text-center">
+                        <div class="col-12 text-center"><br>
                             <p class="text-sm">
                                 Nombre Cliente: <b>{{ ucwords(strtolower($nombrecliente)) }}</b>
                             </p>
-                            <br>
+                            
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 @if ($this->total_items > 0)
                                     <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">

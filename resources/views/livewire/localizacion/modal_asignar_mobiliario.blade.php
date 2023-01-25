@@ -32,111 +32,104 @@
         border-radius: 6px;
     }
 </style>
-<div wire:ignore.self class="modal fade" id="asignar_mobiliario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+<div wire:ignore.self class="modal fade" id="asignar_mobiliario" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="exampleModalCenterTitle" style="font-size: 16px">Agregar Productos al Mobiliario</h5>
+                <h5 class="modal-title text-white" id="exampleModalCenterTitle" style="font-size: 16px">Agregar
+                    Productos al Mobiliario</h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-                
                 <div>
                     <div class="col-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <b style="cursor: pointer; font-size: 14px">Buscar Producto</b>
+                            <b style="cursor: pointer; font-size: 14px">Buscar</b>
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search2" placeholder="Buscar Producto..." class="form-control ">
+                                <input type="text" wire:model="search2" placeholder="Producto" class="form-control ">
                             </div>
-                        </div> 
+                        </div>
+
+                        @if ($search2 != null)
+                            <table style="width:100%">
+                                <thead style="font-size: 0.9rem">
+                                    <th>Nombre Producto</th>
+                                    <th class="text-center">Accion</th>
+                                </thead>
+                                <tbody>
+                                    @forelse ($data_prod_mob as $data_m)
+                                        <tr>
+                                            <td style="font-size: 0.9rem">
+                                                {{ $data_m->nombre }}
+                                            </td>
+                                            <td class="text-center">
+                                                <a wire:click="addProd({{ $data_m->id }})" class="btn btn-primary"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <p class="text-center">No existe productos con ese criterio de
+                                            busqueda</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        @else
+                            <p>{{ $search2 }}</p>
+                            {{-- <h5 style="text-align: center">Sin Datos</h5> --}}
+                        @endif
                     </div>
                 </div>
-                
-                <form class="form-control dropzone dz-clickable">
-                    <div class="dz-default dz-message">
-                        @if ($search2 != null)
-                                <div class="vertical-scrollable">
-                                    <div class="table-sm">
-                                        <table class='table borderless round' style="width:96%">
-                                            <tbody>
-                                                @forelse ($data_prod_mob as $data_m)
-                                                    <tr class="text-center">
-                                                        <td class="text-center">
-                                                            <h6>{{$data_m->nombre}}
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn bg-gradient-primary btn-sm mb-0" type="button" wire:click="addProd({{ $data_m->id}})">
-                                                                <i class="fas fa-check"></i> Agregar
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <p class="text-center">No existe productos con ese criterio de busqueda</p>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            @else
-                                <p>{{$search2}}</p>
-                                <h5 style="text-align: center">Sin Datos</h5>
-                            @endif
-                        </div>
-                    </form>
-                
+
                 <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
                     <div class="table-responsive">
                         @if ($col->count() != 0)
-                        <table class="m-auto">
-                            <thead class="text-center" style="font-size: 12px">
-                                <th style="width: 25%" class="text-center">Codigo Producto</th>
-                                <th class="text-center">Nombre Producto</th>
-                                <th class="text-center">Acc.</th>
-                            </thead>
-                            <tbody>
-                                @forelse ($col as $datacol)
-                                <tr class="text-center" style="font-size: 11.5px">
-                                    <td>
-                                        {{$datacol['product_codigo']}}
-                                    </td>
-                                    <td>
-                                        {{$datacol['product_name']}}
-                                    </td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="mx-3"
-                                            wire:click="quitarProducto({{ $datacol['product_codigo']}})" class="boton-rojo">
-                                            <i class="fas fa-times text-danger" style="font-size: 14px"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @empty
-                                <p></p>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        @else
-                            <div class="table-wrapper row align-items-center m-auto"
-                                style="background-color: rgba(145, 250, 189, 0.459)">
-                                <div class="col-lg-12">
-                                    <div class="row justify-content-center">
-                                        <h5 class="text-center"> BUSCAR Y AGREGAR ITEMS</h5>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="m-auto">
+                                <thead style="font-size: 0.9rem">
+                                    <th style="width: 25%">Codigo Producto</th>
+                                    <th>Nombre Producto</th>
+                                    <th class="text-center">Accion</th>
+                                </thead>
+                                <tbody>
+                                    @forelse ($col as $datacol)
+                                        <tr style="font-size: 0.9rem">
+                                            <td>
+                                                {{ $datacol['product_codigo'] }}
+                                            </td>
+                                            <td>
+                                                {{ $datacol['product_name'] }}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0)" class="mx-3"
+                                                    wire:click="quitarProducto({{ $datacol['product_codigo'] }})" class="boton-rojo">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <p></p>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         @endif
                     </div>
                 </div>
             </div>
+
             <div class="modal-footer">
-                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                <button wire:click.prevent="asignarMobiliario()" type="button" class="btn btn-primary" style="font-size: 13px">GUARDAR</button>
-                    {{-- <button type="button" wire:click.prevent="asignarMobiliario()" class="btn btn-warning m-1">GUARDAR</button> --}}
+                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">CANCELAR</button>
+                <button wire:click.prevent="asignarMobiliario()" type="button" class="btn btn-primary"
+                    style="font-size: 13px">GUARDAR</button>
             </div>
         </div>
     </div>
 </div>
+

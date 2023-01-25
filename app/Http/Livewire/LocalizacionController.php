@@ -241,7 +241,7 @@ class LocalizacionController extends Component
         $this->sucursal= null ;
         $this->categoria=null ;
         $this->subcategoria= null;
-        $this->producto=null ;
+        $this->product=null ;
         $this->product_name=null;
         $this->destino= null;
         $this->location= null;

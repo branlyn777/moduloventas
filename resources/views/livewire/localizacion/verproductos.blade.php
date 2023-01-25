@@ -18,15 +18,15 @@
                                 <div class="dataTable-container">
                                     <table class="table align-items-center mb-0">
                                         <thead>
-                                            <tr class="text-center" style="font-size: 10.4px">
-                                                <th>ITEM</th>
-                                                <th style="text-align: left">NOMBRE</th>
-                                                <th>ACCIONES</th>
+                                            <tr class="text-center">
+                                                <th style="font-size: 0.9rem">ITEM</th>
+                                                <th style="text-align: left; font-size: 0.9rem;">NOMBRE</th>
+                                                <th style="font-size: 0.9rem">ACCIONES</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($listaproductos as $data)
-                                                <tr class="text-center"  style="font-size: 12px">
+                                                <tr class="text-center"  style="font-size: 0.9rem">
                                                     <td>
                                                         {{ $loop->index+1 }}
                                                     </td>

@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label> Nombre </label>
+                            <label><span class="text-warning">* </span> Nombre</label>
                             <input type="text" wire:model.lazy="name" class="form-control"
                                 placeholder="ej: Impresoras">
                             @error('name')
