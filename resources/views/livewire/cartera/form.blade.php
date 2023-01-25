@@ -32,13 +32,24 @@
         </div>
     </div> --}}
     @if ($variable == 1)
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+            <label><span class="text-warning">* </span>Número de telefono</label>
+            <input type="number" wire:model.lazy="telefonoNum" class="form-control">
+            @error('telefonoNum')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+    @endif
+    @if ($this->tipo == "digital")
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
-                <label><span class="text-warning">* </span>Número de telefono</label>
-                <input type="number" wire:model.lazy="telefonoNum" class="form-control">
-                @error('telefonoNum')
-                    <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                @enderror
+                <label><span class="text-warning">* </span>Estado</label>
+                <select wire:model="estado_cartera" class="form-select">
+                    <option value="ACTIVO">Activo</option>
+                    <option value="INACTIVO">Inactivo</option>
+                </select>
             </div>
         </div>
     @endif

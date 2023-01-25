@@ -27,7 +27,7 @@ class ClienteController extends Component
 
     public function mount()
     {
-        $this->estado2 = "ACTIVO";
+        $this->estado = "ACTIVO";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Cliente';
         $this->selected_id = 0;
@@ -78,7 +78,7 @@ class ClienteController extends Component
             /* 'cedula' => 'required|min:5|max:10,unique|unique:clientes', */
            /*  'celular' => 'required|min:8', */
             'procedencia' => 'required|not_in:Elegir',
-            'email' => 'max:100',
+            'email' => 'max:100|email',
             'direccion' => 'max:255',
             'nit' => 'max:12',
             'razonsocial' => 'max:255',
@@ -93,6 +93,7 @@ class ClienteController extends Component
            /*  'celular.required' => 'Numero de celular es requerido.', */
             'celular.min' => 'Ingrese un celular superior a 7 dígitos.',
             'email.max'  => 'Numero de caracteres no mayor a 100',
+            'email.email'  => 'Email no valido',
             'nit.max'  => 'Numero de caracteres no mayor a 100',
             'razonsocial.max'  => 'Numero de caracteres no mayor a 255',
             'direccion.max'  => 'Numero de caracteres no mayor a 255',

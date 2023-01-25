@@ -13,7 +13,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label><span class="text-warning">* </span>Cédula</label>
-            <input type="text" wire:model.lazy="cedula" class="form-control" placeholder="12121212">
+            <input type="number" wire:model.lazy="cedula" class="form-control" placeholder="12121212">
             @error('cedula')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
             @enderror
@@ -23,7 +23,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label><span class="text-warning">* </span>Celular</label>
-            <input type="text" wire:model.lazy="celular" class="form-control" placeholder="ej: 79564859"
+            <input type="number" wire:model.lazy="celular" class="form-control" placeholder="ej: 79564859"
                 maxlength="8">
             @error('celular')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
@@ -35,7 +35,7 @@
     <div class="col-sm-12 col-md-6">
         <div class="form-group">
             <label>Nit</label>
-            <input type="text" date-type='currency' wire:model.lazy="nit" class="form-control"
+            <input type="number" date-type='currency' wire:model.lazy="nit" class="form-control"
                 placeholder="ej: 1515151515">
             @error('nit')
                 <span class="text-danger er">{{ $message }}</span>
@@ -46,7 +46,7 @@
     <div class="col-sm-12 col-md-12">
         <div class="form-group">
             <label>Email</label>
-            <input type="text" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com">
+            <input type="email" wire:model.lazy="email" class="form-control" placeholder="ej: correo@correo.com">
             @error('email')
                 <span class="text-danger er">{{ $message }}</span>
             @enderror

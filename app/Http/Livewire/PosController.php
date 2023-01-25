@@ -187,14 +187,29 @@ class PosController extends Component
         $listaproductos = [];
         if($this->buscarproducto != "")
         {
-            $listaproductos = Product::join("productos_destinos as pd", "pd.product_id", "products.id")
-            ->join('destinos as des', 'des.id', 'pd.destino_id')
+            // $listaproductos = Product::join("productos_destinos as pd", "pd.product_id", "products.id")
+            // ->join('destinos as des', 'des.id', 'pd.destino_id')
+            // ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
+            // "pd.stock as stock", "products.codigo as barcode", "products.status as estado")
+            // ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
+            // ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
+            // ->distinct()
+            // ->paginate($this->paginacion);
+
+
+
+
+            $listaproductos = Product::distinct()
+            ->join("productos_destinos as pd", "pd.product_id", "products.id")
             ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
-            "pd.stock as stock", "products.codigo as barcode", "products.status as estado")
-            ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
-            ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
-            ->distinct()
+            "products.codigo as barcode", "products.status as estado")
+            ->where(function ($query) {
+                $query->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
+                      ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%');
+            })
             ->paginate($this->paginacion);
+
+
         }
         //---------------------------------------------------------------------------------------------------------
         //Modulo para Calcular el Cambio

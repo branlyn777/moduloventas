@@ -735,6 +735,7 @@ class SaleEditController extends Component
                 ->where("s.id", $this->venta_id)
                 ->get()
                 ->first();
+            
             $cartera_mov = CarteraMov::find($cartera_mov_id->idcarteramov);
             //Actualizando el id de la cartera movimiento
             $cartera_mov->update([
@@ -773,10 +774,11 @@ class SaleEditController extends Component
 
 
 
-
+            
 
             //Eliminando todos los detalles de venta y lote venta
-            foreach ($detalle_venta as $d) {
+            foreach ($detalle_venta as $d)
+            {
 
                 //INCREMENTANDO LOTES
 
@@ -837,7 +839,8 @@ class SaleEditController extends Component
 
 
             //Creando nuevos detalles de venta y lotes venta
-            foreach ($this->carrito_venta as $p) {
+            foreach ($this->carrito_venta as $p)
+            {
                 $sd = SaleDetail::create([
                     'price' => $p['price'],
                     'cost' => 0,
@@ -945,7 +948,7 @@ class SaleEditController extends Component
             if ($this->factura == false) {
                 $f = "No";
             }
-
+            
 
             //Obteniendo la cantidad total de los productos de una venta
             $detalle = SaleDetail::select('sale_details.*')
@@ -958,21 +961,20 @@ class SaleEditController extends Component
                 $totalbs = ($d->quantity * $d->price) + $totalbs;
             }
 
-
-
-
+            
+            
+            
             //Actualizando Venta
             $venta->update([
                 'total' => $totalbs,
                 'items' => $totalcantidad,
-                'tipopago' => Cartera::find($this->cartera_id)->nombre,
+                'tipopago' => "",
                 'factura' => $f,
                 'cartera_id' => $this->cartera_id,
-                'observacion' => $this->observacion,
+                'observacion' => $this->observacion
             ]);
             $venta->save();
-
-
+            
             //Actualizando el importe de la tabla movimiento
             $movimiento_actualizar = Movimiento::find($venta->movimiento_id);
             $movimiento_actualizar->update([
@@ -980,7 +982,7 @@ class SaleEditController extends Component
             ]);
             $movimiento_actualizar->save();
 
-
+            
             //Descontando el saldo a la cartera despues de actualizar esta
             $cartera_actualizar = Cartera::find($venta->cartera_id);
             $cartera_actualizar->update([
@@ -994,7 +996,7 @@ class SaleEditController extends Component
 
 
 
-
+            
 
             $this->redirect('salelist');
 

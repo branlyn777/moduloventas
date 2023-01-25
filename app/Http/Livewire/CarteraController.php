@@ -14,7 +14,7 @@ class CarteraController extends Component
     use WithPagination;
     use WithFileUploads;
     public  $search, $nombre, $descripcion, $tipo, $telefonoNum, $selected_id, $caja_id, $mensaje_toast;
-    public  $pageTitle, $componentName, $variable, $estados;
+    public  $pageTitle, $componentName, $variable, $estados, $estado_cartera;
     private $pagination = 10;
 
     public $mostrar_caja;
@@ -204,6 +204,7 @@ class CarteraController extends Component
         $this->telefonoNum = $cartera->telefonoNum;
         $this->caja_id = $cartera->caja_id;
         $this->mostrar_caja = false;
+        $this->estado_cartera = $cartera->estado;
         $this->emit('show-modal', 'show modal!');
     }
     public function Update()
@@ -237,6 +238,7 @@ class CarteraController extends Component
                 'nombre' => $this->nombre,
                 'descripcion' => $this->descripcion,
                 'tipo' => $this->tipo,
+                'estado' => $this->estado_cartera,
                 'telefonoNum' => $this->telefonoNum,
                 'caja_id' => $this->caja_id
             ]);
