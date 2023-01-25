@@ -310,7 +310,7 @@
                                         </td>
                                         <td class="text-sm mb-0 text-left">
                                             <h6 class="mb-0 text-sm">
-                                                @if ($lv->ventareciente > -1)
+                                                @if ($lv->ventareciente <= 60)
                                                     @if ($lv->ventareciente == 1)
                                                         <div style="color: rgb(0, 201, 33);">
                                                             <b>Hace {{ $lv->ventareciente }} Minuto</b>

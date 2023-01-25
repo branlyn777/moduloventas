@@ -18,5 +18,13 @@ class RoleSeeder extends Seeder
             'name' => 'Administrador',
             'guard_name' => 'web'
         ]);
+        Role::create([
+            'name' => 'Cajero',
+            'guard_name' => 'web'
+        ]);
+        Role::create([
+            'name' => 'Sistema',
+            'guard_name' => 'web'
+        ]);
     }
 }

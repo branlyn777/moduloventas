@@ -492,11 +492,22 @@ class SaleListController extends Component
     {
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.image as image','p.nombre as nombre','p.precio_venta as po',
+        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre','p.precio_venta as po', DB::raw('0 as po'),
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+
+        foreach($descuento as $dx)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $dx->detalleid)
+            ->first();
+
+            $dx->po = $po->precio_original;
+        }
 
         $totaldescuento = 0;
         foreach($descuento as $d)
@@ -508,55 +519,13 @@ class SaleListController extends Component
     //Devuelve el tiempo en minutos de una venta reciente
     public function ventareciente($idventa)
     {
-        //Variable donde se guardaran los minutos de diferencia entre el tiempo de una venta y el tiempo actual
-        $minutos = -1;
-        //Guardando el tiempo en la cual se realizo la venta
-        $date = Carbon::parse(Sale::find($idventa)->created_at)->format('Y-m-d');
-        //Comparando que el dia-mes-año de la venta sean iguales al tiempo actual
-        if($date == Carbon::parse(Carbon::now())->format('Y-m-d'))
-        {
-            //Obteniendo la hora en la que se realizo la venta
-            $hora = Carbon::parse(Sale::find($idventa)->created_at)->format('H');
-            //Obteniendo la hora de la venta mas 1 para incluir horas diferentes entre una hora venta y la hora actual en el else
-            $hora_mas = $hora + 1;
-            //Si la hora de la venta coincide con la hora actual
-            if($hora == Carbon::parse(Carbon::now())->format('H'))
-            {
-                //Obtenemmos el minuto de la venta
-                $minutos_venta = Carbon::parse(Sale::find($idventa)->created_at)->format('i');
-                //Obtenemos el minuto actual
-                $minutos_actual = Carbon::parse(Carbon::now())->format('i');
-                //Calculamos la diferencia
-                $diferenca = $minutos_actual - $minutos_venta;
-                //Actualizamos la variable $minutos por los minutos de diferencia si la venta fue hace 1 hora antes que la hora actual
-                if($diferenca <= 60)
-                {
-                    $minutos = $diferenca;
-                }
-            }
-            else
-            {
-                //Ejemplo: Si la hora de la venta es 14:59 y la hora actual es 15:01
-                //Usamos la variable $hora_mas para comparar con la hora actual, esto para obtener solo a las ventas que sean una hora antes que la hora actual
-                if($hora_mas == Carbon::parse(Carbon::now())->format('H'))
-                {
-                    //Obtenemmos el minuto de la venta con una hora antes que la hora actual
-                    $minutos_venta = Carbon::parse(Sale::find($idventa)->created_at)->format('i');
-                    //Obtenemos el minuto actual
-                    $minutos_actual = Carbon::parse(Carbon::now())->format('i');
-                    //Restamos el minuto de la venta con el minuto actual y despues le restamos 60 minutos por la hora antes añadida ($hora_mas)
-                    $mv = (($minutos_venta - $minutos_actual) - 60) * -1;
-                    //Actualizamos la variable $minutos por los minutos de diferencia si la venta fue hace 1 hora antes que la hora actual
-                    if($mv <= 60)
-                    {
-                        $minutos = $mv;
-                    }
-                }
-            }
-        }
+        // Crear una instancia de Carbon a partir de la fecha de transacción
+        $transaction_carbon = Sale::find($idventa)->created_at;
 
-        
-        return $minutos;
+        // Obtener la diferencia en minutos entre la fecha de transacción y la fecha actual
+        $diff_in_minutes = Carbon::now()->diffInMinutes($transaction_carbon);
+
+        return $diff_in_minutes;
     }
     //Llama y muestra detalles de una venta
     public function modaldetalle($idventa)
@@ -570,11 +539,25 @@ class SaleListController extends Component
         //Listando todos los productos, cantidades, precio, etc...
         $this->detalle_venta = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.id as idproducto','p.image as image','p.nombre as nombre','p.precio_venta as po',
-        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid')
+        ->select('sale_details.id as detalleid','p.id as idproducto','p.image as image','p.nombre as nombre',
+        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid', DB::raw('0 as po'))
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+
+        foreach($this->detalle_venta as $d)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $d->detalleid)
+            ->first();
+
+            $d->po = $po->precio_original;
+        }
+
+
+
         
         //Obteniendo detalles generales (observacion, total Bs, etc..) de una venta
         $this->venta = Sale::find($idventa);
@@ -594,11 +577,24 @@ class SaleListController extends Component
         //obteniendo la cantidad total de Bs en Descuento o Recargo
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('p.image as image','p.nombre as nombre','p.precio_venta as po',
+        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre', DB::raw('0 as po'),
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+        foreach($descuento as $des)
+        {
+            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select("l.pv_lote as precio_original")
+            ->where("sale_lotes.sale_detail_id", $des->detalleid)
+            ->first();
+
+            $des->po = $po->precio_original;
+        }
+
+
+
 
         $descuento_recargo = 0;
         foreach($descuento as $d)

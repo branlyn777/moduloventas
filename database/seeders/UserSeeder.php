@@ -15,30 +15,48 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Admin',
-            'phone' => '71787963',
-            'email' => 'admin@gmail.com',
-            'profile' => 'Administrador',
+            'name' => 'Soporte Sistema',
+            'phone' => '00000000',
+            'email' => 'sistema@gmail.com',
+            'profile' => 'Sistema',
             'status' => 'ACTIVE',
-            'password' => bcrypt('12345'),
+            'password' => bcrypt('emanuel'),
             'image' => 'user_admin.png'
         ]);
         User::create([
-            'name' => 'Luis Sera',
-            'phone' => '71787963',
-            'email' => 'luis@gmail.com',
-            'profile' => 'Administrador',
-            'status' => 'ACTIVE',
-            'password' => bcrypt('12345'),
-            'image' => 'user_admin.png'
-        ]);
-        User::create([
-            'name' => 'Juan Torrez',
-            'phone' => '71787963',
+            'name' => 'Edwin Choque Tinta',
+            'phone' => '60778498',
             'email' => 'juan@gmail.com',
             'profile' => 'Administrador',
             'status' => 'ACTIVE',
-            'password' => bcrypt('12345'),
+            'password' => bcrypt('emanuel'),
+            'image' => 'user_admin.png'
+        ]);
+        User::create([
+            'name' => 'Rosa Ortiz',
+            'phone' => '75975652',
+            'email' => 'rosa@gmail.com',
+            'profile' => 'Administrador',
+            'status' => 'ACTIVE',
+            'password' => bcrypt('emanuel'),
+            'image' => 'user_admin.png'
+        ]);
+        User::create([
+            'name' => 'Armando Cahuaya',
+            'phone' => '68007552',
+            'email' => 'armando@gmail.com',
+            'profile' => 'Cajero',
+            'status' => 'ACTIVE',
+            'password' => bcrypt('emanuel'),
+            'image' => 'user_admin.png'
+        ]);
+        User::create([
+            'name' => 'Yazmin Torres',
+            'phone' => '',
+            'email' => 'yazminca.torres@gmail.com',
+            'profile' => 'Cajero',
+            'status' => 'ACTIVE',
+            'password' => bcrypt('emanuel'),
             'image' => 'user_admin.png'
         ]);
     }

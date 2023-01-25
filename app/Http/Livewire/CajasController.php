@@ -35,14 +35,21 @@ class CajasController extends Component
     public function render()
     {
         if (strlen($this->search) > 0)
+        {
             $caja = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-                ->select('cajas.*', 's.name as sucursal')
-                ->where('nombre', 'like', '%' . $this->search . '%')
-                ->paginate($this->pagination);
+            ->select('cajas.*', 's.name as sucursal')
+            ->where('nombre', 'like', '%' . $this->search . '%')
+            ->where("cajas.id", "<>",1)
+            ->paginate($this->pagination);
+        }
         else
+        {
             $caja = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-                ->select('cajas.*', 's.name as sucursal')
-                ->paginate($this->pagination);
+            ->select('cajas.*', 's.name as sucursal')
+            ->where("cajas.id", "<>",1)
+            ->paginate($this->pagination);
+        }
+            
 
 
 

@@ -35,23 +35,23 @@ class DestinoSeeder extends Seeder
         ]);
         
 
-        $devoluciones = Destino::create([
-            'nombre'=>'Almacen Devoluciones',
-            'observacion'=>'ninguna',
-            'sucursal_id'=>'1',           
-            'codigo_almacen' => 0
-        ]);
-        $devoluciones->save();
+        // $devoluciones = Destino::create([
+        //     'nombre'=>'Almacen Devoluciones',
+        //     'observacion'=>'ninguna',
+        //     'sucursal_id'=>'1',
+        //     'codigo_almacen' => 0
+        // ]);
+        // $devoluciones->save();
 
-        $devoluciones->Update([
-            'codigo_almacen'=>substr(strtoupper($devoluciones->nombre),0,3) .'-'.str_pad($devoluciones->id,4,0,STR_PAD_LEFT)
-        ]);
+        // $devoluciones->Update([
+        //     'codigo_almacen'=>substr(strtoupper($devoluciones->nombre),0,3) .'-'.str_pad($devoluciones->id,4,0,STR_PAD_LEFT)
+        // ]);
 
-        Permission::create([
-            'name' => $devoluciones->codigo_almacen,
-            'areaspermissions_id' => '2',
-            'descripcion' => 'Permite listar el destino en TRANSFERENCIA PRODUCTOS',
-            'guard_name' => 'web'
-        ]);
+        // Permission::create([
+        //     'name' => $devoluciones->codigo_almacen,
+        //     'areaspermissions_id' => '2',
+        //     'descripcion' => 'Permite listar el destino en TRANSFERENCIA PRODUCTOS',
+        //     'guard_name' => 'web'
+        // ]);
     }
 }
