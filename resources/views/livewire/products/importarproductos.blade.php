@@ -66,7 +66,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         {{ $archivo }}
-                        <input type="file" name="import_file" wire:model="archivo" accept=".xml"/>
+                        <input type="file" name="import_file" wire:model="archivo" accept=".xlsx"/>
                         <div style="text-align: right">
                             <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
                         </div>
