@@ -57,8 +57,6 @@ class DestinoProductoController extends Component
     public function render()
     {
 
-
-
         $almacen = ProductosDestino::join('products as p', 'p.id', 'productos_destinos.product_id')
             ->join('destinos as dest', 'dest.id', 'productos_destinos.destino_id')
             ->where(function ($query) {

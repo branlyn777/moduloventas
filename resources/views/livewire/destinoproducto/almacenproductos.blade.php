@@ -129,8 +129,17 @@
                                     </td>
                                     <td class="text-center">
                                         <span>
-                                            <img src="{{ 'storage/productos/' . $destino->image }}" height="40"
-                                                class="rounded">
+                                  
+
+                                            @if ($destino->image !=null)
+                                            <img src="{{ asset('storage/productos/' . $destino->image) }}"
+                                            alt="hoodie" width="50">
+                                         
+                                            @else
+                                            <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
+                                            alt="hoodie" width="50">
+                                        
+                                            @endif
                                         </span>
                                     </td>
                                     <td style="width: 15%">

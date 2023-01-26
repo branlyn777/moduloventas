@@ -90,7 +90,7 @@ class Product extends Model
             return $this->image;
         else 
         {
-            return 'noimagen.png';
+            return 'noimagenproduct.png';
         }
     }
 
