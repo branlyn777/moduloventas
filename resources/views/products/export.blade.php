@@ -11,6 +11,7 @@
             <th>CATEGORIA</th>
             <th> SUBCATEGORIA</th>
             <th> CODIGO</th>
+            <th> COSTO</th>
             <th> PRECIO VENTA</th>
             <th> STATUS</th>
 
@@ -59,8 +60,10 @@
                     {{ $products->codigo }}
                 </td>
                 <td>
-
-                    {{ $products->precio_venta }}
+                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
+                </td>
+                <td>
+                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
                 </td>
                 <td>
 

@@ -54,14 +54,14 @@
                             wire:click='resetUI()' data-bs-target="#theModal">
                             <i class="fas fa-plus me-2"></i> Nuevo Producto
                         </a>
-                    
+                        @can('Reportes_Inventarios_Export')
                             <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
                                 {{-- <i class="fas fa-arrow-down"></i> --}} Importar
                             </button>
                             <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
                                 {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar
                             </a>
-                    
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem">Filtrar por Estado</label>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" wire:model='estados' type="checkbox"
+                                    <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
                                         role="switch" {{ $this->estados == true ? 'checked' : '' }}>
                                     @if ($estados)
                                         <label
@@ -125,7 +125,7 @@
                                         @foreach ($categories as $key => $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
-                                        
+                                        <option value='no_definido'>No definido</option>
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
@@ -193,8 +193,8 @@
                                             <th class="text-uppercase text-sm">Categoría</th>
                                             <th class="text-uppercase text-sm">Sub Categoría</th>
                                             <th class="text-uppercase text-sm">Código</th>
-                                            <th class="text-uppercase text-sm text-center">Precio</th>
-                                            <th class="text-uppercase text-sm text-center">Costo</th>
+                                            <th class="text-uppercase text-sm text-center">Costo Activo</th>
+                                            <th class="text-uppercase text-sm text-center">Precio Activo</th>
                                             <th class="text-uppercase text-sm">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
@@ -242,10 +242,10 @@
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->precio_venta}}
+                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->costo}}
+                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
                                                 </td>
 
                                                 <td>
@@ -303,7 +303,6 @@
 @section('javascript')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');
@@ -320,11 +319,9 @@
                     padding: '2em',
                 })
             });
-
             window.livewire.on('modal-import', msg => {
                 $('#modalimport').modal('show')
             });
-
             // window.livewire.on('product-updated', msg => {
             //     $('#theModal').modal('hide')
             //     noty(msg)
@@ -361,7 +358,6 @@
                     padding: '2em',
                 })
             });
-
             window.livewire.on('modal-show', msg => {
                 $('#theModal').modal('show')
             });
@@ -393,10 +389,7 @@
                     padding: '2em',
                 })
             });
-
-
         });
-
         function Confirm(id, name, products) {
             if (products > 0) {
                 console.log(products);
@@ -416,7 +409,6 @@
                         Swal.close()
                     }
                 })
-
                 //este producto tiene varias relaciones activas con otros registros del sistema
             } else {
                 swal.fire({
@@ -434,7 +426,6 @@
                     }
                 })
             }
-
         }
     </script>
 
