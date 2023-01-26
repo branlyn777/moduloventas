@@ -95,11 +95,17 @@ class PosController extends Component
     //variable para guardar el id de caja abierta
     public $caja_abierta_id;
 
+    public $page = 1;
+
 
     use WithPagination;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
+    }
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
     public function mount()
     {
@@ -196,9 +202,6 @@ class PosController extends Component
             // ->distinct()
             // ->paginate($this->paginacion);
 
-
-
-
             $listaproductos = Product::distinct()
             ->join("productos_destinos as pd", "pd.product_id", "products.id")
             ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
@@ -208,7 +211,7 @@ class PosController extends Component
                       ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%');
             })
             ->paginate($this->paginacion);
-
+            // $this->resetPage();
 
         }
         //---------------------------------------------------------------------------------------------------------
@@ -638,7 +641,16 @@ class PosController extends Component
 
             foreach($productos as $p)
             {
+                $precio_original = Lote::select("lotes.pv_lote as po")
+                ->where("lotes.product_id",$p->id)
+                ->where("lotes.status","Activo")
+                ->orderBy("lotes.created_at","desc")
+                ->first();
+
+
+
                 $sd = SaleDetail::create([
+                    'original_price' => $precio_original->po,
                     'price' => $p->price,
                     'cost' => 0,
                     'quantity' => $p->quantity,
