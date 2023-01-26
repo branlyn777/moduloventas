@@ -33,7 +33,7 @@
                                         Ingresos por Bancos
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        {{ number_format($this->ingresosTotalesNoCFBancos, 2) }}
+                                        {{ number_format($this->ingresosTotalesBancos, 2) }}
                                     </td>
                                 </tr>
 
@@ -88,7 +88,7 @@
                                 
                                 <tr>
                                     <td class="text-sm">
-                                        Saldo Acumulado Dia Ant.
+                                        Saldo Acumulado 
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         {{ number_format($ops, 2) }}
