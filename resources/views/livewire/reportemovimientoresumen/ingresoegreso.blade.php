@@ -59,7 +59,7 @@
                                 <h6> Caja: {{ $key }}</h6>
                                 <h6>
                                     @foreach ($item as $dum)
-                                        <div>{{ $dum->carteraNombre }}:{{ $dum->monto }}</div>
+                                        <div>{{ $dum->carteraNombre }}:{{ $dum->saldocartera }}</div>
                                     @endforeach
                                 </h6>
                                 <div class="dropdown text-end">

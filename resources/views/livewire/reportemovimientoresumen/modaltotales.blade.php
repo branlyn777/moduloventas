@@ -111,7 +111,7 @@
                     <div class="">
                         <table class="table">
                             <tbody>
-                                @if ($caja != 'TODAS')
+                       
                                     <tr style="height: 2rem"></tr>
 
                                     <tr class="p-5">
@@ -131,7 +131,7 @@
                                                 Sobrantes
                                             </td>
                                             <td class="text-sm" style="float: right">
-                                                {{ number_format($op_sob, 2) }}
+                                                {{ number_format($operacionsob, 2) }}
                                             </td>
                              
 
@@ -144,7 +144,7 @@
                                                 Faltantes
                                             </td>
                                             <td class="text-sm" style="float: right">
-                                                {{ number_format($op_falt, 2) }}
+                                                {{ number_format($operacionfalt, 2) }}
                                             </td>
                              
 
@@ -158,7 +158,7 @@
                                         </td>
 
                                     </tr>
-                                @endif
+                              
                             </tbody>
                         </table>
                     </div>

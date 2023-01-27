@@ -615,6 +615,14 @@ class IngresoEgresoController extends Component
             'status' => 'INACTIVO'
             ]);
         $mov->save();
+        $carteraid = CarteraMov::where('movimiento_id',$mov->id)->first()->cartera_id;
+        $cartera=Cartera::find($carteraid);
+
+        $cartera->update([
+            'saldocartera' => $cartera->saldocartera-$mov->import
+        ]);
+
+
     }   
     public function editarOperacion(Movimiento $mov)
     {
