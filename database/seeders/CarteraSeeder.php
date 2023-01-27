@@ -22,6 +22,10 @@ class CarteraSeeder extends Seeder
             'telefonoNum' => null,
             'caja_id' => '1',
         ]);
+
+
+
+        
     
     }
 }

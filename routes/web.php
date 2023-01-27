@@ -26,6 +26,8 @@ use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
 use App\Http\Controllers\ExportMovDiaResController;
+use App\Http\Controllers\ExportMovimientoController;
+use App\Http\Controllers\ExportTigoPdfController;
 use App\Http\Livewire\ArqueosTigoController;
 use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\ComisionesController;
