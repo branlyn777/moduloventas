@@ -57,6 +57,23 @@
     .tablareporte .no{
         width: 50px;
     }
+
+
+
+
+
+
+    /* EStilos para los totales flotantes */
+
+    .flotante{
+        /* width: 100%; */
+        z-index: 99;
+        position: fixed;
+        top: 350px;
+        right: 50px;
+    }
+
+
 </style>
 @endsection
 
@@ -152,6 +169,95 @@
 
         </div>
     </div>
+
+
+
+    
+
+    <br>
+
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+    <div class="flotante">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="text-center">
+                                        <h6>INGRESOS TOTALES</h6>
+                                        <span class="badge badge-sm bg-primary text-lg">
+                                            <b>{{ number_format($subtotalesIngresos, 2) }}</b>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="text-center">
+                                        <h6>EGRESOS TOTALES</h6>
+                                        <span class="badge badge-sm bg-danger text-lg">
+                                            <b>{{ number_format($EgresosTotales, 2) }}</b>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="text-center">
+                                        <h6>TOTAL UTILIDAD</h6>
+                                        <span class="badge badge-sm bg-success text-lg">
+                                            @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                                @endif
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+
+
+
+
+
+
+
 
     @if($totalesIngresosV->count() > 0)
         <br>
@@ -293,13 +399,13 @@
                                         </div>
                                     </td>
                                     <td class="ie">
-                                        <span class="badge badge-sm bg-success text-sm">
+                                        <span class="badge badge-sm bg-primary text-sm">
                                             {{ number_format($p->importe, 2) }}
                                         </span>
                                     </td>
                                     <td class="ie">
                                         @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                            <span class="badge badge-sm bg-primary text-sm">
+                                            <span class="badge badge-sm bg-success text-sm">
                                                 {{ number_format($p->utilidadventa, 2) }}
                                             </span>
                                         @endif
@@ -313,7 +419,7 @@
         </div>
     @endif
 
-    @if($totalesEgresosV->count() > 0)
+    {{-- @if($totalesEgresosV->count() > 0)
         <br>
         <div class="card">
             <div class="card-body">
@@ -364,7 +470,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
 
 
     @if($totalesIngresosIE->count() > 0)
@@ -402,12 +508,12 @@
                                     </div>
                                 </td>
                                 <td class="text-sm ie">
-                                    <span class="badge badge-sm bg-success text-sm">
+                                    <span class="badge badge-sm bg-primary text-sm">
                                         {{ number_format($m->importe, 2) }}
                                     </span>
                                 </td>
                                 <td class="ie">
-                                    <span class="badge badge-sm bg-primary text-sm">
+                                    <span class="badge badge-sm bg-success text-sm">
                                         {{ number_format($m->importe, 2) }}
                                     </span>
                                 </td>
@@ -490,50 +596,6 @@
         </div>
     @endif
 
-    <br>
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table style="width: 100%">
-                    <tr>
-                        <td colspan="6">
-        
-                        </td>
-                    </tr>
-                    {{-- SUBTOTAL OPERACIONES --}}
-                    <tr>
-                        <td colspan="3">
-                            <h5 class="text-dark text-center" style="font-size: 1rem!important;">
-                                <p class="text-sm mb-0">
-                                    <b> Totales.- </b>
-                                </p>
-                            </h5>
-                        </td>
-                        <td class="text-right">
-                            <h6>Ingresos Totales</h6>
-                            <p class="text-sm mb-0">
-                                <b>{{ number_format($subtotalesIngresos, 2) }}</b>
-                            </p>
-                        </td>
-                        <td class="text-right">
-                            <h6>Egresos Totales</h6>
-                            <p class="text-sm mb-0">
-                                <b>{{ number_format($EgresosTotales, 2) }}</b>
-                            </p>
-                        </td>
-                        <td class="text-right">
-                            <h6>Total Utilidad</h6>
-                            <p class="text-sm mb-0">
-                                @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
-                                @endif
-                            </p>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
 
     @include('livewire.reportemovimientoresumen.modaltotales')
     @include('livewire.reportemovimientoresumen.modalDetailsr')
