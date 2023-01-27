@@ -30,5 +30,8 @@ class AreaspermissionsSeeder extends Seeder
             'name' => 'Ventas Supervisor'
             
         ]);
+        Areaspermissions::create([
+            'name' => 'TigoMoney'
+        ]);
     }
 }

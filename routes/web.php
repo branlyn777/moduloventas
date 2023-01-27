@@ -26,19 +26,27 @@ use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
 use App\Http\Controllers\ExportMovDiaResController;
+use App\Http\Livewire\ArqueosTigoController;
 use App\Http\Livewire\CierreCajaController;
+use App\Http\Livewire\ComisionesController;
 use App\Http\Livewire\CotizationController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
+use App\Http\Livewire\MotivoController;
 use App\Http\Livewire\OrdenCompra;
+use App\Http\Livewire\OrigenController;
+use App\Http\Livewire\OrigenMotivoComisionController;
+use App\Http\Livewire\OrigenMotivoController;
 use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\PosController;
 use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\RegistrarAjuste;
+use App\Http\Livewire\ReporteJornadaTMController;
 use App\Http\Livewire\ReporteMovimientoResumenController;
+use App\Http\Livewire\ReportesTigoController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\SaleDailyMovementController;
 use App\Http\Livewire\SaleDevolucionController;
@@ -49,6 +57,7 @@ use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SaleReportProductController;
 use App\Http\Livewire\SucursalController;
+use App\Http\Livewire\TransaccionController;
 use App\Http\Livewire\TransferenciasController;
 use App\Http\Livewire\TransferirProductoController;
 use App\Http\Livewire\UnidadesController;
@@ -85,6 +94,31 @@ Route::middleware(['auth'])->group(function () {
     Route::get('report/pdfmovdiaresumen', [ExportMovDiaResController::class, 'reportPDFMovDiaResumen']);
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
+
+
+
+
+        /* TIGO MONEY */
+        Route::get('origenes', OrigenController::class)->name('origen')->middleware('permission:Origen_Index');
+        Route::get('motivos', MotivoController::class)->name('motivo')->middleware('permission:Motivo_Index');
+        Route::get('comisiones', ComisionesController::class)->name('comision')->middleware('permission:Comision_Index');
+        Route::get('origen-motivo', OrigenMotivoController::class)->name('origenmot')->middleware('permission:Origen_Mot_Index');
+        Route::get('origen-motivo-comision', OrigenMotivoComisionController::class)->name('origenmotcom')->middleware('permission:Origen_Mot_Com_Index');
+        Route::get('tigomoney', TransaccionController::class)->name('tigomoney')->middleware('permission:Tigo_Money_Index');
+        Route::get('arqueostigo', ArqueosTigoController::class)->name('arqueostigo')->middleware('permission:Arqueos_Tigo_Index');
+        Route::get('reportestigo', ReportesTigoController::class)->name('reportestigo')->middleware('permission:Reportes_Tigo_Index');
+        Route::get('Movimientodiario/pdf', [ExportMovimientoController::class, 'printPdf'])->name('movimiento.pdf');
+        Route::group(['middleware' => ['permission:Report_Tigo_Export']], function () {
+            Route::get('reporteTigo/pdf/{user}/{type}/{origen}/{motivo}/{f1}/{f2}', [ExportTigoPdfController::class, 'reporteTigoPDF']);
+            Route::get('reporteTigo/pdf/{user}/{type}/{origen}/{motivo}', [ExportTigoPdfController::class, 'reporteTigoPDF']);
+        });
+        Route::get('ReporteJornalTM', ReporteJornadaTMController::class)->name('reportejornadatm');
+
+
+
+
+
+
 
 
     // VENTAS
