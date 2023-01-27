@@ -119,27 +119,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#applicationsExamples3" class=@yield('empresacollapse', 'nav-link collapse')
                     aria-controls="applicationsExamples3" role="button" aria-expanded=@yield('empresaarrow', 'false')>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-building text-dark text-sm opacity-10"></i>
+                        <img src="{{ asset('storage/img/tigomoney.png')}}" width="29" height="30" alt="navbar brand" class="navbar-brand">
+                       
                     </div>
                     <span class="nav-link-text ms-1">Tigo Money</span>
                 </a>
