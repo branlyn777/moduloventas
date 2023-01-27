@@ -1,3 +1,43 @@
+@section('migaspan')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm">
+            <a class="text-white" href="javascript:;">
+                <i class="ni ni-box-2"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                href="{{ url('') }}">Inicio</a></li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0 text-white">Reportes Tigo</h6>
+</nav>
+@endsection
+
+
+@section('tigocollapse')
+nav-link
+@endsection
+
+
+@section('tigoarrow')
+true
+@endsection
+
+
+@section('reportetigonav')
+"nav-link active"
+@endsection
+
+
+@section('tigoshow')
+"collapse show"
+@endsection
+
+@section('reportetigoli')
+"nav-item active"
+@endsection
+
 <div class="row sales layout-top-spacing">
     <div class="col-sm-12">
         <div class="widget">

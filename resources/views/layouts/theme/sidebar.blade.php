@@ -107,12 +107,7 @@
                                 <span class="sidenav-normal"> Procedencia Clientes </span>
                             </a>
                         </li>
-                        {{-- <li class=@yield('cortecajali', 'nav-item ')>
-                            <a class=@yield('cortecajanav', 'nav-link ') href="{{ url('cortecajas') }}">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Corte de Caja </span>
-                            </a>
-                        </li> --}}
+                    
                     </ul>
                 </div>
             </li>
@@ -120,83 +115,73 @@
 
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#applicationsExamples3" class=@yield('empresacollapse', 'nav-link collapse')
-                    aria-controls="applicationsExamples3" role="button" aria-expanded=@yield('empresaarrow', 'false')>
+                <a data-bs-toggle="collapse" href="#applicationsExamples3" class=@yield('tigocollapse', 'nav-link collapse')
+                    aria-controls="applicationsExamples3" role="button" aria-expanded=@yield('tigoarrow', 'false')>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('storage/img/tigomoney.png')}}" width="29" height="30" alt="navbar brand" class="navbar-brand">
+                        <img src="{{ asset('storage/img/tigomoney.png')}}" width="90" height="70" alt="navbar brand" class="navbar-brand">
                        
                     </div>
                     <span class="nav-link-text ms-1">Tigo Money</span>
                 </a>
-                <div class=@yield('empresashow', 'collapse ') id="applicationsExamples3" style="">
+                <div class=@yield('tigoshow','collapse ') id="applicationsExamples3" style="">
                     <ul class="nav ms-4">
-                        <li class=@yield('companiesli', 'nav-item ')>
-                            <a class=@yield('companiesnav', 'nav-link ') href="{{ url('companies') }}">
+                        <li class=@yield('nuevali', 'nav-item ')>
+                            <a class=@yield('nuevanav', 'nav-link ') href="{{ url('tigomoney') }}">
                                 <span class="sidenav-mini-icon"> N </span>
                                 <span class="sidenav-normal">Nueva Transacción</span>
                             </a>
                         </li>
-                        <li class=@yield('sucursalesli', 'nav-item ')>
-                            <a class=@yield('sucursalesnav', 'nav-link ') href="{{ url('sucursales') }}">
+                        <li class=@yield('origenli', 'nav-item ')>
+                            <a class=@yield('origenav', 'nav-link ') href="{{ url('origenes') }}">
                                 <span class="sidenav-mini-icon"> O </span>
-                                <span class="sidenav-normal"> Origen CRUD </span>
+                                <span class="sidenav-normal"> Origen</span>
                             </a>
                         </li>
-                        <li class=@yield('cajasli', 'nav-item ')>
-                            <a class=@yield('cajasnav', 'nav-link ') href="{{ url('cajas') }}">
+                        <li class=@yield('motivoli', 'nav-item ')>
+                            <a class=@yield('motivonav', 'nav-link ') href="{{ url('motivos') }}">
                                 <span class="sidenav-mini-icon"> M </span>
-                                <span class="sidenav-normal"> Motivo CRUD </span>
+                                <span class="sidenav-normal"> Motivo </span>
                             </a>
                         </li>
-                        <li class=@yield('carterali', 'nav-item ')>
-                            <a class=@yield('carteranav', 'nav-link ') href="{{ url('carteras') }}">
+                        <li class=@yield('comisionli', 'nav-item ')>
+                            <a class=@yield('comisionav', 'nav-link ') href="{{ url('comisiones') }}">
                                 <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Comisión CRUD </span>
+                                <span class="sidenav-normal"> Comisión </span>
                             </a>
                         </li>
-                        <li class=@yield('monedali', 'nav-item ')>
-                            <a class=@yield('monedanav', 'nav-link ') href="{{ url('monedas') }}">
-                                <span class="sidenav-mini-icon"> O </span>
-                                <span class="sidenav-normal"> Origen CRUD </span>
-                            </a>
-                        </li>
+                      
 
-                        <li class=@yield('clientesli', 'nav-item ')>
-                            <a class=@yield('clientesnav', 'nav-link ') href="{{ url('clientes') }}">
+                        <li class=@yield('origenmotivoli', 'nav-item ')>
+                            <a class=@yield('origenmotnav', 'nav-link ') href="{{ url('origen-motivo') }}">
                                 <span class="sidenav-mini-icon"> O </span>
                                 <span class="sidenav-normal"> Origen Motivo </span>
                             </a>
                         </li>
-                        <li class=@yield('procedientesclienteli', 'nav-item ')>
-                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                        <li class=@yield('origenmotcomli', 'nav-item ')>
+                            <a class=@yield('origenmotcomnav', 'nav-link ') href="{{ url('origen-motivo-comision') }}">
                                 <span class="sidenav-mini-icon"> O </span>
                                 <span class="sidenav-normal"> Origen Motivo Comisiones </span>
                             </a>
                         </li>
-                        <li class=@yield('procedientesclienteli', 'nav-item ')>
-                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                        <li class=@yield('reportejornadali', 'nav-item ')>
+                            <a class=@yield('reportejornadatenav', 'nav-link ') href="{{ url('ReporteJornalTM') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal"> Reporte Jornada T.M. </span>
                             </a>
                         </li>
-                        <li class=@yield('procedientesclienteli', 'nav-item ')>
-                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                        <li class=@yield('arquetigoli', 'nav-item ')>
+                            <a class=@yield('arqueonav', 'nav-link ') href="{{ url('arqueostigo') }}">
                                 <span class="sidenav-mini-icon"> A </span>
                                 <span class="sidenav-normal"> Arqueos Tigo </span>
                             </a>
                         </li>
-                        <li class=@yield('procedientesclienteli', 'nav-item ')>
-                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                        <li class=@yield('reportetigoli', 'nav-item ')>
+                            <a class=@yield('reportetigonav', 'nav-link ') href="{{ url('reportestigo') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal"> Reportes Tigo </span>
                             </a>
                         </li>
-                        {{-- <li class=@yield('procedientesclienteli', 'nav-item ')>
-                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
-                                <span class="sidenav-mini-icon"> R </span>
-                                <span class="sidenav-normal"> Reportes Movimientos </span>
-                            </a>
-                        </li> --}}
+         
                     </ul>
                 </div>
             </li>
