@@ -117,6 +117,141 @@
                 </div>
             </li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#applicationsExamples3" class=@yield('empresacollapse', 'nav-link collapse')
+                    aria-controls="applicationsExamples3" role="button" aria-expanded=@yield('empresaarrow', 'false')>
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-building text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Tigo Money</span>
+                </a>
+                <div class=@yield('empresashow', 'collapse ') id="applicationsExamples3" style="">
+                    <ul class="nav ms-4">
+                        <li class=@yield('companiesli', 'nav-item ')>
+                            <a class=@yield('companiesnav', 'nav-link ') href="{{ url('companies') }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal">Nueva Transacción</span>
+                            </a>
+                        </li>
+                        <li class=@yield('sucursalesli', 'nav-item ')>
+                            <a class=@yield('sucursalesnav', 'nav-link ') href="{{ url('sucursales') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen CRUD </span>
+                            </a>
+                        </li>
+                        <li class=@yield('cajasli', 'nav-item ')>
+                            <a class=@yield('cajasnav', 'nav-link ') href="{{ url('cajas') }}">
+                                <span class="sidenav-mini-icon"> M </span>
+                                <span class="sidenav-normal"> Motivo CRUD </span>
+                            </a>
+                        </li>
+                        <li class=@yield('carterali', 'nav-item ')>
+                            <a class=@yield('carteranav', 'nav-link ') href="{{ url('carteras') }}">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Comisión CRUD </span>
+                            </a>
+                        </li>
+                        <li class=@yield('monedali', 'nav-item ')>
+                            <a class=@yield('monedanav', 'nav-link ') href="{{ url('monedas') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen CRUD </span>
+                            </a>
+                        </li>
+
+                        <li class=@yield('clientesli', 'nav-item ')>
+                            <a class=@yield('clientesnav', 'nav-link ') href="{{ url('clientes') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen Motivo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('procedientesclienteli', 'nav-item ')>
+                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen Motivo Comisiones </span>
+                            </a>
+                        </li>
+                        <li class=@yield('procedientesclienteli', 'nav-item ')>
+                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte Jornada T.M. </span>
+                            </a>
+                        </li>
+                        <li class=@yield('procedientesclienteli', 'nav-item ')>
+                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                                <span class="sidenav-mini-icon"> A </span>
+                                <span class="sidenav-normal"> Arqueos Tigo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('procedientesclienteli', 'nav-item ')>
+                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reportes Tigo </span>
+                            </a>
+                        </li>
+                        {{-- <li class=@yield('procedientesclienteli', 'nav-item ')>
+                            <a class=@yield('procedientesclientenav', 'nav-link ') href="{{ url('procedenciaCli') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reportes Movimientos </span>
+                            </a>
+                        </li> --}}
+                    </ul>
+                </div>
+            </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <li class="nav-item mt-3">
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Inventarios</h6>
             </li>
