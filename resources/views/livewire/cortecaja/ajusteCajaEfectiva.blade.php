@@ -166,6 +166,29 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td class="ps-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                        <i class="fas fa-check text-white opacity-10"></i>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group" role="group" aria-label="Basic example">
+                                                    <button type="button" class="btn btn-outline-primary mb-0"
+                                                        id="button-addon1" data-bs-toggle="modal"
+                                                        data-bs-target="#contador_monedas"><i
+                                                            class="fas fa-calculator"></i></button>
+                                                    <input type="text" class="form-control input-sm"
+                                                        wire:model='efectivo_actual'>
+                                                </div>
+                                            </td>
+                                        </tr>
                                       
                                     </tbody>
                                 </table>
