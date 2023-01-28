@@ -75,6 +75,12 @@ class Product extends Model
             return $value->costo;
         }
     }
+    public function ultimocosto(){
+        $var=Lote::where('product_id',$this->id)->orderBy('created_at','desc')->first();
+        foreach ($var as $value) {
+            return $value->costo;
+        }
+    }
     
 
 

@@ -13,7 +13,7 @@
             <th> CODIGO</th>
             <th> COSTO</th>
             <th> PRECIO VENTA</th>
-            <th> STATUS</th>
+   
 
         </tr>
     </thead>
@@ -60,20 +60,12 @@
                     {{ $products->codigo }}
                 </td>
                 <td>
-                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
+                    {{ $products->ultimocosto() == null ? '--' : $products->costoActivo()}}
                 </td>
                 <td>
                     {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
                 </td>
-                <td>
-
-                    {{ $products->costo }}
-                </td>
-
-                <td>
-                    {{ $products->status }}
-                </td>
-
+            
 
 
 
