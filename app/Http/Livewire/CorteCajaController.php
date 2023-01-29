@@ -280,13 +280,14 @@ class CorteCajaController extends Component
         $messages = [
             'efectivo_actual.required' => 'Ingresa un monto para apertura la caja.',
         ];
+
         $this->validate($rules, $messages);
 
 
         if ($this->VerificarCajaAbierta($idcaja) == false) {
 
-            DB::beginTransaction();
             try {
+                DB::beginTransaction();
                 /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
                 $cortes = Movimiento::where('status', 'ACTIVO')
                     ->where('type', 'CIERRE')
@@ -709,8 +710,6 @@ class CorteCajaController extends Component
         $this->idcaja = $caja->id;
         //obtenemos la cartera efectiva
         $cajafisica = $caja->carteras->where('tipo', 'efectivo')->first()->saldocartera;
-
-
 
         $this->saldoAcumulado =  $cajafisica;
 
