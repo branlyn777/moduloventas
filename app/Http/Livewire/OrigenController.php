@@ -11,7 +11,7 @@ class OrigenController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre, $selected_id;
+    public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
     public function paginationView()
@@ -59,6 +59,7 @@ class OrigenController extends Component
         ]);
         
         $this->resetUI();
+        $this->mensaje_toast = 'Origen Registrado';
         $this->emit('item-added', 'Orígen Registrado');
     }
     public function Edit(Origen $origen)
@@ -87,6 +88,7 @@ class OrigenController extends Component
         $orig->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Origen Actualizado';
         $this->emit('item-updated', 'Orígen Actualizado');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -96,6 +98,7 @@ class OrigenController extends Component
 
         $origen->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Origen Eliminado';
         $this->emit('item-deleted', 'Orígen Eliminado');
     }
     public function resetUI()

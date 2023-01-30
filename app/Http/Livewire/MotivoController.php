@@ -11,7 +11,7 @@ class MotivoController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public  $search, $nombre,$tipo, $selected_id;
+    public  $search, $nombre,$tipo, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
     private $pagination = 5;
     public function paginationView()
@@ -64,6 +64,7 @@ class MotivoController extends Component
         ]);
         
         $this->resetUI();
+        $this->mensaje_toast = 'Motivo Registrado';
         $this->emit('item-added', 'Motivo Registrado');
     }
     public function Edit(Motivo $Motiv)
@@ -95,6 +96,7 @@ class MotivoController extends Component
         $mot->save();
 
         $this->resetUI();
+        $this->mensaje_toast = 'Motivo Actualizado';
         $this->emit('item-updated', 'Motivo Actualizado');
     }
     protected $listeners = ['deleteRow' => 'Destroy'];
@@ -103,6 +105,7 @@ class MotivoController extends Component
     {
         $motivo->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Motivo Eliminado';
         $this->emit('item-deleted', 'Motivo Eliminado');
     }
     
