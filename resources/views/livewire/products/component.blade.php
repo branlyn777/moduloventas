@@ -169,7 +169,7 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
+                        <button onclick="deleteRowPermanently()" type="button" class="btn btn-danger">Eliminar
                             Seleccionados</button>
                     </div>
                 </div>
@@ -242,10 +242,10 @@
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
+                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
+                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
                                                 </td>
 
                                                 <td>
@@ -263,17 +263,17 @@
                                                 </td>
                                                 <td class="text-sm align-middle text-center">
                                                     <a href="javascript:void(0)"
-                                                    wire:click="Edit({{ $products->id }})" class="mx-3"
-                                                    title="Editar">
-                                                    <i class="fas fa-edit text-secondary"></i>
-                                                </a>
-                                                @if ($products->status == 'ACTIVO')
-                                                    <a href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
-                                                        title="Eliminar">
-                                                        <i class="fas fa-trash text-danger"></i>
+                                                        wire:click="Edit({{ $products->id }})" class="mx-3"
+                                                        title="Editar">
+                                                        <i class="fas fa-edit text-secondary"></i>
                                                     </a>
-                                                @endif
+                                                    @if ($products->status == 'ACTIVO')
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
+                                                            title="Eliminar">
+                                                            <i class="fas fa-trash text-danger"></i>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -390,6 +390,24 @@
                 })
             });
         });
+
+        // Eliminar producto seleccionado
+        function deleteRowPermanently(id) {
+            swal({
+                title: 'PRECAUCION',
+                text: "Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente. ",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('deleteRowPermanently', id)
+                }
+            })
+        }
+
         function Confirm(id, name, products) {
             if (products > 0) {
                 console.log(products);
@@ -400,8 +418,6 @@
                         ' tiene relacion con otros registros del sistema, pasara a ser inactivado!',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
-                    // cancelButtonColor: '#383838',
-                    // confirmButtonColor: '#3B3F5C',
                     confirmButtonText: 'Aceptar'
                 }).then(function(result) {
                     if (result.value) {
