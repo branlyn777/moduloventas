@@ -693,7 +693,7 @@ class TransaccionController extends Component
             ->get()->first();
 
         /* obtener cartera fisica de la caja en la cual esta el usuario */
-        $CajaFisica = Cartera::where('tipo', 'cajafisica')
+        $CajaFisica = Cartera::where('tipo', 'efectivo')
             ->where('caja_id', $cccc->id)
             ->get()->first();
 
@@ -732,7 +732,8 @@ class TransaccionController extends Component
                     'tipoDeMovimiento' => 'TIGOMONEY',
                     'comentario' => '',
                     'cartera_id' => $cartera->id,
-                    'movimiento_id' => $mv->id
+                    'movimiento_id' => $mv->id,
+                    'cartera_mov_categoria_id' => 1
                 ]);
 
                 $mvt = Movimiento::create([
@@ -747,7 +748,8 @@ class TransaccionController extends Component
                     'tipoDeMovimiento' => 'TIGOMONEY',
                     'comentario' => '',
                     'cartera_id' => $CajaFisica->id,
-                    'movimiento_id' => $mvt->id
+                    'movimiento_id' => $mvt->id,
+                    'cartera_mov_categoria_id' => 2
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
@@ -801,6 +803,7 @@ class TransaccionController extends Component
                     'comentario' => '',
                     'cartera_id' => $CajaFisica->id,
                     'movimiento_id' => $mv->id,
+                    'cartera_mov_categoria_id' => 1
                 ]);
 
                 $mvt = Movimiento::create([
@@ -815,7 +818,8 @@ class TransaccionController extends Component
                     'tipoDeMovimiento' => 'TIGOMONEY',
                     'comentario' => '',
                     'cartera_id' => $cartera->id,
-                    'movimiento_id' => $mvt->id
+                    'movimiento_id' => $mvt->id,
+                    'cartera_mov_categoria_id' => 2
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
@@ -868,7 +872,8 @@ class TransaccionController extends Component
                     'tipoDeMovimiento' => 'TIGOMONEY',
                     'comentario' => '',
                     'cartera_id' => $CajaFisica->id,
-                    'movimiento_id' => $mv->id
+                    'movimiento_id' => $mv->id,
+                    'cartera_mov_categoria_id' => 1
                 ]);
 
                 if ($motiv->nombre == 'Recarga') {
@@ -893,7 +898,8 @@ class TransaccionController extends Component
                     'tipoDeMovimiento' => 'TIGOMONEY',
                     'comentario' => '',
                     'cartera_id' => $cartera->id,
-                    'movimiento_id' => $mvt->id
+                    'movimiento_id' => $mvt->id,
+                    'cartera_mov_categoria_id' => 2
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
