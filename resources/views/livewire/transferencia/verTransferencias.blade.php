@@ -69,13 +69,13 @@
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
-                                        href="#listar-transferencias" role="tab" aria-selected="true">
+                                        href="#listar-transferencias" role="tab" aria-selected={{$selected}}>
                                         Listar Transferencias
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
-                                        href="#listar-transferencias-pendientes" role="tab" aria-selected="false">
+                                        href="#listar-transferencias-pendientes" role="tab" aria-selected={{$selected2}}>
                                         Transferencias Entrantes
                                     </a>
                                 </li>
@@ -85,7 +85,7 @@
                     </div>
                     <br>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="listar-transferencias" role="tabpanel">
+                        <div class="tab-pane {{$estado1}}" wire:click='cambioestado()' id="listar-transferencias" role="tabpanel">
                             <div class="col-md-12">
 
                                 <div class="table-responsive">
@@ -203,7 +203,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="listar-transferencias-pendientes"role="tabpanel">
+                        <div class="tab-pane {{$estado2}}" wire:click='cambioestado()' id="listar-transferencias-pendientes"role="tabpanel">
                             <div class="table-responsive">
                                 <table class="table align-items-center mb-0">
                                     <thead>

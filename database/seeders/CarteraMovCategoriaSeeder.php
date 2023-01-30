@@ -15,19 +15,19 @@ class CarteraMovCategoriaSeeder extends Seeder
      */
     public function run()
     {
-        //Categorias de ingresos
-        // CarteraMovCategoria::create([
-        //     'nombre' => "Ingreso por Inversión",
-        //     'detalle' => "Para registrar ingresos generales",
-        //     'tipo' => 'INGRESO',
-        //     'subcategoria' => ""
-        // ]);
-        // CarteraMovCategoria::create([
-        //     'nombre' => "Ajuste Ingreso",
-        //     'detalle' => "Para ajustar algun egreso",
-        //     'tipo' => 'INGRESO',
-        //     'subcategoria' => ""
-        // ]);
+        // Categorias de ingresos
+        CarteraMovCategoria::create([
+            'nombre' => "Ajuste de Efectivo Sobrante",
+            'detalle' => "Para registrar Ajuste de caja por sobrante de efectivo",
+            'tipo' => 'EGRESO',
+            'subcategoria' => ""
+        ]);
+        CarteraMovCategoria::create([
+            'nombre' => "Ajuste de Efectivo faltante",
+            'detalle' => "Para registrar Ajuste de caja por faltante de efectivo",
+            'tipo' => 'INGRESO',
+            'subcategoria' => ""
+        ]);
 
 
         // //Categorias de ingresos

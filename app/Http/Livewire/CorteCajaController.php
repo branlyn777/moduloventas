@@ -10,6 +10,7 @@ use App\Models\Sucursal;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -22,8 +23,10 @@ class CorteCajaController extends Component
     //Guarda el nombre de una caja abierta (si existe)
     public $nombre_caja, $id_caja;
 
-    public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $saldoAcumulado, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $hoyTransacciones,
+    public $idcaja, $nombrecaja, $usuarioApertura, $fechaApertura, $saldoAcumulado, $diezcent, $veintecent, $cinccent, $peso, $peso2, $peso5, $aperturaCaja,
         $billete10, $billete20, $billete50, $billete100, $billete200, $total, $mensaje_toast, $transacciondia, $caja, $efectivo_actual, $monto_limite, $recaudo, $showDiv, $nota_ajuste, $iniciarturno, $conteoinicial;
+
+    public $ing_ventas,$ing_extraord,$ing_dig,$subtotal_ing,$egresos_efectivos,$ing_efectivo;
 
     public $toogle,
         $active1 = true,
@@ -274,6 +277,7 @@ class CorteCajaController extends Component
 
     public function CorteCaja($idcaja)
     {
+        
         $rules = [
             'efectivo_actual' => 'required',
         ];
@@ -383,6 +387,7 @@ class CorteCajaController extends Component
     //Para cerrar la caja abierta por el mismo usuario
     public function CerrarCaja(Caja $caja)
     {
+        $this->active1=true;
 
         if ($this->VerificarCajaAbierta($caja->id)) {
             $this->caja = $caja;
@@ -390,22 +395,47 @@ class CorteCajaController extends Component
             $this->monto_limite = $caja->monto_base;
             $this->showDiv = false;
 
-            $ingresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
-                ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
-                ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
-                ->where('cajas.id', $this->idcaja)
-                ->where('cartmovs.type', 'INGRESO')
-                ->whereDay('m.created_at', Carbon::now()->format('d'))
-                ->sum('m.import');
-            $egresos = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
-                ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
-                ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
-                ->where('cajas.id', $this->idcaja)
-                ->where('cartmovs.type', 'EGRESO')
-                ->whereDay('m.created_at', Carbon::now()->format('d'))
-                ->sum('m.import');
 
-            $this->hoyTransacciones = $ingresos - $egresos;
+                $usuarioActual=Auth()->user()->id;
+                $apertura=Movimiento::where('user_id',$usuarioActual)->where('type','APERTURA')->first();
+            $this->aperturaCaja = $apertura->import;
+            $this->ing_ventas=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->where('carteras.caja_id',$caja->id)
+            ->where('cartera_movs.tipoDeMovimiento','VENTA')
+            ->where('movimientos.created_at','>=',$apertura->created_at)
+            ->sum('movimientos.import');
+
+            $this->ing_extraord= Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->where('carteras.caja_id',$caja->id)
+            ->where('cartera_movs.tipoDeMovimiento','EGRESO/INGRESO')
+            ->where('cartera_movs.type','INGRESO')
+            ->where('movimientos.created_at','>=',$apertura->created_at)
+            ->sum('movimientos.import');
+            $this->ing_efectivo=$this->ing_ventas+  $this->ing_extraord;
+
+
+
+            $this->ing_dig= Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->where('carteras.caja_id',1)
+            ->where('movimientos.user_id',$usuarioActual)
+            ->where('movimientos.created_at','>=',$apertura->created_at)
+            ->where('cartera_movs.type','INGRESO')
+            ->whereIn('tipoDeMovimiento',['VENTA','EGRESO/INGRESO'])
+            ->sum('movimientos.import');
+
+            $this->subtotal_ing=$this->ing_efectivo+$this->ing_dig;
+
+            $this->egresos_efectivos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->where('movimientos.user_id',$usuarioActual)
+            ->where('movimientos.created_at','>=',$apertura->created_at)
+            ->where('cartera_movs.type','EGRESO')
+            ->whereIn('tipoDeMovimiento',['VENTA','EGRESO/INGRESO'])
+            ->sum('movimientos.import');
+
 
 
 
@@ -610,7 +640,7 @@ class CorteCajaController extends Component
             CarteraMov::create([
                 'type' => ($diferenciaCaja == 'SOBRANTE') ? 'INGRESO' : 'EGRESO',
                 'tipoDeMovimiento' => $diferenciaCaja,
-                'comentario' => $this->nota_ajuste,
+                'comentario' => $this->nota_ajuste??'s/n',
                 'cartera_id' => $cartera_efectiva->first()->id,
                 'movimiento_id' => $mvt->id
             ]);
@@ -654,6 +684,7 @@ class CorteCajaController extends Component
         ]);
         $this->saldoAcumulado = $saldo_cartera;
         $this->recaudo = null;
+        $this->finalizarCierre();
     }
 
     public function finalizarCierre()
@@ -707,6 +738,7 @@ class CorteCajaController extends Component
     public function confirmarAbrir(Caja $caja)
     {
         //dd($caja);
+        $this->efectivo_actual=null;
         $this->idcaja = $caja->id;
         //obtenemos la cartera efectiva
         $cajafisica = $caja->carteras->where('tipo', 'efectivo')->first()->saldocartera;
