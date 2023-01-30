@@ -33,7 +33,7 @@ class CreatePermissionTables extends Migration
             $table->unsignedBigInteger('areaspermissions_id');
             $table->foreign('areaspermissions_id')->references('id')->on('areaspermissions');
             //$table->foreignId('areaspermisos_id')->constrained();
-            $table->string('descripcion');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);

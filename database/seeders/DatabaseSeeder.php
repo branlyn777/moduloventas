@@ -37,6 +37,13 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcedenciaClienteSeeder::class);
 
 
+        /* TIGO MONEY */
+        $this->call(OrigenSeeder::class);
+        $this->call(MotivoSeeder::class);
+        $this->call(ComisionSeeder::class);
+        $this->call(OrigenMotivoSeeder::class);
+        $this->call(OrigenMotivoComisionSeeder::class);
+
 
         //Factories
        // Product::factory(10)->create();
