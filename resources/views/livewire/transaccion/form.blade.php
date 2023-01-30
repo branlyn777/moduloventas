@@ -1,11 +1,11 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background: #414141">
+            <div class="modal-header" style="background: #5e72e4">
                 <h5 class="modal-title text-white">
                     <b>{{ $componentName }}</b> | NUEVA TRANSACCIÓN
                 </h5>
-                <button class="close" data-dismiss="modal" type="button" aria-label="Close">
+                <button class="btn-close fs-3 text white" data-dismiss="modal" type="button" aria-label="Close">
                     <span class="text-white">&times;</span>
                 </button>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
@@ -13,59 +13,58 @@
             <div class="modal-body">
                 <div class='row'>
                     <div class="col-sm-12 col-md-6">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>
-                                    <h6>Origen transacción</h6>
-                                </label>
-                                <select wire:model.lazy="origen" class="form-control">
-                                    <option value="Elegir" disabled selected>Elegir</option>
+                        <div class="form-group">
+                            <label><span class="text-warning">* </span>
+                                Origen transacción
+                            </label>
+                            <select wire:model.lazy="origen" class="form-control">
+                                <option value="Elegir" disabled selected>Elegir</option>
 
-                                    @foreach ($origenes as $orige)
-                                        <option value="{{ $orige->id }}">{{ $orige->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                @error('origen')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
+                                @foreach ($origenes as $orige)
+                                    <option value="{{ $orige->id }}">{{ $orige->nombre }}</option>
+                                @endforeach
+                            </select>
+                            @error('origen')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>
-                                    <h6>Motivo</h6>
-                                </label>
-                                <select @if ($origen == 'Elegir') disabled @endif wire:model.lazy="motivo"
-                                    class="form-control">
-                                    <option value="Elegir" disabled selected>Elegir</option>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label>
+                                Motivo
+                            </label>
+                            <select @if ($origen == 'Elegir') disabled @endif wire:model.lazy="motivo"
+                                class="form-control">
+                                <option value="Elegir" disabled selected>Elegir</option>
 
-                                    @foreach ($motivos as $mot)
-                                        <option value="{{ $mot->id }}">{{ $mot->nombre }}</option>
-                                    @endforeach
+                                @foreach ($motivos as $mot)
+                                    <option value="{{ $mot->id }}">{{ $mot->nombre }}</option>
+                                @endforeach
 
-                                </select>
-                                @error('motivo')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            </select>
+                            @error('motivo')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
 
+
+
                     <div class="col-sm-12 col-md-6">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>
-                                    <h6>Cédula de identidad</h6>
-                                </label>
-                                <input @if ($mostrarCI == 0) disabled @endif type="number"
-                                    wire:model.lazy="cedula" class="form-control">
-                                @error('cedula')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div class="form-group">
+                            <label>
+                                Cédula de identidad
+                            </label>
+                            <input @if ($mostrarCI == 0) disabled @endif type="number"
+                                wire:model.lazy="cedula" class="form-control">
+                            @error('cedula')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
                         </div>
-                        {{-- @if ($datosPorCedula)
+                    </div>
+                    {{-- @if ($datosPorCedula)
                             @if (count($datosPorCedula) > 0)
                                 <div class="vertical-scrollable">
                                     <div class="row layout-spacing">
@@ -118,19 +117,19 @@
                                 </div>
                             @endif
                         @endif --}}
-                        <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>
-                                    <h6>Teléfono solicitante</h6>
-                                </label>
-                                <input @if ($mostrartelf == 0) disabled @endif type="number"
-                                    wire:model.lazy="celular" class="form-control">
-                                @error('celular')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label>
+                                Teléfono solicitante
+                            </label>
+                            <input @if ($mostrartelf == 0) disabled @endif type="number"
+                                wire:model.lazy="celular" class="form-control">
+                            @error('celular')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
+
                 </div>
 
 
@@ -139,7 +138,7 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>
-                                    <h6>Monto</h6>
+                                    Monto
                                 </label>
                                 <input @if ($motivo == 'Elegir') disabled @endif type="number"
                                     wire:model="montoB" class="form-control" placeholder="">
@@ -161,14 +160,14 @@
                                         class="new-control-input" name="custom-radio-2" id="{{ $identificador }}"
                                         value="SI" wire:click="ComisionSi()">
                                     <span class="new-control-indicator"></span>
-                                    <h6>SI</h6>
+                                    Si
                                 </label>
                                 <label class="new-control new-radio radio-classic-primary">
                                     <input @if ($MostrarRadioButton == 0) disabled @endif type="radio"
                                         class="new-control-input" name="custom-radio-2" id="{{ $identificador2 }}"
                                         value="NO" wire:click="ComisionNo()">
                                     <span class="new-control-indicator"></span>
-                                    <h6>NO</h6>
+                                    No
                                 </label>
                                 @error('requerimientoComision')
                                     <span class="text-danger er">{{ $message }}</span>
@@ -179,7 +178,7 @@
                         <div class="col-sm-8 col-md-12">
                             <div class="form-group">
                                 <label>
-                                    <h6>Monto a registrar</h6>
+                                    Monto a registrar
                                 </label>
                                 <h6 class="form-control" wire:model.lazy="montoR">
                                     <strong>{{ $montoR }}</strong>
@@ -190,7 +189,7 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>
-                                    <h6>{{ $montoCobrarPagar }}</h6>
+                                    {{ $montoCobrarPagar }}
                                 </label>
                                 <h6 class="form-control" wire:model="importe"><strong>{{ $importe }}</strong>
                                 </h6>
@@ -202,7 +201,7 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>
-                                    <h6>Teléfono/Codigo Destino</h6>
+                                    Teléfono/Codigo Destino
                                 </label>
                                 <input @if ($mostrarTelfCodigo == 0) disabled @endif type="number"
                                     wire:model.lazy="codigo_transf" class="form-control">
@@ -261,7 +260,7 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>
-                                    <h6>Observaciones (opcional)</h6>
+                                    Observaciones (opcional)
                                 </label>
                                 <textarea wire:model.lazy="observaciones" class="form-control" name="" rows="5"></textarea>
                                 @error('observaciones')
@@ -276,12 +275,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="CargarAnterior()"
-                    class="btn btn-dark close-btn text-info">CARGAR
+                    class="btn btn-secondary">CARGAR
                     ANTERIOR</button>
                 <button type="button" wire:click.prevent="resetUI()"
-                    class="btn btn-dark close-btn text-info">LIMPIAR</button>
+                    class="btn btn-secondary">LIMPIAR</button>
                 <button type="button" wire:click.prevent="Store()"
-                    class="btn btn-dark close-btn text-info">GUARDAR</button>
+                    class="btn btn-primary">GUARDAR</button>
             </div>
         </div>
     </div>
