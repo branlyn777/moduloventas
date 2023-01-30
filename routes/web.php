@@ -39,6 +39,7 @@ use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporteMovimientoResumenController;
+use App\Http\Livewire\ResumenSesionController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\SaleDailyMovementController;
 use App\Http\Livewire\SaleDevolucionController;
@@ -81,7 +82,8 @@ Route::middleware(['auth'])->group(function () {
     //Route::get('cajacierre/{id}', array('as'=> 'cajacierre.id', 'uses' => 'CierreCajaController'));
     //Route::get('itsolutionstuff/tag/{id}', array('as'=> 'itsolutionstuff.tag', 'uses' => 'HomeController@tags'));
 
-    Route::get('resumenmovimientos', ReporteMovimientoResumenController::class)->name('r_movimiento');
+    Route::get('resumenmovimientos',ReporteMovimientoResumenController::class)->name('r_movimiento');
+    Route::get('resumen/sesion/{id}',ResumenSesionController::class);
     Route::get('report/pdfmovdiaresumen', [ExportMovDiaResController::class, 'reportPDFMovDiaResumen']);
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');

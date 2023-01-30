@@ -397,7 +397,7 @@ class CorteCajaController extends Component
 
 
                 $usuarioActual=Auth()->user()->id;
-                $apertura=Movimiento::where('user_id',$usuarioActual)->where('type','APERTURA')->first();
+                $apertura=Movimiento::where('user_id',$usuarioActual)->where('type','APERTURA')->where('movimientos.status','ACTIVO')->first();
             $this->aperturaCaja = $apertura->import;
             $this->ing_ventas=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
             ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
