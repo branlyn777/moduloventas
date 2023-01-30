@@ -1,5 +1,5 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: #5e72e4">
                 <h5 class="modal-title text-white">
@@ -11,15 +11,15 @@
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
             <div class="modal-body">
+
                 <div class='row'>
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>
                                 Origen transacción
                             </label>
-                            <select wire:model.lazy="origen" class="form-control">
+                            <select wire:model.lazy="origen" class="form-select">
                                 <option value="Elegir" disabled selected>Elegir</option>
-
                                 @foreach ($origenes as $orige)
                                     <option value="{{ $orige->id }}">{{ $orige->nombre }}</option>
                                 @endforeach
@@ -32,10 +32,22 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>
+                                Cédula de identidad
+                            </label>
+                            <input @if ($mostrarCI == 0) disabled @endif type="number"
+                                wire:model.lazy="cedula" class="form-control">
+                            @error('cedula')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label>
                                 Motivo
                             </label>
                             <select @if ($origen == 'Elegir') disabled @endif wire:model.lazy="motivo"
-                                class="form-control">
+                                class="form-select">
                                 <option value="Elegir" disabled selected>Elegir</option>
 
                                 @foreach ($motivos as $mot)
@@ -48,75 +60,6 @@
                             @enderror
                         </div>
                     </div>
-
-
-
-
-                    <div class="col-sm-12 col-md-6">
-                        <div class="form-group">
-                            <label>
-                                Cédula de identidad
-                            </label>
-                            <input @if ($mostrarCI == 0) disabled @endif type="number"
-                                wire:model.lazy="cedula" class="form-control">
-                            @error('cedula')
-                                <span class="text-danger er">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    {{-- @if ($datosPorCedula)
-                            @if (count($datosPorCedula) > 0)
-                                <div class="vertical-scrollable">
-                                    <div class="row layout-spacing">
-                                        <div class="col-md-12 ">
-                                            <div class="statbox widget box box-shadow">
-                                                <div class="widget-content widget-content-area row">
-                                                    <div
-                                                        class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                                                        <table class="table table-hover table-sm" style="width:100%">
-                                                            <thead class="text-white" style="background: #3B3F5C">
-                                                                <tr>
-                                                                    <th class="table-th text-withe text-center">Cédula
-                                                                    </th>
-                                                                    <th class="table-th text-withe text-center">Teléfono
-                                                                    </th>
-                                                                    <th class="table-th text-withe text-center">Acccion
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($datosPorCedula as $d)
-                                                                    <tr>
-                                                                        <td class="text-center">
-                                                                            <h6 class="text-center">
-                                                                                {{ $d->cedula }}
-                                                                            </h6>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <h6 class="text-center">
-                                                                                {{ $d->celular }}
-                                                                            </h6>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a href="javascript:void(0)"
-                                                                                wire:click="Seleccionar({{ $d->cedula }},{{ $d->celular }})"
-                                                                                class="btn btn-dark mtmobile"
-                                                                                title="Seleccionar">
-                                                                                <i class="fas fa-check"></i>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endif --}}
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>
@@ -129,9 +72,7 @@
                             @enderror
                         </div>
                     </div>
-
                 </div>
-
 
                 <div class='row'>
                     <div class="col-sm-12 col-md-6">
@@ -210,53 +151,6 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- @if ($datosPorTelefono)
-                            @if (count($datosPorTelefono) > 0)
-                                <div class="vertical-scrollable">
-                                    <div class="row layout-spacing">
-                                        <div class="col-md-12 ">
-                                            <div class="statbox widget box box-shadow">
-                                                <div class="widget-content widget-content-area row">
-                                                    <div
-                                                        class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
-                                                        <table class="table table-hover table-sm" style="width:100%">
-                                                            <thead class="text-white" style="background: #3B3F5C">
-                                                                <tr>
-                                                                    <th class="table-th text-withe text-center">Teléfono
-                                                                    </th>
-                                                                    <th class="table-th text-withe text-center">Acccion
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($datosPorTelefono as $d)
-                                                                    <tr>
-                                                                        <td class="text-center">
-                                                                            <h6 class="text-center">
-                                                                                {{ $d->celular }}
-                                                                            </h6>
-                                                                        </td>
-                                                                        <td class="text-center">
-                                                                            <a href="javascript:void(0)"
-                                                                                wire:click="SeleccionarTelf({{ $d->celular }})"
-                                                                                class="btn btn-dark mtmobile"
-                                                                                title="Seleccionar">
-                                                                                <i class="fas fa-check"></i>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endif --}}
-
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>
@@ -268,19 +162,22 @@
                                 @enderror
                             </div>
                         </div>
-
                     </div>
 
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="CargarAnterior()"
-                    class="btn btn-secondary">CARGAR
-                    ANTERIOR</button>
+                    class="btn btn-secondary">
+                    CARGAR ANTERIOR
+                </button>
                 <button type="button" wire:click.prevent="resetUI()"
-                    class="btn btn-secondary">LIMPIAR</button>
-                <button type="button" wire:click.prevent="Store()"
-                    class="btn btn-primary">GUARDAR</button>
+                    class="btn btn-secondary">
+                    LIMPIAR
+                </button>
+                <button type="button" wire:click.prevent="Store()" class="btn btn-primary">
+                    GUARDAR
+                </button>
             </div>
         </div>
     </div>

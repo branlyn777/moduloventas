@@ -46,8 +46,7 @@
             <div class="ms-auto my-auto mt-lg-0 mt-4">
                 <div class="ms-auto my-auto">
                     <button wire:click="nuevatransaccion()" class="btn btn-add">
-                        <i class="fas fa-plus me-2">
-                        </i>
+                        <i class="fas fa-plus me-2"></i>
                         Nueva transacción
                     </button>
                 </div>
@@ -63,15 +62,12 @@
                     <div class="form-group">
                         <h6>Buscar</h6>
                         @include('common.searchbox')
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <br>
-
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -91,79 +87,75 @@
                                         <th class="text-uppercase text-sm  ps-2">ACCIONES</th>
                                     </tr>
                                 </thead>
-                            </table>
-
-                            <tbody>
-                                @foreach ($data as $d)
-                                    <tr
-                                        style="{{ $d->estado == 'Anulada' ? 'background-color: #d97171 !important' : '' }}">
-                                        <td class="text-center">
-                                            <h6 class="text-center">
+                                <tbody>
+                                    @foreach ($data as $d)
+                                        <tr
+                                            style="{{ $d->estado == 'Anulada' ? 'background-color: #d97171 !important' : '' }}">
+                                            <td class="text-center">
                                                 <strong>{{ \Carbon\Carbon::parse($d->hora)->format('H:i') }}</strong>
-                                            </h6>
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->codCliente }}</strong>
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->TelCliente }}</strong>
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->codigotrans }}</strong>
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->origen_nombre }}
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->motivo_nombre }}
-                                        </td>
-                                        <td class="text-sm mb-0">
-                                            {{ $d->importe }}
-                                        </td>
-                                        <td class="text-center">
-                                            @can('Anular_trans_tigomoney_Boton')
-                                                @if ($d->estado != 'Anulada')
-                                                    <a href="javascript:void(0)" onclick="Confirm({{ $d->id }})"
-                                                        class="btn btn-warning" title="Anular">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                @endif
-                                            @endcan
-                                            <a href="javascript:void(0)"
-                                                wire:click="VerObservaciones({{ $d->id }})"
-                                                class="btn btn-dark mtmobile" title="Observaciones">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-align-center">
-                                                    <line x1="18" y1="10" x2="6" y2="10">
-                                                    </line>
-                                                    <line x1="21" y1="6" x2="3" y2="6">
-                                                    </line>
-                                                    <line x1="21" y1="14" x2="3" y2="14">
-                                                    </line>
-                                                    <line x1="18" y1="18" x2="6" y2="18">
-                                                    </line>
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->codCliente }}</strong>
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->TelCliente }}</strong>
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->codigotrans }}</strong>
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->origen_nombre }}
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->motivo_nombre }}
+                                            </td>
+                                            <td class="text-sm mb-0">
+                                                {{ $d->importe }}
+                                            </td>
+                                            <td class="text-center">
+                                                @can('Anular_trans_tigomoney_Boton')
+                                                    @if ($d->estado != 'Anulada')
+                                                        <a href="javascript:void(0)" onclick="Confirm({{ $d->id }})"
+                                                            class="btn btn-warning" title="Anular">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    @endif
+                                                @endcan
+                                                <a href="javascript:void(0)"
+                                                    wire:click="VerObservaciones({{ $d->id }})"
+                                                    class="btn btn-dark mtmobile" title="Observaciones">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" class="feather feather-align-center">
+                                                        <line x1="18" y1="10" x2="6"
+                                                            y2="10">
+                                                        </line>
+                                                        <line x1="21" y1="6" x2="3"
+                                                            y2="6">
+                                                        </line>
+                                                        <line x1="21" y1="14" x2="3"
+                                                            y2="14">
+                                                        </line>
+                                                        <line x1="18" y1="18" x2="6"
+                                                            y2="18">
+                                                        </line>
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             {{ $data->links() }}
         </div>
     </div>
-
-
     @include('livewire.transaccion.form')
     @include('livewire.transaccion.modalObservaciones')
-
 </div>
 
 
@@ -252,7 +244,8 @@
 
     });
 
-    function Confirm(id) {
+    function Confirm(id)
+    {
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',

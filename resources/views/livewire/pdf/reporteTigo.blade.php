@@ -20,23 +20,29 @@
             </tr>
             <tr>
                 <td width="30%" class="text-center" style="vertical-align: top; padding-top:10px; position:relative;">
-                    <img src="{{ asset('assets/img/sie.png') }}" alt="" class="invoice-logo">
+                    <img src="{{ asset('storage/iconos/' . $logoempresa) }}" class="invoice-logo" height="70px">
                 </td>
 
                 <td width="70%" class="text-left text-company" style="vertical-align: top; padding-top:10px;">
                     @if ($reportType == 0)
-                        <span style="font-size: 16px;"><strong>Reporte de Transacciones del día</strong></span>
+                        <span style="font-size: 16px;">
+                            <strong>Reporte de Transacciones del día</strong>
+                        </span>
+                        <br>
                     @else
-                        <span style="font-size: 16px;"><strong>Reporte de Transacciones por fecha</strong></span>
+                        <span style="font-size: 16px;">
+                            <strong>Reporte de Transacciones por fecha</strong>
+                        </span>
                     @endif
 
-                    <br>
                     @if ($reportType != 0)
-                        <span style="font-size: 16px;"><strong>Fecha de consulta: {{ $dateFrom }} al
-                                {{ $dateTo }}</strong></span>
+                        <span style="font-size: 16px;">
+                            <strong>Fecha de consulta: {{ $dateFrom }} al {{ $dateTo }}</strong>
+                        </span>
                     @else
-                        <span style="font-size: 16px;"><strong>Fecha de consulta:
-                                {{ \Carbon\Carbon::now()->format('d-M-Y') }}</strong></span>
+                        <span style="font-size: 16px;">
+                            <strong>Fecha de consulta: {{ \Carbon\Carbon::now()->format('d-M-Y') }}</strong>
+                        </span>
                     @endif
 
                     <br>
