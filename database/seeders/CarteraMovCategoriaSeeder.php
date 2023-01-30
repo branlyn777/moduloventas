@@ -43,5 +43,24 @@ class CarteraMovCategoriaSeeder extends Seeder
         //     'tipo' => 'EGRESO',
         //     'subcategoria' => ""
         // ]);
+
+
+        //Categorias de ingresos TigoMoney
+        CarteraMovCategoria::create([
+            'nombre' => "Ingreso por TigoMoney",
+            'detalle' => "Para registrar ingresos TigoMoney",
+            'tipo' => 'INGRESO',
+            'subcategoria' => ""
+        ]);
+        //Categorias de egresos TigoMoney
+        CarteraMovCategoria::create([
+            'nombre' => "Egreso por TigoMoney",
+            'detalle' => "Para registrar egresos TigoMoney",
+            'tipo' => 'EGRESO',
+            'subcategoria' => ""
+        ]);
+
+
+
     }
 }

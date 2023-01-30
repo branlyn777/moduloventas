@@ -12,7 +12,7 @@ class ComisionesController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $tipo, $monto_inicial, $monto_final, $comision, $por, $search,
-    $selected_id, $pageTitle, $componentName, $porcentaje;
+    $selected_id, $pageTitle, $componentName, $porcentaje, $mensaje_toast;
     private $pagination = 8;
 
     public function mount()
@@ -89,6 +89,7 @@ class ComisionesController extends Component
         ]);
 
         $this->resetUI();
+        $this->mensaje_toast = 'Comisión Registrada';
         $this->emit('item-added', 'Comisión Registrada');
     }
 
@@ -131,6 +132,7 @@ class ComisionesController extends Component
         ]);
         $comision->save();
         $this->resetUI();
+        $this->mensaje_toast = 'Comisión Actualizada';
         $this->emit('item-updated', 'Comisión Actualizada');
     }
 
@@ -140,6 +142,7 @@ class ComisionesController extends Component
     {
         $comision->delete();
         $this->resetUI();
+        $this->mensaje_toast = 'Comisión eliminada';
         $this->emit('item-deleted', 'Comisión eliminada');
     }
 
