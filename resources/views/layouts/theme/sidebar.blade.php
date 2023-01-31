@@ -173,13 +173,13 @@
                                     <li class=@yield('destinoli', 'nav-item ')>
                                         <a class=@yield('destinonav', 'nav-link ') href="{{ url('destino') }}">
                                             <span class="sidenav-mini-icon text-xs"> D </span>
-                                            <span class="sidenav-normal"> Destinos </span>
+                                            <span class="sidenav-normal"> Almacenes </span>
                                         </a>
                                     </li>
                                     <li class=@yield('mobiliariosli', 'nav-item ')>
                                         <a class=@yield('mobiliariosnav', 'nav-link ') href="{{ url('locations') }}">
-                                            <span class="sidenav-mini-icon text-xs"> M </span>
-                                            <span class="sidenav-normal"> Mobiliarios </span>
+                                            <span class="sidenav-mini-icon text-xs"> E </span>
+                                            <span class="sidenav-normal"> Estanterías </span>
                                         </a>
                                     </li>
                                     <li class=@yield('unidadesli', 'nav-item ')>
@@ -352,14 +352,14 @@
             <li class=@yield('nuevoingresoli', 'nav-item ')>
                 <a class=@yield('nuevoingresonav', 'nav-link ') href="{{ url('ingresoegreso') }}">
                     <span class="sidenav-mini-icon"> G </span>
-                    <span class="sidenav-normal">Nuevo I/G</span>
+                    <span class="sidenav-normal">Nuevo</span>
                 </a>
             </li>
 
             <li class=@yield('categoriasli', 'nav-item ')>
                 <a class=@yield('categoriasnav', 'nav-link ') href="{{ url('carteramovcategoria') }}">
                     <span class="sidenav-mini-icon"> C </span>
-                    <span class="sidenav-normal">Categorias I/G </span>
+                    <span class="sidenav-normal">Categorias </span>
                 </a>
             </li>
         </ul>

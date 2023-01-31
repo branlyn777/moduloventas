@@ -206,13 +206,14 @@ class ResumenSesionController extends Component
            ->get();
 
            $this->sobrante=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-           ->join('carteras','carteras.id','crms.cartera_id')
+                        ->join('carteras','carteras.id','crms.cartera_id')
                         ->where('crms.tipoDeMovimiento','SOBRANTE')
                         ->where('movimientos.created_at', '>',Carbon::parse($this->apertura)->toDateTimeString())
                         ->where('carteras.id',$this->cartera_mov->first()->cartera_id)
                         ->sum('import');
+                        
            $this->faltante=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-           ->join('carteras','carteras.id','crms.cartera_id')
+                        ->join('carteras','carteras.id','crms.cartera_id')
                         ->where('crms.tipoDeMovimiento','FALTANTE')
                         ->where('movimientos.created_at', '>',Carbon::parse($this->apertura)->toDateTimeString())
                         ->where('carteras.id',$this->cartera_mov->first()->cartera_id)
