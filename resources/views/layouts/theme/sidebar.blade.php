@@ -162,8 +162,6 @@
                         </li>
 
 
-
-
                         <li class="nav-item ">
                             <a class=@yield('parametrocollapse', 'nav-link collapse') data-bs-toggle="collapse" aria-expanded=@yield('parametroarrow', 'false')
                                 href="#gettingStartedExample">
@@ -322,6 +320,14 @@
                             <a class=@yield('movimientosnav', 'nav-link ') href="{{ url('resumenmovimientos') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal"> Movimientos </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('sesionesli', 'nav-item ')>
+                            <a class=@yield('sesionesnav', 'nav-link ') href="{{ url('sesiones') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Reportes Sesion Caja </span>
                             </a>
                         </li>
                     </ul>

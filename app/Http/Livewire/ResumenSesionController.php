@@ -34,9 +34,17 @@ class ResumenSesionController extends Component
 
         $this->apertura=$this->movimiento->created_at;
         $this->cierre=$this->movimiento->updated_at;
-        // $this->cierremonto=CarteraMov::join('movimientos','cartera_movs.movimiento_id','movimientos.id')
-        // ->where('cartera_movs.cartera_id',$this->cartera_mov->cartera_id)->where('cartera_movs.type','CIERRE')->where('movimientos.created_at','<',$this->apertura)->first()->import;
-      
+        if ($this->movimiento->status=='ACTIVO') {
+            $this->cierremonto='--';
+       
+        }
+        else{
+            $this->cierremonto=CarteraMov::join('movimientos','cartera_movs.movimiento_id','movimientos.id')
+            ->where('cartera_movs.cartera_id',$this->cartera_mov->cartera_id)
+            ->where('cartera_movs.type','CIERRE')
+            ->where('movimientos.created_at','>',$this->apertura)
+            ->first()->import;
+        }
     }
  
     
@@ -167,8 +175,6 @@ class ResumenSesionController extends Component
                 ->where('movimientos.created_at', '>',Carbon::parse($this->apertura)->toDateTimeString())
                 ->get();
 
-
-                    
 
             $this->totalesIngresosIE = $this->totalesIngresosIE->concat($totalesIngresosIng)
             ->concat($ing_dig);

@@ -49,6 +49,7 @@ use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SaleReportProductController;
+use App\Http\Livewire\SesionesListaController;
 use App\Http\Livewire\SucursalController;
 use App\Http\Livewire\TransferenciasController;
 use App\Http\Livewire\TransferirProductoController;
@@ -83,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     //Route::get('itsolutionstuff/tag/{id}', array('as'=> 'itsolutionstuff.tag', 'uses' => 'HomeController@tags'));
 
     Route::get('resumenmovimientos',ReporteMovimientoResumenController::class)->name('r_movimiento');
+    Route::get('sesiones',SesionesListaController::class)->name('sesioneslista');
     Route::get('/sesiones/{id}',ResumenSesionController::class)->name('sesiones');
     Route::get('report/pdfmovdiaresumen', [ExportMovDiaResController::class, 'reportPDFMovDiaResumen']);
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');

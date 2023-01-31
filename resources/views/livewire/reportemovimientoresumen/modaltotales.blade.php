@@ -86,14 +86,7 @@
             
                                 </tr> --}}
                                 
-                                <tr>
-                                    <td class="text-sm">
-                                        Saldo Acumulado 
-                                    </td>
-                                    <td class="text-sm" style="float: right">
-                                        {{ number_format($ops, 2) }}
-                                    </td>
-                                </tr>
+                            
 
                                 <tr>
                                     <td class="text-sm">
@@ -149,15 +142,7 @@
                              
 
                                     </tr>
-                                    <tr class="p-5">
-                                        <td class="text-sm">
-                                            Nuevo Saldo Caja Fisica
-                                        </td>
-                                        <td class="text-sm" style="float: right">
-                                            {{ number_format($operacionesZ, 2) }}
-                                        </td>
-
-                                    </tr>
+                               
                               
                             </tbody>
                         </table>
