@@ -1,5 +1,5 @@
 @section('migaspan')
-    <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm">
                 <a class="text-white" href="javascript:;">
@@ -57,7 +57,7 @@
             </div>
 
             <div class="card mb-4">
-                <div class="card-body p-4">
+               <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-between">
                             <div class="mt-lg-0 col-md-3">
@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <select wire:model="origen" class="form-select">
-                                            <option value="Elegir" selected>==Seleccione el Origen==</option>
+                                            <option value="Elegir" disabled selected>==Seleccione el Origen==</option>
                                             @foreach ($origenes as $origen)
                                                 <option value="{{ $origen->id }}" selected>{{ $origen->nombre }}
                                                 </option>
