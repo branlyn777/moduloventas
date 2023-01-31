@@ -1,17 +1,18 @@
-<div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header" style="background: #5e72e4">
-                <h1 class="modal-title fs-5 text-white">
-                    <p class="text-sm mb-0">{{ $componentName }} | NUEVA TRANSACCIÓN </p> 
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                    <p class="text-sm mb-0">
+                        {{ $componentName }} | NUEVA TRANSACCIÓN
+                    </p>
                 </h1>
-                <button class="btn-close fs-3 text white" data-dismiss="modal" type="button" aria-label="Close">
-                    <span class="text-white">&times;</span>
-                </button>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-
                 <div class='row'>
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">

@@ -392,21 +392,12 @@
                                                             class="mx-3" title="Cambiar Usuario Vendedor">
                                                             <i class="fas fa-user-edit text-primary" aria-hidden="true"></i>
                                                         </a>
-                                                        
-                                                        
                                                         @if(\Carbon\Carbon::parse($lv->fechaventa)->format('d/m/Y') == \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d/m/Y'))
-
-
                                                         <a href="javascript:void(0)" wire:click="editsale({{ $lv->codigo }})"
                                                             class="mx-3" title="Editar Venta">
                                                             <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                         </a>
                                                         @endif
-                                                        
-                                                        
-
-
-
                                                         <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $lv->codigo }}, '{{ $lv->nombrecartera }}')"
                                                             class="mx-3" title="Anular Venta">
                                                             <i class="fas fa-trash text-danger" aria-hidden="true"></i>

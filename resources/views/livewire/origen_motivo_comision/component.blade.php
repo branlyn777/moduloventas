@@ -41,36 +41,29 @@ true
 <div>
     <div class="row">
         <div class="col-12">
-
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">{{ $componentName }}</h5>
                 </div>
-
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         {{-- <a class="btn btn-add mb-0" wire:click="resetUI()" data-bs-toggle="modal"  data-bs-target="#theModalCategory">
                             <i class="fas fa-plus"></i> Agregar Categoría</a> --}}
                     </div>
                 </div>
-
             </div>
-
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="row">
-
                         <div class="col-3">
                             <div class="form-group mr-5">
                                 <select wire:model="tipo" class="form-select">
                                     <option value="Elegir" selected>==Seleccione el tipo==</option>
                                     <option>Propia</option>
                                     <option>Cliente</option>
-                                    
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-3">
                             <div class="form-group mr-5">
                                 <select wire:model="origen" class="form-select">
@@ -81,7 +74,6 @@ true
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-3">
                             @if($motivos !="Elegir")
                             <div class="form-group mr-5">
@@ -94,15 +86,6 @@ true
                             </div>
                             @endif
                         </div>
-
-                        
-
-                        
-
-                        
-
-                        
-                        
                         {{-- <button onclick="Revocar()" type="button" class="btn btn-warning mbmobile mr-5">Revocar todos</button> --}}
                     </div>
                 </div>
@@ -125,9 +108,6 @@ true
                                 <tr>
                                     <td class="text-sm mb-0">
                                         <div class="">
-
-
-
                                             <div class="form-check">
                                                 <input class="form-check-input" 
                                                 type="checkbox" 
@@ -139,9 +119,6 @@ true
                                                 >
                                                 <label class="custom-control-label" for="customCheck1">{{ $comi->nombre}}</label>
                                               </div>
-
-
-
                                             {{-- <input type="checkbox" 
                                             wire:change="SyncPermiso($('#p' + {{ $comi->id 
                                                 }}).is(':checked'), '{{$comi->id}}')"
@@ -181,7 +158,6 @@ true
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
 
         window.livewire.on('sync-error', Msg => {
             noty(Msg)

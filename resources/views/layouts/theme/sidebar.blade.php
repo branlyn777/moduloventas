@@ -430,17 +430,16 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav ms-4">
+                    {{-- <ul class="nav ms-4">
                         <li class=@yield('cotizationli', 'nav-item ')>
                             <a class=@yield('cotizationnav', 'nav-link ') href="{{ url('cotizacion') }}">
                                 <span class="sidenav-mini-icon"> C </span>
                                 <span class="sidenav-normal"> Cotización </span>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link active collapsed" aria-controls="dashboardsExamples" role="a"
                     aria-expanded="false" style="pointer-events: none; background-color:transparent">
@@ -454,7 +453,6 @@
                     <span class="sidenav-normal">Nuevo I/G</span>
                 </a>
             </li>
-
             <li class=@yield('categoriasli', 'nav-item ')>
                 <a class=@yield('categoriasnav', 'nav-link ') href="{{ url('carteramovcategoria') }}">
                     <span class="sidenav-mini-icon"> C </span>

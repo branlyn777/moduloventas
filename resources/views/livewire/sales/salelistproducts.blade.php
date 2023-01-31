@@ -175,7 +175,7 @@
                                             {{ $l->codigo }}
                                         </td>
 
-                                        <td>
+                                        <td class="text-sm mb-0">
                                             {{ $l->nombre_producto }}
                                         </td>
 
