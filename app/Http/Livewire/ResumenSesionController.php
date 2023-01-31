@@ -34,8 +34,8 @@ class ResumenSesionController extends Component
 
         $this->apertura=$this->movimiento->created_at;
         $this->cierre=$this->movimiento->updated_at;
-        $this->cierremonto=CarteraMov::join('movimientos','cartera_movs.movimiento_id','movimientos.id')
-        ->where('cartera_movs.cartera_id',$this->cartera_mov->cartera_id)->where('cartera_movs.type','CIERRE')->where('movimientos.created_at','<',$this->apertura)->first()->import;
+        // $this->cierremonto=CarteraMov::join('movimientos','cartera_movs.movimiento_id','movimientos.id')
+        // ->where('cartera_movs.cartera_id',$this->cartera_mov->cartera_id)->where('cartera_movs.type','CIERRE')->where('movimientos.created_at','<',$this->apertura)->first()->import;
       
     }
  
@@ -139,7 +139,7 @@ class ResumenSesionController extends Component
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.tipoDeMovimiento', 'EGRESO/INGRESO')
                 ->where('crms.type', 'INGRESO')
-                ->where('carteras.id',$this->cartera_mov->first()->cartera_id)
+                ->where('c.id',$this->cartera_mov->first()->cartera_id)
                 ->where('movimientos.created_at', '>',Carbon::parse($this->apertura)->toDateTimeString())
             
                 ->orderBy('movimientos.created_at', 'asc')
@@ -193,8 +193,8 @@ class ResumenSesionController extends Component
            )
            ->where('movimientos.status', 'ACTIVO')
            ->where('crms.tipoDeMovimiento', 'EGRESO/INGRESO')
-           ->where('cartera_movs.type', 'EGRESO')
-           ->where('carteras.id',$this->cartera_mov->first()->cartera_id)
+           ->where('crms.type', 'EGRESO')
+           ->where('c.id',$this->cartera_mov->first()->cartera_id)
            ->where('movimientos.created_at', '>',Carbon::parse($this->apertura)->toDateTimeString())
            ->orderBy('movimientos.created_at', 'asc')
            ->get();
