@@ -83,14 +83,29 @@ class ReporteMovimientoResumenController extends Component
         }
 
 
-
-        $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
-        ->join('cartera_movs','cartera_movs.cartera_id','carteras.id')
-        ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
-        ->where('cartera_movs.type','APERTURA')
-        ->where('cajas.id',$this->caja)
-        ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','movimientos.user_id')
-        ->get();    
+        if ($this->caja!= 'TODAS') {
+        
+            $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
+            ->join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->join('users','users.id','movimientos.user_id')
+            ->where('cartera_movs.type','APERTURA')
+            ->where('cajas.id',$this->caja)
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->get();    
+        }
+        else{
+            $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
+            ->join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->join('users','users.id','movimientos.user_id')
+            ->where('cartera_movs.type','APERTURA')
+            ->where('cajas.sucursal_id',$this->sucursal)
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->get();    
+        }
 
 
 
@@ -122,7 +137,8 @@ class ReporteMovimientoResumenController extends Component
 
     public function verSesion($id){
 
-        return redirect()->route('resumen/sesion/'.$id);
+        return redirect()->route('sesiones', ['id'=>$id]);
+       
   
     }
 

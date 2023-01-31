@@ -707,7 +707,7 @@ class CorteCajaController extends Component
             $movimiento = Movimiento::create([
                 'type' => 'CIERRE',
                 'status' => 'ACTIVO',
-                'import' => 0,
+                'import' => $this->efectivo_actual,
                 'user_id' => Auth()->user()->id
             ]);
             CarteraMov::create([

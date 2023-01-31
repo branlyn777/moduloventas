@@ -186,8 +186,9 @@
                         <tr>
                             <th class="text-uppercase text-sm text-center">Nº</th>
                             <th class="text-uppercase text-sm">Usuario</th>
-                            <th class="text-uppercase text-sm ps-2">Apertura</th>
-                            <th class="text-uppercase text-sm ps-2">Cierre</th>
+                            <th class="text-uppercase text-sm ps-2">Fecha Apertura</th>
+                            <th class="text-uppercase text-sm ps-2">Fecha Cierre</th>
+                            <th class="text-uppercase text-sm ps-2">Estado Caja</th>
                             <th class="text-center text-uppercase text-sm">Detalle</th>
 
                         </tr>
@@ -202,16 +203,25 @@
                                 {{$loop->iteration+1 }}
                             </td>
                             <td>
-                                {{$item->user_id}}
+                                {{$item->name}}
                             </td>
                             <td>
                                 {{$item->apertura}}
                             </td>
+
                             <td>
-                                {{$item->cierre}}
+                                {{ $item->status== 'ACTIVO' ?'--':$item->cierre}}
+                            </td>
+                            <td>
+                                @if ($item->status =='ACTIVO')
+                                <span class="badge badge-success"> ABIERTO</span>
+                                    
+                                @else
+                                <span class="badge badge-secondary"> CERRADO</span>
+                                @endif
                             </td>
                             <td class="align-middle text-center">
-                                <a href="javascript:void(0)" wire:click="verSesion()" class="mx-3">
+                                <a href="{{ route('sesiones', $item->id) }}" class="mx-3">
                                     <i class="fas fa-list text-info"></i>
 
                                 </a>
