@@ -50,7 +50,8 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva Procedencia</button>
+                            <button wire:click="Agregar()" class="btn btn-add "> <i class="fas fa-plus me-2"></i> Nueva
+                                Procedencia</button>
 
                             <a href="clientes" class="btn btn-secondary" data-type="csv" type="button">
                                 <span style="margin-right: 7px;" class="btn-inner--text">Ir a Clientes</span>
@@ -132,11 +133,13 @@
 
                                         @if ($item->estado == 'Activo')
                                             <td>
-                                                <span class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
+                                                <span
+                                                    class="badge badge-sm bg-gradient-success">{{ $item->estado }}</span>
                                             </td>
                                         @else
                                             <td>
-                                                <span class="badge badge-sm bg-gradient-danger">{{ $item->estado }}</span>
+                                                <span
+                                                    class="badge badge-sm bg-gradient-danger">{{ $item->estado }}</span>
                                             </td>
                                         @endif
                                         {{-- <td>
