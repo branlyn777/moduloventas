@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: #5e72e4">
-                <h5 class="modal-title text-white">
-                    <b>{{ $componentName }}</b> | NUEVA TRANSACCIÓN
-                </h5>
+                <h1 class="modal-title fs-5 text-white">
+                    <p class="text-sm mb-0">{{ $componentName }} | NUEVA TRANSACCIÓN </p> 
+                </h1>
                 <button class="btn-close fs-3 text white" data-dismiss="modal" type="button" aria-label="Close">
                     <span class="text-white">&times;</span>
                 </button>
@@ -91,9 +91,9 @@
 
                         <div class="col-sm-8 col-md-12">
                             <div class="form-group">
-                                <h6 style="{{ $MostrarRadioButton == '0' ? 'color: #d97171' : 'color: #09ed3d' }}">
+                                <label style="{{ $MostrarRadioButton == '0' ? 'color: #d97171' : 'color: #09ed3d' }}">
                                     ¿Con comisión? {{ $MostrarRadioButton == '0' ? 'No necesario' : 'Necesario' }}
-                                </h6>
+                                </label>
                             </div>
                             <div class="n-chk">
                                 <label class="new-control new-radio radio-classic-primary">
