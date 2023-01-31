@@ -52,18 +52,13 @@
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
 
-                        
+
                         <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
                             Nuevo Rol</button>
 
                     </div>
                 </div>
             </div>
-           
-
-
-
-
 
             <br>
             <div class="card">
