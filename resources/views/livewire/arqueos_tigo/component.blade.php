@@ -10,7 +10,7 @@
                 href="{{ url('') }}">Inicio</a></li>
         <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
     </ol>
-    <h6 class="font-weight-bolder mb-0 text-white">Arqueos Tigo</h6>
+    <h6 class="font-weight-bolder mb-0 text-white">Arqueos Tigo
 </nav>
 @endsection
 
@@ -39,138 +39,157 @@ true
 @endsection
 
 
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title text-center"><b>Arqueos Tigo Money</b></h4>
-            </div>
+<div>
+    <div class="row">
+        <div class="col-12">
 
-            <div class="widget-content">
-                <div class="row">
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group">
-                            <label for="">Usuario</label>
-                            <select wire:model="userid" class="form-control">
-                                <option value="0" disabled>Elegir</option>
-                                @foreach($users as $u)
-                                    <option value="{{$u->id}}">{{$u->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('userid')
-                            <span class="text-danger">{{ $message}}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-3">
-                        <div class="form-group">
-                            <label>Fecha inicial</label>
-                            <input type="date" wire:model.lazy="fromDate" class="form-control">
-                            @error('fromDate')
-                            <span class="text-danger">{{ $message}}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-3">
-                        <div class="form-group">
-                            <label>Fecha final</label>
-                            <input type="date" wire:model.lazy="toDate" class="form-control">
-                            @error('toDate')
-                            <span class="text-danger">{{ $message}}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group">
-                            <label>Origen</label>
-                            <select wire:model="origenfiltro" class="form-control">
-                                <option value="0" selected>Todas</option>
-                                    <option value="Sistema">Sistema</option>
-                                    <option value="Telefono">Telefono</option>                                
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group">
-                            <label for="">Tipo de transacción</label>
-                            <select wire:model="tipotr" class="form-control">
-                                <option value="0" selected>Todas</option>
-                                    <option value="Retiro">Retiro</option>
-                                    <option value="Abono">Abono</option> 
-                            </select>
-                            @error('tipotr')
-                            <span class="text-danger">{{ $message}}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Arqueos Tigo Money</h5>
                 </div>
-            </div>
 
-            <div class="row mt-5">
-                <div class="col-sm-12 col-md-3 mbmobile">
-                    <div class="form-control" style="background: #ee761c">
-                        <h5 class="text-white">Transacciones Totales : <br> ${{number_format($total,2)}}</h5>
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        {{-- <a class="btn btn-add mb-0" wire:click="resetUI()" data-bs-toggle="modal"  data-bs-target="#theModalCategory">
+                            <i class="fas fa-plus"></i> Agregar Categoría</a> --}}
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-9">
-                    <div class="table-responsive">
-                        <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                            <thead class="text-white" style="background: #ee761c">
-                                <tr>
-                                    <th class="table-th text-center text-white">CEDULA</th>
-                                    <th class="table-th text-center text-white">TELEFONO</th>
-                                    <th class="table-th text-center text-white">DESTINO</th>
-                                    <th class="table-th text-center text-white">IMPORTE</th>
-                                    <th class="table-th text-center text-white">ESTADO</th>
-                                    <th class="table-th text-center text-white">ORIGEN</th>
-                                    <th class="table-th text-center text-white">MOTIVO</th>
-                                    <th class="table-th text-center text-white">FECHA</th>
-                                    <th class="table-th text-center text-white">DETALLES</th>
-                                </tr>
-                            </thead>
+            </div>
 
-                            <tbody>
-                                @if($total<=0)
-                                <tr>
-                                    <td colspan="9">
-                                        <h6 class="text-center">No hay transacciones en la fecha seleccionada</h6>
-                                    </td>
-                                </tr>
-                                @endif
-                                
-                                @foreach($transaccions as $row)
-                                <tr style="{{$row->estado == 'Anulada' ? 'background-color: #d97171 !important':''}}">
-                                    <td class="text-center"><h6>{{$row->cedula}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->telefono}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->codigo_transf}}</h6></td>
-                                    <td class="text-center"><h6>{{number_format($row->importe,2)}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->estado}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->origen_nombre}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->motivo_nombre}}</h6></td>
-                                    <td class="text-center"><h6>{{$row->created_at}}</h6></td>
-                                    <td class="text-center">
-                                        <button wire:click.prevent="viewDetails({{$row->id}})" class="btn btn-warning">
-                                            <i class="fas fa-list"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div class="card mb-4">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <h6>Usuario</h6>
+                                <select wire:model="userid" class="form-select">
+                                    <option value="0" disabled>Elegir</option>
+                                    @foreach($users as $u)
+                                        <option value="{{$u->id}}">{{$u->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('userid')
+                                <span class="text-danger">{{ $message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <h6>Fecha inicial</h6>
+                                <input type="date" wire:model.lazy="fromDate" class="form-control">
+                                @error('fromDate')
+                                <span class="text-danger">{{ $message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <h6>Fecha final</h6>
+                                <input type="date" wire:model.lazy="toDate" class="form-control">
+                                @error('toDate')
+                                <span class="text-danger">{{ $message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <h6>Origen</h6>
+                                <select wire:model="origenfiltro" class="form-select">
+                                    <option value="0" selected>Todas</option>
+                                        <option value="Sistema">Sistema</option>
+                                        <option value="Telefono">Telefono</option>                                
+                                </select>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <h6>Tipo de transacción</h6>
+                                <select wire:model="tipotr" class="form-select">
+                                    <option value="0" selected>Todas</option>
+                                        <option value="Retiro">Retiro</option>
+                                        <option value="Abono">Abono</option> 
+                                </select>
+                                @error('tipotr')
+                                <span class="text-danger">{{ $message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-control bg-primary">
+                                <h5 class="text-white">Transacciones Totales : <br> ${{number_format($total,2)}}</h5>
+                            </div>           
+                        </div>
+                        <div class="col-9">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead class="">
+                                        <tr>
+                                            <th class="text-uppercase text-sm ps-2">CEDULA</th>
+                                            <th class="text-uppercase text-sm ps-2">TELEFONO</th>
+                                            <th class="text-uppercase text-sm ps-2">DESTINO</th>
+                                            <th class="text-uppercase text-sm ps-2">IMPORTE</th>
+                                            <th class="text-uppercase text-sm ps-2">ESTADO</th>
+                                            <th class="text-uppercase text-sm ps-2">ORIGEN</th>
+                                            <th class="text-uppercase text-sm ps-2">MOTIVO</th>
+                                            <th class="text-uppercase text-sm ps-2">FECHA</th>
+                                            <th class="text-uppercase text-sm ps-2">DETALLES</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        @if($total<=0)
+                                        <tr>
+                                            <td colspan="9">
+                                                <h6 class="text-sm mb-0">No hay transacciones en la fecha seleccionada
+                                            </td>
+                                        </tr>
+                                        @endif
+                                        
+                                        @foreach($transaccions as $row)
+                                        <tr style="{{$row->estado == 'Anulada' ? 'background-color: #d97171 !important':''}}">
+                                            <td class="text-sm mb-0">{{$row->cedula}}</td>
+                                            <td class="text-sm mb-0">{{$row->telefono}}</td>
+                                            <td class="text-sm mb-0">{{$row->codigo_transf}}</td>
+                                            <td class="text-sm mb-0">{{number_format($row->importe,2)}}</td>
+                                            <td class="text-sm mb-0">{{$row->estado}}</td>
+                                            <td class="text-sm mb-0">{{$row->origen_nombre}}</td>
+                                            <td class="text-sm mb-0">{{$row->motivo_nombre}}</td>
+                                            <td class="text-sm mb-0">{{$row->created_at}}</td>
+                                            <td class="text-sm mb-0">
+                                                <button wire:click.prevent="viewDetails({{$row->id}})" class="btn btn-primary">
+                                                    <i class="fas fa-list"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
     @include('livewire.arqueos_tigo.modalDetails')
+
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

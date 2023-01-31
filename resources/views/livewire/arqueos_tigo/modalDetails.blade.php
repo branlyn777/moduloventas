@@ -1,37 +1,39 @@
-<div wire:ignore.self id="modal-details" class="modal fade" tabindex="1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div wire:ignore.self class="modal fade" id="modal-details" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h5 class="modal-title text-white">
-                    <b>Detalle de la Transacción</b>
-                </h5>
-                <button class="close" data-dismiss="modal" type="button" aria-label="Close">
-                    <span class="text-white">&times;</span>
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+                    <p class="text-sm mb-0">
+                        Detalle de la Transacción
+                    </p>
+                </h1>
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover mt-1">
-                        <thead class="text-white" style="background: #3b3ff5;">
+                    <table class="table align-items-center mb-0">
+                        <thead>
                             <tr>
-                                <th class="table-th text-center text-white">Tipo</th>
-                                <th class="table-th text-center text-white">Cantidad</th>
-                                <th class="table-th text-center text-white">Cartera</th>
+                                <th class="text-uppercase text-sm ps-2">Tipo</th>
+                                <th class="text-uppercase text-sm ps-2">Cantidad</th>
+                                <th class="text-uppercase text-sm ps-2">Cartera</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($details as $d)
                                 <tr>
-                                    <td class="text-center">
-                                        <h6>{{ $d->tipo }}</h6>
+                                    <td class="text-sm mb-0">
+                                        {{ $d->tipo }}
                                     </td>
-                                    <td class="text-center">
-                                        <h6>{{ $d->importe }}</h6>
+                                    <td class="text-sm mb-0">
+                                        {{ $d->importe }}
                                     </td>
-                                    <td class="text-center">
-                                        <h6>{{ $d->nombreCartera }}</h6>
+                                    <td class="text-sm mb-0">
+                                        {{ $d->nombreCartera }}
                                     </td>
                                 </tr>
                             @endforeach

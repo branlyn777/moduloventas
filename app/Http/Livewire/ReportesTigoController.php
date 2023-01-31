@@ -617,7 +617,7 @@ class ReportesTigoController extends Component
 
         $this->transaccionId = $idtransaccion;
 
-        $this->emit('show-modal', 'details loaded');
+        $this->emit('show-modal');
     }
 
 
