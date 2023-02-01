@@ -740,4 +740,13 @@ public function stockChange(){
 
 }
 
+public function cambioestado()
+{
+    if ($this->estados) {
+        $this->estados = false;
+    } else {
+        $this->estados = true;
+    }
+}
+
 }
