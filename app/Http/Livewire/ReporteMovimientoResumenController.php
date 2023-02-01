@@ -26,12 +26,9 @@ class ReporteMovimientoResumenController extends Component
 {
     public $idsucursal, $totalesIngresos, $totalesEgresos, $fromDate, $toDate, $cartera_id, $cartera_id2, $type, $cantidad, $tipo, $importe, $comentario, $vertotales = 0, $importetotalingresos, $importetotalegresos,
         $operacionefectivoing, $noefectivo, $operacionefectivoeg, $noefectivoeg, $sumaBanco, $op_recaudo, $recaudo, $subtotalcaja, $utilidadtotal = 5, $caja, $op_sob_falt = 0, $ops = 0, $sucursal, $total, $optotal, $sm, $diferenciaCaja, $montoDiferencia, $obsDiferencia,
-        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco, $operacionfalt, $operacionsob, $operacionesZ,$operacionesW;
-
-
+        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco, $operacionfalt, $operacionsob, $operacionesZ,$operacionesW,$aperturas_cierres;
 
     public $subtotalesIngresos;
-
 
     public function mount()
     {
@@ -43,10 +40,7 @@ class ReporteMovimientoResumenController extends Component
     }
     public function render()
     {
-
         /* Caja en la cual se encuentra el usuario */
-
-
         if (Auth::user()->hasPermissionTo('Admin_Views')) {
             $sucursals = Sucursal::all();
             if ($this->sucursal == 'TODAS') {
@@ -89,8 +83,33 @@ class ReporteMovimientoResumenController extends Component
         }
 
 
+        if ($this->caja!= 'TODAS') {
+        
+            $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
+            ->join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->join('users','users.id','movimientos.user_id')
+            ->where('cartera_movs.type','APERTURA')
+            ->where('cajas.id',$this->caja)
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->get();    
+        }
+        else{
+            $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
+            ->join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+            ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+            ->join('users','users.id','movimientos.user_id')
+            ->where('cartera_movs.type','APERTURA')
+            ->where('cajas.sucursal_id',$this->sucursal)
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->get();    
+        }
 
-        return view('livewire.reportemovimientoresumen.reportemovimientoresumen', [
+
+
+        return view('livewire.reportemovimientoresumen.reportemovimientoresumen',[
             'carterasSucursal' => $carterasSucursal,
             'sucursales' => $sucursals,
             'cajas' => $cajab
@@ -116,6 +135,13 @@ class ReporteMovimientoResumenController extends Component
         $this->caja = 'TODAS';
     }
 
+    public function verSesion($id){
+
+        return redirect()->route('sesiones', ['id'=>$id]);
+       
+  
+    }
+
     public function viewTotales()
     {
         $this->utilidadtotal = 0;
@@ -123,6 +149,7 @@ class ReporteMovimientoResumenController extends Component
             $this->operacionEnCajaGeneral();
             //dd($this->ventas);
             //Totales Ingresos Ventas
+        
 
             $this->totalesIngresosV = new \Illuminate\Database\Eloquent\Collection;
             $totalesIngresosVentas = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
@@ -142,8 +169,7 @@ class ReporteMovimientoResumenController extends Component
                     'movimientos.created_at as movcreacion',
                     'movimientos.id as idmov',
                     DB::raw('0 as detalle'),
-                    DB::raw('0 as utilidadventa')
-                )
+                    DB::raw('0 as utilidadventa'))
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.type', 'INGRESO')
                 ->where('crms.tipoDeMovimiento', 'VENTA')
