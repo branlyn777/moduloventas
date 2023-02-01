@@ -157,7 +157,7 @@
                             <tbody>
                                 @foreach ($destinos as $d)
                                     @if ($d->venta == 'No')
-                                        <tr>
+                                        <tr style="font-size: 14px">
                                             <td class="align-middle text-center">
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                             </td>
@@ -212,7 +212,7 @@
                                             </td>
                                         </tr>
                                     @else
-                                        <tr style="background-color: #ececec">
+                                        <tr style="background-color: #ececec; font-size: 14px;">
                                             <td class="align-middle text-center">
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                             </td>

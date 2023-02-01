@@ -396,7 +396,7 @@ class ProductsController extends Component
         $this->mensaje_toast = 'Producto Actualizado';
         $this->emit('product-updated', 'Producto Actualizado');
     }
-    protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently'];
+    protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently', 'EliminarSeleccionados'];
 
     /**
      * Elimina el producto y su imagen de la base de datos y la carpeta de almacenamiento.
@@ -688,9 +688,46 @@ class ProductsController extends Component
             Product::whereIn('id', $this->selectedProduct)->delete();
             $this->selectedProduct = [];
             $this->checkAll = false;
-           
         }
     }
+
+    // Opcion de eliminar multiples datos
+    public function EliminarSeleccion()
+    {
+        // dd($this->selectedProduct);
+        $this->dispatchBrowserEvent('swal:EliminarSelect',
+            ['title'=>'PRECAUCION',
+            'html'=>'Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente.',
+            'checkedIDs'=>$this->selectedProduct]);
+    }
+
+    public function EliminarSeleccionados()
+    {
+        // Product::whereIn('id', $this->selectedProduct)->delete();
+        // $this->selectedProduct = [];
+        $auxi = 0;
+        foreach ($this->selectedProduct as $data) {
+
+            $product = Product::find($data);
+            $product->destinos->count() > 0 ? $auxi++ : '';
+            $product->detalleCompra->count() > 0 ? $auxi++ : '';
+            $product->detalleSalida->count() > 0 ? $auxi++ :  '';
+            $product->detalleTransferencia->count() > 0 ? $auxi++ :  '';
+            $this->productError = $product->nombre;
+            $this->mensaje_toast = 'Acccion realizada con exito';
+            $this->emit('product-deleted');
+        }
+
+        if ($auxi != 0) {
+            $this->emit('restriccionProducto');
+        } else {
+
+            Product::whereIn('id', $this->selectedProduct)->delete();
+            $this->selectedProduct = [];
+            $this->checkAll = false;
+        }
+    }
+    // final Opcion de eliminar multiples datos
 
     public function export()
     {

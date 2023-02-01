@@ -449,14 +449,20 @@
 
             <li class=@yield('nuevoingresoli', 'nav-item ')>
                 <a class=@yield('nuevoingresonav', 'nav-link ') href="{{ url('ingresoegreso') }}">
-                    <span class="sidenav-mini-icon"> G </span>
-                    <span class="sidenav-normal">Nuevo I/G</span>
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-sack-dollar text-dark text-sm"></i>
+                    </div>
+                    <span class="sidenav-normal ms-1">Nuevo</span>
                 </a>
             </li>
+
+            
             <li class=@yield('categoriasli', 'nav-item ')>
                 <a class=@yield('categoriasnav', 'nav-link ') href="{{ url('carteramovcategoria') }}">
-                    <span class="sidenav-mini-icon"> C </span>
-                    <span class="sidenav-normal">Categorias I/G </span>
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-layer-group text-dark text-sm"></i>
+                    </div>
+                    <span class="sidenav-normal ms-1">Categorias </span>
                 </a>
             </li>
         </ul>
