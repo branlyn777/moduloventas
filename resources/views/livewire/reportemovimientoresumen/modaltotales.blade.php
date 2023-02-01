@@ -11,14 +11,12 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                       <h5 class="text-center">
+                    <h5 class="text-center">
                         <b>Cuadro Resumen de Efectivo</b>
                     </h5>
-
                     <div class="table-responsive">
                         <table class="table align-items-center mb-0 table-borderless">
                             <tbody>
-
                                 <tr>
                                     <td class="text-sm">
                                         Ingresos en Efectivo
@@ -85,8 +83,8 @@
                                     </td>
             
                                 </tr> --}}
-                                
-                            
+
+
 
                                 <tr>
                                     <td class="text-sm">
@@ -104,46 +102,46 @@
                     <div class="">
                         <table class="table">
                             <tbody>
-                       
-                                    <tr style="height: 2rem"></tr>
 
-                                    <tr class="p-5">
-                                        <td class="text-sm">
-                                            Recaudo
-                                        </td>
-                                        <td class="text-sm" style="float: right">
-                                            {{ number_format($op_recaudo, 2) }}
-                                        </td>
+                                <tr style="height: 2rem"></tr>
 
-                                    </tr>
-                                    <tr class="p-5">
+                                <tr class="p-5">
+                                    <td class="text-sm">
+                                        Recaudo
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                        {{ number_format($op_recaudo, 2) }}
+                                    </td>
 
-
-                        
-                                            <td class="text-sm">
-                                                Sobrantes
-                                            </td>
-                                            <td class="text-sm" style="float: right">
-                                                {{ number_format($operacionsob, 2) }}
-                                            </td>
-                             
-
-                                    </tr>
-                                    <tr class="p-5">
+                                </tr>
+                                <tr class="p-5">
 
 
-                        
-                                            <td class="text-sm">
-                                                Faltantes
-                                            </td>
-                                            <td class="text-sm" style="float: right">
-                                                {{ number_format($operacionfalt, 2) }}
-                                            </td>
-                             
 
-                                    </tr>
-                               
-                              
+                                    <td class="text-sm">
+                                        Sobrantes
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                        {{ number_format($operacionsob, 2) }}
+                                    </td>
+
+
+                                </tr>
+                                <tr class="p-5">
+
+
+
+                                    <td class="text-sm">
+                                        Faltantes
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                        {{ number_format($operacionfalt, 2) }}
+                                    </td>
+
+
+                                </tr>
+
+
                             </tbody>
                         </table>
                     </div>

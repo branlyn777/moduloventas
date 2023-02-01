@@ -26,6 +26,10 @@ class ExportMovDiaResController extends Controller
         $totalesEgresosV = session('totalEgresosV');
         $totalesEgresosIE = session('totalEgresosIE');
 
+        $ingresosTotalesBancos = session('ingresosTotalesBancos');
+        $operacionsob = session('operacionsob');
+        $operacionfalt = session('operacionfalt');
+
 
         //Variables para la tfoot
         $ingresosTotalesCF = session('ingresosTotalesCF');//
@@ -66,7 +70,7 @@ class ExportMovDiaResController extends Controller
 
 
         $nombreempresa = Company::find(1)->name;
-        $logoempresa = Company::find(1)->image;
+        $logoempresa = Company::find(1)->horizontal_image;
 
         $pdf = PDF::loadView('livewire.pdf.reportemovdiaresumen',
         compact('totalesIngresosV','totalesIngresosS','totalesIngresosIE','totalesEgresosV','totalesEgresosIE',
@@ -90,7 +94,9 @@ class ExportMovDiaResController extends Controller
                 'toDate',
                 'nombreempresa',
                 'logoempresa',
-            
+                'ingresosTotalesBancos',
+                'operacionsob',
+                'operacionfalt',
             ));
 
 

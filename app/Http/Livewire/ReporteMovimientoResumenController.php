@@ -1254,7 +1254,7 @@ class ReporteMovimientoResumenController extends Component
         $this->recaudo = $this->optotal - $this->sm->monto_base;
     }
 
-    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $op_sob_falt)
+    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $ingresosTotalesBancos, $operacionsob, $operacionfalt)
     {
         session(['totalIngresosV' => $totalesIngresosV]);
         session(['totalIngresosS' => $totalesIngresosS]);
@@ -1262,16 +1262,20 @@ class ReporteMovimientoResumenController extends Component
         session(['totalEgresosV' => $totalesEgresosV]);
         session(['totalEgresosIE' => $totalesEgresosIE]);
 
+        session(['ingresosTotalesBancos' => $ingresosTotalesBancos]);
+        session(['operacionsob' => $operacionsob]);
+        session(['operacionfalt' => $operacionfalt]);
+
 
 
 
         session(['ingresosTotalesCF' => $this->ingresosTotalesCF]); //
         session(['subtotalesIngresos' => $this->subtotalesIngresos]); //
-        session(['ingresosTotalesNoCFBancos' => $this->ingresosTotalesNoCFBancos]); //
+        // session(['ingresosTotalesNoCFBancos' => $this->ingresosTotalesNoCFBancos]);
         session(['op_recaudo' => $this->op_recaudo]); //
         session(['total' => $this->total]);
         session(['subtotalcaja' => $this->subtotalcaja]);
-        session(['operacionesefectivas' => $this->operacionesefectivas]);
+        // session(['operacionesefectivas' => $this->operacionesefectivas]);
         session(['ops' => $this->ops]);
         session(['operacionesW' => $this->operacionesW]);
         session(['EgresosTotales' => $this->EgresosTotales]);
@@ -1282,7 +1286,7 @@ class ReporteMovimientoResumenController extends Component
 
 
         //Sobrante o Faltante
-        session(['op_sob_falt' => $op_sob_falt]);
+        // session(['op_sob_falt' => $op_sob_falt]);
 
         //$this->operacionesZ
         session(['operacionesZ' => $this->operacionesZ]);
