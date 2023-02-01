@@ -19,17 +19,39 @@ use Darryldecode\Cart\Facades\EditarTransferenciaFacade as EditarTransferencia;
 
 class TransferenciasController extends Component
 {
-    public $nro,$nro_det,$detalle,$estado,$estado_destino,$vs=[], $datalist_destino,$selected_id1,$class1,$class,$selected_id2,$data_origen,$estado_lista_tr,$estado_lista_te,$show1,$show2,$mensaje_toast;
+    public $nro,$nro_det,$detalle,$estado,$estado_destino,$vs=[], $datalist_destino,$selected_id1,$class1,$class,$selected_id2,$data_origen,$estado_lista_tr,$estado_lista_te,$estado1,$estado2,$mensaje_toast;
+    public $selected,$selected2;
     public function mount(){
         $this->nro=1;
         $this->nro_det=1;
         $this->verPermisos();
         $this->estado_lista_tr='active';
         $this->estado_lista_te='';
-        $this->show1='';
-        $this->show2='';
+        $this->estado1='active show';
+        $this->estado2='fade';
 
     }
+
+    public function cambioestado(){
+      
+        if ($this->estado1 == 'active show') {
+         
+            $this->estado1='fade';
+            $this->estado2='active show';
+            $this->selected='false';
+            $this->selected2='true';
+        }
+        else{
+            $this->estado2='fade';
+            $this->estado1='active show';
+            $this->selected2='false';
+            $this->selected='true';
+        }
+
+
+
+    }
+
     public function render()
     {
        

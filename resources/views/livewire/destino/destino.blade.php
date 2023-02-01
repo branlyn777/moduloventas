@@ -139,11 +139,11 @@
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0 P-0">
+                        <table class="table align-items-left mb-0">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm text-center">CODIGO</th>
+                                    <th class="text-uppercase text-sm ps-2">CODIGO</th>
 
                                     <th class="text-uppercase text-sm ps-2">NOMBRE</th>
                                     <th class="text-uppercase text-sm ps-2">OBSERVACIÓN</th>
@@ -158,27 +158,42 @@
                                 @foreach ($destinos as $d)
                                     @if ($d->venta == 'No')
                                         <tr>
-                                            <td class="align-middle text-center">
+                                            <td >
+                                                <p class="text-sm mb-0 text-center">
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                                </P>
                                             </td>
                                             <td>
-                                                {{ $d->codigo_almacen??'s/n'  }}
+                                                <P class="text-sm mb-0 text-left">
+                                                    {{ $d->codigo_almacen ?? 's/n' }}
+                                                </P>
                                             </td>
                                             <td>
-                                                {{ $d->nombredestino }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ $d->nombredestino }}
+                                                </p>
+                                                
                                             </td>
                                             <td>
-                                                {{ substr($d->observacion, 0, 58) }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ substr($d->observacion, 0, 58) }}
+                                                </p>
                                             </td>
                                             <td>
-                                                {{ $d->nombresucursal }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ $d->nombresucursal }}
+                                                </p>
                                             </td>
 
                                             <td>
-                                                {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                                </p>
                                             </td>
                                             <td>
-                                                {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                                </p>
                                             </td>
                                             <td>
                                                 @if ($d->estado == 'ACTIVO')
@@ -199,16 +214,16 @@
 
 
                                                 @if ($d->estado == 'ACTIVO')
-                                                <a href="javascript:void(0)"
-                                                    onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
-                                                    class="boton-rojo mx-3" title="Anular Estancia">
-                                                    <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
-                                                </a>
+                                                    <a href="javascript:void(0)"
+                                                        onclick="Confirm('{{ $d->iddestino }}','{{ $d->nombredestino }}')"
+                                                        class="boton-rojo mx-3" title="Anular Estancia">
+                                                        <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
+                                                    </a>
                                                 @endif
 
 
 
-                                                
+
                                             </td>
                                         </tr>
                                     @else
@@ -217,25 +232,40 @@
                                                 {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                             </td>
                                             <td>
-                                                {{ $d->codigo_almacen??'s/n' }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ $d->codigo_almacen ?? 's/n' }}
+                                                </p>
                                             </td>
 
                                             <td>
-                                                {{ $d->nombredestino }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ $d->nombredestino }}
+                                                </p>
+                                                
                                             </td>
 
                                             <td>
-                                                {{ substr($d->observacion, 0, 58) }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ substr($d->observacion, 0, 58) }}
+                                                </p>
+                                                
                                             </td>
                                             <td>
-                                                {{ $d->nombresucursal }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ $d->nombresucursal }}
+                                                </p>
+                                                
                                             </td>
 
                                             <td>
-                                                {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($d->creacion)->format('d/m/Y H:i') }}
+                                                </p>
                                             </td>
                                             <td>
-                                                {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                                <p class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($d->actualizacion)->format('d/m/Y H:i') }}
+                                                </p>
                                             </td>
                                             <td>
                                                 @if ($d->estado == 'ACTIVO')
@@ -266,7 +296,7 @@
             {{ $destinos->links() }}
         </div>
     </div>
-    
+
     @include('livewire.destino.form')
 </div>
 

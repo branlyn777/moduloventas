@@ -36,16 +36,14 @@
                                     </tr>
                                 @endforeach
 
+                            </tbody>
 
+                        </table>
+                    </div>
                 @endif
 
-                </tbody>
-
-                </table>
-
             </div>
+            <br>
         </div>
-        <br>
     </div>
-</div>
 </div>
