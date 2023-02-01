@@ -853,7 +853,6 @@ class TransaccionController extends Component
                     'import' => $this->montoR,
                     'user_id' => Auth()->user()->id,
                 ]);
-
                 CarteraMov::create([
                     'type' => 'INGRESO',
                     'tipoDeMovimiento' => 'TIGOMONEY',
@@ -1013,7 +1012,8 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 1
                 ]);
 
-                if ($motiv->nombre == 'Recarga') {
+                if ($motiv->nombre == 'Recarga')
+                {
                     $importeEgresoRecarga = $this->importe - ($this->importe * 8) / 100;
                     $mvt = Movimiento::create([
                         'type' => 'TERMINADO',
@@ -1091,13 +1091,14 @@ class TransaccionController extends Component
                 'transaccion_id' => $this->transaccion->id
             ]);
             DB::commit();
+            // return Redirect::to('pos');
             $this->origenAnterior = $this->origen;
             $this->motivoAnterior = $this->motivo;
             $this->telefonoAnterior = $this->celular;
             $this->cedulaAnterior = $this->cedula;
             $this->destinoAnterior = $this->codigo_transf;
-            $this->emit('item-added', 'Transacción Registrada');
             $this->resetUI();
+            $this->emit('item-added', 'Transacción Registrada');
         }
         catch (Exception $e)
         {
