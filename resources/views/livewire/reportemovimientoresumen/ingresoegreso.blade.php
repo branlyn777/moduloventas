@@ -8,9 +8,9 @@
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
                     href="{{ url('') }}">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ingresos y Egresos</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Ingresos y Egresos </h6>
+        <h6 class="font-weight-bolder mb-0 text-white"> Nuevo </h6>
     </nav>
 @endsection
 

@@ -169,8 +169,13 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <button onclick="deleteRowPermanently()" type="button" class="btn btn-danger">Eliminar
-                            Seleccionados</button>
+                        {{-- <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
+                            Seleccionados</button> --}}
+                        
+                        {{-- @if ($selectedProduct) --}}
+                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
+                                Seleccionados ({{count($selectedProduct)}})</button>
+                        {{-- @endif --}}
                     </div>
                 </div>
                 <div class="card-body px-0 pb-0">
@@ -322,10 +327,7 @@
             window.livewire.on('modal-import', msg => {
                 $('#modalimport').modal('show')
             });
-            // window.livewire.on('product-updated', msg => {
-            //     $('#theModal').modal('hide')
-            //     noty(msg)
-            // });
+
             window.livewire.on('product-updated', Msg => {
                 $('#theModal').modal('hide')
                 const toast = swal.mixin({
@@ -341,9 +343,7 @@
                     padding: '2em',
                 })
             });
-            // window.livewire.on('product-deleted', msg => {
-            //     noty(msg)
-            // });
+
             window.livewire.on('product-deleted', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -391,11 +391,11 @@
             });
         });
 
-        // Eliminar producto seleccionado
-        function deleteRowPermanently(id) {
+        // Eliminar producto seleccionado              https://www.youtube.com/watch?v=MlE6NSmM5KE
+        window.addEventListener('swal:EliminarSelect', function() {
             swal({
                 title: 'PRECAUCION',
-                text: "Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente. ",
+                text: "Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente.",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -403,10 +403,10 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('deleteRowPermanently', id)
+                    window.livewire.emit('EliminarSeleccionados', event.detail.checkedIDs)
                 }
             })
-        }
+        })
 
         function Confirm(id, name, products) {
             if (products > 0) {

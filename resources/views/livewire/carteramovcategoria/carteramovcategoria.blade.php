@@ -8,9 +8,9 @@
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
                     href="{{ url('') }}">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ingresos y Egresos</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Ingresos/Egresos Categoria</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Categoria</h6>
     </nav>
 @endsection
 
@@ -32,7 +32,7 @@
             <div class="card-header pt-0 mb-4">
                 <div class="d-lg-flex">
                     <div>
-                        <h5 class="text-white" style="font-size: 16px">Categoria Ingresos/Egresos</h5>
+                        <h5 class="text-white" style="font-size: 16px">Categoria</h5>
                     </div>
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
