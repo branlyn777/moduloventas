@@ -72,10 +72,8 @@
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <h6 class="mb-1 text-dark text-sm">
-                                                        <h6> <b>
-                                                                {{ $efectivo_actual > $saldoAcumulado
-                                                                    ? 'Efectivo Sobrante:'
-                                                                    : 'Efectivo Faltante: ' }}</b>
+                                                        <h6>
+                                                                Ajuste de Efectivo
                                                         </h6>
 
                                                     </h6>
@@ -87,7 +85,7 @@
 
                                         <li
                                             class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                            <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-start">
                                                 <div
                                                     class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
                                                     <i class="ni ni-satisfied text-white opacity-10"></i>

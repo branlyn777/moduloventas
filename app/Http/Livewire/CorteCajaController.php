@@ -328,7 +328,7 @@ class CorteCajaController extends Component
 
 
                     $margen = $this->efectivo_actual - $this->saldoAcumulado;
-                    $diferenciaCaja = $margen > 0 ? 'SOBRANTE' : 'FALTANTE';
+                    $diferenciaCaja = $margen > 0 ? 'positivo' : 'negativo';
                     $mvt = Movimiento::create([
                         'type' => 'TERMINADO',
                         'status' => 'ACTIVO',
@@ -337,8 +337,8 @@ class CorteCajaController extends Component
                     ]);
 
                     CarteraMov::create([
-                        'type' => ($diferenciaCaja == 'SOBRANTE') ? 'INGRESO' : 'EGRESO',
-                        'tipoDeMovimiento' => $diferenciaCaja,
+                        'type' => ($diferenciaCaja == 'positivo') ? 'INGRESO' : 'EGRESO',
+                        'tipoDeMovimiento' => 'AJUSTE',
                         'comentario' => $this->nota_ajuste,
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $mvt->id

@@ -16,7 +16,7 @@ class CreateCarteraMovsTable extends Migration
         Schema::create('cartera_movs', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['EGRESO', 'INGRESO', 'APERTURA', 'CIERRE']);
-            $table->enum('tipoDeMovimiento', ['EGRESO/INGRESO', 'CORTE', 'TIGOMONEY', 'STREAMING', 'SERVICIOS', 'VENTA', 'COMPRA','SOBRANTE','FALTANTE','RECAUDO']);
+            $table->enum('tipoDeMovimiento', ['EGRESO/INGRESO', 'CORTE', 'TIGOMONEY', 'STREAMING', 'SERVICIOS', 'VENTA', 'COMPRA','SOBRANTE','FALTANTE','RECAUDO','AJUSTE']);
             $table->string('comentario', 255);
             $table->unsignedBigInteger('cartera_id');
             $table->foreign('cartera_id')->references('id')->on('carteras');
