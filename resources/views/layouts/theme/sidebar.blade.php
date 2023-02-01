@@ -430,6 +430,14 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('sesionesli', 'nav-item ')>
+                            <a class=@yield('sesionesnav', 'nav-link ') href="{{ url('sesiones') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Reportes Sesion Caja </span>
+                            </a>
+                        </li>
+                    </ul>
                     {{-- <ul class="nav ms-4">
                         <li class=@yield('cotizationli', 'nav-item ')>
                             <a class=@yield('cotizationnav', 'nav-link ') href="{{ url('cotizacion') }}">

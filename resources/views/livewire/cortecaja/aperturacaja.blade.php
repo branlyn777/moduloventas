@@ -33,7 +33,7 @@
                                                 <i class="ni ni-tag text-white opacity-10"></i>
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <h6 class="mb-1 text-dark text-sm">Esperado En Efectivo</h6>
+                                                <h6 class="mb-1 text-dark text-sm">Efectivo s/Edsoft</h6>
                                                 <h6 class="text-xs"> Bs. {{ $saldoAcumulado }}</h6>
                                             </div>
                                         </div>
@@ -48,13 +48,15 @@
                                             </div>
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
-                                                <div class="input-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-primary mb-0"
-                                                        id="button-addon1" data-bs-toggle="modal"
-                                                        data-bs-target="#contador_monedas"><i
-                                                            class="fas fa-calculator"></i></button>
-                                                    <input type="text" class="form-control"
-                                                        wire:model='efectivo_actual'>
+                                                <div class="form-group">
+                                                    <div class="input-group" >
+                                                        <button style="background-color: #5e72e4; color: white; border: #5e72e4;"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#contador_monedas"
+                                                            class="input-group-text"><i class="fas fa-calculator mx-2"></i></button>
+                                                            <input type="number" class="form-control needs-validation" novalidate id="validationCustom03" required style="padding-left: 5%;" 
+                                                            wire:model='efectivo_actual'>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,7 +95,8 @@
                                                 <div class="d-flex flex-column">
                                                     <h6 class="mb-1 text-dark text-sm">Nota/Comentario</h6>
                                                     {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
-                                                    <textarea wire:model='nota_ajuste'></textarea>
+                                                    <textarea wire:model='nota_ajuste' class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                                         
                                                 </div>
                                             </div>
                                         </li>
@@ -123,10 +126,31 @@
 
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-primary"
-                            wire:click='CorteCaja({{ $idcaja }})'>Iniciar Sesion</button>
+                            wire:click='CorteCaja({{ $idcaja }})' onclick="inicio" >Iniciar Sesion</button>
                     </div>
                 @endif
             </div>
         </div>
     </div>
 </div>
+<script>
+    (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('inicio', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>

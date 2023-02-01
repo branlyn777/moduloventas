@@ -12,7 +12,7 @@
 
 
                 @if ($datalist_destino != null)
-
+              
                     <div class="table-responsive">
                         <table class="table mb-4">
                             <thead>

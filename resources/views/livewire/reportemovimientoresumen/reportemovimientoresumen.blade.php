@@ -57,23 +57,14 @@
     .tablareporte .no{
         width: 50px;
     }
-
-
-
-
-
-
     /* EStilos para los totales flotantes */
-
     .flotante{
-        /* width: 100%; */
+        width: 82%;
         z-index: 99;
         position: fixed;
         top: 350px;
         right: 50px;
     }
-
-
 </style>
 @endsection
 
@@ -171,91 +162,70 @@
     </div>
 
 
-
-    
-
-    <br>
-
-    
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+<br>
 
 
-
-    <div class="flotante">
-        <div class="row">
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table style="width: 100%">
-                                <tr>
-                                    <td class="text-center">
-                                        <h6>INGRESOS TOTALES</h6>
-                                        <span class="badge badge-sm bg-primary text-lg">
-                                            <b>{{ number_format($subtotalesIngresos, 2) }}</b>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
+    <div class="sticky-top">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td class="text-center">
+                                            <h6>INGRESOS TOTALES</h6>
+                                            <span class="badge badge-sm bg-primary text-lg">
+                                                <b>{{ number_format($subtotalesIngresos, 2) }}</b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td class="text-center">
+                                            <h6>EGRESOS TOTALES</h6>
+                                            <span class="badge badge-sm bg-danger text-lg">
+                                                <b>{{ number_format($EgresosTotales, 2) }}</b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td class="text-center">
+                                            <h6>TOTAL UTILIDAD</h6>
+                                            <span class="badge badge-sm bg-success text-lg">
+                                                @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                                        <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                                    @endif
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table style="width: 100%">
-                                <tr>
-                                    <td class="text-center">
-                                        <h6>EGRESOS TOTALES</h6>
-                                        <span class="badge badge-sm bg-danger text-lg">
-                                            <b>{{ number_format($EgresosTotales, 2) }}</b>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table style="width: 100%">
-                                <tr>
-                                    <td class="text-center">
-                                        <h6>TOTAL UTILIDAD</h6>
-                                        <span class="badge badge-sm bg-success text-lg">
-                                            @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
-                                                @endif
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
     </div>
-
-
-
-
-    
-
-
-
-
-
 
 
 
@@ -448,12 +418,10 @@
                                     <td class="text-sm text-center fecha">
                                         {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
                                     </td>
-
                                     <td class="text-sm text-center">
                                         <b>{{ $p->tipoDeMovimiento }},Devolución,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},{{ $p->nombrecartera }}</b>
                                     </td>
                                     <td>
-
                                     </td>
                                     <td>
                                         <span class="badge badge-sm bg-success text-sm">
@@ -461,7 +429,6 @@
                                         </span>
                                     </td>
                                     <td>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -598,13 +565,12 @@
 
 
     @include('livewire.reportemovimientoresumen.modaltotales')
-    @include('livewire.reportemovimientoresumen.modalDetailsr')
+  
 
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
         window.livewire.on('show-modalR', Msg => {
             $('#modal-detailsr').modal('show')
         })
@@ -615,17 +581,14 @@
         window.livewire.on('tigo-delete', Msg => {
             noty(Msg)
         })
-
         window.livewire.on('show-modaltotales', Msg => {
             $('#modaltotales').modal('show')
         })
-
         //Llamando a una nueva pestaña donde estará el pdf modal
         window.livewire.on('opentap', Msg => {
             var win = window.open('report/pdfmovdiaresumen');
             // Cambiar el foco al nuevo tab (punto opcional)
             //win.focus();
-
         });
     });
 </script>
