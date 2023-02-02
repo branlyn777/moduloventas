@@ -173,7 +173,7 @@
                             Seleccionados</button> --}}
                         
                         {{-- @if ($selectedProduct) --}}
-                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
+                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar 
                                 Seleccionados ({{count($selectedProduct)}})</button>
                         {{-- @endif --}}
                     </div>
@@ -375,6 +375,7 @@
                     'error'
                 )
             });
+
             window.livewire.on('sin-archivo', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -403,7 +404,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('EliminarSeleccionados', event.detail.checkedIDs)
+                    window.livewire.emit('EliminarSeleccionados', event.detail.id)
                 }
             })
         })
