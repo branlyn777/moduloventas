@@ -878,6 +878,15 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 2
                 ]);
 
+                $cartera = Cartera::find($CajaFisica->id);
+           
+                $saldo_cartera = Cartera::find($cartera->id)->saldocartera - $this->importe;
+        
+        
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
+                ]);
+
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
                     ->where('c.monto_inicial', '<=', $this->montoB)
                     ->where('c.monto_final', '>=', $this->montoB)
@@ -935,6 +944,15 @@ class TransaccionController extends Component
                     'cartera_id' => $CajaFisica->id,
                     'movimiento_id' => $mv->id,
                     'cartera_mov_categoria_id' => 1
+                ]);
+
+                $cartera = Cartera::find($CajaFisica->id);
+           
+                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->importe;
+        
+        
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
                 ]);
 
                 $mvt = Movimiento::create([
@@ -1010,6 +1028,15 @@ class TransaccionController extends Component
                     'cartera_id' => $CajaFisica->id,
                     'movimiento_id' => $mv->id,
                     'cartera_mov_categoria_id' => 1
+                ]);
+
+                $cartera = Cartera::find($CajaFisica->id);
+           
+                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->importe;
+        
+        
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
                 ]);
 
                 if ($motiv->nombre == 'Recarga')
