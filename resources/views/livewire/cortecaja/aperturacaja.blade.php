@@ -98,20 +98,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    @else
-                                        <li
-                                            class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <div
-                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                    <i class="ni ni-satisfied text-white opacity-10"></i>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-1 text-dark text-sm">Efectivo Sob./Falt.</h6>
-                                                    <span class="text-xs font-weight-bold"> Bs. 0</span>
-                                                </div>
-                                            </div>
-                                        </li>
+                              
                                     @endif
                                 </ul>
                             </div>

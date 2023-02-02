@@ -187,12 +187,12 @@
                                                 </div>
                                             </td>
                                             <td class="text-right">
-                                                <div class="d-flex flex-column">
+                                                <div class="d-flex flex-column ">
 
                                                  
 
 
-                                                    <div class="form-group">
+                                                    <div class="form-group align-items-center">
                                                         <div class="input-group">
                                                             <button style="background-color: #5e72e4; color: white; border: #5e72e4;"
                                                             data-bs-toggle="modal"
@@ -207,7 +207,7 @@
                                             </td>
                                         </tr>
 
-                                        @if ($efectivo_actual != null)
+                                        @if ($efectivo_actual != null and $efectivo_actual!=$saldoAcumulado )
                                     <tr>
                                         <td class="ps-3">
 
@@ -305,10 +305,10 @@
                                         <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
                                             <i class="ni ni-satisfied text-white opacity-10"></i>
                                         </div>
-                                        <div class="d-flex flex-column">
+                                        <div class="d-flex flex-column align-items-center">
                                             <h6 class="mb-1 text-dark text-sm">Recaudo</h6>
-                                            <input type="number" wire:model='recaudo' style="direction: rtl;"
-                                                class="form-control">
+                                            <input type="number" wire:model='recaudo' 
+                                                class="form-control ps-4">
                                             {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
                                         </div>
                                     </div>

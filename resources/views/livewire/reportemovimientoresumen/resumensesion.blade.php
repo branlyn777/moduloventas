@@ -238,6 +238,33 @@
     </div>
 
     <br>
+    <div class="card mb-4 mt-4">
+        <div class="card-body px-0 pb-2">
+            <h5 style="font-size: 16px" class="text-left ps-4">
+                Ingresos
+            </h5>
+            @if ($totalesIngresosIE->isNotEmpty())
+                @foreach ($totalesIngresosIE as $item)
+                    <tr>
+                        <td class="text-sm text-center no">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td class="text-sm fecha">
+                            {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
+                        </td>
+                        <td>
+                            {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
+
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <p class="m-4 text-center">(Sin Registro de Ajuste de Efectivo)</p>
+            @endif
+        </div>
+    </div>
+    <br>
+    
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card p-1 bg-white">

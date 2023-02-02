@@ -73,8 +73,9 @@ class SesionesListaController extends Component
             ->where('cartera_movs.type','APERTURA')
             ->where('cajas.id',$this->caja)
             ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
-            ->get();    
+            ->select('movimientos.created_at as apertura','movimientos.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->get();
+         
         }
         else{
             $this->aperturas_cierres= Caja::join('carteras','carteras.caja_id','cajas.id')
@@ -84,7 +85,7 @@ class SesionesListaController extends Component
             ->where('cartera_movs.type','APERTURA')
             ->where('cajas.sucursal_id',$this->sucursal)
             ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-            ->select('cartera_movs.created_at as apertura','cartera_movs.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
+            ->select('movimientos.created_at as apertura','movimientos.updated_at as cierre','cartera_movs.id','users.name','movimientos.status')
             ->get();    
         }
 
