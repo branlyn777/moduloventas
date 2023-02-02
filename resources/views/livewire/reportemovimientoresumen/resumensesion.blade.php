@@ -8,7 +8,7 @@
         <div class="col-12 col-sm-6 col-md-2">
             <div class="form-group">
 
-                <button wire:click.prevent="generarpdf({{$totalesIngresosV}},{{$totalesIngresosIE}},{{$totalesEgresosIE}},{{$movimiento}},{{$sobrante}},{{$faltante}},{{$cierremonto}})" class="btn btn-warning form-control">
+                <button wire:click.prevent="generarpdf({{$totalesIngresosV}},{{$totalesIngresosIE}},{{$totalesEgresosIE}})" class="btn btn-warning form-control">
                     <i class="fas fa-print"></i> Generar PDF
                 </button>
             </div>
@@ -68,7 +68,6 @@
                                                                     <div class="text-sm">
                                                                         {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
                                                                     </div>
-
 
                                                                     <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
                                                                         aria-hidden="true"></i>

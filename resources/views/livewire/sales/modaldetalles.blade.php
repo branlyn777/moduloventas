@@ -43,9 +43,6 @@
                             <td class="text-sm mb-0 text-left">
                                 {{ number_format($dv->po, 2) }}
                             </td>
-
-
-
                             @if($dv->pv-$dv->po == 0)
                             <td class="text-sm mb-0 text-left">
                                 {{ number_format($dv->pv-$dv->po, 2) }}

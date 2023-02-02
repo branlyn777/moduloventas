@@ -459,26 +459,22 @@ $this->faltante=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', '
         return $utilidad;
     }
 
-
-
-
-    public function generarpdf($totalesIngresosV,$totalesIngresosIE,$totalesEgresosIE,$movimiento,$sobrante,$faltante,$cierremonto)
+    public function generarpdf($totalesIngresosV,$totalesIngresosIE,$totalesEgresosIE)
     {
         session(['totalesIngresosV' => $totalesIngresosV]);
         session(['totalesIngresosIE' => $totalesIngresosIE]);
         session(['totalesEgresosIE' => $totalesEgresosIE]);
-        session(['movimiento' => $movimiento]);
-        session(['sobrante' => $sobrante]);
-        session(['faltante' => $faltante]);
-        session(['cierremonto' => $cierremonto]);
+        session(['movimiento' => $this->movimiento]);
+        session(['sobrante' => $this->sobrante]);
+        session(['faltante' => $this->faltante]);
+        session(['cierremonto' => $this->cierremonto]);
+        session(['total' => $this->total]);
 
         $this->emit('opentap');
     }
 
     public function trsbydatecerrado()
     {
-   
-
         $ingresosTelefono = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
             ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
             ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
