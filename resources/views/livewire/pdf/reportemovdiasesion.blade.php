@@ -90,17 +90,6 @@
             </tr>
         </tbody>
     </table>
-    <br>
-    <table class="estilostable">
-        <tbody>
-            <tr>
-                <td colspan="2"><b>Sucursal:</b> {{ $sucursal }}</td>
-                <td><b>Caja:</b> {{ $caja }}</td>
-                <td><b>Fecha Inicial:</b> {{ \Carbon\Carbon::parse($fromDate)->format('d-m-Y') }}</td>
-                <td><b>Fecha Final:</b> {{ \Carbon\Carbon::parse($toDate)->format('d-m-Y') }}</td>
-            </tr>
-        </tbody>
-    </table>
 
     <br>
 
@@ -127,8 +116,7 @@
                         </td>
                         <td class="text-center">
                             {{ $row['idventa'] }} {{ $row['tipoDeMovimiento'] }}
-                            {{ $row['ctipo'] == 'CajaFisica' ? 'Efectivo' : $row['ctipo'] }}
-                            ({{ $row['nombrecartera'] }})
+                            {{ $row['ctipo'] == 'CajaFisica' ? 'Efectivo' : $row['ctipo'] }} ({{ $row['nombrecartera'] }})
                         </td>
                         <td style="text-align: right;">
                             {{ $row['importe'] }}
@@ -208,41 +196,7 @@
                     </tr>
                 @endforeach
 
-                @foreach ($totalesIngresosS as $p)
-                    <tr>
-                        <td class="text-center">
-                            {{ \Carbon\Carbon::parse($p['movcreacion'])->format('d/m/Y H:i') }}
-                        </td>
-
-                        <td class="text-center">
-                            {{ $p['idordenservicio'] }} {{ $p['tipoDeMovimiento'] }}
-                            {{ ucwords(strtolower($p['nombrecategoria'])) }}
-                            {{ $p['ctipo'] == 'CajaFisica' ? 'Efectivo' : $p['ctipo'] }} ({{ $p['nombrecartera'] }})
-                        </td>
-                        <td style="text-align: right;">
-                            {{ number_format($p['importe'], 2) }}
-                        </td>
-                        <td>
-
-                        </td>
-                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                            <td style="text-align: right;">
-                                {{ number_format($p['utilidadservicios'], 2) }}
-                            </td>
-                        @endif
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="filarowpp">
-                            {{ ucwords(strtolower($p['solucion'])) }}
-                        </td>
-                        <td></td>
-                        <td></td>
-                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                            <td></td>
-                        @endif
-                    </tr>
-                @endforeach
+                
                 @foreach ($totalesIngresosIE as $ie)
                     <tr>
                         <td class="text-center">
@@ -250,8 +204,7 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $ie['ctipo'] == 'CajaFisica' ? 'Efectivo' : $ie['ctipo'] }}
-                            ({{ $ie['nombrecartera'] }})
+                            {{ $ie['ctipo'] == 'CajaFisica' ? 'Efectivo' : $ie['ctipo'] }} ({{ $ie['nombrecartera'] }})
                         </td>
                         <td style="text-align: right;">
                             {{-- {{ $ie['importe'] }} --}}
@@ -274,32 +227,7 @@
                         <td></td>
                         <td></td>
                         @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                            <td>
-
-                            </td>
-                        @endif
-                    </tr>
-                @endforeach
-                @foreach ($totalesEgresosV as $px)
-                    <tr>
-                        <td class="text-center">
-                            {{ \Carbon\Carbon::parse($px['movcreacion'])->format('d/m/Y H:i') }}
-                        </td>
-
-                        <td class="text-center">
-                            {{ $px['tipoDeMovimiento'] }} Devolución
-                            {{ $px['ctipo'] == 'CajaFisica' ? 'Efectivo' : $px['ctipo'] }} {{ $px['nombrecartera'] }})
-                        </td>
-                        <td>
-
-                        </td>
-                        <td style="text-align: right;">
-                            {{ $px['importe'] }}
-                        </td>
-                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                            <td>
-
-                            </td>
+                            <td></td>
                         @endif
                     </tr>
                 @endforeach
@@ -311,8 +239,7 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $st['ctipo'] == 'CajaFisica' ? 'Efectivo' : $st['ctipo'] }}
-                            ({{ $st['nombrecartera'] }})
+                            {{ $st['ctipo'] == 'CajaFisica' ? 'Efectivo' : $st['ctipo'] }} ({{ $st['nombrecartera'] }})
                         </td>
                         <td>
 
@@ -338,7 +265,7 @@
                         @endif
                     </tr>
                 @endforeach
-                <tr>
+                {{-- <tr>
                     @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                         <td colspan="5" style="border-top: 3px solid #dbd4d4">
 
@@ -365,7 +292,7 @@
                             <b>{{ number_format($totalutilidadSV, 2) }}</b>
                         </td>
                     @endif
-                </tr>
+                </tr> --}}
             </tbody>
 
         </table>
@@ -396,106 +323,82 @@
 
 
 
-        <div class="">
-            <div class="">
-                <div style="text-align: right;">
-                    <h5 class="text-center">
-                        <b>CUADRO RESUMEN DE EFECTIVO</b>
-                    </h5>
-                </div>
-                <div class="table-responsive">
-                    <table class="estilostable">
-                        <tbody>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS EN EFECTIVO
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF, 2) }}
-                                </td>
-                            </tr>
+        <table class="estilostable">
+            <tbody>
 
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS POR BANCOS
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesBancos, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS TOTALES
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($subtotalesIngresos, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    EGRESOS TOTALES EN EFECTIVO
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($EgresosTotalesCF, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    SALDO INGRESOS/EGRESOS TOTALES
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($subtotalcaja, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    <b>
-                                        TOTAL EFECTIVO
-                                    </b>
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($operacionesW, 2) }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <tr style="height: 2rem"></tr>
 
-                <br>
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Total Ingresos
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($totalesIngresosV_suma + $totalesIngresosIE_suma, 2) }}
+                    </td>
+                </tr>
+
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Total Egresos
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($totalesEgresosIE_suma ?? 0, 2) }}
+                    </td>
+
+                </tr>
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Saldo Total
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($totalesIngresosV_suma + $totalesIngresosIE_suma - $totalesEgresosIE_suma ?? 0, 2) }}
+                    </td>
+
+                </tr>
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Apertura Caja
+                    </td>
+                    <td style="text-align: right;">
+                        @if($movimiento != null)
+                        {{ number_format($movimiento['import'], 2) }}
+                        @endif
+                    </td>
+
+                </tr>
+
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Sobrantes
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($sobrante, 2) }}
+                    </td>
 
 
-                <div class="table-responsive">
-                    <table class="estilostable">
-                        <tbody>
-                            <tr>
-                                <td style="text-align: right;">
-                                    RECAUDO
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($op_recaudo, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                    SOBRANTES
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($operacionsob, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                    FALTANTES
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($operacionfalt, 2) }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                </tr>
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Faltantes
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($faltante, 2) }}
+                    </td>
+
+
+                </tr>
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Saldo al cierre de caja
+                    </td>
+                    <td style="text-align: right;">
+                        Bs. {{ $cierremonto }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
 
 
 

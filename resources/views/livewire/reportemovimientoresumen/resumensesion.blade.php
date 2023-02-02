@@ -8,7 +8,7 @@
         <div class="col-12 col-sm-6 col-md-2">
             <div class="form-group">
 
-                <button class="btn btn-warning form-control">
+                <button wire:click.prevent="generarpdf({{$totalesIngresosV}},{{$totalesIngresosIE}},{{$totalesEgresosIE}},{{$movimiento}},{{$sobrante}},{{$faltante}},{{$cierremonto}})" class="btn btn-warning form-control">
                     <i class="fas fa-print"></i> Generar PDF
                 </button>
             </div>
@@ -22,7 +22,6 @@
             Ventas
         </h5>
         @if ($totalesIngresosV->count() > 0)
-
             <div class="table-responsive p-0">
                 <table class="table table-hover">
                     <thead>
@@ -370,3 +369,13 @@
 
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        //Llamando a una nueva pestaña donde estará el pdf modal
+        window.livewire.on('opentap', Msg => {
+            var win = window.open('report/pdfmovdiasesion');
+            // Cambiar el foco al nuevo tab (punto opcional)
+            //win.focus();
+        });
+    });
+</script>

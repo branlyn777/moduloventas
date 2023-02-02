@@ -454,4 +454,20 @@ $this->faltante=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', '
 
         return $utilidad;
     }
+
+
+
+
+    public function generarpdf($totalesIngresosV,$totalesIngresosIE,$totalesEgresosIE,$movimiento,$sobrante,$faltante,$cierremonto)
+    {
+        session(['totalesIngresosV' => $totalesIngresosV]);
+        session(['totalesIngresosIE' => $totalesIngresosIE]);
+        session(['totalesEgresosIE' => $totalesEgresosIE]);
+        session(['movimiento' => $movimiento]);
+        session(['sobrante' => $sobrante]);
+        session(['faltante' => $faltante]);
+        session(['cierremonto' => $cierremonto]);
+
+        $this->emit('opentap');
+    }
 }

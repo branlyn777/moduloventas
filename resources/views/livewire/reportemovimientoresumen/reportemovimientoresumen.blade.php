@@ -135,8 +135,7 @@
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
                         <b style="color: #ffffff;">|</b>
-                        <button
-                            wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }}, {{ $op_sob_falt }})"
+                        <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{$ingresosTotalesBancos}},{{$operacionsob}},{{$operacionfalt}})"
                             class="btn btn-warning form-control">
                             <i class="fas fa-print"></i> Generar PDF
                         </button>
@@ -213,8 +212,8 @@
                                             <h6>TOTAL UTILIDAD</h6>
                                             <span class="badge badge-sm bg-success text-lg">
                                                 @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                        <b>{{ number_format($totalutilidadSV, 2) }}</b>
-                                                    @endif
+                                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                                @endif
                                             </span>
                                         </td>
                                     </tr>
