@@ -292,10 +292,19 @@
                         </tr>
                         <tr class="p-5">
                             <td class="text-sm text-center">
-                                Saldo Total
+                                Saldo 
                             </td>
                             <td class="text-sm text-end pe-8" style="float: center">
                                 {{ number_format($totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') - $totalesEgresosIE->sum('importe') ?? 0, 2) }}
+                            </td>
+
+                        </tr>
+                        <tr class="p-5">
+                            <td class="text-sm text-center">
+                                Operaciones Tigo Money
+                            </td>
+                            <td class="text-sm text-end pe-8" style="float: center">
+                                {{ number_format($total,2) }}
                             </td>
 
                         </tr>

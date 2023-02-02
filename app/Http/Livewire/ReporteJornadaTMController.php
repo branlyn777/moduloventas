@@ -36,7 +36,8 @@ class ReporteJornadaTMController extends Component
             ->where('mov.status', 'ACTIVO')
             ->where('mov.type', 'APERTURA')
             ->select('cajas.id as cajaid', 's.id as sucursalid')
-            ->get()->first();
+            ->get()
+            ->first();
         if ($cajausuario) {
             $this->sucursal = $cajausuario->sucursalid;
             $this->caja = $cajausuario->cajaid;
@@ -46,6 +47,7 @@ class ReporteJornadaTMController extends Component
             $this->caja = 'Elegir';
             $this->condicionalCaja = $this->sucursal;
         }
+
     }
 
     public function render()
