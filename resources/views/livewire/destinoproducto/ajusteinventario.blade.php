@@ -32,12 +32,16 @@
                                     <td>
                                         @if ($mop_prod)
                                             @foreach ($mop_prod as $item)
-                                                <div class="btn-group">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
                                                     <span class="text-center pt-2">{{ $item->locations->tipo }}
                                                         {{ $item->locations->codigo }}</span>
-                                                    <i class=" btn btn-sm fas fa-trash"
-                                                        wire:click="eliminarmob({{ $item->id }} )"></i>
+                                                    <a href="javascript:void(0)" wire:click="eliminarmob({{ $item->id }} )"
+                                                        class="mx-3 pt-2">
+                                                        <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
+                                                    </a>
                                                 </div>
+                                                
                                             @endforeach
                                         @else
                                             <label>Sin mobiliarios</label>
