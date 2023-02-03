@@ -138,6 +138,7 @@ true
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Cartera</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Caja</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Ingreso(Bs)</th>
+                              <th class="text-center text-uppercase text-xxs font-weight-bolder">Egreso(Bs)</th>
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Motivo</th>
                               @if($this->verificarpermiso() == true)
                               <th class="text-center text-uppercase text-xxs font-weight-bolder">Utilidad(Bs)</th>

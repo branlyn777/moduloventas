@@ -455,7 +455,7 @@
                                                         <tr>
                                                             <td class="text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{ substr($p->nombre, 0, 15) }}
+                                                                    {{ $p->nombre }}
                                                                     <b>({{ $p->barcode }})</b>
                                                                     {{ $p->precio_venta }} Bs
                                                                 </p>
