@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown px-2 d-flex align-items-center">
-                    <a href="javascript:;" class="btn btn-facebook btn-icon-only rounded-circle me-1 position-relative"
+                    <a href="javascript:;" class="btn btn-primary btn-icon-only rounded-circle me-1 position-relative"
                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="btn-inner--icon"><i class="fa fa-bell text-lg"></i></span>
                         <span
@@ -48,7 +48,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
 
-                        @forelse (auth()->user()->unreadNotifications as $value)
+                        @forelse (auth()->user()->unreadNotifications->take(1) as $value)
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">
@@ -66,6 +66,7 @@
                                                 {{ $value->created_at->diffForHumans() }}
 
                                             </p>
+
                                         </div>
                                     </div>
                                 </a>
