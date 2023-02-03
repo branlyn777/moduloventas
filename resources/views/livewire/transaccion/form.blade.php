@@ -1,4 +1,5 @@
-<div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -168,15 +169,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="CargarAnterior()"
-                    class="btn btn-secondary">
+                <button type="button" wire:click.prevent="CargarAnterior()" class="btn btn-secondary">
                     CARGAR ANTERIOR
                 </button>
-                <button type="button" wire:click.prevent="resetUI()"
-                    class="btn btn-secondary">
+                <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary">
                     LIMPIAR
                 </button>
-                <button type="button" wire:click.prevent="Store()" class="btn btn-primary">
+                <button type="button" wire:click="Store()" class="btn btn-primary">
                     GUARDAR
                 </button>
             </div>

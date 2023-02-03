@@ -164,17 +164,17 @@
 
         window.livewire.on('item-added', Msg => {
             $('#theModal').modal('hide')
-            noty(Msg)
+           
         })
         window.livewire.on('item-anulado', Msg => {
-            noty(Msg)
+      
         })
         window.livewire.on('item-error', Msg => {
-            noty(Msg)
+         
         })
         window.livewire.on('item-actualizado', Msg => {
             $('#Modal_Observaciones').modal('hide')
-            noty(Msg)
+          
         })
         window.livewire.on('show-modal', Msg => {
             $('#theModal').modal('show')
@@ -244,8 +244,7 @@
 
     });
 
-    function Confirm(id)
-    {
+    function Confirm(id) {
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',

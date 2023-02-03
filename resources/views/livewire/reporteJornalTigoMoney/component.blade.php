@@ -53,7 +53,7 @@
 
                     </div>
                 </div>
-
+      
             </div>
 
             <div class="card mb-4">
@@ -81,7 +81,8 @@
                                 </select>
                             </div>
                             {{-- @endcan --}}
-                            @if (!empty(session('sesionCaja')))
+                             
+                            @if (!empty($cajausuario))
                                 <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                     <label style="font-size: 1rem;">Fecha</label>
                                     <input type="date" wire:model="dateFrom" class="form-control"
@@ -94,6 +95,9 @@
 
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
+                          <div>
+ 
+            <div/>
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead class="text-white">

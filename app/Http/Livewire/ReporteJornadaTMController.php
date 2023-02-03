@@ -27,7 +27,7 @@ class ReporteJornadaTMController extends Component
         $this->sucursales = [];
         $this->cajasSucursal = [];
         /* Caja en la cual se encuentra el usuario */
-        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+        $this->cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
             ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
             ->join('carteras as car', 'cajas.id', 'car.caja_id')
             ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
@@ -38,9 +38,9 @@ class ReporteJornadaTMController extends Component
             ->select('cajas.id as cajaid', 's.id as sucursalid')
             ->get()
             ->first();
-        if ($cajausuario) {
-            $this->sucursal = $cajausuario->sucursalid;
-            $this->caja = $cajausuario->cajaid;
+        if ($this->cajausuario) {
+            $this->sucursal = $this->cajausuario->sucursalid;
+            $this->caja = $this->cajausuario->cajaid;
             $this->condicionalCaja = $this->sucursal;
         } else {
             $this->sucursal = 'Elegir';
