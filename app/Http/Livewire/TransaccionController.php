@@ -1032,7 +1032,7 @@ class TransaccionController extends Component
 
                 $cartera = Cartera::find($CajaFisica->id);
            
-                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->importe;
+                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->montoR;
         
         
                 $cartera->update([
