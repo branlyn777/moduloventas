@@ -28,7 +28,7 @@
 
                                 <tr>
                                     <td class="text-sm">
-                                        Ingresos por Bancos
+                                        Ingresos No efectivos(Bancos,Qr)
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         {{ number_format($this->ingresosTotalesBancos, 2) }}
@@ -41,7 +41,7 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($subtotalesIngresos, 2) }}
+                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos, 2) }}
                                     </td>
                                 </tr>
 
@@ -60,7 +60,7 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($subtotalcaja, 2) }}
+                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos-$EgresosTotalesCF, 2) }}
                                     </td>
                                 </tr>
 
@@ -101,7 +101,16 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($operacionesW, 2) }}
+                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos-$EgresosTotalesCF-$total, 2) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-sm">
+                                        <h5 class="text-dark"> Saldo Acumulado dia anterior </h5>
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                        <hr class="m-0 p-0" width="100%" style="background-color: black">
+                                        {{ number_format($saldo_acumulado??0)}}
                                     </td>
                                 </tr>
                             </tbody>

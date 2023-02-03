@@ -695,10 +695,31 @@ class ReporteMovimientoResumenController extends Component
         $this->EgresosTotales = $this->totalesEgresosV->sum('importe') + $this->totalesEgresosIE->sum('importe');
 
         // egresos totales por caja fisica
-        $this->EgresosTotalesCF = $this->totalesEgresosV->where('ctipo', 'CajaFisica')->sum('importe') + $this->totalesEgresosIE->where('ctipo', 'CajaFisica')->sum('importe');
+        $this->EgresosTotalesCF = $this->totalesEgresosV->where('ctipo', 'efectivo')->sum('importe') + $this->totalesEgresosIE->where('ctipo', 'efectivo')->sum('importe');
 
         //Ingresos - Egresos
         $this->subtotalcaja = $this->subtotalesIngresos - $this->EgresosTotalesCF;
+        if($this->caja != "TODAS"){
+            $this->saldo_acumulado=  Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.id', $this->caja)
+            ->where('movimientos.type', 'CIERRE')
+            ->where('movimientos.created_at','<',$this->fromDate)
+            ->orderBy('movimientos.created_at','desc')
+            ->first()->import;
+        }
+        else{
+            $this->saldo_acumulado=  Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.id', $this->caja)
+            ->where('movimientos.type', 'CIERRE')
+            ->where('movimientos.created_at','<',$this->fromDate)
+            ->orderBy('movimientos.created_at','desc')
+            ->first()->import;
+        }
+
 
 
 
