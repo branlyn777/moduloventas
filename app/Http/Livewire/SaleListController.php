@@ -66,6 +66,9 @@ class SaleListController extends Component
     public $nombreusuariovendedor;
     public $sucursal_id;
 
+    //Fechas
+    public $timeFrom, $timeTo;
+
     use WithFileUploads;
     use WithPagination;
 
@@ -492,30 +495,16 @@ class SaleListController extends Component
     {
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre','p.precio_venta as po', DB::raw('0 as po'),
+        ->select('sale_details.id as detalleid','sale_details.original_price as preciooriginal','p.image as image','p.nombre as nombre',
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
 
-
-        foreach($descuento as $dx)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $dx->detalleid)
-            ->first();
-
-            if($po != null)
-            {
-                $dx->po = $po->precio_original;
-            }
-        }
-
         $totaldescuento = 0;
         foreach($descuento as $d)
         {
-            $totaldescuento = (($d->pv - $d->po)*$d->cantidad) + $totaldescuento;
+            $totaldescuento = (($d->pv - $d->preciooriginal)*$d->cantidad) + $totaldescuento;
         }
         return $totaldescuento;
     }
@@ -542,26 +531,13 @@ class SaleListController extends Component
         //Listando todos los productos, cantidades, precio, etc...
         $this->detalle_venta = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.id as idproducto','p.image as image','p.nombre as nombre',
-        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid', DB::raw('0 as po'))
+        ->select('sale_details.id as detalleid','sale_details.original_price as po',
+        'p.id as idproducto','p.image as image','p.nombre as nombre',
+        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
 
-
-        foreach($this->detalle_venta as $d)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $d->detalleid)
-            ->first();
-
-            if($po != null)
-            {
-                $d->po = $po->precio_original;
-            }
-
-        }
 
 
 
@@ -584,24 +560,12 @@ class SaleListController extends Component
         //obteniendo la cantidad total de Bs en Descuento o Recargo
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre', DB::raw('0 as po'),
+        ->select('sale_details.id as detalleid','sale_details.original_price as preciooriginal',
+        'p.image as image','p.nombre as nombre',
         'sale_details.price as pv','sale_details.quantity as cantidad')
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
-
-        foreach($descuento as $des)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $des->detalleid)
-            ->first();
-
-            if($po != null)
-            {
-                $des->po = $po->precio_original;
-            }
-        }
 
 
 
@@ -609,7 +573,7 @@ class SaleListController extends Component
         $descuento_recargo = 0;
         foreach($descuento as $d)
         {
-            $descuento_recargo = (($d->pv - $d->po)*$d->cantidad) + $descuento_recargo;
+            $descuento_recargo = (($d->pv - $d->preciooriginal)*$d->cantidad) + $descuento_recargo;
         }
         $this->desc_rec = $descuento_recargo;
 

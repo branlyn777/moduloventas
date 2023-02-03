@@ -50,6 +50,7 @@ class ExportMovDiaResController extends Controller
         $operacionesZ = session('operacionesZ');
 
         $caracteristicas = session('caracteristicas');
+        $total = session('total');
 
         $sucursal = $caracteristicas[0];
         $caja = $caracteristicas[1];
@@ -97,6 +98,7 @@ class ExportMovDiaResController extends Controller
                 'ingresosTotalesBancos',
                 'operacionsob',
                 'operacionfalt',
+                'total',
             ));
 
 

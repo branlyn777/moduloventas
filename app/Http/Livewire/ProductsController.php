@@ -665,46 +665,43 @@ class ProductsController extends Component
      * Elimina un producto de la base de datos, pero primero verifica si el producto se está utilizando
      * en otras tablas. Si es así, emite un evento a la interfaz.
      */
-    public function deleteProducts()
-    {
+    // public function deleteProducts()
+    // {
 
-        $auxi = 0;
-        foreach ($this->selectedProduct as $data) {
+    //     $auxi = 0;
+    //     foreach ($this->selectedProduct as $data) {
 
-            $product = Product::find($data);
-            $product->destinos->count() > 0 ? $auxi++ : '';
-            $product->detalleCompra->count() > 0 ? $auxi++ : '';
-            $product->detalleSalida->count() > 0 ? $auxi++ :  '';
-            $product->detalleTransferencia->count() > 0 ? $auxi++ :  '';
-            $this->productError = $product->nombre;
-            $this->mensaje_toast = 'Acccion realizada con exito';
-            $this->emit('product-deleted');
-        }
-
-        if ($auxi != 0) {
-            $this->emit('restriccionProducto');
-        } else {
-
-            Product::whereIn('id', $this->selectedProduct)->delete();
-            $this->selectedProduct = [];
-            $this->checkAll = false;
-        }
-    }
+    //         $product = Product::find($data);
+    //         $product->destinos->count() > 0 ? $auxi++ : '';
+    //         $product->detalleCompra->count() > 0 ? $auxi++ : '';
+    //         $product->detalleSalida->count() > 0 ? $auxi++ :  '';
+    //         $product->detalleTransferencia->count() > 0 ? $auxi++ :  '';
+    //         $this->productError = $product->nombre;
+    //         $this->mensaje_toast = 'Acccion realizada con exito';
+    //         $this->emit('product-deleted');
+    //     }
+    
+    //     if ($auxi != 0) {
+    //         $this->emit('restriccionProducto');
+    //     } else {
+    //         Product::whereIn('id', $this->selectedProduct)->delete();
+    //         $this->selectedProduct = [];
+    //         $this->checkAll = false;
+    //     }
+    // }
 
     // Opcion de eliminar multiples datos
     public function EliminarSeleccion()
     {
         // dd($this->selectedProduct);
+        // emite alert de confirmacion
         $this->dispatchBrowserEvent('swal:EliminarSelect',
             ['title'=>'PRECAUCION',
-            'html'=>'Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente.',
-            'checkedIDs'=>$this->selectedProduct]);
+            'id'=>$this->selectedProduct]);
     }
 
     public function EliminarSeleccionados()
     {
-        // Product::whereIn('id', $this->selectedProduct)->delete();
-        // $this->selectedProduct = [];
         $auxi = 0;
         foreach ($this->selectedProduct as $data) {
 
@@ -717,18 +714,17 @@ class ProductsController extends Component
             $this->mensaje_toast = 'Acccion realizada con exito';
             $this->emit('product-deleted');
         }
-
+        
         if ($auxi != 0) {
             $this->emit('restriccionProducto');
         } else {
-
             Product::whereIn('id', $this->selectedProduct)->delete();
             $this->selectedProduct = [];
             $this->checkAll = false;
         }
     }
     // final Opcion de eliminar multiples datos
-
+    
     public function export()
     {
         return Excel::download(new ExportExcelProductosController, 'productos.xlsx');

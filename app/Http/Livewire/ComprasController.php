@@ -122,7 +122,6 @@ class ComprasController extends Component
         ->extends('layouts.theme.app')
         ->section('content');
     }
-    
     public function consultar()
     {
         if ($this->fecha == 'hoy') {
@@ -151,8 +150,6 @@ class ComprasController extends Component
         }
   
     }
-
-    
     public function editarCompra($id)
     {
         session(['id_compra' => null]);
@@ -178,8 +175,8 @@ class ComprasController extends Component
             $compra_edit->update(['status'=>'INACTIVO']);
             $this->emit('purchase-deleted', 'Compra Anulada');
     }
-
-    public function VerDetalleCompra(Compra $id){
+    public function VerDetalleCompra(Compra $id)
+    {
         $this->compraTotal=$id->importe_total;
         $this->totalitems=$id->compradetalle()->sum('cantidad');
         $this->observacion=$id->observacion;
@@ -198,9 +195,8 @@ class ComprasController extends Component
    
         //dd($this->detalleCompra);
     }
-
-    public function Confirm($compra_edit){
-        
+    public function Confirm($compra_edit)
+    {
         if ($this->verificardistribucion($compra_edit)) {
             
             $this->emit('erroreliminarCompra');
@@ -211,9 +207,8 @@ class ComprasController extends Component
            
         }
     }
-
-    public function verificardistribucion($compra_edit){
-
+    public function verificardistribucion($compra_edit)
+    {
         $lotes=CompraDetalle::where('compra_id',$compra_edit)->get('lote_compra');
         $ventas= SaleLote::whereIn('lote_id',$lotes)->get();
         $salidas=SalidaLote::whereIn('lote_id',$lotes)->get();
@@ -229,15 +224,13 @@ class ComprasController extends Component
 
         //dd($ventas);
     }
-
-    public function VerComprasProducto(){
+    public function VerComprasProducto()
+    {
         $this->search2=null;
         $this->emit('comprasproducto');
     }
-    public function VerProductosProveedor(){
+    public function VerProductosProveedor()
+    {
         $this->emit('productoproveedor');
     }
-
-
-  
 }

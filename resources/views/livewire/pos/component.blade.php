@@ -63,7 +63,7 @@
         .table-wrapper {
             width: 100%;
             /* Anchura de ejemplo */
-            height: 407px;
+            /* height: 407px; */
             /* Altura de ejemplo */
             overflow: auto;
         }

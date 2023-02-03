@@ -292,7 +292,6 @@
             </div>
 
         @endforeach
-
     </div>
     @include('livewire.cortecaja.ajusteCajaEfectiva')
     @include('livewire.cortecaja.aperturacaja')

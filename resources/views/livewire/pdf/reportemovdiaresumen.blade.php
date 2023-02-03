@@ -443,8 +443,16 @@
                                 <td style="text-align: right; padding-right: 10px;">
                                     SALDO INGRESOS/EGRESOS TOTALES
                                 </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                <td style="text-align: right;">
                                     {{ number_format($subtotalcaja, 2) }}
+                                </td>
+                            </tr>
+                            <tr class="p-5">
+                                <td style="text-align: right; padding-right: 10px;">
+                                    OPERACIONES TIGO MONEY
+                                </td>
+                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                    {{number_format($total,2)}}
                                 </td>
                             </tr>
                             <tr>

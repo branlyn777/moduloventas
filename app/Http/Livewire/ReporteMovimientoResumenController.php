@@ -633,7 +633,7 @@ class ReporteMovimientoResumenController extends Component
                 'sale_details.id as detalleid',
                 'p.nombre as nombre',
                 'sale_details.price as pv',
-                DB::raw('0 as po'),
+                'sale_details.original_price as po',
                 'sale_details.quantity as cant'
             )
             ->where('sale_details.sale_id', $idventa)
@@ -641,16 +641,6 @@ class ReporteMovimientoResumenController extends Component
             ->get();
 
 
-
-
-        foreach ($listadetalles as $dx) {
-            $po = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
-                ->select("l.pv_lote as precio_original")
-                ->where("sale_lotes.sale_detail_id", $dx->detalleid)
-                ->first();
-
-            $dx->po = $po->precio_original;
-        }
 
 
 
@@ -1281,6 +1271,8 @@ class ReporteMovimientoResumenController extends Component
         session(['EgresosTotales' => $this->EgresosTotales]);
         session(['totalutilidadSV' => $this->totalutilidadSV]);
         session(['EgresosTotalesCF' => $this->EgresosTotalesCF]);
+
+        session(['total' => $this->total]);
 
 
 

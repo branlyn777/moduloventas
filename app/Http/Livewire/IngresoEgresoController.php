@@ -28,8 +28,7 @@ class IngresoEgresoController extends Component
 
     public function mount()
     {
-        $this->pageTitle = 'Listado';
-        $this->componentName = 'Movimientos';
+
         $this->selected_id = 0;
         $this->opciones = 'TODAS';
         $this->cartera_id = 'Elegir';
@@ -92,14 +91,14 @@ class IngresoEgresoController extends Component
             $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('s.id', $this->sucursal)
-            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo')->get();
+            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo','carteras.saldocartera')->get();
         }
         else
         {
             $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('c.id', $this->caja)
-            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo')->get();
+            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo' ,'carteras.saldocartera')->get();
         }
         
 

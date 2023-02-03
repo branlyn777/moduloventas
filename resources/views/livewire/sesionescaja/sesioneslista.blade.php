@@ -199,7 +199,7 @@
 
                                 </a>
                                 <a href="javascript:void(0)" wire:click="verSesion()" class="mx-3">
-                                    <i class="fas fa-print text-danger"></i>
+                                    <i class="fas fa-plus text-danger"></i>
 
                                 </a>
                             </td>

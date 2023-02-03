@@ -355,6 +355,18 @@
                     </td>
 
                 </tr>
+
+                <tr class="p-5">
+                    <td style="text-align: right;">
+                        Operaciones Tigo Money
+                    </td>
+                    <td style="text-align: right;">
+                        {{ number_format($total,2) }}
+                    </td>
+
+                </tr>
+
+
                 <tr class="p-5">
                     <td style="text-align: right;">
                         Apertura Caja

@@ -27,6 +27,7 @@ class ExportMovDiaSesionController extends Controller
         $sobrante = session('sobrante');
         $faltante = session('faltante');
         $cierremonto = session('cierremonto');
+        $total = session('total');
 
         $totalesIngresosV_suma = 0;
 
@@ -65,9 +66,8 @@ class ExportMovDiaSesionController extends Controller
         'movimiento',
         'sobrante',
         'faltante',
-        'cierremonto'));
-
-
+        'cierremonto',
+        'total'));
 
         return $pdf->stream('Reporte_Movimiento_Sesion.pdf'); 
     }
