@@ -354,6 +354,23 @@ class CorteCajaController extends Component
                     $this->saldoAcumulado = $saldo_cartera;
                 }
 
+                else{
+                    $movimiento = Movimiento::create([
+                        'type' => 'APERTURA',
+                        'status' => 'ACTIVO',
+                        'import' => $this->efectivo_actual,
+                        'user_id' => Auth()->user()->id
+                    ]);
+                    CarteraMov::create([
+                        'type' => 'APERTURA',
+                        'tipoDeMovimiento' => 'CORTE',
+                        'comentario' => $this->nota_ajuste ?? 's/n',
+                        'cartera_id' => $carteras->first()->id,
+                        'movimiento_id' => $movimiento->id,
+                    ]);
+
+                }
+
                 /* HABILITAR CAJA */
                 $caja = Caja::find($idcaja);
                 $caja->update([
