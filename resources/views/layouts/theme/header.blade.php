@@ -34,7 +34,53 @@
                         </div>
                     </a>
                 </li>
-            
+                <li class="nav-item dropdown px-2 d-flex align-items-center">
+                    <a href="javascript:;" class="btn btn-facebook btn-icon-only rounded-circle me-1 position-relative"
+                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="btn-inner--icon"><i class="fa fa-bell text-lg"></i></span>
+                        <span
+                            class="text-xs badge  badge-circle position-absolute top-10 start-90 translate-middle badge-primary border-white">{{ auth()->user()->unreadNotifications->count()>20?'20+':auth()->user()->unreadNotifications->count()}} </span>
+
+
+                    </a>
+
+
+
+                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+
+                        @forelse (auth()->user()->unreadNotifications as $value)
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <div class="d-flex py-1">
+                                        {{-- <div class="my-auto">
+                                            <img src="../../../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 "
+                                                alt="user image">
+                                        </div> --}}
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <span class="font-weight-bold">Producto agotado
+                                                    {{ $value->data['nombre'] }}</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                <i class="fa fa-clock me-1" aria-hidden="true"></i>
+                                                {{ $value->created_at->diffForHumans() }}
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+
+
+                        @empty
+                            <p class="text-sm text-secondary m-1">No tiene notificaciones</p>
+                        @endforelse
+
+                    </ul>
+
+
+                </li>
                 {{-- <li class="nav-item px-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white p-0">
                         <div class="form-check form-switch ps-0 ms-auto my-auto">
