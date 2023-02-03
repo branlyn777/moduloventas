@@ -196,14 +196,8 @@
                             <td class="align-middle text-center">
                                 <a href="{{ route('sesiones', $item->id) }}" class="mx-3">
                                     <i class="fas fa-list text-info"></i>
-
-                                </a>
-                                <a href="javascript:void(0)" wire:click="verSesion()" class="mx-3">
-                                    <i class="fas fa-plus text-danger"></i>
-
                                 </a>
                             </td>
-
                         </tr>
                         @endforeach
                   

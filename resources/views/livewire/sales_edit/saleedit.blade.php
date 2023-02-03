@@ -514,10 +514,7 @@
 
 
                     <div class="col-12 col-sm-6 col-md-8">
-
-
                         <div class="card p-3" style="min-height: 555px;">
-
                             <div>
                                 @if ($this->total_items > 0)
                                     <div class="">
@@ -537,7 +534,8 @@
                                                                 <b>IMPORTE</b></th>
                                                             <th>
                                                                 <p class="text-uppercase text-sm text-center">
-                                                                    <b>ACCIONES</b></p>
+                                                                    <b>ACCIONES</b>
+                                                                </p>
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -590,10 +588,8 @@
                                                                     </p>
                                                                 </td>
                                                                 <td class="text-sm mb-0 text-center">
-
                                                                     <div class="btn-group" role="group"
                                                                         aria-label="Basic example">
-
                                                                         <button title="Quitar una unidad"
                                                                             wire:click.prevent="decrease({{ $c['id'] }})"
                                                                             class="btn btn-secondary"
@@ -614,7 +610,6 @@
                                                                             <i class="fas fa-trash-alt"></i>
                                                                         </button>
                                                                     </div>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -633,14 +628,11 @@
                                         <br>
                                         <br>
                                         <br>
-
                                         <div class="row">
                                             <div class="col-12 text-center">
                                                 AGREGAR PRODUCTOS A LA VENTA
                                             </div>
                                         </div>
-
-
                                         <br>
                                         <br>
                                         <br>
@@ -651,19 +643,9 @@
                                         <br>
                                         <br>
                                     </div>
-
-
                                 @endif
                             </div>
-
                         </div>
-
-
-
-
-
-
-
                         <div class="row">
                             <div class="col-12 text-center">
                                 <p class="text-sm">
@@ -684,7 +666,6 @@
                                             CANCELAR
                                         </p>
                                     </a>
-
                                     @if ($this->total_items > 0)
                                         <button wire:click.prevent="update_sale()" type="button"
                                             class="btn btn-success">
@@ -693,24 +674,16 @@
                                             </p>
                                         </button>
                                     @endif
-
                                 </div>
                             </div>
                             <div class="col-1 text-right">
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-
     @include('livewire.sales_edit.modal.modalbuscarcliente')
     @include('livewire.sales_edit.modal.modal_stock_insuficiente')
 
