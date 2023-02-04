@@ -40,8 +40,8 @@
                                         Ingresos Totales
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos, 2) }}
+                                       
+                                      <u> {{ number_format($ingresos_totales, 2) }}</u> 
                                     </td>
                                 </tr>
 
@@ -59,11 +59,11 @@
                                         Saldo Ingresos/Egresos Totales
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos-$EgresosTotalesCF, 2) }}
+                                     <u>{{ number_format($saldo, 2) }}</u>
+                                     
                                     </td>
                                 </tr>
-
+{{-- 
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
                                         Operaciones Tigo Money
@@ -71,7 +71,7 @@
                                     <td class="text-sm text-end" style="float: center">
                                         {{number_format($total,2)}}
                                     </td>
-                                </tr>
+                                </tr> --}}
 
                                 {{-- <tr>
                                     <td class="text-sm">
@@ -100,17 +100,16 @@
                                         <h5 class="text-dark"> Total Efectivo </h5>
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($ingresosTotalesCF+$this->ingresosTotalesBancos-$EgresosTotalesCF-$total, 2) }}
+                                   {{ number_format($total_efectivo, 2) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-sm">
-                                        <h5 class="text-dark"> Saldo Acumulado dia anterior </h5>
+                                        <h5 class="text-dark"> Saldo Acumulado </h5>
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        <hr class="m-0 p-0" width="100%" style="background-color: black">
-                                        {{ number_format($saldo_acumulado??0)}}
+                                        
+                                       <u>  {{ number_format($saldo_acumulado,2)}}</u>
                                     </td>
                                 </tr>
                             </tbody>
@@ -121,7 +120,6 @@
                         <table class="table">
                             <tbody>
 
-                                <tr style="height: 2rem"></tr>
 
                                 <tr class="p-5">
                                     <td class="text-sm">
@@ -153,10 +151,20 @@
                                         Faltantes
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        {{ number_format($operacionfalt, 2) }}
+                                       <u>{{ number_format($operacionfalt, 2) }}</u> 
                                     </td>
 
 
+                                </tr>
+
+                                <tr>
+                                    <td class="text-sm">
+                                        <h5 class="text-dark"> Saldo Total </h5>
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                 
+                                        {{ number_format($total_efectivo+$saldo_acumulado-$op_recaudo-$operacionfalt+$operacionsob)}}
+                                    </td>
                                 </tr>
 
 

@@ -193,6 +193,7 @@
                                 <span class="badge badge-secondary"> CERRADO</span>
                                 @endif
                             </td>
+                         
                             <td class="align-middle text-center">
                                 <a href="{{ route('sesiones', $item->id) }}" class="mx-3">
                                     <i class="fas fa-list text-info"></i>

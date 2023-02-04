@@ -184,7 +184,7 @@
     </div>
 
     <div class="card mb-4 mt-4">
-        <div class="card-body px-0 pb-2">
+        <div class="card-body">
             <h5 style="font-size: 16px" class="text-left ps-4">
                 Ingresos
             </h5>
@@ -201,6 +201,12 @@
                             {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
 
                         </td>
+                 
+                        <td class="ie">
+                            <span class="badge badge-sm bg-primary text-sm">
+                                {{ number_format($item->importe, 2) }}
+                            </span>
+                        </td>
                     </tr>
                 @endforeach
             @else
@@ -210,7 +216,7 @@
     </div>
 
     <div class="card mb-4">
-        <div class="card-body px-0  pb-2">
+        <div class="card-body">
             <h5 style="font-size: 16px" class="text-left ps-4">
                 Egresos
             </h5>
@@ -221,11 +227,16 @@
                             {{ $loop->iteration }}
                         </td>
                         <td class="text-sm fecha">
-                            {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                            {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
                         </td>
                         <td>
                             {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
 
+                        </td>
+                        <td class="ie">
+                            <span class="badge badge-sm bg-danger text-sm">
+                                {{ number_format($item->importe, 2) }}
+                            </span>
                         </td>
                     </tr>
                 @endforeach
@@ -236,7 +247,7 @@
     </div>
 
     <br>
-    <div class="card mb-4 mt-4">
+    {{-- <div class="card mb-4 mt-4">
         <div class="card-body px-0 pb-2">
             <h5 style="font-size: 16px" class="text-left ps-4">
                 Ingresos
@@ -260,7 +271,7 @@
                 <p class="m-4 text-center">(Sin Registro de Ajuste de Efectivo)</p>
             @endif
         </div>
-    </div>
+    </div> --}}
     <br>
     
     <div class="row justify-content-center">
@@ -298,15 +309,7 @@
                             </td>
 
                         </tr>
-                        <tr class="p-5">
-                            <td class="text-sm text-center">
-                                Operaciones Tigo Money
-                            </td>
-                            <td class="text-sm text-end pe-8" style="float: center">
-                                {{ number_format($total,2) }}
-                            </td>
-
-                        </tr>
+                    
                         <tr class="p-5">
                             <td class="text-sm text-center">
                                 Apertura Caja

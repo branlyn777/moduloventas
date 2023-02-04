@@ -48,7 +48,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
 
-                        @forelse (auth()->user()->unreadNotifications->take(1) as $value)
+                        @forelse (auth()->user()->unreadNotifications->take(5) as $value)
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">

@@ -632,12 +632,14 @@ class IngresoEgresoController extends Component
 
         $this->comentario_edit=$mov->cartmov[0]->comentario;
         $this->mov_selected=$mov;
+
         $this->emit('editar-movimiento');
     }
     public function guardarEdicion()
     {
 
         $mov=Movimiento::find($this->mov_selected->id);
+        $mov_ant=$mov->import;
         
         $mov->update([
             'import' => $this->cantidad_edit
@@ -649,11 +651,14 @@ class IngresoEgresoController extends Component
             'comentario'=>$this->comentario_edit
         ]);
 
+
+
+
         if($this->type_edit == "INGRESO")
         {
             $cartera = Cartera::find($this->cartera_id_edit);
 
-            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera + $this->cantidad_edit;
+            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera - $mov_ant+$this->cantidad_edit;
 
             $cartera->update([
                 'saldocartera' => $saldo_cartera
@@ -663,7 +668,7 @@ class IngresoEgresoController extends Component
         {
             $cartera = Cartera::find($this->cartera_id_edit);
 
-            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera - $this->cantidad_edit;
+            $saldo_cartera = Cartera::find($this->cartera_id_edit)->saldocartera + $mov_ant-$this->cantidad_edit;
     
             $cartera->update([
                 'saldocartera' => $saldo_cartera
