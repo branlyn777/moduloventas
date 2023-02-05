@@ -224,7 +224,8 @@
                                 @foreach ($data as $p)
                                     <tr>
                                         <td>
-                                            <h6 class="text-sm mb-0 text-center" style="font-size: 100%">{{ $loop->iteration }}
+                                            <h6 class="text-sm mb-0 text-center" style="font-size: 100%">
+                                                {{ $loop->iteration }}
                                             </h6>
                                         </td>
                                         <td class="d-flex px-2 py-1">
@@ -343,7 +344,7 @@
 
     </div>
 </div>
-</div>
+
 
 @section('javascript')
     <script>

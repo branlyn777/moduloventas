@@ -46,7 +46,7 @@ class EditarCompraDetalleController extends Component
     $estado_compra,$total_compra,$itemsQuantity,$price,$status,$tipo_transaccion,$destino,$porcentaje,$importe,$dscto=0,$aplicar=false, $lote_compra,$destino1,$datalistcarrito;
 
     public $nombre_prov, $apellido_prov, $direccion_prov, $correo_prov,
-    $telefono_prov,$col,$mensaje_toast,$descripcion;
+    $telefono_prov,$col,$mensaje_toast,$descripcion,$stockswitch;
 
     public $nombre,$costo, $precio_venta,$barcode,$codigo,$caracteristicas,$lote,$unidad, $marca, $garantia,$industria,
     $categoryid,$component,$selected_categoria,$image,$selected_id2;
@@ -76,7 +76,7 @@ class EditarCompraDetalleController extends Component
         $this->tipo_documento = $this->aux->tipo_doc;
         $this->total_compra= $this->aux->importe_total;
         $this->subtotal = EditarCompra::getTotal();
-        
+        $this->imagen='noimagenproduct.png';
         $this->provider = Provider::where('id',$this->aux->proveedor_id)->pluck('nombre_prov');
         $this->nro_documento=$this->aux->nro_documento;
         $this->lote_compra= $this->aux->lote_compra;
@@ -125,22 +125,7 @@ class EditarCompraDetalleController extends Component
         ->section('content');
      }
 
-     public function verPermisos(){
-       
-        $ss= Destino::select('destinos.id','destinos.nombre')->get();
-        $arr=[];
-        foreach ($ss as $item){
-            $arr[$item->nombre.'_'.$item->id]=($item->id);
-            
-        }
 
-       foreach ($arr as $key => $value) {
-        if (Auth::user()->hasPermissionTo($key)) {
-            array_push($this->vs,$value);
-        }
-       }
-
-    }
      public function cargarCarrito()
      {
          $this->datalistcarrito=Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
@@ -836,5 +821,36 @@ class EditarCompraDetalleController extends Component
 
 
 
+    }
+
+    public function verPermisos(){
+       
+        $ss= Destino::pluck('codigo_almacen','id');
+     
+        foreach ($ss as $key=>$value) {
+            if ($value!=null) {
+          
+                if (Auth::user()->hasPermissionTo($value)) {
+                    
+                    array_push($this->vs,$key);
+                }
+            }
+            }
+        
+
+
+    }
+
+
+    public function mostrarOperacionInicial()
+    {
+        if($this->stockswitch==true)
+        {
+            $this->stockswitch = false;
+        }
+        else
+        {
+            $this->stockswitch = true;
+        }
     }
 }

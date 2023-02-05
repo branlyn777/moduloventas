@@ -9,7 +9,7 @@
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
 
             <div class="modal-body">
@@ -67,7 +67,9 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Cantidad</label>
-                            <input type="number" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model.lazy="cantidad" class="form-control">
+                            <input type="number"
+                                onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;"
+                                required wire:model.lazy="cantidad" class="form-control">
                             @error('cantidad')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror

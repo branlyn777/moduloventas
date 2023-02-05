@@ -106,7 +106,7 @@
                             <div class="container">
                                 <div class="outer">
                                     @if ($image)
-                                        <img src="{{ $image->temporaryUrl() }}">
+                                        <img src="{{ $image->temporaryUrl()}}">
                                     @else
                                         <img src="{{ asset('storage/productos/' . $imagen) }}">
                                     @endif
