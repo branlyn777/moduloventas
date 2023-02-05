@@ -58,9 +58,9 @@
           <tr class="tablehead">
             <th class="text-center">N°</th>
             <th style="width: 100px;">FECHA</th>
-            <th style="width: 70px;">USUARIO</th>
+            <th style="width: 100px;">USUARIO</th>
             <th>CARTERA</th>
-            <th style="width: 90px;">CAJA</th>
+            <th style="width: 70px;">CAJA</th>
             <th>MOVIMIENTO</th>
             <th class="text-right" style="width: 70px;">IMPORTE</th>
             <th class="text-center" style="width: 90px;">MOTIVO</th>

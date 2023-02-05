@@ -65,6 +65,17 @@
                     </div>
                 </div>
             </div>
+
+            <div>
+                <h6 class="card-title">
+                    <b>SALDO DE TUS CARTERAS:</b> <br>
+                    @foreach ($carterasCaja as $item)
+                        <b>{{ $item->nombre }}:</b>
+                        <b>${{ $item->monto }}.</b>
+                        <br>
+                    @endforeach
+                </h6>
+            </div>
         </div>
     </div>
     <br>
@@ -113,14 +124,12 @@
                                                 {{ $d->importe }}
                                             </td>
                                             <td class="text-center">
-                                                @can('Anular_trans_tigomoney_Boton')
-                                                    @if ($d->estado != 'Anulada')
+                                                @if ($d->estado != 'Anulada')
                                                         <a href="javascript:void(0)" onclick="Confirm({{ $d->id }})"
                                                             class="btn btn-warning" title="Anular">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
                                                     @endif
-                                                @endcan
                                                 <a href="javascript:void(0)"
                                                     wire:click="VerObservaciones({{ $d->id }})"
                                                     class="btn btn-dark mtmobile" title="Observaciones">

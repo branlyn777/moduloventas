@@ -175,7 +175,7 @@
                                         <td class="text-center">
                                             <h6>INGRESOS TOTALES</h6>
                                             <span class="badge badge-sm bg-primary text-lg">
-                                                <b>{{ number_format($subtotalesIngresos, 2) }}</b>
+                                                <b>{{ number_format($ingresos_totales, 2) }}</b>
                                             </span>
                                         </td>
                                     </tr>
@@ -193,7 +193,7 @@
                                         <td class="text-center">
                                             <h6>EGRESOS TOTALES</h6>
                                             <span class="badge badge-sm bg-danger text-lg">
-                                                <b>{{ number_format($EgresosTotales, 2) }}</b>
+                                                <b>{{ number_format($EgresosTotalesCF, 2) }}</b>
                                             </span>
                                         </td>
                                     </tr>
@@ -212,7 +212,7 @@
                                             <h6>TOTAL UTILIDAD</h6>
                                             <span class="badge badge-sm bg-success text-lg">
                                                 @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
+                                                    <b>{{ number_format($totalutilidadSV+$ingresos_totales, 2) }}</b>
                                                 @endif
                                             </span>
                                         </td>

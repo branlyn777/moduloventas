@@ -437,6 +437,14 @@
                                 <span class="sidenav-normal"> Reportes Sesion Caja </span>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('salemovimientodiario') }}">
+                                <span class="sidenav-mini-icon"> M </span>
+                                <span class="sidenav-normal">Movimiento Diario Ventas</span>
+                            </a>
+                        </li>
+
                     </ul>
                     {{-- <ul class="nav ms-4">
                         <li class=@yield('cotizationli', 'nav-item ')>

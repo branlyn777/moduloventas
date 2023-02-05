@@ -321,7 +321,7 @@
             //console.log(msg);
             swal.fire({
                 title: 'PRECAUCION',
-                icon: 'warning',
+                type: 'warning',
                 text: '¿Esta seguro de anular la compra?',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar'

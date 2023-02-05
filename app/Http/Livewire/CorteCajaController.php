@@ -354,6 +354,23 @@ class CorteCajaController extends Component
                     $this->saldoAcumulado = $saldo_cartera;
                 }
 
+                else{
+                    $movimiento = Movimiento::create([
+                        'type' => 'APERTURA',
+                        'status' => 'ACTIVO',
+                        'import' => $this->efectivo_actual,
+                        'user_id' => Auth()->user()->id
+                    ]);
+                    CarteraMov::create([
+                        'type' => 'APERTURA',
+                        'tipoDeMovimiento' => 'CORTE',
+                        'comentario' => $this->nota_ajuste ?? 's/n',
+                        'cartera_id' => $carteras->first()->id,
+                        'movimiento_id' => $movimiento->id,
+                    ]);
+
+                }
+
                 /* HABILITAR CAJA */
                 $caja = Caja::find($idcaja);
                 $caja->update([
@@ -403,6 +420,7 @@ class CorteCajaController extends Component
             ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
             ->where('carteras.caja_id',$caja->id)
             ->where('cartera_movs.tipoDeMovimiento','VENTA')
+            ->where('movimientos.status','ACTIVO')
             ->where('movimientos.created_at','>=',$apertura->created_at)
             ->sum('movimientos.import');
 
@@ -411,6 +429,7 @@ class CorteCajaController extends Component
             ->where('carteras.caja_id',$caja->id)
             ->where('cartera_movs.tipoDeMovimiento','EGRESO/INGRESO')
             ->where('cartera_movs.type','INGRESO')
+            ->where('movimientos.status','ACTIVO')
             ->where('movimientos.created_at','>=',$apertura->created_at)
             ->sum('movimientos.import');
             $this->ing_efectivo=$this->ing_ventas+  $this->ing_extraord;
@@ -421,6 +440,7 @@ class CorteCajaController extends Component
             ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
             ->where('carteras.caja_id',1)
             ->where('movimientos.user_id',$usuarioActual)
+            ->where('movimientos.status','ACTIVO')
             ->where('movimientos.created_at','>=',$apertura->created_at)
             ->where('cartera_movs.type','INGRESO')
             ->whereIn('tipoDeMovimiento',['VENTA','EGRESO/INGRESO'])
@@ -432,6 +452,7 @@ class CorteCajaController extends Component
             ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
             ->where('movimientos.user_id',$usuarioActual)
             ->where('movimientos.created_at','>=',$apertura->created_at)
+            ->where('movimientos.status','ACTIVO')
             ->where('cartera_movs.type','EGRESO')
             ->whereIn('tipoDeMovimiento',['VENTA','EGRESO/INGRESO'])
             ->sum('movimientos.import');
@@ -707,7 +728,7 @@ class CorteCajaController extends Component
             $movimiento = Movimiento::create([
                 'type' => 'CIERRE',
                 'status' => 'ACTIVO',
-                'import' => $this->efectivo_actual,
+                'import' => $this->efectivo_actual-$this->recaudo,
                 'user_id' => Auth()->user()->id
             ]);
             CarteraMov::create([
