@@ -168,35 +168,35 @@
 
                         <div class="col-lg-8 col-12 col-md-12">
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-12 widget mr-2 mb-2 mt-2">
+                               
                                     <div class="text-center">{{-- class="row justify-content-center mt-3 mb-4" --}}
                                         <h5><b>Detalle Compra</b></h5>
                                     </div>
                                     <div class="row">
                                         <div class="card-body px-0 pb-0">
                                             <div class="table-responsive">
-                                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                                    <div class="dataTable-container">
+                                         
                                                         <table class="table align-items-center mb-0">
                                                             <thead>
-                                                                <tr class="text-center" style="font-size: 14px; color: black;">
-                                                                    <th style="text-align: left">Producto</th>
-                                                                    <th style="text-align: left">Codigo</th>
-                                                                    <th>Precio Compra</th>
-                                                                    <th>Precio Venta</th>
-                                                                    <th>Cantidad</th>
-                                                                    <th>Total</th>
-                                                                    <th >Accion</th>
+                                                                <tr>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Producto</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Codigo</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Precio Compra</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Precio Venta</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Cantidad</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Total</th>
+                                                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder" >Accion</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($cart as $prod)
                                                                     <tr>
                                                                         <td>
-                                                                            <h6 style="font-size: 0.90rem" >{{$prod->name}}</h6>
+                                                                         
+                                                                            <h6 class="mb-0 text-xs">{{$prod->name}}</h6>
                                                                         </td>
                                                                         <td>
-                                                                            <strong><h6 style="font-size: 0.8rem!important;"> {{$prod->attributes->codigo}}</h6></strong>
+                                                                            <h6 class="mb-0 text-xs">{{$prod->attributes->codigo}}</h6>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" 
@@ -256,12 +256,11 @@
                                                                 </tfoot>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                </div>
+                                                    
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                               
                             </div>
 
                             <div class="text-center">

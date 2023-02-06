@@ -60,7 +60,7 @@ class ComprasController extends Component
         ->select('compras.transaccion','compras.importe_total as imp_tot','compras.status'
         ,'prov.nombre_prov as nombre_prov',
         'users.name as username',
-        'compras.nro_documento','compras.id')
+        'compras.nro_documento','compras.id','compras.created_at')
         ->whereBetween('compras.created_at',[$this->from,$this->to])
         ->when($this->tipo_search == 'codigo',function($query){
                 return $query->where('compras.id', 'like', '%' . $this->search . '%');
@@ -191,8 +191,6 @@ class ComprasController extends Component
         $this->detalleCompra= $id->compradetalle()->where('deleted_at','=',null)->get();
         $this->emit('verDetalle');
 
-
-   
         //dd($this->detalleCompra);
     }
     public function Confirm($compra_edit)

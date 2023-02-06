@@ -1,65 +1,4 @@
-<style>
-  
-    .innerdos {
-        background-color: #5e72e4;
-        width: 45px;
-        height: 45px;
-        border-radius: 100%;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        -ms-transform: translate(-70%, -60%);
-        transform: translate(-850%, -60%);
-        z-index: 999999999;
-    }
 
-    .innerdos:hover {
-        background-color: #69696d;
-    }
-
-    .innerspan{
-        background-color: #5e72e4;
-        width: 45px;
-        height: 45px;
-     
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        -ms-transform: translate(-70%, -60%);
-        transform: translate(-750%, -60%);
-        z-index: 999999999;
-    }
-
-
-
-    .inputfile {
-        opacity: 0;
-        overflow: hidden;
-        position: absolute;
-        z-index: 1;
-        width: 50px;
-        height: 50px;
-    }
-
-    .inputfile+label {
-        font-size: 1.2rem;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        display: inline-block;
-        overflow: hidden;
-        width: 50px;
-        height: 50px;
-        pointer-events: none;
-        cursor: pointer;
-        line-height: 43px;
-        margin: 0px -2px;
-        text-align: center;
-    }
-
-    .inputfile+label svg {
-        fill: #fff;
-    }
-</style>
 <div wire:ignore.self class="modal fade" id="modalimport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -127,18 +66,17 @@
                         enctype="multipart/form-data">
                         @csrf
                         {{ $archivo }}
-                        {{-- <input type="file" name="import_file" wire:model="archivo" accept=".xlsx"/> --}}
 
            
                     
 
-                            <div class="innerdos">
-                                <input class="inputfile" type="file" wire:model='archivo' name="pic"
+                          
+                                <input class="inputfile" type="file" wire:model='archivo' 
                                     accept=".xlsx">
                                 <label>
                                     <i class="fas fa-upload text-white text-center"></i>
                                 </label>
-                            </div>
+                         
                             <div class="innerspan">
                             <span>
                                 No se selecciono ningun archivo
@@ -148,13 +86,33 @@
 
 
                         <div style="text-align: right">
-                            <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                        @if($archivo !=null)
+                        <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                        @else
+                        <button class="btn btn-sm btn-success mt-1" disabled type="submit">Subir Archivo</button>
+
+                        @endif
                         </div>
 
 
                     </form>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
