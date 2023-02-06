@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
-                    <b>{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName }}</b>
+                    <p class="text-sm mb-0">{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName2 }}</p>
+                    {{-- <b>{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName }}</b> --}}
                 </h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -44,7 +45,7 @@
                         @enderror
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 form-group">
-                        <label><span class="text-warning">* </span>Correo</label>
+                        <label>Correo</label>
                         <input type="text" wire:model.lazy="correo" class="form-control" placeholder=""
                             maxlenght="25">
                         @error('correo')
@@ -52,7 +53,7 @@
                         @enderror
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 form-group">
-                        <label><span class="text-warning">* </span>Telefono</label>
+                        <label>Telefono</label>
                         <input type="text" wire:model.lazy="telefono" class="form-control" placeholder=""
                             maxlenght="25">
                         @error('telefono')

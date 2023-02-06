@@ -1,8 +1,13 @@
 <style>
     .prueba {
+<<<<<<< HEAD
 
         overflow: scroll;
 
+=======
+        overflow: scroll;
+        overflow-x: hidden;
+>>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
 
         width: auto;
         height: 150px;
@@ -34,17 +39,10 @@
                             </div>
                         </div>
 
-                        <div class="card card-sm">
-                            <div class="card-body">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6">
-                                        <button class="btn btn-sm btn-info" wire:click="downloadex()">
-                                            Descargar Plantilla
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="flex-grow-1 ms-5 text-center">
+                            <button class="btn btn-sm btn-info" wire:click="downloadex()">
+                                Descargar Plantilla
+                            </button>
                         </div>
 
                         <div class="d-flex mt-3">
@@ -58,11 +56,12 @@
                                     con informacion puede causar errores.</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group">
+                        <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
 
+<<<<<<< HEAD
                     <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -73,25 +72,60 @@
                                     <strong>Cargando Archivo, Espere por
                                         favor...</strong>
                                     <div class="spinner-border ms-auto"></div>
+=======
+                            <center>
+                                <div wire:loading wire:target="archivo">
+                                    <div class="d-flex align-items-center">
+                                        <strong>Cargando Archivo, Espere por
+                                            favor...</strong>
+                                        <div class="spinner-border ms-auto"></div>
+                                    </div>
+>>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
                                 </div>
+                            </center>
+
+                            <div class="flex-grow-1 ms-5">
+                                <label for="">Archivo Seleccionado</label>
+                                <input type="file" class="form-control mb-4" name="import_file"
+                                    wire:model.lazy="archivo" accept=".xls,.xlsx" wire:click='resetes()' />
                             </div>
-                        </center>
 
-                        <label for="">Archivo Seleccionado</label>
-                        <input type="file" class="form-control mb-4" name="import_file" wire:model.lazy="archivo"
-                            accept=".xls,.xlsx" wire:click='resetes()' />
+                            <div class="flex-grow-1 ms-5">
+                                <div class="form-group">
+                                    @if ($failures)
+                                        <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
+                                            <div class="prueba">
 
+                                                @foreach ($failures as $failure)
+                                                    @foreach ($failure->errors() as $error)
+                                                        <li>{{ $error }},numero de fila {{ $failure->row() }}.
+                                                        </li>
+                                                    @endforeach
+                                                @endforeach
 
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
 
-                        <div style="text-align: right">
-                            @if ($archivo != null)
-                                <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
-                            @else
-                                <button class="btn btn-sm btn-success mt-1" disabled type="submit">Subir
-                                    Archivo</button>
-                            @endif
-                        </div>
+                                {{-- @if ($failures)
+                                    <div class="card h-100 card-plain border">
+                                        <div class="card blur shadow-blur max-height-vh-70"><br>
+                                            <div class="card-body overflow-auto overflow-x-hidden prueba">
+                                                @foreach ($failures as $failure)
+                                                    @foreach ($failure->errors() as $error)
+                                                        <li>{{ $error }},numero de fila
+                                                            {{ $failure->row() }}.
+                                                        </li>
+                                                    @endforeach
+                                                @endforeach
+                                            </div><br>
+                                        </div>
+                                    </div><br>
+                                @endif --}}
+                            </div>
 
+<<<<<<< HEAD
 
                     </form>
                     @if ($failures)
@@ -110,8 +144,18 @@
                             </div>
                         </div>
                     @endif
+=======
+                            <div style="text-align: right">
+                                @if ($archivo != null)
+                                    <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                                @else
+                                    <button class="btn btn-sm btn-success mt-1" disabled type="submit">Subir Archivo</button>
+                                @endif
+                            </div>
+                        </form>
+                    </div>
+>>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
                 </div>
-
 
             </div>
         </div>
