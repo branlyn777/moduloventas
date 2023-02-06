@@ -274,16 +274,16 @@
                 </a>
                 <div class=@yield('Ventasshow', 'collapse ') id="componentsExamples3">
                     <ul class="nav ms-4">
-                        <li class=@yield('ventasagrupadasli', 'nav-item ')>
-                            <a class=@yield('ventasagrupadasnav', 'nav-link ') href="{{ url('salelist') }}">
-                                <span class="sidenav-mini-icon"> V </span>
-                                <span class="sidenav-normal"> Ventas Agrupadas </span>
-                            </a>
-                        </li>
                         <li class=@yield('ventasnoagrupadasli', 'nav-item ')>
                             <a class=@yield('ventasnoagrupadasnav', 'nav-link ') href="{{ url('ventalistaproductos') }}">
                                 <span class="sidenav-mini-icon"> V </span>
-                                <span class="sidenav-normal"> Ventas No Agrupadas </span>
+                                <span class="sidenav-normal"> Ventas por Productos </span>
+                            </a>
+                        </li>
+                        <li class=@yield('ventasagrupadasli', 'nav-item ')>
+                            <a class=@yield('ventasagrupadasnav', 'nav-link ') href="{{ url('salelist') }}">
+                                <span class="sidenav-mini-icon"> V </span>
+                                <span class="sidenav-normal"> Ventas </span>
                             </a>
                         </li>
                     </ul>

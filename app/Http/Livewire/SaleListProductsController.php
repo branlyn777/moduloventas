@@ -879,4 +879,10 @@ class SaleListProductsController extends Component
 
         return $nombresucursal;
     }
+    //Redirige para Editar una Venta
+    public function editsale($idventa)
+    {
+        session(['venta_id' => $idventa]);
+        $this->redirect('editarventa');
+    }
 }

@@ -394,14 +394,10 @@
                                                         </a>
                                                         
                                                         
-                                                        @if(\Carbon\Carbon::parse($lv->fechaventa)->format('d/m/Y') == \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d/m/Y'))
-
-
                                                         <a href="javascript:void(0)" wire:click="editsale({{ $lv->codigo }})"
                                                             class="mx-3" title="Editar Venta">
                                                             <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                                         </a>
-                                                        @endif
                                                         
                                                         
 
