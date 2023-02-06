@@ -51,7 +51,8 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <a href="registraroperacion" class="btn btn-add mb-0">
-                            <i class="fas fa-plus"></i> Registrar Operación</a>
+                            <i class="fas fa-plus"></i> Registrar Operación
+                        </a>
                     </div>
                 </div>
             </div>
@@ -59,12 +60,15 @@
             <div class="card mb-4">
                 <div class="card-body p-4 m-1">
                     <div class="row justify-content-between">
+
+                        
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Tipo de Operación, Almacén" wire:model='search' class="form-control">
+                                    <input type="text" placeholder="Tipo de Operación, Almacén" wire:model='search'
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
