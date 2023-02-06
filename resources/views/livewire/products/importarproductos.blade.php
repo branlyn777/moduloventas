@@ -1,13 +1,12 @@
 <style>
-       .prueba {
- 
+    .prueba {
+
         overflow: scroll;
-   
+
 
         width: auto;
         height: 150px;
     }
-
 </style>
 
 <div wire:ignore.self class="modal fade" id="modalimport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -68,9 +67,6 @@
                         enctype="multipart/form-data">
                         @csrf
 
-
-
-
                         <center>
                             <div wire:loading wire:target="archivo">
                                 <div class="d-flex align-items-center">
@@ -99,21 +95,21 @@
 
                     </form>
                     @if ($failures)
-                    <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
-                        <div class="prueba">
-                            
-                                          
-                            
-                                                        @foreach ($failures as $failure)
-                                                            @foreach ($failure->errors() as $error)
-                                                                <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
-                                                            @endforeach
-                                                        @endforeach
-                                                 
+                        <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
+                            <div class="prueba">
 
+
+
+                                @foreach ($failures as $failure)
+                                    @foreach ($failure->errors() as $error)
+                                        <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
+                                    @endforeach
+                                @endforeach
+
+
+                            </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
                 </div>
 
 
