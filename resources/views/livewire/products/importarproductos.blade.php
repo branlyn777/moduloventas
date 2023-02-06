@@ -1,3 +1,14 @@
+<style>
+       .prueba {
+ 
+        overflow: scroll;
+   
+
+        width: auto;
+        height: 150px;
+    }
+
+</style>
 
 <div wire:ignore.self class="modal fade" id="modalimport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -52,67 +63,61 @@
                 </div>
 
                 <div class="form-group">
-                    @if ($failures)
-                        <div class=" card p-2 m-1" style="background-color: rgb(224, 224, 224)" role="alert">
-                            @foreach ($failures as $failure)
-                                @foreach ($failure->errors() as $error)
-                                    <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
-                                @endforeach
-                            @endforeach
-                        </div>
-                    @endif
 
                     <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        {{ $archivo }}
 
-           
-                    
 
-                          
-                                <input class="inputfile" type="file" wire:model='archivo' 
-                                    accept=".xlsx">
-                                <label>
-                                    <i class="fas fa-upload text-white text-center"></i>
-                                </label>
-                         
-                            <div class="innerspan">
-                            <span>
-                                No se selecciono ningun archivo
-                            </span>
-               </div>
-                       
+
+
+                        <center>
+                            <div wire:loading wire:target="archivo">
+                                <div class="d-flex align-items-center">
+                                    <strong>Cargando Archivo, Espere por
+                                        favor...</strong>
+                                    <div class="spinner-border ms-auto"></div>
+                                </div>
+                            </div>
+                        </center>
+
+                        <label for="">Archivo Seleccionado</label>
+                        <input type="file" class="form-control mb-4" name="import_file" wire:model.lazy="archivo"
+                            accept=".xls,.xlsx" wire:click='resetes()' />
+
 
 
                         <div style="text-align: right">
-                        @if($archivo !=null)
-                        <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
-                        @else
-                        <button class="btn btn-sm btn-success mt-1" disabled type="submit">Subir Archivo</button>
-
-                        @endif
+                            @if ($archivo != null)
+                                <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
+                            @else
+                                <button class="btn btn-sm btn-success mt-1" disabled type="submit">Subir
+                                    Archivo</button>
+                            @endif
                         </div>
 
 
                     </form>
+                    @if ($failures)
+                    <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
+                        <div class="prueba">
+                            
+                                          
+                            
+                                                        @foreach ($failures as $failure)
+                                                            @foreach ($failure->errors() as $error)
+                                                                <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
+                                                            @endforeach
+                                                        @endforeach
+                                                 
 
-
+                        </div>
+                    </div>
+                @endif
                 </div>
+
+
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
