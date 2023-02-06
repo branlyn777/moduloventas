@@ -51,9 +51,11 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a href="generarpdf({{ $data }})" class="btn btn-add mb-0">
+
+                        <button wire:click.prevent="generarpdf({{$data}})" class="btn btn-add mb-0">
                             <i class="fas fa-plus"></i> GENERAR PDF
-                        </a>
+                        </button>
+
                     </div>
                 </div>
             </div>
