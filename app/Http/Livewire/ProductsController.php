@@ -782,4 +782,11 @@ public function cambioestado()
     }
 }
 
+
+    
+
+public function resetes(){
+    $this->failures=false;
+}
+
 }
