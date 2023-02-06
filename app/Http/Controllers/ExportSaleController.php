@@ -26,9 +26,11 @@ class ExportSaleController extends Controller
         //Obtener datos de la Venta
         $venta = Sale::join("sale_details as sd", "sd.sale_id", "sales.id")
         ->join("products as p", "p.id", "sd.product_id")
-        ->select("sales.created_at as fechaventa", "p.nombre as nombre", "sd.price as precio","sd.quantity as cantidad")
+        ->select("sales.created_at as fechaventa", "sales.items as items", "p.nombre as nombre", "sd.price as precio","sd.quantity as cantidad")
         ->where("sales.id", $idventa)
         ->get();
+
+        $totalitems = $venta->first()->items;
 
         //Obtener Datos del cliente
         $datoscliente = Cliente::join("cliente_movs as cm", "cm.cliente_id", "clientes.id")
@@ -58,7 +60,7 @@ class ExportSaleController extends Controller
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
 
-        $pdf = PDF::loadView('livewire.pdf.reciboventa', compact('idventa','datoscliente','venta','nombreusuario','fecha','total','totalitems','datossucursal','nombreempresa','logoempresa'));
+        $pdf = PDF::loadView('livewire.pdf.comprobanteventa', compact('idventa','datoscliente','venta','nombreusuario','fecha','total','totalitems','datossucursal','nombreempresa','logoempresa'));
 
         return $pdf->stream('comprobante N°' . $idventa . '.pdf');  //visualizar
         /* return $pdf->download('salesReport.pdf');  //descargar  */

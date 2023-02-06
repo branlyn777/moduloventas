@@ -767,7 +767,6 @@ class SaleEditController extends Component
 
 
 
-
             //ACTUALIZANDO DETALLE DE VENTA
             //Obteniendo los detalles de la venta
             $detalle_venta = SaleDetail::where("sale_details.sale_id", $this->venta_id)->get();
@@ -841,7 +840,15 @@ class SaleEditController extends Component
             //Creando nuevos detalles de venta y lotes venta
             foreach ($this->carrito_venta as $p)
             {
+                $precio_original = Lote::select("lotes.pv_lote as po")
+                ->where("lotes.product_id",$p['id'])
+                ->where("lotes.status","Activo")
+                ->orderBy("lotes.created_at","desc")
+                ->first();
+                
+
                 $sd = SaleDetail::create([
+                    'original_price' => $precio_original->po,
                     'price' => $p['price'],
                     'cost' => 0,
                     'quantity' => $p['quantity'],
@@ -998,7 +1005,7 @@ class SaleEditController extends Component
 
             
 
-            $this->redirect('salelist');
+            $this->redirect('ventalistaproductos');
 
 
 

@@ -63,7 +63,7 @@
         .table-wrapper {
             width: 100%;
             /* Anchura de ejemplo */
-            height: 407px;
+            /* height: 407px; */
             /* Altura de ejemplo */
             overflow: auto;
         }
@@ -455,7 +455,7 @@
                                                         <tr>
                                                             <td class="text-left">
                                                                 <p class="text-sm mb-0">
-                                                                    {{ substr($p->nombre, 0, 15) }}
+                                                                    {{ $p->nombre }}
                                                                     <b>({{ $p->barcode }})</b>
                                                                     {{ $p->precio_venta }} Bs
                                                                 </p>
@@ -540,7 +540,7 @@
                                                             <td class="text-sm mb-0 text-left">
                                                                 <p class="text-sm mb-0">
 
-                                                                    {{ substr($item->name, 0, 15) }}
+                                                                    {{ $item->name }}
                                                                 </p>
                                                             </td>
                                                             <td class="text-sm mb-0 text-left">
@@ -646,7 +646,7 @@
                                         </p>
                                     </button>
                                 @endif
-                                <a href="{{ url('salelist') }}" class="btn btn-add mb-0"
+                                <a href="{{ url('ventalistaproductos') }}" class="btn btn-add mb-0"
                                     style="background-color: #2e48dc; color: white;">
                                     <p class="text-sm mb-0">
                                         LISTA VENTAS

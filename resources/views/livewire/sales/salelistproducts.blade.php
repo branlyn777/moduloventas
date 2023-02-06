@@ -131,33 +131,46 @@
             <div class="row">
 
                 <div class="col-12 col-sm-6 col-md-3">
-                    
+
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="card mb-4" style="padding-top: 10px;">
-                        <b class="text-center">Total Utilidad</b>
-                        <div class="form-group text-center">
-                            <div class="">
-                                <p class="h4"><b>{{ number_format($this->total_utilidad, 2, ',', '.') }} Bs</b></p>
-                            </div>
+
+                        <div class="table-responsive">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="text-center">
+                                        <h6>Total Utilidad</h6>
+                                        <span class="badge badge-sm bg-warning text-lg">
+                                            <b>{{ number_format($this->total_utilidad, 2, ',', '.') }} Bs</b>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
+                        <br>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="card mb-4" style="padding-top: 10px;">
-                        <b class="text-center">Total Precio</b>
-                        <div class="form-group text-center">
-                            <div class="">
-                                <p class="h4"><b>{{ number_format($this->total_precio, 2, ',', '.') }} Bs</b></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-sm-6 col-md-3">
-                    
+                        <div class="table-responsive">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td class="text-center">
+                                        <h6>Total Precio</h6>
+                                        <span class="badge badge-sm bg-primary text-lg">
+                                            <b>{{ number_format($this->total_precio, 2, ',', '.') }} Bs</b>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+
+                    </div>
                 </div>
 
             </div>
@@ -192,7 +205,7 @@
                                 @foreach ($listaproductos as $l)
                                     <tr>
                                         <td class="text-sm mb-0 text-center">
-                                            {{$loop->iteration}}
+                                            {{ $loop->iteration }}
                                         </td>
 
                                         <td class="text-sm mb-0 text-left">
@@ -246,12 +259,12 @@
                                                 class="mx-3" title="Editar Venta">
                                                 <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                             </a>
-                                            <a href="javascript:void(0)" wire:click="confirmaranular({{ $l->codigo }})"
-                                                class="mx-3" title="Anular Venta">
+                                            <a href="javascript:void(0)"
+                                                wire:click="confirmaranular({{ $l->codigo }})" class="mx-3"
+                                                title="Anular Venta">
                                                 <i class="fas fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -263,3 +276,42 @@
         </div>
     </div>
 </div>
+@section('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            //Mostrar alerta de anulacion de venta 
+            window.livewire.on('anular-venta', msg => {
+
+                swal({
+                    title: '¿Anular la venta con el código "' + @this.codigo + '"?',
+                    text: "Atención: esta venta tiene " + @this.cantidad + " productos en total",
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Anular Venta',
+                    padding: '2em'
+                }).then(function(result) {
+                    if (result.value) {
+                        window.livewire.emit('anularventa', @this.codigo)
+                    }
+                })
+            });
+            //Mostrar Mensaje Venta Anulada Exitosamente
+            window.livewire.on('sale-cancel-ok', event => {
+                swal(
+                    '¡Venta ' + @this.codigo + ' anulada exitosamente!',
+                    'La venta fue anulada correctamente, todos los cambios hechos en la venta fueron revertidos',
+                    'success'
+                )
+            });
+            //Mostrar Mensaje a ocurrido un error en la venta
+            window.livewire.on('sale-error', event => {
+                swal(
+                    'A ocurrido un error al anular la venta',
+                    'Detalle del error: ' + @this.message,
+                    'error'
+                )
+            });
+        });
+    </script>
+@endsection
