@@ -1,13 +1,7 @@
 <style>
     .prueba {
-<<<<<<< HEAD
-
-        overflow: scroll;
-
-=======
         overflow: scroll;
         overflow-x: hidden;
->>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
 
         width: auto;
         height: 150px;
@@ -61,18 +55,6 @@
                             enctype="multipart/form-data">
                             @csrf
 
-<<<<<<< HEAD
-                    <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-
-                        <center>
-                            <div wire:loading wire:target="archivo">
-                                <div class="d-flex align-items-center">
-                                    <strong>Cargando Archivo, Espere por
-                                        favor...</strong>
-                                    <div class="spinner-border ms-auto"></div>
-=======
                             <center>
                                 <div wire:loading wire:target="archivo">
                                     <div class="d-flex align-items-center">
@@ -80,7 +62,6 @@
                                             favor...</strong>
                                         <div class="spinner-border ms-auto"></div>
                                     </div>
->>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
                                 </div>
                             </center>
 
@@ -125,26 +106,6 @@
                                 @endif --}}
                             </div>
 
-<<<<<<< HEAD
-
-                    </form>
-                    @if ($failures)
-                        <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
-                            <div class="prueba">
-
-
-
-                                @foreach ($failures as $failure)
-                                    @foreach ($failure->errors() as $error)
-                                        <li>{{ $error }},numero de fila {{ $failure->row() }}.</li>
-                                    @endforeach
-                                @endforeach
-
-
-                            </div>
-                        </div>
-                    @endif
-=======
                             <div style="text-align: right">
                                 @if ($archivo != null)
                                     <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
@@ -154,7 +115,6 @@
                             </div>
                         </form>
                     </div>
->>>>>>> 77bc88cb93e634e3a6a87bcafb9fda97308e9164
                 </div>
 
             </div>
