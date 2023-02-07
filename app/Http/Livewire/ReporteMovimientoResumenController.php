@@ -26,7 +26,7 @@ class ReporteMovimientoResumenController extends Component
 {
     public $idsucursal, $totalesIngresos, $totalesEgresos, $fromDate, $toDate, $cartera_id, $cartera_id2, $type, $cantidad, $tipo, $importe, $comentario, $vertotales = 0, $importetotalingresos, $importetotalegresos,
         $operacionefectivoing, $noefectivo, $operacionefectivoeg, $noefectivoeg, $sumaBanco, $op_recaudo, $recaudo, $subtotalcaja, $utilidadtotal = 5, $caja, $op_sob_falt = 0, $ops = 0, $sucursal, $total, $optotal, $sm, $diferenciaCaja, $montoDiferencia, $obsDiferencia,
-        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco, $operacionfalt, $operacionsob, $operacionesZ,$operacionesW,$aperturas_cierres;
+        $ventas, $servicios, $ingresoEgreso, $totalesIngresosVGeneral, $Banco, $operacionfalt, $operacionsob,$operacionajuste, $operacionesZ,$operacionesW,$aperturas_cierres;
 
     public $subtotalesIngresos;
 
@@ -779,6 +779,16 @@ class ReporteMovimientoResumenController extends Component
         ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
 
         ->sum('movimientos.import');
+
+        // $this->operacionajuste= Movimiento::join('cartera_movs as cr', 'cr.movimiento_id', 'movimientos.id')
+        // ->join('carteras as c', 'c.id', 'cr.cartera_id')
+        // ->join('cajas as ca', 'ca.id', 'c.caja_id')
+        // ->where('movimientos.status', 'ACTIVO')
+        // ->where('ca.id', $this->caja)
+        // ->where('cr.tipoDeMovimiento','AJUSTE')
+        // ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+
+        // ->sum('movimientos.import');
 
 
         } else {

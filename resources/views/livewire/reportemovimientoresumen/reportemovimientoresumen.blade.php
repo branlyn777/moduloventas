@@ -42,30 +42,34 @@
 
 
 
-@section("css")
-<style>
-    .tablareporte{
-        width: 100%;
-    }
-    .tablareporte .ie{
-        width: 150px;
-        text-align: right;
-    }
-    .tablareporte .fecha{
-        width: 120px;
-    }
-    .tablareporte .no{
-        width: 50px;
-    }
-    /* EStilos para los totales flotantes */
-    .flotante{
-        width: 82%;
-        z-index: 99;
-        position: fixed;
-        top: 350px;
-        right: 50px;
-    }
-</style>
+@section('css')
+    <style>
+        .tablareporte {
+            width: 100%;
+        }
+
+        .tablareporte .ie {
+            width: 150px;
+            text-align: right;
+        }
+
+        .tablareporte .fecha {
+            width: 120px;
+        }
+
+        .tablareporte .no {
+            width: 50px;
+        }
+
+        /* EStilos para los totales flotantes */
+        .flotante {
+            width: 82%;
+            z-index: 99;
+            position: fixed;
+            top: 350px;
+            right: 50px;
+        }
+    </style>
 @endsection
 
 <div>
@@ -135,7 +139,8 @@
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
                         <b style="color: #ffffff;">|</b>
-                        <button wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{$ingresosTotalesBancos}},{{$operacionsob}},{{$operacionfalt}})"
+                        <button
+                            wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{ $ingresosTotalesBancos }},{{ $operacionsob }},{{ $operacionfalt }})"
                             class="btn btn-warning form-control">
                             <i class="fas fa-print"></i> Generar PDF
                         </button>
@@ -161,32 +166,37 @@
     </div>
 
 
-<br>
+    <br>
 
 
 
 
 
-    @if($totalesIngresosV->count() > 0)
+    @if ($totalesIngresosV->count() > 0)
         <br>
         <div class="card">
+
             <div class="card-body">
                 <div class="card-title">
-                  <table>
+                    <div class="row">
 
-                      <tbody class="text-end">
-                       
-                          <tr>
-                            <td colspan="2"> <h5>Ventas</h5></td>
-                              <td colspan="1"> <h5>Total Bs.</h5></td>
-                              <td colspan="1"> <h5>{{number_format($totalesIngresosV->sum('importe'),2) }}</h5></td>
-                          </tr>
-                          <tr>
-                              <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
-                          </tr>
-                      </tbody>
-                  </table>
-                  
+                        <div class="col-md-7">
+
+                            <h5>Ventas</h5>
+                        </div>
+                        <div class="col-md-2">
+
+                            <h5>Total Bs.</h5>
+                        </div>
+                        <div class="col-md-3">
+
+                            <h5 class="ps-5">{{ number_format($totalesIngresosV->sum('importe'), 2) }}</h5>
+                        </div>
+                    </div>
+                    
+                    
+                   
+                    <hr style="background-color: black;height: 3px;">
                 </div>
                 <div class="table-responsive">
                     <table class="tablareporte">
@@ -232,7 +242,7 @@
                                                                             {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
                                                                         </div>
 
-                                                                        
+
                                                                         <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
                                                                             aria-hidden="true"></i>
                                                                         <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
@@ -250,7 +260,8 @@
                                                                             <thead>
                                                                                 <tr>
                                                                                     <td>
-                                                                                        <p class="text-sm mb-0 text-center">
+                                                                                        <p
+                                                                                            class="text-sm mb-0 text-center">
                                                                                             <b>Nombre</b>
                                                                                         </p>
                                                                                     </td>
@@ -338,18 +349,8 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                     
 
 
-                        <tfoot class="text-end">
-                            <tr>
-                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"> <h5>Total Bs.</h5></td>
-                                <td colspan="1"> <h5>{{number_format($totalesIngresosV->sum('importe'),2) }}</h5></td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -359,14 +360,43 @@
 
 
 
-    @if($totalesIngresosIE->count() > 0)
+    @if ($totalesIngresosIE->count() > 0)
         <br>
         <div class="card">
-       
+
             <div class="card-body">
                 <div class="card-title">
-                    <u><h6>Ingresos</h6></u>
+                    <div class="row">
+
+                        <div class="col-md-7">
+
+                            <h5>Ingresos</h5>
+                        </div>
+                        <div class="col-md-2">
+
+                            <h5>Total Bs.</h5>
+                        </div>
+                        <div class="col-md-3">
+
+                            <h5 class="ps-5">{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h5>
+                        </div>
+                    </div>
+                    <hr style="background-color: black;height: 2px;">
+
+
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="table-responsive">
                     <table class="tablareporte">
                         <thead>
@@ -384,51 +414,43 @@
                         </thead>
                         <tbody>
                             @foreach ($totalesIngresosIE as $m)
-                            <tr>
-                                <td class="text-center text-sm no">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm fecha">
-                                    {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
+                                <tr>
+                                    <td class="text-center text-sm no">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td class="text-sm fecha">
+                                        {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
+                                    </td>
 
-                                <td class="text-sm">
-                                    <div>
-                                        <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
-                                    </div>
-                                </td>
-                                <td class="text-sm ie">
-                                    <span class="badge badge-sm bg-primary text-sm">
-                                        {{ number_format($m->importe, 2) }}
-                                    </span>
-                                </td>
-                                <td class="ie">
-                                    <span class="badge badge-sm bg-success text-sm">
-                                        {{ number_format($m->importe, 2) }}
-                                    </span>
-                                </td>
+                                    <td class="text-sm">
+                                        <div>
+                                            <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm ie">
+                                        <span class="badge badge-sm bg-primary text-sm">
+                                            {{ number_format($m->importe, 2) }}
+                                        </span>
+                                    </td>
+                                    <td class="ie">
+                                        <span class="badge badge-sm bg-success text-sm">
+                                            {{ number_format($m->importe, 2) }}
+                                        </span>
+                                    </td>
 
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td class="text-sm">
-                                    {{ $m->coment }}
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-sm">
+                                        {{ $m->coment }}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             @endforeach
                         </tbody>
-                        <tfoot class="text-end">
-                            <tr>
-                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"> <h5>Total Bs.</h5></td>
-                                <td colspan="1"> <h5>{{number_format($totalesIngresosIE->sum('importe'),2) }}</h5></td>
-                            </tr>
-                        </tfoot>
+                     
                     </table>
                 </div>
             </div>
@@ -436,12 +458,27 @@
     @endif
 
 
-    @if($totalesEgresosIE->count() > 0)
+    @if ($totalesEgresosIE->count() > 0)
         <br>
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <u><h6>Egresos</h6></u>
+                    <div class="row">
+
+                        <div class="col-md-7">
+
+                            <h5>Egresos</h5>
+                        </div>
+                        <div class="col-md-2">
+
+                            <h5>Total Bs.</h5>
+                        </div>
+                        <div class="col-md-3">
+
+                            <h5 class="ps-5">{{ number_format($totalesEgresosIE->sum('importe'), 2) }}</h5>
+                        </div>
+                    </div>
+                    <hr style="background-color: black;height: 2px;">
                 </div>
                 <div class="table-responsive">
                     <table class="tablareporte">
@@ -488,20 +525,12 @@
                                         {{ $st->coment }}
                                     </td>
                                     <td></td>
-                                  
+
                                 </tr>
                             @endforeach
                         </tbody>
 
-                        <tfoot class="text-end">
-                            <tr>
-                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"> <h5>Total Bs.</h5></td>
-                                <td colspan="1"> <h5>{{number_format($totalesEgresosIE->sum('importe'),2) }}</h5></td>
-                            </tr>
-                        </tfoot>
+               
 
                     </table>
                 </div>
@@ -511,7 +540,7 @@
 
 
     @include('livewire.reportemovimientoresumen.modaltotales')
-  
+
 
 </div>
 
