@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios Inventarios</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios</h6>
     </nav>
 @endsection
 
@@ -45,7 +45,7 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios de Inventarios</h5>
+                    <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios</h5>
                 </div>
 
 
@@ -339,10 +339,8 @@
                                                                                     <th class="text-center">Producto
                                                                                     </th>
                                                                                     @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
-                                                                                        <th class="text-center">Costo
-                                                                                        </th>
-                                                                                        <th class="text-center">Precio
-                                                                                            Venta</th>
+                                                                                        <th class="text-center">Costo</th>
+                                                                                        <th class="text-center">Precio Venta</th>
                                                                                         <th>Cantidad</th>
                                                                                         <th>Acción</th>
                                                                                     @elseif($concepto == 'Ajuste Inventarios')
