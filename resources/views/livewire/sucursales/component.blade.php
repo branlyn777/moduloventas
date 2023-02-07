@@ -59,13 +59,11 @@
                         Ir a Cajas
                         <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     </a>
-
-
                 </div>
             </div>
         </div>
     </div>
-<br>
+    <br>
 
     <div class="card">
         <div class="card-body">
@@ -77,7 +75,8 @@
                             <h6>Buscar</h6>
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search" placeholder="nombre sucursal" class="form-control ">
+                                <input type="text" wire:model="search" placeholder="nombre sucursal"
+                                    class="form-control ">
                             </div>
                         </div>
                     </div>
@@ -86,7 +85,7 @@
         </div>
     </div>
 
-<br>
+    <br>
 
 
 
@@ -154,17 +153,17 @@
                                             <td class="text-sm mb-0 text-center">
 
                                                 @if ($item->estado == 'ACTIVO')
-                                                <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                                    class="mx-3" title="Editar">
-                                                    <i class="fas fa-edit text-default" aria-hidden="true"></i>
-                                                </a>
-                                                <a href="javascript:void(0)"
-                                                    wire:click="verificarmovimientos({{ $item->id }})"
-                                                    class="mx-3" title="Eliminar">
-                                                    <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                                </a>
+                                                    <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
+                                                        class="mx-3" title="Editar">
+                                                        <i class="fas fa-edit text-default" aria-hidden="true"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)"
+                                                        wire:click="verificarmovimientos({{ $item->id }})"
+                                                        class="mx-3" title="Eliminar">
+                                                        <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                                    </a>
                                                 @endif
-                                                
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -273,7 +272,7 @@
         window.livewire.on('ConfirmarAnular', msg => {
 
 
-            
+
             swal({
                 title: '¿Inactivar sucursal?',
                 text: "La sucursal será inactivada",

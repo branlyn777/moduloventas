@@ -38,29 +38,51 @@
     "nav-item active"
 @endsection
 
-
+@section('css')
+    <style>
+        #slide {
+            height: 390px !important;
+            overflow: auto;
+            width: 750px;
+        }
+    </style>
+@endsection
 <div>
-
-    <div class="row">
-        <div class="col-12">
-
-            <div class="d-lg-flex">
-                <div>
-                    <h5 class="text-white" style="font-size: 16px">Cotizaciones</h5>
+    <div class="card-header pt-0">
+        <div class="d-lg-flex">
+            <div>
+                <h5 class="text-white" style="font-size: 16px">Cotizaciones</h5>
+            </div>
+            <div class="ms-auto my-auto mt-lg-0 mt-4">
+                <div class="ms-auto my-auto">
+                    <button wire:click="modalbuscarproducto()" class="btn btn-add mb-0"> <i
+                            class="fas fa-plus me-2"></i>
+                        Nueva cotización</button>
                 </div>
-                <div class="ms-auto my-auto mt-lg-0 mt-4">
-                    <div class="ms-auto my-auto">
+            </div>
+        </div>
+    </div>
 
-                        <button wire:click="modalbuscarproducto()" class="btn btn-add mb-0"> <i
-                                class="fas fa-plus me-2"></i>
-                            Nueva cotización</button>
+    <br>
+    <div class="card">
+        <div class="card-body">
+
+            <div class="">
+                <div class="col-12 col-sm-12 col-md-3">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <h6>Buscar</h6>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                <input type="text" placeholder="nombre cotizacion" class="form-control ">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
+
     @include('livewire.cotizacion.modal')
 </div>
 
@@ -90,30 +112,30 @@
         });
 
 
-         //Mostrar cualquier tipo de mensaje toast de un OK
-         window.livewire.on('message-ok', msg => {
-                const toast = swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    padding: '2em'
-                });
-                toast({
-                    type: 'success',
-                    title: @this.message,
-                    padding: '2em',
-                })
+        //Mostrar cualquier tipo de mensaje toast de un OK
+        window.livewire.on('message-ok', msg => {
+            const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                padding: '2em'
             });
+            toast({
+                type: 'success',
+                title: @this.message,
+                padding: '2em',
+            })
+        });
 
-         //Mostrar Mensaje a ocurrido un error en la venta
-         window.livewire.on('message-error-sale', event => {
-                swal(
-                    'Advertencia',
-                    @this.mensaje_toast,
-                    'info'
-                )
-            });
+        //Mostrar Mensaje a ocurrido un error en la venta
+        window.livewire.on('message-error-sale', event => {
+            swal(
+                'Advertencia',
+                @this.mensaje_toast,
+                'info'
+            )
+        });
     });
 
 
@@ -131,7 +153,6 @@
             if (result.value) {
                 window.livewire.emit('clear-Product', idproducto)
             }
-        })   
+        })
     }
-    
 </script>
