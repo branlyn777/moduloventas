@@ -212,7 +212,7 @@
                                             <h6>TOTAL UTILIDAD</h6>
                                             <span class="badge badge-sm bg-success text-lg">
                                                 @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    <b>{{ number_format($totalutilidadSV+$ingresos_totales, 2) }}</b>
+                                                    <b>{{ number_format($totalutilidadSV, 2) }}</b>
                                                 @endif
                                             </span>
                                         </td>
