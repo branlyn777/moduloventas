@@ -160,7 +160,7 @@
                             <table style="width: 100%">
                                 <tr>
                                     <td class="text-center">
-                                        <h6>Total Precio</h6>
+                                        <h6>Total Ventas</h6>
                                         <span class="badge badge-sm bg-primary text-lg">
                                             <b>{{ number_format($this->total_precio, 2, ',', '.') }} Bs</b>
                                         </span>
@@ -260,6 +260,11 @@
                                                 <i class="fas fa-edit text-default" aria-hidden="true"></i>
                                             </a>
                                             <a href="javascript:void(0)"
+                                                wire:click="crearcomprobante({{ $l->codigo }})" class="mx-3"
+                                                title="Crear Comprobante">
+                                                <i class="fas fa-print text-success" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="javascript:void(0)"
                                                 wire:click="confirmaranular({{ $l->codigo }})" class="mx-3"
                                                 title="Anular Venta">
                                                 <i class="fas fa-trash text-danger" aria-hidden="true"></i>
@@ -311,6 +316,15 @@
                     'Detalle del error: ' + @this.message,
                     'error'
                 )
+            });
+            //Crear pdf de Informe técnico de un servicio
+            window.livewire.on('crear-comprobante', Msg => {
+                var idventa = @this.codigo;
+                var ventatotal = 1;
+                var totalitems = 1;
+                var win = window.open('report/pdf/' + ventatotal + '/' + idventa + '/' + totalitems);
+                // Cambiar el foco al nuevo tab (punto opcional)
+                // win.focus();
             });
         });
     </script>

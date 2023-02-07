@@ -1081,4 +1081,10 @@ class SaleListProductsController extends Component
 
         return $idsucursal;
     }
+    //Crear Comprobante de Ventas
+    public function crearcomprobante($idventa)
+    {
+        $this->codigo = $idventa;
+        $this->emit('crear-comprobante');
+    }
 }
