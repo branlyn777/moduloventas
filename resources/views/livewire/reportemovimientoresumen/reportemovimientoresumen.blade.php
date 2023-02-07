@@ -164,67 +164,6 @@
 <br>
 
 
-    <div class="sticky-top">
-            <div class="row">
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table style="width: 100%">
-                                    <tr>
-                                        <td class="text-center">
-                                            <h6>INGRESOS TOTALES</h6>
-                                            <span class="badge badge-sm bg-primary text-lg">
-                                                <b>{{ number_format($ingresos_totales, 2) }}</b>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table style="width: 100%">
-                                    <tr>
-                                        <td class="text-center">
-                                            <h6>EGRESOS TOTALES</h6>
-                                            <span class="badge badge-sm bg-danger text-lg">
-                                                <b>{{ number_format($EgresosTotalesCF, 2) }}</b>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table style="width: 100%">
-                                    <tr>
-                                        <td class="text-center">
-                                            <h6>TOTAL UTILIDAD</h6>
-                                            <span class="badge badge-sm bg-success text-lg">
-                                                @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    <b>{{ number_format($totalutilidadSV+$ingresos_totales, 2) }}</b>
-                                                @endif
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-       
-    </div>
 
 
 
@@ -232,6 +171,23 @@
         <br>
         <div class="card">
             <div class="card-body">
+                <div class="card-title">
+                  <table>
+
+                      <tbody class="text-end">
+                       
+                          <tr>
+                            <td colspan="2"> <h5>Ventas</h5></td>
+                              <td colspan="1"> <h5>Total Bs.</h5></td>
+                              <td colspan="1"> <h5>{{number_format($totalesIngresosV->sum('importe'),2) }}</h5></td>
+                          </tr>
+                          <tr>
+                              <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  
+                </div>
                 <div class="table-responsive">
                     <table class="tablareporte">
                         <thead>
@@ -382,67 +338,35 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                     
+
+
+                        <tfoot class="text-end">
+                            <tr>
+                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"> <h5>Total Bs.</h5></td>
+                                <td colspan="1"> <h5>{{number_format($totalesIngresosV->sum('importe'),2) }}</h5></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     @endif
 
-    {{-- @if($totalesEgresosV->count() > 0)
-        <br>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="tablareporte">
-                        <thead>
-                            <tr>
-                                <th class="text-sm text-center">#</th>
-                                <th class="text-sm">FECHA</th>
-                                <th class="text-sm text-center">DETALLE</th>
-                                <th class="text-sm">INGRESO</th>
-                                <th class="text-sm">EGRESO</th>
-                                <th class="text-sm">
-                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                        UTILIDAD
-                                    @endif
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($totalesEgresosV as $p)
-                                <tr>
-                                    <td class="text-sm no">
-                                        {{ $loop->iteration }}
-                                    </td>
-                                    <td class="text-sm text-center fecha">
-                                        {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                    </td>
-                                    <td class="text-sm text-center">
-                                        <b>{{ $p->tipoDeMovimiento }},Devolución,{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},{{ $p->nombrecartera }}</b>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-sm bg-success text-sm">
-                                            {{ number_format($p->importe, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    @endif --}}
+
 
 
     @if($totalesIngresosIE->count() > 0)
         <br>
         <div class="card">
+       
             <div class="card-body">
+                <div class="card-title">
+                    <u><h6>Ingresos</h6></u>
+                </div>
                 <div class="table-responsive">
                     <table class="tablareporte">
                         <thead>
@@ -496,6 +420,15 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="text-end">
+                            <tr>
+                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"> <h5>Total Bs.</h5></td>
+                                <td colspan="1"> <h5>{{number_format($totalesIngresosIE->sum('importe'),2) }}</h5></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -507,6 +440,9 @@
         <br>
         <div class="card">
             <div class="card-body">
+                <div class="card-title">
+                    <u><h6>Egresos</h6></u>
+                </div>
                 <div class="table-responsive">
                     <table class="tablareporte">
                         <thead>
@@ -556,6 +492,17 @@
                                 </tr>
                             @endforeach
                         </tbody>
+
+                        <tfoot class="text-end">
+                            <tr>
+                                <td colspan="5"><hr style="background-color: black;height: 2px;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"> <h5>Total Bs.</h5></td>
+                                <td colspan="1"> <h5>{{number_format($totalesEgresosIE->sum('importe'),2) }}</h5></td>
+                            </tr>
+                        </tfoot>
+
                     </table>
                 </div>
             </div>
