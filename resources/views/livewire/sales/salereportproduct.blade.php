@@ -159,6 +159,7 @@
                                     <th class="text-uppercase text-sm ps-2 text-left">Producto</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Código Producto</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Cantidad</th>
+                                    <th class="text-uppercase text-sm ps-2 text-left">Total Bs</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -175,6 +176,9 @@
                                         </td>
                                         <td class="text-sm mb-0 text-left">
                                             {{ $t->cantidad_vendida }}
+                                        </td>
+                                        <td>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
