@@ -46,6 +46,7 @@
         <div class="col-12">
             <div class="d-lg-flex" style="margin-bottom: 2.3rem">
                 <h5 class="text-white" style="font-size: 16px">Productos Mas Vendidos </h5>
+                
             </div>
 
             <div class="card mb-4">
@@ -178,7 +179,7 @@
                                             {{ $t->cantidad_vendida }}
                                         </td>
                                         <td>
-                                            
+
                                         </td>
                                     </tr>
                                 @endforeach
