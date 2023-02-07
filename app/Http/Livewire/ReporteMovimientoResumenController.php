@@ -74,7 +74,7 @@ class ReporteMovimientoResumenController extends Component
             )->get();
 
 
-        $this->saldo_acumulado(Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', $this->sucursal, $this->caja);
+        // $this->saldo_acumulado(Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', $this->sucursal, $this->caja);
         $this->viewTotales();
 
         if ($this->cartera_id != null) {
@@ -633,7 +633,7 @@ class ReporteMovimientoResumenController extends Component
                 'sale_details.id as detalleid',
                 'p.nombre as nombre',
                 'sale_details.price as pv',
-                DB::raw('0 as po'),
+                'sale_details.original_price as po',
                 'sale_details.quantity as cant'
             )
             ->where('sale_details.sale_id', $idventa)
@@ -641,16 +641,6 @@ class ReporteMovimientoResumenController extends Component
             ->get();
 
 
-
-
-        foreach ($listadetalles as $dx) {
-            $po = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
-                ->select("l.pv_lote as precio_original")
-                ->where("sale_lotes.sale_detail_id", $dx->detalleid)
-                ->first();
-
-            $dx->po = $po->precio_original;
-        }
 
 
 
@@ -682,20 +672,19 @@ class ReporteMovimientoResumenController extends Component
     public function operaciones()
     {
 
-        $this->subtotalesIngresos = $this->totalesIngresosV->sum('importe') + $this->totalesIngresosS
-        ->sum('importe') + $this->totalesIngresosIE->sum('importe');
         //Totales carteras
-
-
-
+        
+        
+        
         //Totales carteras tipo Caja Fisica
         $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'efectivo')
         ->sum('importe') + $this->totalesIngresosS->where('ctipo', 'efectivo')->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe');
-
+        
         //Totales carteras tipo No Caja Fisica CON BANCOS
-
+        
         $this->ingresosTotalesBancos = $this->totalesIngresosV->where('ctipo', 'digital')->sum('importe') + $this->totalesIngresosS->where('ctipo', 'digital')->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'digital')->sum('importe');
         //dd($this->ingresosTotalesNoCFBancos);
+        $this->ingresos_totales =$this->ingresosTotalesCF+$this->ingresosTotalesBancos;
 
         //Total Utilidad Ventas y Servicios
         $this->totalutilidadSV = $this->totalesIngresosV->sum('utilidadventa') + $this->totalesIngresosS->sum('utilidadservicios') + $this->totalesIngresosIE->sum('importe');
@@ -705,10 +694,57 @@ class ReporteMovimientoResumenController extends Component
         $this->EgresosTotales = $this->totalesEgresosV->sum('importe') + $this->totalesEgresosIE->sum('importe');
 
         // egresos totales por caja fisica
-        $this->EgresosTotalesCF = $this->totalesEgresosV->where('ctipo', 'CajaFisica')->sum('importe') + $this->totalesEgresosIE->where('ctipo', 'CajaFisica')->sum('importe');
+        $this->EgresosTotalesCF = $this->totalesEgresosV->where('ctipo', 'efectivo')->sum('importe') + $this->totalesEgresosIE->where('ctipo', 'efectivo')->sum('importe');
+
+        $this->saldo=$this->ingresosTotalesCF+$this->ingresosTotalesBancos-$this->EgresosTotalesCF;
+
+        $this->total_efectivo=$this->ingresosTotalesCF+$this->ingresosTotalesBancos-$this->EgresosTotalesCF;
 
         //Ingresos - Egresos
         $this->subtotalcaja = $this->subtotalesIngresos - $this->EgresosTotalesCF;
+        if($this->caja != "TODAS"){
+            $ingresos=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.id', $this->caja)
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('crms.type','INGRESO')
+            ->where('movimientos.created_at','<',Carbon::parse($this->fromDate)->toDateTimeString())
+            ->sum('movimientos.import');
+            $egresos=Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.id', $this->caja)
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('crms.type','EGRESO')
+            ->where('movimientos.created_at','<',Carbon::parse($this->fromDate)->toDateTimeString())
+            ->sum('movimientos.import');
+            $this->saldo_acumulado=$ingresos-$egresos;
+      
+           
+      
+        }
+        else{
+            $ingresos= Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.sucursal_id', $this->sucursal)
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('crms.type','INGRESO')
+            ->where('movimientos.created_at','<',Carbon::parse($this->fromDate)->toDateTimeString())
+            ->sum('movimientos.import');
+            $egresos= Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('ca.sucursal_id', $this->sucursal)
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('crms.type','EGRESO')
+            ->where('movimientos.created_at','<',Carbon::parse($this->fromDate)->toDateTimeString())
+            ->sum('movimientos.import');
+            $this->saldo_acumulado=$ingresos-$egresos;
+           
+        }
+
 
 
 
@@ -720,12 +756,12 @@ class ReporteMovimientoResumenController extends Component
                 ->where('crms.tipoDeMovimiento', 'RECAUDO')
 
                 ->where('ca.id', $this->caja)
+              
                 ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                 ->sum('movimientos.import');
-        } else {
-            $this->op_recaudo = 0;
-        }
-        $this->operacionfalt = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+
+
+                $this->operacionfalt = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
             ->join('carteras as c', 'c.id', 'crms.cartera_id')
             ->join('cajas as ca', 'ca.id', 'c.caja_id')
             ->where('movimientos.status', 'ACTIVO')
@@ -743,6 +779,41 @@ class ReporteMovimientoResumenController extends Component
         ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
 
         ->sum('movimientos.import');
+
+
+        } else {
+            $this->op_recaudo = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('crms.tipoDeMovimiento', 'RECAUDO')
+            ->where('ca.sucursal_id', $this->sucursal)
+        
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->sum('movimientos.import');
+
+
+
+            $this->operacionfalt = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->where('movimientos.status', 'ACTIVO')
+            ->where('ca.sucursal_id', $this->sucursal)
+            ->where('crms.tipoDeMovimiento', 'FALTANTE')
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->sum('movimientos.import');
+
+        $this->operacionsob = Movimiento::join('cartera_movs as cr', 'cr.movimiento_id', 'movimientos.id')
+        ->join('carteras as c', 'c.id', 'cr.cartera_id')
+        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+        ->where('movimientos.status', 'ACTIVO')
+        ->where('ca.sucursal_id', $this->sucursal)
+        ->where('cr.tipoDeMovimiento','SOBRANTE')
+        ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+
+        ->sum('movimientos.import');
+        }
+        
 
 
         $auxi_s_f = 0;
@@ -900,7 +971,7 @@ class ReporteMovimientoResumenController extends Component
             $mvt = Movimiento::create([
                 'type' => 'TERMINADO',
                 'status' => 'ACTIVO',
-                'import' => $this->montoDiferencia,
+                'import' =>$this->montoDiferencia,
                 'user_id' => Auth()->user()->id,
             ]);
 
@@ -1254,7 +1325,7 @@ class ReporteMovimientoResumenController extends Component
         $this->recaudo = $this->optotal - $this->sm->monto_base;
     }
 
-    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $op_sob_falt)
+    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $ingresosTotalesBancos, $operacionsob, $operacionfalt)
     {
         session(['totalIngresosV' => $totalesIngresosV]);
         session(['totalIngresosS' => $totalesIngresosS]);
@@ -1262,27 +1333,33 @@ class ReporteMovimientoResumenController extends Component
         session(['totalEgresosV' => $totalesEgresosV]);
         session(['totalEgresosIE' => $totalesEgresosIE]);
 
+        session(['ingresosTotalesBancos' => $ingresosTotalesBancos]);
+        session(['operacionsob' => $operacionsob]);
+        session(['operacionfalt' => $operacionfalt]);
+
 
 
 
         session(['ingresosTotalesCF' => $this->ingresosTotalesCF]); //
         session(['subtotalesIngresos' => $this->subtotalesIngresos]); //
-        session(['ingresosTotalesNoCFBancos' => $this->ingresosTotalesNoCFBancos]); //
+        // session(['ingresosTotalesNoCFBancos' => $this->ingresosTotalesNoCFBancos]);
         session(['op_recaudo' => $this->op_recaudo]); //
         session(['total' => $this->total]);
         session(['subtotalcaja' => $this->subtotalcaja]);
-        session(['operacionesefectivas' => $this->operacionesefectivas]);
+        // session(['operacionesefectivas' => $this->operacionesefectivas]);
         session(['ops' => $this->ops]);
         session(['operacionesW' => $this->operacionesW]);
         session(['EgresosTotales' => $this->EgresosTotales]);
         session(['totalutilidadSV' => $this->totalutilidadSV]);
         session(['EgresosTotalesCF' => $this->EgresosTotalesCF]);
 
+        session(['total' => $this->total]);
+
 
 
 
         //Sobrante o Faltante
-        session(['op_sob_falt' => $op_sob_falt]);
+        // session(['op_sob_falt' => $op_sob_falt]);
 
         //$this->operacionesZ
         session(['operacionesZ' => $this->operacionesZ]);
