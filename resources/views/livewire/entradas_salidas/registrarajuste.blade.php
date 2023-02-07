@@ -47,8 +47,6 @@
                 <div>
                     <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios</h5>
                 </div>
-
-
             </div>
 
             <div class="row mb-5">
@@ -99,10 +97,12 @@
                                                                     <option value="Elegir" disabled>Elegir
                                                                     </option>
 
-                                                                    <option wire:key="bar" value="Ajuste Inventarios">Ajustar
+                                                                    <option wire:key="bar" value="Ajuste Inventarios">
+                                                                        Ajustar
                                                                         inventarios
                                                                     </option>
-                                                                    <option value="Inventario Inicial">Inventario Inventario Inicial</option>
+                                                                    <option value="Inventario Inicial">Inventario
+                                                                        Inventario Inicial</option>
                                                                     <option wire:key="foo" value='Varios'>Varios:
                                                                         Productos
                                                                         Defectuosos,Bonificaciones,etc</option>
@@ -117,7 +117,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
 
                                                     <div class="row justify-content-center">
 
@@ -179,13 +178,9 @@
                                                     </div>
                                                 </div>
 
-
-
-
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                      
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
@@ -194,7 +189,9 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show1 }}"
                                         data-animation="FadeIn">
-                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos':''}}</h6>
+                                        <h6 class="font-weight-bolder">
+                                            {{ $concepto }}{{ $tipo_proceso != null ? ':' . $tipo_proceso . ' productos' : '' }}
+                                        </h6>
                                         <div class="multisteps-form__content">
                                             <div class="row mt-4 p-2">
                                                 <div wire:ignore.self class="col-md-12">
@@ -243,8 +240,8 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn btn-secondary mb-0 js-btn-prev"  type="button" wire:click="anterior()"
-                                                title="Prev">Anterior</button>
+                                                <button class="btn btn-secondary mb-0 js-btn-prev" type="button"
+                                                    wire:click="anterior()" title="Prev">Anterior</button>
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
@@ -254,15 +251,15 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{ $show2 }}"
                                         data-animation="FadeIn">
-                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos ':''}} {{' > '.$lugar}}</h6>
+                                        <h6 class="font-weight-bolder">
+                                            {{ $concepto }}{{ $tipo_proceso != null ? ':' . $tipo_proceso . ' productos ' : '' }}
+                                            {{ ' > ' . $lugar }}</h6>
                                         <div class="multisteps-form__content mt-3">
                                             <div class="row">
                                                 @if ($concepto == 'Inventario Inicial' and $registro == 'Documento')
                                                     <form>
 
                                                         <div>
-
-
                                                             <center>
                                                                 <div wire:loading wire:target="archivo">
                                                                     <div class="d-flex align-items-center">
@@ -306,7 +303,10 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
+                                                                                            type="button">
+                                                                                            {{ $prod->nombre }}
+                                                                                            ({{ $prod->codigo }})
+                                                                                        </label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -339,8 +339,10 @@
                                                                                     <th class="text-center">Producto
                                                                                     </th>
                                                                                     @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
-                                                                                        <th class="text-center">Costo</th>
-                                                                                        <th class="text-center">Precio Venta</th>
+                                                                                        <th class="text-center">Costo
+                                                                                        </th>
+                                                                                        <th class="text-center">Precio
+                                                                                            Venta</th>
                                                                                         <th>Cantidad</th>
                                                                                         <th>Acción</th>
                                                                                     @elseif($concepto == 'Ajuste Inventarios')
@@ -360,6 +362,7 @@
                                                                                         style="font-size: 14px; color: black;">
                                                                                         <td style="width: 60px;">
                                                                                             {{ substr($prod['product_name'], 0, 15) }}
+                                                                                            ({{ $prod['product_codigo'] }})
                                                                                         </td>
                                                                                         @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
                                                                                             <td>
@@ -386,7 +389,7 @@
                                                                                                     class="form-control text-center"
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
-                                                                                            @elseif($concepto == 'Ajuste Inventarios')
+                                                                                        @elseif($concepto == 'Ajuste Inventarios')
                                                                                             <td class='text-center'>
 
                                                                                                 {{ $prod['stockactual'] }}
@@ -448,7 +451,7 @@
 
 
                                                         </div>
-
+                                                    </div>
                                                 @endif
                                             </div>
 
@@ -479,7 +482,7 @@
                                             </div>
 
                                         </div>
-
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -621,7 +624,7 @@
                     if (result.value) {
 
                         window.livewire.emit('confirmarvaciar');
-                        
+
 
                     }
                 })

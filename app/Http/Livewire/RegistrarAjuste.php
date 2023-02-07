@@ -162,7 +162,7 @@ class RegistrarAjuste extends Component
                 try {
                     $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
                     if ($pd > 0 ) {
-                    $this->col->push(['product_id' => $id->id, 'product_name' => $id->nombre, 'cantidad' => 1]);
+                    $this->col->push(['product_id' => $id->id, 'product_name' => $id->nombre, 'product_codigo' =>$id->codigo, 'cantidad' => 1]);
         
                     } else {
                         $this->emit('stock-insuficiente');
@@ -180,6 +180,7 @@ class RegistrarAjuste extends Component
                     $this->col->push([
                         'product_id' => $id->id,
                         'product_name' => $id->nombre,
+                        'product_codigo' =>$id->codigo,
                         'costo' => 0,
                         'precioventa' => 0,
                         'cantidad' => 1
@@ -191,6 +192,7 @@ class RegistrarAjuste extends Component
                     $this->col->push([
                         'product_id' => $id->id,
                         'product_name' => $id->nombre,
+                        'product_codigo' =>$id->codigo,
                         'stockactual' =>  $pd!=null?$pd:0,
                         'recuento' => 0,
                        
@@ -514,6 +516,7 @@ class RegistrarAjuste extends Component
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' =>$product->codigo,
             'costo' => $costo,
             'precioventa' => $precioventa,
             'cantidad' => $cantidad
@@ -530,6 +533,7 @@ class RegistrarAjuste extends Component
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' =>$product->codigo,
             'costo' => $costo,
             'precioventa' => $preciov,
             'cantidad' => $cantidad
@@ -551,6 +555,7 @@ class RegistrarAjuste extends Component
                 $this->col->push([
                     'product_id' => $product->id,
                     'product_name' => $product->nombre,
+                    'product_codigo' =>$product->codigo,
                     'costo' => $costo,
                     'precioventa' => $precioventa,
                     'cantidad' => $cant
@@ -573,6 +578,7 @@ class RegistrarAjuste extends Component
                     $this->col->push([
                         'product_id' => $product->id,
                         'product_name' => $product->nombre,
+                        'product_codigo' =>$product->codigo,
                         'cantidad' => $cant
                     ]);
                 }
@@ -592,6 +598,7 @@ class RegistrarAjuste extends Component
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' =>$product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
            

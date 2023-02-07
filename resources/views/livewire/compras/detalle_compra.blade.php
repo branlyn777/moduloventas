@@ -185,7 +185,7 @@
                                                 <tr>
                                                     <td>
                                                         <label style="font-size: 14px"
-                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
+                                                            type="button">{{ $prod->nombre }} ({{ $prod->codigo }})</label>
                                                     </td>
 
                                                     <td class="text-center">

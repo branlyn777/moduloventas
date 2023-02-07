@@ -169,8 +169,13 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
-                            Seleccionados</button>
+                        {{-- <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
+                            Seleccionados</button> --}}
+                        
+                        {{-- @if ($selectedProduct) --}}
+                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar 
+                                Seleccionados ({{count($selectedProduct)}})</button>
+                        {{-- @endif --}}
                     </div>
                 </div>
                 <div class="card-body px-0 pb-0">
@@ -181,7 +186,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
-                                            <th class="text-uppercase text-sm text-center">
+                                            <th class="text-uppercase text-sm text-center ps-2">
                                                 <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto">
                                                         <input type="checkbox" class="form-check-input"
@@ -190,24 +195,24 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm">Categoría</th>
-                                            <th class="text-uppercase text-sm">Sub Categoría</th>
-                                            <th class="text-uppercase text-sm">Código</th>
+                                            <th class="text-uppercase text-sm ps-2">Categoría</th>
+                                            <th class="text-uppercase text-sm ps-2">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm ps-2">Código</th>
                                             <th class="text-uppercase text-sm text-center">Costo Activo</th>
                                             <th class="text-uppercase text-sm text-center">Precio Activo</th>
-                                            <th class="text-uppercase text-sm">Estado</th>
-                                            <th class="text-uppercase text-sm text-center">Acciones</th>
+                                            <th class="text-uppercase text-sm ps-2">Estado</th>
+                                            <th class="text-uppercase text-sm text-center ps-2">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @foreach ($data as $products)
                                             <tr style="font-size: 14px">
-                                                <td class="text-center">
+                                                <td class="text-center ps-2">
                                                     {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
                                                 </td>
 
-                                                <td>
+                                                <td class="ps-2">
                                                     <div class="d-flex">
                                                         <div class="form-check my-auto">
                                                             <input class="form-check-input" type="checkbox"
@@ -223,29 +228,29 @@
                                                     </div>
                                                 </td>
                                                 @if ($products->category->subcat != null)
-                                                    <td>
+                                                    <td class="ps-2">
                                                         {{ $products->category->subcat->name }}
                                                     </td>
-                                                    <td>
+                                                    <td class="ps-2">
                                                         {{ $products->category->name }}
                                                     </td>
                                                 @else
-                                                    <td>
+                                                    <td class="ps-2">
                                                         {{ $products->category->name }}
                                                     </td>
-                                                    <td>
+                                                    <td class="ps-2">
                                                         No definido
 
                                                     </td>
                                                 @endif
-                                                <td>
+                                                <td class="ps-2">
                                                     {{ substr($products->codigo, 0, 11) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
+                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
+                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
                                                 </td>
 
                                                 <td>
@@ -263,17 +268,17 @@
                                                 </td>
                                                 <td class="text-sm align-middle text-center">
                                                     <a href="javascript:void(0)"
-                                                    wire:click="Edit({{ $products->id }})" class="mx-3"
-                                                    title="Editar">
-                                                    <i class="fas fa-edit text-secondary"></i>
-                                                </a>
-                                                @if ($products->status == 'ACTIVO')
-                                                    <a href="javascript:void(0)"
-                                                        onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
-                                                        title="Eliminar">
-                                                        <i class="fas fa-trash text-danger"></i>
+                                                        wire:click="Edit({{ $products->id }})" class="mx-3"
+                                                        title="Editar">
+                                                        <i class="fas fa-edit text-secondary"></i>
                                                     </a>
-                                                @endif
+                                                    @if ($products->status == 'ACTIVO')
+                                                        <a href="javascript:void(0)"
+                                                            onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
+                                                            title="Eliminar">
+                                                            <i class="fas fa-trash text-danger"></i>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -322,10 +327,7 @@
             window.livewire.on('modal-import', msg => {
                 $('#modalimport').modal('show')
             });
-            // window.livewire.on('product-updated', msg => {
-            //     $('#theModal').modal('hide')
-            //     noty(msg)
-            // });
+
             window.livewire.on('product-updated', Msg => {
                 $('#theModal').modal('hide')
                 const toast = swal.mixin({
@@ -341,9 +343,7 @@
                     padding: '2em',
                 })
             });
-            // window.livewire.on('product-deleted', msg => {
-            //     noty(msg)
-            // });
+
             window.livewire.on('product-deleted', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -375,6 +375,7 @@
                     'error'
                 )
             });
+
             window.livewire.on('sin-archivo', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -390,6 +391,24 @@
                 })
             });
         });
+
+        // Eliminar producto seleccionado              https://www.youtube.com/watch?v=MlE6NSmM5KE
+        window.addEventListener('swal:EliminarSelect', function() {
+            swal({
+                title: 'PRECAUCION',
+                text: "Este producto no tiene relacion con ningun registro del sistema, pasara a ser eliminado permanentemente.",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('EliminarSeleccionados', event.detail.id)
+                }
+            })
+        })
+
         function Confirm(id, name, products) {
             if (products > 0) {
                 console.log(products);
@@ -400,8 +419,6 @@
                         ' tiene relacion con otros registros del sistema, pasara a ser inactivado!',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
-                    // cancelButtonColor: '#383838',
-                    // confirmButtonColor: '#3B3F5C',
                     confirmButtonText: 'Aceptar'
                 }).then(function(result) {
                     if (result.value) {
@@ -431,4 +448,6 @@
 
     <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+
+
 @endsection
