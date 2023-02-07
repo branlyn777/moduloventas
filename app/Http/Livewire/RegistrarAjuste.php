@@ -298,10 +298,10 @@ class RegistrarAjuste extends Component
                 $operacion = SalidaProductos::create([
                     'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
-                    'concepto' => $this->concepto,
+                    'concepto' => 1,
                     'observacion' => $this->observacion
                 ]);
-                // dd($auxi2->pluck('stock')[0]);
+           
 
                 foreach ($this->col as $datas) {
 
@@ -361,8 +361,12 @@ class RegistrarAjuste extends Component
 
                     $q = ProductosDestino::where('product_id', $datas['product_id'])
                         ->where('destino_id', $this->destino)->value('stock');
+                     
+                        $varm=$datas['cantidad'];
+               
 
-                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], [$datas['recuento']]);
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock'=>$q-$varm]);
+
                 }
 
                 DB::commit();

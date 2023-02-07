@@ -214,21 +214,21 @@
                             @if ($cart->isNotEmpty())
                                 <table class="table align-items-center">
                                     <thead>
-                                        <tr style="font-size: 14px; color: black;">
-                                            <th class="text-uppercase text-sm text-center">Producto</th>
+                                        <tr>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Producto</th>
                                             <th class="text-uppercase text-sm ps-2">Código</th>
-                                            <th class="text-uppercase text-sm text-center">Precio Compra</th>
-                                            <th class="text-uppercase text-sm text-center">Precio Venta</th>
-                                            <th class="text-uppercase text-sm text-center">Cantidad</th>
-                                            <th class="text-uppercase text-sm text-center">Total</th>
-                                            <th class="text-uppercase text-sm text-center">Acción</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Precio Compra</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Precio Venta</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Cantidad</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Total</th>
+                                            <th class="text-uppercase text-xxs font-weight-bolder">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($cart as $prod)
-                                            <tr style="font-size: 14px; color: black;">
-                                                <td style="width: 60px;">
-                                                    {{ substr($prod->name, 0, 15) }}
+                                            <tr>
+                                                <td>
+                                                    <h6 class="mb-0 text-xs">{{ substr($prod->name, 0, 15) }}</h6>
                                                 </td>
                                                 <td>
                                                     <strong>{{ $prod->attributes->codigo }}</strong>
