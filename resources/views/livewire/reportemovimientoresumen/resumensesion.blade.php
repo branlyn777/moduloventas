@@ -1,36 +1,70 @@
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white"> Reporte Sesion Caja</h6>
+    </nav>
+@endsection
+
+
+@section('Reportescollapse')
+    nav-link
+@endsection
+
+
+@section('Reportesarrow')
+    true
+@endsection
+
+
+@section('sesionesnav')
+    "nav-link active"
+@endsection
+
+
+@section('Reportesshow')
+    "collapse show"
+@endsection
+
+@section('sesionesli')
+    "nav-item active"
+@endsection
+
+
 <div>
-    <div class="d-lg-flex" style="margin-bottom: 2.3rem">
-        <h5 class="text-white" style="font-size: 16px">Reporte de Sesion </h5>
-
-    </div>
-    <div class="row justify-content-end">
-
-        <div class="col-12 col-sm-6 col-md-2">
-            <div class="form-group">
-
-                <button class="btn btn-warning form-control">
-                    <i class="fas fa-print"></i> Generar PDF
-                </button>
+    <div class="row">
+        <div class="col-12">
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class="mb-0 text-white" style="font-size: 16px"><b>Reporte de Sesion</b></h5>
+                </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
+                        <a href="javascript:void(0)" class="btn btn-success mb-0"
+                            wire:click.prevent="generarpdf({{ $totalesIngresosV }},{{ $totalesIngresosIE }},{{ $totalesEgresosIE }})">
+                            <i class="fas fa-print"></i> Generar PDF
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-    </div>
-
-
-    <div class="modal-body">
-        <div class="card mt-4 pt-4">
-            <h5 class="text-center">
-                <b class="mt-2">Detalle Sesion Caja Registradora</b>
-            </h5>
-            @if ($totalesIngresosV->count() > 0)
-                <br>
-                <div class="car mb-4">
-                    <div class="card-body px-0 pt-0 pb-2">
+            <div class="card mb-4">
+                <div class="card-body p-4">
+                    <label style="font-size: 1rem;">Ventas</label>
+                    @if ($totalesIngresosV->count() > 0)
                         <div class="table-responsive p-0">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-sm text-center">#</th>
+                                        <th class="text-uppercase text-sm text-center">N°</th>
                                         <th class="text-uppercase text-sm ps-2 text-left">FECHA</th>
                                         <th class="text-uppercase text-sm ps-2 text-left">DETALLE</th>
                                         <th class="text-uppercase text-sm ps-3 text-left">INGRESO</th>
@@ -72,7 +106,6 @@
                                                                                     {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
                                                                                 </div>
 
-
                                                                                 <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
                                                                                     aria-hidden="true"></i>
                                                                                 <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
@@ -85,14 +118,11 @@
                                                                             data-bs-parent="#accordionRental"
                                                                             style="">
                                                                             <div class="accordion-body text-sm">
-
-
                                                                                 <table class="table text-dark">
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <td>
-                                                                                                <p
-                                                                                                    class="text-sm mb-0 text-center">
+                                                                                                <p class="text-sm mb-0">
                                                                                                     <b>Nombre</b>
                                                                                                 </p>
                                                                                             </td>
@@ -109,7 +139,8 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <p class="text-sm mb-0">
-                                                                                                    <b>Precio V</b>
+                                                                                                    <b>Precio
+                                                                                                        V</b>
                                                                                                 </p>
                                                                                             </td>
                                                                                             <td>
@@ -154,8 +185,6 @@
                                                                                     </tbody>
                                                                                 </table>
 
-
-
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -180,47 +209,73 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
-                                    @if ($totalesIngresosIE->isNotEmpty())
-                                        @foreach ($totalesIngresosIE as $item)
-                                            <tr>
-                                                <td class="text-sm text-center no">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-sm fecha">
-                                                    {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                    @endif
-                                    @if ($totalesEgresosIE->isNotEmpty())
-                                        @foreach ($totalesEgresosIE as $item)
-                                            <tr>
-                                                <td class="text-sm text-center no">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-sm fecha">
-                                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                    @endif
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    @else
+                        <p class="m-4 text-center mt-4">(Sin registros de Ventas)</p>
+                    @endif
                 </div>
-            @endif
+            </div>
+
+            <div class="card mb-4 mt-4">
+                <div class="card-body">
+                    <label style="font-size: 1rem;">Ingresos</label>
+                    @if ($totalesIngresosIE->isNotEmpty())
+                        @foreach ($totalesIngresosIE as $item)
+                            <tr>
+                                <td class="text-sm text-center no">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="text-sm fecha">
+                                    {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
+                                </td>
+                                <td>
+                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
+
+                                </td>
+
+                                <td class="ie">
+                                    <span class="badge badge-sm bg-primary text-sm">
+                                        {{ number_format($item->importe, 2) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <p class="m-4 text-center">(Sin registros de Ingresos)</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <label style="font-size: 1rem;">Egresos</label>
+                    @if ($totalesEgresosIE->isNotEmpty())
+                        @foreach ($totalesEgresosIE as $item)
+                            <tr>
+                                <td class="text-sm text-center no">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="text-sm fecha">
+                                    {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
+                                </td>
+                                <td>
+                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
+
+                                </td>
+                                <td class="ie">
+                                    <span class="badge badge-sm bg-danger text-sm">
+                                        {{ number_format($item->importe, 2) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <p class="m-4 text-center">(Sin registros de Egresos)</p>
+                    @endif
+                </div>
+            </div>
 
             <div class="row justify-content-center">
                 <div class="col-lg-6">
@@ -234,8 +289,8 @@
                                     <td class="text-sm text-center">
                                         Total Ingresos
                                     </td>
-                                    <td class="text-sm-4 text-left" style="float: center">
-                                        Bs. {{ $totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') }}
+                                    <td class="text-sm-4 text-end pe-8" style="float: center">
+                                        {{ number_format($totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe'), 2) }}
                                     </td>
                                 </tr>
 
@@ -243,58 +298,54 @@
                                     <td class="text-sm text-center">
                                         Total Egresos
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
-                                        Bs. {{ $totalesEgresosIE->sum('importe') ?? 0 }}
+                                    <td class="text-sm text-end pe-8" style="float: center">
+                                        {{ number_format($totalesEgresosIE->sum('importe') ?? 0, 2) }}
                                     </td>
-
                                 </tr>
+                                
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
-                                        Saldo Total
+                                        Saldo
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
-                                        Bs. {{ $totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') - $totalesEgresosIE->sum('importe') ?? 0 }}
+                                    <td class="text-sm text-end pe-8" style="float: center">
+                                        {{ number_format($totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') - $totalesEgresosIE->sum('importe') ?? 0, 2) }}
                                     </td>
-
                                 </tr>
+
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
                                         Apertura Caja
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
-                                        Bs. {{ $movimiento->import }}
+                                    <td class="text-sm text-end pe-8" style="float: center">
+                                        {{ number_format($movimiento->import, 2) }}
                                     </td>
-
                                 </tr>
 
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
                                         Sobrantes
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
-                                        Bs. {{ $sobrante }}
+                                    <td class="text-sm text-end pe-8" style="float: center">
+                                        {{ number_format($sobrante, 2) }}
                                     </td>
-
-
                                 </tr>
+
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
                                         Faltantes
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
-                                        Bs. {{ $faltante }}
+                                    <td class="text-sm text-end pe-8" style="float: center">
+                                        {{ number_format($faltante, 2) }}
                                     </td>
-
-
                                 </tr>
+
                                 <tr class="p-5">
                                     <td class="text-sm text-center">
                                         Saldo al cierre de caja
                                     </td>
-                                    <td class="text-sm text-left" style="float: center">
+                                    <td class="text-sm text-end pe-8" style="float: center">
                                         Bs. {{ $cierremonto }}
                                     </td>
-
                                 </tr>
 
                             </tbody>
@@ -302,33 +353,20 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <br>
         </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
-
-
-
-
-
-
-
-
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        //Llamando a una nueva pestaña donde estará el pdf modal
+        window.livewire.on('opentap', Msg => {
+            var win = window.open('report/pdfmovdiasesion');
+            // Cambiar el foco al nuevo tab (punto opcional)
+            //win.focus();
+        });
+    });
+</script>

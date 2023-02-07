@@ -2,18 +2,17 @@
     <thead>
         <tr>
 
-
-            <th> NOMBRE</th>
+            <th> CODIGO</th>
+            <th> NOMBRE DE PRODUCTO</th>
             <th> CARACTERISTICAS</th>
             <th> UNIDAD</th>
             <th> MARCA</th>
-            <th>INDUSTRIA</th>
-            <th>CATEGORIA</th>
+            <th> INDUSTRIA</th>
+            <th> CATEGORIA</th>
             <th> SUBCATEGORIA</th>
-            <th> CODIGO</th>
             <th> COSTO</th>
             <th> PRECIO VENTA</th>
-   
+            <th> STATUS</th>
 
         </tr>
     </thead>
@@ -22,6 +21,9 @@
             <tr>
 
 
+                <td>
+                    {{ $products->codigo }}
+                </td>
                 <td>
                     {{ $products->nombre }}
 
@@ -57,15 +59,17 @@
                 @endif
 
                 <td>
-                    {{ $products->codigo }}
-                </td>
-                <td>
-                    {{ $products->ultimocosto() == null ? '--' : $products->costoActivo()}}
+                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo()}}
                 </td>
                 <td>
                     {{ $products->precioActivo() == null ? '--' : $products->precioActivo()}}
                 </td>
-            
+                
+
+                <td>
+                    {{ $products->status }}
+                </td>
+
 
 
 

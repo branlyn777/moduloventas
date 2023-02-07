@@ -52,9 +52,11 @@ class DetalleComprasController extends Component
     public $orden,$ordencompraselected;
 
     private $pagination = 5;
+    public $componentName2 ,$componentName;
    
     public function mount()
     {
+        $this->componentName2 = "Proveedor";
         $this->componentName= "Compras";
         $this->fecha_compra = Carbon::now()->format('Y-m-d');
         $this->usuario = Auth()->user()->name;

@@ -36,12 +36,14 @@ class ComprasController extends Component
             $totales,
             $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$search2,$tipo_search,$productoProveedor,$search3;
 
+            public $componentName2;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
     }
     public function mount()
     {
+        $this->componentName2 = 'Proveedores';
         $this->nro=1;
         $this->filtro='Contado';
         $this->fecha='hoy';
