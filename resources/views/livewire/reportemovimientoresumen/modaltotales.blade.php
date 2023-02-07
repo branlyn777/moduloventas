@@ -156,6 +156,19 @@
 
 
                                 </tr>
+                                <tr class="p-5">
+
+
+
+                                    <td class="text-sm">
+                                        Ajustes
+                                    </td>
+                                    <td class="text-sm" style="float: right">
+                                       <u>{{ number_format(0, 2) }}</u> 
+                                    </td>
+
+
+                                </tr>
 
                                 <tr>
                                     <td class="text-sm">

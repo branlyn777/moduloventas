@@ -124,6 +124,17 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
+                                <label style="font-size: 1rem">Sucursal</label>
+                                <select wire:model="sucursal" class="form-select">
+                                    @foreach ($sucursals as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
                                 <label style="font-size: 1rem">Cajas</label>
                                 <select wire:model="caja" class="form-select">
                                     @foreach ($cajas2 as $item)
@@ -134,17 +145,7 @@
 
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label style="font-size: 1rem">Sucursal</label>
-                                <select wire:model="sucursal" class="form-select">
-                                    @foreach ($sucursals as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>
-                        </div>
+                      
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label style="font-size: 1rem">Categoria</label>
@@ -211,8 +212,8 @@
                                     <th class="text-uppercase text-sm ps-2">FECHA</th>
                                     <th class="text-uppercase text-sm ps-2">MOVIMIENTO</th>
                                     <th class="text-uppercase text-sm ps-2">CATEGORIA</th>
-                                    <th class="text-uppercase text-sm ps-2">CAJA</th>
-                                    <th class="text-uppercase text-sm ps-2">CARTERA</th>
+                                
+                              
                                     <th class="text-uppercase text-sm ps-2">IMPORTE</th>
                                     <th class="text-uppercase text-sm ps-2">MOTIVO</th>
                                     <th class="text-uppercase text-sm ps-2">USUARIO</th>
@@ -227,14 +228,18 @@
                                             <h6 class="text-sm mb-0 text-center" style="font-size: 100%">{{ $loop->iteration }}
                                             </h6>
                                         </td>
-                                        <td class="d-flex px-2 py-1">
-                                            <h6 class="me-3" style="font-size: 100%">
-                                                {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y H:i') }}
+                                        <td>
+                                            <h6>
+                                                {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y') }}
+                                                <br>
+                                                {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format(' H:i') }}
                                             </h6>
                                         </td>
                                         <td>
                                             <h6 class="text-left" style="font-size: 100%">
-                                                {{ $p->carteramovtype }}</h6>
+                                                {{ $p->carteramovtype }}
+                                            <br>
+                                            {{ $p->nombre }}</h6>
                                         </td>
 
                                         <td>
@@ -248,15 +253,8 @@
 
                                             </h6>
                                         </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">
-                                                {{ $p->cajaNombre }}
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">{{ $p->nombre }}
-                                            </h6>
-                                        </td>
+                                  
+                                    
                                         <td>
                                             <h6 class="text-left" style="font-size: 100%">
                                                 {{ number_format($p->import, 2) }}
