@@ -46,9 +46,7 @@
         <div class="col-12">
             <div class="d-lg-flex" style="margin-bottom: 2.3rem">
                 <h5 class="text-white" style="font-size: 16px">Productos Mas Vendidos </h5>
-                
             </div>
-
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row">
@@ -57,16 +55,10 @@
                                 Buscar
                             </h6>
                             <div class="form-group">
-
-
                                 <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"
-                                            aria-hidden="true"></i></span>
-                                    <input wire:model="search" placeholder="Ingrese Nombre o código"
-                                        class="form-control">
+                                    <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    <input wire:model="search" placeholder="Ingrese Nombre o código" class="form-control">
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-2 text-left">
@@ -127,13 +119,8 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <center>
                     <div id="preloader_3" wire:loading.delay.longest>
-
-
                         <div class="lds-roller">
                             <div></div>
                             <div></div>
@@ -144,8 +131,6 @@
                             <div></div>
                             <div></div>
                         </div>
-
-
                     </div>
                 </center>
             </div>
@@ -153,19 +138,20 @@
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
+                        <table class="table mb-0">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">No</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Producto</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Código Producto</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">Cantidad</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">Total Bs</th>
+                                    <th class="text-uppercase text-sm" style="text-align: right;">Total Bs</th>
+                                    <th class="text-uppercase text-sm" style="text-align: right;">Utilidad Bs</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tabla_productos->sortByDesc('cantidad_vendida') as $t)
-                                    <tr class="text-left">
+                                    <tr class="">
                                         <td class="text-sm mb-0 text-center">
                                             {{ $loop->iteration }}
                                         </td>
@@ -178,8 +164,11 @@
                                         <td class="text-sm mb-0 text-left">
                                             {{ $t->cantidad_vendida }}
                                         </td>
-                                        <td>
-
+                                        <td class="text-sm" style="text-align: right;">
+                                            {{ number_format($t->total_vendido, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-sm" style="text-align: right;">
+                                            {{ $t->total_utilidad }}
                                         </td>
                                     </tr>
                                 @endforeach
