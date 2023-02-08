@@ -58,7 +58,7 @@ class Product extends Model
         
     }
 
-    public function codigo($id){
+    public static function codigo($id){
         $mn=Product::find($id)->codigo;
         return $mn;
     }

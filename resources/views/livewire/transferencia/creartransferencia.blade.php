@@ -172,7 +172,7 @@
                                                     {{ $loop->iteration }}
                                                 </td>
                                                 <td>
-                                                    {{ substr($prod->name, 0, 20) }}({{App\Models\Product::codigo($prod->id)}})
+                                                    {{ substr($prod->name, 0, 20) }}({{\App\Models\Product::codigo($prod->id)}})
                                                 </td>
                                                 <td>
                                                     <input type="number" id="rr{{ $prod->id }}"

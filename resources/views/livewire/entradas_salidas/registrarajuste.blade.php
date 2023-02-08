@@ -54,7 +54,7 @@
                     <div wire:ignore.self class="multisteps-form mb-5">
 
                         <div class="row">
-                            <div class="col-12 col-lg-10 mx-auto my-4">
+                            <div class="col-12 col-lg-11 mx-auto my-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="multisteps-form__progress">
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-lg-10 m-auto">
+                            <div class="col-12 col-lg-11 m-auto">
                                 <form class="multisteps-form__form mb-8" style="height: 408px;">
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show }}"
@@ -346,8 +346,10 @@
                                                                                         <th>Cantidad</th>
                                                                                         <th>Acción</th>
                                                                                     @elseif($concepto == 'Ajuste Inventarios')
-                                                                                        <th>Cantidad Actual Sistema</th>
+                                                                                        <th> Cant. Actual <br>   Sistema</th>
                                                                                         <th>Recuento Fisico</th>
+                                                                                        <th></th>
+                                                                                        <th></th>
                                                                                         <th>Acción</th>
                                                                                     @else
                                                                                         <th>Cantidad</th>
@@ -390,6 +392,7 @@
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
                                                                                         @elseif($concepto == 'Ajuste Inventarios')
+                                                                                            @if ( $prod['stockactual']!=0)
                                                                                             <td class='text-center'>
 
                                                                                                 {{ $prod['stockactual'] }}
@@ -401,9 +404,61 @@
                                                                                                     id="cf{{ $prod['product_id'] }}"
                                                                                                     wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
                                                                                                     style="padding:0!important"
-                                                                                                    class="form-control text-center"
+                                                                                                    class="form-control ps-2"
                                                                                                     value="{{ $prod['recuento'] }}">
                                                                                             </td>
+                                                                                            @else
+                                                                                            <td class='text-center'>
+
+                                                                                                {{ $prod['stockactual'] }}
+                                                                                            </td>
+                                                                                            <td class='text-center'>
+                                                                                                <input type="number"
+                                                                                                    onkeypress="return event.charCode >= 48"
+                                                                                                    min="1"
+                                                                                                    id="cf{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control ps-2"
+                                                                                                    value="{{ $prod['recuento'] }}">
+                                                                                            </td>
+                                                                                            <td class='text-center'>    
+                                                                                                <div class="input-group">
+                                                                                                    <input type="number"
+                                                                                                    onkeypress="return event.charCode >= 48"
+                                                                                                    min="1"
+                                                                                                    id="cf{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control ps-2"
+                                                                                                    value="{{ $prod['costo'] }}">
+
+
+                                                                                                    <span class="input-group-text bg-primary text-white">
+                                                                                                        costo
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class='text-center'>
+                                                                                                <div class="input-group">
+                                                                                                    <input type="number"
+                                                                                                    onkeypress="return event.charCode >= 48"
+                                                                                                    min="1"
+                                                                                                    id="cf{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0!important"
+                                                                                                    class="form-control ps-2"
+                                                                                                    value="{{ $prod['pv_lote'] }}">
+
+
+                                                                                                    <span class="input-group-text bg-primary text-white">
+                                                                                                        p/v
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            @endif
+                                                                                          
+                                                                                            
                                                                                         @else
                                                                                             <td>
                                                                                                 <input type="number"
