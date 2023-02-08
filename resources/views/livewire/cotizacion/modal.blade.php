@@ -80,100 +80,106 @@
 
 
                 @if ($this->carrito_cotizacion->count() > 0)
-                    <table class="table table-wrapper">
-                        <thead>
-                            <tr>
-                                <th class="text-sm mb-0">N°</th>
-                                <th class="text-sm mb-0">Nombre</th>
-                                <th class="text-sm mb-0">Codigo</th>
-                                <th class="text-sm mb-0">Cantidad</th>
-                                <th class="text-sm mb-0">Precio</th>
-                                <th class="text-sm mb-0">Acciones</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($this->carrito_cotizacion->sortBy('orden') as $c)
+                    <div class="card mb-4">
+                        <table >
+                            <thead>
                                 <tr>
-                                    <td class="text-sm mb-0 text-center">
-                                        {{ $c['orden'] }}
-                                    </td>
-                                    <td class="text-sm mb-0 text-center">
-                                        {{ $c['nombre_producto'] }}
-                                    </td>
-                                    <td class="text-sm mb-0 text-center">
-                                        {{ $c['codigo'] }}
-                                    </td>
-                                    <td class="text-sm mb-0 text-center">
-                                        {{ $c['cantidad'] }}
-                                    </td>
-                                    <td class="text-sm mb-0 text-center">
-                                        {{ $c['precio_producto'] }}
-                                    </td>
-                                    <td class="text-sm mb-0 text-center">
+                                    <th class="text-sm mb-0 text-center">N°</th>
+                                    <th class="text-sm mb-0 text-center">Nombre</th>
+                                    <th class="text-sm mb-0 text-center">Codigo</th>
+                                    <th class="text-sm mb-0 text-center">Cantidad</th>
+                                    <th class="text-sm mb-0 text-center">Precio</th>
+                                    <th class="text-sm mb-0 text-center">Acciones</th>
 
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-
-                                            <button title="Quitar una unidad"
-                                                wire:click.prevent="decrease({{ $c['producto_id'] }})"
-                                                class="btn btn-secondary"
-                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <button title="Incrementar una unidad"
-                                                wire:click.prevent="increase({{ $c['producto_id'] }})"
-                                                class="btn btn-primary"
-                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <button title="Eliminar Producto" href="#"
-                                                onclick="ConfirmarEliminar('  {{ $c['producto_id'] }}', '{{ $c['nombre_producto'] }}')"
-                                                class="btn btn-danger"
-                                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-
-                                        </div>
-
-                                    </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
+                            </thead>
+                            <tbody>
+                                @foreach ($this->carrito_cotizacion->sortBy('orden') as $c)
+                                    <tr>
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ $c['orden'] }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-center font-size: 13px">
+                                            {{ $c['nombre_producto'] }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ $c['codigo'] }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ $c['cantidad'] }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-center">
+                                            {{ $c['precio_producto'] }}
+                                        </td>
+                                        <td class="text-sm mb-0 text-center">
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive p-0">
-                                    <table style="width: 100%">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
 
-                                        <tr>
-                                            <td colspan="3">
-                                                <h5>
+                                                <button title="Quitar una unidad"
+                                                    wire:click.prevent="decrease({{ $c['producto_id'] }})"
+                                                    class="btn btn-secondary"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button title="Incrementar una unidad"
+                                                    wire:click.prevent="increase({{ $c['producto_id'] }})"
+                                                    class="btn btn-primary"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button title="Eliminar Producto" href="#"
+                                                    onclick="ConfirmarEliminar('  {{ $c['producto_id'] }}', '{{ $c['nombre_producto'] }}')"
+                                                    class="btn btn-danger"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+
+                            <div class="card mb-4">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive p-0">
+                                        <table style="width: 100%">
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <h5>
+                                                        <p class="text-sm mb-0">
+                                                            <b> Totales.- </b>
+                                                        </p>
+                                                    </h5>
+                                                </td>
+                                                <td class="text-left">
                                                     <p class="text-sm mb-0">
-                                                        <b> Totales.- </b>
+                                                    <h6>{{ number_format($this->total_cantidad) }}</h6>
                                                     </p>
-                                                </h5>
-                                            </td>
-                                            <td class="text-left">
-                                                <p class="text-sm mb-0">
-                                                <h6>{{ number_format($this->total_cantidad) }}</h6>
-                                                </p>
-                                            </td>
-                                            <td class="text-left">
-                                                <p class="text-sm mb-0">
-                                                <h6>{{ number_format($this->total_bs, 2) }} Bs</h6>
-                                                </p>
-                                            </td>
+                                                </td>
+                                                <td class="text-left">
+                                                    <p class="text-sm mb-0">
+                                                    <h6>{{ number_format($this->total_bs, 2) }} Bs</h6>
+                                                    </p>
+                                                </td>
 
-                                            <td class="text-center">
-                                                <p class="text-sm mb-0">
-                                                    <b>---</b>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
+                                                <td class="text-center">
+                                                    <p class="text-sm mb-0">
+                                                        <b>---</b>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
-                    </table>
+
+                            </div>
+                        </table>
+                    </div>
                 @endif
 
 
