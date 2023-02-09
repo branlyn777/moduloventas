@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SaleDetail;
+use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
 use Carbon\Carbon;
@@ -377,7 +378,7 @@ class SaleReportProductController extends Component
         {
             $t->cantidad_vendida = $this->obtener_cantidad_vendida($t->idproducto);
             $t->total_vendido = $this->obtener_total_vendido($t->idproducto);
-            $t->total_utilidad = $this->obtener_total_utilidad($t->idproducto);
+            $t->total_utilidad = $this->obtener_total_costo($t->idproducto);
         }
 
 
@@ -415,6 +416,7 @@ class SaleReportProductController extends Component
     {
         $cantidad = SaleDetail::join("sales as s","s.id","sale_details.sale_id")
         ->where("sale_details.product_id",$productoid)
+        ->where("s.status", "PAID")
         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
         ->sum('sale_details.quantity');
         return $cantidad;
@@ -434,6 +436,7 @@ class SaleReportProductController extends Component
         $total = SaleDetail::join("sales as s","s.id","sale_details.sale_id")
             ->select(DB::raw('sale_details.price * sale_details.quantity as total'))
             ->where("sale_details.product_id",$productoid)
+            ->where("s.status", "PAID")
             ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
             ->get();
 
@@ -448,21 +451,32 @@ class SaleReportProductController extends Component
 
 
     }
-    //Obtiene el total utilidad de un producto en un lapso de tiempo
-    public function obtener_total_utilidad($productoid)
+    //Obtiene el total utilidad costo de un producto en un lapso de tiempo
+    public function obtener_total_costo($productoid)
     {
         $lista = SaleDetail::join("sales as s","s.id","sale_details.sale_id")
-        ->select("sale_details.id as iddetalle")
+        ->select("sale_details.id as iddetalle", "sale_details.price as precio_venta")
+        ->where("s.status", "PAID")
         ->where("sale_details.product_id",$productoid)
         ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
         ->get();
+
+        $total_costo = 0;
+
         
-        // foreach($lista as $l)
-        // {
+        foreach($lista as $l)
+        {
+            $lista_lotes = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
+            ->select(DB::raw('sale_lotes.cantidad * l.costo as total'))
+            ->where("sale_lotes.sale_detail_id", $l->iddetalle)
+            ->get();
+            foreach($lista_lotes as $ll)
+            {
+                $total_costo = $total_costo + $ll->total;
+            }
+        }
 
-        // }
 
-
-        return "Hola";
+        return $total_costo;
     }
 }
