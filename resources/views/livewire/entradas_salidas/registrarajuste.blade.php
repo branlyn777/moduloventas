@@ -393,7 +393,7 @@
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
                                                                                         @elseif($concepto == 'Ajuste Inventarios')
-                                                                                            @if ($prod['stockactual'] != 0)
+                                                                                        
                                                                                                 <td
                                                                                                     class='text-center'>
 
@@ -405,29 +405,11 @@
                                                                                                         type="number"
                                                                                                         onkeypress="return event.charCode >= 48"
                                                                                                         min="1"
-                                                                                                        id="cf{{ $prod['product_id'] }}"
-                                                                                                        wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                        id="rec{{ $prod['product_id'] }}"
+                                                                                                        wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#rec' + {{ $prod['product_id'] }}).val())"
                                                                                                         style="padding:0!important"
                                                                                                         class="form-control ps-2"
-                                                                                                        value="{{ $prod['recuento'] }}">
-                                                                                                </td>
-                                                                                            @else
-                                                                                                <td
-                                                                                                    class='text-center'>
-
-                                                                                                    {{ $prod['stockactual'] }}
-                                                                                                </td>
-                                                                                                <td
-                                                                                                    class='text-center'>
-                                                                                                    <input
-                                                                                                        type="number"
-                                                                                                        onkeypress="return event.charCode >= 48"
-                                                                                                        min="1"
-                                                                                                        id="cf{{ $prod['product_id'] }}"
-                                                                                                        wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
-                                                                                                        style="padding:0!important"
-                                                                                                        class="form-control ps-2"
-                                                                                                        value="{{ $prod['recuento'] }}">
+                                                                                                        value="{{$prod['recuento']}}">
                                                                                                 </td>
                                                                                                 <td
                                                                                                     class='text-center'>
@@ -437,13 +419,13 @@
                                                                                                             type="number"
                                                                                                             onkeypress="return event.charCode >= 48"
                                                                                                             min="1"
-                                                                                                            id="cf{{ $prod['product_id'] }}"
-                                                                                                            wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                            id="cost{{ $prod['product_id'] }}"
+                                                                                                            wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cost' + {{ $prod['product_id'] }}).val())"
                                                                                                             style="padding:0!important"
                                                                                                             class="form-control ps-2"
-                                                                                                            value="{{ $prod['costo'] }}">
-
-
+                                                                                                            value="{{$prod['costo']}}"
+                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}
+                                                                                                           >
                                                                                                         <span
                                                                                                             class="input-group-text bg-primary text-white">
                                                                                                             costo
@@ -458,20 +440,19 @@
                                                                                                             type="number"
                                                                                                             onkeypress="return event.charCode >= 48"
                                                                                                             min="1"
-                                                                                                            id="cf{{ $prod['product_id'] }}"
-                                                                                                            wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
+                                                                                                            id="pv{{ $prod['product_id'] }}"
+                                                                                                            wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val())"
                                                                                                             style="padding:0!important"
                                                                                                             class="form-control ps-2"
-                                                                                                            value="{{ $prod['pv_lote'] }}">
-
-
+                                                                                                            value="{{$prod['pv_lote'] }}"
+                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}>
                                                                                                         <span
                                                                                                             class="input-group-text bg-primary text-white">
                                                                                                             p/v
                                                                                                         </span>
                                                                                                     </div>
                                                                                                 </td>
-                                                                                            @endif
+                                                                                         
                                                                                         @else
                                                                                             <td>
                                                                                                 <input type="number"
