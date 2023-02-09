@@ -173,7 +173,7 @@
                             Seleccionados</button> --}}
                         
                         {{-- @if ($selectedProduct) --}}
-                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar 
+                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
                                 Seleccionados ({{count($selectedProduct)}})</button>
                         {{-- @endif --}}
                     </div>
@@ -182,11 +182,11 @@
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
-                                <table class="table align-items-center mb-4" id="products-list">
+                                <table class="" id="products-list">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
-                                            <th class="text-uppercase text-sm text-center ps-2">
+                                            <th class="text-uppercase text-sm text-center">
                                                 <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto">
                                                         <input type="checkbox" class="form-check-input"
@@ -195,24 +195,24 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm ps-2">Categoría</th>
-                                            <th class="text-uppercase text-sm ps-2">Sub Categoría</th>
-                                            <th class="text-uppercase text-sm ps-2">Código</th>
+                                            <th class="text-uppercase text-sm">Categoría</th>
+                                            <th class="text-uppercase text-sm">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm">Código</th>
                                             <th class="text-uppercase text-sm text-center">Costo Activo</th>
                                             <th class="text-uppercase text-sm text-center">Precio Activo</th>
-                                            <th class="text-uppercase text-sm ps-2">Estado</th>
-                                            <th class="text-uppercase text-sm text-center ps-2">Acciones</th>
+                                            <th class="text-uppercase text-sm">Estado</th>
+                                            <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @foreach ($data as $products)
                                             <tr style="font-size: 14px">
-                                                <td class="text-center ps-2">
+                                                <td class="text-center">
                                                     {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
                                                 </td>
 
-                                                <td class="ps-2">
+                                                <td>
                                                     <div class="d-flex">
                                                         <div class="form-check my-auto">
                                                             <input class="form-check-input" type="checkbox"
@@ -220,31 +220,38 @@
                                                                 value="{{ $products->id }}">
                                                         </div>
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                            alt="hoodie" width="50">
+                                                            alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <label
-                                                                style="font-size: 14px">{{ substr($products->nombre, 0, 30) }}</label>
+                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                            
+                                                            
+                                                            {{ $products->caracteristicas }}
+
+
+                                                            <p>{{ $products->unidad}}|{{ $products->marca}}|{{ $products->industria }}
+                                                            {{ $products->caracteristicas }}</p>
+                                                            
                                                         </div>
                                                     </div>
                                                 </td>
                                                 @if ($products->category->subcat != null)
-                                                    <td class="ps-2">
+                                                    <td>
                                                         {{ $products->category->subcat->name }}
                                                     </td>
-                                                    <td class="ps-2">
+                                                    <td>
                                                         {{ $products->category->name }}
                                                     </td>
                                                 @else
-                                                    <td class="ps-2">
+                                                    <td>
                                                         {{ $products->category->name }}
                                                     </td>
-                                                    <td class="ps-2">
+                                                    <td>
                                                         No definido
 
                                                     </td>
                                                 @endif
-                                                <td class="ps-2">
-                                                    {{ substr($products->codigo, 0, 11) }}
+                                                <td>
+                                                    {{ $products->codigo }}
                                                 </td>
                                                 <td class="text-center">
                                                     {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
@@ -375,7 +382,6 @@
                     'error'
                 )
             });
-
             window.livewire.on('sin-archivo', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -404,7 +410,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('EliminarSeleccionados', event.detail.id)
+                    window.livewire.emit('EliminarSeleccionados', event.detail.checkedIDs)
                 }
             })
         })
@@ -448,6 +454,4 @@
 
     <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-
-
 @endsection
