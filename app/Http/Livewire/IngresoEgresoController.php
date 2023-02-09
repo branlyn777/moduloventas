@@ -20,15 +20,18 @@ class IngresoEgresoController extends Component
 
     public $fromDate,$toDate,$caja,$data,$search,$cv,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal,$mensaje_toast;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit,$type_edit;
+    public $cartera_id_edit,$type_edit, $selected_id, $opciones, $cartera_id, $type, $comentario;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
+
+    //Para guardar el tipo de movimiento en los filtros
+    public $tipo_movimiento;
   
 
     public function mount()
     {
-
+        $this->tipo_movimiento = "TODOS";
         $this->selected_id = 0;
         $this->opciones = 'TODAS';
         $this->cartera_id = 'Elegir';
@@ -46,10 +49,8 @@ class IngresoEgresoController extends Component
        //$this->sucursal=collect();
 
     }
-
     public function render()
     {
-
         if (Auth::user()->hasPermissionTo('Admin_Views') or Auth::user()->hasPermissionTo('Caja_Index'))
         {
             $this->sucursals= Sucursal::all();
@@ -86,7 +87,7 @@ class IngresoEgresoController extends Component
         /* MOSTRAR CARTERAS DE LA CAJA EN LA QUE SE ENCUENTRA */
         //dd($this->sucursal);
 
-        if ($this->caja== 'TODAS')
+        if ($this->caja == 'TODAS')
         {
             $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
@@ -122,50 +123,217 @@ class IngresoEgresoController extends Component
             $c->monto = $INGRESOS - $EGRESOS;
         }
 
-        if ($this->search != null) 
-        {
-            if($this->categoria_id == 'Todos')
-            {
-                if ($this->caja == "TODAS")
-                {
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('ca.sucursal_id', $this->sucursal)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->where(function($querys){
-                        $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
-                        ->orWhere('u.name', 'like', '%' . $this->search .'%')
-                        ->orWhere('crms.comentario','like','%' . $this->search . '%');
-            
-                    })
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();
-                    $this->sumaTotal=$this->data->sum('import');
 
+
+
+        if($this->tipo_movimiento == "TODOS")
+        {
+            if($this->search != null) 
+            {
+                if($this->categoria_id == 'Todos')
+                {
+                    if ($this->caja == "TODAS")
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->where(function($querys){
+                            $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                            ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                            ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                
+                        })
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+    
+                    }
+                    else
+                    {
+                            $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                            ->join('users as u', 'u.id', 'movimientos.user_id')
+                            ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                            ->select(
+                                'movimientos.type as movimientotype',
+                                'movimientos.import as import',
+                                'crms.type as carteramovtype',
+                                'crms.tipoDeMovimiento',
+                                'crms.comentario',
+                                'cc.nombre as nombrecategoria',
+                                'c.nombre as nombre',
+                                'c.descripcion',
+                                'c.tipo',
+                                'c.telefonoNum',
+                                'ca.nombre as cajaNombre',
+                                'u.name as usuarioNombre',
+                                'movimientos.created_at as movimientoCreacion',
+                                'movimientos.id as movid',
+                                'movimientos.status as movstatus'
+                            )
+                            ->where('ca.id', $this->caja)
+                            ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                            ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                            ->where(function($querys){
+                                $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                                ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                                ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                    
+                            })
+                            ->orderBy('movimientos.id', 'desc')
+                            ->get();
+                
+                            $this->sumaTotal=$this->data->sum('import');
+                    
+    
+                    }
                 }
                 else
                 {
+                    if ($this->caja == "TODAS")
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where('cc.id', $this->categoria_id)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->where(function($querys){
+                            $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                            ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                            ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                
+                        })
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+    
+                    }
+                    else
+                    {
+                            $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                            ->join('users as u', 'u.id', 'movimientos.user_id')
+                            ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                            ->select(
+                                'movimientos.type as movimientotype',
+                                'movimientos.import as import',
+                                'crms.type as carteramovtype',
+                                'crms.tipoDeMovimiento',
+                                'crms.comentario',
+                                'cc.nombre as nombrecategoria',
+                                'c.nombre as nombre',
+                                'c.descripcion',
+                                'c.tipo',
+                                'c.telefonoNum',
+                                'ca.nombre as cajaNombre',
+                                'u.name as usuarioNombre',
+                                'movimientos.created_at as movimientoCreacion',
+                                'movimientos.id as movid',
+                                'movimientos.status as movstatus'
+                            )
+                            ->where('cc.id', $this->categoria_id)
+                            ->where('ca.id', $this->caja)
+                            ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                            ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                            ->where(function($querys){
+                                $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                                ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                                ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                    
+                            })
+                            ->orderBy('movimientos.id', 'desc')
+                            ->get();
+                
+                            $this->sumaTotal=$this->data->sum('import');
+                    
+    
+                    }
+                }
+            }
+            else
+            {
+                if($this->categoria_id == 'Todos')
+                {
+                    if ($this->caja == 'TODAS')
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();   
+    
+                      
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
+                    else
+                    {
                         $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                         ->join('carteras as c', 'c.id', 'crms.cartera_id')
                         ->join('cajas as ca', 'ca.id', 'c.caja_id')
@@ -191,63 +359,49 @@ class IngresoEgresoController extends Component
                         ->where('ca.id', $this->caja)
                         ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
                         ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                        ->where(function($querys){
-                            $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
-                            ->orWhere('u.name', 'like', '%' . $this->search .'%')
-                            ->orWhere('crms.comentario','like','%' . $this->search . '%');
-                
-                        })
                         ->orderBy('movimientos.id', 'desc')
                         ->get();
-            
                         $this->sumaTotal=$this->data->sum('import');
-                
-
-                }
-            }
-            else
-            {
-                if ($this->caja == "TODAS")
-                {
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('cc.id', $this->categoria_id)
-                    ->where('ca.sucursal_id', $this->sucursal)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->where(function($querys){
-                        $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
-                        ->orWhere('u.name', 'like', '%' . $this->search .'%')
-                        ->orWhere('crms.comentario','like','%' . $this->search . '%');
-            
-                    })
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();
-                    $this->sumaTotal=$this->data->sum('import');
-
+                    }
                 }
                 else
                 {
+                    if ($this->caja == 'TODAS')
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where('cc.id', $this->categoria_id)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();   
+                      
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
+                    else
+                    {
+        
                         $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                         ->join('carteras as c', 'c.id', 'crms.cartera_id')
                         ->join('cajas as ca', 'ca.id', 'c.caja_id')
@@ -274,6 +428,47 @@ class IngresoEgresoController extends Component
                         ->where('ca.id', $this->caja)
                         ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
                         ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
+                }
+            }
+        }
+        else
+        {
+            if($this->search != null) 
+            {
+                if($this->categoria_id == 'TODOS')
+                {
+                    if ($this->caja == "TODAS")
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                         ->where(function($querys){
                             $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
                             ->orWhere('u.name', 'like', '%' . $this->search .'%')
@@ -282,161 +477,310 @@ class IngresoEgresoController extends Component
                         })
                         ->orderBy('movimientos.id', 'desc')
                         ->get();
-            
                         $this->sumaTotal=$this->data->sum('import');
+    
+                    }
+                    else
+                    {
+                            $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                            ->join('users as u', 'u.id', 'movimientos.user_id')
+                            ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                            ->select(
+                                'movimientos.type as movimientotype',
+                                'movimientos.import as import',
+                                'crms.type as carteramovtype',
+                                'crms.tipoDeMovimiento',
+                                'crms.comentario',
+                                'cc.nombre as nombrecategoria',
+                                'c.nombre as nombre',
+                                'c.descripcion',
+                                'c.tipo',
+                                'c.telefonoNum',
+                                'ca.nombre as cajaNombre',
+                                'u.name as usuarioNombre',
+                                'movimientos.created_at as movimientoCreacion',
+                                'movimientos.id as movid',
+                                'movimientos.status as movstatus'
+                            )
+                            ->where("crms.type", $this->tipo_movimiento)
+                            ->where('ca.id', $this->caja)
+                            ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                            ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                            ->where(function($querys){
+                                $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                                ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                                ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                    
+                            })
+                            ->orderBy('movimientos.id', 'desc')
+                            ->get();
                 
-
-                }
-            }
-        }
-        else
-        {
-            if($this->categoria_id == 'Todos')
-            {
-                if ($this->caja == 'TODAS')
-                {
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('ca.sucursal_id', $this->sucursal)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();   
-
-                  
-                    $this->sumaTotal=$this->data->sum('import');
+                            $this->sumaTotal=$this->data->sum('import');
+                    
+    
+                    }
                 }
                 else
                 {
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('ca.id', $this->caja)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();
-                    $this->sumaTotal=$this->data->sum('import');
+                    if ($this->caja == "TODAS")
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('cc.id', $this->categoria_id)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->where(function($querys){
+                            $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                            ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                            ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                
+                        })
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+    
+                    }
+                    else
+                    {
+                            $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                            ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                            ->join('users as u', 'u.id', 'movimientos.user_id')
+                            ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                            ->select(
+                                'movimientos.type as movimientotype',
+                                'movimientos.import as import',
+                                'crms.type as carteramovtype',
+                                'crms.tipoDeMovimiento',
+                                'crms.comentario',
+                                'cc.nombre as nombrecategoria',
+                                'c.nombre as nombre',
+                                'c.descripcion',
+                                'c.tipo',
+                                'c.telefonoNum',
+                                'ca.nombre as cajaNombre',
+                                'u.name as usuarioNombre',
+                                'movimientos.created_at as movimientoCreacion',
+                                'movimientos.id as movid',
+                                'movimientos.status as movstatus'
+                            )
+                            ->where("crms.type", $this->tipo_movimiento)
+                            ->where('cc.id', $this->categoria_id)
+                            ->where('ca.id', $this->caja)
+                            ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                            ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                            ->where(function($querys){
+                                $querys->where( 'crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                                ->orWhere('u.name', 'like', '%' . $this->search .'%')
+                                ->orWhere('crms.comentario','like','%' . $this->search . '%');
+                    
+                            })
+                            ->orderBy('movimientos.id', 'desc')
+                            ->get();
+                
+                            $this->sumaTotal=$this->data->sum('import');
+                    
+    
+                    }
                 }
             }
             else
             {
-                if ($this->caja == 'TODAS')
+                if($this->categoria_id == 'Todos')
                 {
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('cc.id', $this->categoria_id)
-                    ->where('ca.sucursal_id', $this->sucursal)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();   
-                  
-                    $this->sumaTotal=$this->data->sum('import');
+                    if ($this->caja == 'TODAS')
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();   
+    
+                      
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
+                    else
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('ca.id', $this->caja)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
                 }
                 else
                 {
-    
-                    $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
-                    ->join('cajas as ca', 'ca.id', 'c.caja_id')
-                    ->join('users as u', 'u.id', 'movimientos.user_id')
-                    ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
-                    ->select(
-                        'movimientos.type as movimientotype',
-                        'movimientos.import as import',
-                        'crms.type as carteramovtype',
-                        'crms.tipoDeMovimiento',
-                        'crms.comentario',
-                        'cc.nombre as nombrecategoria',
-                        'c.nombre as nombre',
-                        'c.descripcion',
-                        'c.tipo',
-                        'c.telefonoNum',
-                        'ca.nombre as cajaNombre',
-                        'u.name as usuarioNombre',
-                        'movimientos.created_at as movimientoCreacion',
-                        'movimientos.id as movid',
-                        'movimientos.status as movstatus'
-                    )
-                    ->where('cc.id', $this->categoria_id)
-                    ->where('ca.id', $this->caja)
-                    ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
-                    ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                    ->orderBy('movimientos.id', 'desc')
-                    ->get();
-                    $this->sumaTotal=$this->data->sum('import');
+                    if ($this->caja == 'TODAS')
+                    {
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('cc.id', $this->categoria_id)
+                        ->where('ca.sucursal_id', $this->sucursal)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();   
+                      
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
+                    else
+                    {
+        
+                        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->leftjoin('cartera_mov_categorias as cc', 'cc.id', 'crms.cartera_mov_categoria_id')
+                        ->select(
+                            'movimientos.type as movimientotype',
+                            'movimientos.import as import',
+                            'crms.type as carteramovtype',
+                            'crms.tipoDeMovimiento',
+                            'crms.comentario',
+                            'cc.nombre as nombrecategoria',
+                            'c.nombre as nombre',
+                            'c.descripcion',
+                            'c.tipo',
+                            'c.telefonoNum',
+                            'ca.nombre as cajaNombre',
+                            'u.name as usuarioNombre',
+                            'movimientos.created_at as movimientoCreacion',
+                            'movimientos.id as movid',
+                            'movimientos.status as movstatus'
+                        )
+                        ->where("crms.type", $this->tipo_movimiento)
+                        ->where('cc.id', $this->categoria_id)
+                        ->where('ca.id', $this->caja)
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','SOBRANTE','FALTANTE'])
+                        ->whereBetween('movimientos.created_at',[ Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00',Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->get();
+                        $this->sumaTotal=$this->data->sum('import');
+                    }
                 }
             }
         }
+
+
+
+
+
+
 
         $grouped= $this->carterasSucursal->groupBy('cajaNombre');
        // dd($grouped);
      
 
         //Listando todas las categorias con estado activo
-       $categorias = CarteraMovCategoria::select("cartera_mov_categorias.*")
-       ->where("cartera_mov_categorias.status", "ACTIVO")
-       ->get();
+
+        if($this->tipo_movimiento == "TODOS")
+        {
+            $categorias = CarteraMovCategoria::select("cartera_mov_categorias.*")
+            ->where("cartera_mov_categorias.status", "ACTIVO")
+            ->get();
+        }
+        else
+        {
+            $categorias = CarteraMovCategoria::select("cartera_mov_categorias.*")
+            ->where("cartera_mov_categorias.status", "ACTIVO")
+            ->where("cartera_mov_categorias.tipo", $this->tipo_movimiento)
+            ->get();
+        }
+
+
+
 
        $detalle = null;
 
@@ -474,12 +818,10 @@ class IngresoEgresoController extends Component
         ->extends('layouts.theme.app')
         ->section('content');
     }
-
     public function viewDetails()
     {
         $this->emit('show-modal', 'open modal');
     }
-
     public function Generar()
     {
         $rules = [ /* Reglas de validacion */
@@ -568,7 +910,6 @@ class IngresoEgresoController extends Component
         $this->emit('hide-modal', 'Se generó el ingreso/egreso');
         $this->resetUI();
     }
-
     public function resetUI()
     {
         $this->cartera_id = 'Elegir';
@@ -606,8 +947,9 @@ class IngresoEgresoController extends Component
 
         $this->emit('openothertap');
     }
-    protected $listeners= ['eliminar_operacion'=>'anularOperacion'];
-  
+    protected $listeners= [
+        'eliminar_operacion'=>'anularOperacion'
+    ];
     public function anularOperacion(Movimiento $mov)
     {
         $mov->update([
