@@ -11,7 +11,7 @@
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Parámetros</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Destinos </h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Almacenes</h6>
     </nav>
 @endsection
 
@@ -59,13 +59,13 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px">Destinos Productos</h5>
+                    <h5 class=" text-white" style="font-size: 16px">Lista Almacenes</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <a class="btn btn-add mb-0" wire:click="modalestancia()"><i class="fas fa-plus"></i> Nuevo
-                            Destino</a>
+                            Almacen </a>
                     </div>
                 </div>
             </div>
@@ -158,9 +158,9 @@
                                 @foreach ($destinos as $d)
                                     @if ($d->venta == 'No')
                                         <tr>
-                                            <td >
+                                            <td>
                                                 <p class="text-sm mb-0 text-center">
-                                                {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
+                                                    {{ ($destinos->currentpage() - 1) * $destinos->perpage() + $loop->index + 1 }}
                                                 </P>
                                             </td>
                                             <td>
@@ -172,7 +172,7 @@
                                                 <p class="text-sm mb-0 text-left">
                                                     {{ $d->nombredestino }}
                                                 </p>
-                                                
+
                                             </td>
                                             <td>
                                                 <p class="text-sm mb-0 text-left">
@@ -241,20 +241,20 @@
                                                 <p class="text-sm mb-0 text-left">
                                                     {{ $d->nombredestino }}
                                                 </p>
-                                                
+
                                             </td>
 
                                             <td>
                                                 <p class="text-sm mb-0 text-left">
                                                     {{ substr($d->observacion, 0, 58) }}
                                                 </p>
-                                                
+
                                             </td>
                                             <td>
                                                 <p class="text-sm mb-0 text-left">
                                                     {{ $d->nombresucursal }}
                                                 </p>
-                                                
+
                                             </td>
 
                                             <td>

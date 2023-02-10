@@ -50,7 +50,7 @@
                                         Egresos Totales en Efectivo
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                        {{ number_format($EgresosTotalesCF, 2) }}
+                                       ({{ number_format($EgresosTotalesCF, 2) }})
                                     </td>
                                 </tr>
 
@@ -109,7 +109,7 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                         
-                                       <u>  {{ number_format($saldo_acumulado,2)}}</u>
+                                       {{ number_format($saldo_acumulado,2)}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -151,7 +151,7 @@
                                         Faltantes
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                       <u>{{ number_format($operacionfalt, 2) }}</u> 
+                                       <u>({{ number_format($operacionfalt, 2) }})</u> 
                                     </td>
 
 
@@ -164,7 +164,12 @@
                                         Ajustes
                                     </td>
                                     <td class="text-sm" style="float: right">
-                                       <u>{{ number_format(0, 2) }}</u> 
+                                        @if ($ajustes<0)
+                                        <u>({{ number_format($ajustes*-1, 2) }})</u> 
+                                            
+                                        @else
+                                        <u>({{ number_format($ajustes, 2) }})</u> 
+                                        @endif
                                     </td>
 
 
@@ -176,7 +181,7 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                  
-                                        {{ number_format($total_efectivo+$saldo_acumulado-$op_recaudo-$operacionfalt+$operacionsob)}}
+                                        {{ number_format($total_efectivo+$saldo_acumulado-$op_recaudo-$operacionfalt+$operacionsob,2)}}
                                     </td>
                                 </tr>
 
