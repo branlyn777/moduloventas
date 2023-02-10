@@ -130,11 +130,8 @@
 
             <div class="row">
 
-                <div class="col-12 col-sm-6 col-md-3">
 
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-3">
+                <div class="col-12 col-sm-6 col-md-6">
                     <div class="card mb-4" style="padding-top: 10px;">
 
                         <div class="table-responsive">
@@ -143,7 +140,7 @@
                                     <td class="text-center">
                                         <h6>Total Utilidad</h6>
                                         <span class="badge badge-sm bg-warning text-lg">
-                                            <b>{{ number_format($this->total_utilidad, 2, ',', '.') }} Bs</b>
+                                            {{ number_format($this->total_utilidad, 2, ',', '.') }} Bs
                                         </span>
                                     </td>
                                 </tr>
@@ -153,7 +150,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-3">
+                <div class="col-12 col-sm-6 col-md-6">
                     <div class="card mb-4" style="padding-top: 10px;">
 
                         <div class="table-responsive">
