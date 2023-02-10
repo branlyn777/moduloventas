@@ -335,6 +335,12 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
+                            <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
+                                style="background-color: #2e48dc; color: white;">
+                                <i class="fas fa-plus me-2"></i>
+                                Nuevo Ingreso/Egreso
+                            </button>
+
                             <button wire:click="modalbuscarcliente()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
                                 <i class="fas fa-plus me-2"></i>
@@ -675,6 +681,7 @@
         @include('livewire.pos.modal.modalbuscarcliente')
         @include('livewire.pos.modal.modal_stock_insuficiente')
         @include('livewire.pos.modal.modallotesproducto')
+        @include('livewire.pos.modal.modal_ingreso_egreso')
 
 
         @if ($descuento_recargo >= 0)
@@ -940,6 +947,15 @@
                 // Cambiar el foco al nuevo tab (punto opcional)
                 // win.focus();
 
+            });
+
+
+
+
+
+            //Llamando al modal ingreso egreso
+            window.livewire.on('show-modalingresoegreso', Msg => {
+                $("#modalingresoegreso").modal("show");
             });
 
         });
