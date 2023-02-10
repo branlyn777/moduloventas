@@ -14,11 +14,6 @@
             </div>
             <div class="modal-body">
 
-
-
-
-
-
                 <div class="card mb-4">
 
                     <div class="col-sm-12">
@@ -74,9 +69,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
 
 
                 @if ($this->carrito_cotizacion->count() > 0)

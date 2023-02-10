@@ -138,12 +138,9 @@
                         @error('toDate')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 
@@ -151,7 +148,6 @@
     <br>
 
     <div class="card mb-4">
-        
         <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
@@ -163,15 +159,11 @@
                             <th class="text-uppercase text-sm ps-2">Fecha Cierre</th>
                             <th class="text-uppercase text-sm ps-2">Estado Caja</th>
                             <th class="text-center text-uppercase text-sm">Detalle</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($aperturas_cierres as $item)
-                            
                         <tr>
-
-
                             <td class="text-sm mb-0 text-center">
                                 {{$loop->iteration+1 }}
                             </td>
