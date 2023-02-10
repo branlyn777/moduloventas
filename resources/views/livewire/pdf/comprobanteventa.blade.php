@@ -33,7 +33,7 @@
                 <td colspan="2" style="width: 34%;">
                     <center>
                         <span style="font-size: 20px; font-weight:bold;">Comprobante N° {{$idventa}}</span>
-                        <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
+                        <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}} <br> {{$datossucursal->telefonosucursal}} - {{$datossucursal->celularsucursal}}</p>
                     </center>
                 </td>
                 <td style="width: 33%;">

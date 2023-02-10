@@ -187,10 +187,6 @@ class DestinoController extends Component
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
 
 
-
-
-
-
         $this->resetUI();
         $this->mensaje_toast = 'Destino Registrada';
         $this->emit('unidad-added', 'Destino Registrada');
@@ -238,6 +234,7 @@ class DestinoController extends Component
     }
     public function Update()
     {
+
         $rules = [
             'nombre' => 'required|unique:unidads',
             'sucursal' => 'required'
@@ -250,6 +247,8 @@ class DestinoController extends Component
         ];
         $this->validate($rules, $messages);
         $destino = Destino::find($this->selected_id);
+        $nombre=$destino->nombre;
+        $permiso=$destino->codigo_almacen;
         $destino->update([
             'nombre' => $this->nombre,
             'observacion' => $this->observacion,
@@ -257,9 +256,27 @@ class DestinoController extends Component
             'status' => $this->estadosmodal
         ]);
         $destino->save();
+        if ($nombre != $this->nombre){
+       
+            $destino->Update([
+                'codigo_almacen'=>substr(strtoupper($destino->nombre),0,3) .'-'.str_pad($destino->id,4,0,STR_PAD_LEFT)
+            ]);
+            
+        Permission::where('name',$permiso)->Update([
+            'name' => $destino->codigo_almacen,
+            'guard_name' => 'web',
+            'areaspermissions_id' => '2',
+            'descripcion' => 'Ingresar al destino '.$destino->nombre,
+     
+        ]);
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        }
+        
+    
+
         $this->resetUI();
-        $this->mensaje_toast = 'Destino Actualizada';
-        $this->emit('unidad-updated', 'Destino Actualizada');
+        $this->mensaje_toast = 'Destino Actualizado';
+        $this->emit('unidad-updated', 'Destino Actualizado');
     }
 
     public function modalestancia()

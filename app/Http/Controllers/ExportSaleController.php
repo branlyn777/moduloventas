@@ -43,7 +43,7 @@ class ExportSaleController extends Controller
 
         //Obtener datos de la sucursal
         $datossucursal = Sucursal::join("sales as s", "s.sucursal_id", "sucursals.id")
-        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal")
+        ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal","sucursals.telefono as telefonosucursal","sucursals.celular as celularsucursal")
         ->where("s.id", $idventa)
         ->get()
         ->first();

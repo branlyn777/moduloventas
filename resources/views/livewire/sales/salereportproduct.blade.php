@@ -168,7 +168,7 @@
                                             {{ number_format($t->total_vendido, 2, ',', '.') }}
                                         </td>
                                         <td class="text-sm" style="text-align: right;">
-                                            {{ $t->total_utilidad }}
+                                            {{ number_format($t->total_vendido - $t->total_utilidad, 2, ',', '.') }}
                                         </td>
                                     </tr>
                                 @endforeach
