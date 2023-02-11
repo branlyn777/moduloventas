@@ -38,7 +38,6 @@
     "nav-item active"
 @endsection
 
-
 <div>
     <div class="row">
         <div class="col-12">
@@ -56,12 +55,9 @@
                     </div>
                 </div>
             </div>
-
             <div class="card mb-4">
                 <div class="card-body p-4 m-1">
                     <div class="row justify-content-between">
-
-                        
                         <div class="col-12 col-md-3">
                             <h6>Buscar</h6>
                             <div class="form-group">
@@ -89,7 +85,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-md-4">
                                     <h6 style="font-size: 1rem">Tipo Operacion</h6>
                                     <select wire:model='tipo_de_operacion' class="form-select">
@@ -103,7 +98,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">

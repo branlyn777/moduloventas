@@ -332,8 +332,8 @@
                         </li>
                     </ul>
                     <ul class="nav ms-4">
-                        <li class=@yield('sesionesli', 'nav-item ')>
-                            <a class=@yield('sesionesnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
+                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
+                            <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal">Movimiento Diario Ventas</span>
                             </a>

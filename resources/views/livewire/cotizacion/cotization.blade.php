@@ -14,21 +14,17 @@
     </nav>
 @endsection
 
-
 @section('Reportescollapse')
     nav-link
 @endsection
-
 
 @section('Reportesarrow')
     true
 @endsection
 
-
 @section('cotizationnav')
     "nav-link active"
 @endsection
-
 
 @section('Reportesshow')
     "collapse show"
@@ -85,7 +81,6 @@
 
     @include('livewire.cotizacion.modal')
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
