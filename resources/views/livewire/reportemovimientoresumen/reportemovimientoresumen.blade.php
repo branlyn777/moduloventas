@@ -156,49 +156,40 @@
                 </div>
             </div>
 
-
-
         </div>
     </div>
-
-
     <br>
-
-
-
-
-
-
-
     @if ($totalesIngresosV->count() > 0)
         <br>
         <div class="card">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
-                    <h2 class="accordion-header d-flex" id="headingTwo">
-                        <div class="col-1">
+                    <div class="accordion-header" id="headingTwo">
 
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwoventa" aria-expanded="false"
-                                aria-controls="collapseTwoventa">
-                                <i class="fa-solid fa-chevron-down"></i>
-                            </button>
-              
-                        </div>
-                        <div class="col-10">
+                        <div class="d-flex mb-3 mt-3 me-2">
+                            <div class="me-auto p-2">
 
-                            <div class="row px-4 py-3">
-                                <div class="col-6">
-                                    <h6 class="text-start">Ventas Total</h6>
-                                </div>
-                                <div class="col-6" style="text-align: right;">
-                                    <span>Bs:{{ number_format($totalesIngresosV->sum('importe'), 2) }}</span>
-                                    <b>Bs:{{ number_format($totalesIngresosV->sum('utilidadventa'), 2) }}</b>
-                                </div>
+                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseTwoventa" aria-expanded="false"
+                                    aria-controls="collapseTwoventa">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <label>
+                                    <h6>
+                                        Ventas Totales
+                                    </h6>
+                                </label>
+                            </div>
+                            <div class="p-2 mx-6">
+                                <label> <h6>Bs:{{ number_format($totalesIngresosV->sum('importe'), 2) }}</h6> </label>
+                            </div>
+                            <div class="p-2">
+                                <label> <h6>Bs:{{ number_format($totalesIngresosV->sum('utilidadventa'), 2) }}</h6> </label>
                             </div>
                         </div>
 
-                    </h2>
+
+                    </div>
                     <div id="collapseTwoventa" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
