@@ -422,6 +422,8 @@
     gradientStroke1.addColorStop(0, 'rgba(94, 114, 228,0)'); //purple colors
 
     var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
+    var ventas={{ Js::from($ventas) }};
+    var compras={{ Js::from($compras) }};
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -431,7 +433,7 @@
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+        labels: ["Enero", "Feb", "Mar", "Abril", "May", "Jun", "Jul"],
         datasets: [{
             label: "Compras",
             tension: 0.4,
@@ -442,7 +444,7 @@
             borderWidth: 3,
             backgroundColor: gradientStroke1,
             fill: true,
-            data: [50, 100, 200, 190, 400, 350, 500, 450, 700],
+            data: compras,
             maxBarThickness: 6
           },
           {
@@ -455,7 +457,7 @@
             borderWidth: 3,
             backgroundColor: gradientStroke2,
             fill: true,
-            data: [10, 30, 40, 120, 150, 220, 280, 250, 280],
+            data:ventas ,
             maxBarThickness: 6
           }
         ],

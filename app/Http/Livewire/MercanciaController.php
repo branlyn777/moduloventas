@@ -34,7 +34,7 @@ class MercanciaController extends Component
 
     use WithPagination;
     use WithFileUploads;
-    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,
+    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,$op_selected,
     $archivo,$operacion,$search,$mensaje_toast,$costo,$ajuste,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$id_operacion,$destino_delete,$nextpage,$fromDate,$toDate;
     private $pagination = 15;
 
@@ -60,30 +60,56 @@ class MercanciaController extends Component
                 ->join('users','users.id','ajustes.user_id')
                 ->whereBetween('ajustes.created_at', [Carbon::parse($this->fromDate)->toDateTimeString(), Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                 ->select('ajustes.*','destinos.nombre','users.name')
+                ->when($this->search != null, function ($query) {
+                    return $query->where('users.name', 'like', '%' . $this->search . '%')
+                    ->orWhere('destinos.nombre', 'like', '%' . $this->search . '%');
+                })
                 ->get();
                 break;
             case 'Inicial':
-                $this->operacion = IngresoProductos::join('destinos','destinos.id','ajustes.detino')
-                ->join('users','users.id','ajustes.user_id')
-                ->whereBetween('ajustes.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                $this->operacion = IngresoProductos::join('destinos','destinos.id','ingreso_productos.destino')
+                ->join('users','users.id','ingreso_productos.user_id')
+                ->where('concepto','INICIAL')
+                ->whereBetween('ingreso_productos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                ->select('ingreso_productos.*','destinos.nombre','users.name')
+                ->when($this->search != null, function ($query) {
+                    return $query->where('users.name', 'like', '%' . $this->search . '%')
+                    ->orWhere('nombre', 'like', '%' . $this->search . '%');
+                })
                 ->get();
                 break;
             case 'Varios':
-                $this->operacion =IngresoProductos::join('destinos','destinos.id','ajustes.detino')
-                ->join('users','users.id','ajustes.user_id')
-                ->whereBetween('ajustes.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-                ->get();
+                if ($this->op_selected == 'entrada') {
+                   
+                    $this->operacion =IngresoProductos::join('destinos','destinos.id','ingreso_productos.destino')
+                    ->join('users','users.id','ingreso_productos.user_id')
+                    ->where('concepto','INGRESO')
+                    ->whereBetween('ingreso_productos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                    ->select('ingreso_productos.*','destinos.nombre','users.name')
+                    ->when($this->search != null, function ($query) {
+                        return $query->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('destinos.nombre', 'like', '%' . $this->search . '%');
+                    })
+                    ->get();
+                }
+                else{
+                    $this->operacion =SalidaProductos::join('destinos','destinos.id','salida_productos.destino')
+                    ->join('users','users.id','salida_productos.user_id')
+                    ->where('concepto','SALIDA')
+                    ->whereBetween('salida_productos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                    ->select('salida_productos.*','destinos.nombre','users.name')
+                    ->when($this->search != null, function ($query) {
+                        return $query->where('users.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('destinos.nombre', 'like', '%' . $this->search . '%');
+                    })
+                    ->get();
+                }
+
                 break;
                 default:
           
                 break;
         }
-
-   
-        
-
-
-
 
         return view('livewire.entradas_salidas.component')
         ->extends('layouts.theme.app')
@@ -94,7 +120,8 @@ class MercanciaController extends Component
        
         $this->result= $id->nombre;
         $this->selected=$id->id;
-        $this->searchproduct=null;
+        $this->searchproduct=null; 
+
         // $this->emit('operacion-added');
     }
     
@@ -103,14 +130,36 @@ class MercanciaController extends Component
 
    
 
-public function ver($id,$tipo){
+public function ver($id){
+  
+    if ($this->op_selected =='entrada' or $this->tipo_de_operacion =='Inicial') {
+     
+        $this->detalle= DetalleEntradaProductos::where('id_entrada',$id)->select('detalle_entrada_productos.*',DB::raw('0 as pv'))->get();
 
-    if ($tipo =='ajuste') {
+        foreach ($this->detalle as $val) {
+            $val->pv=Lote::find($val->lote_id)->pv_lote;
+          
+        }
+        $this->observacion=IngresoProductos::find($id)->observacion;
+        $this->emit('show-detail');
+      
+    }
+    if ($this->op_selected =='salida') {
+        $this->detalle= DetalleSalidaProductos::where('id_salida',$id)->select('detalle_salida_productos.*')->get();
+       
+        $this->observacion=SalidaProductos::find($id)->observacion;
+        $this->emit('show-detail');
+        $this->ajuste=$id;
+    }
+
+    if ($this->tipo_de_operacion =='Ajuste') {
         $this->detalle= DetalleAjustes::where('id_ajuste',$id)->get();
         $this->observacion=Ajustes::find($id)->observacion;
         $this->emit('show-detail');
         $this->ajuste=$id;
     }
+
+
 }
 
 

@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Tipo de Operación, Almacén" wire:model='search'
+                                    <input type="text" placeholder="Almacén, Usuario" wire:model='search'
                                         class="form-control">
                                 </div>
                             </div>
@@ -71,14 +71,14 @@
                         <div class="col-12 col-md-6">
                             <div class="row justify-content-end">
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h6>Fecha Inicio</h6>
                                     <div class="form-group">
                                         <input type="date" wire:model="fromDate" class="form-control">
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h6>Fecha Fin</h6>
                                     <div class="form-group">
                                         <input type="date" wire:model="toDate" class="form-control">
@@ -86,7 +86,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <h6 style="font-size: 1rem">Tipo Operacion</h6>
+                                    <h6 style="font-size: 1rem">Tipo</h6>
                                     <select wire:model='tipo_de_operacion' class="form-select">
                                         <option value="Ajuste">Ajustes de Inventario</option>
                                         <option value="Inicial">Inventario Inicial</option>
@@ -94,6 +94,16 @@
                                         <option value=null disabled hidden>-- --</option>
                                     </select>
                                 </div>
+                                @if ($tipo_de_operacion == 'Varios')
+                                    <div class="col-md-2">
+                                        <h6 style="font-size: 1rem">Operacion</h6>
+                                        <select wire:model='op_selected' class="form-select">
+                                            <option value=null disabled>Elegir</option>
+                                            <option value="entrada">Entrada</option>
+                                            <option value="salida">Salida</option>
+                                        </select>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -122,7 +132,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($operacion)
+                                    @if ($operacion != null && $tipo_de_operacion == 'Ajuste')
                                         @foreach ($operacion as $item)
                                             <tr>
                                                 <td class="text-sm mb-0 text-left">
@@ -148,7 +158,7 @@
                                                 <td class="text-center">
                                                     <div class="btn-group" role="group" aria-label="Basic example">
                                                         <button type="button" class="btn btn-primary"
-                                                            wire:click="ver('{{ $item->id }}','ajuste')"
+                                                            wire:click="ver('{{ $item->id }}')"
                                                             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                             title="Ver detalle de compra">
                                                             <i class="fas fa-bars" style="font-size: 14px"></i>
@@ -160,6 +170,101 @@
                                                             <i class="fas fa-minus-circle text-white"
                                                                 style="font-size: 14px"></i>
                                                         </button> --}}
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+
+
+                                    @endif
+                                    @if ($operacion != null && $tipo_de_operacion == 'Inicial')
+                                        @foreach ($operacion as $item)
+                                            <tr>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $loop->index + 1 }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}
+                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('h:i:s a') }}
+
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->nombre }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    Inventario Inicial
+                                                </td>
+
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->name }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-primary"
+                                                            wire:click="ver('{{ $item->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Ver detalle de compra">
+                                                            <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            wire:click="Confirm('{{ $item->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Anular ajuste">
+                                                            <i class="fas fa-minus-circle text-white"
+                                                                style="font-size: 14px"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+
+
+                                    @endif
+                                    @if ($operacion != null && $tipo_de_operacion == 'Varios')
+                                        @foreach ($operacion as $item)
+                                            <tr>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $loop->index + 1 }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}
+                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('h:i:s a') }}
+
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->nombre }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->concepto }}
+                                                </td>
+
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->name }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-primary"
+                                                            wire:click="ver('{{ $item->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Ver detalle de operacion">
+                                                            <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-danger"
+                                                        wire:click="Confirm('{{ $item->id }}')"
+                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                        title="Anular operacion">
+                                                        <i class="fas fa-minus-circle text-white"
+                                                            style="font-size: 14px"></i>
+                                                    </button>
+
                                                     </div>
                                                 </td>
 
@@ -255,7 +360,7 @@
 
             });
 
-        
+
 
         })
     </script>

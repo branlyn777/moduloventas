@@ -161,7 +161,7 @@ class RegistrarAjuste extends Component
                 $this->emit('error_salida');
             }
         } else {
-            if ($this->tipo_proceso == 'Entrada' or $this->concepto == 'Inventario Inicial') {
+            if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial') {
 
                 $this->col->push([
                     'product_id' => $id->id,
@@ -229,13 +229,13 @@ class RegistrarAjuste extends Component
     {
 
         $this->ValidarDatos();
-        if ($this->tipo_proceso == 'Entrada' or $this->concepto == 'Inventario Inicial' and $this->col->isNotEmpty()) {
+        if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial' and $this->col->isNotEmpty()) {
             DB::beginTransaction();
             try {
                 $rs = IngresoProductos::create([
                     'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
-                    'concepto' => $this->concepto,
+                    'concepto' => $this->tipo_proceso =='INGRESO'?'INGRESO':'INICIAL',
                     'observacion' => $this->observacion
                 ]);
                 foreach ($this->col as $datas) {

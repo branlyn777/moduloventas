@@ -130,7 +130,7 @@
                                                                     @if ($concepto == 'Varios')
                                                                         <option value="null" selected disabled>Elegir
                                                                         </option>
-                                                                        <option value="Entrada">Entrada</option>
+                                                                        <option value="INGRESO">Entrada</option>
                                                                         <option value="Salida">Salida</option>
                                                                     @else
                                                                         <option value="null" selected disabled>--
@@ -303,10 +303,10 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                            type="button">
-                                                                                            {{ $prod->nombre }}
-                                                                                            ({{ $prod->codigo }})
-                                                                                        </label>
+                                                                                        type="button">
+                                                                                        {{ $prod->nombre }}<h6 class='text-xs'>{{ $prod->caracteristicas }}</h6>
+                                                                                        ({{ $prod->codigo }})
+                                                                                    </label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -338,7 +338,7 @@
                                                                                     style="font-size: 14px; color: black;">
                                                                                     <th class="text-center">Producto
                                                                                     </th>
-                                                                                    @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
+                                                                                    @if ($tipo_proceso == 'INGRESO' or $concepto == 'Inventario Inicial')
                                                                                         <th class="text-center">Costo
                                                                                         </th>
                                                                                         <th class="text-center">Precio
@@ -367,7 +367,7 @@
                                                                                             {{ substr($prod['product_name'], 0, 15) }}
                                                                                             ({{ $prod['product_codigo'] }})
                                                                                         </td>
-                                                                                        @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
+                                                                                        @if ($tipo_proceso == 'INGRESO' or $concepto == 'Inventario Inicial')
                                                                                             <td>
                                                                                                 <input type="text"
                                                                                                     id="pc{{ $prod['product_id'] }}"
