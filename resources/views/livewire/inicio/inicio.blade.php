@@ -24,14 +24,40 @@
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
+
+
+
+
+
+
+
+
+
+
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 280
+                                    Bs {{ number_format($total_current_month, 2, ',', '.') }}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">+55% <span
-                                        class="font-weight-normal text-secondary">desde el mes pasado</span></span>
+                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                    
+                                    @if($difference_percentage > 0)
+                                    + {{ number_format($difference_percentage, 2, ',', '.') }}%
+                                    @else
+                                    - {{ number_format($difference_percentage, 2, ',', '.') }}%
+                                    @endif
+
+                                    <span class="font-weight-normal text-secondary">desde el mes pasado</span>
+                                </span>
                             </div>
+
+
+
+
+
+
+
+
                             <div class="col-5">
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
