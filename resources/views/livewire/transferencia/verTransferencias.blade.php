@@ -60,237 +60,250 @@
                 </div>
             </div>
 
+
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <label>Tipo Transferencia</label>
+                            <select wire:model="tipo" class="form-select">
+                                <option value="lt">Listar Transferencia</option>
+                                <option value="te">Transferencia Entrantes</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <label>Fecha Inicio</label>
+                            <input wire:model="dateFrom" type="date" class="form-control">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <label>Fecha Fin</label>
+                            <input wire:model="dateTo" type="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <br>
+
+
+
+
             <div class="card">
                 <div class="card-body">
 
-                    <div class="col-md-12 px-10 col-sm-12">
 
-                        <div class="nav-wrapper position-relative">
-                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab"
-                                        href="#listar-transferencias" role="tab" aria-selected={{$selected}}>
-                                        Listar Transferencias
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab"
-                                        href="#listar-transferencias-pendientes" role="tab" aria-selected={{$selected2}}>
-                                        Transferencias Entrantes
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    @if($this->tipo == "lt")
+
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 6%">N°</th>
+                                    <th class="text-center">Codigo Transferencia</th>
+                                    <th class="text-left">Detalle</th>
+
+                                    <th class="text-uppercase text-sm ps-2">Estado</th>
+                                    <th class="text-uppercase text-sm ps-2">Usuario</th>
+                                    <th class="text-center">Acc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_t as $data_td)
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-center">{{ $nro++ }}</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-gradient-info">{{ $data_td->t_id }}</span>
+
+                                        </td>
+                                        <td>
+                                            <label class="text-left"> <strong>Fecha y Hora Envio:</strong>
+                                                {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('Y-m-d') }}-
+                                                {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
+                                            <br>
+                                            {{-- <label class="text-left"> <strong>Hora:</strong>
+                                                {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
+                                                <br> --}}
+                                            <label class="text-left"> <strong>Origen:</strong>
+                                                {{ $data_td->origen }}</label>
+                                            <br>
+                                            <label class="text-left"> <strong>Destino:</strong>
+                                                {{ $data_td->dst }}-{{ $data_td->destino_name }}</label>
+
+                                        </td>
+
+                                        @if ($data_td->estado_tr == 'En transito')
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-info">{{ $data_td->estado_tr }}
+                                                </span>
+                                            </td>
+                                        @elseif($data_td->estado_tr == 'Recibido')
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-success">{{ $data_td->estado_tr }}</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-danger">{{ $data_td->estado_tr }}</span>
+                                            </td>
+                                        @endif
+
+                                        <td>
+                                            <h6 class="text-left">{{ $data_td->name }}</h6>
+                                        </td>
+
+                                        @if ($data_td->estado_tr == 'Recibido' or $data_td->estado_tr == 'Rechazado' or !in_array($data_td->orih, $vs))
+                                            <td class="text-center">
+
+
+                                                <a href="javascript:void(0)" wire:key="foo"
+                                                    wire:click="ver({{ $data_td->t_id }})" class="p-1 m-0"
+                                                    title="Ver">
+                                                    <i class="fas fa-list"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    wire:click="imprimir(  {{ $data_td->t_id }})"
+                                                    class="boton-verde p-1 m-0" title="Imprimir">
+                                                    <i class="fas fa-print"></i>
+                                                </a>
+
+                                            </td>
+                                        @else
+                                            <td class="text-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic example">
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="Confirm({{ $data_td->t_id }})"
+                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                        title="Editar">
+                                                        <i class="fas fa-edit" style="font-size: 14px"></i>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="Confirmarborrado('{{ $data_td->t_id }}')"
+                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                        title="Eliminar">
+                                                        <i class="fas fa-trash text-white"
+                                                            style="font-size: 14px"></i>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        wire:key="do"
+                                                        wire:click="ver({{ $data_td->t_id }})"
+                                                        class="p-1 m-0"
+                                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                        title="Ver">
+                                                        <i class="fas fa-list text-white"
+                                                            style="font-size: 14px"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @else
+
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 6%">N°</th>
+                                    <th class="text-center">Codigo Transferencia</th>
+                                    <th class="text-center">DETALLE</th>
+                                    <th class="text-uppercase text-sm ps-2">Estado</th>
+                                    <th class="text-uppercase text-sm ps-2">Usuario</th>
+                                    <th class="text-center">Acc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_d as $data2)
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-center">{{ $loop->iteration }}</h6>
+                                        </td>
+                                        <td class="text-center">
+
+                                            <span>{{ $data2->tr_des_id }}</span>
+                                        </td>
+                                        <td>
+                                            <label class="text-left"> <strong>Fecha y Hora envio:</strong>
+                                                {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('Y-m-d') }}-
+                                                {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('H:i') }}</label>
+                                            <br>
+
+                                            <label class="text-left"> <strong>Origen:</strong>
+                                                {{ $data2->origen }}-{{ $data2->origen_name }}</label>
+                                            <br>
+                                            <label class="text-left"> <strong>Destino:</strong>
+                                                {{ $data2->dst2 }}-{{ $data2->destino_name }}</label>
+
+
+                                        </td>
+
+
+                                        @if ($data2->estado_te == 'En transito')
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-info">{{ $data2->estado_te }}</span>
+                                            </td>
+                                        @elseif($data2->estado_te == 'Recibido')
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-success">{{ $data2->estado_te }}</span>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span
+                                                    class="badge bg-gradient-danger">{{ $data2->estado_te }}</span>
+                                            </td>
+                                        @endif
+
+                                        <td>
+                                            <h6 class="text-left">{{ $data2->name }}</h6>
+                                        </td>
+
+                                        <td class="text-center">
+                                            @if ($data2->estado_te === 'Recibido' or $data2->estado_te === 'Rechazado')
+                                                <a href="javascript:void(0)"
+                                                    wire:click="visualizardestino({{ $data2->tr_des_id }})"
+                                                    class="boton-azul p-1 m-0" title="Ver">
+                                                    <i class="fas fa-list"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    wire:click="imprimir({{ $data2->tr_des_id }})"
+                                                    class="boton-verde p-1 m-0" title="Imprimir">
+                                                    <i class="fas fa-print"></i>
+                                                </a>
+                                            @else
+                                                <a href="javascript:void(0)"
+                                                    wire:click="visualizardestino('{{ $data2->tr_des_id }}')"
+                                                    class="boton-azul p-1 m-0" title="Ver">
+                                                    <i class="fas fa-list"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
                     </div>
-                    <br>
-                    <div class="tab-content">
-                        <div class="tab-pane {{$estado1}}" wire:click='cambioestado()' id="listar-transferencias" role="tabpanel">
-                            <div class="col-md-12">
 
-                                <div class="table-responsive">
-                                    <table class="table align-items-center mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" style="width: 6%">N°</th>
-                                                <th class="text-center">Codigo Transferencia</th>
-                                                <th class="text-left">Detalle</th>
-
-                                                <th class="text-uppercase text-sm ps-2">Estado</th>
-                                                <th class="text-uppercase text-sm ps-2">Usuario</th>
-                                                <th class="text-center">Acc.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($data_t as $data_td)
-                                                <tr>
-                                                    <td>
-                                                        <h6 class="text-center">{{ $nro++ }}</h6>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="badge bg-gradient-info">{{ $data_td->t_id }}</span>
-
-                                                    </td>
-                                                    <td>
-                                                        <label class="text-left"> <strong>Fecha y Hora Envio:</strong>
-                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('Y-m-d') }}-
-                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
-                                                        <br>
-                                                        {{-- <label class="text-left"> <strong>Hora:</strong>
-                                                            {{ \Carbon\Carbon::parse($data_td->fecha_te)->format('H:i') }}</label>
-                                                            <br> --}}
-                                                        <label class="text-left"> <strong>Origen:</strong>
-                                                            {{ $data_td->origen }}</label>
-                                                        <br>
-                                                        <label class="text-left"> <strong>Destino:</strong>
-                                                            {{ $data_td->dst }}-{{ $data_td->destino_name }}</label>
-
-                                                    </td>
-
-                                                    @if ($data_td->estado_tr == 'En transito')
-                                                        <td>
-                                                            <span
-                                                                class="badge bg-gradient-info">{{ $data_td->estado_tr }}</span>
-                                                        </td>
-                                                    @elseif($data_td->estado_tr == 'Recibido')
-                                                        <td>
-                                                            <span
-                                                                class="badge bg-gradient-success">{{ $data_td->estado_tr }}</span>
-                                                        </td>
-                                                    @else
-                                                        <td>
-                                                            <span
-                                                                class="badge bg-gradient-danger">{{ $data_td->estado_tr }}</span>
-                                                        </td>
-                                                    @endif
-
-                                                    <td>
-                                                        <h6 class="text-left">{{ $data_td->name }}</h6>
-                                                    </td>
-
-                                                    @if ($data_td->estado_tr == 'Recibido' or $data_td->estado_tr == 'Rechazado' or !in_array($data_td->orih, $vs))
-                                                        <td class="text-center">
-
-
-                                                            <a href="javascript:void(0)" wire:key="foo"
-                                                                wire:click="ver({{ $data_td->t_id }})" class="p-1 m-0"
-                                                                title="Ver">
-                                                                <i class="fas fa-list"></i>
-                                                            </a>
-                                                            <a href="javascript:void(0)"
-                                                                wire:click="imprimir(  {{ $data_td->t_id }})"
-                                                                class="boton-verde p-1 m-0" title="Imprimir">
-                                                                <i class="fas fa-print"></i>
-                                                            </a>
-
-                                                        </td>
-                                                    @else
-                                                        <td class="text-center">
-                                                            <div class="btn-group" role="group"
-                                                                aria-label="Basic example">
-                                                                <button type="button" class="btn btn-primary"
-                                                                    onclick="Confirm({{ $data_td->t_id }})"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                    title="Editar">
-                                                                    <i class="fas fa-edit" style="font-size: 14px"></i>
-                                                                </button>
-
-                                                                <button type="button" class="btn btn-danger"
-                                                                    onclick="Confirmarborrado('{{ $data_td->t_id }}')"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                    title="Eliminar">
-                                                                    <i class="fas fa-trash text-white"
-                                                                        style="font-size: 14px"></i>
-                                                                </button>
-
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    wire:key="do"
-                                                                    wire:click="ver({{ $data_td->t_id }})"
-                                                                    class="p-1 m-0"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                                                                    title="Ver">
-                                                                    <i class="fas fa-list text-white"
-                                                                        style="font-size: 14px"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    @endif
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane {{$estado2}}" wire:click='cambioestado()' id="listar-transferencias-pendientes"role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" style="width: 6%">N°</th>
-                                            <th class="text-center">Codigo Transferencia</th>
-                                            <th class="text-center">DETALLE</th>
-                                            <th class="text-uppercase text-sm ps-2">Estado</th>
-                                            <th class="text-uppercase text-sm ps-2">Usuario</th>
-                                            <th class="text-center">Acc.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data_d as $data2)
-                                            <tr>
-                                                <td>
-                                                    <h6 class="text-center">{{ $loop->iteration }}</h6>
-                                                </td>
-                                                <td class="text-center">
-
-                                                    <span>{{ $data2->tr_des_id }}</span>
-                                                </td>
-                                                <td>
-                                                    <label class="text-left"> <strong>Fecha y Hora envio:</strong>
-                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('Y-m-d') }}-
-                                                        {{ \Carbon\Carbon::parse($data2->fecha_tr)->format('H:i') }}</label>
-                                                    <br>
-
-                                                    <label class="text-left"> <strong>Origen:</strong>
-                                                        {{ $data2->origen }}-{{ $data2->origen_name }}</label>
-                                                    <br>
-                                                    <label class="text-left"> <strong>Destino:</strong>
-                                                        {{ $data2->dst2 }}-{{ $data2->destino_name }}</label>
-
-
-                                                </td>
-
-
-                                                @if ($data2->estado_te == 'En transito')
-                                                    <td>
-                                                        <span
-                                                            class="badge bg-gradient-info">{{ $data2->estado_te }}</span>
-                                                    </td>
-                                                @elseif($data2->estado_te == 'Recibido')
-                                                    <td>
-                                                        <span
-                                                            class="badge bg-gradient-success">{{ $data2->estado_te }}</span>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <span
-                                                            class="badge bg-gradient-danger">{{ $data2->estado_te }}</span>
-                                                    </td>
-                                                @endif
-
-                                                <td>
-                                                    <h6 class="text-left">{{ $data2->name }}</h6>
-                                                </td>
-
-                                                <td class="text-center">
-                                                    @if ($data2->estado_te === 'Recibido' or $data2->estado_te === 'Rechazado')
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="visualizardestino({{ $data2->tr_des_id }})"
-                                                            class="boton-azul p-1 m-0" title="Ver">
-                                                            <i class="fas fa-list"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="imprimir({{ $data2->tr_des_id }})"
-                                                            class="boton-verde p-1 m-0" title="Imprimir">
-                                                            <i class="fas fa-print"></i>
-                                                        </a>
-                                                    @else
-                                                        <a href="javascript:void(0)"
-                                                            wire:click="visualizardestino('{{ $data2->tr_des_id }}')"
-                                                            class="boton-azul p-1 m-0" title="Ver">
-                                                            <i class="fas fa-list"></i>
-                                                        </a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
