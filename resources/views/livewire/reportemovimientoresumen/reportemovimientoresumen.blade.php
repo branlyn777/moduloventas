@@ -140,7 +140,7 @@
                     <div class="form-group">
                         <b style="color: #ffffff;">|</b>
                         <button
-                            wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosS }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{ $ingresosTotalesBancos }},{{ $operacionsob }},{{ $operacionfalt }})"
+                            wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{ $ingresosTotalesBancos }},{{ $operacionsob }},{{ $operacionfalt }})"
                             class="btn btn-warning form-control">
                             <i class="fas fa-print"></i> Generar PDF
                         </button>
@@ -176,15 +176,19 @@
                                 </button>
                                 <label>
                                     <h6>
-                                        Ventas Totales
+                                        Ventas
                                     </h6>
                                 </label>
                             </div>
                             <div class="p-2 mx-6">
-                                <label> <h6>Bs:{{ number_format($totalesIngresosV->sum('importe'), 2) }}</h6> </label>
+                                <label>
+                                    <h6>Bs:{{ number_format($totalesIngresosV->sum('importe'), 2) }}</h6>
+                                </label>
                             </div>
                             <div class="p-2">
-                                <label> <h6>Bs:{{ number_format($totalesIngresosV->sum('utilidadventa'), 2) }}</h6> </label>
+                                <label>
+                                    <h6>Bs:{{ number_format($totalesIngresosV->sum('utilidadventa'), 2) }}</h6>
+                                </label>
                             </div>
                         </div>
 
@@ -201,10 +205,10 @@
                                     <thead>
                                         <tr>
                                             <th class="text-sm text-center">#</th>
-                                            <th class="text-sm">FECHA</th>
-                                            <th class="text-sm text-left">DETALLE</th>
-                                            <th class="text-sm ie">INGRESO</th>
-                                            <th class="text-sm ie">
+                                            <th class="text-xs">FECHA</th>
+                                            <th class="text-xs text-left">DETALLE</th>
+                                            <th class="text-xs ie">INGRESO NETO</th>
+                                            <th class="text-xs ie">
                                                 @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                                     UTILIDAD
                                                 @endif
@@ -239,7 +243,7 @@
                                                                                     aria-controls="collapseOne{{ $loop->iteration }}">
 
                                                                                     <div class="text-sm">
-                                                                                        {{ $p->idventa }},{{ $p->tipoDeMovimiento }},{{ $p->ctipo == 'CajaFisica' ? 'Efectivo' : $p->ctipo }},({{ $p->nombrecartera }})
+                                                                                        COD.{{ $p->idventa }},{{ $p->ctipo == 'efectivo' ? 'Cobro realizado en efectivo' : 'Cobro realizado por transaccion de '.$p->nombrecartera }}
                                                                                     </div>
 
 
@@ -372,13 +376,39 @@
         <div class="card">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <p><b>Ingresos</b></p>
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    <div class="accordion-header" id="headingThree">
+                        <div class="d-flex mb-3 mt-3 me-2">
+                            <div class="me-auto p-2">
+
+                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <label>
+                                    <h6>
+                                        Ingresos
+                                    </h6>
+                                </label>
+                            </div>
+                            <div class="p-2 mx-6">
+                                <label>
+                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
+                                </label>
+                            </div>
+                            <div class="p-2">
+                                <label>
+                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
 
@@ -388,11 +418,11 @@
                                 <table class="tablareporte">
                                     <thead>
                                         <tr>
-                                            <th class="text-sm text-center">#</th>
-                                            <th class="text-sm">FECHA</th>
-                                            <th class="text-sm">DETALLE</th>
-                                            <th class="text-sm ie">INGRESO</th>
-                                            <th class="text-sm ie">
+                                            <th class="text-xs text-center">#</th>
+                                            <th class="text-xs">FECHA</th>
+                                            <th class="text-xs">DETALLE</th>
+                                            <th class="text-xs ie">INGRESO NETO</th>
+                                            <th class="text-xs ie">
                                                 @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                                     UTILIDAD
                                                 @endif
@@ -437,21 +467,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot class="text-end">
-                                        <tr>
-                                            <td colspan="5">
-                                                <hr style="background-color: black;height: 2px;">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <h5>Total Bs.</h5>
-                                            </td>
-                                            <td colspan="1">
-                                                <h5>{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h5>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
+
                                 </table>
                             </div>
 
@@ -471,6 +487,41 @@
         <div class="card">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
+                    <div class="accordion-header" id="headingTwo">
+                        <div class="d-flex mb-3 mt-3 me-2">
+                            <div class="me-auto p-2">
+
+                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwoasd" aria-expanded="false" aria-controls="collapseTwoasd">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <label>
+                                    <h6>
+                                        Ingresos
+                                    </h6>
+                                </label>
+                            </div>
+                            <div class="p-2 mx-6">
+                                <label>
+                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
+                                </label>
+                            </div>
+                          
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseTwoasd" aria-expanded="false" aria-controls="collapseTwoasd">

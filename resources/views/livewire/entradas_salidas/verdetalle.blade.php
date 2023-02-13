@@ -1,55 +1,63 @@
-<div wire:ignore.self class="modal fade" id="verdetalle" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div wire:ignore.self class="modal fade" id="verdetalle" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <div>
-                    <h5 class="mb-0 text-white" style="font-size: 1rem">Detalle de Movimiento</h5>
-                </div>
+                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Detalle de
+                    Ajuste N°: {{$ajuste}}</h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-
-                    @if ($detalle)
-                        <div class="table-responsive">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="text-center">N°</th>
-                                        <th class="text-center">Producto</th>
-                                        <th class="text-center">Cantidad</th>
-                                        <th class="text-center">Costo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($detalle as $d)
-                                        <tr class="text-center" style="font-size: 0.9rem">
-                                            <td>
-                                                {{ $loop->index + 1 }}
-                                            </td>
-                                            <td>
-                                                {{ $d->productos->nombre }}
-                                            </td>
-                                            <td>
-                                                {{ $d->cantidad }}
-                                            </td>
-                                            <td>
-                                                {{ $d->costo }}
-                                            </td>
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-container">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr class="text-center" style="font-size: 13px">
+                                            <th>No</th>
+                                            <th style="text-align: left">Producto</th>
+                                            <th>Cantidad Original</th>
+                                            <th>Recuento</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <p>{{ $detalle }}</p>
-                    @endif
+                                    </thead>
+                                    <tbody>
+                                        @if ($detalle != null)
+                                            @foreach ($detalle as $dc)
+                                                <tr class="text-center" style="font-size: 12px">
+                                                    <td class="text-center">
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td style="text-align: left">
+                                                        {{ $dc->productos->nombre }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $dc->tipo == 'positiva' ? $dc->recuentofisico - $dc->diferencia : $dc->recuentofisico + $dc->diferencia }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $dc->recuentofisico }}
+                                                    </td>
 
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <p>nada</p>
+                                        @endif
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="text-center" style="color: black; font-size: 13px">
+                <b>Observación: {{ $observacion == null ? 'Ninguna observacion' : $observacion }}</b>
+            </div>
+            <br>
         </div>
     </div>
 </div>

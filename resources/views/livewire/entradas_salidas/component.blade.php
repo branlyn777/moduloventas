@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Entrada/Salida</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Ajuste de Inventarios</h6>
     </nav>
 @endsection
 
@@ -90,7 +90,8 @@
                                     <select wire:model='tipo_de_operacion' class="form-select">
                                         <option value="Ajuste">Ajustes de Inventario</option>
                                         <option value="Inicial">Inventario Inicial</option>
-                                        <option value="Varios">Varios</option>
+                                        <option value="Varios">Varios:Entradas/Salidas</option>
+                                        <option value=null disabled hidden>-- --</option>
                                     </select>
                                 </div>
                             </div>
@@ -100,63 +101,79 @@
             </div>
 
             <div class="card mb-4">
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm ps-2">Fecha de Registro</th>
-                                    <th class="text-uppercase text-sm ps-2">Almacén</th>
-                                    <th class="text-uppercase text-sm ps-2">Tipo Operación</th>
-                                    <th class="text-uppercase text-sm ps-2">Observación</th>
-                                    <th class="text-uppercase text-sm ps-2">Usuario</th>
-                                    <th class="text-uppercase text-sm text-center">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($ingprod as $data2)
-                                    <tr style="font-size: 14px">
-                                        <td class="text-center">
-                                            {{ ($ingprod->currentpage() - 1) * $ingprod->perpage() + $loop->index + 1 }}
-                                        </td>
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($data2->created_at)->format('d-m-Y') }}
-                                            <br>
-                                            {{ \Carbon\Carbon::parse($data2->created_at)->format('h:i:s a') }}
-                                        </td>
-
-                                        <td>
-                                            Sucursal {{ $data2->destinos->sucursals->name }}
-                                            {{ $data2->destinos->nombre }}
-                                        </td>
-                                        <td class="text-left">
-                                            {{ $data2->concepto }}
-                                        </td>
-                                        <td class="text-left">
-                                            {{ $data2->observacion }}
-                                        </td>
-                                        <td class="text-left">
-                                            {{ $data2->usuarios->name }}
-                                        </td>
-                                        <td class="text-center">
-                                            <a wire:click="ver({{ $data2->id }})" type="button"
-                                                class="text-primary  mx-3">
-                                                <i class="fas fa-list"></i>
-                                            </a>
-                                            <a wire:click="verificarOperaciones({{ $data2->id }})" type="button"
-                                                class="text-danger mx-3">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $ingprod->links() }}
+                @if ($tipo_de_operacion == null)
+                    <div class="row mx-auto my-6">
+                        <h6 class="text-sm font-weight-normal"> <i class="fas fa-arrow-pointer"></i> Seleccione el tipo
+                            de operacion</h6>
                     </div>
-                </div>
+                @else
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-sm text-center">N°</th>
+                                        <th class="text-uppercase text-sm ps-2">Fecha</th>
+                                        <th class="text-uppercase text-sm ps-2">Almacén</th>
+                                        <th class="text-uppercase text-sm ps-2">Tipo Operación</th>
+
+                                        <th class="text-uppercase text-sm ps-2">Usuario</th>
+                                        <th class="text-uppercase text-sm text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($operacion)
+                                        @foreach ($operacion as $item)
+                                            <tr>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $loop->index + 1 }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}
+                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($item->created_at)->format('h:i:s a') }}
+
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->nombre }}
+                                                </td>
+                                                <td class="text-sm mb-0 text-left">
+                                                    Ajuste de Inventario
+                                                </td>
+
+                                                <td class="text-sm mb-0 text-left">
+                                                    {{ $item->name }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button type="button" class="btn btn-primary"
+                                                            wire:click="ver('{{ $item->id }}','ajuste')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Ver detalle de compra">
+                                                            <i class="fas fa-bars" style="font-size: 14px"></i>
+                                                        </button>
+                                                        {{-- <button type="button" class="btn btn-danger"
+                                                            wire:click="Confirm('{{ $item->id }}')"
+                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                                            title="Anular ajuste">
+                                                            <i class="fas fa-minus-circle text-white"
+                                                                style="font-size: 14px"></i>
+                                                        </button> --}}
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+
+
+                                    @endif
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -237,56 +254,8 @@
                 })
 
             });
-            // window.livewire.on('confirmarAll', event => {
 
-            //     Swal.fire({
-            //         title: 'Estas seguro de eliminar este registro?',
-            //         text: "Esta accion es irreversible",
-            //         type: 'warning',
-            //         showCancelButton: true,
-            //         // confirmButtonColor: '#3085d6',
-            //         // cancelButtonColor: '#d33',
-            //         cancelButtonText: 'Cancelar',
-            //         confirmButtonText: 'Aceptar'
-            //     }).then((result) => {
-            //         if (result.value) {
-
-            //             window.livewire.emit('eliminar_registro_total');
-
-            //         }
-            //     })
-
-            // });
-            window.livewire.on('stock-insuficiente', event => {
-
-                const toast = swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    padding: '2em'
-                });
-                toast({
-                    type: 'error',
-                    title: 'Stock insuficiente para la salida del producto en esta ubicacion.',
-                    padding: '2em',
-                })
-            });
-            window.livewire.on('sinproductos', event => {
-
-                const toast = swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    padding: '2em'
-                });
-                toast({
-                    type: 'error',
-                    title: 'Error, No has agregado items a tu operacion',
-                    padding: '2em',
-                })
-            });
+        
 
         })
     </script>

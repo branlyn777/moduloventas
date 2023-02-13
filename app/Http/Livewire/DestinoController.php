@@ -35,7 +35,7 @@ class DestinoController extends Component
         $this->estados = true;
         $this->pagination = 50;
         $this->pageTitle = 'Listado';
-        $this->componentName = 'Destino';
+        $this->componentName = 'Almacen';
         $this->sucursal_id = "Todos";
         $this->verificar = false;
     }

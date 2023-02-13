@@ -16,7 +16,7 @@
 
                     <div class="col-12 col-sm-6 col-md-12">
                         <div class="form-group">
-                            <label><span class="text-warning">* </span>Destino</label>
+                            <label><span class="text-warning">* </span>Nombre Almacen</label>
                             <input type="text" wire:model.lazy="nombre" class="form-control"
                                 placeholder="Nombre de la estancia depósito, tienda, almacén, bodega" maxlenght="25">
                             @error('nombre')
