@@ -77,7 +77,7 @@
                             @if($this->categoria_id_ie == "Elegir" || $tipo_movimiento_ie == "Elegir")
                             Aquí aparecerá una breve descripción perteneciente a la categoria seleccionada
                             @else
-                                {{$this->detalle_categoria}}
+                                {{$this->detallecategoria}}
                             @endif
                         </div>
                     </div>

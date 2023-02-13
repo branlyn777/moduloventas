@@ -174,8 +174,13 @@ class PosController extends Component
     {
         if($this->categoria_id_ie != "Elegir")
         {
-            $this->detalle_categoria = CarteraMovCategoria::find($this->categoria_id_ie)->detalle;
+            $this->detallecategoria = CarteraMovCategoria::find($this->categoria_id_ie)->detalle;
         }
+
+        
+        //Categorias para Ingresos y Egresos
+        $categorias_ie = CarteraMovCategoria::where("cartera_mov_categorias.tipo",$this->tipo_movimiento_ie)->get();
+
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -267,8 +272,7 @@ class PosController extends Component
 
 
 
-        //Categorias para Ingresos y Egresos
-        $categorias_ie = CarteraMovCategoria::where("cartera_mov_categorias.tipo",$this->tipo_movimiento_ie)->get();
+        
 
 
 
@@ -1241,7 +1245,7 @@ class PosController extends Component
         {
             $cartera = Cartera::find($this->cartera_id_ie);
 
-            $saldo_cartera = $cartera->saldocartera - $this->cantidad;
+            $saldo_cartera = $cartera->saldocartera - $this->cantidad_ie;
     
             $cartera->update([
                 'saldocartera' => $saldo_cartera
