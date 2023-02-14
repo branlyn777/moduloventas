@@ -89,7 +89,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
+                        {{-- <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Tipo transaccion:</strong>
                                 <select wire:model='tipo_transaccion' class="form-select">
@@ -101,7 +101,7 @@
                                     <span class="text-danger er">{{ $message }}</span>
                                 @enderror                                          
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div> 
             </div>
@@ -265,7 +265,10 @@
 
                             <div class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">
+                                    @if ($cart->count()>0)
+                                        
                                     <button type="button" class="btn btn-info" wire:click.prevent="guardarCompra()">ACTUALIZAR</button>
+                                    @endif
                                     <button type="button" class="btn btn-danger" wire:click.prevent="exit()">CANCELAR</button>
                                 </div>
                             </div>

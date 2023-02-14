@@ -149,7 +149,7 @@
                                                 <i class="fas fa-plus" style="font-size: 14px"></i>
                                             </a>
                                             <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')"
+                                                onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}','{{ $location->product->count()}}')"
                                                 class="mx-3" title="Agregar Mobiliario">
                                                 <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                             </a>
@@ -247,8 +247,8 @@
                 swal.fire({
                     title: 'PRECAUCION',
                     type: 'warning',
-                    text: 'No se puede eliminar el producto, ' + descripcion + ' porque tiene ' +
-                        locations + ' ventas relacionadas'
+                    text: 'No se puede eliminar la estanteria, ' + descripcion + ' porque tiene ' +
+                        locations + ' productos relacionados.'
                 })
                 return;
             }

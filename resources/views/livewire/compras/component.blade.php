@@ -237,12 +237,12 @@
                                                     title="Editar">
                                                     <i class="fas fa-edit text-white" style="font-size: 14px"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    href="{{ url('Compras/pdf' . '/' . $data->id) }}"
+                                                <a type="button" class="btn btn-secondary"
+                                                    href="{{ url('Compras/pdf' . '/' . $data->id) }}" target="_blank"
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                     title="Exportar">
                                                     <i class="fas fa-print text-white" style="font-size: 14px"></i>
-                                                </button>
+                                            </a>
                                                 <button type="button" class="btn btn-danger"
                                                     wire:click="Confirm('{{ $data->id }}')"
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -272,8 +272,8 @@
                             </tfoot> --}}
                         </table><br>
                         <div class="text-center">
-                            <h6 ><b> Total Bs.- {{ $totales }}</b></h6>
-                            <h6 ><b>Total $us.- {{ round($totales / 6.96, 2) }}</b></h6>
+                            <h6><b> Total Bs.- {{ $totales }}</b></h6>
+                            <h6><b>Total $us.- {{ round($totales / 6.96, 2) }}</b></h6>
                         </div>
                     </div>
                 </div>

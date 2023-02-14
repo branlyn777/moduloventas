@@ -22,16 +22,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-12 col-sm-6 col-md-6">
-                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Proveedor</label>
-                        <div class="form-group">
-                            <div class="input-group mb-4">
-                                <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search2" placeholder="Buscar Proveedor"
-                                    class="form-control ">
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -47,7 +37,7 @@
 
                             <tbody>
                                 @if ($search2 != null)
-                                    @foreach ($compraProducto as $cp)
+                                    @foreach ($compraproducto as $cp)
                                         <tr>
                                             <td class="text-center">
                                                 {{ $loop->index + 1 }}
@@ -56,7 +46,7 @@
                                                 {{ substr($cp->nombre, 0, 10) }}
                                             </td>
                                             <td class="text-left">
-                                                {{ $cp->nombre_prov == null ? '--' : $cp->nombre_prov }}
+                                                {{ $cp->proveedor->nombre_prov }}
                                             </td>
                                             <td class="text-center">
                                                 {{ $cp->cantidad }}
@@ -71,6 +61,8 @@
                                     @endforeach
                                 @else
                                     <p></p>
+
+                                    {{$compraproducto!=null?$compraproducto->links():''}}
                                 @endif
 
                             </tbody>
@@ -80,4 +72,6 @@
             </div>
         </div>
     </div>
+ 
+
 </div>

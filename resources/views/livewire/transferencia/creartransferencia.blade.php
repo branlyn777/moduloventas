@@ -114,17 +114,21 @@
                                         <thead>
                                             <tr style="font-size: 14px">
                                               
-                                                <th style="width: 300px;">PRODUCTO</th>
+                                                <th style="width: auto;">PRODUCTO</th>
                                                 <th style="width: 50px;">STOCK</th>
                                                 <th class="text-center">ACCIÓN</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($destinos_almacen as $destino)
-                                                <tr style="font-size: 14px">
+                                                <tr>
                                                 
                                                     <td>
-                                                        {{ substr($destino->name, 0, 10) }} ({{$destino->codigo}})
+                                                        <label style="font-size: 14px">
+                                                        {{ $destino->name }}    ({{ $destino->codigo }})
+                                                        <h6 class='text-xs'>{{ $destino->caracteristicas }}</h6>
+                                                    
+                                                    </label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -154,7 +158,7 @@
                         <div class="text-center">
                             <h5><b>Detalle Transferencia</b></h5>
                         </div>
-                        <div class="table-responsive px-5">
+                        <div class="table-responsive">
                             @if ($cart->isNotEmpty())
                                 <table class="table align-items-center mb-4 p-2">
                                     <thead>
@@ -172,7 +176,9 @@
                                                     {{ $loop->iteration }}
                                                 </td>
                                                 <td>
-                                                    {{ substr($prod->name, 0, 20) }}({{\App\Models\Product::codigo($prod->id)}})
+                                                    <h6 class='text-xs'>
+                                                        {{ $prod->name }}({{\App\Models\Product::codigo($d->id)}})
+                                                    </h6>
                                                 </td>
                                                 <td>
                                                     <input type="number" id="rr{{ $prod->id }}"
@@ -217,9 +223,12 @@
                                     style="background-color: #2e48dc; color: white;">
                                     <b>Ir Transferencias</b>
                                 </a>
+                                @if ($cart->count() > 0)
+                                    
                                 <button wire:click="finalizar_tr()" class="btn btn-success">
                                     Finalizar
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </div>
