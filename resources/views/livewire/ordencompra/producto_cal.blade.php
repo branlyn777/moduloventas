@@ -20,7 +20,7 @@
                                 <option value="null" disabled>Elegir Pronostico</option>
                                 <option value="xdias">Los ultimos dias</option>
                                 <option value="rango_fechas">Rango de fechas personalizado</option>
-                                <option value="mismo_periodo">El mismo período el año pasado</option>
+
                             </select>
                         </div>
                     </div>
@@ -28,17 +28,16 @@
 
                 <div class="col-lg-6">
                     <div class="row">
-                        @if ($tipo == 'xdias')
-                            <div class="col-lg-12">
+                @if ($tipo =="xdias")
+                     
                                 <div class="row">
                                     <div class="col-md-12">
-
                                         <label for="" class="mb-2">Introducir Dias</label>
                                         <input type="number" wire:model="ult_dias" class="form-control"
                                             placeholder="ej: 7">
                                     </div>
                                 </div>
-                            </div>
+                      
                         @endif
                         @if ($tipo == 'rango_fechas')
                             <div class="col-lg-12">

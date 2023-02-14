@@ -238,7 +238,7 @@
 
                             <button type="button" wire:click="exit()" class="btn btn-secondary"
                                 style="background-color: #2e48dc; color: white;">Ir Orden Compras</button>
-                                
+
                             <button type="button" wire:click="guardarOrdenCompra()"
                                 class="btn btn-success">Finalizar</button>
                         </div>
@@ -247,9 +247,9 @@
             </div>
         </div>
     </div>
+    @include('livewire.ordencompra.producto_cal')
 </div>
-@include('livewire.ordencompra.producto_cal')
-</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
