@@ -129,8 +129,9 @@
                                     <th class="text-uppercase text-sm ps-2">COD.</th>
                                     <th class="text-uppercase text-sm ps-2">FECHA</th>
                                     <th class="text-uppercase text-sm ps-2">PROVEEDORES</th>
-                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2">COMPRA</th>
                                     <th class="text-uppercase text-sm ps-2">USUARIO</th>
+                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
                                     <th class="text-uppercase text-sm ps-2">TOTAL</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
                                 </tr>
@@ -155,7 +156,15 @@
                                             <h6 style="font-size: 12px" wire:key="{{ $loop->index }}">
                                                 {{ $data->proveedor->nombre_prov }}</h6>
                                         </td>
+                                        <td>
+                                            <span  class="badge badge-sm bg-gradient-primary">  {{$data->compra->isNotEmpty() ?'Asignado':'No asignado'}}</span>
+                                        </td>
 
+
+                                        <td>
+                                            {{ $data->usuario->name }}
+                                        </td>
+                                        
                                         @if ($data->status == 'ACTIVO')
                                             <td>
                                                 <span
@@ -166,10 +175,6 @@
                                                 <span class="badge text-bg-danger text-white">ANULADO</span>
                                             </td>
                                         @endif
-
-                                        <td>
-                                            {{ $data->usuario->name }}
-                                        </td>
                                         <td>
                                             {{ $data->importe_total }}
                                         </td>
@@ -181,14 +186,15 @@
                                                     title="Listar orden de compra">
                                                     <i class="fas fa-bars" style="font-size: 14px"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    href="{{ url('OrdenCompra/pdf' . '/' . $data->id) }}"
+                                                <a type="button" class="btn btn-secondary"
+                                                    href="{{ url('OrdenCompra/pdf' . '/' . $data->id) }}" target="blank"
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                     title="Imprimir orden de compra">
                                                     <i class="fas fa-print text-white" style="font-size: 14px"></i>
-                                                </button>
+                                            </a>
                                                 <button type="button" class="btn btn-danger"
-                                                    wire:click="anularOrden('{{ $data->id }}')"
+                                                onclick="Confirm('{{$data->id}}','{{$data->compra->count() }}')"
+                                            
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                     title="Anular orden compra">
                                                     <i class="fas fa-minus-circle text-white"
@@ -214,16 +220,17 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+  
 
         window.livewire.on('verDetalle', msg => {
             $('#detalleOrden').modal('show')
         });
 
-        window.livewire.on('erroreliminarCompra', msg => {
+        window.livewire.on('erroranularorden', msg => {
             swal.fire({
                 title: 'ERROR',
                 icon: 'warning',
-                text: 'La compra no puede ser eliminada por que uno de los items ya ha sido distribuido.'
+                text: 'La orden de compra no puede ser anulada, por que ya fue asignada.'
             })
         });
         window.livewire.on('preguntareliminarCompra', msg => {
@@ -231,7 +238,7 @@
             swal.fire({
                 title: 'PRECAUCION',
                 icon: 'warning',
-                text: '¿Esta seguro de anular la compra?',
+                text: '¿Esta seguro de anular la orden de compra?',
                 showCancelButton: true,
                 cancelButtonText: 'Cerrar'
 
@@ -258,4 +265,33 @@
             })
         });
     })
+
+          
+    function Confirm(id,compras) {
+            if (compras > 0) {
+             
+                swal.fire({
+                    title: 'Error',
+                    type: 'error',
+                    text: 'Esta orden de compra ya fue ejecutada.'          
+               
+                })
+            
+            } else {
+                swal.fire({
+                    title: 'CONFIRMAR',
+                    type: 'warning',
+                    text: 'Esta Orden de compra sera anulada, proseguir con la accion?',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cerrar',
+                    // cancelButtonColor: '#383838',
+                    // confirmButtonColor: '#3B3F5C',
+                    confirmButtonText: 'Aceptar'
+                }).then(function(result) {
+                    if (result.value) {
+                        window.livewire.emit('anular', id).Swal.close()
+                    }
+                })
+            }
+        }
 </script>

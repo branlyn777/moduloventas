@@ -119,7 +119,11 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        {{ $destino->name }}
+                                                        <label style="font-size: 14px">
+                                                            {{ $destino->name }}    ({{ $destino->codigo }})
+                                                            <h6 class='text-xs'>{{ $destino->caracteristicas }}</h6>
+                                                        
+                                                        </label>
                                                     </td>
 
                                                     <td class="text-center">

@@ -22,7 +22,7 @@ class ComprasController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    private $pagination = 15;
+    public $pagination = 15;
     public $fromDate,$toDate,
             $from,
             $to,
@@ -34,7 +34,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraProducto,$search2,$tipo_search,$productoProveedor,$search3;
+            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3;
 
     public function paginationView()
     {
@@ -43,12 +43,14 @@ class ComprasController extends Component
     public function mount()
     {
         $this->nro=1;
+        $this->pagination=15;
         $this->filtro='Contado';
         $this->fecha='hoy';
         $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->toDate =  Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->sucursal_id=SucursalUser::where('user_id',Auth()->user()->id)->first()->sucursal_id;
         $this->estado='ACTIVO';
+        
         $this->tipo_search='codigo';
     }
     public function render()
@@ -92,13 +94,13 @@ class ComprasController extends Component
         $this->totales = $datas_compras->sum('compras.importe_total');
 
         if ($this->search2 != null) {
-            $this->compraProducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+
+            $this->compraproducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->where('products.nombre', 'like', '%' . $this->search2 . '%')
-            ->select('products.nombre','compra_detalles.cantidad','compras.id','compras.created_at')
-            ->get();
-            //dd($this->compraProducto);
-        }
+            ->select('compras.*','products.nombre','compra_detalles.cantidad',)
+            ->orderBy('compras.created_at','desc');
+        } 
         if ($this->search3 != null) {
      
             $this->productoProveedor = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
@@ -107,7 +109,6 @@ class ComprasController extends Component
             ->where('products.nombre', 'like', '%' . $this->search3 . '%')
             ->select('prov.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
             ->get();
-            //dd($this->compraProducto);
         }
         $usuarios = User::select("users.*")
         ->where("users.status","ACTIVE")
@@ -117,7 +118,8 @@ class ComprasController extends Component
             'data_compras'=>$datas_compras->paginate($this->pagination), 
             'totales'=>$this->totales,
             'listasucursales' => Sucursal::all(),
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+        
         ])
         ->extends('layouts.theme.app')
         ->section('content');

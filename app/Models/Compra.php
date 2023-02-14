@@ -39,5 +39,11 @@ class Compra extends Model
     {
         return $this->belongsTo(Destino::class,'destino_id','id');
     }
+    
+    public function proveedor()
+    {
+        return $this->belongsTo(Provider::class,'proveedor_id','id');
+    }
+
 
 }

@@ -69,7 +69,7 @@
                             <strong style="color: rgb(74, 74, 74)">Proveedor</strong>
 
                             <select wire:model.lazy="provider" class="form-select">
-                                <option value="Elegir">Elegir Proveedor</option>
+                                <option value=null disabled>Elegir Proveedor</option>
                                 <datalist id="provider">
                                     @foreach ($data_prov as $datas)
                                         <option value="{{ $datas->nombre_prov }}">{{ $datas->nombre_prov }}</option>
@@ -88,7 +88,7 @@
                         <div class="col-12 col-sm-12 col-md-3">
                             <strong style="color: rgb(74, 74, 74)">Destino de la Compra</strong>
                             <select wire:model.lazy="destino" class="form-select">
-                                <option value='Elegir'>Elegir Destino</option>
+                                <option value=null disabled>Elegir Destino</option>
                                 @foreach ($data_suc as $data)
                                     <option value="{{ $data->destino_id }}">{{ $data->nombre }}-{{ $data->name }}
                                     </option>
@@ -137,8 +137,11 @@
                                             @foreach ($prod as $producto)
                                                 <tr>
                                                     <td>
-                                                        <strong>{{ substr($producto->nombre, 0, 15) }}</strong>
-                                                        ({{ $producto->codigo }})
+                                                        <label style="font-size: 14px">
+                                                            {{ $producto->nombre }}    ({{ $producto->codigo }})
+                                                            <h6 class='text-xs'>{{ $producto->caracteristicas }}</h6>
+                                                        
+                                                        </label>
                                                     </td>
                                                     <td class="text-center">
                                                         <a wire:click="InsertarProducto({{ $producto->id }})"
@@ -167,7 +170,7 @@
                                 <table class="table align-items-center mb-4">
                                     <thead>
                                         <tr class="text-center" style="font-size: 14px; color: black;">
-                                            <th class="text-uppercase text-sm text-center">Producto</th>
+                                            <th class="text-uppercase text-sm text-left">Producto</th>
                                             <th class="text-uppercase text-sm ps-2">Precio Compra</th>
                                             <th class="text-uppercase text-sm text-center">Cantidad</th>
                                             <th class="text-uppercase text-sm text-center">Total</th>
@@ -178,7 +181,11 @@
                                         @foreach ($cart->sortBy('order') as $prod)
                                             <tr style="font-size: 14px; color: black;">
                                                 <td>
-                                                    <h6>{{ substr($prod['product_name'], 0, 15) }}</h6>
+                                      
+
+                                                    <h6 class='text-xs'>
+                                                        {{ $prod['product_name'] }}
+                                                    </h6>
                                                 </td>
 
                                                 <td>
@@ -219,7 +226,7 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <h4><b>TOTAL.- {{ number_format($total, 2) }}</b></h4>
+                                    <h5><b>Total Bs.- {{ number_format($total, 2) }}</b></h5>
                                 </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
@@ -239,8 +246,11 @@
                             <button type="button" wire:click="exit()" class="btn btn-secondary"
                                 style="background-color: #2e48dc; color: white;">Ir Orden Compras</button>
 
-                            <button type="button" wire:click="guardarOrdenCompra()"
-                                class="btn btn-success">Finalizar</button>
+                                @if ($cart->count() > 0)
+                                    
+                                <button type="button" wire:click="guardarOrdenCompra()"
+                                    class="btn btn-success">Finalizar</button>
+                                @endif
                         </div>
                     </div>
                 </div>

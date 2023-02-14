@@ -642,6 +642,8 @@ class DetalleComprasController extends Component
     public function recibirOrden(OrdenCompra $id)
     {
         $this->ordencompraselected = $id->id;
+        $this->provider=$id->proveedor->nombre_prov;
+        $this->destinocompra=$id->destino->id;
 
         foreach ($id->detallecompra as $data) {
             $this->increaseQty($data->product_id, $data->cantidad, $data->precio);

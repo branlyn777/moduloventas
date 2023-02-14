@@ -43,10 +43,12 @@ class OrdenCompraController extends Component
             return $query->where('orden_compras.status',$this->estado);
         })
         ->when($this->sucursal_id != 'Todos', function($query){
-            $suc=Sucursal::find($this->sucursal_id)->first();
-            return $query->whereIn('orden_compras.destino_id',$suc->destinos);
+       
+            return $query->join('destinos','destinos.id','orden_compras.destino_id')
+            ->where('destinos.sucursal_id',$this->sucursal_id);
          
         })
+        ->orderBy('orden_compras.created_at','desc')
         ->get();
 
 
@@ -91,7 +93,7 @@ class OrdenCompraController extends Component
    
         //dd($this->detalleCompra);
     }
-     
+    protected $listeners = ['anular' => 'anularOrden'];
     public function anularOrden(OrdenCompra $id){
 
       $id->update([

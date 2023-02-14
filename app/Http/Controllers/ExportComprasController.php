@@ -79,6 +79,7 @@ class ExportComprasController extends Controller
     }
 
     public function PrintCompraPdf($id){
+      
         $datossucursal = Sucursal::join("sucursal_users as su", "su.sucursal_id", "sucursals.id")
         ->select("sucursals.name as nombresucursal","sucursals.adress as direccionsucursal", "su.user_id")
         ->where("su.user_id", Auth()->user()->id)
