@@ -17,10 +17,10 @@ class CreateCotizacionsTable extends Migration
             $table->id();
             
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->reerences('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id');
+            $table->foreign('cliente_id')->references('id')->on('clientes');
 
             $table->unsignedBigInteger('sucursal_id');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');

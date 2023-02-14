@@ -33,14 +33,14 @@ class DestinoProductoController extends Component
     public $selected_id, $search, $selected_mood, $selected_ubicacion, $loteproducto, $estados, $filtro_stock, $componentName, $title, $sql, $prod, $grouped, $stocks, $productoajuste, $cant_operacion, $opcion_operacion, $obs_operacion, $cantidad, $productid, $productstock, $mobiliario, $mobs, $mop_prod, $active, $toogle, $qq, $nombre_prodlote;
     private $pagination = 50;
 
+    public $precio_actual;
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
     }
-
     public function mount()
     {
-
         $this->selected_id = 'General';
         $this->componentName = 'crear';
         $this->title = 'ssss';
@@ -53,13 +53,12 @@ class DestinoProductoController extends Component
     {
         $this->grouped = false;
     }
-
     public function render()
     {
-
         $almacen = ProductosDestino::join('products as p', 'p.id', 'productos_destinos.product_id')
             ->join('destinos as dest', 'dest.id', 'productos_destinos.destino_id')
-            ->where(function ($query) {
+            ->where(function ($query)
+            {
                 $query->where('p.nombre', 'like', '%' . $this->search . '%')
                     ->orWhere('p.codigo', 'like', '%' . $this->search . '%');
             })
@@ -71,37 +70,46 @@ class DestinoProductoController extends Component
                 return $query->select('p.*', 'p.cantidad_minima as cant2', 'productos_destinos.stock as stock')
                     ->where('productos_destinos.destino_id', $this->selected_id);
             })
-            ->when($this->selected_mood == 'cero', function ($query) {
-                if ($this->selected_id == 'General') {
+            ->when($this->selected_mood == 'cero', function ($query)
+            {
+                if ($this->selected_id == 'General')
+                {
                     return $query->having('stock_s', 0);
-                } else {
+                }
+                else
+                {
                     return $query->where('stock', 0);
                 }
             })
-            ->when($this->selected_mood == 'bajo', function ($query) {
-
-                if ($this->selected_id == 'General') {
+            ->when($this->selected_mood == 'bajo', function ($query)
+            {
+                if ($this->selected_id == 'General')
+                {
                     return $query->having('stock_s', '<', DB::raw("cant"));
-                } else {
+                }
+                else
+                {
                     return $query->whereColumn('stock', '<', 'cantidad_minima');
                 }
             })
-            ->when($this->selected_mood == 'positivo', function ($query) {
-                if ($this->selected_id == 'General') {
+            ->when($this->selected_mood == 'positivo', function ($query)
+            {
+                if ($this->selected_id == 'General')
+                {
                     return $query->having('stock_s', '>', 0);
-                } else {
+                }
+                else
+                {
                     return $query->where('stock', '>', 0);
                 }
             });
-
-        //dd($almacen->get());
 
         $sucursal_ubicacion = Destino::join('sucursals as suc', 'suc.id', 'destinos.sucursal_id')
             ->select('suc.name as sucursal', 'destinos.nombre as destino', 'destinos.id')
             ->orderBy('suc.name', 'asc');
 
-        if ($this->productid != null) {
-
+        if ($this->productid != null)
+        {
             $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
         }
 
@@ -117,7 +125,6 @@ class DestinoProductoController extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
     public function operacionInventario()
     {
         $stockactual = ProductosDestino::where('productos_destinos.product_id', $this->productid)->where('productos_destinos.destino_id', $this->selected_id)->value('stock');
@@ -160,7 +167,6 @@ class DestinoProductoController extends Component
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
     public function ver(Product $prod)
     {
         $this->sql = "select rt,location,dsn,suc_id,loc,loc_cod,stock from ( select products.id as rt,destinos.id as dest,destinos.nombre as dsn, sucursals.name as suc_id,stock from productos_destinos 
@@ -196,10 +202,8 @@ class DestinoProductoController extends Component
         //dd($this->grouped);
         $this->emit('show-modal', 'showsss');
     }
-
     public function ajuste(Product $prod)
     {
-
         $this->productoajuste = $prod->nombre;
         $this->productid = $prod->id;
         $this->productstock = ProductosDestino::where('productos_destinos.product_id', $prod->id)->where('productos_destinos.destino_id', $this->selected_id)->value('stock');
@@ -213,11 +217,8 @@ class DestinoProductoController extends Component
 
         $this->emit('show-modal-ajuste');
     }
-
-
     public function incrementar()
     {
-
         $stockactual = ProductosDestino::where('productos_destinos.product_id', $this->productid)->where('productos_destinos.destino_id', $this->selected_id)->value('stock');
 
 
@@ -253,7 +254,6 @@ class DestinoProductoController extends Component
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
     public function disminuir()
     {
         $stockactual = ProductosDestino::where('productos_destinos.product_id', $this->productid)->where('productos_destinos.destino_id', $this->selected_id)->value('stock');
@@ -332,11 +332,8 @@ class DestinoProductoController extends Component
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
     public function aplicarCambios()
     {
-
-
         $rules = [
             'cantidad' => 'required|min:0'
 
@@ -355,8 +352,6 @@ class DestinoProductoController extends Component
             $this->disminuir();
         }
     }
-
-
     public function asignmob()
     {
         if ($this->mobiliario) {
@@ -371,27 +366,23 @@ class DestinoProductoController extends Component
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
-
-
     public function resetajuste()
     {
         $this->cantidad = null;
         $this->mobiliario = null;
         $this->emit('hide-modal-ajuste');
     }
-    protected $listeners = ['vaciarDestino' => 'vaciarAlmacen'];
-
+    protected $listeners = [
+        'vaciarDestino' => 'vaciarAlmacen'
+    ];
     public function vaciarAlmacen()
     {
-
         $auxi2 = ProductosDestino::where('productos_destinos.destino_id', $this->selected_id)->get();
         foreach ($auxi2 as $data) {
             $data->stock = 0;
             $data->save();
         }
     }
-
     public function vaciarProducto()
     {
         //dd($this->selected_id);
@@ -495,33 +486,52 @@ class DestinoProductoController extends Component
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
     public function eliminarmob(LocationProducto $id)
     {
-
-
         $id->delete();
 
         $aux = Product::find($this->productid);
         $this->ajuste($aux);
         $this->emit('show-modal-ajuste');
     }
-
     public function lotes($id)
     {
-
-        //dd($id);
         $this->grouped = false;
         $this->productid = $id;
         $this->nombre_prodlote = Product::find($id)->nombre;
 
-        //dd($this->loteproducto);
+        //Obteniendo el precio de venta del producto
+        $this->precio_actual = Lote::select("pv_lote")
+        ->where("lotes.product_id",$id)
+        ->orderBy("lotes.created_at","desc")
+        ->first()->pv_lote;
+
         $this->emit('show-modal-lotes');
     }
-    public function export($destino,$stock)
+    public function actualizar_precio()
     {
-            
-            return Excel::download(new ExportExcelAlmacenController($destino,$stock), 'almacen.xlsx');
-     
+        $precio = Lote::select("id")
+        ->where("lotes.product_id",$this->productid)
+        ->orderBy("lotes.created_at","desc")
+        ->first();
+
+        $lote = Lote::find($precio->id);
+
+        $lote->update([
+            'pv_lote' => $this->precio_actual,
+        ]);
+
+
+        // $this->precio_actual = Lote::select("pv_lote")
+        // ->where("lotes.product_id",$this->productid)
+        // ->orderBy("lotes.created_at","desc")
+        // ->first()->pv_lote;
+
+        $this->emit("hide-modal-lote");
+
+    }
+    public function export($destino, $stock)
+    {
+        return Excel::download(new ExportExcelAlmacenController($destino, $stock), 'almacen.xlsx');
     }
 }
