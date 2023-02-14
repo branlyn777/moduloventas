@@ -151,7 +151,7 @@ class InicioController extends Component
 
 
         //Cálculo del total ventas en el mes actual
-        $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->sum('total');
+        $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->where("status","PAID")->sum('total');
 
 
         //Obteniendo la fecha del primer dia del mes anterior
@@ -160,7 +160,7 @@ class InicioController extends Component
         $endOfLastMonth = Carbon::now()->subMonth()->format('Y-m-d H:m:s');
         
         //Cálculo del total ventas del mes anterior
-        $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->sum('total');
+        $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status","PAID")->sum('total');
 
 
         //Obteniendo el porcentaje de $endOfLastMonth
