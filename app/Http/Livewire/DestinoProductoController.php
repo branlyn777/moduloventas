@@ -35,12 +35,19 @@ class DestinoProductoController extends Component
 
     public $precio_actual;
 
+
+    //Variable para guardar el id del lote
+    public $lote_id, $costo_lote;
+
+
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
     }
     public function mount()
     {
+        $this->search = "0000000";
         $this->selected_id = 'General';
         $this->componentName = 'crear';
         $this->title = 'ssss';
@@ -508,6 +515,11 @@ class DestinoProductoController extends Component
 
         $this->emit('show-modal-lotes');
     }
+    public function export($destino, $stock)
+    {
+        return Excel::download(new ExportExcelAlmacenController($destino, $stock), 'almacen.xlsx');
+    }
+    //Actualiza el precio de un produto (updated en la tabla lote)
     public function actualizar_precio()
     {
         $precio = Lote::select("id")
@@ -520,18 +532,21 @@ class DestinoProductoController extends Component
         $lote->update([
             'pv_lote' => $this->precio_actual,
         ]);
-
-
-        // $this->precio_actual = Lote::select("pv_lote")
-        // ->where("lotes.product_id",$this->productid)
-        // ->orderBy("lotes.created_at","desc")
-        // ->first()->pv_lote;
-
         $this->emit("hide-modal-lote");
+    }
+    //Actualiza el costo de un produto (updated en la tabla lote)
+    public function actualizar_costo()
+    {
+        $lote = Lote::find($this->lote_id);
+        
 
     }
-    public function export($destino, $stock)
+    //Muestra la ventana modal para cambiar el costo de un lote
+    public function modal_costo_lote($idlote)
     {
-        return Excel::download(new ExportExcelAlmacenController($destino, $stock), 'almacen.xlsx');
+        $this->lote_id = $idlote;
+        $this->costo_lote = Lote::find($idlote)->costo;
+        $this->emit("hide-modal-lote");
+        $this->emit("show-modal-lotecosto");
     }
 }

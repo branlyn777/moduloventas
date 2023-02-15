@@ -193,6 +193,7 @@
     @include('livewire.destinoproducto.detallemobiliario')
     @include('livewire.destinoproducto.ajusteinventario')
     @include('livewire.destinoproducto.lotesproductos')
+    @include('livewire.destinoproducto.lotecosto')
 </div>
 
 
@@ -219,6 +220,9 @@
             });
             window.livewire.on('hide-modal-lote', msg => {
                 $('#lotes').modal('hide')
+            });
+            window.livewire.on('show-modal-lotecosto', msg => {
+                $('#lotecosto').modal('show')
             });
 
         });

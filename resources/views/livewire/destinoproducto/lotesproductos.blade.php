@@ -44,8 +44,8 @@
                     </div>
                     <div class="col-4 text-center">
                         <label>PRECIO DE VENTA</label>
-                        <input type="number" wire:model.lazy="precio_actual" style="font-size: 30px; text-align: right; margin-bottom: 10px;" class="form-control">
-                        <button wire:click="actualizar_precio()" class="btn btn-primary btn-sm">Actualizar</button>
+                        <input type="number" wire:model.lazy="precio_actual" style="font-size: 25px; text-align: right; margin-bottom: 10px;" class="form-control">
+                        <button wire:click="actualizar_precio()" class="btn btn-success btn-sm">ACTUALIZAR PRECIO</button>
                     </div>
                     <div class="col-4">
                         
@@ -62,7 +62,7 @@
                                             <th class="text-center">N°</th>
                                             <th>Fecha Creacion</th>
                                             <th>Existencia</th>
-                                            <th>Costo Lote</th>
+                                            <th class="text-center">Costo Lote</th>
                                             <th>p/v Lote</th>
                                             <th class="text-center">Estado</th>
                                         </tr>
@@ -84,6 +84,16 @@
                                                     </td>
                                                     <td>
                                                         {{ $data->costo }}
+                                                        
+
+                                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                                            {{-- <input type="number" style="text-align: right; width: 100px; border: 1px solid #d2d6da; border-radius: .5rem;" value="{{ $data->costo }}"> --}}
+                                                            <button wire:click="modal_costo_lote({{$data->id}})" type="button" style="background-color: #5e72e4; color: aliceblue; border-color: #ffffff;">
+                                                                Cambiar
+                                                            </button>
+                                                        </div>
+
+                                                        
                                                     </td>
                                                     <td>
                                                         {{ $data->pv_lote }}

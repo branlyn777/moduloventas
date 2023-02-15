@@ -289,8 +289,8 @@ class PosController extends Component
             'categorias_ie' => $categorias_ie
 
         ])
-            ->extends('layouts.theme.app')
-            ->section('content');
+        ->extends('layouts.theme.app')
+        ->section('content');
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
