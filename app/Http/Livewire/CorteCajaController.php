@@ -648,7 +648,7 @@ class CorteCajaController extends Component
     public function finArqueo()
     {
 
-        if ($this->efectivo_actual != null) {
+        if ($this->efectivo_actual != null and $this->saldoAcumulado !=$this->efectivo_actual) {
             $margen = $this->efectivo_actual - $this->saldoAcumulado;
             $diferenciaCaja = $margen > 0 ? 'SOBRANTE' : 'FALTANTE';
             $mvt = Movimiento::create([

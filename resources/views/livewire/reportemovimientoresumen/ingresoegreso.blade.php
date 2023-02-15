@@ -41,6 +41,10 @@
                                 Generar
                                 Ingreso/Egreso
                             </button>
+                            <button wire:click.prevent="ajuste()" class="btn btn-light">
+                                <i class="fa-solid fa-wrench"></i>
+                                Ajustar Carteras
+                            </button>
                             <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
                                 <i class="fas fa-print"></i> Generar PDF
                             </button>
@@ -153,27 +157,35 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label style="font-size: 1rem">Categoria</label>
-                                <select wire:model='categoria_id' class="form-select">
-                                    <option value="Todos">Todas las Categorias</option>
-                                    @foreach ($categorias as $c)
-                                        <option value="{{ $c->id }}">
-                                            {{ $c->tipo }} - {{ $c->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-2">
-                            <div class="form-group">
                                 <label style="font-size: 1rem">Tipo Movimiento</label>
                                 <select wire:model='tipo_movimiento' class="form-select">
                                     <option class="text-uppercase text-sm ps-2" value="TODOS">Todos</option>
                                     <option class="text-uppercase text-sm ps-2" value="INGRESO">Ingreso</option>
                                     <option class="text-uppercase text-sm ps-2" value="EGRESO">Egreso</option>
+                                    <option class="text-uppercase text-sm ps-2" value="AJUSTE">Ajustes</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Categoria</label>
+                                <select wire:model='categoria_id' class="form-select">
+                                    @if ($tipo_movimiento=='AJUSTE')
+                                    <option value=null>-- --</option>
+                                    @else
+
+                                    <option value="Todos">Todas las Categorias</option>
+                                
+                                    @foreach ($categorias as $c)
+                                        <option value="{{ $c->id }}">
+                                            {{ $c->tipo }} - {{ $c->nombre }}
+                                        </option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                 
                     </div>
 
                 </div>
@@ -185,7 +197,7 @@
                 <div class="text-center m-4">
                     <div class="row">
                         <div class="col-6">
-                            <span class="bg-warning text-white p-2">
+                            <span class="bg-warning text-white p-2 border-round ">
                                 <b>
                                     TOTAL Bs. {{ number_format($sumaTotal, 2) }}
                                 </b>
@@ -307,6 +319,7 @@
 
         @include('livewire.reportemovimientoresumen.modalDetails')
         @include('livewire.reportemovimientoresumen.modaleditar')
+        @include('livewire.reportemovimientoresumen.modalajuste')
 
     </div>
 </div>
@@ -318,6 +331,9 @@
             window.livewire.on('show-modal', Msg => {
                 $('#modal-details').modal('show')
             });
+            window.livewire.on('show-ajuste', Msg => {
+                $('#modal-ajuste').modal('show')
+            });
             window.livewire.on('editar-movimiento', Msg => {
                 $('#modal-mov').modal('show')
             });
@@ -327,6 +343,10 @@
             window.livewire.on('hide-modal', Msg => {
                 $('#modal-details').modal('hide')
                 noty(Msg)
+            });
+            window.livewire.on('close-ajuste', Msg => {
+                $('#modal-ajuste').modal('hide')
+                
             });
 
             window.livewire.on('openothertap', Msg => {
