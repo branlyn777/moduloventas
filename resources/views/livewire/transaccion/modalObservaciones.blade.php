@@ -16,9 +16,7 @@
                         <div class="form-group">
                             <h6>Observaciones</h6>
                             <textarea wire:model.lazy="observaciones" class="form-control" name="" rows="5"></textarea>
-                            @error('observaciones')
-                                <span class="text-danger er">{{ $message }}</span>
-                            @enderror
+                            @error('observaciones') <span class="text-danger er">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
