@@ -177,7 +177,7 @@
                                                 </td>
                                                 <td>
                                                     <h6 class='text-xs'>
-                                                        {{ $prod->name }}({{\App\Models\Product::codigo($d->id)}})
+                                                        {{ $prod->name }}({{\App\Models\Product::codigo($prod->id)}})
                                                     </h6>
                                                 </td>
                                                 <td>
