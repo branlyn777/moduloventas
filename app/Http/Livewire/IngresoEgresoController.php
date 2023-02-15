@@ -18,9 +18,9 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate,$toDate,$caja,$data,$search,$cv,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal,$mensaje_toast;
+    public $fromDate,$toDate,$caja,$data,$search,$cv,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal,$mensaje_toast,$saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit,$type_edit, $selected_id, $opciones, $cartera_id, $type, $comentario;
+    public $cartera_id_edit,$type_edit, $selected_id, $opciones, $cartera_id, $type, $comentario,$cartajusteselected;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -77,15 +77,7 @@ class IngresoEgresoController extends Component
             $cajab=Caja::where('cajas.sucursal_id',$this->sucursal)->where('cajas.nombre','!=','Caja General')->get();
         }
 
-        // $carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
-        // ->join('sucursals as s', 's.id', 'c.sucursal_id')
-        // ->where('s.id', $this->sucursalid)
-        // ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo', DB::raw('0 as monto'))->get();
- 
-
      
-        /* MOSTRAR CARTERAS DE LA CAJA EN LA QUE SE ENCUENTRA */
-        //dd($this->sucursal);
 
         if ($this->caja == 'TODAS')
         {
@@ -803,6 +795,10 @@ class IngresoEgresoController extends Component
            $categorias_ie = [];
        }
 
+       if ($this->cartajusteselected != null) {
+            $this->saldo_cartera_aj=Cartera::find($this->cartajusteselected)->saldocartera;
+       }
+
 
         return view('livewire.reportemovimientoresumen.ingresoegreso',[
             'carterasSucursal'=>$this->carterasSucursal,
@@ -822,6 +818,71 @@ class IngresoEgresoController extends Component
     {
         $this->emit('show-modal', 'open modal');
     }
+    public function ajuste()
+    {
+        $this->emit('show-ajuste');
+        $this->resetAjuste();
+    }
+    public function guardarAjuste()
+    {
+        $rules = [ /* Reglas de validacion */
+          
+            'cartajusteselected' => 'required|not_in:Elegir',
+            'cantidad' => 'required',
+            'comentario' => 'required',
+        ];
+        $messages = [ /* mensajes de validaciones */
+          
+            'cartajusteselected.not_in' => 'Seleccione un valor distinto a Elegir',
+            'cartajusteselected.not_in' => 'Seleccione un valor distinto a Elegir',
+
+            'cantidad.required' => 'Ingrese un monto válido',
+            'cantidad.not_in' => 'Ingrese un monto válido',
+            'comentario.required' => 'El comentario es obligatorio',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $mvt = Movimiento::create([
+            'type' => 'TERMINADO',
+            'status' => 'ACTIVO',
+            'import' =>$this->cantidad-$this->saldo_cartera_aj>0?$this->cantidad-$this->saldo_cartera_aj:($this->cantidad-$this->saldo_cartera_aj)*-1,
+            'user_id' => Auth()->user()->id
+        ]);
+
+        CarteraMov::create([
+            'type' => $this->saldo_cartera_aj>$this->cantidad ? 'INGRESO' : 'EGRESO',
+            'tipoDeMovimiento' => 'AJUSTE',
+            'comentario' => $this->comentario,
+            'cartera_id' => $this->cartajusteselected,
+            'movimiento_id' => $mvt->id
+        ]);
+
+        $cartera = Cartera::find($this->cartajusteselected);
+
+
+
+        $cartera->update([
+            'saldocartera' => $this->cantidad
+        ]);
+
+        $this->emit('close-ajuste');
+        $this->resetAjuste();
+    }
+
+    public function resetAjuste(){
+        $this->cartajusteselected = null;
+       
+        $this->cantidad = null;
+        $this->comentario = null;
+        $this->saldo_cartera_aj=null;
+        $this->emit('close-ajuste');
+        $this->resetValidation();
+    
+    }
+
+
+
     public function Generar()
     {
         $rules = [ /* Reglas de validacion */

@@ -275,26 +275,29 @@
                                         <td>
                                             <h6 class="text-left">{{ $data2->name }}</h6>
                                         </td>
-
                                         <td class="text-center">
+                                            <div class="btn-group" role="group">
                                             @if ($data2->estado_te === 'Recibido' or $data2->estado_te === 'Rechazado')
-                                                <a href="javascript:void(0)"
+                                                <button 
                                                     wire:click="visualizardestino({{ $data2->tr_des_id }})"
-                                                    class="boton-azul p-1 m-0" title="Ver">
+                                                    class="btn p-1 m-0" title="Ver">
                                                     <i class="fas fa-list"></i>
-                                                </a>
-                                                <a href="javascript:void(0)"
+                                                </button>
+                                                <button href="javascript:void(0)"
                                                     wire:click="imprimir({{ $data2->tr_des_id }})"
-                                                    class="boton-verde p-1 m-0" title="Imprimir">
+                                                    class="btn" title="Imprimir">
                                                     <i class="fas fa-print"></i>
-                                                </a>
+                                                </button>
                                             @else
                                                 <a href="javascript:void(0)"
                                                     wire:click="visualizardestino('{{ $data2->tr_des_id }}')"
-                                                    class="boton-azul p-1 m-0" title="Ver">
-                                                    <i class="fas fa-list"></i>
+                                                    class="btn" title="Ver">
+                                                    <i class="fas fa-list"
+                                                    style="font-size: 14px"></i>
                                                 </a>
+                                            
                                             @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

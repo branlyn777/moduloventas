@@ -121,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('all_transferencias', TransferenciasController::class);
         Route::get('transferencia', TransferirProductoController::class)->name('operacionTransferencia');
         Route::get('trans', EditTransferenceController::class)->name('editdest');
+        Route::get('all_transferencias', TransferenciasController::class);
     });
     Route::get('operacionesinv', MercanciaController::class)->name('operacionesinv')->middleware('permission:Entradas_Salidas');
     Route::get('registraroperacion', RegistrarAjuste::class)->name('registraroperacion')->middleware('permission:Entradas_Salidas');
