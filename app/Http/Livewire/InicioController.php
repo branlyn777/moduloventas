@@ -162,18 +162,25 @@ class InicioController extends Component
         //Cálculo del total ventas del mes anterior
         $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status","PAID")->sum('total');
 
-
-        //Obteniendo el porcentaje de $endOfLastMonth
-        $percentage = ($previus_month_total * 100) / $total_current_month;
-
-
-        //Calculando la diferencia
-        // $difference = $total_current_month - $previus_month_total;
+        if($previus_month_total != 0)
+        {
+            
+            //Obteniendo el porcentaje de $endOfLastMonth
+            $percentage = ($previus_month_total * 100) / $total_current_month;
 
 
+            //Calculando la diferencia
+            // $difference = $total_current_month - $previus_month_total;
 
-        //Calculando la diferencia en porcentaje
-        $difference_percentage = 100 - $percentage;
+
+
+            //Calculando la diferencia en porcentaje
+            $difference_percentage = 100 - $percentage;
+        }
+        else
+        {
+            $difference_percentage = 0;
+        }
 
 
 
