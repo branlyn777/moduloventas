@@ -55,6 +55,24 @@
     </div>
     <br>
 
+
+    <div class="row">
+        @foreach ($carterasCaja as $item)
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <b>{{ $item->nombre }}:</b>
+                    {{ number_format($item->monto, 2, ',', '.') }} Bs
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+
+    <br>
+
+
     <div class="card">
         <div class="card-body">
             <div class="">
@@ -64,17 +82,6 @@
                         @include('common.searchbox')
                     </div>
                 </div>
-            </div>
-
-            <div>
-                <h6 class="card-title">
-                    <b>SALDO DE TUS CARTERAS:</b> <br>
-                    @foreach ($carterasCaja as $item)
-                        <b>{{ $item->nombre }}:</b>
-                        <b>${{ $item->monto }}.</b>
-                        <br>
-                    @endforeach
-                </h6>
             </div>
         </div>
     </div>
