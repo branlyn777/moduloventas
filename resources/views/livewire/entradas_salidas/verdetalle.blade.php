@@ -93,6 +93,39 @@
                                     </table>
 
                                 @elseif($op_selected == 'salida')
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr class="text-center" style="font-size: 13px">
+                                            <th>N°</th>
+                                            <th style="text-align: left">Producto</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if ($detalle != null)
+                                            @foreach ($detalle as $dc)
+                                                <tr class="text-center" style="font-size: 12px">
+                                                    <td class="text-center">
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td style="text-align: left">
+                                                        {{ $dc->productos->nombre }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $dc->cantidad }}
+                                                    </td>
+                                                
+
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <p>nada</p>
+                                        @endif
+
+                                    </tbody>
+
+                                </table>
+
 
                                 @endif
                             </div>

@@ -124,6 +124,12 @@ class MercanciaController extends Component
 
         // $this->emit('operacion-added');
     }
+
+    
+    public function updatedTipoDeOperacion(){
+        $this->op_selected=null;
+}
+
     
  
 

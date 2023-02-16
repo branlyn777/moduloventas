@@ -703,12 +703,18 @@ class RegistrarAjuste extends Component
             'concepto.required' => 'El concepto es un dato requerido',
             'destino.not_in' => 'Elija una ubicacion del producto.',
             'concepto.not_in' => 'Elija un concepto diferente.',
-            'observacion.required' => 'Agregue una observacion',
+            'observacion.required' => 'Agregue una observacion'
         ];
 
         $this->validate($rules, $messages);
+
+    
+
         $this->nextpage = true;
+
     }
+
+
 
     public function proxima()
     {
@@ -727,6 +733,20 @@ class RegistrarAjuste extends Component
         ];
 
         $this->validate($rules, $messages);
+
+        if ($this->concepto == "Varios") {
+      
+            $rules2 = [
+                'tipo_proceso' => 'required|not_in:Elegir',
+            ];
+    
+            $message = [
+                'tipo_proceso.required' => 'El tipo de proceso es requerido',
+            
+            ];
+    
+            $this->validate($rules2, $message);
+        }
 
         $this->show = '';
         $this->show1 = 'js-active';
