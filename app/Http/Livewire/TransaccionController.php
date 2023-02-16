@@ -1057,13 +1057,47 @@ class TransaccionController extends Component
                         'import' => $importeEgresoRecarga,
                         'user_id' => Auth()->user()->id,
                     ]);
-                } else {
+
+
+
+
+
+                    $carteratigo = Cartera::find($cartera->id);
+                    $saldo = $carteratigo->saldocartera - $importeEgresoRecarga;
+                    $cartera->update([
+                        'saldocartera' => $saldo
+                    ]);
+
+
+
+
+
+
+
+                }
+                else
+                {
                     $mvt = Movimiento::create([
                         'type' => 'TERMINADO',
                         'status' => 'ACTIVO',
                         'import' => $this->importe,
                         'user_id' => Auth()->user()->id,
                     ]);
+
+
+
+
+                    $carteratigo = Cartera::find($cartera->id);
+                    $saldo = $carteratigo->saldocartera - $this->importe;
+                    $cartera->update([
+                        'saldocartera' => $saldo
+                    ]);
+
+
+
+
+
+
                 }
 
                 CarteraMov::create([
@@ -1075,13 +1109,7 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 2
                 ]);
 
-                $carteratigo = Cartera::find($cartera->id);
-           
-                $saldo_cartera = Cartera::find($carteratigo->id)->saldocartera - $this->importe;
-                $cartera->update([
-                    'saldocartera' => $saldo_cartera
-                ]);
-
+                
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
                     ->where('c.monto_inicial', '<=', $this->montoB)
                     ->where('c.monto_final', '>=', $this->montoB)
