@@ -878,13 +878,16 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 2
                 ]);
 
-                $cartera = Cartera::find($CajaFisica->id);
+                $carterafisica = Cartera::find($CajaFisica->id);
+                $carteratigo = Cartera::find($cartera->id);
            
-                $saldo_cartera = Cartera::find($cartera->id)->saldocartera - $this->importe;
-        
-        
-                $cartera->update([
+                $saldo_cartera = Cartera::find($carterafisica->id)->saldocartera - $this->importe;
+                $saldo_cartera_tigo = Cartera::find($carteratigo->id)->saldocartera + $this->montoR;
+                $carterafisica->update([
                     'saldocartera' => $saldo_cartera
+                ]);
+                $carteratigo->update([
+                    'saldocartera' => $saldo_cartera_tigo
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
@@ -946,12 +949,12 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 1
                 ]);
 
-                $cartera = Cartera::find($CajaFisica->id);
+                $carterafisica = Cartera::find($CajaFisica->id);
            
-                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->importe;
+                $saldo_cartera = Cartera::find($carterafisica->id)->saldocartera + $this->importe;
         
         
-                $cartera->update([
+                $carterafisica->update([
                     'saldocartera' => $saldo_cartera
                 ]);
 
@@ -969,6 +972,14 @@ class TransaccionController extends Component
                     'cartera_id' => $cartera->id,
                     'movimiento_id' => $mvt->id,
                     'cartera_mov_categoria_id' => 2
+                ]);
+
+                $carteratigo= Cartera::find($cartera->id);
+           
+                $saldo_cartera = Cartera::find($carteratigo->id)->saldocartera - $this->importe;
+
+                $carteratigo->update([
+                    'saldocartera' => $saldo_cartera
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
@@ -1030,12 +1041,10 @@ class TransaccionController extends Component
                     'cartera_mov_categoria_id' => 1
                 ]);
 
-                $cartera = Cartera::find($CajaFisica->id);
+                $carterafisica = Cartera::find($CajaFisica->id);
            
-                $saldo_cartera = Cartera::find($cartera->id)->saldocartera + $this->montoR;
-        
-        
-                $cartera->update([
+                $saldo_cartera = Cartera::find($carterafisica->id)->saldocartera + $this->montoR;
+                $carterafisica->update([
                     'saldocartera' => $saldo_cartera
                 ]);
 
@@ -1064,6 +1073,13 @@ class TransaccionController extends Component
                     'cartera_id' => $cartera->id,
                     'movimiento_id' => $mvt->id,
                     'cartera_mov_categoria_id' => 2
+                ]);
+
+                $carteratigo = Cartera::find($cartera->id);
+           
+                $saldo_cartera = Cartera::find($carteratigo->id)->saldocartera - $this->importe;
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
                 ]);
 
                 $lista = OrigenMotivoComision::join('comisions as c', 'origen_motivo_comisions.comision_id', 'c.id')
@@ -1148,9 +1164,23 @@ class TransaccionController extends Component
             $movimiento = Movimiento::find($mov->id);
             $movimiento->status = 'INACTIVO';
             $movimiento->save();
+       
         }
         $tran->estado = 'Anulada';
         $tran->save();
+
+
+
+        // $carteratigo = Cartera::find($cartera->id);
+           
+        // $saldo_cartera = Cartera::find($carteratigo->id)->saldocartera - $this->importe;
+        // $cartera->update([
+        //     'saldocartera' => $saldo_cartera
+        // ]);
+
+
+
+
         $this->emit('item-anulado', 'Se anuló la transacción');
     }
     public function VerObservaciones(Transaccion $tr)
