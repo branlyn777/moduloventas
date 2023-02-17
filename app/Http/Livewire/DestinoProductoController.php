@@ -47,7 +47,7 @@ class DestinoProductoController extends Component
     }
     public function mount()
     {
-    
+        $this->search = "0000000";
         $this->selected_id = 'General';
         $this->componentName = 'crear';
         $this->title = 'ssss';
@@ -538,6 +538,11 @@ class DestinoProductoController extends Component
     public function actualizar_costo()
     {
         $lote = Lote::find($this->lote_id);
+        $lote->update([
+            'costo' => $this->costo_lote,
+        ]);
+        $this->emit("hide-modal-lotecosto");
+        $this->emit("show-modal-lotes");
         
 
     }
