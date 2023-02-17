@@ -85,14 +85,14 @@
                                                     <td>
                                                         {{ $data->costo }}
                                                         
-
+                                                        @if($this->estados == "ACTIVO")
                                                         <div class="btn-group" role="group" aria-label="Basic example">
                                                             {{-- <input type="number" style="text-align: right; width: 100px; border: 1px solid #d2d6da; border-radius: .5rem;" value="{{ $data->costo }}"> --}}
                                                             <button wire:click="modal_costo_lote({{$data->id}})" type="button" style="background-color: #5e72e4; color: aliceblue; border-color: #5e72e4;">
                                                                 Cambiar
                                                             </button>
                                                         </div>
-
+                                                        @endif
                                                         
                                                     </td>
                                                     <td>
