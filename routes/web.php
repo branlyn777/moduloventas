@@ -33,6 +33,7 @@ use App\Http\Livewire\ArqueosTigoController;
 use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\ComisionesController;
 use App\Http\Livewire\CotizationController;
+use App\Http\Livewire\KardexController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
@@ -160,6 +161,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('unidades', UnidadesController::class)->name('unities');
         Route::get('marcas', MarcasController::class)->name('brands');
         Route::get('nivelinventarios', NivelInventariosController::class)->name('nivel_inventarios');
+        Route::get('/kardex/productos/{id}',KardexController::class)->name('kardex-productos');
     });
     Route::get('products', ProductsController::class)->name('productos');
     Route::group(['middleware' => ['permission:Transferencias']], function () {

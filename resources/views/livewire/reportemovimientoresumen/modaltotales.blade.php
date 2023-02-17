@@ -82,16 +82,16 @@
                                     </td>
                                 </tr> --}}
 
-                                {{-- <tr>
+                                <tr>
                                     <td>
                                         <h5 class="text-dark text-center mr-1"><b> Saldo por Operaciones en TigoMoney </b></h5>
                                     </td>
             
                                     <td>
-                                        <h5 class="text-dark text-center mr-1">{{ number_format($total,2)}} </h5>
+                                        <h5 class="text-dark text-center mr-1">{{ number_format($operaciones_tigo,2)}} </h5>
                                     </td>
             
-                                </tr> --}}
+                                </tr>
 
 
 

@@ -418,7 +418,8 @@ class ReporteMovimientoResumenController extends Component
 
         $this->saldo = $this->ingresosTotalesCF + $this->ingresosTotalesBancos - $this->EgresosTotalesCF;
 
-        $this->total_efectivo = $this->ingresosTotalesCF - $this->EgresosTotalesCF;
+        $this->operaciones_tigo=$this->trsbydate();
+        $this->total_efectivo = $this->ingresosTotalesCF - $this->EgresosTotalesCF+$this->operaciones_tigo;
 
         //Ingresos - Egresos
         $this->subtotalcaja = $this->subtotalesIngresos - $this->EgresosTotalesCF;
@@ -444,7 +445,8 @@ class ReporteMovimientoResumenController extends Component
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
         
-            $this->saldo_acumulado = $ingresos - $egresos;
+            $this->saldo_acumulado = $ingresos - $egresos+$this->trsbydateant();
+   
 
         } else {
             $ingresos = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
@@ -463,7 +465,8 @@ class ReporteMovimientoResumenController extends Component
                 ->where('crms.type', 'EGRESO')
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
-            $this->saldo_acumulado = $ingresos - $egresos;
+
+            $this->saldo_acumulado = $ingresos - $egresos+$this->trsbydateant();
         }
 
 
@@ -710,5 +713,201 @@ class ReporteMovimientoResumenController extends Component
             return $sd;
         }
    
+    }
+
+    public function trsbydate()
+    {
+        $from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+        $to = Carbon::parse($this->toDate)->format('Y-m-d')     . ' 23:59:59';
+
+        $ingresosTelefono = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'INGRESO')
+            ->where('ori.nombre', 'Telefono')
+            ->where('mot.tipo', 'Abono')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->whereBetween('transaccions.created_at', [$from, $to])
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $egresosTelefono = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'EGRESO')
+            ->where('ori.nombre', 'Telefono')
+            ->where('mot.tipo', 'Retiro')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->whereBetween('transaccions.created_at', [$from, $to])
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $this->telefono = $ingresosTelefono - $egresosTelefono;
+
+        $ingresosSistema = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'INGRESO')
+            ->where('ori.nombre', 'Sistema')
+            ->where('mot.tipo', 'Abono')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->whereBetween('transaccions.created_at', [$from, $to])
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $egresosSistema = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'EGRESO')
+            ->where('ori.nombre', 'Sistema')
+            ->where('mot.tipo', 'Retiro')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->whereBetween('transaccions.created_at', [$from, $to])
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $this->sistema = $ingresosSistema - $egresosSistema;
+
+        if ($this->sistema > $this->telefono) {
+            return $this->sistema + $this->telefono;
+        } else {
+            return $this->telefono + $this->sistema;
+        }
+    }
+
+
+
+    public function trsbydateant()
+    {
+        $from = Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00';
+
+
+        $ingresosTelefono = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'INGRESO')
+            ->where('ori.nombre', 'Telefono')
+            ->where('mot.tipo', 'Abono')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->where('transaccions.created_at', '<',$from)
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $egresosTelefono = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'EGRESO')
+            ->where('ori.nombre', 'Telefono')
+            ->where('mot.tipo', 'Retiro')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->where('transaccions.created_at', '<',$from)
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $tel = $ingresosTelefono - $egresosTelefono;
+   
+
+        $ingresosSistema = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'INGRESO')
+            ->where('ori.nombre', 'Sistema')
+            ->where('mot.tipo', 'Abono')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->where('transaccions.created_at', '<',$from)
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $egresosSistema = Transaccion::join('mov_transacs as mt', 'mt.transaccion_id', 'transaccions.id')
+            ->join('movimientos as m', 'm.id', 'mt.movimiento_id')
+            ->join('cartera_movs as cmv', 'cmv.movimiento_id', 'm.id')
+            ->join('carteras as c', 'c.id', 'cmv.cartera_id')
+            ->join('cajas as ca', 'ca.id', 'c.caja_id')
+            ->join('origen_motivos as om', 'transaccions.origen_motivo_id', 'om.id')
+            ->join('origens as ori', 'ori.id', 'om.origen_id')
+            ->join('motivos as mot', 'mot.id', 'om.motivo_id')
+            ->join('sucursals as s', 's.id', 'ca.sucursal_id')
+            ->where('cmv.tipoDeMovimiento', 'TIGOMONEY')
+            ->where('cmv.type', 'EGRESO')
+            ->where('ori.nombre', 'Sistema')
+            ->where('mot.tipo', 'Retiro')
+            ->where('m.status', 'Activo')
+            ->where('s.id', $this->sucursal)
+            ->where('ca.id', $this->caja)
+            ->where('transaccions.created_at', '<',$from)
+            ->orderBy('transaccions.id', 'desc')
+            ->sum('m.import');
+
+        $st = $ingresosSistema - $egresosSistema;
+    
+
+        if ($st > $tel) {
+            return $st + $tel;
+        } else {
+            return $tel + $st;
+        }
     }
 }

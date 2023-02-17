@@ -1,4 +1,3 @@
-
 @section('migaspan')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
@@ -38,7 +37,7 @@
                     <h5 class="text-white" style="font-size: 16px">Nivel de Inventarios</h5>
                 </div>
 
-              
+
             </div>
 
             <div class="card mb-4">
@@ -80,97 +79,100 @@
                                     </tbody>
                                 </div>
                             </div>
-                            
+                            <div class="col-12 col-sm-6 col-md-4" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem">Sucursal</label>
+                                <div class="input-group">
+                                    <select wire:model='sucursal_id' class="form-select">
+                                        @foreach ($sucursales as $s)
+                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                        @endforeach
+                                        <option value="Todos">Todas las Sucursales</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-   
 
-            <div class="card">
 
-                <div class="card-body px-2 pb-0">
+            <div class="card mb-4">
+
+                <div class="card-body px-0 pb-2">
                     <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-container">
-                                <table class="mt-2 mx-2" id="products-list">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-sm text-center">N°</th>
-                                            <th class="text-uppercase text-sm text-center">
-                                                <div class="d-flex justify-content-start">
-                                                   
-                                                    Producto
-                                                </div>
-                                            </th>
-                                            <th class="text-uppercase text-sm">Cant.</th>
-                                            <th class="text-uppercase text-sm">Costo</th>
-                                            <th class="text-uppercase text-sm text-center">Acc.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-    
-                                        @foreach ($data as $products)
-                                            <tr style="font-size: 14px" class="mt-2">
-                                                <td class="text-center">
-                                                    {{ $loop->index + 1 }}
-                                                </td>
-    
-                                                <td class="pe-6 ps-2">
-                                                   
-                                                      
-                                               
-                                                      
-                                                            <label><strong>{{ $products->nombre }}({{ $products->codigo }})</strong> </label>
-    
-    
-                                                        
-    
-    
-                                                            <p class="text-xs">{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
-                                                    </p>
-    
-                                                      
-                                                  
-                                                </td>
-                                                <td>
-                                                    {{number_format($products->total_existencia,0) }}
-                                                </td>
-                                                <td>
-                                                    {{number_format($products->total_costo,2)}}
-                                                </td>
-                                    
-                                                <td class="text-sm align-middle text-center">
-                                                    <a href="javascript:void(0)"
-                                                        wire:click="verKardex({{ $products->id }})" class="mx-3"
-                                                        title="Ver Kardex">
-                                                        <i class="fa-solid fa-file-invoice"></i>
-                                                    </a>
-                                                 
-                                                </td>
-                                            </tr>
-                                        @endforeach
-    
-                                    </tbody>
 
-                            
-                                    {{-- <tfoot>
-                                        <tr>
-                                            <td class="text-center">
-                                                Total Inversion Bs.
-                                            </td>
-                                            <td class="text-center">
-                                                {{number_format($data->sum('total_costo'),2) }}
-                                            </td>
-                                        </tr>
-                                    </tfoot> --}}
-    
-                                </table>
-                            </div>
-                        </div>
+                        <table class="table align-items-between">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-sm text-center">N°</th>
+                                    <th class="text-uppercase text-sm text-left">
+
+
+                                        Producto
+
+                                    </th>
+                                    <th class="text-uppercase text-sm text-center">Cant.</th>
+                                    <th class="text-uppercase text-sm text-center">Costo Total</th>
+                                    <th class="text-uppercase text-sm text-center">Acc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($data as $products)
+                                    <tr style="font-size: 14px" class="mt-2">
+                                        <td class="text-center">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+
+                                        <td>
+
+                                            <label><strong>{{ $products->nombre }}</strong>
+                                            </label>
+
+                                            <p class="text-xs">
+                                                {{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
+                                            </p>
+                                        </td>
+                                        <td class="text-center">
+                                            {{ number_format($products->total_existencia, 0) }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ number_format($products->total_costo, 2) }}
+                                        </td>
+
+                                        <td class="text-sm align-middle text-center">
+                                            <a href="{{ route('kardex-productos', $products->id) }}" type="button"
+                                                class="btn btn-primary" class="mx-3" title="Ver Kardex">
+                                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                                Ver Kardex
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+
+                            <tfoot>
+
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        Total Inversion Bs.
+                                    </td colspan="1">
+                                    <td class="text-center">
+                                        {{ number_format($data->sum('total_costo'), 2) }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -185,17 +187,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-         
+
             window.livewire.on('modal-locacion', msg => {
                 $('#theModal').modal('show')
             });
             window.livewire.on('modal-hide', msg => {
                 $('#theModal').modal('hide')
             });
-       
-           
-        });
 
-      
+
+        });
     </script>
 @endsection
