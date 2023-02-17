@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
-                    <p class="text-sm mb-0">{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName2 }}</p>
-                    {{-- <b>{{ $selected_id > 0 ? 'Editar' : 'Crear' }} {{ $componentName }}</b> --}}
+                    <p class="text-sm mb-0">Crear Provider</p>
+  
                 </h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

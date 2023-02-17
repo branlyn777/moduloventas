@@ -236,6 +236,15 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
 
     public function guardarOrdenCompra(){
         //dd('finalizar orden de compra');
+        $rules = ['destino' => 'required',
+    'provider' => 'required'];
+        $messages = [
+            'destino.required' => 'El destino es un dato requerido',
+            'provider.required' => 'El nombre del proveedor es un dato requerido.',
+      
+        ];
+        $this->validate($rules, $messages);
+
        $orcompra= OrdenCompra::create([
             'importe_total'=>$this->total,
             'observacion'=>$this->observacion,

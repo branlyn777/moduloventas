@@ -27,10 +27,9 @@ use Livewire\WithFileUploads;
 class RegistrarAjuste extends Component
 {
     use WithFileUploads;
-    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad,$precioventa,$sucursales,$destinos,$sucursal,
-        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col,$show1,$show2,$show,
-         $destinosucursal, $observacion,$file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate,$failures
-         ,$active1,$active2,$active3,$lugar;
+    public  $fecha, $buscarproducto = 0, $selected, $registro, $tipo_de_operacion, $qq, $lotecantidad, $precioventa, $sucursales, $destinos, $sucursal,
+        $archivo, $searchproduct, $mensaje_toast, $costo, $sm, $concepto, $destino, $detalle, $tipo_proceso, $col, $show1, $show2, $show,
+        $destinosucursal, $observacion, $file, $cantidad, $result, $arr, $id_operacion, $destino_delete, $nextpage, $fromDate, $toDate, $failures, $active1, $active2, $active3, $lugar;
     private $pagination = 15;
 
     public function mount()
@@ -38,16 +37,15 @@ class RegistrarAjuste extends Component
         $this->col = collect([]);
         $this->tipo_proceso = "Elegir";
         $this->registro = 'Manual';
-        $this->sucursal=Auth()->user()->sucursalusers->where('estado','ACTIVO')->first()->sucursal_id;
-    
+        $this->sucursal = Auth()->user()->sucursalusers->where('estado', 'ACTIVO')->first()->sucursal_id;
+
         $this->destino = null;
         $this->concepto = "Elegir";
         $this->tipo_proceso = null;
-        $this->active1='js-active';
-        $this->active2=null;
-        $this->active3=null;
-        $this->show='js-active';
-
+        $this->active1 = 'js-active';
+        $this->active2 = null;
+        $this->active3 = null;
+        $this->show = 'js-active';
     }
 
 
@@ -59,45 +57,38 @@ class RegistrarAjuste extends Component
         if (strlen($this->searchproduct) > 0) {
 
             if ($this->tipo_proceso == 'Salida') {
-                $st = Product::join('productos_destinos as pd','pd.product_id','products.id')
-                ->join('destinos','destinos.id','pd.destino_id')
-                ->select('products.*','pd.stock as pstock')
-                ->where(function ($query) {
-                    $query->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
-                    ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%');
-                })
-                ->where('destinos.id',$this->destino)
-                ->where('pd.stock','>',0)
-   
-                ->get()
-                ->take(3);
-            //Extraemos en un array todos los registros que ya se encuentran en la colleccion de items
-            $arr = $this->col->pluck('product_id');
-            
-            //Filtramos de la coleccion de productos los productos seleccionados
-            $this->sm = $st->whereNotIn('id', $arr);
+                $st = Product::join('productos_destinos as pd', 'pd.product_id', 'products.id')
+                    ->join('destinos', 'destinos.id', 'pd.destino_id')
+                    ->select('products.*', 'pd.stock as pstock')
+                    ->where(function ($query) {
+                        $query->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
+                            ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%');
+                    })
+                    ->where('destinos.id', $this->destino)
+                    ->where('pd.stock', '>', 0)
 
-            }
+                    ->get()
+                    ->take(3);
+                //Extraemos en un array todos los registros que ya se encuentran en la colleccion de items
+                $arr = $this->col->pluck('product_id');
 
-            else{
-                
+                //Filtramos de la coleccion de productos los productos seleccionados
+                $this->sm = $st->whereNotIn('id', $arr);
+            } else {
+
                 $st = Product::select('products.*')
                     ->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
                     ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
                     ->get()->take(3);
-    
+
                 $arr = $this->col->pluck('product_id');
                 $this->sm = $st->whereNotIn('id', $arr);
             }
-
-          
-            
-
         }
 
-        $this->sucursales=Sucursal::all();
+        $this->sucursales = Sucursal::all();
 
-        $this->destinos = Destino::where('sucursal_id',$this->sucursal)
+        $this->destinos = Destino::where('sucursal_id', $this->sucursal)
             ->get();
 
 
@@ -108,97 +99,93 @@ class RegistrarAjuste extends Component
 
 
 
-    public function updatedDestino(){
+    public function updatedDestino()
+    {
         if ($this->col->isNotEmpty()) {
             $this->emit('vaciarlista');
         }
-        if ($this->failures!=null and $this->archivo!=null) {
-      
-            $this->failures=null;
-            $this->archivo=null;
+        if ($this->failures != null and $this->archivo != null) {
+
+            $this->failures = null;
+            $this->archivo = null;
         }
 
-        $this->show='';
-        $this->show1='js-active';
-        $this->active1='js-active';
-        $this->active2='js-active';
-        $this->active3='';
-        $this->show2='';
+        $this->show = '';
+        $this->show1 = 'js-active';
+        $this->active1 = 'js-active';
+        $this->active2 = 'js-active';
+        $this->active3 = '';
+        $this->show2 = '';
 
-               
-        $this->lugar=Sucursal::find($this->sucursal)->name.'-'.Destino::find($this->destino)->nombre;
-     
 
+        $this->lugar = Sucursal::find($this->sucursal)->name . '-' . Destino::find($this->destino)->nombre;
     }
 
-    public function updatedConcepto(){
+    public function updatedConcepto()
+    {
 
-   
+
         if ($this->col->isNotEmpty()) {
             $this->emit('vaciarlista');
-            
         }
-        if ($this->failures!=null and $this->archivo!=null) {
-      
-            $this->failures=null;
-            $this->archivo=null;
+        if ($this->failures != null and $this->archivo != null) {
+
+            $this->failures = null;
+            $this->archivo = null;
         }
 
-        $this->show='js-active';
-        $this->show1='';
-        $this->active1='js-active';
-        $this->active2='';
-        $this->active3='';
-        $this->show2='';
-
+        $this->show = 'js-active';
+        $this->show1 = '';
+        $this->active1 = 'js-active';
+        $this->active2 = '';
+        $this->active3 = '';
+        $this->show2 = '';
     }
 
 
     public function addProduct(Product $id)
     {
-     
-    
-            if ($this->tipo_proceso == 'Salida') {
-                try {
-                    $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
-                    if ($pd > 0 ) {
-                    $this->col->push(['product_id' => $id->id, 'product_name' => $id->nombre, 'cantidad' => 1]);
-        
-                    } else {
-                        $this->emit('stock-insuficiente');
-                    }
-                } catch (Exception $e) {
-                    //cuando el producto no esta registrado
-                    $this->mensaje_toast="Error de salida de productos";
-                    $this->emit('error_salida');
-                }
-              
-            } else
-             {
-                if ($this->tipo_proceso =='Entrada' or $this->concepto=='Inventario Inicial') {
-             
-                    $this->col->push([
-                        'product_id' => $id->id,
-                        'product_name' => $id->nombre,
-                        'costo' => 0,
-                        'precioventa' => 0,
-                        'cantidad' => 1
-                    ]);
-                }
-                else{
-                    $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
 
-                    $this->col->push([
-                        'product_id' => $id->id,
-                        'product_name' => $id->nombre,
-                        'stockactual' =>  $pd!=null?$pd:0,
-                        'recuento' => 0,
-                       
-                    ]);
+
+        if ($this->tipo_proceso == 'Salida') {
+            try {
+                $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
+                if ($pd > 0) {
+                    $this->col->push(['product_id' => $id->id, 'product_name' => $id->nombre, 'product_codigo' => $id->codigo, 'cantidad' => 1]);
+                } else {
+                    $this->emit('stock-insuficiente');
                 }
+            } catch (Exception $e) {
+                //cuando el producto no esta registrado
+                $this->mensaje_toast = "Error de salida de productos";
+                $this->emit('error_salida');
             }
-        
+        } else {
+            if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial') {
 
+                $this->col->push([
+                    'product_id' => $id->id,
+                    'product_name' => $id->nombre,
+                    'product_codigo' => $id->codigo,
+                    'costo' => 0,
+                    'precioventa' => 0,
+                    'cantidad' => 1
+                ]);
+            } else {
+                $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
+                $lot=Lote::where('product_id',$id->id);
+                $this->col->push([
+                    'product_id' => $id->id,
+                    'product_name' => $id->nombre,
+                    'product_codigo' => $id->codigo,
+                    'stockactual' =>  $pd != null ? $pd : 0,
+                    'recuento' => 0,
+                    'costo' =>$lot->count()>0?$lot->first()->costo:0,
+                    'pv_lote' =>$lot->count()>0?$lot->first()->pv_lote:0
+
+                ]);
+            }
+        }
     }
 
     public function eliminaritem($id)
@@ -217,25 +204,22 @@ class RegistrarAjuste extends Component
     }
 
 
-    public function import(){
+    public function import()
+    {
 
         try {
             //$import->import('import-users.xlsx');
-            Excel::import(new StockImport($this->destino, 'Inventario Inicial',$this->observacion), $this->archivo);
+            Excel::import(new StockImport($this->destino, 'Inventario Inicial', $this->observacion), $this->archivo);
             return redirect()->route('operacionesinv');
-        } 
-        catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-      
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+
             $this->failures = $e->failures();
-          
-        }
-        catch(FileNotFoundException $errorarchivo){
+        } catch (FileNotFoundException $errorarchivo) {
             $this->emit('sinarchivo');
-        }
-        catch(Exception $e){
-       
-            
-         $this->emit('errorarchivo');
+        } catch (Exception $e) {
+
+
+            $this->emit('errorarchivo');
         }
     }
 
@@ -243,17 +227,15 @@ class RegistrarAjuste extends Component
 
     public function GuardarOperacion()
     {
-      
+
         $this->ValidarDatos();
-        if ($this->tipo_proceso == 'Entrada' or $this->concepto=='Inventario Inicial' and $this->col->isNotEmpty()) {
+        if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial' and $this->col->isNotEmpty()) {
             DB::beginTransaction();
             try {
-                
-           
                 $rs = IngresoProductos::create([
                     'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
-                    'concepto' => $this->concepto,
+                    'concepto' => $this->tipo_proceso =='INGRESO'?'INGRESO':'INICIAL',
                     'observacion' => $this->observacion
                 ]);
                 foreach ($this->col as $datas) {
@@ -290,8 +272,7 @@ class RegistrarAjuste extends Component
             $this->emit('operacion-added');
             return Redirect::to('operacionesinv');
             $this->resetui();
-        } 
-        elseif ($this->tipo_proceso == 'Salida' and $this->col->isNotEmpty()) {
+        } elseif ($this->tipo_proceso == 'Salida' and $this->col->isNotEmpty()) {
 
             try {
 
@@ -301,7 +282,7 @@ class RegistrarAjuste extends Component
                     'concepto' => 1,
                     'observacion' => $this->observacion
                 ]);
-           
+
 
                 foreach ($this->col as $datas) {
 
@@ -316,7 +297,7 @@ class RegistrarAjuste extends Component
 
                     //obtener la cantidad del detalle de la venta 
                     $this->qq = $datas['cantidad']; //q=8
-                    foreach ($lot as $val) { 
+                    foreach ($lot as $val) {
                         //lote1= 3 Lote2=3 Lote3=3
                         $this->lotecantidad = $val->existencia;
                         //dd($this->lotecantidad);
@@ -361,12 +342,11 @@ class RegistrarAjuste extends Component
 
                     $q = ProductosDestino::where('product_id', $datas['product_id'])
                         ->where('destino_id', $this->destino)->value('stock');
-                     
-                        $varm=$datas['cantidad'];
-               
 
-                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock'=>$q-$varm]);
+                    $varm = $datas['cantidad'];
 
+
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $q - $varm]);
                 }
 
                 DB::commit();
@@ -379,10 +359,7 @@ class RegistrarAjuste extends Component
             $this->emit('operacion-added');
             $this->resetui();
             return Redirect::to('operacionesinv');
-
-        } 
-        elseif($this->concepto=='Ajuste Inventarios' and $this->col->isNotEmpty())
-        {
+        } elseif ($this->concepto == 'Ajuste Inventarios' and $this->col->isNotEmpty()) {
             try {
 
                 $ajuste = Ajustes::create([
@@ -391,42 +368,45 @@ class RegistrarAjuste extends Component
                     'observacion' => $this->observacion
                 ]);
                 // dd($auxi2->pluck('stock')[0]);
-
+ 
                 foreach ($this->col as $datas) {
 
-                    $auxi =DetalleAjustes::create([
+                    $auxi = DetalleAjustes::create([
                         'product_id' => $datas['product_id'],
                         'recuentofisico' => $datas['recuento'],
-                        'diferencia' =>$datas['recuento']-$datas['stockactual']>0?$datas['recuento']-$datas['stockactual']:($datas['recuento']-$datas['stockactual'])*-1,
-                        'tipo' => $datas['recuento']-$datas['stockactual']>0?'positiva':'negativa',
-                        'id_ajuste'=>$ajuste->id
+                        'diferencia' => $datas['recuento'] - $datas['stockactual'] > 0 ? $datas['recuento'] - $datas['stockactual'] : ($datas['recuento'] - $datas['stockactual']) * -1,
+                        'tipo' => $datas['recuento'] - $datas['stockactual'] > 0 ? 'positiva' : 'negativa',
+                        'id_ajuste' => $ajuste->id
 
                     ]);
 
-                    if ( $datas['recuento']>$datas['stockactual']) 
-                    {
+                    if ($datas['recuento'] > $datas['stockactual']) {
+
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
-                        $lot->update([
-    
-                            'existencia' =>$lot->existencia+( $datas['recuento']-$datas['stockactual'])
-                       
 
-                        ]);
-                        $lot->save();
+                        if ($lot != null) {
+                            $lot->update([
 
-
-                 
-
-                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
-
-                    }
-                     else
-                    {
+                                'existencia' => $lot->existencia + ($datas['recuento'] - $datas['stockactual'])
+                            ]);
+                            $lot->save();
+                            ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
+                        } else {
+                            $lot = Lote::create([
+                                'existencia' => $datas['recuento'],
+                                'costo' => $datas['costo'],
+                                'pv_lote' => $datas['pv_lote'],
+                                'status' => 'Activo',
+                                'product_id' => $datas['product_id']
+                            ]);
+                        }
+                    } else {
                         
+
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
                         //obtener la cantidad del detalle de la venta 
-                        $this->qq =$datas['stockactual']- $datas['recuento']; //q=8
-                        foreach ($lot as $val) { 
+                        $this->qq = $datas['stockactual'] - $datas['recuento']; //q=8
+                        foreach ($lot as $val) {
                             //lote1= 3 Lote2=3 Lote3=3
                             $this->lotecantidad = $val->existencia;
                             //dd($this->lotecantidad);
@@ -434,21 +414,21 @@ class RegistrarAjuste extends Component
                                 //true//5//2
                                 //dd($val);
                                 if ($this->qq > $this->lotecantidad) {
-                            
+
                                     $val->update([
-    
+
                                         'existencia' => 0,
                                         'status' => 'Inactivo'
-    
+
                                     ]);
                                     $val->save();
                                     $this->qq = $this->qq - $this->lotecantidad;
                                     //dump("dam",$this->qq);
                                 } else {
                                     //dd($this->lotecantidad);
-                              
-    
-    
+
+
+
                                     $val->update([
                                         'existencia' => $this->lotecantidad - $this->qq
                                     ]);
@@ -458,16 +438,13 @@ class RegistrarAjuste extends Component
                                 }
                             }
                         }
-    
-    
+
+
                         $q = ProductosDestino::where('product_id', $datas['product_id'])
                             ->where('destino_id', $this->destino)->value('stock');
-    
-                        ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' =>$datas['recuento']]);
+
+                        ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
                     }
-                    
-
-
                 }
 
                 DB::commit();
@@ -480,9 +457,7 @@ class RegistrarAjuste extends Component
             $this->emit('operacion-added');
             $this->resetui();
             return Redirect::to('operacionesinv');
-        }
-        else
-        {
+        } else {
             $this->emit('sinproductos');
         }
     }
@@ -514,6 +489,7 @@ class RegistrarAjuste extends Component
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
             'costo' => $costo,
             'precioventa' => $precioventa,
             'cantidad' => $cantidad
@@ -530,6 +506,7 @@ class RegistrarAjuste extends Component
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
             'costo' => $costo,
             'precioventa' => $preciov,
             'cantidad' => $cantidad
@@ -538,102 +515,160 @@ class RegistrarAjuste extends Component
     public function UpdateQty(Product $product, $cant)
     {
 
-    
+
         $item = $this->col->where('product_id', $product->id);
-        if ($this->tipo_proceso == "Entrada" or $this->concepto=='Inventario Inicial') {
+        if ($this->tipo_proceso == "Entrada" or $this->concepto == 'Inventario Inicial') {
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
-            }
-            else{
+            } else {
                 $precioventa = $item->first()['precioventa'];
                 $costo = $item->first()['costo'];
-            
+
                 $this->col->push([
                     'product_id' => $product->id,
                     'product_name' => $product->nombre,
+                    'product_codigo' => $product->codigo,
                     'costo' => $costo,
                     'precioventa' => $precioventa,
                     'cantidad' => $cant
                 ]);
                 $this->col->pull($item->keys()->first());
-                 
-             
             }
-        }
-        else{
+        } else {
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
-            }
-            else{
-                $stock_p=ProductosDestino::where('product_id',$product->id)
-                ->where('destino_id',$this->destino)->select('stock')->value('stock');
-                if ($cant<=$stock_p) {
-      
-                    $this->col->pull($item->keys()->first());
-                    $this->col->push([
-                        'product_id' => $product->id,
-                        'product_name' => $product->nombre,
-                        'cantidad' => $cant
-                    ]);
-                }
-                else{
-                  
-                    $this->emit('stock-insuficiente');
+            } else {
+                if ($this->concepto == 'Inventario Inicial') {
+                    $stock_p = ProductosDestino::where('product_id', $product->id)
+                        ->where('destino_id', $this->destino)->select('stock')->value('stock');
+                    if ($cant <= $stock_p) {
+
+                        $this->col->pull($item->keys()->first());
+                        $this->col->push([
+                            'product_id' => $product->id,
+                            'product_name' => $product->nombre,
+                            'product_codigo' => $product->codigo,
+                            'cantidad' => $cant
+                        ]);
+                    } else {
+
+                        $this->emit('stock-insuficiente');
+                    }
+                } else {
                 }
             }
         }
     }
 
-    public function UpdateRecuento(Product $product, $cant){
+    public function UpdateRecuento(Product $product, $cant, $costo = 0, $precio = 0)
+    {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
- 
+        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
+
         $this->col->pull($item->keys()->first());
         $this->col->push([
             'product_id' => $product->id,
             'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
-           
+            'costo' => $data_lote->count()==0?0:$data_lote->first()->costo,
+            'pv_lote' =>$data_lote->count()==0?0:$data_lote->first()->pv_lote
+
+        ]);
+    }
+
+    public function UpdateCostoLote(Product $product,$costo)
+    {
+        $item = $this->col->where('product_id', $product->id);
+        $st = $item->first()['stockactual'];
+        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
+        $precio=$item->first()['pv_lote'];
+        $recuento=$item->first()['recuento'];
+
+
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
+            'stockactual' =>  $st,
+            'recuento' =>  $recuento,
+            'costo' => $costo,
+            'pv_lote' =>$precio
+        ]);
+    }
+    public function UpdatePrecioVentaLote(Product $product, $precio)
+    {
+        $item = $this->col->where('product_id', $product->id);
+        $st = $item->first()['stockactual'];
+        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
+        $costo=$item->first()['costo'];
+        $recuento=$item->first()['recuento'];
+
+
+
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
+            'stockactual' =>  $st,
+            'recuento' => $recuento,
+            'costo' => $costo,
+            'pv_lote' => $precio
+            
+
         ]);
     }
 
 
+    public function UpdateR(Product $product, $cant)
+    {
+        $item = $this->col->where('product_id', $product->id);
+        $st = $item->first()['stockactual'];
 
+        $this->col->pull($item->keys()->first());
+        $this->col->push([
+            'product_id' => $product->id,
+            'product_name' => $product->nombre,
+            'product_codigo' => $product->codigo,
+            'stockactual' =>  $st,
+            'recuento' => $cant,
 
-protected $listeners = ['clear-Product' => 'removeItem','confirmarvaciar'=>'vaciarlistaop'];
+        ]);
+    }
+
+    protected $listeners = ['clear-Product' => 'removeItem', 'confirmarvaciar' => 'vaciarlistaop'];
 
     public function removeItem(Product $product)
     {
-      
+
         $item = $this->col->where('product_id', $product->id);
         $this->col->pull($item->keys()->first());
-     
     }
 
-    public function vaciarlistaop(){
-        $this->col=collect();
-        $this->arr=null;
-        $this->searchproduct=null;
-        $this->destino=null;
+    public function vaciarlistaop()
+    {
+        $this->col = collect();
+        $this->arr = null;
+        $this->searchproduct = null;
+        $this->destino = null;
     }
-    public function anterior(){
+    public function anterior()
+    {
 
-        if ($this->col->isNotEmpty()) 
-        {
+        if ($this->col->isNotEmpty()) {
             $this->vaciarlistaop();
-      
         }
-           $this->show='js-active';
-            $this->show1='';
-            $this->show2='';
-            $this->active1='js-active';
-            $this->active2='';
-            $this->active3='';
-            $this->failures=null;
-        
-      
- 
+        $this->show = 'js-active';
+        $this->show1 = '';
+        $this->show2 = '';
+        $this->active1 = 'js-active';
+        $this->active2 = '';
+        $this->active3 = '';
+        $this->failures = null;
     }
 
 
@@ -648,84 +683,104 @@ protected $listeners = ['clear-Product' => 'removeItem','confirmarvaciar'=>'vaci
 
 
 
-    
 
-    public function resetes(){
-        $this->failures=false;
+
+    public function resetes()
+    {
+        $this->failures = false;
     }
 
-    public function ValidarDatos(){
+    public function ValidarDatos()
+    {
         $rules = [
             'destino' => 'required|not_in:Elegir',
             'observacion' => 'required',
             'concepto' => 'required|not_in:Elegir'
         ];
-    
+
         $messages = [
-            'destino.required'=> 'El destino del producto es requerido',
-            'concepto.required'=> 'El concepto es un dato requerido',
+            'destino.required' => 'El destino del producto es requerido',
+            'concepto.required' => 'El concepto es un dato requerido',
             'destino.not_in' => 'Elija una ubicacion del producto.',
             'concepto.not_in' => 'Elija un concepto diferente.',
-            'observacion.required' => 'Agregue una observacion',
+            'observacion.required' => 'Agregue una observacion'
         ];
-    
+
         $this->validate($rules, $messages);
-        $this->nextpage=true;
+
+    
+
+        $this->nextpage = true;
+
     }
 
-    public function proxima(){
+
+
+    public function proxima()
+    {
         $rules = [
-        
+
             'observacion' => 'required',
             'concepto' => 'required|not_in:Elegir'
         ];
-    
+
         $messages = [
-           
-            'concepto.required'=> 'El concepto es un dato requerido',
-   
+
+            'concepto.required' => 'El concepto es un dato requerido',
+
             'concepto.not_in' => 'Elija un concepto diferente.',
             'observacion.required' => 'Agregue una observacion',
         ];
-    
-        $this->validate($rules, $messages);
-       
-        $this->show='';
-       $this->show1='js-active';
-       $this->active1='js-active';
-       $this->active2='js-active';
-       $this->failures=null;
 
+        $this->validate($rules, $messages);
+
+        if ($this->concepto == "Varios") {
+      
+            $rules2 = [
+                'tipo_proceso' => 'required|not_in:Elegir',
+            ];
+    
+            $message = [
+                'tipo_proceso.required' => 'El tipo de proceso es requerido',
+            
+            ];
+    
+            $this->validate($rules2, $message);
+        }
+
+        $this->show = '';
+        $this->show1 = 'js-active';
+        $this->active1 = 'js-active';
+        $this->active2 = 'js-active';
+        $this->failures = null;
     }
-    public function proxima2(){
+    public function proxima2()
+    {
         $rules = [
-        
-          
+
+
             'destino' => 'required|not_in:Elegir'
         ];
-    
+
         $messages = [
-            'destino.required'=> 'El destino es requerido',
+            'destino.required' => 'El destino es requerido',
             'destino.not_in' => 'Elija un destino.',
-         
+
         ];
-    
+
         $this->validate($rules, $messages);
-       
-        $this->show='';
-       $this->show1='';
-       $this->show2='js-active';
-       $this->active1='js-active';
-       $this->active2='js-active';
-       $this->active3='js-active';
-       $this->failures=null;
 
+        $this->show = '';
+        $this->show1 = '';
+        $this->show2 = 'js-active';
+        $this->active1 = 'js-active';
+        $this->active2 = 'js-active';
+        $this->active3 = 'js-active';
+        $this->failures = null;
     }
 
-    public function GuardarSubir(){
+    public function GuardarSubir()
+    {
         $this->import();
-   
     }
-
-
 }

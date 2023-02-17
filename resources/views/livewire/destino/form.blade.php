@@ -16,7 +16,7 @@
 
                     <div class="col-12 col-sm-6 col-md-12">
                         <div class="form-group">
-                            <label><span class="text-warning">* </span>Destino</label>
+                            <label><span class="text-warning">* </span>Nombre Almacen</label>
                             <input type="text" wire:model.lazy="nombre" class="form-control"
                                 placeholder="Nombre de la estancia depósito, tienda, almacén, bodega" maxlenght="25">
                             @error('nombre')
@@ -48,8 +48,8 @@
                                     @endforeach
                                 </select>
                                 @error('sucursal')
-                                <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
-                            @enderror
+                                    <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
@@ -72,15 +72,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">
-                CANCELAR</button>
+                <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    CANCELAR</button>
                 @if ($selected_id < 1)
                     <button wire:click="Store()" type="button" class="btn btn-primary" style="font-size: 13px">
                         GUARDAR
                     </button>
                 @else
-                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary"
+                    <button type="button" wire:click="Update()" class="btn btn-primary"
                         style="font-size: 13px">
                         ACTUALIZAR
                     </button>

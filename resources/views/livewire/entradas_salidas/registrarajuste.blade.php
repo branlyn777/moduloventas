@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios Inventarios</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Ajuste Inventarios</h6>
     </nav>
 @endsection
 
@@ -45,10 +45,8 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios de Inventarios</h5>
+                    <h5 class="text-white" style="font-size: 16px">Ajuste Inventarios</h5>
                 </div>
-
-
             </div>
 
             <div class="row mb-5">
@@ -56,7 +54,7 @@
                     <div wire:ignore.self class="multisteps-form mb-5">
 
                         <div class="row">
-                            <div class="col-12 col-lg-10 mx-auto my-4">
+                            <div class="col-12 col-lg-11 mx-auto my-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="multisteps-form__progress">
@@ -78,7 +76,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12 col-lg-10 m-auto">
+                            <div class="col-12 col-lg-11 m-auto">
                                 <form class="multisteps-form__form mb-8" style="height: 408px;">
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show }}"
@@ -99,10 +97,12 @@
                                                                     <option value="Elegir" disabled>Elegir
                                                                     </option>
 
-                                                                    <option wire:key="bar" value="Ajuste Inventarios">Ajustar
+                                                                    <option wire:key="bar" value="Ajuste Inventarios">
+                                                                        Ajustar
                                                                         inventarios
                                                                     </option>
-                                                                    <option value="Inventario Inicial">Inventario Inventario Inicial</option>
+                                                                    <option value="Inventario Inicial">Inventario
+                                                                        Inventario Inicial</option>
                                                                     <option wire:key="foo" value='Varios'>Varios:
                                                                         Productos
                                                                         Defectuosos,Bonificaciones,etc</option>
@@ -118,7 +118,6 @@
                                                         </div>
                                                     </div>
 
-
                                                     <div class="row justify-content-center">
 
                                                         @if ($concepto == 'Varios')
@@ -131,7 +130,7 @@
                                                                     @if ($concepto == 'Varios')
                                                                         <option value="null" selected disabled>Elegir
                                                                         </option>
-                                                                        <option value="Entrada">Entrada</option>
+                                                                        <option value="INGRESO">Entrada</option>
                                                                         <option value="Salida">Salida</option>
                                                                     @else
                                                                         <option value="null" selected disabled>--
@@ -179,13 +178,9 @@
                                                     </div>
                                                 </div>
 
-
-
-
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                      
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima()'>Siguiente</button>
                                             </div>
@@ -194,7 +189,9 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show1 }}"
                                         data-animation="FadeIn">
-                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos':''}}</h6>
+                                        <h6 class="font-weight-bolder">
+                                            {{ $concepto }}{{ $tipo_proceso != null ? ':' . $tipo_proceso . ' productos' : '' }}
+                                        </h6>
                                         <div class="multisteps-form__content">
                                             <div class="row mt-4 p-2">
                                                 <div wire:ignore.self class="col-md-12">
@@ -243,8 +240,8 @@
                                             </div>
 
                                             <div class="button-row d-flex mt-4">
-                                                <button class="btn btn-secondary mb-0 js-btn-prev"  type="button" wire:click="anterior()"
-                                                title="Prev">Anterior</button>
+                                                <button class="btn btn-secondary mb-0 js-btn-prev" type="button"
+                                                    wire:click="anterior()" title="Prev">Anterior</button>
                                                 <button class="btn btn-primary ms-auto mb-0" type="button"
                                                     title="Next" wire:click='proxima2()'>Siguiente</button>
                                             </div>
@@ -254,15 +251,15 @@
 
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{ $show2 }}"
                                         data-animation="FadeIn">
-                                        <h6 class="font-weight-bolder">{{$concepto}}{{$tipo_proceso!=null?':'.$tipo_proceso.' productos ':''}} {{' > '.$lugar}}</h6>
+                                        <h6 class="font-weight-bolder">
+                                            {{ $concepto }}{{ $tipo_proceso != null ? ':' . $tipo_proceso . ' productos ' : '' }}
+                                            {{ ' > ' . $lugar }}</h6>
                                         <div class="multisteps-form__content mt-3">
                                             <div class="row">
                                                 @if ($concepto == 'Inventario Inicial' and $registro == 'Documento')
                                                     <form>
 
                                                         <div>
-
-
                                                             <center>
                                                                 <div wire:loading wire:target="archivo">
                                                                     <div class="d-flex align-items-center">
@@ -306,7 +303,10 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
+                                                                                        type="button">
+                                                                                        {{ $prod->nombre }}<h6 class='text-xs'>{{ $prod->caracteristicas }}</h6>
+                                                                                        ({{ $prod->codigo }})
+                                                                                    </label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -338,7 +338,7 @@
                                                                                     style="font-size: 14px; color: black;">
                                                                                     <th class="text-center">Producto
                                                                                     </th>
-                                                                                    @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
+                                                                                    @if ($tipo_proceso == 'INGRESO' or $concepto == 'Inventario Inicial')
                                                                                         <th class="text-center">Costo
                                                                                         </th>
                                                                                         <th class="text-center">Precio
@@ -346,8 +346,11 @@
                                                                                         <th>Cantidad</th>
                                                                                         <th>Acción</th>
                                                                                     @elseif($concepto == 'Ajuste Inventarios')
-                                                                                        <th>Cantidad Actual Sistema</th>
+                                                                                        <th> Cant. Actual <br> Sistema
+                                                                                        </th>
                                                                                         <th>Recuento Fisico</th>
+                                                                                        <th></th>
+                                                                                        <th></th>
                                                                                         <th>Acción</th>
                                                                                     @else
                                                                                         <th>Cantidad</th>
@@ -362,8 +365,9 @@
                                                                                         style="font-size: 14px; color: black;">
                                                                                         <td style="width: 60px;">
                                                                                             {{ substr($prod['product_name'], 0, 15) }}
+                                                                                            ({{ $prod['product_codigo'] }})
                                                                                         </td>
-                                                                                        @if ($tipo_proceso == 'Entrada' or $concepto == 'Inventario Inicial')
+                                                                                        @if ($tipo_proceso == 'INGRESO' or $concepto == 'Inventario Inicial')
                                                                                             <td>
                                                                                                 <input type="text"
                                                                                                     id="pc{{ $prod['product_id'] }}"
@@ -388,21 +392,67 @@
                                                                                                     class="form-control text-center"
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
-                                                                                            @elseif($concepto == 'Ajuste Inventarios')
-                                                                                            <td class='text-center'>
+                                                                                        @elseif($concepto == 'Ajuste Inventarios')
+                                                                                        
+                                                                                                <td
+                                                                                                    class='text-center'>
 
-                                                                                                {{ $prod['stockactual'] }}
-                                                                                            </td>
-                                                                                            <td class='text-center'>
-                                                                                                <input type="number"
-                                                                                                    onkeypress="return event.charCode >= 48"
-                                                                                                    min="1"
-                                                                                                    id="cf{{ $prod['product_id'] }}"
-                                                                                                    wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#cf' + {{ $prod['product_id'] }}).val())"
-                                                                                                    style="padding:0!important"
-                                                                                                    class="form-control text-center"
-                                                                                                    value="{{ $prod['recuento'] }}">
-                                                                                            </td>
+                                                                                                    {{ $prod['stockactual'] }}
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    class='text-center'>
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        onkeypress="return event.charCode >= 48"
+                                                                                                        min="1"
+                                                                                                        id="rec{{ $prod['product_id'] }}"
+                                                                                                        wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#rec' + {{ $prod['product_id'] }}).val())"
+                                                                                                        style="padding:0!important"
+                                                                                                        class="form-control ps-2"
+                                                                                                        value="{{$prod['recuento']}}">
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    class='text-center'>
+                                                                                                    <div
+                                                                                                        class="input-group">
+                                                                                                        <input
+                                                                                                            type="number"
+                                                                                                            onkeypress="return event.charCode >= 48"
+                                                                                                            min="1"
+                                                                                                            id="cost{{ $prod['product_id'] }}"
+                                                                                                            wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cost' + {{ $prod['product_id'] }}).val())"
+                                                                                                            style="padding:0!important"
+                                                                                                            class="form-control ps-2"
+                                                                                                            value="{{$prod['costo']}}"
+                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}
+                                                                                                           >
+                                                                                                        <span
+                                                                                                            class="input-group-text bg-primary text-white">
+                                                                                                            costo
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    class='text-center'>
+                                                                                                    <div
+                                                                                                        class="input-group">
+                                                                                                        <input
+                                                                                                            type="number"
+                                                                                                            onkeypress="return event.charCode >= 48"
+                                                                                                            min="1"
+                                                                                                            id="pv{{ $prod['product_id'] }}"
+                                                                                                            wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val())"
+                                                                                                            style="padding:0!important"
+                                                                                                            class="form-control ps-2"
+                                                                                                            value="{{$prod['pv_lote'] }}"
+                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}>
+                                                                                                        <span
+                                                                                                            class="input-group-text bg-primary text-white">
+                                                                                                            p/v
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                         
                                                                                         @else
                                                                                             <td>
                                                                                                 <input type="number"
@@ -450,7 +500,7 @@
 
 
                                                         </div>
-
+                                                    </div>
                                                 @endif
                                             </div>
 
@@ -481,7 +531,7 @@
                                             </div>
 
                                         </div>
-
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -623,7 +673,7 @@
                     if (result.value) {
 
                         window.livewire.emit('confirmarvaciar');
-                        
+
 
                     }
                 })

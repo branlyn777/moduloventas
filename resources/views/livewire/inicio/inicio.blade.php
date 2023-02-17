@@ -24,14 +24,40 @@
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
+
+
+
+
+
+
+
+
+
+
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 280
+                                    Bs {{ number_format($total_current_month, 2, ',', '.') }}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">+55% <span
-                                        class="font-weight-normal text-secondary">desde el mes pasado</span></span>
+                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                    
+                                    @if($difference_percentage > 0)
+                                    + {{ number_format($difference_percentage, 2, ',', '.') }}%
+                                    @else
+                                    - {{ number_format($difference_percentage, 2, ',', '.') }}%
+                                    @endif
+
+                                    <span class="font-weight-normal text-secondary">desde el mes pasado</span>
+                                </span>
                             </div>
+
+
+
+
+
+
+
+
                             <div class="col-5">
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
@@ -422,6 +448,8 @@
     gradientStroke1.addColorStop(0, 'rgba(94, 114, 228,0)'); //purple colors
 
     var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
+    var ventas={{ Js::from($ventas) }};
+    var compras={{ Js::from($compras) }};
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -431,7 +459,7 @@
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+        labels: ["Enero", "Feb", "Mar", "Abril", "May", "Jun", "Jul"],
         datasets: [{
             label: "Compras",
             tension: 0.4,
@@ -442,7 +470,7 @@
             borderWidth: 3,
             backgroundColor: gradientStroke1,
             fill: true,
-            data: [50, 100, 200, 190, 400, 350, 500, 450, 700],
+            data: compras,
             maxBarThickness: 6
           },
           {
@@ -455,7 +483,7 @@
             borderWidth: 3,
             backgroundColor: gradientStroke2,
             fill: true,
-            data: [10, 30, 40, 120, 150, 220, 280, 250, 280],
+            data:ventas ,
             maxBarThickness: 6
           }
         ],
@@ -642,6 +670,5 @@
       },
     });
   </script>
-
 
 

@@ -63,7 +63,7 @@ class EditTransferenceController extends Component
                                             ->orWhere('prod.marca','like','%'.$this->search.'%')
                                             ->orWhere('prod.id','like','%'.$this->search.'%');
                                         })
-                                        ->select('prod.nombre as name','prod.id as prod_id','dest.nombre as nombre_destino','dest.id as dest_id','prod.id as prod_id','productos_destinos.stock as stock')
+                                        ->select('prod.nombre as name','prod.id as prod_id','prod.codigo as codigo','prod.caracteristicas as caracteristicas','dest.nombre as nombre_destino','dest.id as dest_id','prod.id as prod_id','productos_destinos.stock as stock')
                                         ->orderBy('prod.nombre','desc')
                                         ->paginate($this->pagination);
                                         }
@@ -223,17 +223,16 @@ class EditTransferenceController extends Component
 
     public function verPermisos(){
        
-        $ss= Destino::select('destinos.id','destinos.nombre')->get();
-        $arr=[];
-        foreach ($ss as $item){
-            $arr[$item->nombre.'_'.$item->id]=($item->id);
-            
-        }
+        $ss = Destino::pluck('codigo_almacen', 'id');
 
-       foreach ($arr as $key => $value) {
-        if (Auth::user()->hasPermissionTo($key)) {
-            array_push($this->vs,$value);
+        foreach ($ss as $key => $value) {
+            if ($value != null) {
+
+                if (Auth::user()->hasPermissionTo($value)) {
+
+                    array_push($this->vs, $key);
+                }
+            }
         }
-       }
     }
 }

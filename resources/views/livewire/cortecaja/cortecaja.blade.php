@@ -1,130 +1,3 @@
-@section('css')
-    <style>
-        .cajaabierta {
-            background-color: rgb(255, 255, 255);
-            padding: 10px;
-            border-radius: 15px;
-
-            box-shadow: 3px 3px #5ea8e48c;
-        }
-
-        .cajacerrada {
-            background-color: rgb(255, 253, 253);
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 3px 3px #8888889f;
-
-        }
-
-        /* Estilos para el loading */
-        .lds-roller {
-            display: inline-block;
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-
-        .lds-roller div {
-            animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-            transform-origin: 40px 40px;
-        }
-
-        .lds-roller div:after {
-            content: " ";
-            display: block;
-            position: absolute;
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #02b1ce;
-            margin: -4px 0 0 -4px;
-        }
-
-        .lds-roller div:nth-child(1) {
-            animation-delay: -0.036s;
-        }
-
-        .lds-roller div:nth-child(1):after {
-            top: 63px;
-            left: 63px;
-        }
-
-        .lds-roller div:nth-child(2) {
-            animation-delay: -0.072s;
-        }
-
-        .lds-roller div:nth-child(2):after {
-            top: 68px;
-            left: 56px;
-        }
-
-        .lds-roller div:nth-child(3) {
-            animation-delay: -0.108s;
-        }
-
-        .lds-roller div:nth-child(3):after {
-            top: 71px;
-            left: 48px;
-        }
-
-        .lds-roller div:nth-child(4) {
-            animation-delay: -0.144s;
-        }
-
-        .lds-roller div:nth-child(4):after {
-            top: 72px;
-            left: 40px;
-        }
-
-        .lds-roller div:nth-child(5) {
-            animation-delay: -0.18s;
-        }
-
-        .lds-roller div:nth-child(5):after {
-            top: 71px;
-            left: 32px;
-        }
-
-        .lds-roller div:nth-child(6) {
-            animation-delay: -0.216s;
-        }
-
-        .lds-roller div:nth-child(6):after {
-            top: 68px;
-            left: 24px;
-        }
-
-        .lds-roller div:nth-child(7) {
-            animation-delay: -0.252s;
-        }
-
-        .lds-roller div:nth-child(7):after {
-            top: 63px;
-            left: 17px;
-        }
-
-        .lds-roller div:nth-child(8) {
-            animation-delay: -0.288s;
-        }
-
-        .lds-roller div:nth-child(8):after {
-            top: 56px;
-            left: 12px;
-        }
-
-        @keyframes lds-roller {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-@endsection
-
-
 @section('migaspan')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
@@ -292,6 +165,7 @@
             </div>
 
         @endforeach
+
     </div>
     @include('livewire.cortecaja.ajusteCajaEfectiva')
     @include('livewire.cortecaja.aperturacaja')
@@ -345,24 +219,7 @@
             });
         });
 
-        // Código para lanzar la Alerta de Confirmación
-        // function ConfirmarAbrir(id, nombrecaja)
-        // {
-        //     swal({
-        //     title: '¿Realizar Corte de Caja?',
-        //     text: "Realizará la apertura de la caja: " + nombrecaja + " y se habilitarán todas las carteras de esta",
-        //     type: 'warning',
-        //     showCancelButton: true,
-        //     cancelButtonText: 'Cancelar',
-        //     confirmButtonText: 'Aceptar',
-        //     padding: '2em'
-        //     }).then(function(result) {
-        //     if (result.value) {
-        //         window.livewire.emit('corte-caja', id)
-        //         }
-        //     })
-        // }
-        // Código para lanzar la Alerta de Confirmación
+ 
         function ConfirmarCerrar(id, nombrecaja) {
             swal({
                 title: '¿Cerrar esta Caja?',

@@ -184,8 +184,11 @@
                                             @foreach ($data_prod as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px"
-                                                            type="button">{{ substr($prod->nombre, 0, 15) }}({{ $prod->codigo }})</label>
+                                                        <label style="font-size: 14px">
+                                                            {{ $prod->nombre }}    ({{ $prod->codigo }})
+                                                            <h6 class='text-xs'>{{ $prod->caracteristicas }}</h6>
+                                                        
+                                                        </label>
                                                     </td>
 
                                                     <td class="text-center">
@@ -216,7 +219,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Producto</th>
-                                            <th class="text-uppercase text-sm ps-2">Código</th>
+                      
                                             <th class="text-uppercase text-xxs font-weight-bolder">Precio Compra</th>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Precio Venta</th>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Cantidad</th>
@@ -228,11 +231,10 @@
                                         @foreach ($cart as $prod)
                                             <tr>
                                                 <td>
-                                                    <h6 class="mb-0 text-xs">{{ substr($prod->name, 0, 15) }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{$prod->name}}</h6>
+                                                    <strong class='text-xs'>({{ $prod->attributes->codigo }})</strong>
                                                 </td>
-                                                <td>
-                                                    <strong>{{ $prod->attributes->codigo }}</strong>
-                                                </td>
+                                         
                                                 <td>
                                                     <input type="text" id="r{{ $prod->id }}"
                                                         wire:change="UpdatePrice({{ $prod->id }}, $('#r' + {{ $prod->id }}).val() )"
@@ -274,7 +276,7 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <h4><b>TOTAL.- {{ $total_compra }}</b></h4>
+                                    <h5><b>Total Bs.- {{ $total_compra }}</b></h5>
                                 </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">

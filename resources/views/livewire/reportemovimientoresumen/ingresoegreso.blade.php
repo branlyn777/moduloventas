@@ -8,9 +8,9 @@
             </li>
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
                     href="{{ url('') }}">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ingresos y Egresos</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Nuevo </h6>
+        <h6 class="font-weight-bolder mb-0 text-white"> Ingresos y Egresos </h6>
     </nav>
 @endsection
 
@@ -40,6 +40,10 @@
                                 <i class="fas fa-arrow-alt-circle-down"></i> <i class="fas fa-arrow-alt-circle-up"></i>
                                 Generar
                                 Ingreso/Egreso
+                            </button>
+                            <button wire:click.prevent="ajuste()" class="btn btn-light">
+                                <i class="fa-solid fa-wrench"></i>
+                                Ajustar Carteras
                             </button>
                             <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
                                 <i class="fas fa-print"></i> Generar PDF
@@ -79,7 +83,7 @@
 
                     <div class="row justify-content-between">
 
-                        <div class="col-sm-12 col-md-2">
+                        <div class="col-sm-12 col-md-4">
                             <div class="form-group">
                                 <label style="font-size: 1rem">Buscar</label>
                                 {{-- <div class="input-group mb-4">
@@ -124,18 +128,6 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label style="font-size: 1rem">Cajas</label>
-                                <select wire:model="caja" class="form-select">
-                                    @foreach ($cajas2 as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nombre }}</option>
-                                    @endforeach
-                                    <option value="TODAS">TODAS</option>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-2">
-                            <div class="form-group">
                                 <label style="font-size: 1rem">Sucursal</label>
                                 <select wire:model="sucursal" class="form-select">
                                     @foreach ($sucursals as $item)
@@ -147,18 +139,53 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="form-group">
-                                <label style="font-size: 1rem">Categoria</label>
-                                <select wire:model='categoria_id' class="form-select">
-                                    <option value="Todos">Todas las Categorias</option>
-                                    @foreach ($categorias as $c)
-                                        <option value="{{ $c->id }}">{{ $c->nombre }} -
-                                            {{ $c->tipo }}
-                                        </option>
+                                <label style="font-size: 1rem">Cajas</label>
+                                <select wire:model="caja" class="form-select">
+                                    @foreach ($cajas2 as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                     @endforeach
+                                    <option value="TODAS">TODAS</option>
                                 </select>
 
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8">
+
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Tipo Movimiento</label>
+                                <select wire:model='tipo_movimiento' class="form-select">
+                                    <option class="text-uppercase text-sm ps-2" value="TODOS">Todos</option>
+                                    <option class="text-uppercase text-sm ps-2" value="INGRESO">Ingreso</option>
+                                    <option class="text-uppercase text-sm ps-2" value="EGRESO">Egreso</option>
+                                    <option class="text-uppercase text-sm ps-2" value="AJUSTE">Ajustes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Categoria</label>
+                                <select wire:model='categoria_id' class="form-select">
+                                    @if ($tipo_movimiento=='AJUSTE')
+                                    <option value=null>-- --</option>
+                                    @else
+
+                                    <option value="Todos">Todas las Categorias</option>
+                                
+                                    @foreach ($categorias as $c)
+                                        <option value="{{ $c->id }}">
+                                            {{ $c->tipo }} - {{ $c->nombre }}
+                                        </option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                 
                     </div>
 
                 </div>
@@ -167,34 +194,22 @@
 
             <br>
             <div class="card">
-                <div class="text-center ">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <table>
-                            <tr>
-                                <td colspan="5">
-                                    <h6 style="font-size: 100%">
-                                        <b>TOTAL Bs.</b>
-                                    </h6>
-                                </td>
-                                <td colspan="1">
-                                    <h6 class="text-left" style="font-size: 100%">
-                                        {{ number_format($sumaTotal, 2) }} </h6>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="5">
-                                    <h6 class="text-right p-l-1" colspan="5" style="font-size: 100%">
-                                        <b>TOTAL $us.</b>
-                                    </h6>
-                                </td>
-                                <td colspan="1">
-                                    <h6 class="text-left" colspan="5" style="font-size: 100%">
-                                        {{ number_format($sumaTotal / $cot_dolar, 2) }} </h6>
-                                </td>
-                            </tr>
-                        </table>
-
+                <div class="text-center m-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="bg-warning text-white p-2 border-round ">
+                                <b>
+                                    TOTAL Bs. {{ number_format($sumaTotal, 2) }}
+                                </b>
+                            </span>
+                        </div>
+                        <div class="col-6">
+                            <span class="bg-danger text-white p-2">
+                                <b>
+                                    <b>TOTAL $us. {{ number_format($sumaTotal / $cot_dolar, 2) }}</b>
+                                </b>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -211,8 +226,6 @@
                                     <th class="text-uppercase text-sm ps-2">FECHA</th>
                                     <th class="text-uppercase text-sm ps-2">MOVIMIENTO</th>
                                     <th class="text-uppercase text-sm ps-2">CATEGORIA</th>
-                                    <th class="text-uppercase text-sm ps-2">CAJA</th>
-                                    <th class="text-uppercase text-sm ps-2">CARTERA</th>
                                     <th class="text-uppercase text-sm ps-2">IMPORTE</th>
                                     <th class="text-uppercase text-sm ps-2">MOTIVO</th>
                                     <th class="text-uppercase text-sm ps-2">USUARIO</th>
@@ -224,77 +237,48 @@
                                 @foreach ($data as $p)
                                     <tr>
                                         <td>
-                                            <h6 class="text-sm mb-0 text-center" style="font-size: 100%">
-                                                {{ $loop->iteration }}
-                                            </h6>
-                                        </td>
-                                        <td class="d-flex px-2 py-1">
-                                            <h6 class="me-3" style="font-size: 100%">
-                                                {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y H:i') }}
-                                            </h6>
+                                            <p>{{ $loop->iteration }}</p>
                                         </td>
                                         <td>
-                                            <h6 class="text-left" style="font-size: 100%">
-                                                {{ $p->carteramovtype }}</h6>
+                                            <p>{{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y') }} {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format(' H:i') }}</p>
                                         </td>
-
                                         <td>
-                                            <h6 class="text-left" style="font-size: 100%">
+                                            <p>
+                                                {{ $p->carteramovtype }} {{ $p->nombre }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
                                                 @if ($p->nombrecategoria != null)
-                                                    <b>{{ $p->nombrecategoria }}</b>
+                                                    {{ $p->nombrecategoria }}
                                                 @else
                                                     Sin Categoria
                                                 @endif
-
-
-                                            </h6>
+                                            </p>
                                         </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">
-                                                {{ $p->cajaNombre }}
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">{{ $p->nombre }}
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-left" style="font-size: 100%">
-                                                {{ number_format($p->import, 2) }}
-                                            </h6>
+                                        <td style="text-align: right;">
+                                            <p>{{ number_format($p->import, 2) }}</p>
                                         </td>
                                         <td>
                                             @if ($p->tipoDeMovimiento == 'SOBRANTE')
-                                                <h6 class="text-left" style="font-size: 100%">
-                                                    SOBRANTE:{{ $p->comentario }}
-                                                </h6>
+                                                <p>SOBRANTE:{{ $p->comentario }}</p>
                                             @elseif($p->tipoDeMovimiento == 'FALTANTE')
-                                                <h6 class="text-left" style="font-size: 100%">
-                                                    FALTANTE:{{ $p->comentario }}
-                                                </h6>
+                                                <p>FALTANTE:{{ $p->comentario }}</p>
                                             @else
-                                                <h6 class="text-left" style="font-size: 100%">
-                                                    {{ $p->comentario }}
-                                                </h6>
+                                                <p>{{ $p->comentario }}</p>
                                             @endif
-
                                         </td>
-
                                         <td>
-                                            <h6 class="text-left" style="font-size: 100%">
-                                                {{ $p->usuarioNombre }}</h6>
+                                            <p>{{ $p->usuarioNombre }}</p>
                                         </td>
-
                                         @if ($p->movstatus == 'ACTIVO')
                                             <td>
-
                                                 <span class="badge badge-sm bg-gradient-success">
                                                     {{ $p->movstatus }}
                                                 </span>
                                             </td>
                                         @else
                                             <td>
-
                                                 <span class="badge badge-sm bg-gradient-danger">
                                                     ANULADO
                                                 </span>
@@ -303,11 +287,7 @@
 
                                         @if ($p->movstatus == 'INACTIVO')
                                             <td class="align-middle text-center">
-
                                                 --
-
-
-
                                             </td>
                                         @else
                                             <td class="align-middle text-center">
@@ -322,8 +302,6 @@
                                                     title="Anular Ingreso/Egreso">
                                                     <i class="fas fa-trash text-danger"></i>
                                                 </a>
-
-
                                             </td>
                                         @endif
 
@@ -341,16 +319,20 @@
 
         @include('livewire.reportemovimientoresumen.modalDetails')
         @include('livewire.reportemovimientoresumen.modaleditar')
+        @include('livewire.reportemovimientoresumen.modalajuste')
 
     </div>
 </div>
-
+</div>
 
 @section('javascript')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             window.livewire.on('show-modal', Msg => {
                 $('#modal-details').modal('show')
+            });
+            window.livewire.on('show-ajuste', Msg => {
+                $('#modal-ajuste').modal('show')
             });
             window.livewire.on('editar-movimiento', Msg => {
                 $('#modal-mov').modal('show')
@@ -361,6 +343,10 @@
             window.livewire.on('hide-modal', Msg => {
                 $('#modal-details').modal('hide')
                 noty(Msg)
+            });
+            window.livewire.on('close-ajuste', Msg => {
+                $('#modal-ajuste').modal('hide')
+                
             });
 
             window.livewire.on('openothertap', Msg => {

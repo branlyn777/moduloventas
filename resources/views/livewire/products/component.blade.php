@@ -173,7 +173,7 @@
                             Seleccionados</button> --}}
                         
                         {{-- @if ($selectedProduct) --}}
-                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar 
+                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
                                 Seleccionados ({{count($selectedProduct)}})</button>
                         {{-- @endif --}}
                     </div>
@@ -182,7 +182,7 @@
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
-                                <table class="table align-items-center mb-4" id="products-list">
+                                <table class="" id="products-list">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
@@ -220,10 +220,17 @@
                                                                 value="{{ $products->id }}">
                                                         </div>
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                            alt="hoodie" width="50">
+                                                            alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <label
-                                                                style="font-size: 14px">{{ substr($products->nombre, 0, 30) }}</label>
+                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                            
+                                                            
+                                                            {{ $products->caracteristicas }}
+
+
+                                                            <p>{{ $products->unidad}}|{{ $products->marca}}|{{ $products->industria }}
+                                                            {{ $products->caracteristicas }}</p>
+                                                            
                                                         </div>
                                                     </div>
                                                 </td>
@@ -244,7 +251,7 @@
                                                     </td>
                                                 @endif
                                                 <td>
-                                                    {{ substr($products->codigo, 0, 11) }}
+                                                    {{ $products->codigo }}
                                                 </td>
                                                 <td class="text-center">
                                                     {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
@@ -375,7 +382,6 @@
                     'error'
                 )
             });
-
             window.livewire.on('sin-archivo', Msg => {
                 const toast = swal.mixin({
                     toast: true,
@@ -404,7 +410,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('EliminarSeleccionados', event.detail.id)
+                    window.livewire.emit('EliminarSeleccionados', event.detail.checkedIDs)
                 }
             })
         })
@@ -448,6 +454,4 @@
 
     <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
-
-
 @endsection

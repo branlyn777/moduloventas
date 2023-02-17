@@ -31,7 +31,7 @@
                             <label><span class="text-warning">* </span>Código</label>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <input type="text" wire:model.lazy="codigo" class="form-control" placeholder="ej: 012020222">
-                                <button type="button" wire:click.prevent="asd()" class="btn btn-primary m-0 p-l-0 p-r-0"
+                                <button type="button" wire:click.prevent="generarCodigo()" class="btn btn-primary m-0 p-l-0 p-r-0"
                                     title="Generar Codigo">
                                     <i class="fas fa-barcode"></i>
                                 </button>

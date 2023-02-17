@@ -9,9 +9,9 @@
             <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventarios</li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Mobiliarios</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Estanteria</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">Mobiliarios</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Estanterias</h6>
     </nav>
 @endsection
 
@@ -59,14 +59,14 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class="text-white" style="font-size: 16px">Mobiliarios</h5>
+                    <h5 class="text-white" style="font-size: 16px">Lista de Estanterias</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click='resetUI()'
                             data-bs-toggle="modal" wire:click="$set('selected_id', 0)" data-bs-target="#theModal"><i
-                                class="fas fa-plus me-2"></i> Nuevo Mobiliario</a>
+                                class="fas fa-plus me-2"></i> Nueva Estanteria</a>
                     </div>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                                                 <i class="fas fa-plus" style="font-size: 14px"></i>
                                             </a>
                                             <a href="javascript:void(0)"
-                                                onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}')"
+                                                onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}','{{ $location->product->count()}}')"
                                                 class="mx-3" title="Agregar Mobiliario">
                                                 <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                             </a>
@@ -247,8 +247,8 @@
                 swal.fire({
                     title: 'PRECAUCION',
                     type: 'warning',
-                    text: 'No se puede eliminar el producto, ' + descripcion + ' porque tiene ' +
-                        locations + ' ventas relacionadas'
+                    text: 'No se puede eliminar la estanteria, ' + descripcion + ' porque tiene ' +
+                        locations + ' productos relacionados.'
                 })
                 return;
             }

@@ -37,7 +37,7 @@
 
                                                     <td>
                                                         <a href="javascript:void(0)" wire:key="{{ $loop->index }}" class="mx-3"
-                                                            wire:click="delete('{{ $data->id }}')" title="Delete">
+                                                            wire:click="delete('{{ $data->id }}')" title="Quitar producto de estanteria">
                                                             <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                                         </a>
                                                     </td>

@@ -305,7 +305,7 @@ class LocalizacionController extends Component
 
     }
 
-    public function asd(){
+    public function generarCodigo(){
 
 
       
@@ -322,7 +322,9 @@ class LocalizacionController extends Component
 
         $min=10000;
         $max= 99999;
-        $this->codigo= substr($this->tipo, 0, 3) ."-".Carbon::now()->format('ymd');
+        $nro=Location::where('tipo',$this->tipo)->count();
+        $this->codigo= substr(strtoupper($this->tipo),0,3) .'-'.str_pad($nro+1,4,0,STR_PAD_LEFT);
+
     }
 
 

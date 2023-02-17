@@ -111,7 +111,7 @@
                                 <tr>
                                     <th class="text-uppercase text-sm text-center"><b>N°</b></th>
                                     <th class="text-uppercase text-sm text-center">IMAGEN</th>
-                                    <th class="text-uppercase text-sm ps-2 ">PRODUCTO</th>
+                                    <th class="text-uppercase text-sm ps-2">PRODUCTO</th>
                                     <th class="text-uppercase text-sm text-center">STOCK</th>
                                     <th class="text-uppercase text-sm text-center">CANT.MIN</th>
                                     <th class="text-uppercase text-sm text-center">ACCIONES</th>
@@ -121,7 +121,7 @@
                                 @foreach ($destinos_almacen as $destino)
                                     @if ($destino->stock_s < $destino->cant_min)
                                         <tr style="font-size: 14px">
-                                        @else
+                                    @else
                                         <tr style="font-size: 14px">
                                     @endif
                                     <td class="text-center">
@@ -129,16 +129,12 @@
                                     </td>
                                     <td class="text-center">
                                         <span>
-                                  
-
                                             @if ($destino->image !=null)
                                             <img src="{{ asset('storage/productos/' . $destino->image) }}"
                                             alt="hoodie" width="50">
-                                         
                                             @else
                                             <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
                                             alt="hoodie" width="50">
-                                        
                                             @endif
                                         </span>
                                     </td>
@@ -146,12 +142,13 @@
                                         <b>{{ substr($destino->nombre, 0, 58) }}</b><br>
                                         Codigo: {{ $destino->codigo }}
                                     </td>
+
                                     {{--
-                                                    <td class="text-left" style="width: 15%">
-                                                    <strong class="text-left" >{{$destino->nombre}}</strong><br>
-                                                    <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
-                                                    {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})</td>
-                                                --}}
+                                        <td class="text-left" style="width: 15%">
+                                        <strong class="text-left" >{{$destino->nombre}}</strong><br>
+                                        <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
+                                        {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})</td>
+                                    --}}
 
                                     @if ($selected_id == 'General')
                                         <td class="text-center">
@@ -161,33 +158,28 @@
                                             {{ $destino->cantidad_minima }}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})"
-                                                class="mx-3" title="Ver">
+                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3" title="Ver">
                                                 <i class="fas fa-list"></i>
                                             </a>
-
-                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})"
-                                                class="mx-3" title="Lotes">
+                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})" class="mx-3" title="Lotes">
                                                 <i class="fas fa-box-open text-info"></i>
                                             </a>
                                         </td>
                                     @else
                                         <td class="text-center">
-                                            <h6 class="text-center">{{ $destino->stock }}</h6>
+                                            {{ $destino->stock }}
                                         </td>
                                         <td class="text-center">
                                             {{ $destino->cantidad_minima }}
                                         </td>
                                         @can('Admin_Views')
                                             <td class="align-middle text-center">
-                                                <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})"
-                                                    title="Ajuste de inventarios" class="mx-3">
+                                                <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})" title="Ajuste de inventarios" class="mx-3">
                                                     <i class="fas fa-edit" style="font-size: 14px"></i>
                                                 </a>
                                             </td>
                                         @endcan
                                     @endif
-
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -201,6 +193,7 @@
     @include('livewire.destinoproducto.detallemobiliario')
     @include('livewire.destinoproducto.ajusteinventario')
     @include('livewire.destinoproducto.lotesproductos')
+    @include('livewire.destinoproducto.lotecosto')
 </div>
 
 
@@ -224,6 +217,12 @@
             });
             window.livewire.on('hide-modal-ajuste', msg => {
                 $('#ajustesinv').modal('hide')
+            });
+            window.livewire.on('hide-modal-lote', msg => {
+                $('#lotes').modal('hide')
+            });
+            window.livewire.on('show-modal-lotecosto', msg => {
+                $('#lotecosto').modal('show')
             });
 
         });
