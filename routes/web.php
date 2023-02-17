@@ -45,6 +45,7 @@ use App\Http\Livewire\PermisosController;
 use App\Http\Livewire\PosController;
 use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
+use App\Http\Livewire\NivelInventariosController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporGananciaTgController;
@@ -158,6 +159,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('locations', LocalizacionController::class)->name('locations');
         Route::get('unidades', UnidadesController::class)->name('unities');
         Route::get('marcas', MarcasController::class)->name('brands');
+        Route::get('nivelinventarios', NivelInventariosController::class)->name('nivel_inventarios');
     });
     Route::get('products', ProductsController::class)->name('productos');
     Route::group(['middleware' => ['permission:Transferencias']], function () {

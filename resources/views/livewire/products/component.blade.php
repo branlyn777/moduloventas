@@ -129,7 +129,7 @@
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
-                                        {{-- <i class="fas fa-redo-alt text-white"></i> --}}
+                              
                                     </button>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                                     </select>
                                     <button wire:click="resetSubcategorias()" class="btn btn-primary">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
-                                        {{-- <i class="fas fa-redo-alt text-white"></i> --}}
+                       
                                     </button>
                                     </tbody>
                                 </div>
@@ -171,10 +171,10 @@
                         </div>
                         {{-- <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
                             Seleccionados</button> --}}
-                        
+
                         {{-- @if ($selectedProduct) --}}
-                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
-                                Seleccionados ({{count($selectedProduct)}})</button>
+                        <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
+                            Seleccionados ({{ count($selectedProduct) }})</button>
                         {{-- @endif --}}
                     </div>
                 </div>
@@ -222,15 +222,16 @@
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                             alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
-                                                            
-                                                            
+                                                            <label
+                                                                style="font-size: 14px">{{ $products->nombre }}</label>
+
+
                                                             {{ $products->caracteristicas }}
 
 
-                                                            <p>{{ $products->unidad}}|{{ $products->marca}}|{{ $products->industria }}
-                                                            {{ $products->caracteristicas }}</p>
-                                                            
+                                                            <p>{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
+                                                                {{ $products->caracteristicas }}</p>
+
                                                         </div>
                                                     </div>
                                                 </td>

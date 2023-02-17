@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Caja;
 use App\Models\Cartera;
 use App\Models\CarteraMov;
+use App\Models\CarteraMovCategoria;
 use App\Models\Denomination;
 use App\Models\Product;
 use Livewire\Component;
@@ -98,6 +99,11 @@ class PosController extends Component
     public $page = 1;
 
 
+
+    //VARIABLES PARA LOS INGRESOS Y EGRESOS
+    public $cartera_id_ie, $tipo_movimiento_ie, $cantidad_ie, $detallecategoria, $categoria_id_ie, $comentario;
+
+
     use WithPagination;
     public function paginationView()
     {
@@ -109,7 +115,9 @@ class PosController extends Component
     }
     public function mount()
     {
-
+        $this->tipo_movimiento_ie = "Elegir";
+        $this->cartera_id_ie = "Elegir";
+        $this->categoria_id_ie = "Elegir";
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -164,6 +172,15 @@ class PosController extends Component
     }
     public function render()
     {
+        if($this->categoria_id_ie != "Elegir")
+        {
+            $this->detallecategoria = CarteraMovCategoria::find($this->categoria_id_ie)->detalle;
+        }
+
+        
+        //Categorias para Ingresos y Egresos
+        $categorias_ie = CarteraMovCategoria::where("cartera_mov_categorias.tipo",$this->tipo_movimiento_ie)->get();
+
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
         ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
@@ -252,6 +269,14 @@ class PosController extends Component
 
         //dd($this->listarcarterasg());
 
+
+
+
+        
+
+
+
+
         return view('livewire.pos.component', [
             'denominations' => Denomination::orderBy('id', 'asc')->get(),
             'listaproductos' => $listaproductos,
@@ -260,11 +285,12 @@ class PosController extends Component
             'carterasg' => $this->listarcarterasg(),
             'listaclientes' => $listaclientes,
             'nombrecliente' => Cliente::find($this->cliente_id)->nombre,
-            'nombrecartera' => $this->nombrecartera()
+            'nombrecartera' => $this->nombrecartera(),
+            'categorias_ie' => $categorias_ie
 
         ])
-            ->extends('layouts.theme.app')
-            ->section('content');
+        ->extends('layouts.theme.app')
+        ->section('content');
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
@@ -701,11 +727,30 @@ class PosController extends Component
                             'cantidad' => $cantidad_producto_venta
                         ]);
 
-                        $l->update([ 
-                            'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta
-                        ]);
-                        $l->save();
+
+                        $diferencia = $cantidad_producto_lote - $cantidad_producto_venta;
+
+                        if($diferencia != 0)
+                        {
+                            $l->update([ 
+                                'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta
+                            ]);
+                            $l->save();
+                        }
+                        else
+                        {
+                            $l->update([ 
+                                'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta,
+                                'status'=> "Inactivo"
+                            ]);
+                            $l->save();
+                            
+                        }
                         $cantidad_producto_venta=0;
+
+
+
+                        
                     }
                 }
 
@@ -1136,5 +1181,78 @@ class PosController extends Component
         $this->mensaje_toast = "Precio promedio: " . number_format($this->precio_promedio,2) . "Bs aplicado al producto " . $this->nombreproducto;
         //Ocultando la Ventana Modal Lotes Producto
         $this->emit('hide-modallotesproducto');
+    }
+
+
+
+
+    //MODULO DE INGRESO Y EGRESO
+    public function modalingresoegreso()
+    {
+        $this->emit("show-modalingresoegreso");
+    }
+    //Generar Ingreso o Egreso
+    public function generar()
+    {
+        $rules = [ /* Reglas de validacion */
+            'tipo_movimiento_ie' => 'required|not_in:Elegir',
+            'categoria_id_ie' => 'required|not_in:Elegir',
+            'cartera_id_ie' => 'required|not_in:Elegir',
+            'cantidad_ie' => 'required|not_in:0',
+            'comentario' => 'required',
+        ];
+        $messages = [ /* mensajes de validaciones */
+            'tipo_movimiento_ie.not_in' => 'Seleccione un valor distinto a Elegir',
+            'cartera_id_ie.not_in' => 'Seleccione un valor distinto a Elegir',
+
+            'categoria_id_ie.required' => 'Seleccione una Categoria',
+            'categoria_id_ie.not_in' => 'Seleccione una Categoria distinto a Elegir',
+
+            'cantidad_ie.required' => 'Ingrese un monto válido',
+            'cantidad_ie.not_in' => 'Ingrese un monto válido',
+            'comentario.required' => 'El comentario es obligatorio',
+        ];
+
+        $this->validate($rules, $messages);
+
+        $movimiento = Movimiento::create([
+            'type' => 'TERMINADO',
+            'status' => 'ACTIVO',
+            'import' => $this->cantidad_ie,
+            'user_id' => Auth()->user()->id,
+        ]);
+
+        $cartera_movimiento = CarteraMov::create([
+            'type' => $this->tipo_movimiento_ie,
+            'tipoDeMovimiento' => 'EGRESO/INGRESO',
+            'comentario' => $this->comentario,
+            'cartera_id' => $this->cartera_id_ie,
+            'movimiento_id' => $movimiento->id,
+            'cartera_mov_categoria_id' => $this->categoria_id_ie
+        ]);
+
+        if($this->tipo_movimiento_ie == "INGRESO")
+        {
+            $cartera = Cartera::find($this->cartera_id_ie);
+
+            $saldo_cartera = $cartera->saldocartera + $this->cantidad_ie;
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+        else
+        {
+            $cartera = Cartera::find($this->cartera_id_ie);
+
+            $saldo_cartera = $cartera->saldocartera - $this->cantidad_ie;
+    
+            $cartera->update([
+                'saldocartera' => $saldo_cartera
+            ]);
+        }
+
+
+        return Redirect::to('pos');
     }
 }

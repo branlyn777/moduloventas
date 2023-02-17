@@ -1005,7 +1005,7 @@ class SaleEditController extends Component
 
             
 
-            $this->redirect('salelist');
+            $this->redirect('ventalistaproductos');
 
 
 

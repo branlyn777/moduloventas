@@ -350,6 +350,16 @@
                     </ul>
                 </div>
             </li>
+                 <li class=@yield('nivelinventariosli', 'nav-item ')>
+                <a class=@yield('nivelinventariosnav', 'nav-link ') href="{{ url('nivelinventarios') }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-square-poll-vertical text-dark text-sm"></i>
+                    
+                    </div>
+                    <span class="sidenav-normal ms-1">Nivel Inventarios</span>
+                </a>
+            </li> 
+
 
 
 
