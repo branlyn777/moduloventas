@@ -181,7 +181,7 @@
                                     </td>
                                     <td class="text-sm" style="float: right">
                                  
-                                        {{ number_format($total_efectivo+$saldo_acumulado-$op_recaudo-$operacionfalt+$operacionsob,2)}}
+                                        {{ number_format($total_efectivo+$saldo_acumulado-$op_recaudo-$operacionfalt+$operacionsob+$ajustes,2)}}
                                     </td>
                                 </tr>
 

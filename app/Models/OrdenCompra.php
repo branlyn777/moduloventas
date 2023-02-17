@@ -16,7 +16,15 @@ class OrdenCompra extends Model
     public function proveedor(){
         return $this->belongsTo(Provider::class);
     }
+    public function destino(){
+        return $this->belongsTo(Destino::class);
+    }
     public function usuario(){
         return $this->belongsTo(User::class,'user_id','id');
+    }
+   
+    public function compra()
+    {
+        return $this->hasMany(OrdenCompraAsignada::class,'orden_compra','id');
     }
 }

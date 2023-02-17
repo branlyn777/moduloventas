@@ -74,13 +74,8 @@ class ReporteMovimientoResumenController extends Component
             )->get();
 
 
-        // $this->saldo_acumulado(Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', $this->sucursal, $this->caja);
-        $this->viewTotales();
 
-        if ($this->cartera_id != null) {
-            $this->sm = Caja::find($this->cartera_id);
-            $this->operacionrecaudo();
-        }
+        $this->viewTotales();
 
 
 
@@ -434,17 +429,23 @@ class ReporteMovimientoResumenController extends Component
                 ->where('ca.id', $this->caja)
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.type', 'INGRESO')
+                ->where('crms.tipoDeMovimiento','!=','TIGOMONEY')
+
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
+             
             $egresos = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
                 ->join('cajas as ca', 'ca.id', 'c.caja_id')
                 ->where('ca.id', $this->caja)
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.type', 'EGRESO')
+                ->where('crms.tipoDeMovimiento','!=','TIGOMONEY')
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
+        
             $this->saldo_acumulado = $ingresos - $egresos;
+
         } else {
             $ingresos = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
@@ -586,55 +587,6 @@ class ReporteMovimientoResumenController extends Component
         }
     }
 
-    public function saldo_acumulado($fecha, $sucursal, $caja)
-    {
-
-
-        $fechainicial = Carbon::parse('2015-01-01')->format('Y-m-d') . ' 00:00:00';
-
-        if ($caja != 'TODAS') {
-            $carteras = Cartera::where('carteras.tipo', 'efectivo')
-                ->where('caja_id', $caja)
-                ->select('id', 'nombre', 'descripcion', DB::raw('0 as monto'))->get();
-        } else {
-            if ($sucursal != 'TODAS') {
-                $carteras = Cartera::join('cajas', 'cajas.id', 'carteras.caja_id')
-                    ->where('carteras.tipo', 'efectivo')
-                    ->where('cajas.sucursal_id', $sucursal)
-                    ->select('carteras.id as id', DB::raw('0 as monto'))
-                    ->get();
-            } else {
-                $carteras = Cartera::where('carteras.tipo', 'efectivo')
-                    ->select('id', 'nombre', 'descripcion', DB::raw('0 as monto'))
-                    ->get();
-            }
-        }
-
-
-
-        foreach ($carteras as $c) {
-            /* SUMAR TODO LOS INGRESOS DE LA CARTERA */
-            $MONTO = Cartera::join('cartera_movs as cm', 'carteras.id', 'cm.cartera_id')
-                ->join('movimientos as m', 'm.id', 'cm.movimiento_id')
-                ->where('cm.type', 'INGRESO')
-                ->where('m.status', 'ACTIVO')
-                ->whereBetween('m.created_at', [$fechainicial, $fecha])
-                ->where('carteras.id', $c->id)
-                ->sum('m.import');
-            /* SUMAR TODO LOS EGRESOS DE LA CARTERA */
-            $MONTO2 = Cartera::join('cartera_movs as cm', 'carteras.id', 'cm.cartera_id')
-                ->join('movimientos as m', 'm.id', 'cm.movimiento_id')
-                ->where('cm.type', 'EGRESO')
-                ->where('m.status', 'ACTIVO')
-                ->whereBetween('m.created_at', [$fechainicial, $fecha])
-                ->where('carteras.id', $c->id)->sum('m.import');
-            /* REALIZAR CALCULO DE INGRESOS - EGRESOS */
-
-            $c->monto = $MONTO - $MONTO2;
-        }
-
-        $this->ops = $carteras->sum('monto');
-    }
 
     //Obtener el Id de la Sucursal Donde esta el Usuario
     public function obtenersucursal()

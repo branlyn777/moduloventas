@@ -24,7 +24,7 @@
 @endsection
 
 
-<div class="">
+<div>
     <div class="row">
         <div class="col-12 text-left text-white">
             <p class="h5 text-white"><b>Cajas Disponibles En Tu Sucursal</b></p>
