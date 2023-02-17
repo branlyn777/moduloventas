@@ -47,7 +47,6 @@ class DestinoProductoController extends Component
     }
     public function mount()
     {
-        $this->search = "0000000";
         $this->selected_id = 'General';
         $this->componentName = 'crear';
         $this->title = 'ssss';
