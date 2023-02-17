@@ -224,6 +224,9 @@
             window.livewire.on('show-modal-lotecosto', msg => {
                 $('#lotecosto').modal('show')
             });
+            window.livewire.on('hide-modal-lotecosto', msg => {
+                $('#lotecosto').modal('hide')
+            });
 
         });
 
