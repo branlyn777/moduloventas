@@ -199,8 +199,7 @@ class IngresoEgresoController extends Component
                             ->get();
                 
                             $this->sumaTotal=$this->data->sum('import');
-                    
-    
+
                     }
                 }
                 else
