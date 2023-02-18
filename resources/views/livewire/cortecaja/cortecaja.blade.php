@@ -47,7 +47,7 @@
                 {{-- Botones de Cerrar y Ajustar --}}
 
 
-                {{-- <div class="col-12 col-md-2">
+                <div class="col-12 col-md-2">
                     <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
                     <button wire:click.prevent="cerrartodo()" class="btn btn-primary form-control">
                         Cerrar Todo
@@ -58,7 +58,7 @@
                     <button wire:click.prevent="ajustarcarteras()" class="btn btn-primary form-control">
                         Ajustar
                     </button>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
