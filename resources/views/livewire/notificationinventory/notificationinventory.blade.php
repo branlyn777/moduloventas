@@ -36,14 +36,69 @@
 
             <div class="card mb-4">
                 <div class="card-body">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <h6>Mostrar las notificaciones</h6>
+                                <select wire:model='selected_id' class="form-select">
+                                    <option value="todas">Todas las notificaciones</option>
+                                    <option value="leidos">Leidos</option>
+                                    <option value="no_leidos">Sin Leer</option>
+                                 
+                                </select>
+
+                            </div>
                     
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
+                    <table class="table align-items-between">
+                    
+                            <thead>
+                                <th>
+                                    N°
+                                </th>
+                                <th>
+                                    Notificacion
+                                </th>
+                                <th>
+                                    Fecha
+                                </th>
+                                <th>
+                                    Acc.
+                                </th>
+                            </thead>
+
+                            <tbody>
+                                @foreach (auth()->user()->unreadNotifications as $item)
+                                    
+                                <tr>
+
+                                    <td>
+                                        {{$loop->iteration+1}}
+                                    </td>
+                                    <td>
+                                      El producto {{$item->data['nombre']}} esta sin stock, revise sus almacenes para poder abastecerse.
+                                    </td>
+                                    <td>
+                                        {{ $item->created_at->diffForHumans() }}
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-success" type="button">
+                                            Marcar como leido
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+              
                     </div>
                 </div>
             </div>
