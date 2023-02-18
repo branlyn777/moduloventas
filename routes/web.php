@@ -47,6 +47,7 @@ use App\Http\Livewire\PosController;
 use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\NivelInventariosController;
+use App\Http\Livewire\NotificationInventoryController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporGananciaTgController;
@@ -189,5 +190,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('productos/export/', [ProductsController::class, 'export']);
         Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
 
-    Route::get('chart', [ChartJSController::class, 'index']);
+        Route::get('chart', [ChartJSController::class, 'index']);
+        Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
 });

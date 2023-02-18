@@ -491,6 +491,15 @@
                     <span class="sidenav-normal ms-1">Categorias </span>
                 </a>
             </li>
+            
+            <li class=@yield('notificationli', 'nav-item ')>
+                <a class=@yield('notificationnav', 'nav-link ') href="{{ url('notificaciones') }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="fa-sharp fa-solid fa-bell text-dark text-sm"></i>
+                    </div>
+                    <span class="sidenav-normal ms-1">Notificaciones</span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="sidenav-footer mx-3 my-3">
