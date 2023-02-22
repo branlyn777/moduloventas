@@ -30,6 +30,7 @@ use App\Http\Controllers\ExportMovDiaSesionController;
 use App\Http\Controllers\ExportMovimientoController;
 use App\Http\Controllers\ExportTigoPdfController;
 use App\Http\Livewire\ArqueosTigoController;
+use App\Http\Livewire\CatProdServiceController;
 use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\ComisionesController;
 use App\Http\Livewire\CotizationController;
@@ -192,4 +193,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('chart', [ChartJSController::class, 'index']);
         Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
+
+
+
+
+
+        /* SERVICIOS */
+    Route::get('catprodservice', CatProdServiceController::class)->name('cps')->middleware('permission:Cat_Prod_Service_Index');
 });
