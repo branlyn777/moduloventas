@@ -186,14 +186,74 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#servicios" class=@yield('userscollapse', 'nav-link collapse') aria-controls="servicios"
-                    role="button" aria-expanded=@yield('userarrow', 'false')>
+                <a data-bs-toggle="collapse" href="#servicios" class=@yield('userscollapse', 'nav-link collapse')
+                    aria-controls="servicios" role="button" aria-expanded=@yield('userarrow', 'false')>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Servicios</span>
                 </a>
-                
+                <div class=@yield('tigoshow','collapse ') id="servicios" style="">
+                    <ul class="nav ms-4">
+                        <li class=@yield('nuevali', 'nav-item ')>
+                            <a class=@yield('nuevanav', 'nav-link ') href="{{ url('tigomoney') }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal">Nueva Transacción</span>
+                            </a>
+                        </li>
+                        <li class=@yield('origenli', 'nav-item ')>
+                            <a class=@yield('origenav', 'nav-link ') href="{{ url('origenes') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen</span>
+                            </a>
+                        </li>
+                        <li class=@yield('motivoli', 'nav-item ')>
+                            <a class=@yield('motivonav', 'nav-link ') href="{{ url('motivos') }}">
+                                <span class="sidenav-mini-icon"> M </span>
+                                <span class="sidenav-normal"> Motivo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('comisionli', 'nav-item ')>
+                            <a class=@yield('comisionav', 'nav-link ') href="{{ url('comisiones') }}">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal"> Comisión </span>
+                            </a>
+                        </li>
+                      
+
+                        <li class=@yield('origenmotivoli', 'nav-item ')>
+                            <a class=@yield('origenmotnav', 'nav-link ') href="{{ url('origen-motivo') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen Motivo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('origenmotcomli', 'nav-item ')>
+                            <a class=@yield('origenmotcomnav', 'nav-link ') href="{{ url('origen-motivo-comision') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Origen Motivo Comisiones </span>
+                            </a>
+                        </li>
+                        <li class=@yield('reportejornadali', 'nav-item ')>
+                            <a class=@yield('reportejornadatenav', 'nav-link ') href="{{ url('ReporteJornalTM') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte Jornada T.M. </span>
+                            </a>
+                        </li>
+                        <li class=@yield('arquetigoli', 'nav-item ')>
+                            <a class=@yield('arqueonav', 'nav-link ') href="{{ url('arqueostigo') }}">
+                                <span class="sidenav-mini-icon"> A </span>
+                                <span class="sidenav-normal"> Arqueos Tigo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('reportetigoli', 'nav-item ')>
+                            <a class=@yield('reportetigonav', 'nav-link ') href="{{ url('reportestigo') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reportes Tigo </span>
+                            </a>
+                        </li>
+         
+                    </ul>
+                </div>
             </li>
 
 
