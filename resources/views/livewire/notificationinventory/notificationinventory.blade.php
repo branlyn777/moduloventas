@@ -41,67 +41,73 @@
                             <div class="col-md-6">
 
                                 <h6>Mostrar las notificaciones</h6>
-                                <select wire:model='selected_id' class="form-select">
+                                <select wire:model='selected_type' class="form-select">
                                     <option value="todas">Todas las notificaciones</option>
                                     <option value="leidos">Leidos</option>
                                     <option value="no_leidos">Sin Leer</option>
-                                 
+
                                 </select>
 
                             </div>
-                    
+
                         </div>
                     </div>
                 </div>
             </div>
 
 
-            <div class="card mb-4">
-                <div class="card-body px-0 pt-0 pb-2">
-                    <table class="table align-items-between">
-                    
-                            <thead>
-                                <th>
-                                    N°
-                                </th>
-                                <th>
-                                    Notificacion
-                                </th>
-                                <th>
-                                    Fecha
-                                </th>
-                                <th>
-                                    Acc.
-                                </th>
-                            </thead>
 
-                            <tbody>
-                                @foreach (auth()->user()->unreadNotifications as $item)
-                                    
-                                <tr>
+            @foreach ($data as $item)
+                <div class="card my-3 py-2">
 
-                                    <td>
-                                        {{$loop->iteration+1}}
-                                    </td>
-                                    <td>
-                                      El producto {{$item->data['nombre']}} esta sin stock, revise sus almacenes para poder abastecerse.
-                                    </td>
-                                    <td>
-                                        {{ $item->created_at->diffForHumans() }}
-                                    </td>
+                    <div class="d-flex">
+                        <div class="p-2">
+                            {{-- <i class="fa-regular fa-square-check" style="font-size: 30px"></i> --}}
+                            <i class="fa-solid fa-bullhorn" style="font-size: 25px"></i>
+                        </div>
+                        <div class="p-2">
 
-                                    <td>
-                                        <button class="btn btn-success" type="button">
-                                            Marcar como leido
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-              
+                            <h5 style="font-size: 14px">Nivel bajo de stock detectado en tus inventarios
+                                ({{ $item->created_at->diffForHumans() }})</h5>
+                            <h5 style="font-size: 10px">{{ $item->data['nombre'] }}</h5>
+
+
+
+                        </div>
+
+                        <div class=" ms-auto p-2">
+
+                            <button class="btn btn-secondary btn-sm p-2" type="button"
+                                wire:click="mostrarNotificacion('{{ $item->id }}')">
+                                Ver Mas
+                            </button>
+
+                        </div>
                     </div>
+
+
                 </div>
+            @endforeach
+            <div>
+                {{ $data->links() }}
             </div>
+
         </div>
     </div>
+    @include('livewire.notificationinventory.mostrarNotificacion')
 </div>
+
+@section('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+      
+            window.livewire.on('verNotificacion', msg => {
+                $('#verNoti').modal('show')
+            });});
+
+    </script>
+
+    
+@endsection
+
+

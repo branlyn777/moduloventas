@@ -31,7 +31,7 @@ class ProductObserver
      */
     public function updated(ProductosDestino $productosDestino)
     {
-        $stockTotal=ProductosDestino::where('product_id',$productosDestino->product_id)->sum('stock');
+        $stockTotal=ProductosDestino::where('product_id',$productosDestino->product_id)->where('destino_id',$productosDestino->destino_id)->sum('stock');
        $perm_destinos=Destino::where('id',$productosDestino->destino_id)->pluck('codigo_almacen');
 
         $users=User::permission($perm_destinos)->get(); 

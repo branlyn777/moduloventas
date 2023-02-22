@@ -46,6 +46,7 @@
 
 
 
+            
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
 
                         @forelse (auth()->user()->unreadNotifications->take(5) as $value)
@@ -77,9 +78,16 @@
                         @empty
                             <p class="text-sm text-secondary m-1">No tiene notificaciones</p>
                         @endforelse
+                            <hr style="height: 2px; background-color: rgb(49, 8, 197)" >
+                            <div class="row justify-content-center">
+
+                                <u>  <a class="text-center text-danger" href="notificaciones">Ir Notificaciones</a></u>
+                            </div>
+                      
 
                     </ul>
-
+    
+          
 
                 </li>
                 {{-- <li class="nav-item px-2 d-flex align-items-center">
