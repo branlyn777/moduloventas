@@ -16,7 +16,7 @@ class RoleHasPermissionSeeder extends Seeder
      */
     public function run()
     {
-        for ($x = 1; $x <= 35; $x++) {  
+        for ($x = 1; $x <= 45; $x++) {  
             /* TODOS LOS PERMISOS PARA EL ROL ADMINISTRADOR */
             RoleHasPermissions::create([
                 'permission_id' => $x,
