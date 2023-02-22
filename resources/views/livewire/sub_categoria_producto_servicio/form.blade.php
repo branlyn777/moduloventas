@@ -1,10 +1,10 @@
 @include('common.modalHead')
 <div class="row">
     
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-12">
         <div class="form-group">
-            <label><h6>Categoría equipo servicio</h6></label>
-            <select wire:model.lazy="categoryid" class="form-control">
+            <label>Categoría equipo servicio</label>
+            <select wire:model.lazy="categoryid" class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
               
                     @foreach ($cate as $cat)
@@ -12,15 +12,15 @@
                     @endforeach
               
             </select>
-            @error('categoryid') <span class="text-danger er">{{ $message }}</span>@enderror
+            @error('categoryid')<p class="text-sm text-danger">{{ $message }}</p>@enderror
         </div>
     </div>
-    <div class="col-sm-12 col-md-5">
+    <div class="col-sm-12 col-md-12">
         <div class="form-group">
             <label><h6>Nombre</h6></label>
             <input type="text" wire:model.lazy="name" class="form-control" placeholder="ej: LG,Samsung,..."
             maxlenght="25">
-            @error('name') <span class="text-danger er">{{ $message }}</span>@enderror
+            @error('name') <p class="text-sm text-danger">{{ $message }}</p> @enderror
         </div>
     </div>
     {{-- <div class="col-sm-12 col-md-6">
@@ -32,15 +32,15 @@
         </div>
     </div> --}}
 
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 col-md-12">
         <div class="form-group">
             <label><h6>Estado</h6></label>
-            <select wire:model.lazy="status" class="form-control">
+            <select wire:model.lazy="status" class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="ACTIVE">Activo</option>
                 <option value="INACTIVE">Inactivo</option>
             </select>
-            @error('status') <span class="text-danger er">{{ $message }}</span>@enderror
+            @error('status')<p class="text-sm text-danger">{{ $message }}</p>@enderror
         </div>
     </div>
         
