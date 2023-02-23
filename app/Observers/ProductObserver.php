@@ -41,7 +41,7 @@ class ProductObserver
             //$admin = User::where('role', 1)->first();
 
 
-            Notification::send($users, new StockNotification($productosDestino->product_id));
+            Notification::send($users, new StockNotification($productosDestino->id));
 
        }
     }

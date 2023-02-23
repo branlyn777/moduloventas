@@ -66,12 +66,13 @@
                             <i class="fa-solid fa-bullhorn" style="font-size: 25px"></i>
                         </div>
                         <div class="p-2">
+                            <blockquote class="blockquote text-danger mb-0 ps-1">
+                                <h5 style="font-size: 14px">Nivel bajo de stock detectado en tus inventarios
+                                    ({{ $item->created_at->diffForHumans() }})
+                                </h5>
+                                <h5 style="font-size: 10px">{{ $item->data['nombre'] }}</h5>
 
-                            <h5 style="font-size: 14px">Nivel bajo de stock detectado en tus inventarios
-                                ({{ $item->created_at->diffForHumans() }})</h5>
-                            <h5 style="font-size: 10px">{{ $item->data['nombre'] }}</h5>
-
-
+                            </blockquote>
 
                         </div>
 
@@ -100,14 +101,10 @@
 @section('javascript')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-      
+
             window.livewire.on('verNotificacion', msg => {
                 $('#verNoti').modal('show')
-            });});
-
+            });
+        });
     </script>
-
-    
 @endsection
-
-

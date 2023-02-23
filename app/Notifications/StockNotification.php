@@ -2,7 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Models\Destino;
 use App\Models\Product;
+use App\Models\ProductosDestino;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -17,9 +19,10 @@ class StockNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($productosdest)
     {
-        $this->product =Product::find($product);
+        $this->product =ProductosDestino::find($productosdest);
+   
     }
     
     /**
@@ -55,9 +58,14 @@ class StockNotification extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
+        $producto=Product::find($this->product->product_id);
+        $destino=Destino::find($this->product->destino_id)->nombre;
+   
         return [
-            'nombre' => $this->product->nombre,
-            'cantidad' => $this->product->stock,
+            'nombre' =>$producto->nombre,
+            'codigo'=>$producto->codigo,
+            'almacen'=>$destino
+          
         ];   
     }
 }

@@ -9,7 +9,7 @@ class NotificationInventoryController extends Component
 {
     use WithPagination;
     public $selected_type;
-    public $pagination;
+    public $pagination,$dataitem;
 
     public function mount(){
         $this->pagination=5;
@@ -54,6 +54,9 @@ class NotificationInventoryController extends Component
         if($notification) {
             $notification->markAsRead();
         }
+
+        $this->dataitem=$notification->data;
+      
 
         $this->emit('verNotificacion');
 
