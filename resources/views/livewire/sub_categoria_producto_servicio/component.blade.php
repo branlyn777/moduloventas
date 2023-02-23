@@ -1,69 +1,95 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h4 class="card-title">
-                    <b>{{ $componentName }} | {{ $pageTitle }}</b>
-                </h4>
-                <ul class="tabs tab-pills">
-
-                    <a href="javascript:void(0)" class="btn btn-warning" wire:click="$emit('show-modal')">AGREGAR</a>
-
-                </ul>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">{{ $componentName }} | {{ $pageTitle }}</h5>
+                    </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <button wire:click="$emit('show-modal')" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theModal">
+                                <i class="fas fa-plus me-2"></i> AGREGAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            @include('common.searchbox')
 
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-hover table table-bordered table-bordered-bd-warning mt-4">
-                        <thead class="text-white" style="background: #ee761c">
-                            <tr>
-                                <th class="table-th text-withe text-center">NOMBRE</th>
-                                <th class="table-th text-withe text-center">CATEGORÍA</th>
-                                {{-- <th class="table-th text-withe text-center">PRECIO</th> --}}
-                                <th class="table-th text-withe text-center">ESTADO</th>
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                <h6>Buscar</h6>
+                                @include('common.searchbox')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <br>
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-left mb-0">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->name }}</h6>
-                                    </td>
-
-                                    {{-- <td>
-                                        <h6 class="text-center">{{ $item->price }}</h6>
-                                    </td> --}}
-
-                                    <td>
-                                        <h6 class="text-center">{{ $item->categoria}}</h6>
-                                    </td>
-
-                                    <td>
-                                        <h6 class="text-center">{{ $item->status == 'ACTIVE' ? 'ACTIVO' : 'DESACTIVADO' }}</h6>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                            class="btn btn-warning mtmobile" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" onclick="Confirm('{{ $item->id }}','{{ $item->name }}')" class="btn btn-warning" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
+                                    <th class="text-uppercase text-sm ps-2 text-center">NOMBRE</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">CATEGORÍA</th>
+                                    {{-- <th class="table-th text-withe text-center">PRECIO</th> --}}
+                                    <th class="text-uppercase text-sm ps-2 text-center">ESTADO</th>
+                                    <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td class="align-middle text-center text-sm">
+                                            <h6 class="text-center">{{ $item->name }}</h6>
+                                        </td>
+
+                                        {{-- <td>
+                                            <h6 class="text-center">{{ $item->price }}</h6>
+                                        </td> --}}
+
+                                        <td class="align-middle text-center text-sm">
+                                            <h6 class="text-center">{{ $item->categoria }}</h6>
+                                        </td>
+
+                                        <td class="align-middle text-center text-sm">
+                                            <h6 class="text-center">
+                                                {{ $item->status == 'ACTIVE' ? 'ACTIVO' : 'DESACTIVADO' }}</h6>
+                                        </td>
+
+                                        <td class="align-middle text-center text-sm">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
+                                                class="btn btn-add mb-0" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="javascript:void(0)"
+                                                onclick="Confirm('{{ $item->id }}','{{ $item->name }}')"
+                                                class="btn btn-add mb-0" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $data->links() }}
+                    </div>
                 </div>
             </div>
         </div>
+        @include('livewire.sub_categoria_producto_servicio.form')
     </div>
-    @include('livewire.sub_categoria_producto_servicio.form')
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -87,8 +113,8 @@
         });
     });
 
-    function Confirm(id, name ) {
-        
+    function Confirm(id, name) {
+
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',

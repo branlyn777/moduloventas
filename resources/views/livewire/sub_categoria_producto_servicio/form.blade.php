@@ -1,9 +1,9 @@
 @include('common.modalHead')
 <div class="row">
     
-    <div class="col-sm-12 col-md-12">
+    <div class="col-12 col-sm-6 col-md-12">
         <div class="form-group">
-            <label>Categoría equipo servicio</label>
+            <label>Categoría equipo servicio </label>
             <select wire:model.lazy="categoryid" class="form-select">
                 <option value="Elegir" disabled selected>Elegir</option>
               
@@ -15,9 +15,9 @@
             @error('categoryid')<p class="text-sm text-danger">{{ $message }}</p>@enderror
         </div>
     </div>
-    <div class="col-sm-12 col-md-12">
+    <div class="col-sm-12 mt-3">
         <div class="form-group">
-            <label><h6>Nombre</h6></label>
+            <label><span class="text-warning">* </span>Nombre</label>
             <input type="text" wire:model.lazy="name" class="form-control" placeholder="ej: LG,Samsung,..."
             maxlenght="25">
             @error('name') <p class="text-sm text-danger">{{ $message }}</p> @enderror
@@ -34,7 +34,7 @@
 
     <div class="col-sm-12 col-md-12">
         <div class="form-group">
-            <label><h6>Estado</h6></label>
+            <label>Estado</label>
             <select wire:model.lazy="status" class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="ACTIVE">Activo</option>

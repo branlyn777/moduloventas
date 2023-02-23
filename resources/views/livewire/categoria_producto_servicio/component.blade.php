@@ -1,33 +1,31 @@
 <div>
     <div class="row">
         <div class="col-12">
-            <div class="d-lg-flex">
-                <div>
-                    <h5 class="text-white" style="font-size: 16px">{{ $componentName }} | {{ $pageTitle }}</h5>
-                </div>
-                <div class="ms-auto my-auto mt-lg-0 mt-4">
-                    <div class="ms-auto my-auto">
-                        <button wire:click="$emit('show-modal')" class="btn btn-add mb-0" data-toggle="modal"
-                            data-target="#theModal">AGREGAR</button>
+            <div class="card-header pt-0 mb-4">
+                <div class="d-lg-flex">
+                    <div>
+                        <h5 class="text-white" style="font-size: 16px">{{ $componentName }} | {{ $pageTitle }}</h5>
+                    </div>
+                    <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto">
+                            <button wire:click="$emit('show-modal')" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theModal"> <i class="fas fa-plus me-2"></i> Agregar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="card">
+
+
+            <div class="card mb-4">
                 <div class="card-body">
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-3">
-                            <h6>Buscar</h6>
                             <div class="form-group">
-                                <div class="input-group mb-4">
-                                    @include('common.searchbox')
-                                </div>
-
+                                <h6>Buscar</h6>
+                                @include('common.searchbox')
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
             <br>
@@ -76,7 +74,6 @@
                     </div>
                 </div>
             </div>
-
 
         </div>
 

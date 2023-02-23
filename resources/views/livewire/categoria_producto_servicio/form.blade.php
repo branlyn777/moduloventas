@@ -1,11 +1,9 @@
 @include('common.modalHead')
 <div class="row">
     <div class="col-12 col-sm-6 col-md-12">
-        <div class="input-group">
+        <div class="form-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <span class="fas fa-edit"></span>
-                </span>
+                <label><span class="text-warning">* </span>Nombre </label>
             </div>
             <input type="text" wire:model.lazy="nombre" class="form-control" placeholder="ej: TV,PORTATIL,CELULAR">
         </div>
@@ -13,7 +11,7 @@
     </div>
     <div class="col-sm-12 mt-3">
         <div class="form-group">
-            <label><h6>Estado</h6></label>
+            <label>Estado</label>
             <select wire:model.lazy="estado" class="form-control">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="ACTIVO">Activo</option>

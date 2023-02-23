@@ -23,6 +23,8 @@ class CatProdServiceController extends Component
         $this->componentName = 'CATEGORÍAS DE EQUIPOS EN EL SERVICIO';
         $this->estado = 'Elegir';
         $this->selected_id = 0;
+
+        
     }
 
     public function paginationView()
