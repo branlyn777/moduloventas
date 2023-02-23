@@ -659,6 +659,13 @@
                                     </p>
                                 </a>
 
+                                <button wire:click.prevent="showmodalcotization()" type="button"
+                                    class="btn btn-warning">
+                                    <p class="text-sm mb-0">
+                                        COTIZACION
+                                    </p>
+                                </button>
+
                                 <button wire:click.prevent="modalfinalizarventa()" type="button"
                                     class="btn btn-success">
                                     <p class="text-sm mb-0">
@@ -682,6 +689,7 @@
         @include('livewire.pos.modal.modal_stock_insuficiente')
         @include('livewire.pos.modal.modallotesproducto')
         @include('livewire.pos.modal.modal_ingreso_egreso')
+        @include('livewire.pos.modal.modal_cotization')
 
 
         @if ($descuento_recargo >= 0)
@@ -744,9 +752,17 @@
             window.livewire.on('show-stockinsuficiente', Msg => {
                 $("#stockinsuficiente").modal("show");
             });
+            // Mètodo JavaScript para ocultar al modal para mostrar mensaje de stock insuficiente
+            window.livewire.on('hide-stockinsuficiente', Msg => {
+                $("#stockinsuficiente").modal("hide");
+            });
             //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
             window.livewire.on('show-modallotesproducto', Msg => {
                 $("#modallotesproducto").modal("show");
+            });
+            //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
+            window.livewire.on('show-modalcotization', Msg => {
+                $("#modalcotization").modal("show");
             });
             //Mostrar Toast cuando un producto se incrementa en el Carrito de Ventas
             window.livewire.on('increase-ok', msg => {
