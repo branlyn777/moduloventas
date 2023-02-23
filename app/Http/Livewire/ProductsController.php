@@ -113,14 +113,48 @@ class ProductsController extends Component
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
         ->select('products.*')
         ->where('products.status', $this->estados==true?'ACTIVO':'INACTIVO')
-        ->when($this->search != null,function ($query) {
+        ->when($this->search != null and empty($this->searchData),function ($query) {
             $query->where('products.nombre', 'like', '%' . $this->search . '%')
                 ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
                 ->orWhere('products.marca', 'like', '%' . $this->search . '%')
-                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
-                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
-                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%');
             })
+        
+            ->when($this->search != null and !empty($this->searchData), function ($query) {
+             $auxi=$query;
+           
+                foreach ($this->searchData as $data) {
+                   $auxi= $auxi->where('products.nombre', 'like', '%' . $data . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $data . '%')
+                    ->orWhere('products.marca', 'like', '%' . $data . '%')
+                    ->orWhere('products.caracteristicas', 'like', '%' . $data . '%');
+                }
+
+                $auxi->where('products.nombre', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%');
+
+
+            
+        
+            })
+            ->when(!empty($this->searchData), function ($query) {
+  
+                $auxi=$query;
+           
+                foreach ($this->searchData as $data) {
+                   $ultimo= $auxi->where('products.nombre', 'like', '%' . $data . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $data . '%')
+                    ->orWhere('products.marca', 'like', '%' . $data . '%')
+                    ->orWhere('products.caracteristicas', 'like', '%' . $data . '%');
+
+                    $auxi=$ultimo;
+                }
+                return $auxi;
+        
+            })
+     
         ->when($this->selected_categoria!=null and $this->selected_sub == null ,function($query){
                 $query->where('c.id', $this->selected_categoria)
                         ->where('c.categoria_padre',0);
@@ -138,24 +172,20 @@ class ProductsController extends Component
         $ss = Category::select('categories.*')
         ->get();
 
-        if (count($this->searchData) > 0) {
-            //dd($this->searchData);
-            foreach ($this->searchData as $data) {
-                $this->data2 = $data;
-                $prod = $prod->where(function ($querys) {
-                    $querys->where('products.nombre', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('products.codigo', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('c.name', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('products.marca', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('products.caracteristicas', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('products.costo', 'like', '%' . $this->data2 . '%')
-                        ->orWhere('products.precio_venta', 'like', '%' . $this->data2 . '%');
-                })
-
-
-                    ->orderBy('products.created_at', 'desc');
-            }
-        }
+        // if (count($this->searchData) > 0) {
+ 
+        //     foreach ($this->searchData as $data) {
+        //         $this->data2 = $data;
+        //         $prod = $prod->where(function ($querys) {
+        //             $querys->where('products.nombre', 'like', '%' . $this->data2 . '%')
+        //                 ->orWhere('products.codigo', 'like', '%' . $this->data2 . '%')
+        //                 ->orWhere('products.marca', 'like', '%' . $this->data2 . '%')
+        //                 ->orWhere('products.caracteristicas', 'like', '%' . $this->data2 . '%');
+          
+                     
+        //         })->orderBy('products.created_at', 'desc');
+        //     }
+        // }
 
         $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
         ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
@@ -467,8 +497,8 @@ class ProductsController extends Component
     public function overrideFilter()
     {
         array_push($this->searchData, $this->search);
+        $this->search=null;
 
-        //dd($this->searchData);
     }
 
     public function outSearchData($value)

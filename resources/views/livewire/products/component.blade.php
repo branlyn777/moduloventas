@@ -76,15 +76,16 @@
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         <input type="text" wire:model="search"
-                                            placeholder="nombre de producto, codigo" class="form-control">
+                                            placeholder="nombre de producto, codigo"
+                                            wire:keydown.enter="overrideFilter()" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-2">
 
                                     @forelse ($searchData as $key=>$value)
-                                        <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{ $value }}
-                                            <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0"
-                                                wire:click="outSearchData('{{ $value }}')"></button></span>
+                                        <span class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
+                                            <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
+                                                wire:click="outSearchData('{{ $value }}')"><i class=" fas fa-times"></i></button></span>
 
                                     @empty
                                         <p></p>
@@ -129,7 +130,7 @@
                                     </select>
                                     <button class="btn btn-primary" wire:click="resetCategorias()">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
-                              
+
                                     </button>
                                 </div>
                             </div>
@@ -146,7 +147,7 @@
                                     </select>
                                     <button wire:click="resetSubcategorias()" class="btn btn-primary">
                                         <i class="fa-sharp fa-solid fa-xmark"></i>
-                       
+
                                     </button>
                                     </tbody>
                                 </div>
@@ -301,7 +302,7 @@
             </div>
         </div>
     </div>
-    <div class="table-5">
+    <div>
 
         {{ $data->links() }}
     </div>

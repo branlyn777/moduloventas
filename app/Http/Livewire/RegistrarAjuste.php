@@ -367,7 +367,7 @@ class RegistrarAjuste extends Component
                     'user_id' => Auth()->user()->id,
                     'observacion' => $this->observacion
                 ]);
-                // dd($auxi2->pluck('stock')[0]);
+        
  
                 foreach ($this->col as $datas) {
 
@@ -381,6 +381,7 @@ class RegistrarAjuste extends Component
                     ]);
 
                     if ($datas['recuento'] > $datas['stockactual']) {
+                      
 
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
 
@@ -440,11 +441,12 @@ class RegistrarAjuste extends Component
                         }
 
 
-                        $q = ProductosDestino::where('product_id', $datas['product_id'])
-                            ->where('destino_id', $this->destino)->value('stock');
-
-                        ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
+                    
                     }
+                    $q = ProductosDestino::where('product_id', $datas['product_id'])
+                    ->where('destino_id', $this->destino)->value('stock');
+
+                ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
                 }
 
                 DB::commit();
@@ -565,6 +567,8 @@ class RegistrarAjuste extends Component
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
         $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
+        $ultimo_lote=Lote::latest()->where('product_id',$product->id)->get()->isEmpty()==true?0:Lote::latest()->where('product_id',$product->id)->get();
+   
 
         $this->col->pull($item->keys()->first());
         $this->col->push([
@@ -573,8 +577,8 @@ class RegistrarAjuste extends Component
             'product_codigo' => $product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
-            'costo' => $data_lote->count()==0?0:$data_lote->first()->costo,
-            'pv_lote' =>$data_lote->count()==0?0:$data_lote->first()->pv_lote
+            'costo' => $data_lote->count()==0?$ultimo_lote->first()->costo:$data_lote->first()->costo,
+            'pv_lote' =>$data_lote->count()==0?$ultimo_lote->first()->pv_lote:$data_lote->first()->pv_lote
 
         ]);
     }
