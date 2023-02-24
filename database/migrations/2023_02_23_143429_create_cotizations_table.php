@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCotizacionsTable extends Migration
+class CreateCotizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,24 @@ class CreateCotizacionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cotizacions', function (Blueprint $table) {
+        Schema::create('cotizations', function (Blueprint $table) {
             $table->id();
+            $table->decimal('total',10,2);
+            $table->integer('items');
+            $table->string('observation',500)->default('Ninguna');
+            $table->datetime('finaldate');
+            $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
+
+            
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->references('id')->on('clientes');
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id')->on('clientes');
-
             $table->unsignedBigInteger('sucursal_id');
             $table->foreign('sucursal_id')->references('id')->on('sucursals');
-
-            $table->string('observacion', 500)->default('Ninguna');
-
-            $table->integer('items');
-
+            
             $table->timestamps();
         });
     }
@@ -40,6 +42,6 @@ class CreateCotizacionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cotizacions');
+        Schema::dropIfExists('cotizations');
     }
 }

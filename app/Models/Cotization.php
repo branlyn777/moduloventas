@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cotizacion extends Model
+class Cotization extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'cliente_id', 'sucursal_id', 'observacion'];
+    protected $fillable = ['total','items','observation','finaldate','status','cliente_id','user_id','sucursal_id'];
 }
