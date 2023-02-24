@@ -13,21 +13,15 @@ class UnidadesController extends Component
     use WithPagination;
     use WithFileUploads;
 
-
-
-    //UNIDADES
-
-
-
     public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 20;
 
 
     //MARCAS
 
     public $search_marca, $nombre_marca, $selected_id_marca;
-    private $pagination_marca = 5;
+    private $pagination_marca = 20;
 
     public function paginationView()
     {

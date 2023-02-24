@@ -81,15 +81,26 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-2">
+                                    @if (!empty($searchData))
+                                        
+                                    <div class="border border-primary rounded-1 m-1">
 
-                                    @forelse ($searchData as $key=>$value)
-                                        <span class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
-                                            <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
-                                                wire:click="outSearchData('{{ $value }}')"><i class=" fas fa-times"></i></button></span>
+                                        <div class="overflow-auto rounded-1 m-1" style="max-width: auto; max-height: 5rem;">
+                                            
+                                            @forelse ($searchData as $key=>$value)
+                                            <span
+                                                class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
+                                                <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
+                                                    wire:click="outSearchData('{{ $value }}')"><i
+                                                        class=" fas fa-times"></i></button></span>
 
-                                    @empty
-                                        <p></p>
-                                    @endforelse
+                                        @empty
+                                            <p></p>
+                                        @endforelse
+                                          </div>
+                                    </div>
+                                    @endif
+
                                 </div>
                             </div>
 
@@ -226,12 +237,10 @@
                                                             <label
                                                                 style="font-size: 14px">{{ $products->nombre }}</label>
 
-
-                                                            {{ $products->caracteristicas }}
-
-
-                                                            <p>{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
-                                                                {{ $products->caracteristicas }}</p>
+                                                            <p class="text-sm">
+                                                                {{ $products->caracteristicas ?? 'sin descipcion' }}
+                                                                <br>{{ $products->unidad ?? 'sin unidad' }}|{{ $products->marca ?? 'sin marca' }}|{{ $products->industria }}
+                                                            </p>
 
                                                         </div>
                                                     </div>

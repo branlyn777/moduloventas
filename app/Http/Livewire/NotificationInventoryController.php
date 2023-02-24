@@ -12,7 +12,7 @@ class NotificationInventoryController extends Component
     public $pagination,$dataitem;
 
     public function mount(){
-        $this->pagination=5;
+        $this->pagination=20;
         $this->selected_type='no_leidos';
     }
 

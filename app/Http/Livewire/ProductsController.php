@@ -28,7 +28,7 @@ class ProductsController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion,$deno,
+    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $deno,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -61,7 +61,6 @@ class ProductsController extends Component
         $this->imagen = 'noimagenproduct.png';
         $this->stockswitch = false;
         $this->cantidad = 1;
-
     }
 
 
@@ -121,35 +120,29 @@ class ProductsController extends Component
                     ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%');
             })
 
-            ->when($this->search != null and !empty($this->searchData), function ($query) {
-           
-                $deno=$query;
-            
-                    foreach ($this->searchData as $data) {
-                    
-                        $deno= $deno->where(function($ques) use($data){
-                            $ques->where('products.nombre', 'like', '%' . $data . '%')
+            ->when($this->search != null or !empty($this->searchData), function ($query) {
+
+                $deno = $query;
+
+                foreach ($this->searchData as $data) {
+
+                    $deno = $deno->where(function ($ques) use ($data) {
+                        $ques->where('products.nombre', 'like', '%' . $data . '%')
                             ->orWhere('products.codigo', 'like', '%' . $data . '%')
                             ->orWhere('products.marca', 'like', '%' . $data . '%')
                             ->orWhere('products.caracteristicas', 'like', '%' . $data . '%');
-                        });
-                    
-                 
-                    }
-    
-                    $caramelo=$deno->where(function($bus){
-                     
-                        $bus->where('products.nombre', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.marca', 'like', '%' . $this->search . '%')
-                            ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%');
-                            return $bus;
                     });
-    
-     
-                })
-            
+                }
 
+                $caramelo = $deno->where(function ($bus) {
+
+                    $bus->where('products.nombre', 'like', '%' . $this->search . '%')
+                        ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                        ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                        ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%');
+                    return $bus;
+                });
+            })
             ->when($this->selected_categoria != null and $this->selected_sub == null, function ($query) {
                 $query->where('c.id', $this->selected_categoria)
                     ->where('c.categoria_padre', 0);
@@ -160,35 +153,12 @@ class ProductsController extends Component
             })
 
             ->orderBy('products.created_at', 'desc');
-
-
-
-
         $ss = Category::select('categories.*')
             ->get();
-
-        // if (count($this->searchData) > 0) {
-
-        //     foreach ($this->searchData as $data) {
-        //         $this->data2 = $data;
-        //         $prod = $prod->where(function ($querys) {
-        //             $querys->where('products.nombre', 'like', '%' . $this->data2 . '%')
-        //                 ->orWhere('products.codigo', 'like', '%' . $this->data2 . '%')
-        //                 ->orWhere('products.marca', 'like', '%' . $this->data2 . '%')
-        //                 ->orWhere('products.caracteristicas', 'like', '%' . $this->data2 . '%');
-
-
-        //         })->orderBy('products.created_at', 'desc');
-        //     }
-        // }
 
         $this->destinosp = Destino::join('sucursals as suc', 'suc.id', 'destinos.sucursal_id')
             ->select('suc.name as sucursal', 'destinos.nombre as destino', 'destinos.id as destino_id')
             ->get();
-
-
-
-
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
             'categories' => Category::where('categories.categoria_padre', 0)->orderBy('name', 'asc')->get(),
@@ -254,7 +224,7 @@ class ProductsController extends Component
         try {
 
             $product = Product::create([
-                'nombre' => $this->nombre,
+                'nombre' => strtoupper($this->nombre),
                 'caracteristicas' => $this->caracteristicas,
                 'codigo' => $this->codigo,
                 'lote' => $this->lote,
@@ -378,7 +348,7 @@ class ProductsController extends Component
         $this->validate($rules, $messages);
         $product = Product::find($this->selected_id);
         $product->update([
-            'nombre' => $this->nombre,
+            'nombre' => strtoupper($this->nombre),
             'costo' => $this->costo,
             'caracteristicas' => $this->caracteristicas,
             'codigo' => $this->codigo,
@@ -482,7 +452,10 @@ class ProductsController extends Component
 
     public function overrideFilter()
     {
-        array_push($this->searchData, $this->search);
+        if (!in_array($this->search, $this->searchData) and $this->search!==null) {
+            
+            array_push($this->searchData, $this->search);
+        }
         $this->search = null;
     }
 
@@ -500,10 +473,6 @@ class ProductsController extends Component
         $this->codigo = Carbon::now()->format('ymd') . mt_rand($min, $max);
     }
 
-    /**
-     * Valida el formulario, crea una nueva categoría, la guarda, restablece el formulario, emite un
-     * mensaje.
-     */
     public function StoreCategory()
     {
 

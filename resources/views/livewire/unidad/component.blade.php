@@ -69,12 +69,6 @@
                     </div>
                 </div>
 
-                {{-- <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            <a href="javascript:void(0)" class="btn btn-add btn-sm mb-0" data-bs-toggle="modal"
-                            data-bs-target="#theModal"><i class="fas fa-plus me-2"></i> Agregar Unidad</a>
-                        </div>
-                    </div>  --}}
 
             </div>
 

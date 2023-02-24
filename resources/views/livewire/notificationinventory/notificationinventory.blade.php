@@ -60,13 +60,15 @@
             @foreach ($data as $item)
                 <div class="card my-3 py-2">
 
+                    @if ($item->read_at !=null)
+                        
                     <div class="d-flex">
                         <div class="p-2">
                             {{-- <i class="fa-regular fa-square-check" style="font-size: 30px"></i> --}}
-                            <i class="fa-solid fa-bullhorn" style="font-size: 25px"></i>
+                            <i class="fa-solid fa-bullhorn text-secondary" style="font-size: 25px"></i>
                         </div>
                         <div class="p-2">
-                            <blockquote class="blockquote text-danger mb-0 ps-1">
+                            <blockquote class="blockquote mb-0 ps-1" style="border-color: rgb(60, 80, 97)">
                                 <h5 style="font-size: 14px">Nivel bajo de stock detectado en tus inventarios
                                     ({{ $item->created_at->diffForHumans() }})
                                 </h5>
@@ -85,6 +87,34 @@
 
                         </div>
                     </div>
+                    @else
+                        
+                    <div class="d-flex">
+                        <div class="p-2">
+                            {{-- <i class="fa-regular fa-square-check" style="font-size: 30px"></i> --}}
+                            <i class="fa-solid fa-bullhorn text-danger" style="font-size: 25px"></i>
+                        </div>
+                        <div class="p-2">
+                            <blockquote class="blockquote mb-0 ps-1" style="border-color: rgb(247, 127, 127)">
+                                <h5 style="font-size: 14px">Nivel bajo de stock detectado en tus inventarios
+                                    ({{ $item->created_at->diffForHumans() }})
+                                </h5>
+                                <h5 style="font-size: 10px">{{ $item->data['nombre'] }}</h5>
+
+                            </blockquote>
+
+                        </div>
+
+                        <div class=" ms-auto p-2">
+
+                            <button class="btn btn-secondary btn-sm p-2" type="button"
+                                wire:click="mostrarNotificacion('{{ $item->id }}')">
+                                Ver Mas
+                            </button>
+
+                        </div>
+                    </div>
+                    @endif
 
 
                 </div>

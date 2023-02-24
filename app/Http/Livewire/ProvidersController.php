@@ -113,9 +113,9 @@ class ProvidersController extends Component
         $this->validate($rules, $messages);
         $uni = Provider::find($this->selected_id);
         $uni->update([
-            'nombre_prov' => $this->nombre_prov,
-            'apellidos' => $this->apellido,
-            'direccion' => $this->direccion,
+            'nombre_prov' => strtoupper($this->nombre_prov),
+            'apellidos' => strtoupper($this->apellido),
+            'direccion' => strtoupper($this->direccion),
             'telefono' => $this->telefono,
             'correo' => $this->correo,
             'nit' => $this->nit,
