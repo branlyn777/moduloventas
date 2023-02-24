@@ -880,7 +880,6 @@
                     'success'
                 )
             });
-
             //Cerrar ventana modal finalizar venta y mostrar mensaje toast de venta realizada con éxito
             window.livewire.on('sale-ok', msg => {
                 $("#modalfinalizarventa").modal("hide");
@@ -897,7 +896,6 @@
                     padding: '2em',
                 })
             });
-
             //Mostrar cualquier tipo de mensaje toast de un OK
             window.livewire.on('mensaje-ok', msg => {
                 const toast = swal.mixin({
@@ -964,16 +962,18 @@
                 // win.focus();
 
             });
-
-
-
-
-
             //Llamando al modal ingreso egreso
             window.livewire.on('show-modalingresoegreso', Msg => {
                 $("#modalingresoegreso").modal("show");
             });
 
+            //Creando un pdf para la cotizacion
+            window.livewire.on('generatepdfcotizacion', Msg => {
+                var a = @this.cotization_id;
+                var win = window.open('pdfcotizacion/' + a);
+                // Cambiar el foco al nuevo tab (punto opcional)
+                win.focus();
+            });
         });
 
 

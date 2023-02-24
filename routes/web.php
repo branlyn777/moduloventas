@@ -25,6 +25,7 @@ use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
+use App\Http\Controllers\ExportCotizationController;
 use App\Http\Controllers\ExportMovDiaResController;
 use App\Http\Controllers\ExportMovDiaSesionController;
 use App\Http\Controllers\ExportMovimientoController;
@@ -163,6 +164,9 @@ Route::middleware(['auth'])->group(function () {
     //Ventas Pdf
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
     Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
+
+    //Cotizacion
+    Route::get('pdfcotizacion/{idcotizacion}', [ExportCotizationController::class, 'PDFCotization']);
 
 
     //INVENTARIOS

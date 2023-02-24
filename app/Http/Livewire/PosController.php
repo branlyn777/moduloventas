@@ -102,6 +102,8 @@ class PosController extends Component
     public $selloutofstock;
     //Cantidad extra a vender de un determinado producto
     public $extraquantity;
+    //Guarda el id de una cotizacion
+    public $cotization_id;
     public $page = 1;
 
 
@@ -1262,10 +1264,7 @@ class PosController extends Component
 
         return Redirect::to('pos');
     }
-
-
     //COTIZACION
-    
     //Show the Modal Cotization
     public function showmodalcotization()
     {
@@ -1296,7 +1295,13 @@ class PosController extends Component
                 'cotization_id' => $cotization->id
             ]);
          }
-         $this->clearcart();
+        Cart::clear();
+        $this->actualizarvalores();
+
+        $this->cotization_id = $cotization->id;
+
+        $this->emit('generatepdfcotizacion');
+
          return Redirect::to('pos');
     }
     //Incrementa cantidades extra al carrito de ventas
