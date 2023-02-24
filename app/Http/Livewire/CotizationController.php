@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Cotization;
 use App\Models\Lote;
 use App\Models\Product;
+use Carbon\Carbon;
 use Darryldecode\Cart\Cart;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CotizationController extends Component
@@ -62,7 +65,35 @@ class CotizationController extends Component
         //Obteniendo el total cantidad
         $this->total_cantidad = $this->totacantidad();
 
+
+
+        $lista_cotizaciones = Cotization::join("clientes as c","c.id","cotizations.cliente_id")
+        ->select("c.nombre as nombrecliente","cotizations.total as totalbs","cotizations.created_at as fechacreacion", DB::raw("0 as diasrestantes"),
+        "cotizations.finaldate as finaldate")
+        ->get();
+
+        foreach ($lista_cotizaciones as $key)
+        {
+            $fechaLimite = Carbon::parse($key->finaldate);
+            if(Carbon::now() > $fechaLimite)
+            {
+                $key->diasrestantes = "Vencido";
+            }
+            else
+            {
+                $key->diasrestantes = $fechaLimite->diffInDays(Carbon::now());
+            }
+
+
+
+            
+        }
+
+
+
+
         return view('livewire.cotizacion.cotization', [
+            'lista_cotizaciones' => $lista_cotizaciones,
             'coti' => $asd,
             'listaproducto' => $listaproducto,
         ])

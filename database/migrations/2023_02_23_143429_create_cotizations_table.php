@@ -18,7 +18,7 @@ class CreateCotizationsTable extends Migration
             $table->decimal('total',10,2);
             $table->integer('items');
             $table->string('observation',500)->default('Ninguna');
-            $table->datetime('finaldate');
+            $table->date('finaldate');
             $table->enum('status',['ACTIVO','INACTIVO'])->default('ACTIVO');
 
             

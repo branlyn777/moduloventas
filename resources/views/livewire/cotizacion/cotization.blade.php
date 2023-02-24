@@ -78,6 +78,63 @@
             </div>
         </div>
     </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <th>
+                        No
+                    </th>
+                    <th>
+                        Cliente
+                    </th>
+                    <th>
+                        Total Bs
+                    </th>
+                    <th>
+                        Fecha Creación
+                    </th>
+                    <th>
+                        Fecha Vigencia
+                    </th>
+                    <th>
+                        Dias Restantes
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                    </thead>
+                    <tbody>
+                        @foreach($lista_cotizaciones as $c)
+                        <tr>
+                            <td>
+                                {{$loop->iteration}}
+                            </td>
+                            <td>
+                                {{$c->nombrecliente}}
+                            </td>
+                            <td>
+                                {{$c->totalbs}} Bs
+                            </td>
+                            <td>
+                                {{$c->fechacreacion}}
+                            </td>
+                            <td>
+                                {{$c->finaldate}}
+                            </td>
+                            <td>
+
+
+                                {{$c->diasrestantes}}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     @include('livewire.cotizacion.modal')
 </div>
