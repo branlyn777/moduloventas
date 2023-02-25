@@ -66,20 +66,7 @@
 
 
     <br>
-    <center>
-        <div id="preloader_3" wire:loading>
-            <div class="lds-roller">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </center>
+
     <div class="col-sm-12 col-md-12 d-flex">
         @foreach ($cajas as $c)
             <div class="card mx-2">

@@ -428,24 +428,24 @@ class ReporteMovimientoResumenController extends Component
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
                 ->join('cajas as ca', 'ca.id', 'c.caja_id')
                 ->where('ca.id', $this->caja)
+                ->where('c.tipo', 'efectivo')
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.type', 'INGRESO')
-                ->where('crms.tipoDeMovimiento','!=','TIGOMONEY')
-
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
+                
              
             $egresos = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
                 ->join('cajas as ca', 'ca.id', 'c.caja_id')
                 ->where('ca.id', $this->caja)
+                ->where('c.tipo', 'efectivo')
                 ->where('movimientos.status', 'ACTIVO')
                 ->where('crms.type', 'EGRESO')
-                ->where('crms.tipoDeMovimiento','!=','TIGOMONEY')
                 ->where('movimientos.created_at', '<', Carbon::parse($this->fromDate)->toDateTimeString())
                 ->sum('movimientos.import');
         
-            $this->saldo_acumulado = $ingresos - $egresos+$this->trsbydateant();
+            $this->saldo_acumulado = $ingresos - $egresos;
    
 
         } else {
