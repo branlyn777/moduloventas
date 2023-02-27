@@ -31,22 +31,29 @@ en otros destinos dentro de la misma sucursal --}}
                     <br>
                     <br>
 
-                    <div class="col-4">
-
-                    </div>
-                    <div class="col-4">
+                    <div class="col-5 text-center">
+                        <label>CANTIDAD</label>
                         <input class="form-control" wire:model="extraquantity" type="number">
                     </div>
-                    <div class="col-4 text-center">
+                    <div class="col-5 text-center">
+                        <label>COSTO</label>
+                        <input class="form-control" wire:model="product_cost" type="text">
+                    </div>
+                    <div class="col-2 text-center">
+                        <br>
                         @if($this->extraquantity > 0)
-                            <button wire:click="extraincrease()" class="btn btn-primary">
-                                +
+                            <button wire:click="extraincrease()" class="btn btn-primary" title="Incrementar Cantidad Extra">
+                                <i class="fas fa-plus"></i>
                             </button>
                         @endif
                     </div>
+                    
+                    <br>
+                    <br>
+                    
+                    <br>
+                    <br>
 
-                    <br>
-                    <br>
                     @endif
 
 
