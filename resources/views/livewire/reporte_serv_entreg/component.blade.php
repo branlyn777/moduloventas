@@ -19,6 +19,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -336,12 +337,10 @@
                                                     @endforeach
                                                 @endforeach
                                                 {{ number_format($mytotal, 2) }} bs.
-
-                                            </strong></span>
+                                            </strong>
+                                        </span>
                                     </td>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </div>

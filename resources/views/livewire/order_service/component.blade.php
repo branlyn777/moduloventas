@@ -352,9 +352,10 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     @if (@Auth::user()->hasPermissionTo('Recepcionar_Servicio'))
                         <ul class="tabs tab-pills text-right">
-                            <a href="javascript:void(0)" wire:click="irservicio()" class="btn btn-outline-primary">Nuevo
+                            <a href="javascript:void(0)" wire:click="irservicio()" class="btn btn-add mb-0"> <i
+                                    class="fas fa-plus me-2"></i> Nuevo
                                 Servicio</a>
-                            <a href="{{ url('inicio') }}" class="btn btn-outline-primary">Ir a Lista Servicios</a>
+                            <a href="{{ url('inicio') }}" class="btn btn-add mb-0">Ir a Lista Servicios</a>
 
                             <div class="custom-control custom-switch" style="padding-top: 5px;">
                                 <input type="checkbox" class="custom-control-input" id="customSwitches"
@@ -433,52 +434,53 @@
 
                         @if ($this->masfiltros)
 
-                        <div class="form-group">
-                            <div class="row">
-                                @if (Auth::user()->hasPermissionTo('Asignar_Tecnico_Servicio'))
+                            <div class="form-group">
+                                <div class="row">
+                                    @if (Auth::user()->hasPermissionTo('Asignar_Tecnico_Servicio'))
+                                        <div class="col-12 col-sm-6 col-md-3 text-center">
+                                            <b>Seleccione Usuario</b>
+                                            <div class="form-group">
+                                                <select wire:model="usuario" class="form-control">
+                                                    @foreach ($this->lista_de_usuarios as $i)
+                                                        <option value="{{ $i->idusuario }}">{{ $i->nombreusuario }}
+                                                        </option>
+                                                    @endforeach
+                                                    <option value="Todos">Todos</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="col-12 col-sm-6 col-md-3 text-center">
-                                        <b>Seleccione Usuario</b>
+                                        <b>Tipo de Fecha</b>
                                         <div class="form-group">
-                                            <select wire:model="usuario" class="form-control">
-                                                @foreach ($this->lista_de_usuarios as $i)
-                                                    <option value="{{ $i->idusuario }}">{{ $i->nombreusuario }}</option>
-                                                @endforeach
-                                                <option value="Todos">Todos</option>
+                                            <select wire:model="tipofecha" class="form-control">
+                                                <option value="Todos" selected>Todas las Fechas</option>
+                                                <option value="Dia">Hoy</option>
+                                                <option value="Rango">Rango de Fechas</option>
                                             </select>
                                         </div>
                                     </div>
-                                @endif
-                                <div class="col-12 col-sm-6 col-md-3 text-center">
-                                    <b>Tipo de Fecha</b>
-                                    <div class="form-group">
-                                        <select wire:model="tipofecha" class="form-control">
-                                            <option value="Todos" selected>Todas las Fechas</option>
-                                            <option value="Dia">Hoy</option>
-                                            <option value="Rango">Rango de Fechas</option>
-                                        </select>
+
+                                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                                        <b>Fecha Inicio</b>
+                                        <div class="form-group">
+                                            <input @if ($tipofecha != 'Rango') disabled @endif type="date"
+                                                wire:model="dateFrom" class="form-control flatpickr">
+                                        </div>
                                     </div>
-                                </div>
-        
-                                <div class="col-12 col-sm-6 col-md-3 text-center">
-                                    <b>Fecha Inicio</b>
-                                    <div class="form-group">
-                                        <input @if ($tipofecha != 'Rango') disabled @endif type="date"
-                                            wire:model="dateFrom" class="form-control flatpickr">
+
+                                    <div class="col-12 col-sm-6 col-md-3 text-center">
+                                        <b>Fecha Fin</b>
+                                        <div class="form-group">
+                                            <input @if ($tipofecha != 'Rango') disabled @endif type="date"
+                                                wire:model="dateTo" class="form-control flatpickr">
+                                        </div>
                                     </div>
+
                                 </div>
-        
-                                <div class="col-12 col-sm-6 col-md-3 text-center">
-                                    <b>Fecha Fin</b>
-                                    <div class="form-group">
-                                        <input @if ($tipofecha != 'Rango') disabled @endif type="date"
-                                            wire:model="dateTo" class="form-control flatpickr">
-                                    </div>
-                                </div>
-        
                             </div>
-                        </div>
-        
-                    @endif
+
+                        @endif
 
                     </div>
                 </div>
@@ -497,7 +499,7 @@
 
 
 
-           
+
 
 
             <center>

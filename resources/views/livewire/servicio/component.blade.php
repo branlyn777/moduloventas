@@ -1,152 +1,150 @@
-<div class="row sales layout-top-spacing">
-    <div class="col-sm-12">
-        <div class="widget widget-chart-one">
-            <div class="widget-heading">
-                <h5 class="card-title">
-                    <b>{{ $pageTitle }} {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }} </b>
-                </h5>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="d-lg-flex my-auto p-0 mb-3">
+                <div>
+                    <h5 class=" text-white" style="font-size: 16px"> <i class="fas fa-plus me-2"></i>Nuevo Servicio</h5>
+                </div>
+
+                <div class="ms-auto my-auto mt-lg-1">
+                    <div class="ms-auto my-auto">
+                        @if ($orderservice == 0 || $cliente == '')
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theClient">Asignar Cliente</a>
+
+
+
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theNewClient"> <i class="fas fa-plus me-2"></i>Nuevo Cliente</a>
+                        @endif
+
+                        @if (!empty($cliente))
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theModal">Agregar Servicio</a>
+                        @endif
+                        @if ($orderservice != 0)
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
+                                data-target="#theType">Tipo De Servicio</a>
+                        @endif
+
+
+
+
+                        @if (!empty(session('od')))
+                            <a class="btn btn-add mb-0" href="{{ url('reporte/pdf' . '/' . $orderservice) }}"
+                                target="_blank" wire:click="ResetSession">Imprimir</a>
+                        @endif
+                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Servicios</button>
+
+
+
+                    </div>
+                </div>
             </div>
-            <div class="widget-heading">
 
-
-                <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
-
-                    <div class="d-flex b-skills">
-                        <div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="widget-heading">
+                            <h5 class="card-title">
+                                <h5>{{ $pageTitle }} {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }} </h5>
+                            </h5>
                         </div>
-                        <div class="infobox">
-                            <b class="info-text">Cliente: </b>
-                            @if (!empty($cliente))
-                                {{ $cliente->nombre }}
-                            @else
-                                NO DEFINIDO
-                            @endif <br />
-
-                            <b class="info-text">Fecha: </b>{{ $from }}<br />
-
-                            <b class="info-text">Registrado por: </b>{{ $usuariolog }} <br />
-                            <b class="info-text">Tipo de servicio: </b> {{ $typeservice }} <br />
+                        <div class="widget-heading">
+                            <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
+                                <div class="d-flex b-skills">
+                                    <div class="infobox">
+                                        <b class="info-text">Cliente: </b>
+                                        @if (!empty($cliente))
+                                            {{ $cliente->nombre }}
+                                        @else
+                                            NO DEFINIDO
+                                        @endif <br />
+                                        <b class="info-text">Fecha: </b>{{ $from }}<br />
+                                        <b class="info-text">Registrado por: </b>{{ $usuariolog }} <br />
+                                        <b class="info-text">Tipo de servicio: </b> {{ $typeservice }} <br />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
-               
-                <div class=" row row-demo-grid"> 
-                    <div  class="col-md-4 ml-auto">
-                @if ($orderservice == 0 || $cliente == '')
-                   
-                        <a href="javascript:void(0)" class="btn btn-warning btn-sm" data-toggle="modal"
-                            data-target="#theClient">ASIGNAR CLIENTE</a>
-                   
-
-                  
-                        <a href="javascript:void(0)" class="btn btn-warning btn-sm" data-toggle="modal"
-                            data-target="#theNewClient">NUEVO CLIENTE</a>
-                 
-                @endif
-              
-                @if (!empty($cliente))
-              
-               
-                  
-                        <a href="javascript:void(0)" class="btn btn-warning btn-sm" data-toggle="modal"
-                            data-target="#theModal">AGREGAR SERVICIO</a>
-                   
-               
-                @endif
-                @if ($orderservice != 0)
-                
-                        <a href="javascript:void(0)" class="btn btn-warning btn-sm" data-toggle="modal"
-                            data-target="#theType">TIPO DE SERVICIO</a>
-                        
-                @endif
-            
             </div>
-            </div>
-           
-
-            <div class="widget-content">
-                <div class="table-responsive">
-                    <table class="table table-head-bg-primary table-hover">
-                        <thead class="text-white" style="background: #ee761c">
-                            <tr>
-                                <th class="table-th text-withe">#</th>
-                                <th class="table-th text-withe text-center">EQUIPO</th>
-                                <th class="table-th text-withe text-center">MARCA</th>
-                                <th class="table-th text-withe text-center">DETALLE</th>
-                                <th class="table-th text-withe text-center">ESTADO</th>
-                                <th class="table-th text-withe text-center">TOTAL</th>
-                                <th class="table-th text-withe text-center">A CUENTA</th>
-                                <th class="table-th text-withe text-center">SALDO</th>
-                                <th class="table-th text-withe text-center">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <h6 class="text-center">{{ $loop->iteration }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->category }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->marca }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6>{{ $item->detalle }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->tipo }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->import }}</h6>
-                                    </td>
-
-                                    <td>
-                                        <h6 class="text-center">{{ $item->on_account }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="text-center">{{ $item->saldo }}</h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                            class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        @if($item->tipo != 'TERMINADO' && $item->tipo != 'ENTREGADO')
-                                        <a href="javascript:void(0)"
-                                            onclick="Confirm('{{ $item->id }}','{{ $item->category }}','{{ $item->marca }}')"
-                                            class="btn btn-default btn-sm" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        @endif
-                                    </td>
+                                    <th class="table-th text-withe text-center">#</th>
+                                    <th class="table-th text-withe text-center">EQUIPO</th>
+                                    <th class="table-th text-withe text-center">MARCA</th>
+                                    <th class="table-th text-withe text-center">DETALLE</th>
+                                    <th class="table-th text-withe text-center">ESTADO</th>
+                                    <th class="table-th text-withe text-center">TOTAL</th>
+                                    <th class="table-th text-withe text-center">A CUENTA</th>
+                                    <th class="table-th text-withe text-center">SALDO</th>
+                                    <th class="table-th text-withe text-center">ACCIONES</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links() }}
-                </div>
-            </div>
-            <div class="modal-footer">
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-center">{{ $loop->iteration }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->category }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->marca }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6>{{ $item->detalle }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->tipo }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->import }}</h6>
+                                        </td>
 
-                <ul class="tabs tab-pills">
-                    @if (!empty(session('od')))
-                        <a class="btn btn-warning mb-2" href="{{ url('reporte/pdf' . '/' . $orderservice) }}" 
-                        target="_blank" wire:click="ResetSession">IMPRIMIR</a>
-                    @endif
-                    <button class="btn btn-warning mb-2" wire:click="ResetSession">IR A SERVICIOS</button>
-                </ul>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->on_account }}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-center">{{ $item->saldo }}</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
+                                                class="btn btn-warning btn-sm" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            @if ($item->tipo != 'TERMINADO' && $item->tipo != 'ENTREGADO')
+                                                <a href="javascript:void(0)"
+                                                    onclick="Confirm('{{ $item->id }}','{{ $item->category }}','{{ $item->marca }}')"
+                                                    class="btn btn-default btn-sm" title="Delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $data->links() }}
+                    </div>
+                </div>
             </div>
         </div>
+        @include('livewire.servicio.formclientebuscar')
+        @include('livewire.servicio.formclientenuevo')
+        @include('livewire.servicio.formservicio')
+        @include('livewire.servicio.formtiposervicio')
     </div>
-    @include('livewire.servicio.formclientebuscar')
-    @include('livewire.servicio.formclientenuevo')
-    @include('livewire.servicio.formservicio')
-    @include('livewire.servicio.formtiposervicio')
 </div>
-</div> 
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 

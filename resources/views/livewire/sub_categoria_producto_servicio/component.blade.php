@@ -10,7 +10,7 @@
                         <div class="ms-auto my-auto">
                             <button wire:click="$emit('show-modal')" class="btn btn-add mb-0" data-toggle="modal"
                                 data-target="#theModal">
-                                <i class="fas fa-plus me-2"></i> AGREGAR
+                                <i class="fas fa-plus me-2"></i> Agregar
                             </button>
                         </div>
                     </div>
