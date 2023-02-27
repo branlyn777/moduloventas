@@ -172,7 +172,7 @@
                             </div>
 
                             @if (strlen($search) > 0)
-                                <div class="table-wrapper">
+                                <div class="overflow-auto" style="max-height: 20rem;">
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
