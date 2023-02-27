@@ -287,8 +287,6 @@
                                     wire:model="dateTo" class="form-control" placeholder="Click para elegir">
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -339,7 +337,7 @@
                             <thead>
                                 <tr>
                                     <th class="table-th text-withe text-center">#</th>
-                                    <th class="table-th text-withe text-center">CODIGO</th>
+                                    <th class="table-th text-withe text-center">CÓDIGO</th>
                                     <th class="table-th text-withe text-center">CLIENTE</th>
                                     <th class="table-th text-withe text-center">FECHA HORA
                                         REC.</th>
