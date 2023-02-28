@@ -3,14 +3,24 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="exampleModalLabel">Ajuste de Efectivo</h5>
+                <h5 class="modal-title text-white" id="exampleModalLabel">Finalizar Sesion de Caja</h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-
             </div>
             <div class="modal-body">
                 @if ($idcaja !== null)
+                    @if ($errors->has('*'))
+                        @error('efectivo_actual')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <span class="alert-icon text-white"><i class="fas fa-times"></i></span>
+                                <span class="alert-text text-white"><strong>Error!</strong>{{ $message }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @enderror
+                    @endif
 
                     <div class="row justify-content-center">
                         <div class="card">
@@ -26,13 +36,8 @@
                                 @endif
                             </div>
                             @if ($active1 == true)
-
-
                                 <table class="mt-2">
                                     <tbody>
-
-
-
                                         <tr>
                                             <td class="ps-3">
                                                 <div class="d-flex align-items-center">
@@ -176,7 +181,7 @@
                                                         <i class="fas fa-check text-white opacity-10"></i>
                                                     </div>
                                                     <div class="d-flex flex-column">
-                                                        <h6 class="mb-1 text-dark text-sm">Saldo s/EDSOFT</h6>
+                                                        <h6 class="mb-1 text-dark text-sm">Saldo s/Edsoft</h6>
                                                     </div>
                                                 </div>
                                             </td>
@@ -200,10 +205,6 @@
                                             </td>
                                             <td class="text-right">
                                                 <div class="d-flex flex-column">
-
-
-
-
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <button
@@ -212,10 +213,7 @@
                                                                 data-bs-target="#contador_monedas"
                                                                 class="input-group-text"><i
                                                                     class="fas fa-calculator mx-2"></i></button>
-                                                            <input type="number" 
-                                                            class="form-control needs-validation" novalidate id="validationCustom03"
-                                                                 autofocus
-                                                                wire:model='efectivo_actual'>
+                                                            <input type="number" wire:model='efectivo_actual'>
                                                         </div>
                                                     </div>
 
@@ -245,7 +243,7 @@
                                                 </td>
 
                                                 <td class="ps-3">
-                                                    <h6 class="text-sm text-end"">Bs.
+                                                    <h6 class="text-sm text-end">Bs.
                                                         {{ $efectivo_actual - $saldoAcumulado }} </h6>
                                                 </td>
                                             </tr>

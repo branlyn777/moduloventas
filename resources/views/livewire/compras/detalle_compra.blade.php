@@ -176,7 +176,7 @@
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
-                                                <th style="width: 500px;">Producto</th>
+                                                <th style="width: 1rem;">Producto</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>

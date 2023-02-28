@@ -643,10 +643,16 @@ class CorteCajaController extends Component
         );
     }
 
-
-
     public function finArqueo()
     {
+        $rules = [
+            'efectivo_actual' => 'required',
+        ];
+        $messages = [
+            'efectivo_actual.required' => 'El monto es un dato requerido.',
+        ];
+
+        $this->validate($rules, $messages);
 
         if ($this->efectivo_actual != null and $this->saldoAcumulado !=$this->efectivo_actual) {
             $margen = $this->efectivo_actual - $this->saldoAcumulado;
