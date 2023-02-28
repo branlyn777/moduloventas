@@ -3,41 +3,29 @@
         <div class="col-12">
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px"> <i class="fas fa-plus me-2"></i>Nuevo Servicio</h5>
+                    <h5 class=" text-white" style="font-size: 16px"></i>Nuevo Servicio</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         @if ($orderservice == 0 || $cliente == '')
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
-                                data-target="#theClient">Asignar Cliente</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0"  wire:click="$emit('modalsearchc-show')">Asignar Cliente</a>
 
-
-
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
-                                data-target="#theNewClient"> <i class="fas fa-plus me-2"></i>Nuevo Cliente</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modalclient-show')"> <i class="fas fa-plus me-2" ></i>Nuevo Cliente</a>
                         @endif
-
+                        
                         @if (!empty($cliente))
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
-                                data-target="#theModal">Agregar Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modal-show')">Agregar Servicio</a>
                         @endif
                         @if ($orderservice != 0)
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" data-toggle="modal"
-                                data-target="#theType">Tipo De Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0">Tipo De Servicio</a>
                         @endif
-
-
-
 
                         @if (!empty(session('od')))
                             <a class="btn btn-add mb-0" href="{{ url('reporte/pdf' . '/' . $orderservice) }}"
                                 target="_blank" wire:click="ResetSession">Imprimir</a>
                         @endif
                         <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Servicios</button>
-
-
-
                     </div>
                 </div>
             </div>
@@ -147,8 +135,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
-
         window.livewire.on('client-selected', msg => {
             $('#theClient').modal('hide'),
                 noty(msg)

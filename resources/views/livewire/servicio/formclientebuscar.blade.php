@@ -1,9 +1,9 @@
 <div wire:ignore.self class="modal fade" id="theClient" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
-                    <b>Buscar</b> | Cliente
+                    <p>Buscar | Cliente</p>
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
@@ -25,7 +25,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-12">
 
                         <ul class="tabs tab-pills">
-                            <a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal"
+                            <a href="javascript:void(0)" class="btn btn-primary" data-toggle="modal"
                                 data-target="#theNewClient" wire:click.prevent="resetUI()" data-dismiss="modal">Nuevo
                                 Clientes</a>
                         </ul>
@@ -91,7 +91,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="resetUI()" class="btn btn-warning close-btn text-info"
+                <button type="button" wire:click.prevent="resetUI()" wire:click="$emit('modalsearch-hide')" class="btn btn-secondary"
                     data-dismiss="modal" style="background: #3b3f5c">CANCELAR</button>
             </div>
         </div>
