@@ -156,10 +156,10 @@
                                         class="mx-3" title="Crear Comprobante de Cotización">
                                         <i class="fas fa-print text-success" aria-hidden="true"></i>
                                     </a>
-                                    @if($c->status == "ACTIVO")
-                                    <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $c->idcotizacion }}, '{{ $c->nombrecliente }}')" class="mx-3" title="Anular Cotización">
-                                        <i class="fas fa-trash text-danger" aria-hidden="true"></i>
-                                    </a>
+                                    @if($c->estado == "ACTIVO")
+                                        <a href="javascript:void(0)" onclick="ConfirmarAnular({{ $c->idcotizacion }}, '{{ $c->nombrecliente }}')" class="mx-3" title="Anular Cotización">
+                                            <i class="fas fa-trash text-danger" aria-hidden="true"></i>
+                                        </a>
                                     @endif
                                 </div>
 

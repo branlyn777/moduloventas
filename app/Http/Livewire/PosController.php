@@ -128,7 +128,8 @@ class PosController extends Component
     }
     public function mount()
     {
-        $this->selloutofstock = false;
+        $this->extraquantity = 1;
+        $this->selloutofstock = true;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
@@ -1396,8 +1397,8 @@ class PosController extends Component
         }
 
 
-        $this->extraquantity = null;
-        $this->selloutofstock = false;
+        $this->extraquantity = 1;
+        $this->selloutofstock = true;
         
         $this->emit("hide-stockinsuficiente");
     }
