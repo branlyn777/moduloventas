@@ -36,6 +36,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CarteraMovCategoriaSeeder::class);
         $this->call(ProcedenciaClienteSeeder::class);
 
+        //Sericios
+        $this->call(CatProdServiceSeeder::class);
+
 
         /* TIGO MONEY */
         $this->call(OrigenSeeder::class);
