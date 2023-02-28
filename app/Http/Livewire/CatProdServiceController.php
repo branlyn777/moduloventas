@@ -15,7 +15,7 @@ class CatProdServiceController extends Component
     use WithPagination;
 
     public $nombre, $search, $estado, $selected_id, $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 20;
 
     public function mount()
     {
