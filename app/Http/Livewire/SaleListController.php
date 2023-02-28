@@ -65,6 +65,7 @@ class SaleListController extends Component
     //Variables para cambiar a usuario vendedor
     public $nombreusuariovendedor;
     public $sucursal_id;
+    public $timeFrom, $timeTo;
 
     use WithFileUploads;
     use WithPagination;

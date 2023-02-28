@@ -358,6 +358,16 @@
                 </div>
             </li>
 
+            <li class=@yield('cotizacionli', 'nav-item ')>
+                <a class=@yield('cotizacionnav', 'nav-link ') href="{{ url('cotizacion') }}">
+                    <div
+                        class="icon icon-shape icon-sm text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-money-coins text-warning text-sm"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cotización</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link active collapsed" aria-controls="dashboardsExamples" role="a"
                     aria-expanded="false" style="pointer-events: none; background-color:transparent">

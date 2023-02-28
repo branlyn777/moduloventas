@@ -16,6 +16,8 @@ use App\Models\Cotization;
 use App\Models\CotizationDetail;
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
+use App\Models\DetalleEntradaProductos;
+use App\Models\IngresoProductos;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\OperacionesCarterasCompartidas;
@@ -392,7 +394,6 @@ class PosController extends Component
                     $precio = 0;
                 }
 
-
                 $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
                 if ($producto->image == null)
                 {
@@ -405,9 +406,6 @@ class PosController extends Component
                     $this->emit('increase-ok');
                 }
             }
-
-
-
             //Actualizar los valores de Total Bs y Total Artículos en una Venta
             $this->actualizarvalores();
         }
@@ -424,17 +422,26 @@ class PosController extends Component
             //Guardamos los datos del producto en Carrito de Ventas
             $product_cart = Cart::get($producto->id);
 
-
+            //Obteniendo la cantidad extra que se debe incrementar (en caso de que se nesecite) en los lotes, cuando se quiera vender mas alla del stock disponible
             $cantidad_previa = $product_cart->attributes->Cantidad;
-
 
             if($cantidad_previa)
             {
-                $miArray = array(
-                    "Imagen" => $producto->image,
-                    "Cantidad" => $cantidad_previa - 1,
-                    "Costo" => $this->product_cost
-                );
+                $cantida_nueva = $cantidad_previa - 1;
+                if($cantida_nueva == 0)
+                {
+                    $miArray = array(
+                        "Imagen" => "noimgproduct.png"
+                    );
+                }
+                else
+                {
+                    $miArray = array(
+                        "Imagen" => $producto->image,
+                        "Cantidad" => $cantidad_previa - 1,
+                        "Costo" => $this->product_cost
+                    );
+                }
             }
             else
             {
@@ -451,12 +458,6 @@ class PosController extends Component
                     );
                 }
             }
-
-
-
-
-
-
             //Elimnamos el producto del Carrito de Ventas
             Cart::remove($producto->id);
             //Obtenmos la cantidad que existia del producto en el Carrito de Ventas
@@ -626,7 +627,8 @@ class PosController extends Component
     public function savesale()
     {
         DB::beginTransaction();
-        try {
+        try
+        {
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
@@ -670,115 +672,167 @@ class PosController extends Component
             //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
             $productos = Cart::getContent();
 
+            //Variable que guarda que si existe productos con stock mas allá del disponible
+            $stock_extra = false;
+
+            //Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
+            foreach ($productos as $pp)
+            {
+                if ($pp->attributes->Cantidad > 0)
+                {
+                    //Registrando Ingreso Producto
+                    $ip = IngresoProductos::create([
+                        'destino' => $this->destino_id,
+                        'user_id' => Auth()->user()->id,
+                        'concepto' => "INGRESO",
+                        'observacion' => "Ingreso automático del producto para venta rápida",
+                    ]);
+                    $stock_extra = true;
+                    break;
+                }
+            }
+
+            if($stock_extra)
+            {
+                foreach ($productos as $ppp)
+                {
+                    $precio_producto = Lote::select("pv_lote")
+                    ->where("lotes.product_id",$ppp->id)
+                    ->orderBy("lotes.created_at","desc")
+                    ->first()->pv_lote;
+                    //Creando el Lote
+                    $l = Lote::create([
+                        'existencia' => $ppp->attributes->Cantidad,
+                        'costo' => $ppp->attributes->Costo,
+                        'pv_lote' => $precio_producto,
+                        'status' => 'Activo',
+                        'product_id' => $ppp->id
+                    ]);
+                    //Creando Detalle entrada producto
+                    DetalleEntradaProductos::create([
+                        'product_id' => $ppp->id,
+                        'cantidad' => $ppp->attributes->Cantidad,
+                        'costo' => $ppp->attributes->Costo,
+                        'id_entrada' => $ip->id,
+                        'lote_id' => $l->id
+                    ]);
+                    //Incrementando el Stock en Tienda
+                    $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                    ->select("productos_destinos.id as id","p.nombre as name",
+                    "productos_destinos.stock as stock")
+                    ->where("p.id", $ppp->id)
+                    ->where("des.id", $this->destino_id)
+                    ->where("des.sucursal_id", $this->idsucursal())
+                    ->get()->first();
+                    $tiendaproducto->update([
+                        'stock' => $tiendaproducto->stock + $ppp->attributes->Cantidad
+                    ]);
+                }
+            }
+
             foreach ($productos as $p)
             {
-                dd($productos);
-                if ($p->attributes)
+                    
+                $precio_original = Lote::select("lotes.pv_lote as po")
+                ->where("lotes.product_id", $p->id)
+                ->where("lotes.status", "Activo")
+                ->orderBy("lotes.created_at", "desc")
+                ->first();
+
+                $sd = SaleDetail::create([
+                    'original_price' => $precio_original->po,
+                    'price' => $p->price,
+                    'cost' => 0,
+                    'quantity' => $p->quantity,
+                    'product_id' => $p->id,
+                    'sale_id' => $sale->id,
+                ]);
+
+                //Para obtener la cantidad del producto que se va a vender
+                $cantidad_producto_venta = $p->quantity;
+
+                //Buscamos todos los lotes que tengan ese producto
+                $lotes = Lote::where('product_id', $p->id)->where('status', 'Activo')->get();
+
+                //Recorremos todos los lotes que tengan ese producto
+                foreach ($lotes as $l)
                 {
-                    dd("Crear Lotes");
-                }
-                else
-                {
-                    dd($p->attributes);
-                    $precio_original = Lote::select("lotes.pv_lote as po")
-                        ->where("lotes.product_id", $p->id)
-                        ->where("lotes.status", "Activo")
-                        ->orderBy("lotes.created_at", "desc")
-                        ->first();
+                    //Obtenemos la cantidad de existencia que tenga ese lote de ese producto
+                    $cantidad_producto_lote = $l->existencia;
 
-                    $sd = SaleDetail::create([
-                        'original_price' => $precio_original->po,
-                        'price' => $p->price,
-                        'cost' => 0,
-                        'quantity' => $p->quantity,
-                        'product_id' => $p->id,
-                        'sale_id' => $sale->id,
-                    ]);
-
-                    //Para obtener la cantidad del producto que se va a vender
-                    $cantidad_producto_venta = $p->quantity;
-
-                    //Buscamos todos los lotes que tengan ese producto
-                    $lotes = Lote::where('product_id', $p->id)->where('status', 'Activo')->get();
-
-                    //Recorremos todos los lotes que tengan ese producto
-                    foreach ($lotes as $l)
+                    //Si la cantidad del producto para la venta supera la existencia en el lote
+                    //Vaciamos toda la existencia de ese lote y lo inactivamos
+                    if ($cantidad_producto_venta > $cantidad_producto_lote)
                     {
-                        //Obtenemos la cantidad de existencia que tenga ese lote de ese producto
-                        $cantidad_producto_lote = $l->existencia;
-
-                        //Si la cantidad del producto para la venta supera la existencia en el lote
-                        //Vaciamos toda la existencia de ese lote y lo inactivamos
-                        if ($cantidad_producto_venta > $cantidad_producto_lote)
-                        {
-                            //Creamos un registro en la tabla SaleLote con la cantidad total del producto en el lote
-                            $sale_lote = SaleLote::create([
-                                'sale_detail_id' => $sd->id,
-                                'lote_id' => $l->id,
-                                'cantidad' => $cantidad_producto_lote
-                            ]);
-                            //Dismunuimos la cantidad del producto para la venta por el total cantidad del producto en el lote
-                            $cantidad_producto_venta = $cantidad_producto_venta - $cantidad_producto_lote;
+                        //Creamos un registro en la tabla SaleLote con la cantidad total del producto en el lote
+                        $sale_lote = SaleLote::create([
+                            'sale_detail_id' => $sd->id,
+                            'lote_id' => $l->id,
+                            'cantidad' => $cantidad_producto_lote
+                        ]);
+                        //Dismunuimos la cantidad del producto para la venta por el total cantidad del producto en el lote
+                        $cantidad_producto_venta = $cantidad_producto_venta - $cantidad_producto_lote;
 
 
-                            //Actualizamos el lote
+                        //Actualizamos el lote
+                        $l->update([
+                            'existencia' => 0,
+                            'status' => 'Inactivo'
+                        ]);
+                        $l->save();
+                    }
+                    else
+                    {
+                        //Si la cantidad del producto para la venta no supera la existencia en el lote
+                        //Reducimos la existencia de ese lote por la cantidad del producto para la venta
+                        SaleLote::create([
+                            'sale_detail_id' => $sd->id,
+                            'lote_id' => $l->id,
+                            'cantidad' => $cantidad_producto_venta
+                        ]);
+
+
+                        $diferencia = $cantidad_producto_lote - $cantidad_producto_venta;
+
+                        if ($diferencia != 0) {
                             $l->update([
-                                'existencia' => 0,
-                                'status' => 'Inactivo'
+                                'existencia' => $cantidad_producto_lote - $cantidad_producto_venta
+                            ]);
+                            $l->save();
+                        } else {
+                            $l->update([
+                                'existencia' => $cantidad_producto_lote - $cantidad_producto_venta,
+                                'status' => "Inactivo"
                             ]);
                             $l->save();
                         }
-                        else
-                        {
-                            //Si la cantidad del producto para la venta no supera la existencia en el lote
-                            //Reducimos la existencia de ese lote por la cantidad del producto para la venta
-                            SaleLote::create([
-                                'sale_detail_id' => $sd->id,
-                                'lote_id' => $l->id,
-                                'cantidad' => $cantidad_producto_venta
-                            ]);
-
-
-                            $diferencia = $cantidad_producto_lote - $cantidad_producto_venta;
-
-                            if ($diferencia != 0) {
-                                $l->update([
-                                    'existencia' => $cantidad_producto_lote - $cantidad_producto_venta
-                                ]);
-                                $l->save();
-                            } else {
-                                $l->update([
-                                    'existencia' => $cantidad_producto_lote - $cantidad_producto_venta,
-                                    'status' => "Inactivo"
-                                ]);
-                                $l->save();
-                            }
-                            $cantidad_producto_venta = 0;
-                        }
+                        $cantidad_producto_venta = 0;
                     }
-
-                    //Decrementando el stock
-                    $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-                        ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-                        ->select(
-                            "productos_destinos.id as id",
-                            "p.nombre as name",
-                            "productos_destinos.stock as stock"
-                        )
-                        ->where("p.id", $p->id)
-                        ->where("des.id", $this->destino_id)
-                        ->where("des.sucursal_id", $this->idsucursal())
-                        ->get()
-                        ->first();
-
-
-                    $product_destination = ProductosDestino::find($tiendaproducto->id);
-
-                    $product_destination->update([
-                        'stock' => $tiendaproducto->stock - $p->quantity
-                    ]);
-                    $product_destination->save();
                 }
+
+                //Decrementando el stock
+                $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                    ->select(
+                        "productos_destinos.id as id",
+                        "p.nombre as name",
+                        "productos_destinos.stock as stock"
+                    )
+                ->where("p.id", $p->id)
+                ->where("des.id", $this->destino_id)
+                ->where("des.sucursal_id", $this->idsucursal())
+                ->get()
+                ->first();
+
+
+                $product_destination = ProductosDestino::find($tiendaproducto->id);
+
+                $product_destination->update([
+                    'stock' => $tiendaproducto->stock - $p->quantity
+                ]);
+                $product_destination->save();
+                
             }
 
             //Creando Cartera Movimiento
@@ -796,7 +850,8 @@ class PosController extends Component
 
 
             //verificar que esta venta no tuvo operaciones en caja general
-            if ($this->listarcarterasg()->contains('idcartera', $this->cartera_id)) {
+            if ($this->listarcarterasg()->contains('idcartera', $this->cartera_id))
+            {
                 $op = OperacionesCarterasCompartidas::create([
                     'caja_id' => $cajaId,
                     'cartera_mov_id' => $cv->id
@@ -819,6 +874,7 @@ class PosController extends Component
 
             DB::commit();
             return Redirect::to('pos');
+                
         }
         catch (Exception $e)
         {
@@ -830,9 +886,6 @@ class PosController extends Component
     //Listar las Carteras disponibles en su corte de caja
     public function listarcarteras()
     {
-
-
-
         // $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
         // ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
         // ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
@@ -1298,21 +1351,21 @@ class PosController extends Component
         {
             $producto->image = "noimgproduct.png";
         }
-
-        
-
-
         //Para saber si el Producto ya esta en el carrrito para cambiar el Mensaje Toast de Producto Agregado a Cantidad Actualizada
         if ($product_cart)
         {
+            //Cantidad extra para incrementar
             $cantidad_previa = $product_cart->attributes->Cantidad;
             $miArray = array(
                 "Imagen" => $producto->image,
                 "Cantidad" => $this->extraquantity + $cantidad_previa,
                 "Costo" => $this->product_cost
             );
+            //Cantidad para vender
+            $cantidad_vender = $product_cart->quantity + $this->extraquantity;
+
             $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre) . "'!";
-            Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $this->extraquantity,$miArray);
+            Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cantidad_vender ,$miArray);
             $this->emit('increase-ok');
         }
         else
