@@ -18,9 +18,9 @@
                             <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modal-show')">Agregar Servicio</a>
                         @endif
                         @if ($orderservice != 0)
-                            <a href="javascript:void(0)" class="btn btn-add mb-0">Tipo De Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
                         @endif
-
+                        
                         @if (!empty(session('od')))
                             <a class="btn btn-add mb-0" href="{{ url('reporte/pdf' . '/' . $orderservice) }}"
                                 target="_blank" wire:click="ResetSession">Imprimir</a>
@@ -106,13 +106,13 @@
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                                class="btn btn-warning btn-sm" title="Edit">
+                                                class="btn btn-primary btn-sm" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             @if ($item->tipo != 'TERMINADO' && $item->tipo != 'ENTREGADO')
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $item->id }}','{{ $item->category }}','{{ $item->marca }}')"
-                                                    class="btn btn-default btn-sm" title="Delete">
+                                                    class="btn btn-warning btn-sm" title="Delete">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             @endif

@@ -168,7 +168,7 @@
                             <label>
                                 Responsable técnico
                             </label>
-                            <select wire:model="userId" class="form-control" style="font-size: 90%">
+                            <select wire:model="userId" class="form-select" style="font-size: 90%">
                                 <option value="0" disabled selected>Seleccione técnico</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -241,17 +241,15 @@
 
                 <div class="modal-footer">
                     <button type="button" wire:click.prevent="resetUI()" wire:click="$emit('modal-hide')"
-                        class="btn btn-warning close-btn text-info" data-dismiss="modal"
+                        class="btn btn-secondary" data-dismiss="modal"
                         style="background: #3b3f5c">CANCELAR</button>
                     @if ($selected_id < 1)
                         <button type="button" wire:click.prevent="Store()"
                             class="btn btn-primary">GUARDAR</button>
                     @else
                         <button type="button" wire:click.prevent="Update()"
-                            class="btn btn-secondary">ACTUALIZAR</button>
+                            class="btn btn-primary">ACTUALIZAR</button>
                     @endif
-
-
                 </div>
             </div>
         </div>

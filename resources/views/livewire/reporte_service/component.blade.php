@@ -227,7 +227,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Elige Usuario</h6>
                             <div class="form-group">
-                                <select wire:model="userId" class="form-control">
+                                <select wire:model="userId" class="form-select">
                                     <option value="">Todos</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -239,7 +239,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Elige Estado</h6>
                             <div class="form-group">
-                                <select wire:model="estado" class="form-control">
+                                <select wire:model="estado" class="form-select">
                                     <option value="Todos">Todos</option>
                                     <option value="PENDIENTE">Pendiente</option>
                                     <option value="PROCESO">Proceso</option>
@@ -253,7 +253,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Sucursal</h6>
                             <div class="form-group">
-                                <select wire:model="sucursal" class="form-control">
+                                <select wire:model="sucursal" class="form-select">
                                     <option value="0">Todos</option>
                                     @foreach ($sucursales as $suc)
                                         <option value="{{ $suc->id }}">{{ $suc->name }}</option>
@@ -265,7 +265,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Tipo de Reporte</h6>
                             <div class="form-group">
-                                <select wire:model="reportType" class="form-control">
+                                <select wire:model="reportType" class="form-select">
                                     <option value="0">Servicios del día</option>
                                     <option value="1">Servicios por fecha</option>
                                 </select>

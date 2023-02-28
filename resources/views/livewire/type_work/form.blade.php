@@ -17,7 +17,7 @@
             <label>
                 <h6>Estado</h6>
             </label>
-            <select wire:model.lazy="status" class="form-control">
+            <select wire:model.lazy="status" class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="ACTIVE">Activo</option>
                 <option value="INACTIVE">Inactivo</option>

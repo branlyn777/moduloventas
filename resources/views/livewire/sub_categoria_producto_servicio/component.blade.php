@@ -68,12 +68,12 @@
 
                                         <td class="align-middle text-center text-sm">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                                class="btn btn-add mb-0" title="Edit">
+                                                class="btn btn-primary mb-0" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $item->id }}','{{ $item->name }}')"
-                                                class="btn btn-add mb-0" title="Delete">
+                                                class="btn btn-warning mb-0" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
