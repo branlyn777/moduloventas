@@ -59,7 +59,7 @@ class ServiciosController extends Component
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->estatus = '';
-        $this->procedencia = 'Nuevo';
+        $this->procedencia = 1;
         $this->userId = 0;
 
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');

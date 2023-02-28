@@ -18,7 +18,7 @@
                     <div class="col-lg-4 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Tipo de Trabajo</label>
-                            <select wire:model.lazy="typeworkid" class="form-control">
+                            <select wire:model.lazy="typeworkid" class="form-select">
                                 <option value="Elegir" disabled selected>Elegir</option>
 
                                 @foreach ($work as $wor)
@@ -39,7 +39,7 @@
                             <label>
                                 <span class="text-warning">* </span>Tipo de equipo
                             </label>
-                            <select wire:model.lazy="catprodservid" class="form-control">
+                            <select wire:model.lazy="catprodservid" class="form-select">
                                 <option value="Elegir" disabled selected>Elegir</option>
 
                                 @foreach ($cate as $cat)

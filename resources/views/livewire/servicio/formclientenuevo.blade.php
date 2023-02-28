@@ -73,7 +73,7 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>Procedencia</label>
-                            <select wire:model='procedencia' class="form-control">
+                            <select wire:model='procedencia' class="form-select">
                                 
                                 @foreach ($procedenciaClientes as $item)
                                     @if ($item->procedencia != 'Nuevo')

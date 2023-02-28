@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
 
         //Sericios
         $this->call(CatProdServiceSeeder::class);
+        $this->call(TypeworkSeeder::class);
 
 
         /* TIGO MONEY */

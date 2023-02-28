@@ -390,7 +390,7 @@
                             <div class="col-12 col-sm-6 col-md-3 text-center">
                                 <b>Seleccionar Sucursal</b>
                                 <div class="form-group">
-                                    <select wire:model="sucursal_id" class="form-control">
+                                    <select wire:model="sucursal_id" class="form-select">
                                         @foreach ($listasucursales as $sucursal)
                                             <option value="{{ $sucursal->id }}">{{ $sucursal->name }}</option>
                                         @endforeach
@@ -402,7 +402,7 @@
                         <div class="col-12 col-sm-6 col-md-3 text-center">
                             <b>Categoría Trabajo</b>
                             <div class="form-group">
-                                <select wire:model.lazy="catprodservid" class="form-control">
+                                <select wire:model.lazy="catprodservid" class="form-select">
                                     <option value="Todos" selected>Todos</option>
                                     @foreach ($categorias as $cat)
                                         <option value="{{ $cat->id }}">{{ ucwords(strtolower($cat->nombre)) }}
@@ -418,7 +418,7 @@
                         <div class="col-12 col-sm-6 col-md-3 text-center">
                             <b>Tipo de Servicio</b>
                             <div class="form-group">
-                                <select wire:model="type" class="form-control">
+                                <select wire:model="type" class="form-select">
                                     <option value="PENDIENTE">Pendientes</option>
                                     <option value="PROCESO">Proceso</option>
                                     <option value="TERMINADO">Terminados</option>
