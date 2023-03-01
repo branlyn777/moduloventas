@@ -204,6 +204,47 @@
     </style>
 @endsection
 
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Reporte De Servicios</h6>
+    </nav>
+@endsection
+
+
+@section('serviciocollapse')
+    nav-link
+@endsection
+
+
+@section('servicioarrow')
+    true
+@endsection
+
+
+@section('reporteservicionav')
+    "nav-link active"
+@endsection
+
+
+@section('servicioshow')
+    "collapse show"
+@endsection
+
+@section('reporteservicioli')
+    "nav-item active"
+@endsection
+
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -214,7 +255,8 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-success mb-0 text-white {{ count($data) < 1 ? 'disabled' : '' }}" type="button"
+                        <a class="btn btn-success mb-0 text-white {{ count($data) < 1 ? 'disabled' : '' }}"
+                            type="button"
                             href="{{ url('reporteServicio/pdf' . '/' . $userId . '/' . $estado . '/' . $sucursal . '/' . $reportType . '/' . $dateFrom . '/' . $dateTo) }}">
                             Generar PDF</a>
                     </div>
@@ -378,9 +420,7 @@
                                         </td>
                                         {{-- NÚMERO ORDEN --}}
                                         <td class="text-center">
-                                            <span class="stamp stamp" style="background-color: #1572e8">
-                                                {{ $d->order_service_id }}
-                                            </span>
+                                            {{ $d->order_service_id }}
                                         </td>
                                         {{-- CLIENTE --}}
                                         <td>
