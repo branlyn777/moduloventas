@@ -166,8 +166,6 @@
                                                             <label style="color: rgb(74, 74, 74)"><span
                                                                     class="text-warning">* </span>Agregue una
                                                                 observación:</label>
-
-
                                                             <textarea class="form-control" wire:model='observacion' cols="10" rows="1"></textarea>
 
                                                             @error('observacion')
@@ -249,7 +247,7 @@
                                     </div>
 
 
-                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white h-100 {{ $show2 }}"
+                                    <div class="card multisteps-form__panel p-3 border-radius-xl bg-white {{ $show2 }}"
                                         data-animation="FadeIn">
                                         <h6 class="font-weight-bolder">
                                             {{ $concepto }}{{ $tipo_proceso != null ? ':' . $tipo_proceso . ' productos ' : '' }}
@@ -276,8 +274,8 @@
                                                             wire:model.lazy="archivo" wire:click='resetes()' />
                                                     </form>
                                                 @else
-                                                    <div class="col-4">
-                                                        <div class="card">
+                                                    <div class="col-3">
+                                                     
 
                                                             <div class="form-group">
                                                                 <div class="input-group mb-4">
@@ -290,12 +288,12 @@
                                                             </div>
 
                                                             @if (strlen($searchproduct) > 0)
-                                                                <div class="table-wrapper">
+                                                                <div>
                                                                     <table>
                                                                         <thead>
                                                                             <tr style="font-size: 14px">
-                                                                                <th style="width: 500px;">Producto</th>
-                                                                                <th>Acción</th>
+                                                                                <th>Producto</th>
+                                                                                <th>Acc.</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -303,10 +301,18 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <label style="font-size: 14px"
-                                                                                        type="button">
-                                                                                        {{ $prod->nombre }}<h6 class='text-xs'>{{ $prod->caracteristicas }}</h6>
-                                                                                        ({{ $prod->codigo }})
-                                                                                    </label>
+                                                                                            type="button">
+                                                                                      
+                                                                                            <h6 class='text-xs'>
+                                                                                               <b>  {{ $prod->nombre }}</b>
+                                                                                         
+                                                                                            </h6>
+                                                                                            <h6  class='text-xs'>
+                                                                                                {{ $prod->caracteristicas }}
+                                                                                                ({{ $prod->codigo }})
+                                                                                            </h6>
+                                                                                        
+                                                                                        </label>
                                                                                     </td>
 
                                                                                     <td class="text-center">
@@ -322,12 +328,12 @@
                                                                     </table>
                                                                 </div>
                                                             @endif
-                                                        </div>
+                                                       
                                                     </div>
-                                                    <div class="col-8">
-                                                        <div class="card">
+                                                    <div class="col-md-9">
+                                                      
                                                             <div class="text-center">
-                                                                <h5><b>Detalle Ajuste Inventarios</b></h5>
+                                                                <h6 class="text-sm"><b>Detalle Ajuste Inventarios</b></h6>
                                                             </div>
                                                             <div class="table-responsive">
                                                                 @if ($col->isNotEmpty())
@@ -344,48 +350,52 @@
                                                                                         <th class="text-center">Precio
                                                                                             Venta</th>
                                                                                         <th>Cantidad</th>
-                                                                                        <th>Acción</th>
+                                                                                        <th>Acc.</th>
                                                                                     @elseif($concepto == 'Ajuste Inventarios')
-                                                                                        <th> Cant. Actual <br> Sistema
+                                                                                        <th class="text-center"> Cant.
+                                                                                            Actual <br> Sistema
                                                                                         </th>
-                                                                                        <th>Recuento Fisico</th>
-                                                                                        <th></th>
-                                                                                        <th></th>
-                                                                                        <th>Acción</th>
+                                                                                        <th class="text-center">
+                                                                                            Recuento <br> Fisico</th>
+                                                                                        <th>Costo</th>
+                                                                                        <th>P/V</th>
+                                                                                        <th>Acc.</th>
                                                                                     @else
                                                                                         <th>Cantidad</th>
-                                                                                        <th>Acción</th>
+                                                                                        <th>Acc.</th>
                                                                                     @endif
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
 
                                                                                 @foreach ($col as $prod)
-                                                                                    <tr
-                                                                                        style="font-size: 14px; color: black;">
-                                                                                        <td style="width: 60px;">
-                                                                                            {{ substr($prod['product_name'], 0, 15) }}
+                                                                                    <tr style="color: black;">
+                                                                                        <td class="text-xs">
+                                                                                            {{ $prod['product_name'] }} <br>
                                                                                             ({{ $prod['product_codigo'] }})
                                                                                         </td>
                                                                                         @if ($tipo_proceso == 'INGRESO' or $concepto == 'Inventario Inicial')
                                                                                             <td>
-                                                                                                <input type="text"
+                                                                                                <input type="number"
+                                                                                                    onkeypress="return (event.charCode >= 48) || event.charCode == 46"
                                                                                                     id="pc{{ $prod['product_id'] }}"
                                                                                                     wire:change="UpdateCosto({{ $prod['product_id'] }}, $('#pc' + {{ $prod['product_id'] }}).val())"
                                                                                                     style="padding:0!important"
                                                                                                     class="form-control text-center"
-                                                                                                    value="{{ $prod['costo'] }}">
+                                                                                                    value="{{$prod['costo']}}">
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="text"
+                                                                                                <input type="number"
+                                                                                                    onkeypress="return (event.charCode >= 48) || event.charCode == 46"
                                                                                                     id="pv{{ $prod['product_id'] }}"
                                                                                                     wire:change="UpdatePrecioVenta({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val() )"
                                                                                                     style="padding:0!important"
                                                                                                     class="form-control text-center"
-                                                                                                    value="{{ $prod['precioventa'] }}">
+                                                                                                    value="{{$prod['precioventa']}}">
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input type="number"
+                                                                                                    onkeypress="return (event.charCode >= 48) || event.charCode == 46"
                                                                                                     id="pq{{ $prod['product_id'] }}"
                                                                                                     wire:change="UpdateQty({{ $prod['product_id'] }}, $('#pq' + {{ $prod['product_id'] }}).val())"
                                                                                                     style="padding:0!important"
@@ -393,66 +403,52 @@
                                                                                                     value="{{ $prod['cantidad'] }}">
                                                                                             </td>
                                                                                         @elseif($concepto == 'Ajuste Inventarios')
-                                                                                        
-                                                                                                <td
-                                                                                                    class='text-center'>
+                                                                                            <td class='text-center text-xs'>
 
-                                                                                                    {{ $prod['stockactual'] }}
-                                                                                                </td>
-                                                                                                <td
-                                                                                                    class='text-center'>
+                                                                                                {{ $prod['stockactual'] }}
+                                                                                            </td>
+                                                                                            <td class='text-center'>
+                                                                                                <input type="number"
+                                                                                                    onkeypress="return (event.charCode >= 48) || event.charCode == 46"
+                                                                                                    min=1
+                                                                                                    id="rec{{ $prod['product_id'] }}"
+                                                                                                    wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#rec' + {{ $prod['product_id'] }}).val())"
+                                                                                                    style="padding:0.1!important"
+                                                                                                    class="form-control ps-2"
+                                                                                                    value="{{ $prod['recuento'] }}">
+                                                                                            </td>
+                                                                                            <td class='text-center'>
+                                                                                                <div
+                                                                                                    class="input-group">
                                                                                                     <input
                                                                                                         type="number"
-                                                                                                        onkeypress="return event.charCode >= 48"
+                                                                                                        onkeypress="return (event.charCode >= 48) || event.charCode == 46"
                                                                                                         min="1"
-                                                                                                        id="rec{{ $prod['product_id'] }}"
-                                                                                                        wire:change="UpdateRecuento({{ $prod['product_id'] }}, $('#rec' + {{ $prod['product_id'] }}).val())"
-                                                                                                        style="padding:0!important"
+                                                                                                        id="cost{{ $prod['product_id'] }}"
+                                                                                                        wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cost' + {{ $prod['product_id'] }}).val())"
+                                                                                                        style="padding:0.1!important"
                                                                                                         class="form-control ps-2"
-                                                                                                        value="{{$prod['recuento']}}">
-                                                                                                </td>
-                                                                                                <td
-                                                                                                    class='text-center'>
-                                                                                                    <div
-                                                                                                        class="input-group">
-                                                                                                        <input
-                                                                                                            type="number"
-                                                                                                            onkeypress="return event.charCode >= 48"
-                                                                                                            min="1"
-                                                                                                            id="cost{{ $prod['product_id'] }}"
-                                                                                                            wire:change="UpdateCostoLote({{ $prod['product_id'] }}, $('#cost' + {{ $prod['product_id'] }}).val())"
-                                                                                                            style="padding:0!important"
-                                                                                                            class="form-control ps-2"
-                                                                                                            value="{{$prod['costo']}}"
-                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}
-                                                                                                           >
-                                                                                                        <span
-                                                                                                            class="input-group-text bg-primary text-white">
-                                                                                                            costo
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                                <td
-                                                                                                    class='text-center'>
-                                                                                                    <div
-                                                                                                        class="input-group">
-                                                                                                        <input
-                                                                                                            type="number"
-                                                                                                            onkeypress="return event.charCode >= 48"
-                                                                                                            min="1"
-                                                                                                            id="pv{{ $prod['product_id'] }}"
-                                                                                                            wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val())"
-                                                                                                            style="padding:0!important"
-                                                                                                            class="form-control ps-2"
-                                                                                                            value="{{$prod['pv_lote'] }}"
-                                                                                                            {{$prod['recuento']>$prod['stockactual']?'':'disabled=true'}}>
-                                                                                                        <span
-                                                                                                            class="input-group-text bg-primary text-white">
-                                                                                                            p/v
-                                                                                                        </span>
-                                                                                                    </div>
-                                                                                                </td>
-                                                                                         
+                                                                                                        value="{{ $prod['costo'] }}"
+                                                                                                        {{ $prod['recuento'] > $prod['stockactual'] ? '' : 'disabled=true' }}>
+                                                                                                
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class='text-center'>
+                                                                                                <div
+                                                                                                    class="input-group">
+                                                                                                    <input
+                                                                                                        type="number"
+                                                                                                        onkeypress="return (event.charCode >= 48) || event.charCode == 46"
+                                                                                                        min="1"
+                                                                                                        id="pv{{ $prod['product_id'] }}"
+                                                                                                        wire:change="UpdatePrecioVentaLote({{ $prod['product_id'] }}, $('#pv' + {{ $prod['product_id'] }}).val())"
+                                                                                                        style="padding:0.1!important"
+                                                                                                        class="form-control ps-2"
+                                                                                                        value="{{ $prod['pv_lote'] }}"
+                                                                                                        {{ $prod['recuento'] > $prod['stockactual'] ? '' : 'disabled=true' }}>
+                                                                                                  
+                                                                                                </div>
+                                                                                            </td>
                                                                                         @else
                                                                                             <td>
                                                                                                 <input type="number"
@@ -472,7 +468,7 @@
                                                                                                     type="button"
                                                                                                     onclick="ConfirmarEliminar('{{ $prod['product_id'] }}')"
                                                                                                     class="btn btn-danger"
-                                                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                                                    style="--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .60rem;">
                                                                                                     <i
                                                                                                         class="fas fa-trash"></i>
                                                                                                 </button>
@@ -499,7 +495,6 @@
 
 
 
-                                                        </div>
                                                     </div>
                                                 @endif
                                             </div>

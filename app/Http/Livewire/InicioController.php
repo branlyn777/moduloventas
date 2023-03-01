@@ -21,16 +21,13 @@ class InicioController extends Component
     public $ingresosMes, $ingresosMesAnterior, $difIngresos;
     public $egresosMes, $egresosMesAnterior, $difEgresos;
     //graficos
-    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $labels = [];
+    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [];
     public function render()
     {
         $variable = "";
         $inicio = Carbon::now()->format('m');
 
-        for ($i = $inicio; $i < 0; $i--) {
-            $monto = Sale::where('status', 'PAID')->whereMonth('created_at', $i)->sum('total');
-            array_push($this->ventas, $monto);
-        }
+    
         for ($j = $inicio; $j < 0; $j--) {
             $monto = Compra::where('status', 'ACTIVO')->whereMonth('created_at', $j)->sum('importe_total');
             array_push($this->compras, $monto);
@@ -43,15 +40,20 @@ class InicioController extends Component
                 now()
             ])
             ->groupBy('mes')
-            ->pluck('total_ventas');
+            ->pluck('total_ventas','mes')
+            ;
+
+        //dd($this->ventas);
       
-        // $meses = [];
+        $meses = [];
+        $ff=Carbon::now()->format('F');
+        //dd($ff);
         // foreach ($this->ventas as $venta) {
+
         //     $meses[] =$venta->mes->formatLocalized('%B');
-           
         // }
 
-        // return $meses;
+        
 
 
         // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior

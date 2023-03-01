@@ -203,7 +203,7 @@
                        
                         <div class="d-flex align-items-center">
                             <span class="badge badge-md badge-dot me-4">
-                                <i class="bg-success"></i>
+                                <i style="background-color: #5e72e4"></i>
                                 <span class="text-dark text-xs">COMPRAS</span>
                             </span>
                             <span class="badge badge-md badge-dot me-4">

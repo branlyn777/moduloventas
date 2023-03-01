@@ -173,15 +173,15 @@ class RegistrarAjuste extends Component
                 ]);
             } else {
                 $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
-                $lot=Lote::where('product_id',$id->id);
+                $lot = Lote::where('product_id', $id->id);
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
                     'product_codigo' => $id->codigo,
                     'stockactual' =>  $pd != null ? $pd : 0,
                     'recuento' => 0,
-                    'costo' =>$lot->count()>0?$lot->first()->costo:0,
-                    'pv_lote' =>$lot->count()>0?$lot->first()->pv_lote:0
+                    'costo' => $lot->count() > 0 ? $lot->first()->costo : 0,
+                    'pv_lote' => $lot->count() > 0 ? $lot->first()->pv_lote : 0
 
                 ]);
             }
@@ -235,7 +235,7 @@ class RegistrarAjuste extends Component
                 $rs = IngresoProductos::create([
                     'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
-                    'concepto' => $this->tipo_proceso =='INGRESO'?'INGRESO':'INICIAL',
+                    'concepto' => $this->tipo_proceso == 'INGRESO' ? 'INGRESO' : 'INICIAL',
                     'observacion' => $this->observacion
                 ]);
                 foreach ($this->col as $datas) {
@@ -367,8 +367,8 @@ class RegistrarAjuste extends Component
                     'user_id' => Auth()->user()->id,
                     'observacion' => $this->observacion
                 ]);
-        
- 
+
+
                 foreach ($this->col as $datas) {
 
                     $auxi = DetalleAjustes::create([
@@ -381,7 +381,7 @@ class RegistrarAjuste extends Component
                     ]);
 
                     if ($datas['recuento'] > $datas['stockactual']) {
-                      
+
 
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
 
@@ -402,7 +402,7 @@ class RegistrarAjuste extends Component
                             ]);
                         }
                     } else {
-                        
+
 
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
                         //obtener la cantidad del detalle de la venta 
@@ -439,14 +439,11 @@ class RegistrarAjuste extends Component
                                 }
                             }
                         }
-
-
-                    
                     }
                     $q = ProductosDestino::where('product_id', $datas['product_id'])
-                    ->where('destino_id', $this->destino)->value('stock');
+                        ->where('destino_id', $this->destino)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
                 }
 
                 DB::commit();
@@ -566,9 +563,9 @@ class RegistrarAjuste extends Component
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
-        $ultimo_lote=Lote::latest()->where('product_id',$product->id)->get()->isEmpty()==true?0:Lote::latest()->where('product_id',$product->id)->get();
-   
+        $data_lote = Lote::where('product_id', $product->id)->where('status', 'Activo');
+        $ultimo_lote = Lote::latest()->where('product_id', $product->id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $product->id)->get();
+
 
         $this->col->pull($item->keys()->first());
         $this->col->push([
@@ -577,19 +574,19 @@ class RegistrarAjuste extends Component
             'product_codigo' => $product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
-            'costo' => $data_lote->count()==0?$ultimo_lote->first()->costo:$data_lote->first()->costo,
-            'pv_lote' =>$data_lote->count()==0?$ultimo_lote->first()->pv_lote:$data_lote->first()->pv_lote
+            'costo' => $data_lote->count() == 0 ? $ultimo_lote->first()->costo : $data_lote->first()->costo,
+            'pv_lote' => $data_lote->count() == 0 ? $ultimo_lote->first()->pv_lote : $data_lote->first()->pv_lote
 
         ]);
     }
 
-    public function UpdateCostoLote(Product $product,$costo)
+    public function UpdateCostoLote(Product $product, $costo)
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
-        $precio=$item->first()['pv_lote'];
-        $recuento=$item->first()['recuento'];
+        $data_lote = Lote::where('product_id', $product->id)->where('status', 'Activo');
+        $precio = $item->first()['pv_lote'];
+        $recuento = $item->first()['recuento'];
 
 
         $this->col->pull($item->keys()->first());
@@ -600,16 +597,16 @@ class RegistrarAjuste extends Component
             'stockactual' =>  $st,
             'recuento' =>  $recuento,
             'costo' => $costo,
-            'pv_lote' =>$precio
+            'pv_lote' => $precio
         ]);
     }
     public function UpdatePrecioVentaLote(Product $product, $precio)
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-        $data_lote=Lote::where('product_id',$product->id)->where('status','Activo');
-        $costo=$item->first()['costo'];
-        $recuento=$item->first()['recuento'];
+        $data_lote = Lote::where('product_id', $product->id)->where('status', 'Activo');
+        $costo = $item->first()['costo'];
+        $recuento = $item->first()['recuento'];
 
 
 
@@ -622,7 +619,7 @@ class RegistrarAjuste extends Component
             'recuento' => $recuento,
             'costo' => $costo,
             'pv_lote' => $precio
-            
+
 
         ]);
     }
@@ -712,14 +709,10 @@ class RegistrarAjuste extends Component
 
         $this->validate($rules, $messages);
 
-    
+
 
         $this->nextpage = true;
-
     }
-
-
-
     public function proxima()
     {
         $rules = [
@@ -739,16 +732,16 @@ class RegistrarAjuste extends Component
         $this->validate($rules, $messages);
 
         if ($this->concepto == "Varios") {
-      
+
             $rules2 = [
                 'tipo_proceso' => 'required|not_in:Elegir',
             ];
-    
+
             $message = [
                 'tipo_proceso.required' => 'El tipo de proceso es requerido',
-            
+
             ];
-    
+
             $this->validate($rules2, $message);
         }
 
