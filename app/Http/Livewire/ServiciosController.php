@@ -33,12 +33,27 @@ class ServiciosController extends Component
         $search,  $condicion, $selected_id, $pageTitle, $buscarCliente, $service, $type_service, $procedencia,
         $opciones, $estatus, $userId;
     private $pagination = 5;
+
+
+    //Variables para un servico ráoido
+    public $fs_kind_of_team, $fs_mark, $fs_team_status, $fs_solution, $fs_import, $fs_technical_support;
+
+
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
     }
     public function mount()
     {
+        //Servicio Rapido
+        $this->fs_kind_of_team = "Elegir";
+        $this->fs_technical_support = "Elegir";
+
+
+        //-------------------
+
+
+
         $this->pageTitle = 'Detalle de la orden de servicio Noº: ';
 
         $this->categoryid = 'Elegir';
@@ -146,6 +161,16 @@ class ServiciosController extends Component
             $marca = [];
         }
 
+
+        $fs_marks = [];
+        if($this->fs_kind_of_team != "Elegir")
+        {
+            $fs_marks = SubCatProdService::where('cat_prod_service_id', $this->fs_kind_of_team)
+            ->orderBy('name', 'asc')
+            ->get();
+        }
+
+
         if ((strlen($this->import)) != 0 && (strlen($this->on_account) != 0))
             $this->saldo = $this->import - $this->on_account;
         elseif ((strlen($this->on_account) == 0))
@@ -161,6 +186,7 @@ class ServiciosController extends Component
             'work' => $typew,
             'cate' => $dato1,
             'marcas' => $marca,
+            'fs_marks' => $fs_marks,
             'users' => $users,
             'procedenciaClientes' => ProcedenciaCliente::orderBy('id', 'asc')->get()
 
@@ -168,10 +194,8 @@ class ServiciosController extends Component
             ->extends('layouts.theme.app')
             ->section('content');
     }
-
     public function Seleccionar($id)
     {
-
         $rules = [
             'celular' => 'nullable|digits:8'
         ];
@@ -193,9 +217,6 @@ class ServiciosController extends Component
         $this->resetUI();
         $this->emit('client-selected', 'Cliente Seleccionado');
     }
-
-
-
     public function ResetSession()
     {
         /* $this->cliente = '';
@@ -205,7 +226,6 @@ class ServiciosController extends Component
         session(['tservice' => null]);
         $this->redirect('orderservice');
     }
-
     public function StoreClient()
     {
         $rules = [
@@ -393,8 +413,6 @@ class ServiciosController extends Component
         }
         session(['tservice' => $this->typeservice]);
     }
-
-
     public function Edit(Service $service)
     {
         $movimiento_Serv = Service::join('mov_services as ms', 'ms.service_id', 'services.id')
@@ -445,7 +463,6 @@ class ServiciosController extends Component
     //Update de Servicios
     public function Update()
     {
-
         if ($this->on_account <= $this->import) {
             $rules = [
                 'typeworkid' => 'required|not_in:Elegir',
@@ -716,5 +733,162 @@ class ServiciosController extends Component
         $this->diagnostico = 'Revisión';
         $this->solucion = 'Revisión';
         $this->userId = 0;
+    }
+    //Muestra una ventana modal para el servicio rápido
+    public function ShowModalFastService()
+    {
+        $this->emit("show-fastservice");
+    }
+    //Guarda un servicio Rápido
+    public function SaveFastService()
+    {
+        //Busacndo el tipo de trabajo para Servicio Rápido, creandolo si no existe
+        $type_work = TypeWork::where("type_works.name","Servicio Rápido")->get();
+        if($type_work->count() > 0)
+        {
+            $type_work = $type_work->first();
+        }
+        else
+        {
+            $type_work = TypeWork::create([
+                'name' => "Servicio Rápido"
+            ]);
+        }
+
+
+        DB::beginTransaction();
+        try
+        {
+            //Creando la orden de Servicio
+            $order_service = OrderService::create([
+                'type_service' => "Rápido",
+            ]);
+            //Creando el servicio
+            $service = Service::create([
+                'type_work_id' => $type_work->id,
+                'cat_prod_service_id' => $this->fs_kind_of_team,
+                'marca' => $this->fs_mark,
+                'detalle' => $this->fs_team_status,
+                'falla_segun_cliente' => "Servicio Rápido",
+                'diagnostico' => "Servicio Rápido",
+                'solucion' => $this->fs_solution,
+                'fecha_estimada_entrega' => Carbon::parse(Carbon::now())->format('Y-m-d  H:i'),
+                'order_service_id' => $order_service->id,
+                'sucursal_id' => $this->idsucursal()
+            ]);
+
+
+            //PONIENDO EL SERVICIO EN PENDIENTE
+            $motion_pending = Movimiento::create([
+                'type' => 'PENDIENTE',
+                'status' => 'INACTIVO',
+                'import' => $this->fs_import,
+                'on_account' => 0,
+                'saldo' => $this->fs_import,
+                'user_id' => $this->fs_technical_support
+            ]);
+
+            MovService::create([
+                'movimiento_id' => $motion_pending->id,
+                'service_id' => $service->id
+            ]);
+            ClienteMov::create([
+                'movimiento_id' => $motion_pending->id,
+                'cliente_id' => $this->clienteanonimo_id()
+            ]);
+
+            //PONIENDO EL SERVICIO EN PROCESO
+            $motion_process = Movimiento::create([
+                'type' => 'PROCESO',
+                'status' => 'INACTIVO',
+                'import' => $motion_pending->import,
+                'on_account' => $motion_pending->on_account,
+                'saldo' => $motion_pending->saldo,
+                'user_id' =>  $motion_pending->user_id,
+            ]);
+            MovService::create([
+                'movimiento_id' => $motion_process->id,
+                'service_id' => $service->id
+            ]);
+            ClienteMov::create([
+                'movimiento_id' => $motion_pending->id,
+                'cliente_id' => $this->clienteanonimo_id()
+            ]);
+
+
+            //PONIENDO EL SERVICIO EN TERMINADO
+            $motion_terminated = Movimiento::create([
+                'type' => 'TERMINADO',
+                'status' => 'ACTIVO',
+                'import' => $motion_process->import,
+                'on_account' => $motion_process->on_account,
+                'saldo' => $motion_process->saldo,
+                'user_id' =>  $motion_process->user_id,
+            ]);
+            MovService::create([
+                'movimiento_id' => $motion_terminated->id,
+                'service_id' => $service->id
+            ]);
+            ClienteMov::create([
+                'movimiento_id' => $motion_pending->id,
+                'cliente_id' => $this->clienteanonimo_id()
+            ]);
+            DB::commit();
+            
+            $this->emit("hide-fastservice");
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            dd($e->getMessage());
+            // $this->emit('item-error', 'ERROR' . $e->getMessage());
+        }
+    }
+    //Obtener el Id de la Sucursal donde esta el Usuario
+    public function idsucursal()
+    {
+        $idsucursal = User::join("sucursal_users as su","su.user_id","users.id")
+        ->select("su.sucursal_id as id","users.name as n")
+        ->where("users.id",Auth()->user()->id)
+        ->where("su.estado","ACTIVO")
+        ->get()
+        ->first();
+        return $idsucursal->id;
+    }
+    //Obtener el id de un cliente anónimo, si no existe creará uno
+    public function clienteanonimo_id()
+    {
+        $client = Cliente::select('clientes.nombre as nombrecliente','clientes.id as idcliente')
+        ->where('clientes.nombre','Cliente Anónimo')
+        ->get();
+        
+        if($client->count() > 0)
+        {
+            return $client->first()->idcliente;
+        }
+        else
+        {
+            $procedencia = ProcedenciaCliente::where('procedencia_clientes.procedencia','Venta')
+            ->get();
+            if($procedencia->count() > 0)
+            {
+                $cliente_anonimo = Cliente::create([
+                    'nombre' => "Cliente Anónimo",
+                    'procedencia_cliente_id' => $procedencia->first()->id
+                ]);
+                return $cliente_anonimo->id;
+            }
+            else
+            {
+                $procedencia = ProcedenciaCliente::create([
+                    'procedencia' => "Venta"
+                ]);
+                $cliente_anonimo = Cliente::create([
+                    'nombre' => "Cliente Anónimo",
+                    'procedencia_cliente_id' => $procedencia->id
+                ]);
+                return $cliente_anonimo->id;
+            }
+        }
     }
 }

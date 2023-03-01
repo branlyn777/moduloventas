@@ -133,6 +133,7 @@ class OrderServiceController extends Component
     public function render()
     {
 
+        
         if(Auth::user()->hasPermissionTo('Asignar_Tecnico_Servicio'))
         {
 

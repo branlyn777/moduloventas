@@ -63,7 +63,7 @@
                             <datalist id="colores">
                                 @foreach ($marcas as $cat)
                                     @if ($cat->status == 'ACTIVE')
-                                        <option value="{{ $cat->name }}" selected>{{ $cat->name }}</option>
+                                        <option value="{{ $cat->name }}">{{ $cat->name }}</option>
                                     @endif
                                 @endforeach
                             </datalist>

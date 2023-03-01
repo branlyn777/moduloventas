@@ -26,6 +26,7 @@
                                 target="_blank" wire:click="ResetSession">Imprimir</a>
                         @endif
                         <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Servicios</button>
+                        <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
                     </div>
                 </div>
             </div>
@@ -130,11 +131,28 @@
         @include('livewire.servicio.formclientenuevo')
         @include('livewire.servicio.formservicio')
         @include('livewire.servicio.formtiposervicio')
+        @include('livewire.servicio.formfastservice')
     </div>
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Selecciona una opción',
+            allowClear: true
+        });
+    });
+</script>
+
+
+<script>
     document.addEventListener('DOMContentLoaded', function() {
+        window.livewire.on('show-fastservice', msg => {
+            $('#fastservice').modal('show')
+        });
+        window.livewire.on('hide-fastservice', msg => {
+            $('#fastservice').modal('hide')
+        });
         window.livewire.on('client-selected', msg => {
             $('#theClient').modal('hide'),
                 noty(msg)
