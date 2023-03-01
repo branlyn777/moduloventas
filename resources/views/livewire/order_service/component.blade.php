@@ -340,6 +340,45 @@
     </style>
 @endsection
 
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Orden de Servicio</h6>
+    </nav>
+@endsection
+
+@section('serviciocollapse')
+    nav-link
+@endsection
+
+
+@section('servicioarrow')
+    true
+@endsection
+
+
+@section('ordenservicionav')
+    "nav-link active"
+@endsection
+
+
+@section('servicioshow')
+    "collapse show"
+@endsection
+
+@section('ordenservicioli')
+    "nav-item active"
+@endsection
+
 
 <div>
     <div class="row">
@@ -373,14 +412,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-2">
-                            <h6 wire:click="limpiarsearch()" style="cursor: pointer;">Buscar...</h6>
+                            <h6 wire:click="limpiarsearch()">Buscar...</h6>
                             <div class="form-group">
                                 <div class="input-group mb-4">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text input-gp">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </div>
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+
                                     <input type="text" wire:model="search" placeholder="Busqueda General..."
                                         class="form-control">
                                 </div>
@@ -507,14 +545,6 @@
             </center>
 
 
-
-
-
-
-
-
-
-
             <br>
 
             <div class="widget-content">
@@ -548,9 +578,7 @@
                                                 {{ ($orden_de_servicio->currentpage() - 1) * $orden_de_servicio->perpage() + $loop->index + 1 }}
                                             </td>
                                             <td class="text-center">
-                                                <span class="stamp stamp" style="background-color: #1572e8">
-                                                    {{ $os->codigo }}
-                                                </span>
+                                                {{ $os->codigo }}
                                             </td>
                                             <td class="text-center">
                                                 {{ \Carbon\Carbon::parse($os->fechacreacion)->format('d/m/Y H:i') }}

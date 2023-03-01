@@ -9,22 +9,24 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         @if ($orderservice == 0 || $cliente == '')
-                            <a href="javascript:void(0)" class="btn btn-add mb-0"  wire:click="$emit('modalsearchc-show')">Asignar Cliente</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0"
+                                wire:click="$emit('modalsearchc-show')">Asignar Cliente</a>
 
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modalclient-show')"> <i class="fas fa-plus me-2" ></i>Nuevo Cliente</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0"
+                                wire:click="$emit('modalclient-show')"> <i class="fas fa-plus me-2"></i>Nuevo
+                                Cliente</a>
                         @endif
-                        
+
                         @if (!empty($cliente))
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modal-show')">Agregar Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0"
+                                wire:click="$emit('modal-show')">Agregar Servicio</a>
                         @endif
                         @if ($orderservice != 0)
-                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0"
+                                wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
                         @endif
-                        
-                        @if (!empty(session('od')))
-                            <a class="btn btn-add mb-0" href="{{ url('reporte/pdf' . '/' . $orderservice) }}"
-                                target="_blank" wire:click="ResetSession">Imprimir</a>
-                        @endif
+
+
                         <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Servicios</button>
                         <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
                     </div>
@@ -53,6 +55,14 @@
                                         <b class="info-text">Registrado por: </b>{{ $usuariolog }} <br />
                                         <b class="info-text">Tipo de servicio: </b> {{ $typeservice }} <br />
                                     </div>
+                                </div>
+
+                                <div style="float:right;">
+                                    @if (!empty(session('od')))
+                                        <a class="btn btn-success mb-0"
+                                            href="{{ url('reporte/pdf' . '/' . $orderservice) }}" target="_blank"
+                                            wire:click="ResetSession">Imprimir</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
