@@ -36,12 +36,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="widget-heading">
+                        <div class="widget-heading" style="color: #000000">
                             <h5 class="card-title">
                                 <h5>{{ $pageTitle }} {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }} </h5>
                             </h5>
                         </div>
-                        <div class="widget-heading">
+                        <div class="widget-heading" style="color: #000000">
                             <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
                                 <div class="d-flex b-skills">
                                     <div class="infobox">
