@@ -6,6 +6,10 @@
                     Editar Servicio - Orden de Servicio N°:{{ $this->id_orden_de_servicio }}
                 </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
+
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
 
@@ -124,6 +128,17 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-lg-5 col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="validationTooltip01">Motivo Costo Servicio Bs</label>
+                                        <input type="text" wire:model="edit_motivocostoservicio" class="form-control"
+                                            placeholder="Se Compró Pantalla Nueva, Se Compró Nuevo Sócalo, Se Compró SSD, etc...">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-lg-2 col-sm-12 col-md-2">
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -137,15 +152,8 @@
                             </div>
 
 
-                            <div class="col-lg-5 col-sm-12 col-md-4">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <label for="validationTooltip01">Motivo Costo Servicio Bs</label>
-                                        <input type="text" wire:model="edit_motivocostoservicio" class="form-control"
-                                            placeholder="Se Compró Pantalla Nueva, Se Compró Nuevo Sócalo, Se Compró SSD, etc...">
-                                    </div>
-                                </div>
-                            </div>
+
+
                             <div class="col-lg-3 col-sm-12 col-md-3">
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -167,20 +175,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="validationTooltip01">Fecha de Entrega</label>
-                                    <input type="date" wire:model.lazy="edit_fechaestimadaentrega"
-                                        class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-sm-12 col-md-2">
-                                <div class="form-group">
-                                    <label for="validationTooltip01">Hora</label>
-                                    <input type="time" wire:model.lazy="edit_horaentrega" class="form-control">
-                                </div>
-                            </div>
-
 
                             @if (Auth::user()->hasPermissionTo('Cambiar_Tecnico_Responsable'))
 
@@ -217,6 +211,23 @@
                                     </div> --}}
                                 </div>
                             @endif
+
+                            <div class="col-lg-3 col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="validationTooltip01">Fecha de Entrega</label>
+                                    <input type="date" wire:model.lazy="edit_fechaestimadaentrega"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-sm-12 col-md-2">
+                                <div class="form-group">
+                                    <label for="validationTooltip01">Hora</label>
+                                    <input type="time" wire:model.lazy="edit_horaentrega" class="form-control">
+                                </div>
+                            </div>
+
+
+
 
                             <div class="col-lg-3 col-sm-12 col-md-3">
                                 <div class="form-group">
