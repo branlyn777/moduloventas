@@ -24,16 +24,6 @@
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
-
-
-
-
-
-
-
-
-
-
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
                                 <h5 class="font-weight-bolder mb-0">
@@ -50,14 +40,6 @@
                                     <span class="font-weight-normal text-secondary">desde el mes pasado</span>
                                 </span>
                             </div>
-
-
-
-
-
-
-
-
                             <div class="col-5">
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
@@ -151,13 +133,7 @@
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Procedencia Clientes</h6>
-                            {{-- <button type="button"
-                                class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                                data-bs-original-title="See traffic channels">
-                                <i class="fas fa-info" aria-hidden="true"></i>
-                            </button> --}}
+                            <h6 class="mb-0">Ingresos</h6>
                         </div>
                     </div>
                     <div class="card-body pb-0 p-3 mt-4">
@@ -169,6 +145,10 @@
                                 </div>
                             </div>
                             <div class="col-5 my-auto">
+
+                                @foreach ($collection as $item)
+                                    
+                                @endforeach
                                 <span class="badge badge-md badge-dot me-4 d-block text-start">
                                     <i class="bg-info"></i>
                                     <span class="text-dark text-xs">Facebook</span>

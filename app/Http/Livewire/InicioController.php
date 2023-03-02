@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 // use Illuminate\View\Component as ViewComponent;
 
+use App\Models\CarteraMovCategoria;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
 use App\Models\Movimiento;
@@ -21,9 +22,10 @@ class InicioController extends Component
     public $ingresosMes, $ingresosMesAnterior, $difIngresos;
     public $egresosMes, $egresosMesAnterior, $difEgresos;
     //graficos
-    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [];
+    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [],$labelingresos;
     public function render()
     {
+
 
 
         for ($i = 0; $i <= 6; $i++) {
@@ -37,31 +39,11 @@ class InicioController extends Component
             array_unshift($this->ventas, $venta);
         }
 
+        $this->labelingresos= CarteraMovCategoria::where('tipo','INGRESO')->pluck('nombre');
 
 
 
-        // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior
-
-        $this->ventasMes = Sale::where('status', 'PAID')->whereMonth('created_at', Carbon::now()->format('m'))->sum('total');
-
-        $this->ventaMesAnterior = Sale::where('status', 'PAID')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('total');
-
-        if ($this->ventaMesAnterior != 0) {
-            $this->difVenta = (($this->ventasMes / $this->ventaMesAnterior) - 1) * 100;
-        } else {
-            $this->difVenta = 0;
-        }
-
-
-
-        $this->comprasMes = Compra::where('status', 'ACTIVO')->whereMonth('created_at', Carbon::now()->format('m'))->sum('importe_total');
-        $this->compraMesAnterior = Compra::where('status', 'ACTIVO')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('importe_total');
-        if ($this->compraMesAnterior != 0) {
-
-            $this->difCompra = (($this->comprasMes / $this->compraMesAnterior) - 1) * 100;
-        } else {
-            $this->difCompra = 0;
-        }
+   
 
 
         // Calculo de ingresos y porcencentajes de diferencia entre el mes actual y el mes anterior
