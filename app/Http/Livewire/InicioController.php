@@ -153,34 +153,10 @@ class InicioController extends Component
         //Cálculo del total ventas en el mes actual
         $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->where("status","PAID")->sum('total');
 
+        //Cálculo del total del mes anterior
+        $previous_month_total = Sale::whereMonth('created_at', Carbon::now()->subMonth()->month)->where("status","PAID")->sum('total');
 
-        //Obteniendo la fecha del primer dia del mes anterior
-        $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d') . ' 00:00:00';
-        //Obtniendo la fecha del dia actual pero del mes anterior
-        $endOfLastMonth = Carbon::now()->subMonth()->format('Y-m-d H:m:s');
-
-        //Cálculo del total ventas del mes anterior
-        $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status","PAID")->sum('total');
-
-        if($previus_month_total != 0)
-        {
-            
-            //Obteniendo el porcentaje de $endOfLastMonth
-            $percentage = ($previus_month_total * 100) / $total_current_month;
-
-
-            //Calculando la diferencia
-            // $difference = $total_current_month - $previus_month_total;
-
-
-
-            //Calculando la diferencia en porcentaje
-            $difference_percentage = 100 - $percentage;
-        }
-        else
-        {
-            $difference_percentage = 0;
-        }
+        $percentage = ($total_current_month * 100) / $previous_month_total;
 
 
 
@@ -188,7 +164,8 @@ class InicioController extends Component
         return view('livewire.inicio.inicio', [
             'variable' => $variable,
             'total_current_month' => $total_current_month,
-            'difference_percentage' => $difference_percentage,
+            'previous_month_total' => $previous_month_total,
+            'percentage' => $percentage,
 
         ])
             ->extends('layouts.theme.app')

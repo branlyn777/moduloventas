@@ -20,65 +20,38 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
+
+            <div class="col-sm-4 mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
-
-
-
-
-
-
-
-
-
-
-                            <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
+                            <div class="col-12 text-start">
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">VENTAS MES ACTUAL</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs {{ number_format($total_current_month, 2, ',', '.') }}
+                                    {{number_format($total_current_month, 2, ',', '.')}} Bs
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
-                                    
-                                    @if($difference_percentage > 0)
-                                    + {{ number_format($difference_percentage, 2, ',', '.') }}%
-                                    @else
-                                    - {{ number_format($difference_percentage, 2, ',', '.') }}%
-                                    @endif
-
-                                    <span class="font-weight-normal text-secondary">desde el mes pasado</span>
+                                @if($percentage < 100)
+                                <span class="text-sm text-end text-danger font-weight-bolder mt-auto mb-0">
+                                    {{number_format($percentage, 2, ',', '.')}}%
+                                    <span class="font-weight-normal text-secondary">
+                                        del total del mes anterior ({{number_format($previous_month_total, 2, ',', '.')}} Bs)
+                                    </span>
                                 </span>
-                            </div>
-
-
-
-
-
-
-
-
-                            <div class="col-5">
-                                <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
-                                    </a>
-                                    {{-- <ul class="dropdown-menu dropdown-menu-end px-2 py-3"
-                                        aria-labelledby="dropdownUsers1">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 7
-                                                days</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last week</a>
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 30
-                                                days</a></li>
-                                    </ul> --}}
-                                </div>
+                                @else
+                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                    +{{number_format($percentage, 2, ',', '.')}}%
+                                    <span class="font-weight-normal text-secondary">
+                                        del total del mes anterior ({{number_format($previous_month_total, 2, ',', '.')}} Bs)
+                                    </span>
+                                </span>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <div class="col-sm-4 mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
