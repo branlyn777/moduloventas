@@ -24,36 +24,20 @@ class InicioController extends Component
     public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [];
     public function render()
     {
-        $variable = "";
-        $inicio = Carbon::now()->format('m');
 
-    
-        for ($j = $inicio; $j < 0; $j--) {
-            $monto = Compra::where('status', 'ACTIVO')->whereMonth('created_at', $j)->sum('importe_total');
-            array_push($this->compras, $monto);
+
+        for ($i = 0; $i <= 6; $i++) {
+            array_unshift($this->meses, Carbon::now()->subMonths($i)->isoFormat('MMMM'));
+            $compra = Compra::whereMonth('created_at', now()->subMonths($i))
+                ->where('status', 'ACTIVO')->sum('importe_total');
+            array_unshift($this->compras, $compra);
+            $venta = Sale::whereMonth('created_at', now()->subMonths($i))
+                ->where('status', 'PAID')
+                ->sum('total');
+            array_unshift($this->ventas, $venta);
         }
 
 
-        $this->ventas = Sale::selectRaw("EXTRACT(MONTH FROM created_at) as mes, SUM(total) as total_ventas")
-            ->whereBetween('created_at', [
-                now()->subMonths(6),
-                now()
-            ])
-            ->groupBy('mes')
-            ->pluck('total_ventas','mes')
-            ;
-
-        //dd($this->ventas);
-      
-        $meses = [];
-        $ff=Carbon::now()->format('F');
-        //dd($ff);
-        // foreach ($this->ventas as $venta) {
-
-        //     $meses[] =$venta->mes->formatLocalized('%B');
-        // }
-
-        
 
 
         // Calculo de ventas y porcencentajes de diferencia entre el mes actual y el mes anterior
@@ -68,17 +52,7 @@ class InicioController extends Component
             $this->difVenta = 0;
         }
 
-        //ventas grafico
-        // for ($i = 1; $i < 13; $i++) {
-        //     $ven = Sale::whereMonth('created_at', $i)->sum('total');
-        //     array_push($this->ventas, (int)$ven);
-        // }
 
-        for ($i = 1; $i < 13; $i++) {
-            $cc = Compra::whereMonth('created_at', $i)->sum('importe_total');
-            array_push($this->compras, $cc);
-        }
-        // Calculo de compras y porcencentajes de diferencia entre el mes actual y el mes anterior
 
         $this->comprasMes = Compra::where('status', 'ACTIVO')->whereMonth('created_at', Carbon::now()->format('m'))->sum('importe_total');
         $this->compraMesAnterior = Compra::where('status', 'ACTIVO')->whereMonth('created_at', Carbon::now()->subMonth()->format('m'))->sum('importe_total');
@@ -153,7 +127,7 @@ class InicioController extends Component
 
 
         //Cálculo del total ventas en el mes actual
-        $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->where("status","PAID")->sum('total');
+        $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->where("status", "PAID")->sum('total');
 
 
         //Obteniendo la fecha del primer dia del mes anterior
@@ -162,11 +136,10 @@ class InicioController extends Component
         $endOfLastMonth = Carbon::now()->subMonth()->format('Y-m-d H:m:s');
 
         //Cálculo del total ventas del mes anterior
-        $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status","PAID")->sum('total');
+        $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status", "PAID")->sum('total');
 
-        if($previus_month_total != 0)
-        {
-            
+        if ($previus_month_total != 0) {
+
             //Obteniendo el porcentaje de $endOfLastMonth
             $percentage = ($previus_month_total * 100) / $total_current_month;
 
@@ -178,9 +151,7 @@ class InicioController extends Component
 
             //Calculando la diferencia en porcentaje
             $difference_percentage = 100 - $percentage;
-        }
-        else
-        {
+        } else {
             $difference_percentage = 0;
         }
 
@@ -188,7 +159,7 @@ class InicioController extends Component
 
 
         return view('livewire.inicio.inicio', [
-            'variable' => $variable,
+          
             'total_current_month' => $total_current_month,
             'difference_percentage' => $difference_percentage,
 

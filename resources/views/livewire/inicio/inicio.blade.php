@@ -450,6 +450,7 @@
     var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
     var ventas={{ Js::from($ventas) }};
     var compras={{ Js::from($compras) }};
+    var meses={{ Js::from($meses) }};
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -459,7 +460,7 @@
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Enero", "Feb", "Mar", "Abril", "May", "Jun", "Jul"],
+        labels: meses,
         datasets: [{
             label: "Compras",
             tension: 0.4,
