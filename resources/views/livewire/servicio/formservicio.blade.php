@@ -2,12 +2,12 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h1 class="modal-title text-white">
-                    <p class="text-sm mb-0">Nuevo servicio de la Orden Nº
-                        {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }}
-                        | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
-                    </p>
-                </h1>
+                <h5 class="modal-title text-white">
+                    Nuevo servicio de la Orden Nº
+                    {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }}
+                    | {{ $selected_id > 0 ? 'EDITAR' : 'CREAR' }}
+
+                </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
 
@@ -241,11 +241,9 @@
 
                 <div class="modal-footer">
                     <button type="button" wire:click.prevent="resetUI()" wire:click="$emit('modal-hide')"
-                        class="btn btn-secondary" data-dismiss="modal"
-                        style="background: #3b3f5c">CANCELAR</button>
+                        class="btn btn-secondary" data-dismiss="modal" style="background: #3b3f5c">CANCELAR</button>
                     @if ($selected_id < 1)
-                        <button type="button" wire:click.prevent="Store()"
-                            class="btn btn-primary">GUARDAR</button>
+                        <button type="button" wire:click.prevent="Store()" class="btn btn-primary">GUARDAR</button>
                     @else
                         <button type="button" wire:click.prevent="Update()"
                             class="btn btn-primary">ACTUALIZAR</button>
