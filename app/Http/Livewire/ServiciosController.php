@@ -811,7 +811,7 @@ class ServiciosController extends Component
                 'service_id' => $service->id
             ]);
             ClienteMov::create([
-                'movimiento_id' => $motion_pending->id,
+                'movimiento_id' => $motion_process->id,
                 'cliente_id' => $this->clienteanonimo_id()
             ]);
 
@@ -830,7 +830,7 @@ class ServiciosController extends Component
                 'service_id' => $service->id
             ]);
             ClienteMov::create([
-                'movimiento_id' => $motion_pending->id,
+                'movimiento_id' => $motion_terminated->id,
                 'cliente_id' => $this->clienteanonimo_id()
             ]);
             DB::commit();

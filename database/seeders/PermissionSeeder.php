@@ -393,5 +393,11 @@ class PermissionSeeder extends Seeder
             'descripcion' => '.',
             'guard_name' =>'web'
         ]);
+        Permission::create([
+            'name' => 'Aparecer_Lista_Servicios',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
     }
 }
