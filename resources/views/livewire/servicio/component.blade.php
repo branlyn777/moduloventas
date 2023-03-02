@@ -27,7 +27,7 @@
                         @endif
 
 
-                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Servicios</button>
+                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Órden de Servicio</button>
                         <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
                     </div>
                 </div>
