@@ -36,7 +36,7 @@ class ServiciosController extends Component
 
 
     //Variables para un servico ráoido
-    public $fs_kind_of_team, $fs_mark, $fs_team_status, $fs_solution, $fs_import, $fs_technical_support;
+    public $fs_kind_of_team, $fs_mark, $fs_team_status, $fs_solution, $fs_import, $fs_technical_support, $service_order_id;
 
 
     public function paginationView()
@@ -834,8 +834,14 @@ class ServiciosController extends Component
                 'cliente_id' => $this->clienteanonimo_id()
             ]);
             DB::commit();
-            
-            $this->emit("hide-fastservice");
+
+
+            $this->service_order_id = $order_service->id;
+            $this->emit("crear-comprobante");
+
+            // $this->emit("hide-fastservice");
+            $this->redirect('orderservice');
+            // $this->emit("hide-fastservice");
         }
         catch (Exception $e)
         {

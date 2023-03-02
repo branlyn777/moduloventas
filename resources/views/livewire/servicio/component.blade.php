@@ -222,6 +222,13 @@
         window.livewire.on('hidden.bs.modal', function(e) {
             $('.er').css('display', 'none')
         });
+
+
+        //Crear pdf de Informe técnico de un servicio
+        window.livewire.on('crear-comprobante', Msg => {
+            var idorderservice = @this.service_order_id;
+            var win = window.open('reporte/pdf/' + idorderservice);
+        });
     });
 
     function Confirm(id, categoria, marca) {
