@@ -12,7 +12,7 @@
     <div class="col-sm-12 mt-3">
         <div class="form-group">
             <label>Estado</label>
-            <select wire:model.lazy="estado" class="form-control">
+            <select wire:model.lazy="estado" class="form-select">
                 <option value="Elegir" disabled>Elegir</option>
                 <option value="ACTIVO">Activo</option>
                 <option value="INACTIVO">Inactivo</option>

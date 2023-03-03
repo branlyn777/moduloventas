@@ -67,7 +67,7 @@
                             <div class="col-12 col-sm-6 col-md-2">
                                 <h6>Elige la sucursal</h6>
                                 <div class="form-group">
-                                    <select wire:model="sucursal" class="form-control" style="font-size: 90%">
+                                    <select wire:model="sucursal" class="form-select" style="font-size: 90%">
                                         <option value="0">Todos</option>
                                         @foreach ($sucursales as $suc)
                                             <option value="{{ $suc->id }}">{{ $suc->name }}</option>
@@ -79,7 +79,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Elige la caja</h6>
                             <div class="form-group">
-                                <select wire:model="caja" class="form-control" style="font-size: 90%">
+                                <select wire:model="caja" class="form-select" style="font-size: 90%">
                                     <option value="Todos">Todos</option>
                                     @foreach ($cajas as $cajSu)
                                         <option value="{{ $cajSu->id }}">{{ $cajSu->nombre }}</option>
@@ -91,7 +91,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Elige el tipo de reporte</h6>
                             <div class="form-group">
-                                <select wire:model="reportType" class="form-control">
+                                <select wire:model="reportType" class="form-select">
                                     <option value="0">Servicios del día</option>
                                     <option value="1">Servicios por fecha</option>
                                 </select>

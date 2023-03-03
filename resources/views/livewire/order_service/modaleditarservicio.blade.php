@@ -26,7 +26,7 @@
                             <div class="col-lg-4 col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="validationTooltip01">Tipo de Trabajo</label>
-                                    <select class="custom-select form-control" wire:model.lazy="edit_tipodetrabajo"
+                                    <select class="custom-select form-select" wire:model.lazy="edit_tipodetrabajo"
                                         required>
                                         <option value="">Seleccionar</option>
                                         @foreach ($listatipotrabajo as $item)
@@ -43,7 +43,7 @@
                             <div class="col-lg-4 col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="validationTooltip01">Categoría Trabajo</label>
-                                    <select class="custom-select form-control" wire:model.lazy="edit_categoriatrabajo"
+                                    <select class="custom-select form-select" wire:model.lazy="edit_categoriatrabajo"
                                         required>
                                         <option value="">Seleccionar</option>
                                         @foreach ($listacategoriatrabajo as $i)

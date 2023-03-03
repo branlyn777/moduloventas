@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h1 class="modal-title text-white">
-                    <p class="text-sm mb-0">Nuevo | Cliente</p>
-                </h1>
+                <h5 class="modal-title text-white">
+                    Nuevo | Cliente
+                </h5>
                 <h6 class="text-center text-warning" wire:loading>POR FAVOR ESPERE</h6>
             </div>
 

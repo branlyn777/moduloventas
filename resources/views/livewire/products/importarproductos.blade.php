@@ -32,13 +32,11 @@
                                     productos de un archivo excel.</p>
                             </div>
                         </div>
-
                         <div class="flex-grow-1 ms-5 text-center">
                             <button class="btn btn-sm btn-info" wire:click="downloadex()">
                                 Descargar Plantilla
                             </button>
                         </div>
-
                         <div class="d-flex mt-3">
                             <div class="flex-shrink-0">
                                 <h1 class="badge bg-gradient-primary" style="font-size: 1rem">2</h1>
@@ -50,11 +48,9 @@
                                     con informacion puede causar errores.</p>
                             </div>
                         </div>
-
                         <form wire:submit.prevent="import('{{ $archivo }}')" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-
                             <center>
                                 <div wire:loading wire:target="archivo">
                                     <div class="d-flex align-items-center">
@@ -64,31 +60,26 @@
                                     </div>
                                 </div>
                             </center>
-
                             <div class="flex-grow-1 ms-5">
                                 <label for="">Archivo Seleccionado</label>
                                 <input type="file" class="form-control mb-4" name="import_file"
                                     wire:model.lazy="archivo" accept=".xls,.xlsx" wire:click='resetes()' />
                             </div>
-
                             <div class="flex-grow-1 ms-5">
                                 <div class="form-group">
                                     @if ($failures)
                                         <div class="card p-2 m-1" style="background-color: rgb(224, 224, 224);">
                                             <div class="prueba">
-
                                                 @foreach ($failures as $failure)
                                                     @foreach ($failure->errors() as $error)
                                                         <li>{{ $error }},numero de fila {{ $failure->row() }}.
                                                         </li>
                                                     @endforeach
                                                 @endforeach
-
                                             </div>
                                         </div>
                                     @endif
                                 </div>
-
                                 {{-- @if ($failures)
                                     <div class="card h-100 card-plain border">
                                         <div class="card blur shadow-blur max-height-vh-70"><br>
@@ -105,7 +96,6 @@
                                     </div><br>
                                 @endif --}}
                             </div>
-
                             <div style="text-align: right">
                                 @if ($archivo != null)
                                     <button class="btn btn-sm btn-success mt-1" type="submit">Subir Archivo</button>
@@ -116,7 +106,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
