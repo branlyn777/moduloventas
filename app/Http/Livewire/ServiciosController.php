@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use DateTime;
 use Dompdf\Renderer\Text;
 use Exception;
+use FontLib\TrueType\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -27,16 +28,20 @@ class ServiciosController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $user, $cliente, $nombre, $cedula, $celular, $telefono, $email, $nit, $razon_social, $orderservice, $hora_entrega,
+    public $user, $nombre, $cedula, $celular, $telefono, $email, $nit, $razon_social, $orderservice, $hora_entrega,
         $movimiento, $typeworkid, $detalle, $categoryid, $from, $usuariolog, $catprodservid, $marc, $typeservice,
         $falla_segun_cliente, $diagnostico, $solucion, $saldo, $on_account, $import, $fecha_estimada_entrega,
-        $search,  $condicion, $selected_id, $pageTitle, $buscarCliente, $service, $type_service, $procedencia,
-        $opciones, $estatus, $userId;
+        $search, $selected_id, $pageTitle, $service, $type_service, $procedencia, $cliente,
+        $opciones, $estatus, $userId, $sucursal;
     private $pagination = 5;
 
 
-    //Variables para un servico ráoido
+    //Variables para un servico rápido
     public $fs_kind_of_team, $fs_mark, $fs_team_status, $fs_solution, $fs_import, $fs_technical_support, $service_order_id;
+    //Guarda el id del cliente para el servicio
+    public $client_id;
+
+    public $name_client;
 
 
     public function paginationView()
@@ -69,14 +74,12 @@ class ServiciosController extends Component
         $this->saldo = 0;
         $this->on_account = 0;
         $this->import = 0;
-        $this->condicion = 0;
         $this->opciones = '';
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->estatus = '';
         $this->procedencia = 1;
         $this->userId = 0;
-
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');
         $this->usuariolog = Auth()->user()->name;
         if (!empty(session('od'))) {
@@ -92,15 +95,31 @@ class ServiciosController extends Component
     }
     public function render()
     {
+        $client = [];
+        if (strlen($this->search) > 0)
+        {
+            $client = Cliente::distinct()
+            ->where("clientes.estado","ACTIVO")
+            ->where(function ($query) {
+            $query->where('clientes.nombre', 'like', '%' . $this->search . '%')
+                    ->orWhere('clientes.nit', 'like', '%' . $this->search . '%');
+            })
+            ->paginate(30);
+        }
+
+
+
+
+
         $user = User::find(Auth()->user()->id);
-        foreach ($user->sucursalusers as $usersuc) {
-            if ($usersuc->estado == 'ACTIVO') {
+        foreach ($user->sucursalusers as $usersuc)
+        {
+            if ($usersuc->estado == 'ACTIVO')
+            {
                 $this->sucursal = $usersuc->sucursal->id;
             }
         }
         
-
-        //$this->ResetSession();
         $services = Service::join('mov_services as ms', 'services.id', 'ms.service_id')
             ->join('cat_prod_services as cat', 'cat.id', 'services.cat_prod_service_id')
             ->join('movimientos as mov', 'mov.id', 'ms.movimiento_id')
@@ -130,26 +149,12 @@ class ServiciosController extends Component
             ->distinct()
             ->get();
             
-            if($this->userId == 0){
+            if($this->userId == 0)
+            {
                 $this->userId = Auth()->user()->id;
             }
             
 
-        $datos = [];
-        if (strlen($this->buscarCliente) > 0) {
-            $datos = Cliente::where('nombre', 'like', '%' . $this->buscarCliente . '%')
-                ->orWhere('celular', 'like', '%' . $this->buscarCliente . '%')
-                ->orWhere('telefono', 'like', '%' . $this->buscarCliente . '%')
-                ->orWhere('cedula', 'like', '%' . $this->buscarCliente . '%')
-                ->orderBy('cedula', 'desc')->get();
-            if ($datos->count() > 0) {
-                $this->condicion = 1;
-            } else {
-                $this->condicion = 0;
-            }
-        } else {
-            $this->condicion = 0;
-        }
         $typew = TypeWork::orderBy('name', 'asc')->get();
         $dato1 = CatProdService::orderBy('nombre', 'asc')->get();
 
@@ -182,40 +187,17 @@ class ServiciosController extends Component
 
         return view('livewire.servicio.component', [
             'data' => $services,
-            'datos' => $datos,
             'work' => $typew,
             'cate' => $dato1,
             'marcas' => $marca,
             'fs_marks' => $fs_marks,
             'users' => $users,
+            'client' => $client,
             'procedenciaClientes' => ProcedenciaCliente::orderBy('id', 'asc')->get()
 
         ])
             ->extends('layouts.theme.app')
             ->section('content');
-    }
-    public function Seleccionar($id)
-    {
-        $rules = [
-            'celular' => 'nullable|digits:8'
-        ];
-        $messages = [
-            'celular.digits' => 'El celular debe tener 8 numeros'
-        ];
-
-        $this->validate($rules, $messages);
-
-        $this->cliente = Cliente::find($id);
-        if ($this->celular != '') {
-            $this->cliente->update([
-                'celular' => $this->celular
-            ]);
-        }
-
-        session(['clie' =>   $this->cliente]);
-
-        $this->resetUI();
-        $this->emit('client-selected', 'Cliente Seleccionado');
     }
     public function ResetSession()
     {
@@ -675,7 +657,10 @@ class ServiciosController extends Component
             $this->emit('item-error', 'ERROR' . $e->getMessage());
         }
     }
-    protected $listeners = ['deleteRow' => 'Destroy'];
+    protected $listeners = [
+        'deleteRow' => 'Destroy',
+        'selectclient' => 'select_client'
+    ];
 
     public function Destroy(Service $service)
     {
@@ -714,11 +699,9 @@ class ServiciosController extends Component
         $this->saldo = 0;
         $this->on_account = 0;
         $this->import = 0;
-        $this->condicion = 0;
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');
-        $this->buscarCliente = '';
         $this->nombre = '';
         $this->cedula = '';
         $this->celular = '';
@@ -896,5 +879,17 @@ class ServiciosController extends Component
                 return $cliente_anonimo->id;
             }
         }
+    }
+    //Selecciona un cliente para el servicio
+    public function select_client($idcliente, $celular, $telefono)
+    {
+        $client = Cliente::find($idcliente);
+        $client->update([
+            'celular' => $celular,
+            'telefono' => $telefono
+        ]);
+        $this->search = "";
+        $this->cliente = $client;
+        $this->emit("hide-modalclient");
     }
 }

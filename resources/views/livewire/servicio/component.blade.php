@@ -1,3 +1,93 @@
+@section('css')
+    <style>
+        /* Estilos para las tablas */
+        .table-wrapper {
+            width: 100%;
+            /* Anchura de ejemplo */
+            height: 307px;
+            /* Altura de ejemplo */
+            overflow: auto;
+        }
+
+        .table-wrapper table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-left: 0.3px solid #ffffff00;
+            border-bottom: 0.3px solid #ffffff00;
+            width: 100%;
+        }
+
+        .table-wrapper table thead {
+            position: -webkit-sticky;
+            /* Safari... */
+            position: sticky;
+            top: 0;
+            left: 0;
+            background-color: #5e72e4;
+        }
+
+        .table-wrapper table thead tr {
+            /* background: #ffffff;
+                                color: rgb(0, 0, 0); */
+        }
+
+        /* .table-wrapper table tbody tr {
+                                    border-top: 0.3px solid rgb(0, 0, 0);
+                                } */
+        .table-wrapper table tbody tr:hover {
+            background-color: #8e9ce96c;
+        }
+
+        .table-wrapper table td {
+            border-top: 0.3px solid #ffffff00;
+            padding-left: 10px;
+            border-right: 0.3px solid #ffffff00;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* Estilos para los inputs de la ventana modal cliente */
+        .input-number {
+            height: 25px;
+            width: 100px;
+            font-size: 14px;
+            border: 2px solid #ccc; /* Establecer el ancho y el color del borde */
+            border-radius: 7px; /* Hacer el borde más circular */
+            text-align: center;
+        }
+        .input-number input:focus {
+            border: 0.5px solid rgb(0, 197, 26);
+            outline: none;
+        }
+
+        .clic-action {
+            cursor: pointer;
+        }
+        .clic-action:hover {
+            background-color: #8290db;
+            color: white;
+            padding: 2px;
+            border-radius: 7px;
+        }
+
+
+
+
+
+
+
+
+
+    </style>
+@endsection
 <div>
     <div class="row">
         <div class="col-12">
@@ -9,23 +99,17 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         @if ($orderservice == 0 || $cliente == '')
-                            <a href="javascript:void(0)" class="btn btn-add mb-0"
-                                wire:click="$emit('modalsearchc-show')">Asignar Cliente</a>
-
-                            <a href="javascript:void(0)" class="btn btn-add mb-0"
-                                wire:click="$emit('modalclient-show')"> <i class="fas fa-plus me-2"></i>Nuevo
-                                Cliente</a>
+                            <button class="btn btn-add" wire:click="$emit('show-modalclient')">
+                                Buscar/Crear Cliente
+                            </button>
                         @endif
 
                         @if (!empty($cliente))
-                            <a href="javascript:void(0)" class="btn btn-add mb-0"
-                                wire:click="$emit('modal-show')">Agregar Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modal-show')">Agregar Servicio</a>
                         @endif
                         @if ($orderservice != 0)
-                            <a href="javascript:void(0)" class="btn btn-add mb-0"
-                                wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
+                            <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
                         @endif
-
 
                         <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Órden de Servicio</button>
                         <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
@@ -137,11 +221,10 @@
                 </div>
             </div>
         </div>
-        @include('livewire.servicio.formclientebuscar')
-        @include('livewire.servicio.formclientenuevo')
         @include('livewire.servicio.formservicio')
         @include('livewire.servicio.formtiposervicio')
         @include('livewire.servicio.formfastservice')
+        @include('livewire.servicio.formclient')
     </div>
 </div>
 
@@ -217,10 +300,14 @@
             $('#theType').modal('hide'),
                 noty(msg)
         });
-
-
         window.livewire.on('hidden.bs.modal', function(e) {
             $('.er').css('display', 'none')
+        });
+        window.livewire.on('show-modalclient', msg => {
+            $('#modalclient').modal('show')
+        });
+        window.livewire.on('hide-modalclient', msg => {
+            $('#modalclient').modal('hide')
         });
 
 
@@ -231,7 +318,8 @@
         });
     });
 
-    function Confirm(id, categoria, marca) {
+    function Confirm(id, categoria, marca)
+    {
         swal.fire({
             title: 'CONFIRMAR',
             icon: 'warning',
@@ -247,5 +335,13 @@
                 Swal.close()
             }
         })
+    }
+
+    function SelectClient(idcliente, idcelular, idtelefono)
+    {
+        var celular = document.getElementById(idcelular).value;
+        var telefono = document.getElementById(idtelefono).value;
+        
+        window.livewire.emit('selectclient', idcliente, celular, telefono)
     }
 </script>
