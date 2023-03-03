@@ -7,12 +7,12 @@
                 </a>
             </li>
             <li class="breadcrumb-item text-sm text-white mb-4"><a class="opacity-5 text-white"
-                    href="{{url("")}}">Inicio</a>
+                    href="{{ url('') }}">Inicio</a>
             </li>
-     
+
         </ol>
 
-    </nav> 
+    </nav>
 @endsection
 
 
@@ -30,11 +30,11 @@
                                     Bs {{ number_format($total_current_month, 2, ',', '.') }}
                                 </h5>
                                 <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
-                                    
-                                    @if($difference_percentage > 0)
-                                    + {{ number_format($difference_percentage, 2, ',', '.') }}%
+
+                                    @if ($difference_percentage > 0)
+                                        + {{ number_format($difference_percentage, 2, ',', '.') }}%
                                     @else
-                                    - {{ number_format($difference_percentage, 2, ',', '.') }}%
+                                        - {{ number_format($difference_percentage, 2, ',', '.') }}%
                                     @endif
 
                                     <span class="font-weight-normal text-secondary">desde el mes pasado</span>
@@ -44,17 +44,9 @@
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
+                                      
                                     </a>
-                                    {{-- <ul class="dropdown-menu dropdown-menu-end px-2 py-3"
-                                        aria-labelledby="dropdownUsers1">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 7
-                                                days</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last week</a>
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 30
-                                                days</a></li>
-                                    </ul> --}}
+                                  
                                 </div>
                             </div>
                         </div>
@@ -77,17 +69,9 @@
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers2"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
+                            
                                     </a>
-                                    {{-- <ul class="dropdown-menu dropdown-menu-end px-2 py-3"
-                                        aria-labelledby="dropdownUsers2">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 7
-                                                days</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last week</a>
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 30
-                                                days</a></li>
-                                    </ul> --}}
+                            
                                 </div>
                             </div>
                         </div>
@@ -130,57 +114,46 @@
         </div>
         <div class="row mt-4">
             <div class="col-lg-4 col-sm-6">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header pb-0 p-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Ingresos</h6>
+                        <div class="d-flex">
+                            <h6 class="me-auto">Ingresos</h6>
+                            
+                            <button class="btn btn-sm btn-success" wire:click='mostrarEgresos()'>Egresos</button>
+
                         </div>
                     </div>
                     <div class="card-body pb-0 p-3 mt-4">
                         <div class="row">
-                            <div class="col-7 text-start">
+                            <div class="col-md-7 text-start">
                                 <div class="chart">
                                     <canvas id="chart-pie" class="chart-canvas" height="200" width="161"
                                         style="display: block; box-sizing: border-box; height: 200px; width: 161.5px;"></canvas>
                                 </div>
                             </div>
-                            <div class="col-5 my-auto">
-
-                                @foreach ($collection as $item)
-                                    
+                            <div class="col-md-5 m-auto">
+                                @foreach ($labelingresos as $item)
+                                    <li class="text-xs">{{ $item }}</li>
                                 @endforeach
-                                <span class="badge badge-md badge-dot me-4 d-block text-start">
-                                    <i class="bg-info"></i>
-                                    <span class="text-dark text-xs">Facebook</span>
-                                </span>
-                                <span class="badge badge-md badge-dot me-4 d-block text-start">
-                                    <i class="bg-primary"></i>
-                                    <span class="text-dark text-xs">Volantes</span>
-                                </span>
-                                <span class="badge badge-md badge-dot me-4 d-block text-start">
-                                    <i class="bg-dark"></i>
-                                    <span class="text-dark text-xs">Venta</span>
-                                </span>
-                            
                             </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center">
                         <div class="w-60">
                             <p class="text-sm">
-                               Mas del 50% de los clientes proviene de Facebook
+                                {{$intchart}}
                             </p>
                         </div>
-                        <div class="w-40 text-end">
+                        {{-- <div class="w-40 text-end">
                             <a class="btn bg-light mb-0 text-end" href="javascript:;">Ir Clientes</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
-                       
+
                         <div class="d-flex align-items-center">
                             <span class="badge badge-md badge-dot me-4">
                                 <i style="background-color: #5e72e4"></i>
@@ -195,7 +168,7 @@
                     <div class="card-body p-3">
                         <div class="chart">
                             <canvas id="chart-line" class="chart-canvas" height="300" width="644"
-                                style="display: block; box-sizing: border-box; height: 300px; width: 644px;"></canvas>
+                                style="display: block; box-sizing: border-box; height: 265px; width: 644px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -228,7 +201,7 @@
                         <ul class="list-group list-group-flush list my--3">
                             <li class="list-group-item px-0 border-0">
                                 <div class="row align-items-center">
-                           
+
                                     <div class="col">
                                         <p class="text-xs font-weight-bold mb-0">Usuario:</p>
                                         <h6 class="text-sm mb-0">Miguel Gonzalez</h6>
@@ -237,13 +210,13 @@
                                         <p class="text-xs font-weight-bold mb-0">Ventas:</p>
                                         <h6 class="text-sm mb-0">2500</h6>
                                     </div>
-                                  
+
                                 </div>
                                 <hr class="horizontal dark mt-3 mb-1">
                             </li>
                             <li class="list-group-item px-0 border-0">
                                 <div class="row align-items-center">
-                               
+
                                     <div class="col">
                                         <p class="text-xs font-weight-bold mb-0">Usuario:</p>
                                         <h6 class="text-sm mb-0">Mario Alcazar</h6>
@@ -257,7 +230,7 @@
                             </li>
                             <li class="list-group-item px-0 border-0">
                                 <div class="row align-items-center">
-                                   
+
                                     <div class="col">
                                         <p class="text-xs font-weight-bold mb-0">Usuario:</p>
                                         <h6 class="text-sm mb-0">Jose Dominguez</h6>
@@ -271,7 +244,7 @@
                             </li>
                             <li class="list-group-item px-0 border-0">
                                 <div class="row align-items-center">
-                                    
+
                                     <div class="col">
                                         <p class="text-xs font-weight-bold mb-0">Usuario:</p>
                                         <h6 class="text-sm mb-0">Carla Ortiz</h6>
@@ -285,7 +258,7 @@
                             </li>
                             <li class="list-group-item px-0 border-0">
                                 <div class="row align-items-center">
-                               
+
                                     <div class="col">
                                         <p class="text-xs font-weight-bold mb-0">Usuario:</p>
                                         <h6 class="text-sm mb-0">Maria Jose</h6>
@@ -321,7 +294,7 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Costo</th>
-                                
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -345,11 +318,11 @@
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-sm font-weight-bold mb-0">Bs. 95</p>
                                         </td>
-                                      
+
                                     </tr>
-                               
-                              
-                            
+
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -417,7 +390,7 @@
 
 <script src="{{ asset('js/plugins/chartjs.min.js') }}"></script>
 <script>
-       var ctx1 = document.getElementById("chart-line").getContext("2d");
+    var ctx1 = document.getElementById("chart-line").getContext("2d");
     var ctx2 = document.getElementById("chart-pie").getContext("2d");
     var ctx3 = document.getElementById("chart-bar").getContext("2d");
 
@@ -428,9 +401,11 @@
     gradientStroke1.addColorStop(0, 'rgba(94, 114, 228,0)'); //purple colors
 
     var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
-    var ventas={{ Js::from($ventas) }};
-    var compras={{ Js::from($compras) }};
-    var meses={{ Js::from($meses) }};
+    var ventas = {{ Js::from($ventas) }};
+    var compras = {{ Js::from($compras) }};
+    var meses = {{ Js::from($meses) }};
+    var ingresos = {{ Js::from($labelingresos) }};
+    var chtingresos = {{ Js::from($chartingresos) }};
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -438,218 +413,204 @@
 
     // Line chart
     new Chart(ctx1, {
-      type: "line",
-      data: {
-        labels: meses,
-        datasets: [{
-            label: "Compras",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 2,
-            pointBackgroundColor: "#5e72e4",
-            borderColor: "#5e72e4",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            fill: true,
-            data: compras,
-            maxBarThickness: 6
-          },
-          {
-            label: "Ventas",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 2,
-            pointBackgroundColor: "#3A416F",
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            fill: true,
-            data:ventas ,
-            maxBarThickness: 6
-          }
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
+        type: "line",
+        data: {
+            labels: meses,
+            datasets: [{
+                    label: "Compras",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 2,
+                    pointBackgroundColor: "#5e72e4",
+                    borderColor: "#5e72e4",
+                    borderWidth: 3,
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: compras,
+                    maxBarThickness: 6
+                },
+                {
+                    label: "Ventas",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 2,
+                    pointBackgroundColor: "#3A416F",
+                    borderColor: "#3A416F",
+                    borderWidth: 3,
+                    backgroundColor: gradientStroke2,
+                    fill: true,
+                    data: ventas,
+                    maxBarThickness: 6
+                }
+            ],
         },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5]
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
             },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#9ca2b7'
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: true,
-              borderDash: [5, 5]
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
-            ticks: {
-              display: true,
-              color: '#9ca2b7',
-              padding: 10
-            }
-          },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#9ca2b7'
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: true,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#9ca2b7',
+                        padding: 10
+                    }
+                },
+            },
         },
-      },
     });
 
 
-    // Pie chart
+    // Pie chart of incomes and bills
     new Chart(ctx2, {
-      type: "pie",
-      data: {
-        labels: ['Facebook', 'Volantes', 'Venta'],
-        datasets: [{
-          label: "Projects",
-          weight: 9,
-          cutout: 0,
-          tension: 0.9,
-          pointRadius: 2,
-          borderWidth: 2,
-          backgroundColor: ['#17c1e8', '#5e72e4', '#3A416F'],
-          data: [15, 20, 12],
-          fill: false
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
+        type: "pie",
+        data: {
+            labels: ingresos,
+            datasets: [{
+                label: "Projects",
+                weight: 9,
+                cutout: 0,
+                tension: 0.9,
+                pointRadius: 2,
+                borderWidth: 2,
+                backgroundColor: ["#5B34F8", "#2E3AD9", "#3A79F0", "#2995D9", "#2FDFF8","#EE79F0","#F84370"],
+                data:chtingresos,
+                fill: false
+            }],
         },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
             },
-            ticks: {
-              display: false
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
-            ticks: {
-              display: false,
-            }
-          },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false,
+                    }
+                },
+            },
         },
-      },
     });
 
-    // {
-    //         label: "Ventas",
-    //         tension: 0.4,
-    //         borderWidth: 0,
-    //         pointRadius: 2,
-    //         pointBackgroundColor: "#3A416F",
-    //         borderColor: "#3A416F",
-    //         borderWidth: 3,
-    //         backgroundColor: gradientStroke2,
-    //         fill: true,
-    //         data: [10, 30, 40, 120, 150, 220, 280, 250, 280],
-    //         maxBarThickness: 6
-    //       }
 
     // Bar chart
     new Chart(ctx3, {
-      type: "bar",
-      data: {
-        labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-        datasets: [{
-          label: "Ingresos",
-          weight: 5,
-          borderWidth: 0,
-          borderRadius: 4,
-          backgroundColor: '#5e72e4',
-          data: [15, 20, 12, 60, 20, 15,25],
-          fill: false,
-          maxBarThickness: 35
+        type: "bar",
+        data: {
+            labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            datasets: [{
+                    label: "Ingresos",
+                    weight: 5,
+                    borderWidth: 0,
+                    borderRadius: 4,
+                    backgroundColor: '#5e72e4',
+                    data: [15, 20, 12, 60, 20, 15, 25],
+                    fill: false,
+                    maxBarThickness: 35
+                },
+                {
+                    label: "Egresos",
+                    weight: 5,
+                    borderWidth: 0,
+                    borderRadius: 4,
+                    backgroundColor: '#3A416F',
+                    data: [10, 5, 12, 30, 20, 15, 95],
+                    fill: false,
+                    maxBarThickness: 35
+                }
+            ],
         },
-        {
-          label: "Egresos",
-          weight: 5,
-          borderWidth: 0,
-          borderRadius: 4,
-          backgroundColor: '#3A416F',
-          data: [10, 5, 12, 30, 20, 15,95],
-          fill: false,
-          maxBarThickness: 35
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5]
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
             },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#9ca2b7'
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: true,
-              drawTicks: true,
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        padding: 10,
+                        color: '#9ca2b7'
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: true,
+                        drawTicks: true,
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#9ca2b7',
+                        padding: 10
+                    }
+                },
             },
-            ticks: {
-              display: true,
-              color: '#9ca2b7',
-              padding: 10
-            }
-          },
-        },
-      },
+        }
     });
-  </script>
-
-
+</script>

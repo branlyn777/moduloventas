@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 // use Illuminate\View\Component as ViewComponent;
 
+use App\Models\CarteraMov;
 use App\Models\CarteraMovCategoria;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
@@ -22,11 +23,14 @@ class InicioController extends Component
     public $ingresosMes, $ingresosMesAnterior, $difIngresos;
     public $egresosMes, $egresosMesAnterior, $difEgresos;
     //graficos
-    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [],$labelingresos;
+    public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [], $labelingresos,$chartingresos,$intchart,$tipo;
+
+    public function mount(){
+        $tipo='Ingresos';
+    }
+
     public function render()
     {
-
-
 
         for ($i = 0; $i <= 6; $i++) {
             array_unshift($this->meses, Carbon::now()->subMonths($i)->isoFormat('MMMM'));
@@ -39,11 +43,35 @@ class InicioController extends Component
             array_unshift($this->ventas, $venta);
         }
 
-        $this->labelingresos= CarteraMovCategoria::where('tipo','INGRESO')->pluck('nombre');
-
-
-
+        
+       $this->chartingresos=Movimiento::join('cartera_movs','cartera_movs.movimiento_id','movimientos.id')
+        ->join('cartera_mov_categorias','cartera_mov_categorias.id','cartera_movs.cartera_mov_categoria_id')
+        ->where('cartera_mov_categorias.tipo','INGRESO')
+        ->where('movimientos.status','ACTIVO')
+        ->whereMonth('movimientos.created_at', now())
+        ->groupBy('cartera_mov_categorias.nombre')
+        ->selectRaw('cartera_mov_categorias.nombre, sum(movimientos.import) as total_importe')
+        ->get('total_importe','cartera_mov_categorias.nombre');
+        
    
+        $this->labelingresos = $this->chartingresos->pluck('nombre');
+        $this->chartingresos = $this->chartingresos->pluck('total_importe');
+     
+        if ($this->tipo =='Ingreso') {
+            
+            $vs=Sale::whereMonth('created_at', now())
+            ->where('status', 'PAID')
+            ->sum('total');
+      
+            $this->chartingresos->push($vs);
+            $this->labelingresos->push('Ingreso por ventas');
+        }
+
+
+
+
+
+
 
 
         // Calculo de ingresos y porcencentajes de diferencia entre el mes actual y el mes anterior
@@ -141,12 +169,16 @@ class InicioController extends Component
 
 
         return view('livewire.inicio.inicio', [
-          
+
             'total_current_month' => $total_current_month,
             'difference_percentage' => $difference_percentage,
 
         ])
             ->extends('layouts.theme.app')
             ->section('content');
+    }
+
+    public function mostrarEgresos(){
+        $this->tipo='Egreso';
     }
 }

@@ -43,7 +43,7 @@ class DetalleComprasController extends Component
         $estado_compra, $total_compra, $itemsQuantity, $price, $status, $tipo_transaccion, $destinocompra, $porcentaje, $importe, $dscto = 0, $aplicar = false, $lote_compra;
 
     public $nombre_prov, $apellido, $correo, $direccion, $nit,
-        $telefono;
+        $telefono,$ordenado;
 
     public $nombre, $costo, $precio_venta, $barcode, $codigo, $caracteristicas, $lote, $unidad, $marca, $garantia, $industria, $total,
         $categoryid, $component, $stockswitch, $destino, $imagen, $destinosp, $selected_categoria, $image, $selected_id2, $name, $descripcion;
@@ -77,6 +77,8 @@ class DetalleComprasController extends Component
         $this->porcentaje = 0;
         $this->stockswitch = false;
         $this->verPermisos();
+        $this->ordenar();
+        
     }
     public function render()
     {
@@ -114,7 +116,7 @@ class DetalleComprasController extends Component
 
         return view('livewire.compras.detalle_compra', [
             'data_prod' => $prod,
-            'cart' => Compras::getContent()->sortBy('name'),
+            'cart' => Compras::getContent()->sortBy('ordenado'),
             'data_suc' => $data_destino,
             'data_prov' => $data_provider,
             'categories' => Category::where('categories.categoria_padre', 0)->orderBy('name', 'asc')->get(),
@@ -156,7 +158,8 @@ class DetalleComprasController extends Component
         $attributos = [
             'precio' => $product->precio_venta,
             'codigo' => $product->codigo,
-            'fecha_compra' => $this->fecha_compra
+            'fecha_compra' => $this->fecha_compra,
+            'orden'=>$this->ordenado++
         ];
 
         if ($precio_compra == null) {
@@ -260,6 +263,7 @@ class DetalleComprasController extends Component
         $prices = $exist->price;
         $precio_venta = $exist->attributes->precio;
         $codigo = $exist->attributes->codigo;
+        $ord = $exist->attributes->orden;
 
 
         $this->removeItem($productId);
@@ -271,7 +275,9 @@ class DetalleComprasController extends Component
             $attributos = [
                 'precio' => $precio_venta,
                 'codigo' => $codigo,
-                'fecha_compra' => $this->fecha_compra
+                'fecha_compra' => $this->fecha_compra,
+                'orden'=>$ord
+                
             ];
 
             $products = array(
@@ -298,6 +304,7 @@ class DetalleComprasController extends Component
         $quantitys = $exist->quantity;
         $precio_venta = $exist->attributes->precio;
         $codigo = $exist->attributes->codigo;
+        $ord = $exist->attributes->orden;
         $this->removeItem($productId);
 
         if ($price > 0) {
@@ -305,7 +312,9 @@ class DetalleComprasController extends Component
             $attributos = [
                 'precio' => $precio_venta,
                 'codigo' => $codigo,
-                'fecha_compra' => $this->fecha_compra
+                'fecha_compra' => $this->fecha_compra,
+                'orden'=>$ord
+                
             ];
 
             $products = array(
@@ -343,6 +352,7 @@ class DetalleComprasController extends Component
         $quantitys = $exist->quantity;
         $precio_compra = $exist->price;
         $codigo = $exist->attributes->codigo;
+        $ord = $exist->attributes->orden;
 
         $this->removeItem($productId);
 
@@ -351,7 +361,8 @@ class DetalleComprasController extends Component
             $attributos = [
                 'precio' => $price,
                 'codigo' => $codigo,
-                'fecha_compra' => $this->fecha_compra
+                'fecha_compra' => $this->fecha_compra,
+                'orden'=>$ord
             ];
 
             $new_price = Product::find($productId);
@@ -684,5 +695,15 @@ public function stockChange(){
         $this->costoTotal=$this->costoUnitario*$this->cantidad;
     }
 
+}
+
+public function ordenar(){
+    $pr=Compras::getTotalQuantity();
+    if ($pr !=null) {
+        $this->ordenado=$pr;
+    }
+    else{
+        $this->ordenado=0;
+    }
 }
 }
