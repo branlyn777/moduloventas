@@ -296,7 +296,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Seleccionar Sucursal</h6>
                             <div class="form-group">
-                                <select wire:model="sucursal_id" class="form-control">
+                                <select wire:model="sucursal_id" class="form-select">
                                     @foreach ($this->listasucursales as $s)
                                         <option value="{{ $s->id }}">{{ $s->name }}</option>
                                     @endforeach
@@ -319,7 +319,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Estado</h6>
                             <div class="form-group">
-                                <select wire:model="estado" class="form-control">
+                                <select wire:model="estado" class="form-select">
                                     <option value="PENDIENTE">PENDIENTE</option>
                                     <option value="PROCESO">PROCESO</option>
                                     <option value="TERMINADO">TERMINADO</option>

@@ -7,7 +7,7 @@
                     Asignar Técnico Responsable - Orden de Servicio N°:{{ $this->id_orden_de_servicio }}
                     
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
