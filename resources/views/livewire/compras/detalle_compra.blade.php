@@ -172,11 +172,11 @@
                             </div>
 
                             @if (strlen($search) > 0)
-                                <div class="overflow-auto" style="max-height: 20rem;">
+                                <div class="table-wrapper">
                                     <table>
                                         <thead>
-                                            <tr style="font-size: 14px">
-                                                <th style="width: 1rem;">Producto</th>
+                                            <tr>
+                                                <th>Producto</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -184,11 +184,10 @@
                                             @foreach ($data_prod as $prod)
                                                 <tr>
                                                     <td>
-                                                        <label style="font-size: 14px">
-                                                            {{ $prod->nombre }}    ({{ $prod->codigo }})
-                                                            <h6 class='text-xs'>{{ $prod->caracteristicas }}</h6>
-                                                        
-                                                        </label>
+                                                        <label for="">{{ $prod->nombre }}({{ $prod->codigo }})
+                                                            {{ $prod->caracteristicas }}</label>
+                                          
+                                                      
                                                     </td>
 
                                                     <td class="text-center">
@@ -202,6 +201,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{$data_prod->links()}}
                                 </div>
                             @endif
                         </div>
@@ -232,7 +232,9 @@
                                             <tr>
                                                 <td>
                                                     <h6 class="mb-0 text-sm">{{$prod->name}}</h6>
-                                                    <strong class='text-xs'>({{ $prod->attributes->codigo }})</strong>
+                                                    <strong class='text-xs'>({{ $prod->attributes->codigo }})
+                                                        ({{ $prod->attributes->orden }})
+                                                    </strong>
                                                 </td>
                                          
                                                 <td>

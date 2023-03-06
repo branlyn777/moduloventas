@@ -31,11 +31,11 @@
                                 </h5>
                                 <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
 
-                                    @if ($difference_percentage > 0)
+                                    {{-- @if ($difference_percentage > 0)
                                         + {{ number_format($difference_percentage, 2, ',', '.') }}%
                                     @else
                                         - {{ number_format($difference_percentage, 2, ',', '.') }}%
-                                    @endif
+                                    @endif --}}
 
                                     <span class="font-weight-normal text-secondary">desde el mes pasado</span>
                                 </span>
@@ -119,7 +119,7 @@
                         <div class="d-flex">
                             <h6 class="me-auto">Ingresos</h6>
                             
-                            <button class="btn btn-sm btn-success" wire:click='mostrarEgresos()'>Egresos</button>
+                            <button type="button" class="btn btn-sm btn-success" wire:click='mostrarEgresos()'>Egresos</button>
 
                         </div>
                     </div>

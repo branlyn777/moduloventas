@@ -57,6 +57,10 @@ class DetalleComprasController extends Component
     private $pagination = 5;
     public $componentName, $componentName2;
    
+    public function paginationView()
+    {
+        return 'vendor.livewire.bootstrap';
+    }
     public function mount()
     {
         $this->componentName= "Compras";
@@ -85,13 +89,16 @@ class DetalleComprasController extends Component
 
         if (strlen($this->search) > 0) {
             $prod = Product::select('products.*')
-                ->where('nombre', 'like', '%' . $this->search . '%')
-                ->where('status', 'ACTIVO')
+            ->where('status', 'ACTIVO')
+            ->where(function($query){
+                $query->where('nombre', 'like', '%' . $this->search . '%')
                 ->orWhere('codigo', 'like', '%' . $this->search . '%')
                 ->orWhere('marca', 'like', '%' . $this->search . '%')
-                ->orWhere('id', 'like', '%' . $this->search . '%')
+                ->orWhere('id', 'like', '%' . $this->search . '%');
+            })
+               
          
-                ->get();
+                ->paginate($this->pagination);
         } else {
             $prod = "cero";
         }
@@ -116,7 +123,7 @@ class DetalleComprasController extends Component
 
         return view('livewire.compras.detalle_compra', [
             'data_prod' => $prod,
-            'cart' => Compras::getContent()->sortBy('ordenado'),
+            'cart' => Compras::getContent()->sortBy('attributes.orden'),
             'data_suc' => $data_destino,
             'data_prov' => $data_provider,
             'categories' => Category::where('categories.categoria_padre', 0)->orderBy('name', 'asc')->get(),
@@ -155,26 +162,54 @@ class DetalleComprasController extends Component
         $precio_compra = Lote::where('product_id', $productId)->latest('created_at')->value('costo');
 
         $exist = Compras::get($product->id);
-        $attributos = [
-            'precio' => $product->precio_venta,
-            'codigo' => $product->codigo,
-            'fecha_compra' => $this->fecha_compra,
-            'orden'=>$this->ordenado++
-        ];
-
-        if ($precio_compra == null) {
-            $precio_compra = 0;
+        if ($exist==null) {
+          
+            $attributos = [
+                'precio' => $product->precio_venta,
+                'codigo' => $product->codigo,
+                'fecha_compra' => $this->fecha_compra,
+                'orden'=>($this->ordenado+1)
+            ];
+    
+            if ($precio_compra == null) {
+                $precio_compra = 0;
+            }
+    
+    
+            $products = array(
+                'id' => $product->id,
+                'name' => $product->nombre,
+                'price' => $precio_compra,
+                'quantity' => $cant,
+                'attributes' => $attributos
+            );
+            Compras::add($products);
+            $this->ordenado=$this->ordenado+1;
         }
-
-
-        $products = array(
-            'id' => $product->id,
-            'name' => $product->nombre,
-            'price' => $precio_compra,
-            'quantity' => $cant,
-            'attributes' => $attributos
-        );
-        Compras::add($products);
+        else{
+            
+            $attributos = [
+                'precio' => $product->precio_venta,
+                'codigo' => $product->codigo,
+                'fecha_compra' => $this->fecha_compra,
+                'orden'=>$exist->attributes->orden
+            ];
+    
+            if ($precio_compra == null) {
+                $precio_compra = 0;
+            }
+    
+    
+            $products = array(
+                'id' => $product->id,
+                'name' => $product->nombre,
+                'price' => $precio_compra,
+                'quantity' => $cant,
+                'attributes' => $attributos
+            );
+            Compras::add($products);
+        }
+      
         // Compras::add($product->id, $product->name, $precio_compra, $cant);
 
         $this->total = Compras::getTotal();

@@ -26,7 +26,7 @@ class InicioController extends Component
     public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [], $labelingresos,$chartingresos,$intchart,$tipo;
 
     public function mount(){
-        $tipo='Ingresos';
+        $this->tipo='INGRESO';
     }
 
     public function render()
@@ -46,7 +46,7 @@ class InicioController extends Component
         
        $this->chartingresos=Movimiento::join('cartera_movs','cartera_movs.movimiento_id','movimientos.id')
         ->join('cartera_mov_categorias','cartera_mov_categorias.id','cartera_movs.cartera_mov_categoria_id')
-        ->where('cartera_mov_categorias.tipo','INGRESO')
+        ->where('cartera_mov_categorias.tipo',$this->tipo)
         ->where('movimientos.status','ACTIVO')
         ->whereMonth('movimientos.created_at', now())
         ->groupBy('cartera_mov_categorias.nombre')
@@ -57,7 +57,7 @@ class InicioController extends Component
         $this->labelingresos = $this->chartingresos->pluck('nombre');
         $this->chartingresos = $this->chartingresos->pluck('total_importe');
      
-        if ($this->tipo =='Ingreso') {
+        if ($this->tipo =='INGRESO') {
             
             $vs=Sale::whereMonth('created_at', now())
             ->where('status', 'PAID')
@@ -148,10 +148,10 @@ class InicioController extends Component
         //Cálculo del total ventas del mes anterior
         $previus_month_total = Sale::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->where("status", "PAID")->sum('total');
 
-        if ($previus_month_total != 0) {
+        // if ($previus_month_total != 0) {
 
             //Obteniendo el porcentaje de $endOfLastMonth
-            $percentage = ($previus_month_total * 100) / $total_current_month;
+            //$percentage = ($previus_month_total * 100) / $total_current_month;
 
 
             //Calculando la diferencia
@@ -160,10 +160,10 @@ class InicioController extends Component
 
 
             //Calculando la diferencia en porcentaje
-            $difference_percentage = 100 - $percentage;
-        } else {
-            $difference_percentage = 0;
-        }
+        //     $difference_percentage = 100 - $percentage;
+        // } else {
+        //     $difference_percentage = 0;
+        // }
 
 
 
@@ -171,7 +171,7 @@ class InicioController extends Component
         return view('livewire.inicio.inicio', [
 
             'total_current_month' => $total_current_month,
-            'difference_percentage' => $difference_percentage,
+           // 'difference_percentage' => $difference_percentage,
 
         ])
             ->extends('layouts.theme.app')
@@ -179,6 +179,6 @@ class InicioController extends Component
     }
 
     public function mostrarEgresos(){
-        $this->tipo='Egreso';
+        $this->tipo='EGRESO';
     }
 }
