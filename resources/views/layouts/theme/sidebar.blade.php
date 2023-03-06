@@ -195,8 +195,14 @@
                 </a>
                 <div class=@yield('servicioshow', 'collapse ') id="servicios" style="">
                     <ul class="nav ms-4">
+                        <li class=@yield('vistaserviciosequipoli', 'nav-item ')>
+                            <a class=@yield('categoriaequiponav', 'nav-link ') href="{{ url('proximos') }}">
+                                <span class="sidenav-mini-icon"> P </span>
+                                <span class="sidenav-normal">Vista  de Servicios</span>
+                            </a>
+                        </li>
                         <li class=@yield('categoriaequipoli', 'nav-item ')>
-                            <a class=@yield('categoriaequiponav', 'nav-link ') href="{{ url('catprodservice') }}">
+                            <a class=@yield('vistaserviciosnav', 'nav-link ') href="{{ url('catprodservice') }}">
                                 <span class="sidenav-mini-icon"> C </span>
                                 <span class="sidenav-normal">Categoria Equipo</span>
                             </a>
