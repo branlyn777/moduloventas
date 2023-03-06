@@ -336,12 +336,16 @@
             }
         })
     }
-
     function SelectClient(idcliente, idcelular, idtelefono)
     {
         var celular = document.getElementById(idcelular).value;
         var telefono = document.getElementById(idtelefono).value;
         
         window.livewire.emit('selectclient', idcliente, celular, telefono)
+    }
+    function ClearNumbers(idcelular, idtelefono)
+    {
+        document.getElementById(idcelular).value = '';
+        document.getElementById(idtelefono).value = '';
     }
 </script>

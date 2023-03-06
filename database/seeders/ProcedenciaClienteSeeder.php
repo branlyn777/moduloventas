@@ -16,6 +16,9 @@ class ProcedenciaClienteSeeder extends Seeder
     public function run()
     {
         ProcedenciaCliente::create([
+            'procedencia' => 'Servicio Técnico'
+        ]);
+        ProcedenciaCliente::create([
             'procedencia' => 'Facebook'
         ]);
         ProcedenciaCliente::create([
