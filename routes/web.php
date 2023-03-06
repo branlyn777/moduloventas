@@ -56,6 +56,7 @@ use App\Http\Livewire\NivelInventariosController;
 use App\Http\Livewire\NotificationInventoryController;
 use App\Http\Livewire\OrderServiceController;
 use App\Http\Livewire\ProvidersController;
+use App\Http\Livewire\ProximosController;
 use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporGananciaTgController;
 use App\Http\Livewire\ReporteJornadaTMController;
@@ -214,6 +215,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     /* SERVICIOS */
+    Route::get('proximos', ProximosController::class)->name('proximos');
     Route::get('catprodservice', CatProdServiceController::class)->name('cps')->middleware('permission:Cat_Prod_Service_Index');
     Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
     Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');

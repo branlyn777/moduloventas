@@ -48,8 +48,7 @@
                                     @foreach ($client as $c)
                                         <tr>
                                             <td>
-                                                <span class="me-2 text-sm clic-action" title="Seleccionar Cliente"
-                                                onclick="SelectClient({{ $c->id }}, 'c' + '{{ $c->id }}', 't' + '{{ $c->id }}')">
+                                                <span class="me-2 text-sm clic-action" onclick="SelectClient({{ $c->id }}, 'c' + '{{ $c->id }}', 't' + '{{ $c->id }}')" title="Seleccionar Cliente">
                                                     {{ $c->nombre }}
                                                 </span>
                                             </td>
