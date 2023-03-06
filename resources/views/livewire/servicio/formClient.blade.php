@@ -37,10 +37,10 @@
                                             Carnet
                                         </th>
                                         <th class="text-uppercase text-xs font-weight-bolder">
-                                            Celular 1
+                                            Celular
                                         </th>
                                         <th class="text-uppercase text-xs font-weight-bolder">
-                                            Celular 2
+                                            Teléfono
                                         </th>
                                     </tr>
                                 </thead>
@@ -73,14 +73,14 @@
                         <div style="height: 307px;">
                             <div class="row">
                                 <div class="col-6">
-                                    <label>CELULAR 1:</label>
+                                    <label>CELULAR:</label>
                                     <input wire:model.lazy="celular" type="text" class="form-control">
                                     @error('celular')
                                         <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label>CELULAR 2:</label>
+                                    <label>TELÉFONO:</label>
                                     <input wire:model.lazy="telefono" type="text" class="form-control">
                                     @error('telefono')
                                         <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>

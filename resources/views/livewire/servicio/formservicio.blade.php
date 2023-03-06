@@ -1,5 +1,5 @@
 <div wire:ignore.self class="modal fade" id="theModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
@@ -58,7 +58,7 @@
                     <div class="col-lg-4 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>
-                                <span class="text-warning">* </span>Marca/Modelo
+                                <span class="text-warning">* </span>Marca
                             </label>
                             <datalist id="colores">
                                 @foreach ($marcas as $cat)
@@ -77,7 +77,7 @@
                     <div class="col-lg-6 col-sm-12 col-md-8">
                         <div class="form-group">
                             <label>
-                                <span class="text-warning">* </span>Estado del Equipo
+                                <span class="text-warning">* </span>Modelo y Estado del Equipo
                             </label>
                             <input type="text" wire:model.lazy="detalle" class="form-control"
                                 placeholder="ej: Note 7 con protector de pantalla">
@@ -199,6 +199,29 @@
                                 class="form-control">
                         </div>
                     </div>
+                    <div class="col-lg-3 col-sm-12 col-md-4">
+
+                        <div class="row">
+                            <div class="col-5">
+                                <br>
+                                <button type="button" wire:click.prevent="resetUI()" wire:click="$emit('modal-hide')" class="btn btn-secondary" style="background: #3b3f5c">CANCELAR</button>
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+                            <div class="col-5">
+                                <br>
+                                @if ($selected_id < 1)
+                                <button type="button" wire:click.prevent="Store()" class="btn btn-primary">GUARDAR</button>
+                            @else
+                                <button type="button" wire:click.prevent="Update()" class="btn btn-primary">ACTUALIZAR</button>
+                            @endif
+                            </div>
+                        </div>
+
+                        
+                            
+                    </div>
                     @if ($selected_id > 0)
                         @if ($opciones != 'ENTREGADO')
                             <div class="col-lg-5 col-sm-12 col-md-4">
@@ -239,16 +262,9 @@
                     @endif
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" wire:click.prevent="resetUI()" wire:click="$emit('modal-hide')"
-                        class="btn btn-secondary" data-dismiss="modal" style="background: #3b3f5c">CANCELAR</button>
-                    @if ($selected_id < 1)
-                        <button type="button" wire:click.prevent="Store()" class="btn btn-primary">GUARDAR</button>
-                    @else
-                        <button type="button" wire:click.prevent="Update()"
-                            class="btn btn-primary">ACTUALIZAR</button>
-                    @endif
-                </div>
+                {{-- <div class="modal-footer">
+                    
+                </div> --}}
             </div>
         </div>
     </div>
