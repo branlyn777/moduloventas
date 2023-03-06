@@ -916,8 +916,6 @@ class ProximosController extends Component
             }
         }
     }
-
-
     //Obtener el Id de la Sucursal Donde esta el Usuario
     public function idsucursal()
     {

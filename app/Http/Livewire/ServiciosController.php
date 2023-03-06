@@ -28,7 +28,7 @@ class ServiciosController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $user, $nombre, $cedula, $celular, $telefono, $email, $nit, $razon_social, $orderservice, $hora_entrega,
+    public $user, $cedula, $celular, $telefono, $orderservice, $hora_entrega,
         $movimiento, $typeworkid, $detalle, $categoryid, $from, $usuariolog, $catprodservid, $marc, $typeservice,
         $falla_segun_cliente, $diagnostico, $solucion, $saldo, $on_account, $import, $fecha_estimada_entrega,
         $search, $selected_id, $pageTitle, $service, $type_service, $procedencia, $cliente,
@@ -78,7 +78,7 @@ class ServiciosController extends Component
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->estatus = '';
-        $this->procedencia = 1;
+        $this->procedencia = "1";
         $this->userId = 0;
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');
         $this->usuariolog = Auth()->user()->name;
@@ -102,7 +102,7 @@ class ServiciosController extends Component
             ->where("clientes.estado","ACTIVO")
             ->where(function ($query) {
             $query->where('clientes.nombre', 'like', '%' . $this->search . '%')
-                    ->orWhere('clientes.nit', 'like', '%' . $this->search . '%');
+                    ->orWhere('clientes.cedula', 'like', '%' . $this->search . '%');
             })
             ->paginate(30);
         }
@@ -207,63 +207,6 @@ class ServiciosController extends Component
         session(['clie' => null]);
         session(['tservice' => null]);
         $this->redirect('orderservice');
-    }
-    public function StoreClient()
-    {
-        $rules = [
-            'nombre' => 'required|min:1|unique:clientes',
-            'cedula' => 'nullable|max:10',
-            'celular' => 'nullable|digits:8',
-            'telefono' => 'nullable|digits:7',
-            'nit' => 'nullable|max:9',
-            'email' => 'nullable|unique:clientes|email',
-        ];
-        $messages = [
-            'nombre.required' => 'Nombre es requerido',
-            'nombre.min' => 'El nombre debe ser contener al menos 1 caracter',
-            'nombre.unique' => 'Ya existe el mismo Nombre registrado',
-            'cedula.max' => 'La cédula debe tener máximo 10 digitos',
-            'celular.digits' => 'El celular debe tener 8 numeros',
-            'telefono.digits' => 'El telefono debe tener 7 numeros',
-            'nit.max' => 'El nit no puede tener más de 9 digitos',
-            'email.email' => 'Ingresa una dirección de correo válida',
-            'email.unique' => 'El email ya existe en el sistema',
-        ];
-
-        $this->validate($rules, $messages);
-
-        if ($this->telefono == '') {
-            $this->telefono = 0;
-        }
-
-        if ($this->procedencia == 'Nuevo') {
-            $procd = ProcedenciaCliente::where('procedencia', 'Nuevo')->get()->first();
-            $newclient = Cliente::create([
-                'nombre' => $this->nombre,
-                'cedula' => $this->cedula,
-                'celular' => $this->celular,
-                'telefono' => $this->telefono,
-                'email' => $this->email,
-                'nit' => $this->nit,
-                'razon_social' => $this->razon_social,
-                'procedencia_cliente_id' => $procd->id,
-            ]);
-        } else {
-            $newclient = Cliente::create([
-                'nombre' => $this->nombre,
-                'cedula' => $this->cedula,
-                'celular' => $this->celular,
-                'telefono' => $this->telefono,
-                'email' => $this->email,
-                'razon_social' => $this->razon_social,
-                'nit' => $this->nit,
-                'procedencia_cliente_id' => $this->procedencia,
-            ]);
-        }
-        $this->cliente = $newclient;
-        session(['clie' => $this->cliente]);
-        $this->resetUI();
-        $this->emit('modalclient-selected', 'Cliente Registrado y Seleccionado');
     }
     //Store de Agregar Servicio
     public function Store()
@@ -702,16 +645,13 @@ class ServiciosController extends Component
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');
-        $this->nombre = '';
         $this->cedula = '';
         $this->celular = '';
         $this->telefono = '';
-        $this->email = '';
-        $this->razon_social = '';
         $this->detalle = '';
         $this->falla_segun_cliente = '';        
         $this->marc = '';
-        $this->reset(['nit']);
+        // $this->reset(['nit']);
         $this->resetValidation();
         $this->diagnostico = 'Revisión';
         $this->solucion = 'Revisión';
@@ -884,12 +824,69 @@ class ServiciosController extends Component
     public function select_client($idcliente, $celular, $telefono)
     {
         $client = Cliente::find($idcliente);
-        $client->update([
-            'celular' => $celular,
-            'telefono' => $telefono
-        ]);
+
+        if($client->celular != $celular && $celular != "")
+        {
+            $client->update([
+                'celular' => $celular
+            ]);
+        }
+        if($client->telefono != $telefono && $telefono != "")
+        {
+            $client->update([
+                'telefono' => $telefono
+            ]);
+        }
         $this->search = "";
         $this->cliente = $client;
         $this->emit("hide-modalclient");
+    }
+    //Selecciona y crea un Cliente
+    public function create_select_client()
+    {
+        $rules = [
+            'cedula' => 'nullable|max:10',
+            'celular' => 'nullable|digits:7',
+            'telefono' => 'nullable|digits:7',
+            'procedencia' => 'required|not_in:Elegir',
+        ];
+        $messages = [
+            'cedula.max' => 'La cédula debe tener máximo 10 digitos',
+            'celular.digits' => 'El celular debe tener 7 numeros',
+            'telefono.digits' => 'El telefono debe tener 7 numeros',
+            'procedencia.required' => 'Seleccione la sucursal del usuario',
+            'procedencia.not_in' => 'Seleccione una sucursal distinto a Elegir',
+        ];
+        $this->validate($rules, $messages);
+
+        if($this->cedula == "")
+        {
+            $this->cedula = 0;
+        }
+        if($this->celular == "")
+        {
+            $this->celular = 0;
+        }
+        if($this->telefono == "")
+        {
+            $this->telefono = 0;
+        }
+
+
+        $client = Cliente::create([
+            'nombre' => $this->search,
+            'cedula' => $this->cedula,
+            'celular' => $this->celular,
+            'telefono' => $this->telefono,
+            'procedencia_cliente_id' => $this->procedencia
+        ]);
+
+        $this->search = "";
+        $this->cedula = "";
+        $this->celular = "";
+        $this->telefono = "";
+        $this->cliente = $client;
+        $this->emit("hide-modalclient");
+
     }
 }

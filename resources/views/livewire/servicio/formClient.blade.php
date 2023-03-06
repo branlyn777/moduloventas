@@ -53,7 +53,7 @@
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="me-2 text-sm" style="cursor: pointer;">
+                                                <span class="me-2 text-sm" onclick="ClearNumbers('c' + '{{ $c->id }}', 't' + '{{ $c->id }}')" style="cursor: pointer;">
                                                     {{ $c->cedula }}
                                                 </span>
                                             </td>
@@ -73,32 +73,46 @@
                         <div style="height: 307px;">
                             <div class="row">
                                 <div class="col-6">
-                                    <label>CARNET:</label>
-                                    <input type="text" class="form-control">
+                                    <label>CELULAR 1:</label>
+                                    <input wire:model.lazy="celular" type="text" class="form-control">
+                                    @error('celular')
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label>PROCEDENCIA:</label>
-                                    <select class="form-select">
-                                        <option value=""></option>
-                                    </select>
+                                    <label>CELULAR 2:</label>
+                                    <input wire:model.lazy="telefono" type="text" class="form-control">
+                                    @error('telefono')
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <label>CELULAR:</label>
-                                    <input type="text" class="form-control">
+                                    <label>CARNET:</label>
+                                    <input wire:model.lazy="cedula" type="text" class="form-control">
+                                    @error('cedula')
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label>TELÉFONO:</label>
-                                    <input type="text" class="form-control">
+                                    <label>PROCEDENCIA:</label>
+                                    <select wire:model="procedencia" class="form-select">
+                                        <option value="Elegir">Elegir</option>
+                                        @foreach($procedenciaClientes as $pc)
+                                        <option value="{{$pc->id}}">{{$pc->procedencia}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('procedencia')
+                                        <span style="font-size: 0.8rem" class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <br>
                                     <br>
-                                    <button type="button" class="btn bg-gradient-primary">
-                                        Crear y Seleccionar Cliente</button>
+                                    <button wire:click="create_select_client()" type="button" class="btn bg-gradient-primary">Crear y Seleccionar Cliente</button>
                                 </div>
                             </div>
                         </div>
