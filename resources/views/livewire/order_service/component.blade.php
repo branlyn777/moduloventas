@@ -584,7 +584,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($orden_de_servicio as $os)
+                                        @foreach ($orden_de_servicio->unique('codigo') as $os)
                                             <tr>
                                                 <td class="text-center">
                                                     <span class="bg-primary text-sm"
@@ -907,7 +907,7 @@
                                                                     id="btnGroupDrop1" type="button"
                                                                     class="btn btn-primary dropdown-toggle"
                                                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    Opcionesllll
+                                                                    Opciones
                                                                 </button>
                                                                 <div class="dropdown-menu"
                                                                     aria-labelledby="btnGroupDrop1">

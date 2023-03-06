@@ -157,47 +157,72 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
+                        <table class="align-items-center mb-0" style="width: 100%;">
                             <thead>
-                                <tr>
-                                    <th class="table-th text-withe text-center">#</th>
-                                    <th class="table-th text-withe text-center">EQUIPO</th>
-                                    <th class="table-th text-withe text-center">MARCA</th>
-                                    <th class="table-th text-withe text-center">DETALLE</th>
-                                    <th class="table-th text-withe text-center">ESTADO</th>
-                                    <th class="table-th text-withe text-center">TOTAL</th>
-                                    <th class="table-th text-withe text-center">A CUENTA</th>
-                                    <th class="table-th text-withe text-center">SALDO</th>
-                                    <th class="table-th text-withe text-center">ACCIONES</th>
+                                <tr class="bg-primary text-center text-white">
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">#</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">EQUIPO</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">MARCA</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">DETALLE</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">ESTADO</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">TOTAL</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">A CUENTA</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">SALDO</th>
+                                    <th style="padding-top: 10px; padding-bottom: 10px;"
+                                        class="text-uppercase text-xs font-weight-bolder">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $item)
                                     <tr>
                                         <td>
-                                            <h6 class="text-center">{{ $loop->iteration }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $loop->iteration }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6 class="text-center">{{ $item->category }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->category }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6 class="text-center">{{ $item->marca }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->marca }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6>{{ $item->detalle }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->detalle }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6 class="text-center">{{ $item->tipo }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->tipo }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6 class="text-center">{{ $item->import }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->import }}
+                                            </span>
                                         </td>
 
                                         <td>
-                                            <h6 class="text-center">{{ $item->on_account }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->on_account }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <h6 class="text-center">{{ $item->saldo }}</h6>
+                                            <span class="me-2 text-sm">
+                                                {{ $item->saldo }}
+                                            </span>
                                         </td>
                                         <td class="text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
