@@ -21,7 +21,8 @@ class InicioController extends Component
     public $ventasMes, $ventaMesAnterior, $difVenta;
     public $comprasMes, $compraMesAnterior, $difCompra;
     public $ingresosMes, $ingresosMesAnterior, $difIngresos;
-    public $egresosMes, $egresosMesAnterior, $difEgresos;
+    public $egresosMes, $egresosMesAnterior, $difEgresos,$shouldRenderChart=[2,6,9,13,5,6];
+    public $ventasusuario;
     //graficos
     public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [], $labelingresos,$chartingresos,$intchart,$tipo;
 
@@ -66,6 +67,15 @@ class InicioController extends Component
             $this->chartingresos->push($vs);
             $this->labelingresos->push('Ingreso por ventas');
         }
+
+
+$this->ventasusuario=Sale::join('users','users.id','sales.user_id')
+->whereMonth('sales.created_at', now())
+->where('sales.status', 'PAID')
+->groupBy('sales.user_id')
+->selectRaw('users.name as nombre, sum(sales.total) as total_importe')
+->pluck('total_importe','nombre');
+
 
 
 

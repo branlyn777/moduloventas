@@ -553,4 +553,13 @@ class DestinoProductoController extends Component
         $this->emit("hide-modal-lote");
         $this->emit("show-modal-lotecosto");
     }
+
+    public function actualizarCostoLote(){
+        Lote::where('id',$this->lote_id)->update([
+            'costo'=>$this->costo_lote
+        ]);
+
+        $this->emit("hide-modal-lotecosto");
+        $this->emit("show-modal-lote");
+    }
 }

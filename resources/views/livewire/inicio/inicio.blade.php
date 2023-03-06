@@ -44,9 +44,9 @@
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                      
+
                                     </a>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -69,9 +69,9 @@
                                 <div class="dropdown text-end">
                                     <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers2"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                            
+
                                     </a>
-                            
+
                                 </div>
                             </div>
                         </div>
@@ -113,13 +113,75 @@
             </div>
         </div>
         <div class="row mt-4">
+
+            <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3">
+
+                        <div class="d-flex align-items-center">
+                            <span class="badge badge-md badge-dot me-4">
+                                <i style="background-color: #5e72e4"></i>
+                                <span class="text-dark text-xs">COMPRAS</span>
+                            </span>
+                            <span class="badge badge-md badge-dot me-4">
+                                <i class="bg-dark"></i>
+                                <span class="text-dark text-xs">VENTAS</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="chart">
+                            <canvas id="chart-line" class="chart-canvas" height="390" width="644"
+                                style="display: block; box-sizing: border-box; height: 340px; width: 644px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-lg-0 mt-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Ventas por Usuario</h6>
+                        </div>
+                    </div>
+                    <div class="card-body p-3" style="display: block; box-sizing: border-box; height: 375px;">
+                        <ul class="list-group list-group-flush list my--3">
+                            @forelse ($ventasusuario as $key=>$value)
+                                <li class="list-group-item px-0 border-0">
+                                    <div class="row align-items-center">
+
+
+                                        <div class="col">
+                                            <p class="text-xs font-weight-bold mb-0">Usuario:</p>
+                                            <h6 class="text-sm mb-0">{{ $key }}</h6>
+                                        </div>
+                                        <div class="col text-center">
+                                            <p class="text-xs font-weight-bold mb-0">Ventas:</p>
+                                            <h6 class="text-sm mb-0">{{ $value }}</h6>
+                                        </div>
+
+
+                                    </div>
+                                    <hr class="horizontal dark mt-3 mb-1">
+                                </li>
+                            @empty
+                                <p>Sin datos que visualizar</p>
+                            @endforelse
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
             <div class="col-lg-4 col-sm-6">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex">
                             <h6 class="me-auto">Ingresos</h6>
-                            
-                            <button type="button" class="btn btn-sm btn-success" wire:click='mostrarEgresos()'>Egresos</button>
+
+                            <button type="button" class="btn btn-sm btn-success"
+                                wire:click='mostrarEgresos()'>Egresos</button>
 
                         </div>
                     </div>
@@ -141,7 +203,7 @@
                     <div class="card-footer d-flex align-items-center">
                         <div class="w-60">
                             <p class="text-sm">
-                                {{$intchart}}
+                                {{ $intchart }}
                             </p>
                         </div>
                         {{-- <div class="w-40 text-end">
@@ -150,31 +212,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
-                <div class="card">
-                    <div class="card-header pb-0 p-3">
-
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-md badge-dot me-4">
-                                <i style="background-color: #5e72e4"></i>
-                                <span class="text-dark text-xs">COMPRAS</span>
-                            </span>
-                            <span class="badge badge-md badge-dot me-4">
-                                <i class="bg-dark"></i>
-                                <span class="text-dark text-xs">VENTAS</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="card-body p-3">
-                        <div class="chart">
-                            <canvas id="chart-line" class="chart-canvas" height="300" width="644"
-                                style="display: block; box-sizing: border-box; height: 265px; width: 644px;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
             <div class="col-lg-8">
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
@@ -190,89 +227,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mt-lg-0 mt-4">
-                <div class="card">
-                    <div class="card-header pb-0 p-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Ventas por Usuario</h6>
-                        </div>
-                    </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group list-group-flush list my--3">
-                            <li class="list-group-item px-0 border-0">
-                                <div class="row align-items-center">
 
-                                    <div class="col">
-                                        <p class="text-xs font-weight-bold mb-0">Usuario:</p>
-                                        <h6 class="text-sm mb-0">Miguel Gonzalez</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Ventas:</p>
-                                        <h6 class="text-sm mb-0">2500</h6>
-                                    </div>
 
-                                </div>
-                                <hr class="horizontal dark mt-3 mb-1">
-                            </li>
-                            <li class="list-group-item px-0 border-0">
-                                <div class="row align-items-center">
 
-                                    <div class="col">
-                                        <p class="text-xs font-weight-bold mb-0">Usuario:</p>
-                                        <h6 class="text-sm mb-0">Mario Alcazar</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Ventas:</p>
-                                        <h6 class="text-sm mb-0">3200</h6>
-                                    </div>
-                                </div>
-                                <hr class="horizontal dark mt-3 mb-1">
-                            </li>
-                            <li class="list-group-item px-0 border-0">
-                                <div class="row align-items-center">
 
-                                    <div class="col">
-                                        <p class="text-xs font-weight-bold mb-0">Usuario:</p>
-                                        <h6 class="text-sm mb-0">Jose Dominguez</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Ventas:</p>
-                                        <h6 class="text-sm mb-0">6300</h6>
-                                    </div>
-                                </div>
-                                <hr class="horizontal dark mt-3 mb-1">
-                            </li>
-                            <li class="list-group-item px-0 border-0">
-                                <div class="row align-items-center">
-
-                                    <div class="col">
-                                        <p class="text-xs font-weight-bold mb-0">Usuario:</p>
-                                        <h6 class="text-sm mb-0">Carla Ortiz</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Ventas:</p>
-                                        <h6 class="text-sm mb-0">6500</h6>
-                                    </div>
-                                </div>
-                                <hr class="horizontal dark mt-3 mb-1">
-                            </li>
-                            <li class="list-group-item px-0 border-0">
-                                <div class="row align-items-center">
-
-                                    <div class="col">
-                                        <p class="text-xs font-weight-bold mb-0">Usuario:</p>
-                                        <h6 class="text-sm mb-0">Maria Jose</h6>
-                                    </div>
-                                    <div class="col text-center">
-                                        <p class="text-xs font-weight-bold mb-0">Ventas:</p>
-                                        <h6 class="text-sm mb-0">125</h6>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row mt-4">
             <div class="col-12">
@@ -502,8 +460,10 @@
                 tension: 0.9,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: ["#5B34F8", "#2E3AD9", "#3A79F0", "#2995D9", "#2FDFF8","#EE79F0","#F84370"],
-                data:chtingresos,
+                backgroundColor: ["#5B34F8", "#2E3AD9", "#3A79F0", "#2995D9", "#2FDFF8", "#EE79F0",
+                    "#F84370"
+                ],
+                data: chtingresos,
                 fill: false
             }],
         },

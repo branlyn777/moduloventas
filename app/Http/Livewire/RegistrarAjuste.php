@@ -304,7 +304,7 @@ class RegistrarAjuste extends Component
                         if ($this->qq > 0) {
                             //true//5//2
                             //dd($val);
-                            if ($this->qq > $this->lotecantidad) {
+                            if ($this->qq >= $this->lotecantidad) {
                                 $ss = SalidaLote::create([
                                     'salida_detalle_id' => $auxi->id,
                                     'lote_id' => $val->id,
@@ -414,7 +414,7 @@ class RegistrarAjuste extends Component
                             if ($this->qq >= 0) {
                                 //true//5//2
                                 //dd($val);
-                                if ($this->qq > $this->lotecantidad) {
+                                if ($this->qq >= $this->lotecantidad) {
 
                                     $val->update([
 

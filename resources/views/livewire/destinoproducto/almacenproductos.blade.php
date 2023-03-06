@@ -49,10 +49,11 @@
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <a class="btn btn-success mb-0" href="{{ url("almacen/export/{$selected_id}/{$selected_mood}/{$search}") }}">
+                        <a class="btn btn-success mb-0"
+                            href="{{ url("almacen/export/{$selected_id}/{$selected_mood}/{$search}") }}">
                             <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a>
 
-                          
+
                     </div>
                 </div>
             </div>
@@ -121,7 +122,7 @@
                                 @foreach ($destinos_almacen as $destino)
                                     @if ($destino->stock_s < $destino->cant_min)
                                         <tr style="font-size: 14px">
-                                    @else
+                                        @else
                                         <tr style="font-size: 14px">
                                     @endif
                                     <td class="text-center">
@@ -129,12 +130,12 @@
                                     </td>
                                     <td class="text-center">
                                         <span>
-                                            @if ($destino->image !=null)
-                                            <img src="{{ asset('storage/productos/' . $destino->image) }}"
-                                            alt="hoodie" width="50">
+                                            @if ($destino->image != null)
+                                                <img src="{{ asset('storage/productos/' . $destino->image) }}"
+                                                    alt="hoodie" width="50">
                                             @else
-                                            <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
-                                            alt="hoodie" width="50">
+                                                <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
+                                                    alt="hoodie" width="50">
                                             @endif
                                         </span>
                                     </td>
@@ -143,12 +144,7 @@
                                         Codigo: {{ $destino->codigo }}
                                     </td>
 
-                                    {{--
-                                        <td class="text-left" style="width: 15%">
-                                        <strong class="text-left" >{{$destino->nombre}}</strong><br>
-                                        <label class="text-left"  >{{ $destino->unidad}}</label>|<label>{{ $destino->marca}}</label>|<label>{{ $destino->industria }}</label>
-                                        {{ $destino->caracteristicas }}( <b>CODIGO:</b>  {{$destino->codigo}})</td>
-                                    --}}
+
 
                                     @if ($selected_id == 'General')
                                         <td class="text-center">
@@ -158,10 +154,12 @@
                                             {{ $destino->cantidad_minima }}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})" class="mx-3" title="Ver">
+                                            <a href="javascript:void(0)" wire:click="ver({{ $destino->id }})"
+                                                class="mx-3" title="Ver">
                                                 <i class="fas fa-list"></i>
                                             </a>
-                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})" class="mx-3" title="Lotes">
+                                            <a href="javascript:void(0)" wire:click="lotes({{ $destino->id }})"
+                                                class="mx-3" title="Lotes">
                                                 <i class="fas fa-box-open text-info"></i>
                                             </a>
                                         </td>
@@ -174,7 +172,8 @@
                                         </td>
                                         @can('Admin_Views')
                                             <td class="align-middle text-center">
-                                                <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})" title="Ajuste de inventarios" class="mx-3">
+                                                <a href="javascript:void(0)" wire:click="ajuste({{ $destino->id }})"
+                                                    title="Ajuste de inventarios" class="mx-3">
                                                     <i class="fas fa-edit" style="font-size: 14px"></i>
                                                 </a>
                                             </td>
@@ -222,6 +221,10 @@
                 $('#lotes').modal('hide')
             });
             window.livewire.on('show-modal-lotecosto', msg => {
+                $('#lotecosto').modal('show')
+            });
+            window.livewire.on('hide-modal-lotecosto', msg => {
+                $('#lotecosto').modal('hide')
                 $('#lotecosto').modal('show')
             });
 
