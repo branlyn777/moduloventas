@@ -903,17 +903,17 @@
                                                         <div class="btn-group" role="group"
                                                             aria-label="Button group with nested dropdown">
                                                             <div class="btn-group" role="group">
-                                                                <button id="btnGroupDrop1" type="button"
-                                                                    class="btn btn-primary btn-sm dropdown-toggle"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                                    Opciones
+                                                                <button 
+                                                                    id="btnGroupDrop1" type="button"
+                                                                    class="btn btn-primary dropdown-toggle"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Opcionesllll
                                                                 </button>
                                                                 <div class="dropdown-menu"
                                                                     aria-labelledby="btnGroupDrop1">
                                                                     {{-- <div class="asignar">
                                                                     <a class="dropdown-item" href="#">Imprimir Servicio</a>
-                                                                </div> --}}
+                                                                       </div> --}}
                                                                     <div class="imprimir">
                                                                         <a class="dropdown-item"
                                                                             href="{{ url('reporte/pdf' . '/' . $os->codigo) }}">Imprimir
@@ -944,6 +944,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <br>
+
+
+                                                      
                                                     </span>
                                                 </td>
                                             </tr>
