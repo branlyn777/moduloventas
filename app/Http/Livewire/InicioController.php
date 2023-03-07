@@ -131,7 +131,7 @@ class InicioController extends Component
         $this->porcentajeclientes= ($this->clientesnuevos/ $this->clientesmesanterior)*100;
 
 
-        $this->ganancias= SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
+        $this->ganancias= SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id');
                           
         //dd($this->porcentajeclientes);
         //dd($clientesnuevos);
