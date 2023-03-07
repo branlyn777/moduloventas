@@ -379,16 +379,16 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     @if (@Auth::user()->hasPermissionTo('Recepcionar_Servicio'))
                         <ul class="tabs tab-pills text-right">
+                            <div class="btn" style="background-color: #2e48dc; border-radius: 7px; padding: 7px;">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" class="form-check-input"
+                                    wire:change="mostrarocultarmasfiltros()" {{ $masfiltros ? 'checked' : '' }}>
+                                </div>
+                            </div>
                             <a href="javascript:void(0)" wire:click="irservicio()" class="btn btn-add mb-0"> <i
-                                    class="fas fa-plus me-2"></i> Nuevo
-                                Servicio</a>
+                                    class="fas fa-plus me-2"></i> Nueva Órden de Servicio</a>
                             <a href="{{ url('inicio') }}" class="btn btn-add mb-0">Ir a Lista Servicios</a>
 
-                            <div class="custom-control custom-switch" style="padding-top: 10px;">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches"
-                                    wire:change="mostrarocultarmasfiltros()" {{ $masfiltros ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="customSwitches">+Filtros</label>
-                            </div>
                         </ul>
                     @endif
                 </div>
@@ -933,9 +933,6 @@
                                                             </div>
                                                         </div>
                                                         <br>
-
-
-                                                      
                                                     </span>
                                                 </td>
                                             </tr>

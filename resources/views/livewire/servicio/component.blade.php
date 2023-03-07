@@ -93,7 +93,12 @@
         <div class="col-12">
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px"></i>Nuevo Servicio</h5>
+                    @if (!empty(session('od')))
+                    <h5 class=" text-white" style="font-size: 16px"></i>Actualizar Órden de Servicio</h5>
+                    @else
+                    <h5 class=" text-white" style="font-size: 16px"></i>Nueva Órden de Servicio</h5>
+                    @endif
+                    
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
@@ -111,7 +116,7 @@
                             <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
                         @endif
 
-                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Órden de Servicio</button>
+                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Órdenes de Servicio</button>
                         <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
                     </div>
                 </div>
@@ -120,35 +125,48 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="widget-heading" style="color: #000000">
+                        {{-- <div class="widget-heading" style="color: #000000">
                             <h5 class="card-title">
                                 <h5>{{ $pageTitle }} {{ $orderservice == '0' ? 'NO DEFINIDO' : $orderservice }} </h5>
                             </h5>
-                        </div>
-                        <div class="widget-heading" style="color: #000000">
-                            <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
-                                <div class="d-flex b-skills">
-                                    <div class="infobox">
-                                        <b class="info-text">Cliente: </b>
-                                        @if (!empty($cliente))
-                                            {{ $cliente->nombre }}
-                                        @else
-                                            NO DEFINIDO
-                                        @endif <br />
-                                        <b class="info-text">Fecha: </b>{{ $from }}<br />
-                                        <b class="info-text">Registrado por: </b>{{ $usuariolog }} <br />
-                                        <b class="info-text">Tipo de servicio: </b> {{ $typeservice }} <br />
-                                    </div>
-                                </div>
+                        </div> --}}
 
-                                <div style="float:right;">
-                                    @if (!empty(session('od')))
-                                        <a class="btn btn-success mb-0"
-                                            href="{{ url('reporte/pdf' . '/' . $orderservice) }}" target="_blank"
-                                            wire:click="ResetSession">Imprimir</a>
-                                    @endif
-                                </div>
-                            </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                <b>Cliente: </b>
+                                @if (!empty($cliente))
+                                    {{ $cliente->nombre }}
+                                @else
+                                    NO DEFINIDO
+                                @endif
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                <b>Fecha: </b>{{ $from }}
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                <b>Registrado por: </b>{{ $usuariolog }}
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                <b>Tipo de servicio: </b> {{ $typeservice }}
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            
+                        </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                @if (!empty(session('od')))
+                                    <a class="btn btn-success mb-0"
+                                        href="{{ url('reporte/pdf' . '/' . $orderservice) }}" target="_blank"
+                                        wire:click="ResetSession">Guardar e Imprimir</a>
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -182,7 +200,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $item)
-                                    <tr>
+                                    <tr class="text-center">
                                         <td>
                                             <span class="me-2 text-sm">
                                                 {{ $loop->iteration }}

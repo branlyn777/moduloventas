@@ -212,10 +212,10 @@
                             <div class="col-5">
                                 <br>
                                 @if ($selected_id < 1)
-                                <button type="button" wire:click.prevent="Store()" class="btn btn-primary">GUARDAR</button>
-                            @else
-                                <button type="button" wire:click.prevent="Update()" class="btn btn-primary">ACTUALIZAR</button>
-                            @endif
+                                    <button type="button" wire:click.prevent="Store()" class="btn btn-primary">GUARDAR</button>
+                                @else
+                                    <button type="button" wire:click.prevent="Update()" class="btn btn-primary">ACTUALIZAR</button>
+                                @endif
                             </div>
                         </div>
 
