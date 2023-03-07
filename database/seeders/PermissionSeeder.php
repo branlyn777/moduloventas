@@ -399,5 +399,11 @@ class PermissionSeeder extends Seeder
             'descripcion' => '.',
             'guard_name' =>'web'
         ]);
+        Permission::create([
+            'name' => 'Modificar_Detalle_Serv_Entregado',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
     }
 }

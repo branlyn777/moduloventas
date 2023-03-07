@@ -379,7 +379,7 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     @if (@Auth::user()->hasPermissionTo('Recepcionar_Servicio'))
                         <ul class="tabs tab-pills text-right">
-                            <div class="btn" style="background-color: #2e48dc; border-radius: 7px; padding: 7px;">
+                            <div class="btn">
                                 <div class="form-check form-switch">
                                     <input type="checkbox" class="form-check-input"
                                     wire:change="mostrarocultarmasfiltros()" {{ $masfiltros ? 'checked' : '' }}>
@@ -546,7 +546,9 @@
                                     <thead>
                                         <tr class="bg-primary text-center text-white">
                                             <th style="padding-top: 10px; padding-bottom: 10px;"
-                                                class="text-uppercase text-xs font-weight-bolder">Código</th>
+                                                class="text-uppercase text-xs font-weight-bolder">#</th>
+                                                <th style="padding-top: 10px; padding-bottom: 10px;"
+                                                    class="text-uppercase text-xs font-weight-bolder">Código</th>
                                             <th style="padding-top: 10px; padding-bottom: 10px;"
                                                 class="text-uppercase text-xs font-weight-bolder ps-2">Fecha Recepción
                                             </th>
@@ -575,25 +577,21 @@
                                         @foreach ($orden_de_servicio->unique('codigo') as $os)
                                             <tr>
                                                 <td class="text-center">
+                                                    <span class="text-sm">
+                                                        {{ ($orden_de_servicio->currentpage()-1) * $orden_de_servicio->perpage() + $loop->index + 1 }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
                                                     <span class="bg-primary text-sm"
-                                                        style="padding: 7px; color: white; border-radius: 7px;">
+                                                        style="padding-top: 0.3px; padding-bottom: 0.5px;padding-left: 4px; padding-right: 4px; color: white; border-radius: 3px;">
                                                         <b>{{ $os->codigo }}</b>
                                                     </span>
-                                                    {{-- <div class="d-flex px-2">
-                                                    <div>
-                                                        <img src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/logos/small-logos/logo-spotify.svg"
-                                                            class="avatar avatar-sm rounded-circle me-2">
-                                                    </div>
-                                                    <div class="my-auto">
-                                                        <h6 class="mb-0 text-xs">{{ $os->codigo }}</h6>
-                                                    </div>
-                                                </div> --}}
                                                 </td>
                                                 <td class="text-center text-sm">
                                                     {{ \Carbon\Carbon::parse($os->fechacreacion)->format('d/m/Y H:i') }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $d)
                                                                 {{ \Carbon\Carbon::parse($d->fecha_estimada_entrega)->format('d/m/Y H:i') }}
@@ -608,7 +606,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $rt)
                                                                 {{ ucwords(strtolower($rt->responsabletecnico)) }}
@@ -646,8 +644,7 @@
                                                                         </a>
                                                                     </div>
                                                                 @else
-                                                                    <div
-                                                                        style="background-color: rgba(255, 230, 210, 0.829);">
+                                                                    <div>
                                                                         <a href="javascript:void(0)"
                                                                             style="color: #1572e8;"
                                                                             wire:click="modalserviciodetalles('{{ $d->estado }}' , {{ $d->idservicio }}, {{ $os->codigo }})">
@@ -665,7 +662,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $d)
                                                                 {{ $d->importe }}
@@ -680,7 +677,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $dss)
                                                                 {{ ucwords(strtolower($dss->tecnicoreceptor)) }}
@@ -695,7 +692,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $d)
                                                                 @if ($d->estado == 'PENDIENTE')
@@ -724,7 +721,7 @@
                                                                         </a>
                                                                     @else
                                                                         @if ($d->estado == 'TERMINADO')
-                                                                            <a href="javascript:void(0)"
+                                                                            <a href="javascript:void(0)" class="terminadoestilos"
                                                                                 wire:click="modalentregarservicio('{{ $d->estado }}', {{ $d->idservicio }}, {{ $os->codigo }})"
                                                                                 title="Registrar Servicio como Entregado">
                                                                                 {{ $d->estado }}
@@ -787,7 +784,7 @@
                                                                         </a>
                                                                     @else
                                                                         @if ($d->estado == 'TERMINADO')
-                                                                            <a href="javascript:void(0)"
+                                                                            <a href="javascript:void(0)" class="terminadoestilos"
                                                                                 style="margin-top: 17px;"
                                                                                 wire:click="modalentregarservicio('{{ $d->estado }}', {{ $d->idservicio }}, {{ $os->codigo }})"
                                                                                 title="Registrar Servicio como Entregado">
@@ -826,7 +823,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         @if ($os->servicios->count() == 1)
                                                             @foreach ($os->servicios as $d)
                                                                 @if ($d->estado != 'ENTREGADO')
@@ -847,7 +844,6 @@
                                                                         <div style="padding-top: 15px;">
                                                                             <button
                                                                                 style="background-color: #00458500; border-color: #00458500;">
-
                                                                             </button>
                                                                         </div>
                                                                     @endif
@@ -887,7 +883,7 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="me-2 text-sm">
+                                                    <span class="text-sm">
                                                         <div class="btn-group" role="group"
                                                             aria-label="Button group with nested dropdown">
                                                             <div class="btn-group" role="group">

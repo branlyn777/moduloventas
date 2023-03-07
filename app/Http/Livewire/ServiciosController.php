@@ -846,13 +846,13 @@ class ServiciosController extends Component
     {
         $rules = [
             'cedula' => 'nullable|max:10',
-            'celular' => 'nullable|digits:7',
+            'celular' => 'nullable|digits:8',
             'telefono' => 'nullable|digits:7',
             'procedencia' => 'required|not_in:Elegir',
         ];
         $messages = [
             'cedula.max' => 'La cédula debe tener máximo 10 digitos',
-            'celular.digits' => 'El celular debe tener 7 numeros',
+            'celular.digits' => 'El celular debe tener 8 numeros',
             'telefono.digits' => 'El telefono debe tener 7 numeros',
             'procedencia.required' => 'Seleccione la sucursal del usuario',
             'procedencia.not_in' => 'Seleccione una sucursal distinto a Elegir',
