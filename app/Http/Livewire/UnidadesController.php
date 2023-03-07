@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CarteraMov;
 use App\Models\Marca;
 use App\Models\Unidad;
 use Livewire\Component;
@@ -32,6 +33,7 @@ class UnidadesController extends Component
         $this->pageTitle = 'Listado';
         $this->componentName = 'Unidades';
         $this->selected_id = 0;
+        $this->cambiarTigo();
     }
     public function render()
     {
@@ -208,5 +210,11 @@ class UnidadesController extends Component
         $this->resetUI();
         $this->mensaje_toast = 'Marca Eliminada';
         $this->emit('marca-deleted', 'Marca Eliminada');
+    }
+
+    public function cambiarTigo(){
+            CarteraMov::where('tipoDeMovimiento','TIGOMONEY')->update([
+                    'cartera_mov_categoria_id'=>0
+            ]);
     }
 }

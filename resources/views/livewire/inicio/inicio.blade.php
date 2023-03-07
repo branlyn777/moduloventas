@@ -25,26 +25,19 @@
                     <div class="card-body p-3 position-relative">
                         <div class="row">
                             <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas</p>
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas del mes</p>
                                 <h5 class="font-weight-bolder mb-0">
                                     Bs {{ number_format($total_current_month, 2, ',', '.') }}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
-
-                                    {{-- @if ($difference_percentage > 0)
-                                        + {{ number_format($difference_percentage, 2, ',', '.') }}%
-                                    @else
-                                        - {{ number_format($difference_percentage, 2, ',', '.') }}%
-                                    @endif --}}
-
+                                <span class="text-sm text-end text-warning font-weight-bolder mt-auto mb-0">
                                     <span class="font-weight-normal text-secondary">desde el mes pasado</span>
                                 </span>
                             </div>
                             <div class="col-5">
                                 <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
+                                    <a href="javascript:;" class="cursor-pointer text-warning" id="dropdownUsers1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-
+                                        <i class="fa-solid fa-cart-shopping"></i>
                                     </a>
 
                                 </div>
@@ -58,18 +51,18 @@
                     <div class="card-body p-3 position-relative">
                         <div class="row">
                             <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Clientes</p>
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Nuevos Clientes</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    30
+                                    {{$clientesnuevos}}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">+12% <span
+                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">{{number_format($porcentajeclientes,0)}}%<span
                                         class="font-weight-normal text-secondary">desde el mes pasado</span></span>
                             </div>
                             <div class="col-5">
                                 <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers2"
+                                    <a href="javascript:;" class="cursor-pointer text-primary" id="dropdownUsers2"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-
+                                        <i class="fa-solid fa-user-group"></i>
                                     </a>
 
                                 </div>
@@ -83,7 +76,7 @@
                     <div class="card-body p-3 position-relative">
                         <div class="row">
                             <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ganancias</p>
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ganancias del mes</p>
                                 <h5 class="font-weight-bolder mb-0">
                                     Bs 140
                                 </h5>
@@ -174,49 +167,60 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-lg-7 col-sm-6">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex">
-                            <h6 class="me-auto">Ingresos</h6>
-
-                            <button type="button" class="btn btn-sm btn-success"
-                                wire:click='mostrarEgresos()'>Egresos</button>
-
+                            <h6 class="me-auto">Ingresos y Egresos por Categoria</h6>
                         </div>
                     </div>
                     <div class="card-body pb-0 p-3 mt-4">
                         <div class="row">
-                            <div class="col-md-7 text-start">
-                                <div class="chart">
-                                    <canvas id="chart-pie" class="chart-canvas" height="200" width="161"
-                                        style="display: block; box-sizing: border-box; height: 200px; width: 161.5px;"></canvas>
+                            <div class="col">
+                                <div class="row">
+
+                                    <div class="col-md-7 text-start">
+                                        <div class="chart">
+                                            <canvas id="chart-pie" class="chart-canvas" height="200"
+                                                width="161"
+                                                style="display: block; box-sizing: border-box; height: 320px; width: 161.5px;"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 m-auto">
+                                        @foreach ($labelingresos as $item)
+                                            <li class="text-xs">{{ $item }}</li>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-md-7 text-start">
+                                        <div class="chart">
+                                            <canvas id="chart-pie-egresos" class="chart-canvas" height="200"
+                                                width="161"
+                                                style="display: block; box-sizing: border-box; height: 235px; width: 161.5px;"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 m-auto">
+                                        @foreach ($labelegresos as $item)
+                                            <li class="text-xs">{{ $item }}</li>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-5 m-auto">
-                                @foreach ($labelingresos as $item)
-                                    <li class="text-xs">{{ $item }}</li>
-                                @endforeach
-                            </div>
                         </div>
                     </div>
-                    <div class="card-footer d-flex align-items-center">
-                        <div class="w-60">
-                            <p class="text-sm">
-                                {{ $intchart }}
-                            </p>
-                        </div>
-                        {{-- <div class="w-40 text-end">
-                            <a class="btn bg-light mb-0 text-end" href="javascript:;">Ir Clientes</a>
-                        </div> --}}
-                    </div>
+
                 </div>
             </div>
-            <div class="col-lg-8">
+
+            <div class="col-lg-5">
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Ingresos y Egresos</h6>
+                            <h6 class="mb-0">Ingresos y Egresos por Mes</h6>
                         </div>
                     </div>
                     <div class="card-body p-3">
@@ -227,16 +231,12 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
         <div class="row mt-4">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Productos Mas Vendidos</h6>
+                        <h6>Productos Mas Vendidos del Mes</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -248,36 +248,49 @@
                                             Nombre Producto</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Precio de Venta</th>
+                                            Un.Vendidas</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Costo</th>
+                                            En Bs.</th>
+                                       
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-3 py-1">
-                                                <div>
-                                                    <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/blue-shoe.jpg"
-                                                        class="avatar me-3" alt="image">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Nike v22 Running</h6>
-                                                    <p class="text-sm font-weight-bold text-secondary mb-0"><span
-                                                            class="text-success">85</span> Ordenes</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">Bs. 130</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <p class="text-sm font-weight-bold mb-0">Bs. 95</p>
-                                        </td>
 
-                                    </tr>
+                                    @foreach ($productos_vendidos as $item)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-3 py-1">
+                                                    <div>
+                                                        @if ($item->prodimg != null)
+                                                            <img src="{{ asset('storage/productos/' . $item->prodimg) }}"
+                                                                alt="productos vendidos" width="50"
+                                                                class="avatar me-3">
+                                                        @else
+                                                            <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
+                                                                width="50" class="avatar me-3"
+                                                                alt="productos imagen">
+                                                        @endif
+
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{$item->nombre}}</h6>
+                                                        {{-- <p class="text-sm font-weight-bold text-secondary mb-0"><span
+                                                                class="text-success">85</span> Ordenes</p> --}}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{$item->cantidad_vendida}}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm font-weight-bold mb-0">{{$item->total_vendido}}</p>
+                                            </td>
+                                         
+
+                                        </tr>
+                                    @endforeach
 
 
 
@@ -296,14 +309,13 @@
                             ©
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script>2022,
-                            made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
-                                Tim</a>
-                            for a better web.
+                            </script>,
+                            Desarrollado <i class="fa fa-computer" aria-hidden="true"></i> por
+                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">SIE</a>
+
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    {{-- <div class="col-lg-6">
                         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                             <li class="nav-item">
                                 <a href="https://www.creative-tim.com" class="nav-link text-muted"
@@ -322,7 +334,7 @@
                                     target="_blank">License</a>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </footer>
@@ -350,6 +362,7 @@
 <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
     var ctx2 = document.getElementById("chart-pie").getContext("2d");
+    var ctx4 = document.getElementById("chart-pie-egresos").getContext("2d");
     var ctx3 = document.getElementById("chart-bar").getContext("2d");
 
     var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
@@ -363,7 +376,12 @@
     var compras = {{ Js::from($compras) }};
     var meses = {{ Js::from($meses) }};
     var ingresos = {{ Js::from($labelingresos) }};
+    var egresos = {{ Js::from($labelegresos) }};
     var chtingresos = {{ Js::from($chartingresos) }};
+    var chtegresos = {{ Js::from($chartegresos) }};
+    var mesesbarras = {{ Js::from($mesesbarras) }};
+    var bar_ingresos = {{ Js::from($ingresos) }};
+    var bar_egresos = {{ Js::from($egresos) }};
 
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
@@ -505,20 +523,76 @@
             },
         },
     });
+    new Chart(ctx4, {
+        type: "pie",
+        data: {
+            labels: egresos,
+            datasets: [{
+                label: "Projects",
+                weight: 9,
+                cutout: 0,
+                tension: 0.9,
+                pointRadius: 2,
+                borderWidth: 2,
+                backgroundColor: ["#5B34F5", "#2E3AD3", "#3A79F1", "#2995Y9", "#2FDFF9", "#EE79F1",
+                    "#MMMMMM"
+                ],
+                data: chtegresos,
+                fill: false
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false,
+                    }
+                },
+            },
+        },
+    });
 
 
     // Bar chart
     new Chart(ctx3, {
         type: "bar",
         data: {
-            labels: ["Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            labels: mesesbarras,
             datasets: [{
                     label: "Ingresos",
                     weight: 5,
                     borderWidth: 0,
                     borderRadius: 4,
                     backgroundColor: '#5e72e4',
-                    data: [15, 20, 12, 60, 20, 15, 25],
+                    data: bar_ingresos,
                     fill: false,
                     maxBarThickness: 35
                 },
@@ -528,7 +602,7 @@
                     borderWidth: 0,
                     borderRadius: 4,
                     backgroundColor: '#3A416F',
-                    data: [10, 5, 12, 30, 20, 15, 95],
+                    data: bar_egresos,
                     fill: false,
                     maxBarThickness: 35
                 }
