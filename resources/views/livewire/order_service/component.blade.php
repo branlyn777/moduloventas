@@ -448,8 +448,6 @@
                                     <option value="PROCESO">Proceso</option>
                                     <option value="TERMINADO">Terminados</option>
                                     <option value="ENTREGADO">Entregados</option>
-                                    {{-- <option value="ABANDONADO">Abandonados</option> --}}
-                                    {{-- <option value="ANULADO">Anulados</option> --}}
                                     <option value="Todos">Todos</option>
                                 </select>
                             </div>

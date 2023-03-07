@@ -54,6 +54,7 @@ use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\NivelInventariosController;
 use App\Http\Livewire\NotificationInventoryController;
+use App\Http\Livewire\OrderService2Controller;
 use App\Http\Livewire\OrderServiceController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\ProximosController;
@@ -221,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
     Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
     Route::get('orderservice', OrderServiceController::class)->name('os')->middleware('permission:Orden_Servicio_Index');
+    Route::get('ordenesservicios', OrderService2Controller::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
     // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
     Route::get('idorderservice/{id}', [OrderServiceController::class, 'buscarid'])->name('buscarid')->middleware('permission:Orden_Servicio_Index');
     Route::get('abrirnuevo/{id}', [OrderServiceController::class, 'abrirventana'])->name('abrirventana')->middleware('permission:Orden_Servicio_Index');
