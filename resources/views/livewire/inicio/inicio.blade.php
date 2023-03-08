@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-5">
                                 <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-warning" id="dropdownUsers1"
+                                    <a href="javascript:;" class="cursor-pointer text-warning boder-round" id="dropdownUsers1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                     </a>
@@ -55,7 +55,7 @@
                                 <h5 class="font-weight-bolder mb-0">
                                     {{$clientesnuevos}}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">{{number_format($porcentajeclientes,0)}}%<span
+                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">{{$porcentajeclientes==100?'-- ':number_format($porcentajeclientes,0)}}%<span
                                         class="font-weight-normal text-secondary">desde el mes pasado</span></span>
                             </div>
                             <div class="col-5">
@@ -76,12 +76,12 @@
                     <div class="card-body p-3 position-relative">
                         <div class="row">
                             <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ganancias del mes</p>
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Utilidades del mes</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 140
+                                   {{$ganancias}}
                                 </h5>
                                 <span class="font-weight-normal text-secondary text-sm"><span
-                                        class="font-weight-bolder">+Bs. 3.698</span> desde el mes pasado</span>
+                                        class="font-weight-bolder">{{$porcentajeganancias==100?'-- ':number_format($porcentajeganancias,2)}}%</span> desde el mes pasado</span>
                             </div>
                             <div class="col-5">
                                 <div class="dropdown text-end">

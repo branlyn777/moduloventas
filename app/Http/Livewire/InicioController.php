@@ -33,7 +33,7 @@ class InicioController extends Component
     public function mount()
     {
         $this->tipo = 'INGRESO';
-        $this->porcentajeclientes=1;
+      
     }
 
     public function render()
@@ -126,12 +126,30 @@ class InicioController extends Component
             ->get();
 
         //nuevos clientes
-        $this->clientesnuevos=Cliente::whereMonth('created_at', now())->count();
-        $this->clientesmesanterior=Cliente::whereMonth('created_at', now()->subMonths(1))->count();
-        $this->porcentajeclientes= ($this->clientesnuevos/ $this->clientesmesanterior)*100;
 
+        $this->porcentajeclientes= $this->porcent_clientes();
+        
 
-        $this->ganancias= SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id');
+        $this->ganancias= SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
+        ->join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
+        ->join('lotes','lotes.id','sale_lotes.lote_id')
+        ->whereMonth('sale_details.created_at', now())
+        ->groupBy('sale_details.id')
+        ->selectRaw("sum(sale_lotes.cantidad*lotes.costo) as total_costo,sum(sale_details.price*sale_details.quantity) as precio_Venta")
+        ->get();
+
+        dd($this->ganancias);
+        if ($this->ganancias->isEmpty()) {
+            $this->ganancias=0;
+        }
+        else {
+            $this->ganancias=$this->ganancias->sum('total_ganado');
+        }
+
+        //dd($this->ganancias);
+
+        $this->porcentajeganancias=$this->porcent_ganancias();
+
                           
         //dd($this->porcentajeclientes);
         //dd($clientesnuevos);
@@ -187,70 +205,40 @@ class InicioController extends Component
     }
 
 
-    public function obtener_cantidad_vendida($productoid)
-    {
-        $cantidad = SaleDetail::join("sales as s", "s.id", "sale_details.sale_id")
-            ->where("sale_details.product_id", $productoid)
-            ->where("s.status", "PAID")
-            ->whereMonth('s.created_at', now())
 
-            ->sum('sale_details.quantity');
-        return $cantidad;
-    }
-
-    public function obtener_total_vendido($productoid)
-    {
-
-        // $total = SaleDetail::join("sales as s","s.id","sale_details.sale_id")
-        // ->select(DB::raw('sale_details.price * sale_details.quantity as total'))
-        // ->where("sale_details.product_id",$productoid)
-        // ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
-        // ->sum('total');
-        // return $total;
-
-
-        $total = SaleDetail::join("sales as s", "s.id", "sale_details.sale_id")
-            ->select(DB::raw('sale_details.price * sale_details.quantity as total'))
-            ->where("sale_details.product_id", $productoid)
-            ->where("s.status", "PAID")
-            ->whereMonth('s.created_at', now())
-
-            ->get();
-
-        $t = 0;
-
-        foreach ($total as $tt) {
-            $t = $t + $tt->total;
+    public function porcent_clientes(){
+        $this->clientesnuevos=Cliente::whereMonth('created_at', now())->count();
+        $clt=Cliente::whereMonth('created_at', now()->subMonths(1))->count();
+        if ($clt==0) {
+            return 100;
         }
-
-        return $t;
+        return ($this->clientesnuevos/$clt)*100;
+       
     }
 
+    public function porcent_ganancias(){
+        $gan_actual=$this->ganancias;
 
-    public function obtener_total_costo($productoid)
-    {
-        $lista = SaleDetail::join("sales as s", "s.id", "sale_details.sale_id")
-            ->select("sale_details.id as iddetalle", "sale_details.price as precio_venta")
-            ->where("s.status", "PAID")
-            ->where("sale_details.product_id", $productoid)
-            ->whereMonth('s.created_at', now())
+        $gan_anterior=  SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
+        ->whereMonth('sale_details.created_at', now()->subMonth(1))
+        ->groupBy('sale_details.sale_id')
+        ->selectRaw("sum(sale_details.quantity*sale_details.price) as total_ganado")
+        ->get();
 
-            ->get();
+        if ($gan_anterior->isEmpty()) {
+            $gan_anterior=100;
+        }
+        else {
+            $lm=$gan_anterior->sum('total_ganado');
 
-        $total_costo = 0;
-
-
-        foreach ($lista as $l) {
-            $lista_lotes = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
-                ->select(DB::raw('sale_lotes.cantidad * l.costo as total'))
-                ->where("sale_lotes.sale_detail_id", $l->iddetalle)
-                ->get();
-            foreach ($lista_lotes as $ll) {
-                $total_costo = $total_costo + $ll->total;
-            }
+            //dd($gan_actual);
+            return ($gan_actual/$lm)*100;
         }
 
 
-        return $total_costo;
+
+      
+
     }
+
 }
