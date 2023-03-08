@@ -3921,7 +3921,6 @@ class OrderServiceController extends Component
     //Redireccionar para crear un Nuevo Servicio Eliminando Variables de Sesion
     public function irservicio()
     {
-
         session(['od' => null]);
         session(['clie' => null]);
         session(['tservice' => null]);

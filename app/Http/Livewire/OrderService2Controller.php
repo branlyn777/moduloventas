@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\MovService;
 use App\Models\OrderService;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,7 +18,7 @@ class OrderService2Controller extends Component
     use WithPagination;
     public function paginationView()
     {
-        return 'vendor.livewire.bootstrap';
+        return "vendor.livewire.bootstrap";
     }
     public function mount()
     {
@@ -24,54 +26,100 @@ class OrderService2Controller extends Component
     }
     public function render()
     {
+        //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
         $service_orders = OrderService::select(
-                "order_services.id as code",
-                "order_services.created_at as reception_date",
-                DB::raw('0 as servicios')
-            )
-            ->where('order_services.status', 'ACTIVO')
-            ->orderBy("order_services.id", "desc")
-            ->paginate($this->pagination);
+            "order_services.id as code",
+            "order_services.created_at as reception_date",
+            DB::raw("0 as services"),
+            DB::raw("0 as client")
+        )
+        ->where("order_services.status", "ACTIVO")
+        ->orderBy("order_services.id", "desc")
+        ->paginate($this->pagination);
+
+        
 
 
 
 
 
-        return view('livewire.order_service.orderservice2', [
-            'service_orders' => $service_orders,
+
+        foreach ($service_orders as $so)
+        {
+            //Obtener los servicios de la orden de servicio
+            $so->services = $this->service_order_detail($so->code);
+            //Obtener el nombre del cliente
+            $so->client = $this->get_client($so->code);
+        }
+
+
+
+        return view("livewire.order_service.orderservice2", [
+            "service_orders" => $service_orders,
         ])
-            ->extends('layouts.theme.app')
-            ->section('content');
+        ->extends("layouts.theme.app")
+        ->section("content");
     }
-
-    public function detalle_orden_de_servicio($code)
+    // Obtiene servicios de una orden de servicio
+    public function service_order_detail($code)
     {
-        $servicios =  Service::join('order_services as os', 'os.id', 'services.order_service_id')
-            ->join('mov_services as ms', 'services.id', 'ms.service_id')
-            ->join('movimientos as mov', 'mov.id', 'ms.movimiento_id')
-            ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
-            ->select('cps.nombre as nombrecategoria',
-            'services.detalle as detalle',
-            'services.id as idservicio',
-            'mov.type as estado',
-            'mov.import as importe',
-            'services.falla_segun_cliente as falla_segun_cliente',
-            'services.fecha_estimada_entrega as fecha_estimada_entrega',
-            'services.marca as marca',
-            DB::raw('0 as responsabletecnico'),
-            DB::raw('0 as tecnicoreceptor'))
-            ->where('mov.status', 'ACTIVO')
-            ->where('services.order_service_id', $code)
-            ->get();
-
-            foreach ($servicios as $ser)
-            {
-                $ser->responsabletecnico = $this->obtener_tecnico_responsable($ser->idservicio);
-                $ser->tecnicoreceptor = $this->obtener_tecnico_receptor($ser->idservicio);
-            }
-
-
-
-        return $servicios;
+        $services = Service::join("mov_services as ms", "ms.service_id","services.id")
+        ->join("movimientos as m", "m.id", "ms.movimiento_id")
+        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
+        "m.import as price_service","m.type as type")
+        ->where("services.order_service_id", $code)
+        ->where("m.status", "ACTIVO")
+        ->get();
+        foreach ($services as $s)
+        {
+            //Obtener al tecnico responsable de un servicio
+            $s->responsible_technician = $this->get_responsible_technician($s->idservice);
+            //Obtener al técnico receptor de un servicio
+            $s->receiving_technician = $this->get_receiving_technician($s->idservice);
+        }
+        return $services;
+    }
+    // Obtener Técnico Responsable a travéz del id de un servicio
+    public function get_responsible_technician($idservice)
+    {
+        $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
+        ->join("users as u", "u.id", "m.user_id")
+        ->select("u.name as user_name")
+        ->where("mov_services.service_id", $idservice)
+        ->where("m.status", "ACTIVO")
+        ->orderBy("m.id", "desc")
+        ->first();
+        return $technician->user_name;
+    }
+    // Obtiene Técnico Receptor a travéz del id de un servicio
+    public function get_receiving_technician($idservice)
+    {
+        $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
+        ->join("users as u", "u.id", "m.user_id")
+        ->select("u.name as user_name")
+        ->where("mov_services.service_id", $idservice)
+        ->where("m.type","PENDIENTE")
+        ->first();
+        return $technician->user_name;
+    }
+    // Obtiene el cliente de una órden de servicio
+    public function get_client($code)
+    {
+        $client = Service::join("mov_services as ms", "ms.service_id", "services.id")
+        ->join("movimientos as m", "m.id", "ms.movimiento_id")
+        ->join("cliente_movs as cm", "cm.movimiento_id", "m.id")
+        ->join("clientes as c", "c.id", "cm.cliente_id")
+        ->select("c.nombre as name_client")
+        ->where("services.order_service_id", $code)
+        ->first();
+        return $client->name_client;
+    }
+    // Redirecciona para crear una Nueva Órden de Servicio Eliminando Variables de Sesion
+    public function go_new_service_order()
+    {
+        session(["od" => null]);
+        session(["clie" => null]);
+        session(["tservice" => null]);
+        $this->redirect("service");
     }
 }

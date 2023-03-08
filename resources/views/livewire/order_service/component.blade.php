@@ -385,7 +385,7 @@
                                     wire:change="mostrarocultarmasfiltros()" {{ $masfiltros ? 'checked' : '' }}>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" wire:click="irservicio()" class="btn btn-add mb-0"> <i
+                            <a href="javascript:void(0)" wire:click.prevent="irservicio()" class="btn btn-add mb-0"> <i
                                     class="fas fa-plus me-2"></i> Nueva Órden de Servicio</a>
                             <a href="{{ url('inicio') }}" class="btn btn-add mb-0">Ir a Lista Servicios</a>
 
