@@ -47,10 +47,11 @@ class ImprimirController extends Controller
             }
         }
         
-        $pdf = PDF::loadView('livewire.pdf.ImprimirOrden', compact('data', 'datos', 'usuario','sucursal'));
+        $pdf = PDF::loadView('livewire.pdf.imprimirOrdenprueba', compact('data', 'datos', 'usuario','sucursal'));
         /* $pdf->setPaper("A4", "landscape"); //orientacion y tamaño */
 
         return $pdf->stream('OrdenTrServicio.pdf');  //visualizar
         /* return $pdf->download('ordenServicio.pdf');  //descargar  */
+        
     }
 }
