@@ -50,7 +50,7 @@
             border-spacing: 0;
             border-left: 0.3px solid #ffffff00;
             border-bottom: 0.3px solid #ffffff00;
-            width: 100%;
+            width: 1600px;
         }
 
         .table-style table thead {
@@ -108,11 +108,12 @@
             overflow: hidden;
             border: 0.7px solid rgb(0, 0, 0);
             border-radius: 10px;
+            min-height: 70px;
         }
 
         /* Estilos base para los botones (PENDIENTE, PROCESO, TERMINADO y ENTREGADO) */
         .btn-service {
-            font-size: 10px;
+            font-size: 12px;
             text-decoration: none !important;
             cursor: pointer;
             color: white;
@@ -245,17 +246,23 @@
                                     @if($service_orders->count() > 0)
                                         @foreach ($service_orders as $so)
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center" style="width: 10px;">
                                                     <span class="text-sm">
                                                         {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }}
                                                     </span>
                                                 </td>
-                                                <td class="text-center">
-                                                    <span class="text-sm code">
+                                                <td class="text-center" style="width: 20px;">
+                                                    <span class="text-sm code dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <b>{{ $so->code }}</b>
                                                     </span>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <li><a class="dropdown-item" href="#">Imprimir</a></li>
+                                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
+                                                        <li><a class="dropdown-item" href="#">Anular</a></li>
+                                                        <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                                    </ul>
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="width: 200px;">
                                                     <span class="text-sm">
                                                         <b>{{$so->client}}</b>
                                                     </span>
@@ -267,30 +274,30 @@
                                                 <td colspan="7">
                                                     <div class="services">
                                                         @foreach($so->services as $s)
-                                                        <div style="width: 200px; text-align: center; float: left;">
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
                                                             <span class="text-sm">
                                                                 {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
                                                             </span>
                                                         </div>
-                                                        <div style="width: 200px; text-align: center; float: left;">
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
                                                             <span class="text-sm">
                                                                 {{$s->responsible_technician}}
                                                             </span>
                                                         </div>
-                                                        <div style="width: 200px; text-align: center; float: left;">
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
                                                             a
                                                         </div>
-                                                        <div style="width: 70px; text-align: center; float: left;">
+                                                        <div style="width: 70px; text-align: center; float: left; margin-top: 5px;">
                                                             <span class="text-sm price">
                                                                 {{ number_format($s->price_service, 2, ',', '.') }} Bs
                                                             </span>
                                                         </div>
-                                                        <div style="width: 200px; text-align: center; float: left;">
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
                                                             <span class="text-sm">
                                                                 {{$s->receiving_technician}}
                                                             </span>
                                                         </div>
-                                                        <div style="width: 200px; text-align: center; float: left;">
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
                                                             <button class="btn-service {{$s->type}}">
                                                                 {{$s->type}}
                                                             </button>
