@@ -33,6 +33,8 @@ class InicioController extends Component
     public function mount()
     {
         $this->tipo = 'INGRESO';
+
+       // SaleLote::where('cantidad',0)->delete();
       
     }
 
@@ -117,33 +119,35 @@ class InicioController extends Component
         //lista de productos mas vendidos
         $prod_mas_vendidos = Product::join("sale_details as sd", "sd.product_id", "products.id")
             ->join("sales as s", "s.id", "sd.sale_id")
-            ->where("s.status", "PAID")
+           // ->where("s.status", "PAID")
             ->whereMonth('s.created_at', now())
             ->groupBy('products.id')
             ->selectRaw("products.*,sum(sd.quantity) as cantidad_vendida,sum(sd.quantity*sd.price) as total_vendido")
             ->orderBy('cantidad_vendida','DESC')
-            ->take(5)
+         
             ->get();
-
+//dd($prod_mas_vendidos->count());
         //nuevos clientes
 
         $this->porcentajeclientes= $this->porcent_clientes();
         
 
-        $this->ganancias= SaleDetail::join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
-        ->join('sale_lotes','sale_lotes.sale_detail_id','sale_details.id')
-        ->join('lotes','lotes.id','sale_lotes.lote_id')
+        $calculo_ganancias= SaleDetail::join('sale_lotes as sl','sl.sale_detail_id','sale_details.id')
+        ->join('lotes','lotes.id','sl.lote_id')
+        ->join('sales','sales.id','sale_details.sale_id')
+        ->where('sales.status','PAID')
         ->whereMonth('sale_details.created_at', now())
-        ->groupBy('sale_details.id')
-        ->selectRaw("sum(sale_lotes.cantidad*lotes.costo) as total_costo,sum(sale_details.price*sale_details.quantity) as precio_Venta")
+        ->groupBy('sale_details.id','lotes.costo','sl.cantidad')
+        ->selectRaw("sale_details.id,(sale_details.price*sl.cantidad)-(sale_details.quantity*lotes.costo)")
         ->get();
+       dd($calculo_ganancias);
 
-        dd($this->ganancias);
-        if ($this->ganancias->isEmpty()) {
+        if ($calculo_ganancias->isEmpty()) {
             $this->ganancias=0;
         }
         else {
-            $this->ganancias=$this->ganancias->sum('total_ganado');
+            $this->ganancias=$calculo_ganancias->sum('precio_total')-$calculo_ganancias->sum('total_costo');
+          
         }
 
         //dd($this->ganancias);

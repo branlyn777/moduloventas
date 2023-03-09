@@ -379,20 +379,6 @@ class SaleDailyMovementController extends Component
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
 
