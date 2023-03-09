@@ -37,21 +37,20 @@
 
 @section('css')
     <style>
-
         /* Estilos para las tablas */
         .table-style {
             width: 100%;
             /* Altura de ejemplo */
-            /* height: 600px; */
+            height: 600px;
             overflow: auto;
         }
 
         .table-style table {
             border-collapse: separate;
             border-spacing: 0;
-            border-left: 0.3px solid #e6e6e6;
-            border-bottom: 0.3px solid #e6e6e6;
-            width: 100%;
+            border-left: 0.3px solid #ffffff00;
+            border-bottom: 0.3px solid #ffffff00;
+            width: 1600px;
         }
 
         .table-style table thead {
@@ -62,31 +61,23 @@
         }
 
         .table-style table thead th {
-            border-top: 0.3px solid #e6e6e6;
-            border-right: 0.3px solid #e6e6e6;
             padding-top: 3px;
             padding-bottom: 10px;
         }
-        
-        .table-style table tbody tr:hover {
-            background-color: rgba(207, 230, 0, 0);
-        }
-
-
-
-
-
-
-
 
         .table-style table thead tr {
             background: #ffffff;
             color: rgb(0, 0, 0);
         }
 
+        .table-style table tbody tr:hover {
+            background-color: #8e9ce96c;
+        }
+
         .table-style table td {
-            border-top: 0.3px solid #e6e6e6;
-            border-right: 0.3px solid #e6e6e6;
+            border-top: 0.3px solid rgb(255, 255, 255);
+            padding-left: 10px;
+            border-right: 0.3px solid #ffffff00;
         }
 
         /* Estilos para el codigo de servicio */
@@ -106,10 +97,18 @@
             padding-bottom: 0.5px;
             padding-left: 4px;
             padding-right: 4px;
-            background-color: #f37500;
-            color: rgb(255, 255, 255);
+            background-color: #00882d;
+            color: white;
             border-radius: 3px;
             font-size: 15px;
+        }
+
+        /* Estilos para la caja div que encierra los servicios de una órden de servicios */
+        .services {
+            overflow: hidden;
+            border: 0.7px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            min-height: 70px;
         }
 
         /* Estilos base para los botones (PENDIENTE, PROCESO, TERMINADO y ENTREGADO) */
@@ -183,26 +182,23 @@
             cursor: default !important;
         }
 
+        /*Estilos para el Botón Editar un Servicio Entregado de la Tabla*/
+        .btn-edit-delivered {
+            background-color: #004585;
 
-        
-        /*Estilos para el Botón Editar Servicio de la Tabla*/
-        .btn-edit {
-            background-color: #008a5c;
             cursor: pointer;
             color: white;
-            border-color: #008a5c;
+            border-color: #004585;
             border-radius: 7px;
         }
 
-        .btn-edit:hover {
+        .btn-edit-delivered:hover {
             background-color: rgb(255, 255, 255);
-            color: #008a5c;
+            color: #004585;
             transition: all 0.4s ease-out;
-            border-color: #008a5c;
+            border-color: #000458508a5c;
             transform: translateY(-2px);
         }
-
-
     </style>
 @endsection
 <div>
@@ -211,7 +207,7 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white">Órdenes de Servicios</h5>
+                    <h5 class=" text-white" style="font-size: 16px">Órdenes de Servicios</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
@@ -231,7 +227,7 @@
 
                         <div class="row justify-content-between">
                             <div class="mt-lg-0 col-md-3">
-                                <label>Buscar</label>
+                                <label style="font-size: 1rem">Buscar</label>
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -246,34 +242,35 @@
 
             <div class="card mb-4">
                 <div class="card-body p-4">
-                    <div class="">
+                    <div class="table-responsive">
                         <div class="table-style">
                             <table>
                                 <thead>
                                     <tr class="text-center">
-                                        <th class="text-uppercase text-xs">#</th>
-                                        <th class="text-uppercase text-xs">Código</th>
-                                        <th class="text-uppercase text-xs">Fecha Recepción</th>
-                                        <th class="text-uppercase text-xs">Fecha Estimada Entrega</th>
-                                        <th class="text-uppercase text-xs">Responsable Técnico</th>
-                                        <th class="text-uppercase text-xs">Servicios</th>
-                                        <th class="text-uppercase text-xs">Precio</th>
-                                        <th class="text-uppercase text-xs">Técnico Receptor</th>
-                                        <th class="text-uppercase text-xs">Estado</th>
+                                        <th class="text-uppercase text-xs" style="width: 10px;">#</th>
+                                        <th class="text-uppercase text-xs" style="width: 20px;">Código</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Fecha Recepción</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Fecha Estimada Entrega</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Responsable Técnico</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Servicios</th>
+                                        <th class="text-uppercase text-xs" style="width: 70px;">Precio</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Técnico Receptor</th>
+                                        <th class="text-uppercase text-xs" style="width: 200px;">Estado</th>
                                         <th class="text-uppercase text-xs">Editar</th>
+                                        <th class="text-uppercase text-xs">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if($service_orders->count() > 0)
                                         @foreach ($service_orders as $so)
                                             <tr>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
+                                                <td class="text-center" style="width: 10px;">
                                                     <span class="text-sm">
                                                         {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }}
                                                     </span>
                                                 </td>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
-                                                    <span style="cursor: pointer;" class="text-sm code dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <td class="text-center" style="width: 20px;">
+                                                    <span class="text-sm code dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <b>{{ $so->code }}</b>
                                                     </span>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -283,7 +280,7 @@
                                                         <li><a class="dropdown-item" href="#">Eliminar</a></li>
                                                     </ul>
                                                 </td>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
+                                                <td class="text-center" style="width: 200px;">
                                                     <span class="text-sm">
                                                         <b>{{$so->client}}</b>
                                                     </span>
@@ -292,48 +289,53 @@
                                                         {{ \Carbon\Carbon::parse($so->reception_date)->format('d/m/Y H:i') }}
                                                     </span>
                                                 </td>
+                                                <td colspan="7">
+                                                    <div class="services">
+                                                        @foreach($so->services as $s)
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
+                                                            <span class="text-sm">
+                                                                {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
+                                                            </span>
+                                                        </div>
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
+                                                            <span class="text-sm">
+                                                                {{$s->responsible_technician}}
+                                                            </span>
+                                                        </div>
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
+                                                            a
+                                                        </div>
+                                                        <div style="width: 70px; text-align: center; float: left; margin-top: 5px;">
+                                                            <span class="text-sm price">
+                                                                {{ number_format($s->price_service, 2, ',', '.') }} Bs
+                                                            </span>
+                                                        </div>
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
+                                                            <span class="text-sm">
+                                                                {{$s->receiving_technician}}
+                                                            </span>
+                                                        </div>
+                                                        <div style="width: 200px; text-align: center; float: left; margin-top: 5px;">
+                                                            <button class="btn-service {{$s->type}}">
+                                                                {{$s->type}}
+                                                            </button>
+                                                        </div>
+                                                        <br>
+                                                        @endforeach
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Opciones
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <li><a class="dropdown-item" href="#">Imprimir</a></li>
+                                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
+                                                        <li><a class="dropdown-item" href="#">Anular</a></li>
+                                                        <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                                    </ul>
+                                                </td>
                                             </tr>
-                                            @foreach($so->services as $s)
-                                                <tr>
-                                                    <td class="text-center">
-                                                        <span class="text-sm">
-                                                            {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="text-sm">
-                                                            {{$s->responsible_technician}}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="text-sm">
-                                                            {{$s->name_cps}} {{$s->mark}} {{$s->detail}}
-                                                            <br>
-                                                            Falla: {{$s->client_fail}}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="text-sm price">
-                                                            {{ number_format($s->price_service, 2, ',', '.') }} Bs
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="text-sm">
-                                                            {{$s->receiving_technician}}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button wire:click.prevent="get_type({{$so->code}}, '{{$s->type}}')" class="btn-service {{$s->type}}">
-                                                            {{$s->type}}
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button class="btn-edit text-sm">
-                                                            EDITAR
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
                                         @endforeach
                                     @else
                                         <tr class="text-center">
@@ -431,16 +433,4 @@
             </div>
         </div>
     </div>
-    @include('livewire.order_service.modal_assign_technician')
 </div>
-@section('javascript')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            window.livewire.on('show-assign-technician', Msg => {
-                $('#assigntechnician').modal('show')
-            });
-
-        });
-    </script>
-@endsection
