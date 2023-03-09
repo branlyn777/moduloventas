@@ -12,6 +12,8 @@ use Livewire\Component;
 use App\Models\Cliente;
 use App\Models\ClienteMov;
 use App\Models\Company;
+use App\Models\Cotization;
+use App\Models\CotizationDetail;
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
 use App\Models\Lote;
@@ -24,6 +26,7 @@ use App\Models\SaleDetail;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
+use Carbon\Carbon;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -95,13 +98,21 @@ class PosController extends Component
     public $destino_id;
     //variable para guardar el id de caja abierta
     public $caja_abierta_id;
-
+    //Variable para guardar true o false en caso de querer vender cantidades fuera del stock disponible
+    public $selloutofstock;
+    //Cantidad extra a vender de un determinado producto
+    public $extraquantity;
+    //Guarda el id de una cotizacion
+    public $cotization_id;
     public $page = 1;
-
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
     public $cartera_id_ie, $tipo_movimiento_ie, $cantidad_ie, $detallecategoria, $categoria_id_ie, $comentario;
+
+
+    //Cotizacion
+    public $finaldatecotization;
 
 
     use WithPagination;
@@ -115,6 +126,8 @@ class PosController extends Component
     }
     public function mount()
     {
+        $this->selloutofstock = false;
+        $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
         $this->categoria_id_ie = "Elegir";
@@ -1184,10 +1197,6 @@ class PosController extends Component
         //Ocultando la Ventana Modal Lotes Producto
         $this->emit('hide-modallotesproducto');
     }
-
-
-
-
     //MODULO DE INGRESO Y EGRESO
     public function modalingresoegreso()
     {
@@ -1256,5 +1265,102 @@ class PosController extends Component
 
 
         return Redirect::to('pos');
+    }
+    //COTIZACION
+    //Show the Modal Cotization
+    public function showmodalcotization()
+    {
+        $this->emit("show-modalcotization");
+    }
+    
+    public function generatecotization()
+    {
+        $cotization = Cotization::create([
+            'total' => $this->total_bs,
+            'items' => $this->total_items,
+            'observation' => $this->observacion,
+            'finaldate' => $this->finaldatecotization,
+            'cliente_id' => $this->cliente_id,
+            'user_id' => Auth()->user()->id,
+            'sucursal_id' => $this->idsucursal(),
+        ]);
+
+        //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
+         $productos = Cart::getContent();
+
+         foreach ($productos as $p)
+         {
+            CotizationDetail::create([
+                'price' => $p->price,
+                'quantity' => $p->quantity,
+                'product_id' => $p->id,
+                'cotization_id' => $cotization->id
+            ]);
+         }
+        Cart::clear();
+        $this->actualizarvalores();
+
+        $this->cotization_id = $cotization->id;
+
+        $this->emit('generatepdfcotizacion');
+
+         return Redirect::to('pos');
+    }
+    //Incrementa cantidades extra al carrito de ventas
+    public function extraincrease()
+    {
+        $producto = Product::find($this->producto_id);
+        $product_cart = Cart::get($producto->id);
+        //Para saber si el Producto ya esta en el carrrito para cambiar el Mensaje Toast de Producto Agregado a Cantidad Actualizada
+        if ($product_cart)
+        {
+            $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre)."'!";
+            if($producto->image == null)
+            {
+
+                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $this->extraquantity , 'noimgproduct.png');
+                $this->emit('increase-ok');
+            }
+            else
+            {
+                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $this->extraquantity , $producto->image);
+                $this->emit('increase-ok');
+            }
+        }
+        else
+        {
+            $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
+            if($producto->image == null)
+            {
+
+                $precio = Lote::select("lotes.pv_lote as pv")
+                ->where("lotes.product_id",$producto->id)
+                // ->where("lotes.status","Activo")
+                ->orderby("lotes.created_at","desc")
+                ->first()->pv;
+
+
+                Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity , 'noimgproduct.png');
+                $this->emit('increase-ok');
+            }
+            else
+            {
+                $precio = Lote::select("lotes.pv_lote as pv")
+                ->where("lotes.product_id",$producto->id)
+                // ->where("lotes.status","Activo")
+                ->orderby("lotes.created_at","desc")
+                ->first()->pv;
+                Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity , $producto->image);
+                $this->emit('increase-ok');
+            }
+        }
+
+        //Actualizar los valores de Total Bs y Total Artículos en una Venta
+        $this->actualizarvalores();
+
+        $this->extraquantity = null;
+        $this->selloutofstock = false;
+
+        $this->emit("hide-stockinsuficiente");
     }
 }

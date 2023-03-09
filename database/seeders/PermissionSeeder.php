@@ -272,6 +272,138 @@ class PermissionSeeder extends Seeder
 
 
 
-        //INVENTARIOS
+        /* SERVICIOS */
+        Permission::create([    /* INGRESAR A CATEGORIA PRODUCTO SERVICIO CRUD */
+            'name' => 'Cat_Prod_Service_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* INGRESAR A SUB CATEGORIA PRODUCTO SERVICIO CRUD */
+            'name' => 'SubCat_Prod_Service_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* INGRESAR A TIPO DE TRABAJO CRUD */
+            'name' => 'Type_Work_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* INGRESAR A SERVICIO */
+            'name' => 'Service_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* INGRESAR A ORDEN DE SERVICIO */
+            'name' => 'Orden_Servicio_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR VER EL INICIO CON LOS SERVICIOS */
+            'name' => 'Inicio_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITE IMPRIMIR LA ORDEN DE SERVICIO */
+            'name' => 'Imprimir_Orden_Servicio_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* INGRESAR A REPORTES DE SERVICIO */
+            'name' => 'Reporte_Servicios_Index',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITE SACAR PDF DE REPORTES DE SERVICIO */
+            'name' => 'Reporte_Servicios_Export',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR ASIGNAR UN TECNICO AL SERVICIO */
+            'name' => 'Asignar_Tecnico_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR ENTREGAR EL SERVICIO */
+            'name' => 'Boton_Entregar_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR VER BOTONES MODIFICAR ANULAR Y ELIMINAR EL SERVICIO */
+            'name' => 'Ver_Modificar_Eliminar_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR ANULAR EL SERVICIO */
+            'name' => 'Anular_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR ELIMINAR EL SERVICIO */
+            'name' => 'Eliminar_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([    /* PERMITIR FILTRAR POR SUCURSAL LOS REPORTES DE SERVICIOS */
+            'name' => 'Filtrar_sucursal_Reporte_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' => 'web'
+        ]);
+        Permission::create([
+            'name' => 'admin_estancia_almacen',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Recepcionar_Servicio',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Cambiar_Tecnico_Responsable',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Ver_Costo_Reportes_Entregados',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Modificar_Detalle_Serv',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Aparecer_Lista_Servicios',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
+        Permission::create([
+            'name' => 'Modificar_Detalle_Serv_Entregado',
+            'areaspermissions_id' => '6',
+            'descripcion' => '.',
+            'guard_name' =>'web'
+        ]);
     }
 }

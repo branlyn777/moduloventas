@@ -86,21 +86,11 @@
                 </div>
             </div>
 
-
-
-
-
             <br>
-
-
-
 
             <div class="card">
                 <div class="card-body">
-
-
                     @if($this->tipo == "lt")
-
                     <div class="table-responsive">
                         <table class="table align-items-center mb-0">
                             <thead>

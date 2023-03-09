@@ -33,7 +33,7 @@
                 <td colspan="2" style="width: 34%;">
                     <center>
                         <span style="font-size: 20px; font-weight:bold;">Comprobante N° {{$idventa}}</span>
-                        <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
+                        <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}} <br> {{$datossucursal->telefonosucursal}} - {{$datossucursal->celularsucursal}}</p>
                     </center>
                 </td>
                 <td style="width: 33%;">
@@ -44,9 +44,23 @@
             </tr>
             <tr>
                 <td colspan="2">
-                        <b>Nombre Cliente:</b> {{$datoscliente->nombrecliente}}
+
+                    @if($datoscliente->nombrecliente != "Cliente Anónimo")
+                    <b>Nombre Cliente:</b> {{$datoscliente->nombrecliente}}
+                    @else
+                    <b>Nombre Cliente:</b>
+                    @endif
+
+                    
                         <br>
+                        @if($datoscliente->nombrecliente != "Cliente Anónimo")
                         <b>CI:</b> {{$datoscliente->cedula}}
+                        @else
+                        <b>CI:</b>
+                        @endif
+
+
+
                         <br>
                 </td>
                 <td>
@@ -63,12 +77,12 @@
 
         <div>
             <table style="width: 100%;">
-                <thead class="text-white" style="background: #3d3d3d; color: aliceblue; ">
+                <thead class="text-white" style="background: #464646; color: aliceblue; ">
                     <tr>
                         <th colspan="2">DESCRIPCIÓN</th>
-                        <th>PRECIO (Bs)</th>
-                        <th>CANTIDAD</th>
-                        <th>IMPORTE (Bs)</th>
+                        <th style="width: 110px;">PRECIO (Bs)</th>
+                        <th style="width: 110px;">CANTIDAD</th>
+                        <th style="width: 110px;">IMPORTE (Bs)</th>
                     </tr>
                 </thead>
                 <tbody style="background-color: rgb(255, 255, 255)">

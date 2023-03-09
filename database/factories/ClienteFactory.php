@@ -24,7 +24,6 @@ class ClienteFactory extends Factory
             'razon_social' => "Ninguna",
             'nit' => $this->faker->randomElement([8995452,8569452,8991242,8995452,7895452,1275452,8654652]),
             'procedencia_cliente_id' => $this->faker->randomElement([1,2,3]),
-
         ];
     }
 }

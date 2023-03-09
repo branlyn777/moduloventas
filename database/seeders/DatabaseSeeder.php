@@ -36,6 +36,11 @@ class DatabaseSeeder extends Seeder
         $this->call(CarteraMovCategoriaSeeder::class);
         $this->call(ProcedenciaClienteSeeder::class);
 
+        //Sericios
+        $this->call(CatProdServiceSeeder::class);
+        $this->call(TypeworkSeeder::class);
+        $this->call(SubCatProdServicesSeeder::class);
+
 
         /* TIGO MONEY */
         $this->call(OrigenSeeder::class);
@@ -56,6 +61,6 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // });
         //$this->call(ProductoDestino2Seeder::class);
-        // Cliente::factory(1000)->create();
+        Cliente::factory(1000)->create();
     }
 }

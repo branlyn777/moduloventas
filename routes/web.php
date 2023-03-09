@@ -25,11 +25,17 @@ use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
+use App\Http\Controllers\ExportCotizationController;
 use App\Http\Controllers\ExportMovDiaResController;
 use App\Http\Controllers\ExportMovDiaSesionController;
 use App\Http\Controllers\ExportMovimientoController;
+use App\Http\Controllers\ExportServicioEntregPdfController;
+use App\Http\Controllers\ExportServicioPdfController;
 use App\Http\Controllers\ExportTigoPdfController;
+use App\Http\Controllers\ImprimirController;
+use App\Http\Controllers\ServicioInformeTecnicoController;
 use App\Http\Livewire\ArqueosTigoController;
+use App\Http\Livewire\CatProdServiceController;
 use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\ComisionesController;
 use App\Http\Livewire\CotizationController;
@@ -48,11 +54,17 @@ use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\NivelInventariosController;
 use App\Http\Livewire\NotificationInventoryController;
+use App\Http\Livewire\OrderService2Controller;
+use App\Http\Livewire\OrderServiceController;
 use App\Http\Livewire\ProvidersController;
+use App\Http\Livewire\ProximosController;
 use App\Http\Livewire\RegistrarAjuste;
 use App\Http\Livewire\ReporGananciaTgController;
 use App\Http\Livewire\ReporteJornadaTMController;
 use App\Http\Livewire\ReporteMovimientoResumenController;
+use App\Http\Livewire\ReportEntregadoServController;
+use App\Http\Livewire\ReporteServiceController;
+use App\Http\Livewire\ReporteServiciosCostosController;
 use App\Http\Livewire\ReportesTigoController;
 use App\Http\Livewire\ResumenSesionController;
 use App\Http\Livewire\RolesController;
@@ -64,11 +76,14 @@ use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SaleReportProductController;
+use App\Http\Livewire\ServiciosController;
 use App\Http\Livewire\SesionesListaController;
+use App\Http\Livewire\SubCatProdServiceController;
 use App\Http\Livewire\SucursalController;
 use App\Http\Livewire\TransaccionController;
 use App\Http\Livewire\TransferenciasController;
 use App\Http\Livewire\TransferirProductoController;
+use App\Http\Livewire\TypeWorkController;
 use App\Http\Livewire\UnidadesController;
 use App\Http\Livewire\UsersController;
 use Illuminate\Support\Facades\Auth;
@@ -152,6 +167,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
     Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
 
+    //Cotizacion
+    Route::get('pdfcotizacion/{idcotizacion}', [ExportCotizationController::class, 'PDFCotization']);
+
 
     //INVENTARIOS
     Route::group(['middleware' => ['permission:Inventarios']], function () {
@@ -183,13 +201,41 @@ Route::middleware(['auth'])->group(function () {
     });
     //Inventarios (Pdsf y Excel)
  
-        Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
-        Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
-        Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
-        Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
-        Route::get('productos/export/', [ProductsController::class, 'export']);
-        Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
+    Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
+    Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
+    Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
+    Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
+    Route::get('productos/export/', [ProductsController::class, 'export']);
+    Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
 
-        Route::get('chart', [ChartJSController::class, 'index']);
-        Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
+    Route::get('chart', [ChartJSController::class, 'index']);
+    Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
+
+
+
+
+
+    /* SERVICIOS */
+    Route::get('proximos', ProximosController::class)->name('proximos');
+    Route::get('catprodservice', CatProdServiceController::class)->name('cps')->middleware('permission:Cat_Prod_Service_Index');
+    Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
+    Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
+    Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
+    Route::get('orderservice', OrderServiceController::class)->name('os')->middleware('permission:Orden_Servicio_Index');
+    Route::get('ordenesservicios', OrderService2Controller::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
+    // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
+    Route::get('idorderservice/{id}', [OrderServiceController::class, 'buscarid'])->name('buscarid')->middleware('permission:Orden_Servicio_Index');
+    Route::get('abrirnuevo/{id}', [OrderServiceController::class, 'abrirventana'])->name('abrirventana')->middleware('permission:Orden_Servicio_Index');
+    Route::get('reporteservices', ReporteServiceController::class)->name('rs')->middleware('permission:Reporte_Servicios_Index');
+    Route::get('servicioscostos', ReporteServiciosCostosController::class)->name('servicioscostos');
+    Route::get('reportentregservices', ReportEntregadoServController::class)->name('res')->middleware('permission:Boton_Entregar_Servicio');
+    /* SERVICIOS PDF */
+    Route::get('reporte/pdf/{id}', [ImprimirController::class, 'print'])->middleware('permission:Imprimir_Orden_Servicio_Index');
+    Route::group(['middleware' => ['permission:Reporte_Servicios_Export']], function () {
+        Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}/{f1}/{f2}', [ExportServicioPdfController::class, 'reporteServPDF']);
+        Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}', [ExportServicioPdfController::class, 'reporteServPDF']);
+    });
+    Route::get('informetecnico/pdf/{id}', [ServicioInformeTecnicoController::class, 'print']);
+    Route::get('reporteServicEntreg/pdf/{type}/{f1}/{f2}/{sucursal}/{sE}/{sB}/{caja}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
+    Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
 });

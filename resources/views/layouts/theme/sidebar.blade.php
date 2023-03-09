@@ -10,7 +10,6 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-
             @can('Administracion_Sidebar')
                 <li class="nav-item mt-3">
                     <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión</h6>
@@ -107,7 +106,7 @@
                                 <span class="sidenav-normal"> Procedencia Clientes </span>
                             </a>
                         </li>
-                    
+
                     </ul>
                 </div>
             </li>
@@ -118,12 +117,13 @@
                 <a data-bs-toggle="collapse" href="#applicationsExamples3" class=@yield('tigocollapse', 'nav-link collapse')
                     aria-controls="applicationsExamples3" role="button" aria-expanded=@yield('tigoarrow', 'false')>
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('storage/img/tigomoney.png')}}" width="90" height="70" alt="navbar brand" class="navbar-brand">
-                       
+                        <img src="{{ asset('storage/img/tigomoney.png') }}" width="90" height="70"
+                            alt="navbar brand" class="navbar-brand">
+
                     </div>
                     <span class="nav-link-text ms-1">Tigo Money</span>
                 </a>
-                <div class=@yield('tigoshow','collapse ') id="applicationsExamples3" style="">
+                <div class=@yield('tigoshow', 'collapse ') id="applicationsExamples3" style="">
                     <ul class="nav ms-4">
                         <li class=@yield('nuevali', 'nav-item ')>
                             <a class=@yield('nuevanav', 'nav-link ') href="{{ url('tigomoney') }}">
@@ -149,7 +149,7 @@
                                 <span class="sidenav-normal"> Comisión </span>
                             </a>
                         </li>
-                      
+
 
                         <li class=@yield('origenmotivoli', 'nav-item ')>
                             <a class=@yield('origenmotnav', 'nav-link ') href="{{ url('origen-motivo') }}">
@@ -181,7 +181,68 @@
                                 <span class="sidenav-normal"> Reportes Tigo </span>
                             </a>
                         </li>
-         
+
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#servicios" class=@yield('serviciocollapse', 'nav-link collapse') aria-controls="servicios"
+                    role="button" aria-expanded=@yield('servicioarrow', 'false')>
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Servicios</span>
+                </a>
+                <div class=@yield('servicioshow', 'collapse ') id="servicios" style="">
+                    <ul class="nav ms-4">
+                        <li class=@yield('vistaserviciosequipoli', 'nav-item ')>
+                            <a class=@yield('vistaserviciosnav', 'nav-link ') href="{{ url('proximos') }}">
+                                <span class="sidenav-mini-icon"> V </span>
+                                <span class="sidenav-normal">Vista  de Servicios</span>
+                            </a>
+                        </li>
+                        <li class=@yield('categoriaequipoli', 'nav-item ')>
+                            <a class=@yield('categoriaequiponav', 'nav-link ') href="{{ url('catprodservice') }}">
+                                <span class="sidenav-mini-icon"> C </span>
+                                <span class="sidenav-normal">Categoria Equipo</span>
+                            </a>
+                        </li>
+                        <li class=@yield('subcategoriali', 'nav-item ')>
+                            <a class=@yield('subcategorianav', 'nav-link ') href="{{ url('subcatprodservice') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal">Sub Categoria Equipo</span>
+                            </a>
+                        </li>
+                        <li class=@yield('tipotrabajoli', 'nav-item ')>
+                            <a class=@yield('tipotrabajonav', 'nav-link ') href="{{ url('typework') }}">
+                                <span class="sidenav-mini-icon"> T </span>
+                                <span class="sidenav-normal"> Tipo de Trabajo </span>
+                            </a>
+                        </li>
+                        <li class=@yield('ordenservicioli', 'nav-item ')>
+                            <a class=@yield('ordenservicionav', 'nav-link ') href="{{ url('orderservice') }}">
+                                <span class="sidenav-mini-icon"> O </span>
+                                <span class="sidenav-normal"> Orden de Servicio </span>
+                            </a>
+                        </li>
+                        <li class=@yield('reporteservicioli', 'nav-item ')>
+                            <a class=@yield('reporteservicionav', 'nav-link ') href="{{ url('reporteservices') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte de Servicios </span>
+                            </a>
+                        </li>
+                        <li class=@yield('reporteservicioentregadoli', 'nav-item ')>
+                            <a class=@yield('reporteservicioentregadonav', 'nav-link ') href="{{ url('reportentregservices') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte Servicios Entregados </span>
+                            </a>
+                        </li>
+                        <li class=@yield('reporteserviciocostoli', 'nav-item ')>
+                            <a class=@yield('reporteserviciocostonav', 'nav-link ') href="{{ url('servicioscostos') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte Servicios Costos </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -350,15 +411,15 @@
                     </ul>
                 </div>
             </li>
-                 <li class=@yield('nivelinventariosli', 'nav-item ')>
+            <li class=@yield('nivelinventariosli', 'nav-item ')>
                 <a class=@yield('nivelinventariosnav', 'nav-link ') href="{{ url('nivelinventarios') }}">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-square-poll-vertical text-dark text-sm"></i>
-                    
+
                     </div>
                     <span class="sidenav-normal ms-1">Nivel Inventarios</span>
                 </a>
-            </li> 
+            </li>
 
 
 
@@ -482,7 +543,7 @@
                 </a>
             </li>
 
-            
+
             <li class=@yield('categoriasli', 'nav-item ')>
                 <a class=@yield('categoriasnav', 'nav-link ') href="{{ url('carteramovcategoria') }}">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
@@ -491,7 +552,7 @@
                     <span class="sidenav-normal ms-1">Categorias </span>
                 </a>
             </li>
-            
+
             <li class=@yield('notificationli', 'nav-item ')>
                 <a class=@yield('notificationnav', 'nav-link ') href="{{ url('notificaciones') }}">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">

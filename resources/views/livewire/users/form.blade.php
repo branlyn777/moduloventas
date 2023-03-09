@@ -272,8 +272,7 @@
 
 
                 </div>
-
-
+                
             </div>
             <div class="modal-footer">
                 <button wire:click.prevent="resetUI()" type="button" class="btn btn-secondary"

@@ -1188,23 +1188,42 @@ class TransaccionController extends Component
             ->where('transaccions.id', $tran->id)
             ->get();
 
-        foreach ($anular as $mov) {
+
+
+        foreach ($anular as $mov)
+        {
             $movimiento = Movimiento::find($mov->id);
             $movimiento->status = 'INACTIVO';
             $movimiento->save();
-       
+
+            $cartera_movimiento = CarteraMov::where("cartera_movs.movimiento_id", $movimiento->id)->first();
+
+            if($cartera_movimiento->type == "INGRESO")
+            {
+                $cartera = Cartera::find($cartera_movimiento->cartera_id);
+                $saldo_cartera = $cartera->saldocartera - $movimiento->import;
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
+                ]);
+            }
+            else
+            {
+                $cartera = Cartera::find($cartera_movimiento->cartera_id);
+                $saldo_cartera = $cartera->saldocartera + $movimiento->import;
+                $cartera->update([
+                    'saldocartera' => $saldo_cartera
+                ]);
+            }
+
+
+
         }
         $tran->estado = 'Anulada';
         $tran->save();
 
 
 
-        // $carteratigo = Cartera::find($cartera->id);
-           
-        // $saldo_cartera = Cartera::find($carteratigo->id)->saldocartera - $this->importe;
-        // $cartera->update([
-        //     'saldocartera' => $saldo_cartera
-        // ]);
+        
 
 
 
