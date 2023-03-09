@@ -26,7 +26,7 @@
 <body>
 
     @php
-        $x = ;
+        $x = 0;
     @endphp
     @foreach ($datos->services as $key => $item2)
         {{-- @if (count($datos->services) != $key) --}}
@@ -52,8 +52,8 @@
                             style="border-color: black; margin-top: 0px; margin-bottom: 3px; margin-left: 5px; margin-right:5px">
                         <div style="text-align: center; font-size: 7pt;">
                             <b>CLIENTE: </b>{{ $data[0]->nombreC }}
-
                         </div>
+                        
                         <div style=" font-size: 7pt; line-height: 12px">
                             @if ($data[0]->telefono != 0)
                                 <b>CELULAR: </b>{{ $data[0]->celular }} - {{ $data[0]->telefono }}<br>
@@ -82,7 +82,7 @@
                                 @endif
                             @endforeach
                             <br>
-                            <b>FALLA: </b>
+                            <b>FALLA:</b>
                             @foreach ($datos->services as $item)
                                 @if ($item->id == $item2->id)
                                     {{ $item->falla_segun_cliente }} {{ $n }}

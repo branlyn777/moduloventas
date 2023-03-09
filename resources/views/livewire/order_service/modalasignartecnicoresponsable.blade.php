@@ -3,10 +3,10 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white">
+                <P class="modal-title text-white">
                     Asignar Técnico Responsable - Orden de Servicio N°:{{ $this->id_orden_de_servicio }}
                     
-                </h5>
+                </P>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
