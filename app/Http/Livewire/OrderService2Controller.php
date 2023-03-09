@@ -14,6 +14,8 @@ class OrderService2Controller extends Component
 {   
     //Guarda el numero de paginacion de la tabla ordenes de servicio
     public $pagination;
+    // Almacena la lista de usuarios tecnicos
+    public $list_user_technicial;
 
     use WithPagination;
     public function paginationView()
@@ -65,8 +67,9 @@ class OrderService2Controller extends Component
     {
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
+        ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
         ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
-        "m.import as price_service","m.type as type")
+        "m.import as price_service","m.type as type","cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.falla_segun_cliente as client_fail')
         ->where("services.order_service_id", $code)
         ->where("m.status", "ACTIVO")
         ->get();
@@ -87,9 +90,20 @@ class OrderService2Controller extends Component
         ->select("u.name as user_name")
         ->where("mov_services.service_id", $idservice)
         ->where("m.status", "ACTIVO")
+        ->where("m.type", "<>", "PENDIENTE")
         ->orderBy("m.id", "desc")
-        ->first();
-        return $technician->user_name;
+        ->get();
+
+        if($technician->count() > 0)
+        {
+            $technician = $technician->first()->user_name;
+        }
+        else
+        {
+            $technician = "No Asignado";
+        }
+
+        return $technician;
     }
     // Obtiene Técnico Receptor a travéz del id de un servicio
     public function get_receiving_technician($idservice)
@@ -121,5 +135,14 @@ class OrderService2Controller extends Component
         session(["clie" => null]);
         session(["tservice" => null]);
         $this->redirect("service");
+    }
+    // 
+    public function get_type($code, $type)
+    {
+        if($type == "PENDIENTE")
+        {
+            $this->list_user_technicial = User::all();
+            $this->emit("show-assign-technician");
+        }
     }
 }
