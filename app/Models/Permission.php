@@ -15,7 +15,9 @@ class Permission extends Model
     public function areaspermissions()
     {
         return $this->belongsTo(Areaspermissions::class);
-
     }
-
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'role_has_permissions', 'permission_id', 'role_id');
+    }
 }

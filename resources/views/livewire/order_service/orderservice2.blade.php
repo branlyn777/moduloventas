@@ -98,6 +98,7 @@
             background-color: #5e72e4;
             color: white;
             border-radius: 3px;
+            cursor: pointer;
         }
 
         /*Estilos para el precio del servicio*/
@@ -273,7 +274,7 @@
                                                     </span>
                                                 </td>
                                                 <td rowspan={{$so->services->count() + 1}} class="text-center">
-                                                    <span style="cursor: pointer;" class="text-sm code dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span class="text-sm code dropdown-toggle pointer" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <b>{{ $so->code }}</b>
                                                     </span>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -36,7 +36,7 @@
                   </span>
                 </td>
                 <td>
-                  <span class="text-sm  ">
+                  <span class="text-sm" style="cursor: pointer;">
                     {{$u->name}}
                   </span>
                 </td>
