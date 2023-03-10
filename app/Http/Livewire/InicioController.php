@@ -137,8 +137,8 @@ class InicioController extends Component
         ->join('sales','sales.id','sale_details.sale_id')
         ->where('sales.status','PAID')
         ->whereMonth('sale_details.created_at', now())
-        ->groupBy('sale_details.id','lotes.costo','sl.cantidad')
-        ->selectRaw("sale_details.id,(sale_details.price*sl.cantidad)-(sale_details.quantity*lotes.costo)")
+        ->groupBy('sl.sale_detail_id')
+        ->selectRaw("sum(sl.cantidad*lotes.costo)")
         ->get();
        dd($calculo_ganancias);
 
@@ -146,8 +146,8 @@ class InicioController extends Component
             $this->ganancias=0;
         }
         else {
-            $this->ganancias=$calculo_ganancias->sum('precio_total')-$calculo_ganancias->sum('total_costo');
-          
+            $this->ganancias=$calculo_ganancias->first()->total;
+
         }
 
         //dd($this->ganancias);
