@@ -16,8 +16,11 @@ class Permission extends Model
     {
         return $this->belongsTo(Areaspermissions::class);
     }
-    public function users()
+    public function usersWithPermission($permissionName)
     {
-        return $this->belongsToMany(User::class, 'role_has_permissions', 'permission_id', 'role_id');
+        return User::whereHas('roles.permissions', function ($query) use ($permissionName) {
+            $query->where('name', $permissionName);
+        })->get();
     }
+
 }

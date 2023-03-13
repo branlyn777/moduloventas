@@ -143,9 +143,7 @@ class OrderService2Controller extends Component
         if($type == "PENDIENTE")
         {
             $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
-            
-            $this->list_user_technicial = $permission->users;
-            
+            $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
             $this->emit("show-assign-technician");
         }
     }
