@@ -140,7 +140,7 @@ class InicioController extends Component
         ->groupBy('sl.sale_detail_id')
         ->selectRaw("sum(sl.cantidad*lotes.costo)")
         ->get();
-       dd($calculo_ganancias);
+       //dd($calculo_ganancias);
 
         if ($calculo_ganancias->isEmpty()) {
             $this->ganancias=0;

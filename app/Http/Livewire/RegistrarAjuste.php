@@ -245,7 +245,8 @@ class RegistrarAjuste extends Component
                         'existencia' => $datas['cantidad'],
                         'costo' => $datas['costo'],
                         'status' => 'Activo',
-                        'product_id' => $datas['product_id']
+                        'product_id' => $datas['product_id'],
+                        'pv_lote'=>$datas['precioventa']
                     ]);
 
                     DetalleEntradaProductos::create([
@@ -497,7 +498,6 @@ class RegistrarAjuste extends Component
     public function UpdatePrecioVenta(Product $product, $preciov)
     {
 
-
         $item = $this->col->where('product_id', $product->id);
         $cantidad = $item->first()['cantidad'];
         $costo = $item->first()['costo'];
@@ -510,13 +510,15 @@ class RegistrarAjuste extends Component
             'precioventa' => $preciov,
             'cantidad' => $cantidad
         ]);
+
+        //dd($this->col);
     }
     public function UpdateQty(Product $product, $cant)
     {
 
 
         $item = $this->col->where('product_id', $product->id);
-        if ($this->tipo_proceso == "Entrada" or $this->concepto == 'Inventario Inicial') {
+        if ($this->tipo_proceso == "INGRESO" or $this->concepto == 'Inventario Inicial') {
             if ($cant == 0) {
                 $this->col->pull($item->keys()->first());
             } else {

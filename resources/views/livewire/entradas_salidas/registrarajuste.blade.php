@@ -274,8 +274,8 @@
                                                             wire:model.lazy="archivo" wire:click='resetes()' />
                                                     </form>
                                                 @else
-                                                    <div class="col-3">
-                                                     
+                                                    <div class="col-md-3">
+                                                        <div class="row">
 
                                                             <div class="form-group">
                                                                 <div class="input-group mb-4">
@@ -288,7 +288,7 @@
                                                             </div>
 
                                                             @if (strlen($searchproduct) > 0)
-                                                                <div>
+                                                          
                                                                     <table>
                                                                         <thead>
                                                                             <tr style="font-size: 14px">
@@ -326,8 +326,9 @@
                                                                             @endforeach
                                                                         </tbody>
                                                                     </table>
-                                                                </div>
+                                                                
                                                             @endif
+                                                        </div>
                                                        
                                                     </div>
                                                     <div class="col-md-9">
