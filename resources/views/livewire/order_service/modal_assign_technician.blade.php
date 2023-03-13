@@ -1,4 +1,4 @@
-<div class="modal fade" id="assigntechnician" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="assigntechnician" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
@@ -22,7 +22,7 @@
             <tr class="text-center">
               <th class="text-uppercase text-xs">#</th>
               <th class="text-uppercase text-xs">Nombre</th>
-              <th class="text-uppercase text-xs">Proceso</th>
+              <th class="text-uppercase text-xs">Seleccionar</th>
               <th class="text-uppercase text-xs">Terminados</th>
             </tr>
           </thead>
@@ -36,14 +36,16 @@
                   </span>
                 </td>
                 <td>
-                  <span class="text-sm" style="cursor: pointer;">
+                  <span class="text-sm">
                     {{$u->name}}
                   </span>
                 </td>
                 <td class="text-center">
-                  <span class="text-sm">
-                    0
-                  </span>
+                  <button wire:click.prevent="select_responsible_technician({{$this->id_service}}, {{$u->id}})" class="btn">
+                    <span class="text-sm">
+                      +
+                    </span>
+                  </button>
                 </td>
                 <td class="text-center">
                   <span class="text-sm">

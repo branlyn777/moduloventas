@@ -286,7 +286,7 @@
                                                 </td>
                                                 <td rowspan={{$so->services->count() + 1}} class="text-center">
                                                     <span class="text-sm">
-                                                        <b>{{$so->client}}</b>
+                                                        <b>{{$so->client->nombre}}</b>
                                                     </span>
                                                     <br>
                                                     <span class="text-sm">
@@ -324,7 +324,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button wire:click.prevent="get_type({{$so->code}}, '{{$s->type}}')" class="btn-service {{$s->type}}">
+                                                        <button wire:click.prevent="filter_type({{$s->idservice}}, '{{$s->type}}')" class="btn-service {{$s->type}}">
                                                             {{$s->type}}
                                                         </button>
                                                     </td>
@@ -433,6 +433,7 @@
         </div>
     </div>
     @include('livewire.order_service.modal_assign_technician')
+    @include('livewire.order_service.modal_terminated_service')
 </div>
 @section('javascript')
     <script>
@@ -440,6 +441,17 @@
 
             window.livewire.on('show-assign-technician', Msg => {
                 $('#assigntechnician').modal('show')
+            });
+            window.livewire.on('hide-assign-technician', Msg => {
+                $('#assigntechnician').modal('hide')
+            });
+
+
+            window.livewire.on('show-terminated-service', Msg => {
+                $('#terminatedservice').modal('show')
+            });
+            window.livewire.on('hide-terminated-service', Msg => {
+                $('#terminatedservice').modal('hide')
             });
 
         });
