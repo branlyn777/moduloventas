@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\MovService;
 use App\Models\OrderService;
+use App\Models\Permission;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -141,7 +142,8 @@ class OrderService2Controller extends Component
     {
         if($type == "PENDIENTE")
         {
-            $this->list_user_technicial = User::all();
+            $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
+            $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
             $this->emit("show-assign-technician");
         }
     }
