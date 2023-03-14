@@ -119,7 +119,8 @@
                                             </div>
                                         </td>
 
-                                        <td width="50%">
+                                        
+                                        <td>
                                             <div class="col-sm-6 col-md-6">
                                                 <div style=" font-size: 10px; text-align: center;">
                                                     <span class="text-bold"><u> Soluciones Informaticas Emanuel
