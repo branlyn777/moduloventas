@@ -15,37 +15,41 @@
     </nav>
 @endsection
 
-
-
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
-                            <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas del mes</p>
+                            <div class="col-12 text-start">
+                                <p class="text-sm mb-1 text-uppercase font-weight-bold">VENTAS MES ACTUAL</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs {{ number_format($total_current_month, 2, ',', '.') }}
+                                    {{ number_format($total_current_month, 2, ',', '.') }} Bs
                                 </h5>
-                                <span class="text-sm text-end text-warning font-weight-bolder mt-auto mb-0">
-                                    <span class="font-weight-normal text-secondary">desde el mes pasado</span>
-                                </span>
-                            </div>
-                            <div class="col-5">
-                                <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-warning boder-round" id="dropdownUsers1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </a>
-
-                                </div>
+                                @if ($percentage < 100)
+                                    <span class="text-sm text-end text-danger font-weight-bolder mt-auto mb-0">
+                                        {{ number_format($percentage, 2, ',', '.') }}%
+                                        <span class="font-weight-normal text-secondary">
+                                            del total del mes anterior
+                                            ({{ number_format($previous_month_total, 2, ',', '.') }} Bs)
+                                        </span>
+                                    </span>
+                                @else
+                                    <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">
+                                        +{{ number_format($percentage, 2, ',', '.') }}%
+                                        <span class="font-weight-normal text-secondary">
+                                            del total del mes anterior
+                                            ({{ number_format($previous_month_total, 2, ',', '.') }} Bs)
+                                        </span>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
@@ -53,9 +57,10 @@
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Nuevos Clientes</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    {{$clientesnuevos}}
+                                    {{ $clientesnuevos }}
                                 </h5>
-                                <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">{{$porcentajeclientes==100?'-- ':number_format($porcentajeclientes,0)}}%<span
+                                <span
+                                    class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">{{ $porcentajeclientes == 100 ? '-- ' : number_format($porcentajeclientes, 0) }}%<span
                                         class="font-weight-normal text-secondary">desde el mes pasado</span></span>
                             </div>
                             <div class="col-5">
@@ -71,26 +76,27 @@
                     </div>
                 </div>
             </div>
-            @if(Auth::user()->hasRole('Administrador'))
-            <div class="col mt-sm-0 mt-4">
-                <div class="card">
-                    <div class="card-body p-3 position-relative">
-                        <div class="row">
-                            <div class="col-7 text-start">
-                                <p class="text-sm mb-1 text-uppercase font-weight-bold">Utilidades del mes</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                   {{$ganancias}}
-                                </h5>
-                                <span class="font-weight-normal text-secondary text-sm"><span
-                                        class="font-weight-bolder">{{$porcentajeganancias==100?'-- ':number_format($porcentajeganancias,2)}}%</span> desde el mes pasado</span>
-                            </div>
-                            <div class="col-5">
-                                <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers3"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
-                                    </a>
-                                    {{-- <ul class="dropdown-menu dropdown-menu-end px-2 py-3"
+            @if (Auth::user()->hasRole('Administrador'))
+                <div class="col mt-sm-0 mt-4">
+                    <div class="card">
+                        <div class="card-body p-3 position-relative">
+                            <div class="row">
+                                <div class="col-7 text-start">
+                                    <p class="text-sm mb-1 text-uppercase font-weight-bold">Utilidades del mes</p>
+                                    <h5 class="font-weight-bolder mb-0">
+                                        {{ $ganancias }}
+                                    </h5>
+                                    <span class="font-weight-normal text-secondary text-sm"><span
+                                            class="font-weight-bolder">{{ $porcentajeganancias == 100 ? '-- ' : number_format($porcentajeganancias, 2) }}%</span>
+                                        desde el mes pasado</span>
+                                </div>
+                                <div class="col-5">
+                                    <div class="dropdown text-end">
+                                        <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers3"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{-- <span class="text-xs text-secondary">6 May - 7 May</span> --}}
+                                        </a>
+                                        {{-- <ul class="dropdown-menu dropdown-menu-end px-2 py-3"
                                         aria-labelledby="dropdownUsers3">
                                         <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 7
                                                 days</a></li>
@@ -99,12 +105,12 @@
                                         <li><a class="dropdown-item border-radius-md" href="javascript:;">Last 30
                                                 days</a></li>
                                     </ul> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endif
         </div>
         <div class="row mt-4">
@@ -254,7 +260,7 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             En Bs.</th>
-                                       
+
 
                                     </tr>
                                 </thead>
@@ -277,19 +283,21 @@
 
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$item->nombre}}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $item->nombre }}</h6>
                                                         {{-- <p class="text-sm font-weight-bold text-secondary mb-0"><span
                                                                 class="text-success">85</span> Ordenes</p> --}}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{$item->cantidad_vendida}}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $item->cantidad_vendida }}
+                                                </p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-sm font-weight-bold mb-0">{{$item->total_vendido}}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $item->total_vendido }}
+                                                </p>
                                             </td>
-                                         
+
 
                                         </tr>
                                     @endforeach

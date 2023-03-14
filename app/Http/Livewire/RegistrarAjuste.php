@@ -565,8 +565,7 @@ class RegistrarAjuste extends Component
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-        $data_lote = Lote::where('product_id', $product->id)->where('status', 'Activo');
-        $ultimo_lote = Lote::latest()->where('product_id', $product->id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $product->id)->get();
+      
 
 
         $this->col->pull($item->keys()->first());
@@ -576,8 +575,8 @@ class RegistrarAjuste extends Component
             'product_codigo' => $product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
-            'costo' => $data_lote->count() == 0 ? $ultimo_lote->first()->costo : $data_lote->first()->costo,
-            'pv_lote' => $data_lote->count() == 0 ? $ultimo_lote->first()->pv_lote : $data_lote->first()->pv_lote
+            'costo' => $this->datalote($product->id)==0?0:$this->datalote($product->id)->costo,
+            'pv_lote' => $this->datalote($product->id)==0?0:$this->datalote($product->id)->pv_lote,
 
         ]);
     }
@@ -781,5 +780,27 @@ class RegistrarAjuste extends Component
     public function GuardarSubir()
     {
         $this->import();
+    }
+
+    public function datalote($p_id){
+        $data_lote = Lote::where('product_id', $p_id)->get();
+        $ultimo_lote = Lote::latest()->where('product_id', $p_id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $p_id)->get();
+        if ($data_lote->isNotEmpty()) {
+            $ms=$data_lote->where('status', 'Activo')->first();
+            if ($ms!=null) {
+              
+                return  $ms;
+            }
+            else{
+                return $data_lote->latest()->first();
+            }
+            
+            
+        }
+        else{
+            return 0;
+        }
+
+
     }
 }
