@@ -49,8 +49,8 @@
         .table-style table {
             border-collapse: separate;
             border-spacing: 0;
-            border-left: 0.3px solid #e6e6e6;
-            border-bottom: 0.3px solid #e6e6e6;
+            border-left: 0.3px solid #e2e1e1;
+            border-bottom: 0.3px solid #e2e1e1;
             width: 100%;
         }
 
@@ -62,8 +62,8 @@
         }
 
         .table-style table thead th {
-            border-top: 0.3px solid #e6e6e6;
-            border-right: 0.3px solid #e6e6e6;
+            border-top: 0.3px solid #e2e1e1;
+            border-right: 0.3px solid #e2e1e1;
             padding-top: 3px;
             padding-bottom: 10px;
         }
@@ -85,8 +85,8 @@
         }
 
         .table-style table td {
-            border-top: 0.3px solid #e6e6e6;
-            border-right: 0.3px solid #e6e6e6;
+            border-top: 0.3px solid #e2e1e1;
+            border-right: 0.3px solid #e2e1e1;
         }
 
         /* Estilos para el codigo de servicio */
@@ -200,6 +200,21 @@
             color: #008a5c;
             transition: all 0.4s ease-out;
             border-color: #008a5c;
+            transform: translateY(-2px);
+        }
+        .btn-edit-deliver {
+            background-color: #004585;
+            cursor: pointer;
+            color: white;
+            border-color: #004585;
+            border-radius: 7px;
+        }
+
+        .btn-edit-deliver:hover {
+            background-color: rgb(255, 255, 255);
+            color: #004585;
+            transition: all 0.4s ease-out;
+            border-color: #004585;
             transform: translateY(-2px);
         }
 
@@ -329,7 +344,7 @@
                                                         </button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn-edit text-sm">
+                                                        <button wire:click.prevent="filter_edit({{$s->idservice}}, '{{$s->type}}')" class="{{ $s->type != "ENTREGADO" ? 'btn-edit' : 'btn-edit-deliver'  }} text-sm">
                                                             EDITAR
                                                         </button>
                                                     </td>
@@ -434,6 +449,8 @@
     </div>
     @include('livewire.order_service.modal_assign_technician')
     @include('livewire.order_service.modal_terminated_service')
+    @include('livewire.order_service.modal_deliver_service')
+    @include('livewire.order_service.modal_edit_service')
 </div>
 @section('javascript')
     <script>
@@ -452,6 +469,22 @@
             });
             window.livewire.on('hide-terminated-service', Msg => {
                 $('#terminatedservice').modal('hide')
+            });
+
+
+            window.livewire.on('show-deliver-service', Msg => {
+                $('#deliverservice').modal('show')
+            });
+            window.livewire.on('hide-deliver-service', Msg => {
+                $('#deliverservice').modal('hide')
+            });
+
+
+            window.livewire.on('show-edit-service', Msg => {
+                $('#editservice').modal('show')
+            });
+            window.livewire.on('hide-edit-service', Msg => {
+                $('#editservice').modal('hide')
             });
 
         });

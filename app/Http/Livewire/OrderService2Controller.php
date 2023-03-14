@@ -2,18 +2,23 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Caja;
+use App\Models\Cartera;
+use App\Models\CarteraMov;
 use App\Models\ClienteMov;
 use App\Models\Movimiento;
 use App\Models\MovService;
 use App\Models\OrderService;
 use App\Models\Permission;
 use App\Models\Service;
+use App\Models\SucursalUser;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use stdClass;
 
 class OrderService2Controller extends Component
 {   
@@ -25,11 +30,17 @@ class OrderService2Controller extends Component
     public $id_order_service;
     //Guarda el id de un id de servicio
     public $id_service;
+    //Guarda el id de la sucursal del usuario autenticado
+    public $id_branch;
+    //Guarda true o false dependiendo si el usuario aperturo caja
+    public $box_status;
+    //Guarda una lista con todas las carteras que esten en el corte de caja
+    public $list_wallets;
 
 
     //Guarda Información de un servicio
     public $s_client_name, $s_client_cell, $s_client_phone, $s_details, $s_cps, $s_mark, $s_model_detail, $s_solution, $s_id_user_technicial,
-    $s_price,$s_cost, $s_cost_detail;
+    $s_price,$s_cost, $s_cost_detail, $s_on_account, $s_id_wallet;
 
     use WithPagination;
     public function paginationView()
@@ -39,6 +50,9 @@ class OrderService2Controller extends Component
     public function mount()
     {
         $this->pagination = 20;
+        //Obteniendo el id de la sucursal del usuario autenticado
+        $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
+        $this->box_status = false;
     }
     public function render()
     {
@@ -69,7 +83,7 @@ class OrderService2Controller extends Component
         ->extends("layouts.theme.app")
         ->section("content");
     }
-    // Obtiene servicios de una orden de servicio
+    // Devuelve servicios de una orden de servicio
     public function get_service_order_detail($code)
     {
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
@@ -83,18 +97,18 @@ class OrderService2Controller extends Component
         foreach ($services as $s)
         {
             //Obtener al tecnico responsable de un servicio
-            $s->responsible_technician = $this->get_responsible_technician($s->idservice)->user_name;
+            $s->responsible_technician = $this->get_responsible_technician($s->idservice)->name;
             //Obtener al técnico receptor de un servicio
             $s->receiving_technician = $this->get_receiving_technician($s->idservice);
         }
         return $services;
     }
-    // Obtener Técnico Responsable a travéz del id de un servicio
+    // Devuelve un objeto de un Usuario Técnico Responsable a travéz del id de un servicio
     public function get_responsible_technician($idservice)
     {
         $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
         ->join("users as u", "u.id", "m.user_id")
-        ->select("u.name as user_name","u.id as user_id")
+        ->select("u.*")
         ->where("mov_services.service_id", $idservice)
         ->where("m.status", "ACTIVO")
         ->where("m.type", "<>", "PENDIENTE")
@@ -107,7 +121,9 @@ class OrderService2Controller extends Component
         }
         else
         {
-            $technician = "No Asignado";
+            //Creando un objeto que almacene "No Asignado" como valor y tenga el nombre "user_name" utilizando la clase stdClass. La clase stdClass es una clase predefinida en PHP que se puede utilizar para crear objetos genéricos.
+            $technician = new stdClass();
+            $technician->name = "No Asignado";
         }
 
         return $technician;
@@ -157,18 +173,16 @@ class OrderService2Controller extends Component
         }
         else
         {
+            $service = Service::find($idservice);
+            $client = $this->get_client($service->order_service_id);
+            $this->s_client_name = $client->nombre;
+            $this->s_client_cell = $client->celular;
+            $this->s_client_phone = $client->telefono;
             if($type == "PROCESO")
             {
                 //Actualizando la lista de usuarios tecnicos para el servicio
                 $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
                 $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
-
-                $service = Service::find($idservice);
-                //Actualizando las variables para ser mostrados en la ventana modal
-                $client = $this->get_client($service->order_service_id);
-                $this->s_client_name = $client->nombre;
-                $this->s_client_cell = $client->celular;
-                $this->s_client_phone = $client->telefono;
 
                 $service = $this->get_details_Service($idservice);
 
@@ -179,11 +193,62 @@ class OrderService2Controller extends Component
                 $this->s_price = $service->price_service;
                 $this->s_cost = $service->cost;
                 $this->s_cost_detail = $service->cost_detail;
-                $this->s_id_user_technicial = $service->id_user_technicial;
-                dd($service->id_user_technicial);
+                $this->s_id_user_technicial = $this->get_responsible_technician($idservice)->id;
                 //Mostrando la ventana modal
                 $this->emit("show-terminated-service");
             }
+            else
+            {
+                if($type == "TERMINADO")
+                {
+                    $service = $this->get_details_Service($idservice);
+                    $this->s_price = $service->price_service;
+                    $this->s_on_account = $service->s_on_account;
+
+                    $box = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
+                    ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+                    ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+                    ->where('cajas.estado', 'Abierto')
+                    ->where('mov.user_id', Auth()->user()->id)
+                    ->where('mov.status', 'ACTIVO')
+                    ->where('mov.type', 'APERTURA')
+                    ->where('cajas.sucursal_id', $this->id_branch)
+                    ->select('cajas.*')
+                    ->first();
+                    if($box)
+                    {
+                        $this->box_status = true;
+                        $this->list_wallets = Cartera::where("caja_id", $box->id)
+                        ->where("estado", "ACTIVO")
+                        ->where("tipo","<>", "Sistema")
+                        ->where("tipo","<>", "Telefono")
+                        ->orwhere("caja_id", 1)
+                        ->orderBy("id","asc")
+                        ->get();
+
+                        $this->s_id_wallet = $this->list_wallets->where("tipo","efectivo")->first()->id;
+                    }
+
+
+                    $this->emit("show-deliver-service");
+                }
+            }
+        }
+    }
+    // Mustra una ventana modal para editar dependiendo del tipo de servicio
+    public function filter_edit(Service $service, $type)
+    {
+        if($type != "ENTREGADO")
+        {
+            $client = $this->get_client($service->order_service_id);
+            $this->s_client_name = $client->nombre;
+            $this->s_client_cell = $client->celular;
+            $this->s_client_phone = $client->telefono;
+            $this->emit("show-edit-service");
+        }
+        else
+        {
+            dd("Servicio entregado");
         }
     }
     //Obtiene detalles de un servicio
@@ -192,14 +257,15 @@ class OrderService2Controller extends Component
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
         ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
-        ->select("services.created_at as created_at", "m.import as price_service","m.type as type",
+        ->select("services.created_at as created_at", "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance",
         "cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.solucion as solution', "m.user_id as id_user_technicial",
         'services.falla_segun_cliente as client_fail','services.costo as cost','services.detalle_costo as cost_detail')
         ->where("services.id", $idservice)
+        ->where("m.status","ACTIVO")
         ->first();
         return $services;
     }
-    //Asigna un servicio a un usuario seleccionado
+    //Asigna servicio a técnico (Pasa un Servicio de PENDIENTE A PROCESO)
     public function select_responsible_technician(Service $service, $iduser)
     {
         //Buscando el movimiento PENDIENTE
@@ -234,6 +300,98 @@ class OrderService2Controller extends Component
         $motion->update([
             'status' => 'INACTIVO'
         ]);
+        $motion->save();
         $this->emit("hide-assign-technician");
+    }
+    //Termina un servicio (Pasa un Servicio de PROCESO A TERMINADO)
+    public function terminated_service(Service $service)
+    {
+        //Buscando el movimiento PROCESO
+        $motion_process = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->where("mov_services.service_id", $service->id)
+        ->where("m.type", "PROCESO")
+        ->select("m.*")
+        ->first();
+
+        //CREANDO EL SERVICIO EN TERMINADO
+        $motion_terminated = Movimiento::create([
+            'type' => 'TERMINADO',
+            'status' => 'ACTIVO',
+            'import' => $this->s_price,
+            'on_account' => $motion_process->on_account,
+            'saldo' => $motion_process->saldo,
+            'user_id' =>  $this->s_id_user_technicial,
+        ]);
+        MovService::create([
+            'movimiento_id' => $motion_terminated->id,
+            'service_id' => $service->id
+        ]);
+        //Obteniendo un objeto de los datos del cliente
+        $client = $this->get_client($service->order_service_id);
+        ClienteMov::create([
+            'movimiento_id' => $motion_terminated->id,
+            'cliente_id' => $client->id
+        ]);
+        $motion = Movimiento::find($motion_process->id);
+        //Actualizando el estado del movimiento PROCESO
+        $motion->update([
+            'status' => 'INACTIVO'
+        ]);
+        $motion->save();
+        //Actualizando el servicio
+        $service->update([
+            'solucion' => $this->s_solution,
+            'costo' => $this->s_cost,
+            'detalle_costo' => $this->s_cost_detail
+        ]);
+        $service->save();
+        //Cerrando la ventana modal
+        $this->emit("hide-terminated-service");
+    }
+    //Entrega un Servicio (Pasa un Servicio de TERMINADO a ENTREGADO)
+    public function deliver_service(Service $service)
+    {
+        $motion_deliver = Movimiento::create([
+            'type' => 'ENTREGADO',
+            'status' => 'ACTIVO',
+            'import' => $this->s_price,
+            'on_account' => $this->s_on_account,
+            'saldo' => $this->s_price - $this->s_on_account,
+            'user_id' => Auth()->user()->id,
+        ]);
+        CarteraMov::create([
+            'type' => 'INGRESO',
+            'tipoDeMovimiento' => 'SERVICIOS',
+            'comentario' => '',
+            'cartera_id' => $this->s_id_wallet,
+            'movimiento_id' => $motion_deliver->id
+        ]);
+        MovService::create([
+            'movimiento_id' => $motion_deliver->id,
+            'service_id' => $service->id
+        ]);
+        //Obteniendo un objeto de los datos del cliente
+        $client = $this->get_client($service->order_service_id);
+        ClienteMov::create([
+            'movimiento_id' => $motion_deliver->id,
+            'cliente_id' => $client->id
+        ]);
+
+
+        //Buscando el movimiento PROCESO
+        $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->where("mov_services.service_id", $service->id)
+        ->where("m.type", "TERMINADO")
+        ->select("m.*")
+        ->first();
+
+        $motion = Movimiento::find($motion_terminated->id);
+        //Actualizando el estado del movimiento PROCESO
+        $motion->update([
+            'status' => 'INACTIVO'
+        ]);
+        $motion->save();
+
+        $this->emit("hide-deliver-service");
     }
 }
