@@ -119,12 +119,12 @@ class InicioController extends Component
         //lista de productos mas vendidos
         $prod_mas_vendidos = Product::join("sale_details as sd", "sd.product_id", "products.id")
             ->join("sales as s", "s.id", "sd.sale_id")
-           // ->where("s.status", "PAID")
+           ->where("s.status", "PAID")
             ->whereMonth('s.created_at', now())
             ->groupBy('products.id')
             ->selectRaw("products.*,sum(sd.quantity) as cantidad_vendida,sum(sd.quantity*sd.price) as total_vendido")
             ->orderBy('cantidad_vendida','DESC')
-         
+            
             ->get();
 //dd($prod_mas_vendidos->count());
         //nuevos clientes
@@ -132,21 +132,29 @@ class InicioController extends Component
         $this->porcentajeclientes= $this->porcent_clientes();
         
 
-        $calculo_ganancias= SaleDetail::join('sale_lotes as sl','sl.sale_detail_id','sale_details.id')
+        $calculo_costos= SaleDetail::join('sale_lotes as sl','sl.sale_detail_id','sale_details.id')
         ->join('lotes','lotes.id','sl.lote_id')
         ->join('sales','sales.id','sale_details.sale_id')
         ->where('sales.status','PAID')
         ->whereMonth('sale_details.created_at', now())
         ->groupBy('sl.sale_detail_id')
-        ->selectRaw("sum(sl.cantidad*lotes.costo)")
+        ->selectRaw("sum(sl.cantidad*lotes.costo) as total_costo")
         ->get();
-       //dd($calculo_ganancias);
+        $calculo_totalventas= SaleDetail::join('sale_lotes as sl','sl.sale_detail_id','sale_details.id')
+        ->join('lotes','lotes.id','sl.lote_id')
+        ->join('sales','sales.id','sale_details.sale_id')
+        ->where('sales.status','PAID')
+        ->whereMonth('sale_details.created_at', now())
+        ->groupBy('sl.sale_detail_id')
+        ->selectRaw("sum(sl.cantidad*sale_details.price) as total_venta")
+        ->get();
+       //dd($calculo_totalventas->sum('total_venta'));
 
-        if ($calculo_ganancias->isEmpty()) {
+        if ($calculo_costos->isEmpty()) {
             $this->ganancias=0;
         }
         else {
-            $this->ganancias=$calculo_ganancias->first()->total;
+            $this->ganancias= $calculo_totalventas->sum('total_venta')-$calculo_costos->sum('total_costo');
 
         }
 
@@ -195,7 +203,7 @@ class InicioController extends Component
         return view('livewire.inicio.inicio', [
 
             'total_current_month' => $total_current_month,
-            'productos_vendidos' => $prod_mas_vendidos
+            'productos_vendidos' => $prod_mas_vendidos->take(5)
             // 'difference_percentage' => $difference_percentage,
 
         ])

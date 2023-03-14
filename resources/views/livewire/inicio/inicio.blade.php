@@ -20,7 +20,7 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 mt-sm-0 mt-4">
+            <div class="col mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
@@ -71,7 +71,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 mt-sm-0 mt-4">
+            @if(Auth::user()->hasRole('Administrador'))
+            <div class="col mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
                         <div class="row">
@@ -104,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
         <div class="row mt-4">
 
