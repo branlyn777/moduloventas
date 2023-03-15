@@ -432,22 +432,27 @@ class OrderService2Controller extends Component
 
         $this->emit("hide-deliver-service");
     }
+    protected $listeners = [
+    'updateorderservice' => 'update_order_service',
+    ];
     //Actualiza detalles generales de un servicio
-    public function update_order_service(Service $service)
+    public function update_order_service($mark)
     {
-        $service->update([
-            'detalle' => '',
-            'marca' => '',
-            'falla_segun_cliente' => '',
-            'diagnostico' => '',
-            'solucion' => '',
-            'costo' => '',
-            'detalle_costo' => '',
-            'fecha_estimada_entrega' => '',
-            'cat_prod_service_id' => '',
-            'type_work_id' => '',
-            'sucursal_id' => ''
-        ]);
-        $service->save();
+
+        dd($mark . " : ". $this->s_price);
+        // $service->update([
+        //     'detalle' => '',
+        //     'marca' => '',
+        //     'falla_segun_cliente' => '',
+        //     'diagnostico' => '',
+        //     'solucion' => '',
+        //     'costo' => '',
+        //     'detalle_costo' => '',
+        //     'fecha_estimada_entrega' => '',
+        //     'cat_prod_service_id' => '',
+        //     'type_work_id' => '',
+        //     'sucursal_id' => ''
+        // ]);
+        // $service->save();
     }
 }

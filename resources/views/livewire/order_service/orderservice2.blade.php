@@ -37,7 +37,6 @@
 
 @section('css')
     <style>
-
         /* Estilos para las tablas */
         .table-style {
             width: 100%;
@@ -67,7 +66,7 @@
             padding-top: 3px;
             padding-bottom: 10px;
         }
-        
+
         .table-style table tbody tr:hover {
             background-color: rgba(207, 230, 0, 0);
         }
@@ -129,11 +128,13 @@
             border-style: solid;
             display: inline-block;
         }
+
         .PENDIENTE {
             background-color: rgb(161, 0, 224);
             border-color: rgb(161, 0, 224);
             border-color: rgb(161, 0, 224);
         }
+
         .btn-service.PENDIENTE:hover {
             background-color: rgb(255, 255, 255);
             color: rgb(161, 0, 224);
@@ -145,11 +146,13 @@
             -ms-transform: scale(1.05);
             transform: scale(1.05);
         }
+
         .PROCESO {
             background-color: rgb(100, 100, 100);
             border-color: rgb(100, 100, 100);
             border-color: rgb(100, 100, 100);
         }
+
         .btn-service.PROCESO:hover {
             background-color: rgb(255, 255, 255);
             color: rgb(100, 100, 100);
@@ -161,11 +164,13 @@
             -ms-transform: scale(1.05);
             transform: scale(1.05);
         }
+
         .TERMINADO {
             background-color: rgb(224, 146, 0);
             border-color: rgb(224, 146, 0);
             border-color: rgb(224, 146, 0);
         }
+
         .btn-service.TERMINADO:hover {
             background-color: rgb(255, 255, 255);
             color: rgb(224, 146, 0);
@@ -177,6 +182,7 @@
             -ms-transform: scale(1.05);
             transform: scale(1.05);
         }
+
         .ENTREGADO {
             background-color: rgb(22, 192, 0);
             border-color: rgb(22, 192, 0);
@@ -185,7 +191,7 @@
         }
 
 
-        
+
         /*Estilos para el Botón Editar Servicio de la Tabla*/
         .btn-edit {
             background-color: #008a5c;
@@ -202,6 +208,7 @@
             border-color: #008a5c;
             transform: translateY(-2px);
         }
+
         .btn-edit-deliver {
             background-color: #004585;
             cursor: pointer;
@@ -217,7 +224,46 @@
             border-color: #004585;
             transform: translateY(-2px);
         }
+
+
+        /* Estilos para la lista de marcas disponibles a elegir en la ventana modal editar */
+        .product-search {
+            position: relative;
+        }
+
+        #product-input {
+            width: 100%;
+            padding: 10px;
+            /* font-size: 16px; */
+        }
+
+        #product-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #product-list li {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        #product-list li:hover {
+            background-color: #5e72e4;
+            color: white;
+        }
     </style>
+
 @endsection
 <div>
     <div class="row">
@@ -249,7 +295,8 @@
                                 <div class="form-group">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                        <input type="text" wire:model="search" placeholder="Buscar..." class="form-control">
+                                        <input type="text" wire:model="search" placeholder="Buscar..."
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -278,28 +325,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if($service_orders->count() > 0)
+                                    @if ($service_orders->count() > 0)
                                         @foreach ($service_orders as $so)
                                             <tr>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
+                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
                                                     <span class="text-sm">
                                                         {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }}
                                                     </span>
                                                 </td>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
-                                                    <span class="text-sm code dropdown-toggle pointer" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
+                                                    <span class="text-sm code dropdown-toggle pointer"
+                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
                                                         <b>{{ $so->code }}</b>
                                                     </span>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li><a class="dropdown-item" target=”_blank” href="{{ url('reporte/pdf' . '/' . $so->code) }}">Imprimir</a></li>
+                                                        <li><a class="dropdown-item" target=”_blank”
+                                                                href="{{ url('reporte/pdf' . '/' . $so->code) }}">Imprimir</a>
+                                                        </li>
                                                         <li><a class="dropdown-item" href="#">Modificar</a></li>
                                                         <li><a class="dropdown-item" href="#">Anular</a></li>
                                                         <li><a class="dropdown-item" href="#">Eliminar</a></li>
                                                     </ul>
                                                 </td>
-                                                <td rowspan={{$so->services->count() + 1}} class="text-center">
+                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
                                                     <span class="text-sm">
-                                                        <b>{{$so->client->nombre}}</b>
+                                                        <b>{{ $so->client->nombre }}</b>
                                                     </span>
                                                     <br>
                                                     <span class="text-sm">
@@ -307,7 +358,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            @foreach($so->services as $s)
+                                            @foreach ($so->services as $s)
                                                 <tr>
                                                     <td class="text-center">
                                                         <span class="text-sm">
@@ -316,14 +367,15 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <span class="text-sm">
-                                                            {{$s->responsible_technician}}
+                                                            {{ $s->responsible_technician }}
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
                                                         <span class="text-sm">
-                                                            {{$s->name_cps}} {{$s->mark}} {{$s->detail}}
+                                                            {{ $s->name_cps }} {{ $s->mark }}
+                                                            {{ $s->detail }}
                                                             <br>
-                                                            Falla: {{$s->client_fail}}
+                                                            Falla: {{ $s->client_fail }}
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
@@ -333,16 +385,20 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <span class="text-sm">
-                                                            {{$s->receiving_technician}}
+                                                            {{ $s->receiving_technician }}
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button wire:click.prevent="filter_type({{$s->idservice}}, '{{$s->type}}')" class="btn-service {{$s->type}}">
-                                                            {{$s->type}}
+                                                        <button
+                                                            wire:click.prevent="filter_type({{ $s->idservice }}, '{{ $s->type }}')"
+                                                            class="btn-service {{ $s->type }}">
+                                                            {{ $s->type }}
                                                         </button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button wire:click.prevent="filter_edit({{$s->idservice}}, '{{$s->type}}')" class="{{ $s->type != "ENTREGADO" ? 'btn-edit' : 'btn-edit-deliver'  }} text-sm">
+                                                        <button
+                                                            wire:click.prevent="filter_edit({{ $s->idservice }}, '{{ $s->type }}')"
+                                                            class="{{ $s->type != 'ENTREGADO' ? 'btn-edit' : 'btn-edit-deliver' }} text-sm">
                                                             EDITAR
                                                         </button>
                                                     </td>
@@ -355,13 +411,15 @@
                                                 <br>
                                                 <br>
                                                 <br>
-                                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" style="opacity: 15%;"
-                                                    width="250pt" height="250pt" viewBox="0 0 512.000000 512.000000"
+                                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                                    style="opacity: 15%;" width="250pt" height="250pt"
+                                                    viewBox="0 0 512.000000 512.000000"
                                                     preserveAspectRatio="xMidYMid meet">
 
                                                     <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                                    fill="#000000" stroke="none">
-                                                    <path d="M2740 5107 c-49 -16 -123 -93 -138 -143 -6 -23 -12 -75 -12 -115 l0
+                                                        fill="#000000" stroke="none">
+                                                        <path
+                                                            d="M2740 5107 c-49 -16 -123 -93 -138 -143 -6 -23 -12 -75 -12 -115 l0
                                                     -74 -81 -28 c-45 -15 -123 -47 -174 -71 l-93 -44 -53 54 c-64 65 -120 94 -180
                                                     94 -99 0 -109 -7 -341 -238 -120 -118 -225 -231 -234 -250 -46 -97 -27 -180
                                                     63 -273 l63 -66 -41 -89 c-23 -49 -54 -125 -69 -169 l-28 -80 -90 -7 c-106 -8
@@ -410,8 +468,9 @@
                                                     130 47 116 58 214 97 305 122 81 23 88 36 88 173 0 107 1 114 25 137 l24 25
                                                     283 0 c207 -1 287 -4 299 -13z m-2673 -3539 c9 -9 12 -145 12 -552 0 -488 -2
                                                     -541 -17 -558 -15 -16 -36 -18 -243 -18 -162 0 -229 3 -238 12 -9 9 -12 148
-                                                    -12 563 0 304 3 555 7 558 12 13 478 8 491 -5z"/>
-                                                    <path d="M2922 4430 c-157 -20 -382 -90 -423 -131 -25 -25 -25 -81 1 -104 29
+                                                    -12 563 0 304 3 555 7 558 12 13 478 8 491 -5z" />
+                                                        <path
+                                                            d="M2922 4430 c-157 -20 -382 -90 -423 -131 -25 -25 -25 -81 1 -104 29
                                                     -26 63 -22 171 18 147 55 233 70 399 70 323 1 596 -110 825 -338 452 -448 461
                                                     -1164 21 -1623 -126 -131 -268 -226 -428 -286 l-68 -26 0 224 c0 212 1 225 19
                                                     231 39 12 148 89 204 143 297 288 322 746 58 1068 -85 103 -236 204 -305 204
@@ -431,7 +490,7 @@
                                                     -369 -434 -30 -13 -60 -33 -66 -44 -7 -14 -11 -117 -11 -295 l0 -274 -52 -7
                                                     c-68 -8 -218 -8 -285 0 l-53 7 0 268 c0 147 -4 279 -9 292 -7 18 -35 37 -98
                                                     67 -157 76 -287 231 -339 405 -27 92 -25 249 5 345 29 94 47 130 106 208 42
-                                                    56 164 162 186 162 5 0 8 -129 6 -287z"/>
+                                                    56 164 162 186 162 5 0 8 -129 6 -287z" />
                                                     </g>
                                                 </svg>
                                             </td>
@@ -485,6 +544,68 @@
                 $('#editservice').modal('hide')
             });
 
+        });
+
+        function updateService()
+        {
+            var mark = document.getElementById('product-input').value;
+            window.livewire.emit('updateorderservice', mark)
+        }
+
+
+    </script>
+    <script>
+        // const products = [
+        //     'Producto 1',
+        //     'Producto 2',
+        //     'Producto 3',
+        //     'Producto 4',
+        //     'Producto A',
+        //     'Producto B',
+        //     'Producto C',
+        // ];
+
+        const products = @json($list_marks);
+
+        const input = document.getElementById('product-input');
+        const list = document.getElementById('product-list');
+
+        input.addEventListener('input', function() {
+            // Limpiar lista de productos
+            list.innerHTML = '';
+
+            // Obtener valor del input
+            const value = input.value.toLowerCase();
+
+            // Filtrar productos que coincidan con el valor ingresado
+            const filteredProducts = products.filter(function(product) {
+                return product.toLowerCase().includes(value);
+            });
+
+            // Agregar productos filtrados a la lista
+            filteredProducts.forEach(function(product) {
+                const li = document.createElement('li');
+                li.textContent = product;
+                li.addEventListener('click', function() {
+                    input.value = product;
+                    list.innerHTML = '';
+                });
+                list.appendChild(li);
+            });
+
+            // Mostrar lista de productos si hay resultados
+            if (filteredProducts.length > 0) {
+                list.style.display = 'block';
+            } else {
+                list.style.display = 'none';
+            }
+        });
+
+        // Ocultar lista de productos al hacer clic fuera del input
+        document.addEventListener('click', function(event) {
+            if (event.target !== input && event.target.parentNode !== list) {
+                list.innerHTML = '';
+            }
         });
     </script>
 @endsection
