@@ -21,17 +21,17 @@
             </div>
             <div class="row mb-3">
                 <div class="col-12">
-                    <label for="exampleFormControlTextarea1">Solución:</label>
+                    <label>Solución:</label>
                     <textarea wire:model.lazy="s_solution" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="exampleFormControlTextarea1">Precio:</label>
+                    <label>Precio:</label>
                     <input wire:model.lazy="s_price" type="number" class="form-control">
                 </div>
                 <div class="col-6">
-                    <label for="exampleFormControlTextarea1">Técnico Responsable:</label>
+                    <label>Técnico Responsable:</label>
                     @if($this->list_user_technicial)
                     <select wire:model="s_id_user_technicial" class="form-select">
                         @foreach($this->list_user_technicial as $ut)
@@ -43,18 +43,18 @@
             </div>
             <div class="row">
                 <div class="col-4">
-                    <label for="exampleFormControlTextarea1">Costo:</label>
+                    <label>Costo:</label>
                     <input wire:model.lazy="s_cost" type="number" class="form-control">
                 </div>
                 <div class="col-8">
-                    <label for="exampleFormControlTextarea1">Motivo Costo:</label>
+                    <label>Motivo Costo:</label>
                     <input wire:model.lazy="s_cost_detail" type="text" class="form-control">
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn bg-gradient-warning">Terminar Servicio</button>
+            <button wire:click.prevent="terminated_service({{$this->id_service}})" type="button" class="btn bg-gradient-warning">Terminar Servicio</button>
           </div>
       </div>
     </div>
