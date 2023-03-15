@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <h5 class="modal-title text-white" id="exampleModalLabel">Asignar Técnico Responsable</h5>
+        <h5 class="modal-title text-white text-sm" id="exampleModalLabel">ASIGNAR TÉCNICO RESPONSABLE: SERVICIO {{$this->id_order_service}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

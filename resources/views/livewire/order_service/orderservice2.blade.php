@@ -49,8 +49,8 @@
         .table-style table {
             border-collapse: separate;
             border-spacing: 0;
-            border-left: 0.3px solid #e2e1e1;
-            border-bottom: 0.3px solid #e2e1e1;
+            border-left: 0.3px solid #dbdbdb;
+            border-bottom: 0.3px solid #dbdbdb;
             width: 100%;
         }
 
@@ -62,8 +62,8 @@
         }
 
         .table-style table thead th {
-            border-top: 0.3px solid #e2e1e1;
-            border-right: 0.3px solid #e2e1e1;
+            border-top: 0.3px solid #dbdbdb;
+            border-right: 0.3px solid #dbdbdb;
             padding-top: 3px;
             padding-bottom: 10px;
         }
@@ -85,8 +85,8 @@
         }
 
         .table-style table td {
-            border-top: 0.3px solid #e2e1e1;
-            border-right: 0.3px solid #e2e1e1;
+            border-top: 0.3px solid #dbdbdb;
+            border-right: 0.3px solid #dbdbdb;
         }
 
         /* Estilos para el codigo de servicio */
@@ -217,8 +217,6 @@
             border-color: #004585;
             transform: translateY(-2px);
         }
-
-
     </style>
 @endsection
 <div>

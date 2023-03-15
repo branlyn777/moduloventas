@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title text-white text-sm" id="exampleModalLabel">ENTREGAR SERVICIO</h5>
+          <h5 class="modal-title text-white text-sm" id="exampleModalLabel">ENTREGAR SERVICIO: {{$this->id_order_service}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -36,9 +36,9 @@
                         <div class="col-6 text-center">
                             <strong class="text-sm">No aperturo caja</strong>
                             <br>
-                            <button class="btn text-primary">
+                            <a href="{{ url('cortecajas') }}" class="btn text-primary" target="_blank">
                                 Ir a Corte de Caja
-                            </button>
+                            </a>
                         </div>
                         <div class="col-3"></div>
                     @else

@@ -5,20 +5,23 @@ namespace App\Http\Livewire;
 use App\Models\Caja;
 use App\Models\Cartera;
 use App\Models\CarteraMov;
+use App\Models\CatProdService;
 use App\Models\ClienteMov;
 use App\Models\Movimiento;
 use App\Models\MovService;
 use App\Models\OrderService;
 use App\Models\Permission;
 use App\Models\Service;
+use App\Models\SubCatProdService;
 use App\Models\SucursalUser;
+use App\Models\TypeWork;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
-use stdClass;
 
 class OrderService2Controller extends Component
 {   
@@ -36,11 +39,17 @@ class OrderService2Controller extends Component
     public $box_status;
     //Guarda una lista con todas las carteras que esten en el corte de caja
     public $list_wallets;
-
+    //Guarda una lista de tipos de Trabajo
+    public $list_type_work;
+    //Guarda una lista de categorias de equipos
+    public $list_category;
+    //Guarda una lista de las marcas de los productos
+    public $list_marks;
 
     //Guarda Información de un servicio
     public $s_client_name, $s_client_cell, $s_client_phone, $s_details, $s_cps, $s_mark, $s_model_detail, $s_solution, $s_id_user_technicial,
-    $s_price,$s_cost, $s_cost_detail, $s_on_account, $s_id_wallet;
+    $s_price,$s_cost, $s_cost_detail, $s_on_account, $s_id_wallet, $s_type_work, $s_fail_client, $s_diagnostic, $s_balance, $s_id_type_work,
+    $s_id_category, $s_estimated_delivery_date, $s_estimated_delivery_time;
 
     use WithPagination;
     public function paginationView()
@@ -93,17 +102,26 @@ class OrderService2Controller extends Component
         "m.import as price_service","m.type as type","cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.falla_segun_cliente as client_fail')
         ->where("services.order_service_id", $code)
         ->where("m.status", "ACTIVO")
+        ->orderBy("services.id","asc")
         ->get();
         foreach ($services as $s)
         {
-            //Obtener al tecnico responsable de un servicio
-            $s->responsible_technician = $this->get_responsible_technician($s->idservice)->name;
+            if($s->type != "PENDIENTE")
+            {
+                //Obtener al tecnico responsable de un servicio
+                $s->responsible_technician = $this->get_responsible_technician($s->idservice)->name;
+            }
+            else
+            {
+                //Obtener al tecnico responsable de un servicio
+                $s->responsible_technician = "No Asignado";
+            }
             //Obtener al técnico receptor de un servicio
             $s->receiving_technician = $this->get_receiving_technician($s->idservice);
         }
         return $services;
     }
-    // Devuelve un objeto de un Usuario Técnico Responsable a travéz del id de un servicio
+    // Devuelve un objeto de un Usuario Técnico Responsable o Recepcionista a travéz del id de un servicio
     public function get_responsible_technician($idservice)
     {
         $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
@@ -111,22 +129,9 @@ class OrderService2Controller extends Component
         ->select("u.*")
         ->where("mov_services.service_id", $idservice)
         ->where("m.status", "ACTIVO")
-        ->where("m.type", "<>", "PENDIENTE")
         ->orderBy("m.id", "desc")
         ->get();
-
-        if($technician->count() > 0)
-        {
-            $technician = $technician->first();
-        }
-        else
-        {
-            //Creando un objeto que almacene "No Asignado" como valor y tenga el nombre "user_name" utilizando la clase stdClass. La clase stdClass es una clase predefinida en PHP que se puede utilizar para crear objetos genéricos.
-            $technician = new stdClass();
-            $technician->name = "No Asignado";
-        }
-
-        return $technician;
+        return $technician = $technician->first();
     }
     // Obtiene Técnico Receptor a travéz del id de un servicio
     public function get_receiving_technician($idservice)
@@ -160,9 +165,10 @@ class OrderService2Controller extends Component
         $this->redirect("service");
     }
     // Muestra una ventana modal dependiendo del tipo del servicio
-    public function filter_type($idservice, $type)
+    public function filter_type(Service $service, $type)
     {
-        $this->id_service = $idservice;
+        $this->id_order_service = $service->order_service_id;
+        $this->id_service = $service->id;
         if($type == "PENDIENTE")
         {
             //Actualizando la lista de usuarios tecnicos para el servicio
@@ -173,7 +179,6 @@ class OrderService2Controller extends Component
         }
         else
         {
-            $service = Service::find($idservice);
             $client = $this->get_client($service->order_service_id);
             $this->s_client_name = $client->nombre;
             $this->s_client_cell = $client->celular;
@@ -184,7 +189,7 @@ class OrderService2Controller extends Component
                 $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
                 $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
 
-                $service = $this->get_details_Service($idservice);
+                $service = $this->get_details_Service($service->id);
 
                 $this->s_cps = $service->name_cps;
                 $this->s_mark = $service->mark;
@@ -193,7 +198,7 @@ class OrderService2Controller extends Component
                 $this->s_price = $service->price_service;
                 $this->s_cost = $service->cost;
                 $this->s_cost_detail = $service->cost_detail;
-                $this->s_id_user_technicial = $this->get_responsible_technician($idservice)->id;
+                $this->s_id_user_technicial = $this->get_responsible_technician($service->idservice)->id;
                 //Mostrando la ventana modal
                 $this->emit("show-terminated-service");
             }
@@ -201,9 +206,9 @@ class OrderService2Controller extends Component
             {
                 if($type == "TERMINADO")
                 {
-                    $service = $this->get_details_Service($idservice);
+                    $service = $this->get_details_Service($service->id);
                     $this->s_price = $service->price_service;
-                    $this->s_on_account = $service->s_on_account;
+                    $this->s_on_account = $service->on_account;
 
                     $box = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
                     ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
@@ -235,15 +240,46 @@ class OrderService2Controller extends Component
             }
         }
     }
-    // Mustra una ventana modal para editar dependiendo del tipo de servicio
+    // Muestra una ventana modal para editar dependiendo del tipo de servicio
     public function filter_edit(Service $service, $type)
     {
+        $this->id_order_service = $service->order_service_id;
+        $this->id_service = $service->id;
         if($type != "ENTREGADO")
         {
             $client = $this->get_client($service->order_service_id);
             $this->s_client_name = $client->nombre;
             $this->s_client_cell = $client->celular;
             $this->s_client_phone = $client->telefono;
+
+
+            $this->list_type_work = TypeWork::where("status","ACTIVE")->orderBy('name', 'asc')->get();
+            $this->list_category = CatProdService::where("estado","ACTIVO")->orderBy('nombre', 'asc')->get();
+            $this->list_marks = SubCatProdService::where("status", "ACTIVE")->orderBy('name', 'asc')->get();
+            //Actualizando la lista de usuarios tecnicos para el servicio
+            $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
+            $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
+
+            $service = $this->get_details_Service($service->id);
+            
+            $this->s_cps = $service->name_cps;
+
+            $this->s_mark = $service->mark;
+            $this->s_model_detail = $service->detail;
+            $this->s_fail_client = $service->client_fail;
+            $this->s_diagnostic = $service->diagnostic;
+            $this->s_solution = $service->solution;
+            $this->s_price = $service->price_service;
+            $this->s_on_account = $service->on_account;
+            $this->s_balance = $service->balance;
+            $this->s_cost = $service->cost;
+            $this->s_cost_detail = $service->cost_detail;
+            $this->s_id_type_work = $service->idtypework;
+            $this->s_id_category = $service->idcategory;
+            $this->s_estimated_delivery_date = Carbon::parse($service->estimated_delivery_date)->format('Y-m-d');
+            $this->s_estimated_delivery_time = Carbon::parse($service->estimated_delivery_date)->format('H:i');
+            $this->s_id_user_technicial = $this->get_responsible_technician($service->idservice)->id;
+
             $this->emit("show-edit-service");
         }
         else
@@ -256,10 +292,12 @@ class OrderService2Controller extends Component
     {
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
-        ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
+        ->join("cat_prod_services as cps", "cps.id", "services.cat_prod_service_id")
+        ->join("type_works as tw","tw.id","services.type_work_id")
         ->select("services.created_at as created_at", "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance",
-        "cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.solucion as solution', "m.user_id as id_user_technicial",
-        'services.falla_segun_cliente as client_fail','services.costo as cost','services.detalle_costo as cost_detail')
+        "cps.nombre as name_cps","services.marca as mark","services.detalle as detail","services.solucion as solution", "m.user_id as id_user_technicial",
+        "services.falla_segun_cliente as client_fail","services.costo as cost","services.detalle_costo as cost_detail","services.diagnostico as diagnostic",
+        "m.saldo as balance","tw.id as idtypework","cps.id as idcategory", "services.fecha_estimada_entrega as estimated_delivery_date", "services.id as idservice")
         ->where("services.id", $idservice)
         ->where("m.status","ACTIVO")
         ->first();
@@ -393,5 +431,23 @@ class OrderService2Controller extends Component
         $motion->save();
 
         $this->emit("hide-deliver-service");
+    }
+    //Actualiza detalles generales de un servicio
+    public function update_order_service(Service $service)
+    {
+        $service->update([
+            'detalle' => '',
+            'marca' => '',
+            'falla_segun_cliente' => '',
+            'diagnostico' => '',
+            'solucion' => '',
+            'costo' => '',
+            'detalle_costo' => '',
+            'fecha_estimada_entrega' => '',
+            'cat_prod_service_id' => '',
+            'type_work_id' => '',
+            'sucursal_id' => ''
+        ]);
+        $service->save();
     }
 }

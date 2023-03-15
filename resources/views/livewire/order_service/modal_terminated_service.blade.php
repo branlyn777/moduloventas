@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title text-white" id="exampleModalLabel">Terminar Servicio</h5>
+          <h5 class="modal-title text-white text-sm" id="exampleModalLabel">TERMINAR SERVICIO: {{$this->id_order_service}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
