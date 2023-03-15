@@ -225,7 +225,7 @@
 
                             {{-- <div style=" width: 20%; text-align: right">
                             <div style="padding-top: 45px; width: 100%"><b>TIPO SERV.: </b>Normal</div>
-                        </div> --}}
+                            </div> --}}
 
                         </div>
                         <hr style="border-color: black; margin: 0px;">

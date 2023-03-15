@@ -278,7 +278,7 @@
                                                         <b>{{ $so->code }}</b>
                                                     </span>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li><a class="dropdown-item" href="#">Imprimir</a></li>
+                                                        <li><a class="dropdown-item" target=”_blank” href="{{ url('reporte/pdf' . '/' . $so->code) }}">Imprimir</a></li>
                                                         <li><a class="dropdown-item" href="#">Modificar</a></li>
                                                         <li><a class="dropdown-item" href="#">Anular</a></li>
                                                         <li><a class="dropdown-item" href="#">Eliminar</a></li>
