@@ -691,4 +691,7 @@
     <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
 
     <script src="{{ asset('js/plugins/multistep-form.js') }}"></script>
+    <script>
+        $("button").prop("disabled", false)
+    </script>
 @endsection

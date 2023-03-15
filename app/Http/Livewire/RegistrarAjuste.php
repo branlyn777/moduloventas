@@ -161,27 +161,37 @@ class RegistrarAjuste extends Component
                 $this->emit('error_salida');
             }
         } else {
+            $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
+            $r = $this->datalote($id->id);
+            if ($r != null) {
+                $costo=$r->costo;
+                $precio=$r->pv_lote;
+           
+            }
+            else{
+                $costo=0;
+                $precio=0;
+            }
+    
             if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial') {
-
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
                     'product_codigo' => $id->codigo,
-                    'costo' => 0,
-                    'precioventa' => 0,
+                    'costo' =>$costo,
+                    'precioventa' => $precio,
                     'cantidad' => 1
                 ]);
             } else {
-                $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
-                $lot = Lote::where('product_id', $id->id);
+               
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
                     'product_codigo' => $id->codigo,
                     'stockactual' =>  $pd != null ? $pd : 0,
                     'recuento' => 0,
-                    'costo' => $lot->count() > 0 ? $lot->first()->costo : 0,
-                    'pv_lote' => $lot->count() > 0 ? $lot->first()->pv_lote : 0
+                    'costo' => $costo,
+                    'pv_lote' => $precio
 
                 ]);
             }
@@ -565,8 +575,17 @@ class RegistrarAjuste extends Component
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-      
+        $r= $this->datalote($product->id);
 
+        if ($r != null) {
+            $costo=$r->costo;
+            $precio=$r->pv_lote;
+       
+        }
+        else{
+            $costo=0;
+            $precio=0;
+        }
 
         $this->col->pull($item->keys()->first());
         $this->col->push([
@@ -575,8 +594,8 @@ class RegistrarAjuste extends Component
             'product_codigo' => $product->codigo,
             'stockactual' =>  $st,
             'recuento' => $cant,
-            'costo' => $this->datalote($product->id)==0?0:$this->datalote($product->id)->costo,
-            'pv_lote' => $this->datalote($product->id)==0?0:$this->datalote($product->id)->pv_lote,
+            'costo' => $costo,
+            'pv_lote' =>$precio,
 
         ]);
     }
@@ -784,7 +803,7 @@ class RegistrarAjuste extends Component
 
     public function datalote($p_id){
         $data_lote = Lote::where('product_id', $p_id)->get();
-        $ultimo_lote = Lote::latest()->where('product_id', $p_id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $p_id)->get();
+        //$ultimo_lote = Lote::latest()->where('product_id', $p_id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $p_id)->get();
         if ($data_lote->isNotEmpty()) {
             $ms=$data_lote->where('status', 'Activo')->first();
             if ($ms!=null) {
@@ -792,13 +811,13 @@ class RegistrarAjuste extends Component
                 return  $ms;
             }
             else{
-                return $data_lote->latest()->first();
+                return $data_lote->last()->first();
             }
             
             
         }
         else{
-            return 0;
+            return null;
         }
 
 
