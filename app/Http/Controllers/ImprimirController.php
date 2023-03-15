@@ -60,7 +60,8 @@ class ImprimirController extends Controller
         ->join("movimientos as m", "m.id", "ms.movimiento_id",)
         ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
         ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
-        "m.import as price_service","m.on_account as cambio","m.saldo as sal","m.type as type","m.status as ts","cps.nombre as name_cps",'services.marca as mark','services.falla_segun_cliente as fall','services.solucion as servi','services.fecha_estimada_entrega as entrega',
+        "m.import as price_service","m.on_account as cambio","m.saldo as sal","m.type as type","m.status as ts","cps.nombre as name_cps",
+        'services.marca as mark','services.falla_segun_cliente as fall','services.solucion as servi','services.fecha_estimada_entrega as entrega',
         'services.diagnostico as diag','services.created_at as inicio','services.detalle as detail','services.falla_segun_cliente as client_fail')
         ->where("services.order_service_id", $code)
         ->where("m.status", "ACTIVO")

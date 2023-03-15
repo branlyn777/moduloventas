@@ -12,7 +12,7 @@
 <table style="width: 100%;">
     <tbody>
         <tr>
-            <td class="text-center" style="font-size: 10px; width: 33%;">
+            <td class="text-center" style="font-size: 12px; width: 33%;">
                 {{strtoupper($nombreempresa)}}
                 <br>
                 Sistema EDSOFT
@@ -26,7 +26,7 @@
             </td>
             <td class="text-center" style="width: 33%;">
                 
-                <img src="{{ asset('assets/img/sie2022.jpg') }}" alt="" class="invoice-logo" height="70px">
+                <img src="storage/iconos/logo_company.png" alt="" class="invoice-logo" height="70px">
             </td>
         </tr>
     </tbody>
@@ -37,7 +37,7 @@
 <table style="width: 100%;">
     <tbody>
         <tr>
-            <td style="font-size: 10px; width: 33%;">
+            <td style="font-size: 12px; width: 33%;">
                 Señor(es);
                 <br>
                 {{ucwords(strtolower($detalles_extra->nombrecliente))}}
@@ -47,7 +47,7 @@
             <td class="text-center" style="width: 33%;">
                 
             </td>
-            <td class="text-center" style="font-size: 10px; width: 33%;">
+            <td class="text-center" style="font-size: 12px; width: 33%;">
                 Cochabamba, {{$dia_mes_actual}} de {{$year}}
                 <br>
                 {{-- I.T.No: 6952/3913 --}}
@@ -64,8 +64,8 @@
           
         </div>
         <div style="padding-left: 17px;">
-            <p style="font-size: 12px;">Saludos</p>
-            <p style="font-size: 12px;">
+            <p style="font-size: 14px;">Saludos</p>
+            <p style="font-size: 13px;">
               De mi mayor consideración, y a petición del interesado le hacemos llegar el detalle del trabajo realizado e
   información adicional adjunta, en relación al servicio prestado por personal de nuestra empresa, al igual que el
   detalle de costos y materiales empleados descritos a continuación:
@@ -119,7 +119,7 @@
 
 
         <div style="padding-left: 17px;">
-            <p style="font-size: 12px;">
+            <p style="font-size: 15px;">
                 Para veracidad de la misma firmamos al pie del documento tanto los responsables como el personal encargado
                 de la supervisión y control de calidad de nuestra Empresa.
                 Sin más que decir me despido,
@@ -132,24 +132,22 @@
         <br>
         <br>
         <br>
-
-
-
+        <hr style="height:1px; border:none ;background-color:rgb(0, 0, 0); width: 35%;" />
+        
         <table style="width: 100%;">
             <tbody>
-                <tr>
-                    <td class="text-center" style="font-size: 10px; width: 50%;">
-                        <hr style="height:1px; border:none ;background-color:rgb(0, 0, 0); width: 50%;" />
+                <tr>                    
+                    <td class="text-center" style="font-size: 10px; width: 100%; text-align: center;">
                         Administrador
                         <br>
-                        DPTO. TECNICO 
+                        DPTO. TECNICO     
                     </td>
                 </tr>
             </tbody>
         </table>
 
         <br>
-        <div style="font-size: 10px;"">
+        <div style="font-size: 12px;"">
             {{strtoupper($nombreempresa)}} | Cochabamba, {{$dia_mes_actual}} de {{$year}}
         </div>
 
