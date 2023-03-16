@@ -230,13 +230,11 @@
         .product-search {
             position: relative;
         }
-
         #product-input {
             width: 100%;
             padding: 10px;
             /* font-size: 16px; */
         }
-
         #product-list {
             position: absolute;
             top: 100%;
@@ -251,19 +249,16 @@
             padding: 0;
             margin: 0;
         }
-
         #product-list li {
             padding: 10px;
             cursor: pointer;
             font-size: 12px;
         }
-
         #product-list li:hover {
             background-color: #5e72e4;
             color: white;
         }
     </style>
-
 @endsection
 <div>
     <div class="row">
@@ -544,68 +539,64 @@
                 $('#editservice').modal('hide')
             });
 
+
+            //Código que se ejecuta cuando se haga click en editar (carga las marcas dinamicamente en el input con el id product-input)
+            Livewire.on('marks-loaded', function(data) {
+
+                //Actualzando la variable @this.s_mark
+                const miInputmark = document.getElementById('product-input');
+                miInputmark.value = @this.s_mark;
+                //------------
+
+                const list_marks = data;
+                const products = list_marks.map(m => m.name);
+                const input = document.getElementById('product-input');
+                const list = document.getElementById('product-list');
+
+                input.addEventListener('input', function() {
+                    // Limpiar lista de productos
+                    list.innerHTML = '';
+
+                    // Obtener valor del input
+                    const value = input.value.toLowerCase();
+
+                    // Filtrar productos que coincidan con el valor ingresado
+                    const filteredProducts = products.filter(function(product) {
+                        return product.toLowerCase().includes(value);
+                    });
+
+                    // Agregar productos filtrados a la lista
+                    filteredProducts.forEach(function(product) {
+                        const li = document.createElement('li');
+                        li.textContent = product;
+                        li.addEventListener('click', function() {
+                            input.value = product;
+                            list.innerHTML = '';
+                        });
+                        list.appendChild(li);
+                    });
+
+                    // Mostrar lista de productos si hay resultados
+                    if (filteredProducts.length > 0) {
+                        list.style.display = 'block';
+                    } else {
+                        list.style.display = 'none';
+                    }
+                });
+
+                // Ocultar lista de productos al hacer clic fuera del input
+                document.addEventListener('click', function(event) {
+                    if (event.target !== input && event.target.parentNode !== list) {
+                        list.innerHTML = '';
+                    }
+                });
+            });
+
         });
 
-        function updateService()
-        {
+        function updateService() {
             var mark = document.getElementById('product-input').value;
             window.livewire.emit('updateorderservice', mark)
         }
-
-
-    </script>
-    <script>
-        // const products = [
-        //     'Producto 1',
-        //     'Producto 2',
-        //     'Producto 3',
-        //     'Producto 4',
-        //     'Producto A',
-        //     'Producto B',
-        //     'Producto C',
-        // ];
-
-        const products = @json($list_marks);
-
-        const input = document.getElementById('product-input');
-        const list = document.getElementById('product-list');
-
-        input.addEventListener('input', function() {
-            // Limpiar lista de productos
-            list.innerHTML = '';
-
-            // Obtener valor del input
-            const value = input.value.toLowerCase();
-
-            // Filtrar productos que coincidan con el valor ingresado
-            const filteredProducts = products.filter(function(product) {
-                return product.toLowerCase().includes(value);
-            });
-
-            // Agregar productos filtrados a la lista
-            filteredProducts.forEach(function(product) {
-                const li = document.createElement('li');
-                li.textContent = product;
-                li.addEventListener('click', function() {
-                    input.value = product;
-                    list.innerHTML = '';
-                });
-                list.appendChild(li);
-            });
-
-            // Mostrar lista de productos si hay resultados
-            if (filteredProducts.length > 0) {
-                list.style.display = 'block';
-            } else {
-                list.style.display = 'none';
-            }
-        });
-
-        // Ocultar lista de productos al hacer clic fuera del input
-        document.addEventListener('click', function(event) {
-            if (event.target !== input && event.target.parentNode !== list) {
-                list.innerHTML = '';
-            }
-        });
     </script>
 @endsection
