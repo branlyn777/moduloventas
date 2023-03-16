@@ -145,8 +145,6 @@ class RegistrarAjuste extends Component
 
     public function addProduct(Product $id)
     {
-
-
         if ($this->tipo_proceso == 'Salida') {
             try {
                 $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
@@ -164,26 +162,24 @@ class RegistrarAjuste extends Component
             $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
             $r = $this->datalote($id->id);
             if ($r != null) {
-                $costo=$r->costo;
-                $precio=$r->pv_lote;
-           
+                $costo = $r->costo;
+                $precio = $r->pv_lote;
+            } else {
+                $costo = 0;
+                $precio = 0;
             }
-            else{
-                $costo=0;
-                $precio=0;
-            }
-    
+
             if ($this->tipo_proceso == 'INGRESO' or $this->concepto == 'Inventario Inicial') {
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
                     'product_codigo' => $id->codigo,
-                    'costo' =>$costo,
+                    'costo' => $costo,
                     'precioventa' => $precio,
                     'cantidad' => 1
                 ]);
             } else {
-               
+
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
@@ -256,7 +252,7 @@ class RegistrarAjuste extends Component
                         'costo' => $datas['costo'],
                         'status' => 'Activo',
                         'product_id' => $datas['product_id'],
-                        'pv_lote'=>$datas['precioventa']
+                        'pv_lote' => $datas['precioventa']
                     ]);
 
                     DetalleEntradaProductos::create([
@@ -525,8 +521,6 @@ class RegistrarAjuste extends Component
     }
     public function UpdateQty(Product $product, $cant)
     {
-
-
         $item = $this->col->where('product_id', $product->id);
         if ($this->tipo_proceso == "INGRESO" or $this->concepto == 'Inventario Inicial') {
             if ($cant == 0) {
@@ -575,16 +569,14 @@ class RegistrarAjuste extends Component
     {
         $item = $this->col->where('product_id', $product->id);
         $st = $item->first()['stockactual'];
-        $r= $this->datalote($product->id);
+        $r = $this->datalote($product->id);
 
         if ($r != null) {
-            $costo=$r->costo;
-            $precio=$r->pv_lote;
-       
-        }
-        else{
-            $costo=0;
-            $precio=0;
+            $costo = $r->costo;
+            $precio = $r->pv_lote;
+        } else {
+            $costo = 0;
+            $precio = 0;
         }
 
         $this->col->pull($item->keys()->first());
@@ -595,7 +587,7 @@ class RegistrarAjuste extends Component
             'stockactual' =>  $st,
             'recuento' => $cant,
             'costo' => $costo,
-            'pv_lote' =>$precio,
+            'pv_lote' => $precio,
 
         ]);
     }
@@ -801,25 +793,20 @@ class RegistrarAjuste extends Component
         $this->import();
     }
 
-    public function datalote($p_id){
+    public function datalote($p_id)
+    {
         $data_lote = Lote::where('product_id', $p_id)->get();
         //$ultimo_lote = Lote::latest()->where('product_id', $p_id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $p_id)->get();
         if ($data_lote->isNotEmpty()) {
-            $ms=$data_lote->where('status', 'Activo')->first();
-            if ($ms!=null) {
-              
+            $ms = $data_lote->where('status', 'Activo')->first();
+            if ($ms != null) {
+
                 return  $ms;
-            }
-            else{
+            } else {
                 return $data_lote->last()->first();
             }
-            
-            
-        }
-        else{
+        } else {
             return null;
         }
-
-
     }
 }

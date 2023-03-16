@@ -674,8 +674,6 @@
                     }
                 })
             });
-
-
         })
 
         function ConfirmarEliminar(idproducto) {
