@@ -263,7 +263,7 @@ class OrderService2Controller extends Component
             //Actualizando las listas de los distintos combos para editar
             $this->list_type_work = TypeWork::where("status","ACTIVE")->orderBy("name", "asc")->get();
             $this->list_category = CatProdService::where("estado","ACTIVO")->orderBy("nombre", "asc")->get();
-            $this->list_marks = SubCatProdService::where("status", "ACTIVE")->where("cat_prod_service_id", $service->idcategory)->orderBy('name', 'asc')->get();
+            $this->list_marks = SubCatProdService::where("status", "ACTIVE")->orderBy('name', 'asc')->get();
             $this->emit('marks-loaded', $this->list_marks); /* Emitiendo para que un evento JavaScript carge todas las marcas en un input con buscador id="product-input" */
 
 

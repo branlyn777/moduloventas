@@ -542,6 +542,12 @@
 
             //Código que se ejecuta cuando se haga click en editar (carga las marcas dinamicamente en el input con el id product-input)
             Livewire.on('marks-loaded', function(data) {
+
+                //Actualzando la variable @this.s_mark
+                const miInputmark = document.getElementById('product-input');
+                miInputmark.value = @this.s_mark;
+                //------------
+
                 const list_marks = data;
                 const products = list_marks.map(m => m.name);
                 const input = document.getElementById('product-input');
