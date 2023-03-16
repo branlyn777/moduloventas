@@ -22,16 +22,17 @@
     <section class="header" style="top: -287px">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td align="center" colspan="2">
+               
+                <td width="70%" align="center" colspan="2">
                     <span style="font-size: 25px; font-weight:bold;">Sistema SIE</span>
                 </td>
             </tr>
             <tr>
                 <td width="30%" align="center" style="vertical-align: top; padding-top:-10px; position:relative;">
-                    <img src="{{ asset('assets/img/sie.png') }}" alt="" class="invoice-logo" width="70" height="70">
+                    <img src="storage/iconos/logo_company.png" alt="" class="invoice-logo" width="150" height="70">
                 </td>
 
-                <td width="70%" class="text-left text-company" style="vertical-align: top; padding-top:10px;">
+                <td width="70%"   class="text-left text-company" style="vertical-align: top; padding-top:10px;">
                     @if ($reportType == 0)
                         <span style="font-size: 16px;"><strong>Reporte de Servicios del día</strong></span>
                     @else
@@ -80,47 +81,49 @@
 
             <tbody>
                 @foreach ($data as $d)
-                    <tr height="10px">
+                    <tr height="10px" style="font-size: 20px">
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>{{ $loop->iteration }}
+
+                            <FONT FACE="times new roman" SIZE=2>
+                                <b>{{ $loop->iteration }}</b> 
                             </FONT>
                         </td>
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>{{ $d->movservices[0]->movs->climov->client->nombre }}
+                            <FONT FACE="times new roman" SIZE=2>{{ $d->movservices[0]->movs->climov->client->nombre }}
                             </FONT>
                         </td>
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>{{ $d->order_service_id }}</FONT>
+                            <FONT FACE="times new roman" SIZE=2>{{ $d->order_service_id }}</FONT>
                         </td>
                         @foreach ($d->movservices as $mv)
                             @if ($mv->movs->type == 'PENDIENTE')
                                 <td align="center">
-                                    <FONT FACE="times new roman" SIZE=1>
+                                    <FONT FACE="times new roman" SIZE=2>
                                         {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y - H:i') }}
                                     </FONT>
                                 </td>
                                 @if ($mv->movs->status == 'ACTIVO')
                                     <td align="center">
-                                        <FONT FACE="times new roman" SIZE=1>Pendiente</FONT>
+                                        <FONT FACE="times new roman" SIZE=2>Pendiente</FONT>
                                     </td>
                                     <td align="center">
-                                        <FONT FACE="times new roman" SIZE=1>Pendiente</FONT>
+                                        <FONT FACE="times new roman" SIZE=2>Pendiente</FONT>
                                     </td>
                                 @endif
                             @endif
                             @if ($mv->movs->type == 'PROCESO')
                                 @if ($mv->movs->status == 'ACTIVO')
                                     <td align="center">
-                                        <FONT FACE="times new roman" SIZE=1>Proceso</FONT>
+                                        <FONT FACE="times new roman" SIZE=2>Proceso</FONT>
                                     </td>
                                     <td align="center">
-                                        <FONT FACE="times new roman" SIZE=1>Proceso</FONT>
+                                        <FONT FACE="times new roman" SIZE=2>Proceso</FONT>
                                     </td>
                                 @endif
                             @endif
                             @if ($mv->movs->type == 'TERMINADO')
                                 <td align="center">
-                                    <FONT FACE="times new roman" SIZE=1>
+                                    <FONT FACE="times new roman" SIZE=2>
                                         {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y - H:i') }}
                                     </FONT>
                                 </td>
@@ -133,13 +136,13 @@
 
                             @if ($mv->movs->type == 'ENTREGADO')
                                 <td align="center">
-                                    <FONT FACE="times new roman" SIZE=1>
+                                    <FONT FACE="times new roman" SIZE=2>
                                         {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y - H:i') }}
                                     </FONT>
                                 </td>
                             @elseif ($mv->movs->type == 'ABANDONADO')
                                 <td align="center">
-                                    <FONT FACE="times new roman" SIZE=1>Abandonado</FONT>
+                                    <FONT FACE="times new roman" SIZE=2>Abandonado</FONT>
                                 </td>
                             @endif
 
@@ -158,10 +161,10 @@
                             @endif --}}
                         @endforeach
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>{{ number_format($d->costo, 2) }}</FONT>
+                            <FONT FACE="times new roman" SIZE=2>{{ number_format($d->costo, 2) }}</FONT>
                         </td>
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>
+                            <FONT FACE="times new roman" SIZE=2>
                                 {{ number_format($d->movservices[0]->movs->import, 2) }}</FONT>
                         </td>
                         <!-- <td align="center">
@@ -178,14 +181,14 @@
                         </td> -->
 
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>
+                            <FONT FACE="times new roman" SIZE=2>
                             {{ number_format($d->utilidad, 2) }}</FONT>
                         </td>
 
                         <td align="center">
-                            <FONT FACE="times new roman" SIZE=1>{{ $d->marca }} {{ $d->categoria->nombre }} {{ $d->detalle }}
+                            <FONT FACE="times new roman" SIZE=2>{{ $d->marca }} {{ $d->categoria->nombre }} {{ $d->detalle }}
                             </FONT><br>
-                            <FONT FACE="times new roman" SIZE=1><b>Falla:</b> {{ $d->falla_segun_cliente }}
+                            <FONT FACE="times new roman" SIZE=2><b>Falla:</b> {{ $d->falla_segun_cliente }}
                             </FONT>
                         </td>
                         @foreach ($d->movservices as $mv)

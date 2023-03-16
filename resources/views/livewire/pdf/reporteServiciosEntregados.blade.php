@@ -23,12 +23,13 @@
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td align="center" colspan="2">
-                    <span style="font-size: 25px; font-weight:bold;">Sistema SIE</span>
+                    <span style="font-size: 25px; font-weight:bold;">
+                        <b>Sistema SIE</b></span>
                 </td>
             </tr>
             <tr>
                 <td width="30%" align="center" style="vertical-align: top; padding-top:-20px; position:relative;">
-                    <img src="{{ asset('assets/img/sie.png') }}" alt="" class="invoice-logo" width="70" height="70">
+                    <img src="storage/iconos/logo_company.png" alt="" class="invoice-logo" width="150" height="70">
                 </td>
 
                 <td width="70%" class="text-left text-company" style="vertical-align: top; padding-top:10px;">
@@ -64,9 +65,9 @@
         </table>
     </section>
 
-    <section style="margin-top: -160px;">
+    <section style="margin-top: -160px; ">
         <table cellpadding="0" cellspacing="-1" class="table-items" width="100%" height="50%">
-            <thead>
+            <thead style="font-size: 13px">
                 <tr>
                     <th width="4%">#</th>
                     <th width="7%">Fecha</th>
