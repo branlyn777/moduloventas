@@ -45,23 +45,10 @@
                   </div>
                   <div class="col-4">
                     <label>Marca:</label>
-                    {{-- <input wire:model.lazy="s_mark" type="text" class="form-control" list="marks">
-                    @if($this->list_marks)
-                    <datalist id="marks">
-                      @foreach($this->list_marks as $m)
-                      <option value="{{$m->name}}">
-                      @endforeach
-                    </datalist> 
-
-                    @endif--}}
-                    
                     <div class="product-search">
                       <input type="text" id="product-input" class="form-control">
                       <ul id="product-list"></ul>
                     </div>
-                    
-
-
                   </div>
                 </div>
                 <div class="row mb-3">

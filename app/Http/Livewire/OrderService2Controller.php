@@ -252,16 +252,21 @@ class OrderService2Controller extends Component
             $this->s_client_cell = $client->celular;
             $this->s_client_phone = $client->telefono;
 
-
-            $this->list_type_work = TypeWork::where("status","ACTIVE")->orderBy('name', 'asc')->get();
-            $this->list_category = CatProdService::where("estado","ACTIVO")->orderBy('nombre', 'asc')->get();
-            $this->list_marks = SubCatProdService::where("status", "ACTIVE")->orderBy('name', 'asc')->get();
             //Actualizando la lista de usuarios tecnicos para el servicio
             $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
             $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
 
+            //Obteniendo detalles del servicio para actualixar las varibles antes de editar
             $service = $this->get_details_Service($service->id);
             
+            
+            //Actualizando las listas de los distintos combos para editar
+            $this->list_type_work = TypeWork::where("status","ACTIVE")->orderBy("name", "asc")->get();
+            $this->list_category = CatProdService::where("estado","ACTIVO")->orderBy("nombre", "asc")->get();
+            $this->list_marks = SubCatProdService::where("status", "ACTIVE")->where("cat_prod_service_id", $service->idcategory)->orderBy('name', 'asc')->get();
+            $this->emit('marks-loaded', $this->list_marks); /* Emitiendo para que un evento JavaScript carge todas las marcas en un input con buscador id="product-input" */
+
+
             $this->s_cps = $service->name_cps;
 
             $this->s_mark = $service->mark;
@@ -439,7 +444,7 @@ class OrderService2Controller extends Component
     public function update_order_service($mark)
     {
 
-        dd($mark . " : ". $this->s_price);
+        dd($mark . " : ". $this->s_price . " " . $this->list_marks);
         // $service->update([
         //     'detalle' => '',
         //     'marca' => '',
