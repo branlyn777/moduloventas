@@ -111,6 +111,27 @@
             border-radius: 3px;
             font-size: 15px;
         }
+        .detail-service {
+            cursor: pointer;
+            padding-top: 0.3px;
+            padding-bottom: 0.5px;
+            padding-left: 4px;
+            padding-right: 4px;
+            background-color: #5e72e46b;
+            color: rgb(0, 0, 0);
+            border-radius: 3px;
+            font-size: 15px;
+        }
+        .detail-service:hover {
+            padding-top: 0.3px;
+            padding-bottom: 0.5px;
+            padding-left: 4px;
+            padding-right: 4px;
+            background-color: #ffffff;
+            color: #5e72e4;
+            border-radius: 3px;
+            font-size: 15px;
+        }
 
         /* Estilos base para los botones (PENDIENTE, PROCESO, TERMINADO y ENTREGADO) */
         .btn-service {
@@ -361,12 +382,14 @@
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="text-sm">
-                                                            {{ $s->name_cps }} {{ $s->mark }}
-                                                            {{ $s->detail }}
-                                                            <br>
-                                                            Falla: {{ $s->client_fail }}
-                                                        </span>
+                                                        <div class="detail-service">
+                                                            <span class="text-sm">
+                                                                {{ $s->name_cps }} {{ $s->mark }}
+                                                                {{ $s->detail }}
+                                                                <br>
+                                                                Falla: {{ substr($s->client_fail, 1, 20) }}
+                                                            </span>
+                                                        </div>
                                                     </td>
                                                     <td class="text-center">
                                                         <span class="text-sm price">
