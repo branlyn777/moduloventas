@@ -45,14 +45,23 @@
                   </div>
                   <div class="col-4">
                     <label>Marca:</label>
-                    <input wire:model.lazy="s_mark" type="text" class="form-control" list="marks">
+                    {{-- <input wire:model.lazy="s_mark" type="text" class="form-control" list="marks">
                     @if($this->list_marks)
                     <datalist id="marks">
                       @foreach($this->list_marks as $m)
                       <option value="{{$m->name}}">
                       @endforeach
-                    </datalist>
-                    @endif
+                    </datalist> 
+
+                    @endif--}}
+                    
+                    <div class="product-search">
+                      <input type="text" id="product-input" class="form-control">
+                      <ul id="product-list"></ul>
+                    </div>
+                    
+
+
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -122,7 +131,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button wire:click.prevent="update_order_service({{ $this->id_service }})" type="button" class="btn bg-gradient-success">Actualizar Servicio</button>
+                <button onclick="updateService()" type="button" class="btn bg-gradient-success">Actualizar Servicio</button>
             </div>
         </div>
     </div>
