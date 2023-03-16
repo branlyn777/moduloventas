@@ -263,12 +263,10 @@
 <div>
     <div class="row">
         <div class="col-12">
-
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
                     <h5 class=" text-white">Órdenes de Servicios</h5>
                 </div>
-
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <a class="btn btn-add mb-0" wire:click.prevent="go_new_service_order()">
@@ -277,9 +275,7 @@
                         </a>
                     </div>
                 </div>
-
             </div>
-
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
@@ -299,7 +295,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="">
@@ -540,7 +535,7 @@
             });
 
 
-            //Código que se ejecuta cuando se haga click en editar (carga las marcas dinamicamente en el input con el id product-input)
+            //Código que se ejecuta cuando se haga click en editar (carga las marcas en el input con el id product-input)
             Livewire.on('marks-loaded', function(data) {
 
                 //Actualzando la variable @this.s_mark

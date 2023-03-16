@@ -277,7 +277,14 @@ class OrderService2Controller extends Component
             $this->s_price = $service->price_service;
             $this->s_on_account = $service->on_account;
             $this->s_balance = $service->balance;
-            $this->s_cost = $service->cost;
+            if( $service->cost == "0.00")
+            {
+                $this->s_cost = "";
+            }
+            else
+            {
+                $this->s_cost = $service->cost;
+            }
             $this->s_cost_detail = $service->cost_detail;
             $this->s_id_type_work = $service->idtypework;
             $this->s_id_category = $service->idcategory;
@@ -299,7 +306,7 @@ class OrderService2Controller extends Component
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
         ->join("cat_prod_services as cps", "cps.id", "services.cat_prod_service_id")
         ->join("type_works as tw","tw.id","services.type_work_id")
-        ->select("services.created_at as created_at", "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance",
+        ->select("services.created_at as created_at", "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance", "m.id as idmotion",
         "cps.nombre as name_cps","services.marca as mark","services.detalle as detail","services.solucion as solution", "m.user_id as id_user_technicial",
         "services.falla_segun_cliente as client_fail","services.costo as cost","services.detalle_costo as cost_detail","services.diagnostico as diagnostic",
         "m.saldo as balance","tw.id as idtypework","cps.id as idcategory", "services.fecha_estimada_entrega as estimated_delivery_date", "services.id as idservice")
@@ -438,26 +445,73 @@ class OrderService2Controller extends Component
         $this->emit("hide-deliver-service");
     }
     protected $listeners = [
-    'updateorderservice' => 'update_order_service',
+    'updateorderservice' => 'update_order_service'
     ];
     //Actualiza detalles generales de un servicio
     public function update_order_service($mark)
     {
+        $rules = [
+            's_model_detail' => 'required',
+            's_fail_client' => 'required',
+            's_diagnostic' => 'required',
+            's_solution' => 'required',
+            's_price' => 'required',
+            's_on_account' => 'required'
+        ];
+        
+        if ($this->s_cost != null)
+        {
+            $rules['s_cost_detail'] = 'required';
+        }
+        
+        $messages = [
+            's_model_detail.required' => 'Campo Requerido',   
+            's_fail_client.required' => 'Campo Requerido',   
+            's_diagnostic.required' => 'Campo Requerido',   
+            's_solution.required' => 'Campo Requerido',   
+            's_price.required' => 'Campo Requerido',   
+            's_on_account.required' => 'Campo Requerido',
+            's_cost_detail.required' => 'Detalla el motivo del costo'        
+        ];
+        
+        $this->validate($rules, $messages);
+        
 
-        dd($mark . " : ". $this->s_price . " " . $this->list_marks);
-        // $service->update([
-        //     'detalle' => '',
-        //     'marca' => '',
-        //     'falla_segun_cliente' => '',
-        //     'diagnostico' => '',
-        //     'solucion' => '',
-        //     'costo' => '',
-        //     'detalle_costo' => '',
-        //     'fecha_estimada_entrega' => '',
-        //     'cat_prod_service_id' => '',
-        //     'type_work_id' => '',
-        //     'sucursal_id' => ''
-        // ]);
-        // $service->save();
+
+        //Buscando la Marca seleccionada
+        $mark_selected = SubCatProdService::where("name", $mark)->first();
+        //Creando una nueva marca si no existe
+        if(!$mark_selected) 
+        {
+            SubCatProdService::create([
+                'name' => ucwords(strtolower($mark)),
+                'cat_prod_service_id' => $this->s_id_category
+            ]);
+        }
+        // Actualizando saldo, a cuenta, precio y usuario técnico del servicio
+        $motion = Movimiento::find($this->get_details_Service($this->id_service)->idmotion);
+        $motion->update([
+            'saldo' => $this->s_price - $this->s_on_account,
+            'on_account' => $this->s_on_account,
+            'import' => $this->s_price,
+            'user_id' => $this->s_id_user_technicial,
+        ]);
+        $motion->save();
+
+        $service = Service::find($this->id_service);
+        $service->update([
+            'detalle' => $this->s_model_detail,
+            'marca' => ucwords(strtolower($mark)),
+            'falla_segun_cliente' => $this->s_fail_client,
+            'diagnostico' => $this->s_diagnostic,
+            'solucion' => $this->s_solution,
+            'costo' => $this->s_cost,
+            'detalle_costo' => $this->s_cost_detail,
+            'fecha_estimada_entrega' => $this->s_estimated_delivery_date . " " . $this->s_estimated_delivery_time,
+            'cat_prod_service_id' => $this->s_id_category,
+            'type_work_id' => $this->s_id_type_work
+        ]);
+        $service->save();
+        $this->emit("hide-edit-service");
     }
 }

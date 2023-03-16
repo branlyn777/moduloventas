@@ -16,10 +16,6 @@
                               {{ $this->s_client_name }} @if ($this->s_client_cell != 0 && $this->s_client_cell != null) - {{ $this->s_client_cell }} @endif @if ($this->s_client_phone != 0 && $this->s_client_phone != null) - {{ $this->s_client_phone }} @endif
                             </b>
                         </span>
-                        <br>
-                        <span class="text-sm">
-                            {{ $this->s_cps }} {{ $this->s_mark }} {{ $this->s_model_detail }}
-                        </span>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -46,7 +42,7 @@
                   <div class="col-4">
                     <label>Marca:</label>
                     <div class="product-search">
-                      <input type="text" id="product-input" class="form-control">
+                      <input required  type="text" id="product-input" class="form-control">
                       <ul id="product-list"></ul>
                     </div>
                   </div>
@@ -55,44 +51,70 @@
                   <div class="col-6">
                     <label>Modelo y Estado Equipo:</label>
                     <input wire:model.lazy="s_model_detail" type="text" class="form-control">
+                    @error('s_model_detail')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                   <div class="col-6">
                     <label>Falla Según Cliente:</label>
                     <input wire:model.lazy="s_fail_client" type="text" class="form-control">
+                    @error('s_fail_client')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-6">
                     <label>Diagnóstico:</label>
                     <input wire:model.lazy="s_diagnostic" type="text" class="form-control">
+                    @error('s_diagnostic')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                   <div class="col-6">
                     <label>Solución:</label>
                     <input wire:model.lazy="s_solution" type="text" class="form-control">
+                    @error('s_solution')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-4">
                     <label>Precio Servicio:</label>
-                    <input wire:model.lazy="s_price" type="text" class="form-control">
+                    <input wire:model.lazy="s_price" type="number" class="form-control">
+                    @error('s_price')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                   <div class="col-4">
                     <label>A Cuenta:</label>
-                    <input wire:model.lazy="s_on_account" type="text" class="form-control">
+                    <input wire:model.lazy="s_on_account" type="number" class="form-control">
+                    @error('s_on_account')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
-                  <div class="col-4">
+                  <div class="col-4 text-center">
                     <label>Saldo:</label>
-                    <input wire:model.lazy="s_balance" type="text" class="form-control">
+                    <div class="form-control">
+                      {{$this->s_balance}}
+                    </div>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <div class="col-4">
                     <label>Costo Servicio:</label>
-                    <input wire:model.lazy="s_cost" type="text" class="form-control">
+                    <input wire:model.lazy="s_cost" type="number" class="form-control">
+                    @error('s_cost')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                   <div class="col-8">
                     <label>Motivo Costo:</label>
                     <input wire:model.lazy="s_cost_detail" type="text" class="form-control">
+                    @error('s_cost_detail')
+                      <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                   </div>
                 </div>
                 <div class="row mb-3">
