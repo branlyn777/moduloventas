@@ -45,11 +45,13 @@ class OrderService2Controller extends Component
     public $list_category;
     //Guarda una lista de las marcas de los productos
     public $list_marks;
+    //Guarda un tipo de servcio (PENDIENTE, PROCESO, TERMINADO, ENTREGADO) para la ventana modal detalle servicio
+    public $status_service;
 
     //Guarda Información de un servicio
     public $s_client_name, $s_client_cell, $s_client_phone, $s_details, $s_cps, $s_mark, $s_model_detail, $s_solution, $s_id_user_technicial,
     $s_price,$s_cost, $s_cost_detail, $s_on_account, $s_id_wallet, $s_type_work, $s_fail_client, $s_diagnostic, $s_balance, $s_id_type_work,
-    $s_id_category, $s_estimated_delivery_date, $s_estimated_delivery_time;
+    $s_id_category, $s_estimated_delivery_date, $s_estimated_delivery_time, $s_name_type_work, $s_name_user_technicial;
 
     use WithPagination;
     public function paginationView()
@@ -256,7 +258,7 @@ class OrderService2Controller extends Component
             $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
             $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
 
-            //Obteniendo detalles del servicio para actualixar las varibles antes de editar
+            //Obteniendo detalles del servicio para actualizar las varibles antes de editar
             $service = $this->get_details_Service($service->id);
             
             
@@ -309,7 +311,7 @@ class OrderService2Controller extends Component
         ->select("services.created_at as created_at", "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance", "m.id as idmotion",
         "cps.nombre as name_cps","services.marca as mark","services.detalle as detail","services.solucion as solution", "m.user_id as id_user_technicial",
         "services.falla_segun_cliente as client_fail","services.costo as cost","services.detalle_costo as cost_detail","services.diagnostico as diagnostic",
-        "m.saldo as balance","tw.id as idtypework","cps.id as idcategory", "services.fecha_estimada_entrega as estimated_delivery_date", "services.id as idservice")
+        "m.saldo as balance","tw.id as idtypework", "tw.name as name_typework","cps.id as idcategory", "services.fecha_estimada_entrega as estimated_delivery_date", "services.id as idservice")
         ->where("services.id", $idservice)
         ->where("m.status","ACTIVO")
         ->first();
@@ -444,8 +446,126 @@ class OrderService2Controller extends Component
 
         $this->emit("hide-deliver-service");
     }
+    //Mustra una ventana modal con los detalles de un servicio
+    public function show_modal_detail(Service $service)
+    {
+        $this->id_order_service = $service->order_service_id;
+
+        //Obteniendo detalles del cliente
+        $client = $this->get_client($service->order_service_id);
+        $this->s_client_name = $client->nombre;
+        $this->s_client_cell = $client->celular;
+        $this->s_client_phone = $client->telefono;
+
+        //Obteniendo detalles del servicio
+        $service = $this->get_details_Service($service->id);
+        $this->status_service = $service->type;
+        
+        $this->s_cps = $service->name_cps;
+        $this->s_mark = $service->mark;
+        $this->s_model_detail = $service->detail;
+        $this->s_fail_client = $service->client_fail;
+        $this->s_diagnostic = $service->diagnostic;
+        $this->s_solution = $service->solution;
+        $this->s_price = $service->price_service;
+        $this->s_on_account = $service->on_account;
+        $this->s_balance = $service->balance;
+        $this->s_cost = $service->cost;
+        $this->s_cost_detail = $service->cost_detail;
+        $this->s_name_type_work = $service->name_typework;
+        $this->s_estimated_delivery_date = Carbon::parse($service->estimated_delivery_date)->format('d-m-Y H:i');
+        $this->s_name_user_technicial = $this->get_responsible_technician($service->idservice)->name;
+
+        $this->emit("show-detail-service");
+    }
+    //Redirige para modificar una Orden de Servicio
+    public function modify_order_service(OrderService $orderservice)
+    {
+        session(['clie' => $this->get_client($orderservice->id)]);
+        session(['od' => $orderservice->id]);
+        session(['tservice' => $orderservice->type_service]);
+        $this->redirect('service');
+    }
+    //Anula una orden de servico
+    public function annular_service(OrderService $orderservice)
+    {
+        foreach ($orderservice->services as $s)
+        {
+            //Verificando que la orden de servicio no tenga servicios con estado TERMINADO o ENTREGADO
+            foreach ($s->movservices as $mm)
+            {
+                if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
+                {
+                    $this->emit('entregado-terminado');
+                    return;
+                }
+            }
+            //Si la orden de servicio cumple con la condición anterior se anula todo
+            foreach ($s->movservices as $mm)
+            {
+                if ($mm->movs->status == 'ACTIVO')
+                {
+                    $mm->movs->update([
+                        'type' => 'ANULADO',
+                        'status' => 'INACTIVO'
+                    ]);
+                    $mm->movs->save();
+                }
+            }
+        }
+        $orderservice->update([
+            'status' => 'INACTIVO'
+        ]);
+        $orderservice->save();
+    }
+    //Elimina totalmente un servicio con sus tablas relacionadas
+    public function delete_service(OrderService $orderservice)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $delete = true;
+            foreach ($orderservice->services as $s)
+            {
+                foreach ($s->movservices as $mm)
+                {
+                    if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
+                    {
+                        $delete = false;
+                        break;
+                    }
+                }
+                if($delete)
+                {
+                    foreach ($s->movservices as $mm)
+                    {
+                        $mm->movs->climov->delete();
+                        $movimiento = $mm->movs;
+                        $mm->delete();
+                        $movimiento->delete();
+                    }
+                    $s->delete();
+                }
+            }
+
+            if($delete)
+            {
+                $orderservice->delete();
+                $this->emit('orden-eliminado');
+            }
+
+            DB::commit();
+
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            dd($e->getMessage());
+            $this->emit('item-error', 'ERROR' . $e->getMessage());
+        }
+    }
     protected $listeners = [
-    'updateorderservice' => 'update_order_service'
+        'updateorderservice' => 'update_order_service'
     ];
     //Actualiza detalles generales de un servicio
     public function update_order_service($mark)

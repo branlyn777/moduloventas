@@ -9,7 +9,7 @@ class OrderService extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type_service'];
+    protected $fillable = ['type_service','status'];
 
     public function services()
     {

@@ -111,13 +111,14 @@
             border-radius: 3px;
             font-size: 15px;
         }
+        /* Estilos para la columna detalle de la tabla principal */
         .detail-service {
             cursor: pointer;
             padding-top: 0.3px;
             padding-bottom: 0.5px;
             padding-left: 4px;
             padding-right: 4px;
-            background-color: #5e72e46b;
+            background-color: #ffffff8c;
             color: rgb(0, 0, 0);
             border-radius: 3px;
             font-size: 15px;
@@ -127,10 +128,17 @@
             padding-bottom: 0.5px;
             padding-left: 4px;
             padding-right: 4px;
-            background-color: #ffffff;
-            color: #5e72e4;
+            background-color: #5e72e4;
+            color: #ffffff;
             border-radius: 3px;
             font-size: 15px;
+        }
+        /* Estilos para la terjeta en la ventana modal detalle de servicio */
+        .box-detail{
+            width: 100%;
+            height: 25px;
+            font-size: 15px;
+            color: white;
         }
 
         /* Estilos base para los botones (PENDIENTE, PROCESO, TERMINADO y ENTREGADO) */
@@ -351,12 +359,26 @@
                                                         <b>{{ $so->code }}</b>
                                                     </span>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li><a class="dropdown-item" target=”_blank”
-                                                                href="{{ url('reporte/pdf' . '/' . $so->code) }}">Imprimir</a>
+                                                        <li>
+                                                            <a class="dropdown-item" target=”_blank” href="{{ url('reporte/pdf' . '/' . $so->code) }}">
+                                                                Imprimir
+                                                            </a>
                                                         </li>
-                                                        <li><a class="dropdown-item" href="#">Modificar</a></li>
-                                                        <li><a class="dropdown-item" href="#">Anular</a></li>
-                                                        <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                                        <li>
+                                                            <a wire:click.prevent="modify_order_service({{$so->code}})" href="" class="dropdown-item">
+                                                                Modificar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item">
+                                                                Anular
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#">
+                                                                Eliminar
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </td>
                                                 <td rowspan={{ $so->services->count() + 1 }} class="text-center">
@@ -382,7 +404,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <div class="detail-service">
+                                                        <div wire:click.prevent="show_modal_detail({{$s->idservice}})" class="detail-service">
                                                             <span class="text-sm">
                                                                 {{ $s->name_cps }} {{ $s->mark }}
                                                                 {{ $s->detail }}
@@ -521,6 +543,7 @@
     @include('livewire.order_service.modal_terminated_service')
     @include('livewire.order_service.modal_deliver_service')
     @include('livewire.order_service.modal_edit_service')
+    @include('livewire.order_service.modal_detail_service')
 </div>
 @section('javascript')
     <script>
@@ -557,6 +580,14 @@
                 $('#editservice').modal('hide')
             });
 
+
+            window.livewire.on('show-detail-service', Msg => {
+                $('#detailservice').modal('show')
+            });
+            window.livewire.on('hide-detail-service', Msg => {
+                $('#detailservice').modal('hide')
+            });
+            
 
             //Código que se ejecuta cuando se haga click en editar (carga las marcas en el input con el id product-input)
             Livewire.on('marks-loaded', function(data) {
