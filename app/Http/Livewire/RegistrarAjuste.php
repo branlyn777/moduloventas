@@ -47,11 +47,6 @@ class RegistrarAjuste extends Component
         $this->active3 = null;
         $this->show = 'js-active';
     }
-
-
-
-
-
     public function render()
     {
         if (strlen($this->searchproduct) > 0) {
@@ -161,9 +156,11 @@ class RegistrarAjuste extends Component
         } else {
             $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
             $r = $this->datalote($id->id);
-            if ($r != null) {
+           
+            if ($r != 'null') {
                 $costo = $r->costo;
                 $precio = $r->pv_lote;
+            
             } else {
                 $costo = 0;
                 $precio = 0;
@@ -179,7 +176,6 @@ class RegistrarAjuste extends Component
                     'cantidad' => 1
                 ]);
             } else {
-
                 $this->col->push([
                     'product_id' => $id->id,
                     'product_name' => $id->nombre,
@@ -391,23 +387,14 @@ class RegistrarAjuste extends Component
 
 
                         $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->first();
-
-                        if ($lot != null) {
-                            $lot->update([
-
-                                'existencia' => $lot->existencia + ($datas['recuento'] - $datas['stockactual'])
-                            ]);
-                            $lot->save();
-                            ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
-                        } else {
                             $lot = Lote::create([
-                                'existencia' => $datas['recuento'],
+                                'existencia' => $datas['recuento']-$datas['stockactual'],
                                 'costo' => $datas['costo'],
                                 'pv_lote' => $datas['pv_lote'],
                                 'status' => 'Activo',
                                 'product_id' => $datas['product_id']
                             ]);
-                        }
+                      
                     } else {
 
 
@@ -795,15 +782,18 @@ class RegistrarAjuste extends Component
 
     public function datalote($p_id)
     {
-        $data_lote = Lote::where('product_id', $p_id)->get();
+        //dd($p_id);
+        $data = Lote::where('product_id',$p_id)->get();
         //$ultimo_lote = Lote::latest()->where('product_id', $p_id)->get()->isEmpty() == true ? 0 : Lote::latest()->where('product_id', $p_id)->get();
-        if ($data_lote->isNotEmpty()) {
-            $ms = $data_lote->where('status', 'Activo')->first();
+        if ($data->isNotEmpty()) {
+            $ms = $data->where('status', 'Activo')->first();
+            //dd($ms);
             if ($ms != null) {
-
+              
                 return  $ms;
             } else {
-                return $data_lote->last()->first();
+                return $data->sortByDesc('created_at')->first();
+               
             }
         } else {
             return null;
