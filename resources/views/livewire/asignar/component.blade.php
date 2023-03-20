@@ -52,8 +52,8 @@
                         {{-- Boton de Sincronizar --}}
                         @if ($permisosseleccionado != 'Todos')
                             <button wire:click.prevent="SyncAll2()" type="button" class="btn btn-success mb-0">
-                            <span class="btn-inner--icon">
-                                <i class="fas fa-rotate me-2"></i>
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-rotate me-2"></i>
                                 </span class="btn-inner--text"> Sincronizar Todos
                                 Area</button>
                         @else
@@ -99,7 +99,7 @@
                             </select>
                         </div>
                     </div>
-    
+
                     <div class="col-md-3 col-12 col-sm-12 text-left">
                         <div class="form-group me-2">
                             <b class="text-dark">Área Permiso</b>
@@ -111,11 +111,11 @@
                             </select>
                         </div>
                     </div>
-    
-    
+
+
                 </div>
             </div>
-            
+
         </div>
 
         <div class="card mb-4">
@@ -140,7 +140,7 @@
                                         {{ ($permisos->currentpage() - 1) * $permisos->perpage() + $loop->index + 1 }}
                                     </td>
                                     <td class="text-sm ps-1 text-left">
-                                        <div style="padding-top: 5px;">
+                                         <div style="padding-top: 5px;">
                                             <label class="switch">
                                                 <input type="checkbox"
                                                     wire:change="SyncPermiso($('#p' + '{{ $permiso->id }}').is(':checked'), '{{ $permiso->name }}')"
@@ -148,13 +148,40 @@
                                                     {{ $permiso->checked == 1 ? 'checked' : '' }}>
                                                 <span class="slider round"></span>
                                             </label>
-                                        </div>
+                                        </div> 
+                                        {{-- <div class="form-check form-switch" style="">
+                                            <div class=""form-check form-switch" style="padding-top: 5px;  ">
+                                                <input  class="form-check-input" wire:model='estados'
+                                                    wire:change="cambioestado()" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckChecked" checked >
+                                                @if ($permisos)
+                                                    <label
+                                                        style="font-size: 16px;
+                                            font-weight: 400;
+                                            line-height: 1.7;s
+                                            margin:0px 0.9rem;
+                                            align-self: left;
+                                            color: #003bd1;">Activos</label>
+                                                @else
+                                                    <label
+                                                        style="font-size: 16px;
+                                            font-weight: 400;
+                                            line-height: 1.7;
+                                            margin:0px 0.9rem;
+                                            align-self: left;
+                                            color: #4a5e92;">Inactivos</label>
+                                                @endif
+
+                                            </div>
+                                        </div> --}}
+
+
                                     </td>
                                     <td class="text-sm mb-0 text-left">
                                         {{ $permiso->name }}
                                     </td>
                                     <td class="text-sm mb-0 text-center">
-                                        {{-- YA FUNCIONA LA CREACION DE PERMISOS  --}}
+                                        {{-- YA FUNCIOFNA LA CREACION DE PERMISOS  --}}
                                         {{ \App\Models\User::permission($permiso->name)->count()}}
                                         {{-- {{$permiso->cantidad}} --}}
                                     </td>
@@ -175,7 +202,16 @@
     </div>
 </div>
 
-
+<style>
+    .form-switch .form-check-input:checked {
+    border-color: rgba(94,114,228,.95);
+    background-color: rgba(94,114,228,.95);
+}
+    .form-switch .form-check-input:checked {
+    background-position: 100%;
+    background-image: none;
+}
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
