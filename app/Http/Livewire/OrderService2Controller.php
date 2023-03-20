@@ -60,7 +60,7 @@ class OrderService2Controller extends Component
     }
     public function mount()
     {
-        $this->pagination = 20;
+        $this->pagination = 5;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
         $this->box_status = false;
@@ -130,9 +130,18 @@ class OrderService2Controller extends Component
         ->join("users as u", "u.id", "m.user_id")
         ->select("u.*")
         ->where("mov_services.service_id", $idservice)
-        ->where("m.status", "ACTIVO")
+        ->when(true, function ($query) {
+            return $query->where(function ($query) {
+                $query->where("m.type", "TERMINADO")
+                ->orWhere("m.type", "PROCESO")
+                ->Where("m.status", "ACTIVO");
+            });
+        }, function ($query) {
+            return $query->where("m.status", "ACTIVO");
+        })
         ->orderBy("m.id", "desc")
         ->get();
+
         return $technician = $technician->first();
     }
     // Obtiene Técnico Receptor a travéz del id de un servicio
@@ -298,7 +307,38 @@ class OrderService2Controller extends Component
         }
         else
         {
-            dd("Servicio entregado");
+            //Actualizando la lista de usuarios tecnicos para el servicio
+            $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
+            $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');
+
+            $this->s_id_user_technicial = $this->get_responsible_technician($service->id)->id;
+
+
+            $box = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->where('cajas.estado', 'Abierto')
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->where('cajas.sucursal_id', $this->id_branch)
+            ->select('cajas.*')
+            ->first();
+            if($box)
+            {
+                $this->box_status = true;
+                $this->list_wallets = Cartera::where("caja_id", $box->id)
+                ->where("estado", "ACTIVO")
+                ->where("tipo","<>", "Sistema")
+                ->where("tipo","<>", "Telefono")
+                ->orwhere("caja_id", 1)
+                ->orderBy("id","asc")
+                ->get();
+
+                $this->s_id_wallet = $this->list_wallets->where("tipo","efectivo")->first()->id;
+            }
+
+            $this->emit("show-edit-service-deliver");
         }
     }
     //Obtiene detalles de un servicio
@@ -446,7 +486,7 @@ class OrderService2Controller extends Component
 
         $this->emit("hide-deliver-service");
     }
-    //Mustra una ventana modal con los detalles de un servicio
+    //Muestra una ventana modal con los detalles de un servicio
     public function show_modal_detail(Service $service)
     {
         $this->id_order_service = $service->order_service_id;

@@ -536,6 +536,36 @@
                         </div>
                     </div>
                 </div>
+                @if ($service_orders->count() >= $this->pagination)
+                <div class="pagination">
+                
+                    <a href="{{ url('ordenesservicios') }}" class="page-link">Primero</a>
+
+                    @if ($service_orders->currentPage() > 1)
+                        <a class="page-link" href="{{ $service_orders->previousPageUrl() }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    @endif
+                
+                    <ul class="pagination justify-content-center">
+                        @foreach ($service_orders->getUrlRange(max($service_orders->currentPage() - 2, 1), min($service_orders->currentPage() + 2, $service_orders->lastPage())) as $page => $url)
+                            @if ($page == $service_orders->currentPage())
+                                <li class="page-item active"><span class="page-link text-white">{{ $page }}</span></li>
+                            @else
+                                <li class="page-item"><a href="{{ $url }}" class="page-link">{{ $page }}</a></li>
+                            @endif
+                        @endforeach
+                    </ul>
+                
+                    @if ($service_orders->currentPage() < $service_orders->lastPage())
+                        <a class="page-link" href="{{ $service_orders->nextPageUrl() }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                    @endif
+                
+                    <a href="{{ $service_orders->lastPage() }}" class="page-link">Último</a>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -543,6 +573,7 @@
     @include('livewire.order_service.modal_terminated_service')
     @include('livewire.order_service.modal_deliver_service')
     @include('livewire.order_service.modal_edit_service')
+    @include('livewire.order_service.modal_edit_service_deliver')
     @include('livewire.order_service.modal_detail_service')
 </div>
 @section('javascript')
@@ -578,6 +609,14 @@
             });
             window.livewire.on('hide-edit-service', Msg => {
                 $('#editservice').modal('hide')
+            });
+
+
+            window.livewire.on('show-edit-service-deliver', Msg => {
+                $('#editservicedeliver').modal('show')
+            });
+            window.livewire.on('hide-edit-service-deliver', Msg => {
+                $('#editservicedeliver').modal('hide')
             });
 
 
