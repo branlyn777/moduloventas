@@ -115,7 +115,7 @@
         </div>
         <div class="row mt-4">
 
-            <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
+            <div class="col-lg-8 mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
 
@@ -175,7 +175,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-7 col-sm-6">
+            <div class="col-lg-7">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex">
@@ -189,8 +189,7 @@
 
                                     <div class="col-md-7 text-start">
                                         <div class="chart">
-                                            <canvas id="chart-pie" class="chart-canvas" height="200"
-                                                width="161"
+                                            <canvas id="chart-pie" class="chart-canvas" 
                                                 style="display: block; box-sizing: border-box; height: 320px; width: 161.5px;"></canvas>
                                         </div>
                                     </div>
@@ -204,11 +203,11 @@
                             </div>
                             <div class="col">
                                 <div class="row">
-                                    <div class="col-md-7 text-start">
+                                    <div class="col-md-7">
                                         <div class="chart">
-                                            <canvas id="chart-pie-egresos" class="chart-canvas" height="200"
-                                                width="161"
-                                                style="display: block; box-sizing: border-box; height: 235px; width: 161.5px;"></canvas>
+                                            <canvas id="chart-pie-egresos" class="chart-canvas" 
+                                             
+                                                style="display: block; box-sizing: border-box; height: 250px; width: 300.5px;"></canvas>
                                         </div>
                                     </div>
                                     <div class="col-md-5 m-auto">
@@ -544,9 +543,7 @@
                 tension: 0.9,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: ["#5B34F5", "#2E3AD3", "#3A79F1", "#2995Y9", "#2FDFF9", "#EE79F1",
-                    "#MMMMMM"
-                ],
+                backgroundColor: ["#8056F0", "#5A5BFA", "#5D81E3", "#5AAFFA", "#56D0F0","#193545","#88F056","#CC5AFA"],
                 data: chtegresos,
                 fill: false
             }],

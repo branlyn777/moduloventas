@@ -74,7 +74,7 @@ class RegistrarAjuste extends Component
                 $st = Product::select('products.*')
                     ->where('products.nombre', 'like', '%' . $this->searchproduct . '%')
                     ->orWhere('products.codigo', 'like', '%' . $this->searchproduct . '%')
-                    ->get()->take(3);
+                    ->get()->take(5);
 
                 $arr = $this->col->pluck('product_id');
                 $this->sm = $st->whereNotIn('id', $arr);
