@@ -15,27 +15,11 @@ class CatProdServiceSeeder extends Seeder
     public function run()
     {
         CatProdService::create([
-            'nombre' => 'Accesorio',
-            'estado' => 'Activo'
+            'nombre' => 'Tv',
+            'estado' => 'INACTIVO'
         ]);
         CatProdService::create([
-            'nombre' => 'Computadora',
-            'estado' => 'Activo'
-        ]);
-        CatProdService::create([
-            'nombre' => 'Equipos de Sonido',
-            'estado' => 'Activo'
-        ]);
-        CatProdService::create([
-            'nombre' => 'Tablets',
-            'estado' => 'Activo'
-        ]);
-        CatProdService::create([
-            'nombre' => 'Electrodomésticos',
-            'estado' => 'Activo'
-        ]);
-        CatProdService::create([
-            'nombre' => 'Impresoras',
+            'nombre' => 'Portatil',
             'estado' => 'Activo'
         ]);
         CatProdService::create([
@@ -43,7 +27,27 @@ class CatProdServiceSeeder extends Seeder
             'estado' => 'Activo'
         ]);
         CatProdService::create([
-            'nombre' => 'Portatil',
+            'nombre' => 'Impresoras',
+            'estado' => 'Activo'
+        ]);
+        CatProdService::create([
+            'nombre' => 'Electrodomésticos',
+            'estado' => 'Activo'
+        ]);
+        CatProdService::create([
+            'nombre' => 'Tablets',
+            'estado' => 'Activo'
+        ]);
+        CatProdService::create([
+            'nombre' => 'Equipos de Sonido',
+            'estado' => 'Activo'
+        ]);
+        CatProdService::create([
+            'nombre' => 'Computadora',
+            'estado' => 'Activo'
+        ]);
+        CatProdService::create([
+            'nombre' => 'Accesorio',
             'estado' => 'Activo'
         ]);
     }

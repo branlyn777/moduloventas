@@ -61,6 +61,6 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // });
         //$this->call(ProductoDestino2Seeder::class);
-        Cliente::factory(1000)->create();
+        // Cliente::factory(1000)->create();
     }
 }

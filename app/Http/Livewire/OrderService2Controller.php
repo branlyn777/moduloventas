@@ -65,7 +65,7 @@ class OrderService2Controller extends Component
     public function mount()
     {
         $this->status_service_table = "TODOS";
-        $this->pagination = 5;
+        $this->pagination = 50;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
         $this->box_status = false;
@@ -74,17 +74,44 @@ class OrderService2Controller extends Component
     {
         if(strlen($this->search) == 0)
         {
-            //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
-            $service_orders = OrderService::select(
-                "order_services.id as code",
-                "order_services.created_at as reception_date",
-                DB::raw("0 as services"),
-                DB::raw("0 as client")
-            )
-            ->where("order_services.status", "ACTIVO")
-            ->orderBy("order_services.id", "desc")
-            ->paginate($this->pagination);
+            if($this->status_service_table == "TODOS")
+            {
+                //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+                $service_orders = OrderService::select(
+                    "order_services.id as code",
+                    "order_services.created_at as reception_date",
+                    DB::raw("0 as services"),
+                    DB::raw("0 as client")
+                )
+                ->where("order_services.status", "ACTIVO")
+                ->orderBy("order_services.id", "desc")
+                ->paginate($this->pagination);
+            }
+            else
+            {
+                //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+                // $service_orders = OrderService::select(
+                //     "order_services.id as code",
+                //     "order_services.created_at as reception_date",
+                //     DB::raw("'{$this->status_service_table}' as services"),
+                //     DB::raw("0 as client")
+                // )
+                // ->where("order_services.status", "ACTIVO")
+                // ->orderBy("order_services.id", "desc")
+                // ->paginate($this->pagination);
 
+
+                $service_orders = OrderService::select(
+                    "order_services.id as code",
+                    "order_services.created_at as reception_date",
+                    DB::raw("'{$this->status_service_table}' as services"),
+                    DB::raw("0 as client")
+                )
+                ->where("order_services.status", "ACTIVO")
+                ->orderBy("order_services.id", "desc")
+                ->paginate($this->pagination);
+                
+            }
         }
         else
         {
@@ -108,13 +135,43 @@ class OrderService2Controller extends Component
             ->orderBy("order_services.id", "desc")
             ->paginate($this->pagination);
         }
+
+
+
         foreach ($service_orders as $so)
         {
-            //Obtener los servicios de la orden de servicio
-            $so->services = $this->get_service_order_detail($so->code);
+            if($so->services == "0")
+            {
+                //Obtener los servicios de la orden de servicio
+                $so->services = $this->get_service_order_detail($so->code);
+            }
+            else
+            {
+                //Obtener los servicios de la orden de servicio
+                $so->services = $this->get_service_order_detail_type($so->code,$so->services);
+            }
             //Obtener el nombre del cliente
             $so->client = $this->get_client($so->code);
         }
+        
+        
+        foreach ($service_orders as $key => $order)
+        {
+            if ($order->services->count() == 0)
+            {
+                // Eliminar la fila usando el método 'forget' de la instancia de paginación
+                $service_orders->forget($key);
+                break;
+            }
+        }
+
+        // if($this->status_service_table != "TODOS")
+        // {
+        //     dd($service_orders);
+        // }
+        
+
+
         return view("livewire.order_service.orderservice2", [
             "service_orders" => $service_orders,
         ])
@@ -142,6 +199,36 @@ class OrderService2Controller extends Component
             }
             else
             {
+                //Si el servicio es PENDIENTE no tendrá un técnico responsable
+                $s->responsible_technician = "No Asignado";
+            }
+            //Obtener al técnico receptor de un servicio
+            $s->receiving_technician = $this->get_receiving_technician($s->idservice);
+        }
+        return $services;
+    }
+    // Devuelve servicios específicos de una orden de servicio (PENDIENTE, PROCESO, TERMINADO, ENTREGADO, ANULADO)
+    public function get_service_order_detail_type($code, $type)
+    {
+        $services = Service::join("mov_services as ms", "ms.service_id","services.id")
+        ->join("movimientos as m", "m.id", "ms.movimiento_id")
+        ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
+        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
+        "m.import as price_service","m.type as type","cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.falla_segun_cliente as client_fail')
+        ->where("services.order_service_id", $code)
+        ->where("m.status", "ACTIVO")
+        ->where("m.type", $type)
+        ->orderBy("services.id","asc")
+        ->get();
+        foreach ($services as $s)
+        {
+            if($s->type != "PENDIENTE")
+            {
+                //Obtener al tecnico responsable de un servicio
+                $s->responsible_technician = $this->get_responsible_technician($s->idservice)->name;
+            }
+            else
+            {
                 //Obtener al tecnico responsable de un servicio
                 $s->responsible_technician = "No Asignado";
             }
@@ -155,19 +242,24 @@ class OrderService2Controller extends Component
     {
         $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
         ->join("users as u", "u.id", "m.user_id")
-        ->select("u.*")
+        ->select("u.*","m.type as type")
         ->where("mov_services.service_id", $idservice)
-        ->when(true, function ($query) {
-            return $query->where(function ($query) {
-                $query->where("m.type", "TERMINADO")
-                ->orWhere("m.type", "PROCESO")
-                ->Where("m.status", "ACTIVO");
-            });
-        }, function ($query) {
-            return $query->where("m.status", "ACTIVO");
-        })
+        ->where("m.status", "ACTIVO")
+        ->where("m.type","<>", "PENDIENTE")
+        ->where("m.type","<>", "ENTREGADO")
         ->orderBy("m.id", "desc")
         ->get();
+
+        if($technician->count() == 0)
+        {
+            $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
+            ->join("users as u", "u.id", "m.user_id")
+            ->select("u.*","m.type as type")
+            ->where("mov_services.service_id", $idservice)
+            ->where("m.type", "TERMINADO")
+            ->orderBy("m.id", "desc")
+            ->get();
+        }
 
         return $technician = $technician->first();
     }
@@ -556,7 +648,7 @@ class OrderService2Controller extends Component
         $this->s_cost_detail = $service->cost_detail;
         $this->s_name_type_work = $service->name_typework;
         $this->s_estimated_delivery_date = Carbon::parse($service->estimated_delivery_date)->format('d-m-Y H:i');
-        $this->s_name_user_technicial = $this->get_responsible_technician($service->idservice)->name;
+        // $this->s_name_user_technicial = $this->get_responsible_technician($service->idservice)->name;
 
         $this->emit("show-detail-service");
     }
@@ -578,7 +670,7 @@ class OrderService2Controller extends Component
             {
                 if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
                 {
-                    $this->emit('entregado-terminado');
+                    $this->emit('delivered-finished');
                     return;
                 }
             }
@@ -634,6 +726,10 @@ class OrderService2Controller extends Component
             {
                 $orderservice->delete();
                 $this->emit('orden-eliminado');
+            }
+            else
+            {
+                $this->emit("delivered-finished");
             }
 
             DB::commit();

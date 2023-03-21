@@ -68,7 +68,7 @@
         }
 
         .table-style table tbody tr:hover {
-            background-color: rgba(207, 230, 0, 0);
+            background-color: rgba(11, 99, 230, 0.308);
         }
 
 
@@ -118,18 +118,7 @@
             padding-bottom: 0.5px;
             padding-left: 4px;
             padding-right: 4px;
-            background-color: #ffffff8c;
-            color: rgb(0, 0, 0);
-            border-radius: 3px;
-            font-size: 15px;
-        }
-        .detail-service:hover {
-            padding-top: 0.3px;
-            padding-bottom: 0.5px;
-            padding-left: 4px;
-            padding-right: 4px;
-            background-color: #5e72e4;
-            color: #ffffff;
+            color: #5e72e4;
             border-radius: 3px;
             font-size: 15px;
         }
@@ -320,23 +309,23 @@
                         </div>
                         <div class="col-3">
                             <label>Sucursal</label>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     <input type="text" wire:model="search" placeholder="Buscar..."
                                         class="form-control">
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-3">
                             <label>Categoria</label>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     <input type="text" wire:model="search" placeholder="Buscar..."
                                         class="form-control">
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-3">
                             <label>Estado Servicio</label>
@@ -374,53 +363,52 @@
                                 <tbody>
                                     @if ($service_orders->count() > 0)
                                         @foreach ($service_orders as $so)
-                                            <tr>
-                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
-                                                    <span class="text-sm">
-                                                        {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }}
-                                                    </span>
-                                                </td>
-                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
-                                                    <span class="text-sm code dropdown-toggle pointer"
-                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <b>{{ $so->code }}</b>
-                                                    </span>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li>
-                                                            <a class="dropdown-item" target=”_blank” href="{{ url('reporte/pdf' . '/' . $so->code) }}">
-                                                                Imprimir
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a wire:click.prevent="modify_order_service({{$so->code}})" href="" class="dropdown-item">
-                                                                Modificar
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item">
-                                                                Anular
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#">
-                                                                Eliminar
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td rowspan={{ $so->services->count() + 1 }} class="text-center">
-                                                    <span class="text-sm">
-                                                        <b>{{ $so->client->nombre }}</b>
-                                                    </span>
-                                                    <br>
-                                                    <span class="text-sm">
-                                                        {{ \Carbon\Carbon::parse($so->reception_date)->format('d/m/Y H:i') }}
-                                                    </span>
-                                                </td>
-                                            </tr>
                                             @foreach ($so->services as $s)
                                                 <tr>
+                                                    <td class="text-center">
+                                                        <span class="text-sm">
+                                                            {{-- {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }} --}}
+                                                            {{-- {{ $loop->index + 1 }} --}}
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="text-sm code dropdown-toggle pointer"
+                                                            id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <b>{{ $so->code }}</b>
+                                                        </span>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <li>
+                                                                <a class="dropdown-item" target=”_blank” href="{{ url('reporte/pdf' . '/' . $so->code) }}">
+                                                                    Imprimir
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a wire:click.prevent="modify_order_service({{$so->code}})" href="" class="dropdown-item">
+                                                                    Modificar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item">
+                                                                    Anular
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#">
+                                                                    Eliminar
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="text-sm">
+                                                            <b>{{ $so->client->nombre }}</b>
+                                                        </span>
+                                                        <br>
+                                                        <span class="text-sm">
+                                                            {{ \Carbon\Carbon::parse($so->reception_date)->format('d/m/Y H:i') }}
+                                                        </span>
+                                                    </td>
                                                     <td class="text-center">
                                                         <span class="text-sm">
                                                             {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
@@ -452,16 +440,12 @@
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button
-                                                            wire:click.prevent="filter_type({{ $s->idservice }}, '{{ $s->type }}')"
-                                                            class="btn-service {{ $s->type }}">
+                                                        <button wire:click.prevent="filter_type({{ $s->idservice }}, '{{ $s->type }}')" class="btn-service {{ $s->type }}">
                                                             {{ $s->type }}
                                                         </button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button
-                                                            wire:click.prevent="filter_edit({{ $s->idservice }}, '{{ $s->type }}')"
-                                                            class="{{ $s->type != 'ENTREGADO' ? 'btn-edit' : 'btn-edit-deliver' }} text-sm">
+                                                        <button wire:click.prevent="filter_edit({{ $s->idservice }}, '{{ $s->type }}')" class="{{ $s->type != 'ENTREGADO' ? 'btn-edit' : 'btn-edit-deliver' }} text-sm">
                                                             EDITAR
                                                         </button>
                                                     </td>
@@ -564,6 +548,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- {{ $service_orders->links() }} --}}
                 @if ($service_orders->count() >= $this->pagination)
                 <div class="pagination">
                 
@@ -706,6 +691,20 @@
                         list.innerHTML = '';
                     }
                 });
+            });
+
+
+            //Mostrar Mensaje No se Puede Eliminar
+            window.livewire.on('delivered-finished', event => {
+                swal("¡No se puede realizar esta acción!",
+                    "No se pueden Anular o Eliminar las Ordenes de Servicio que tengan Servicios Terminados o Entregados", {
+                        icon: "info",
+                        buttons: {
+                            confirm: {
+                                className: 'btn btn-info'
+                            }
+                        },
+                    });
             });
 
         });

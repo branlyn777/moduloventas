@@ -26,5 +26,9 @@ class TypeworkSeeder extends Seeder
             'name' => 'Revisión',
             'status' => 'Active',
         ]);
+        TypeWork::create([
+            'name' => 'Garantia',
+            'status' => 'Active',
+        ]);
     }
 }

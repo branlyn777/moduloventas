@@ -16,16 +16,22 @@ class ProcedenciaClienteSeeder extends Seeder
     public function run()
     {
         ProcedenciaCliente::create([
-            'procedencia' => 'Servicio Técnico'
+            'procedencia' => 'Bolantes'
         ]);
         ProcedenciaCliente::create([
             'procedencia' => 'Facebook'
         ]);
         ProcedenciaCliente::create([
-            'procedencia' => 'Bolantes'
+            'procedencia' => 'Frecuente'
         ]);
         ProcedenciaCliente::create([
-            'procedencia' => 'Venta'
+            'procedencia' => 'Nuevo'
+        ]);
+        ProcedenciaCliente::create([
+            'procedencia' => 'Recomendación'
+        ]);
+        ProcedenciaCliente::create([
+            'procedencia' => 'Venta de Productos'
         ]);
     }
 }
