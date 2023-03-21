@@ -307,19 +307,47 @@
             </div>
             <div class="card mb-4">
                 <div class="card-body p-4">
-                    <div class="padding-left: 12px; padding-right: 12px;">
-
-                        <div class="row justify-content-between">
-                            <div class="mt-lg-0 col-md-3">
-                                <label>Buscar</label>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                        <input type="text" wire:model="search" placeholder="Buscar..."
-                                            class="form-control">
-                                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Buscar</label>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Buscar..."
+                                        class="form-control">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-3">
+                            <label>Sucursal</label>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Buscar..."
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label>Categoria</label>
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    <input type="text" wire:model="search" placeholder="Buscar..."
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label>Estado Servicio</label>
+                            <select wire:model="status_service_table" class="form-select">
+                                <option value="PENDIENTE">PENDIENTE</option>
+                                <option value="PROCESO">PROCESO</option>
+                                <option value="TERMINADO">TERMINADO</option>
+                                <option value="ENTREGADO">ENTREGADO</option>
+                                <option value="ANULADO">ANULADO</option>
+                                <option value="TODOS">TODOS</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -684,7 +712,7 @@
 
         function updateService() {
             var mark = document.getElementById('product-input').value;
-            window.livewire.emit('updateorderservice', mark)
+            window.livewire.emit('updateservice', mark)
         }
     </script>
 @endsection

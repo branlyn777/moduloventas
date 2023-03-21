@@ -27,7 +27,7 @@ class OrderService2Controller extends Component
 {   
     //Guarda el numero de paginacion de la tabla ordenes de servicio
     public $pagination;
-    // Almacena la lista de usuarios tecnicos
+    //Guarda los elementos de busqueda en la tabla principal
     public $list_user_technicial;
     //Guarda el coódigo(id) de una orden de servicio
     public $id_order_service;
@@ -48,6 +48,10 @@ class OrderService2Controller extends Component
     //Guarda un tipo de servcio (PENDIENTE, PROCESO, TERMINADO, ENTREGADO) para la ventana modal detalle servicio
     public $status_service;
 
+    //Variebles para los filtros
+    public $search, $status_service_table;
+    
+
     //Guarda Información de un servicio
     public $s_client_name, $s_client_cell, $s_client_phone, $s_details, $s_cps, $s_mark, $s_model_detail, $s_solution, $s_id_user_technicial,
     $s_price,$s_cost, $s_cost_detail, $s_on_account, $s_id_wallet, $s_type_work, $s_fail_client, $s_diagnostic, $s_balance, $s_id_type_work,
@@ -60,6 +64,7 @@ class OrderService2Controller extends Component
     }
     public function mount()
     {
+        $this->status_service_table = "TODOS";
         $this->pagination = 5;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
@@ -67,17 +72,42 @@ class OrderService2Controller extends Component
     }
     public function render()
     {
-        //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
-        $service_orders = OrderService::select(
-            "order_services.id as code",
-            "order_services.created_at as reception_date",
-            DB::raw("0 as services"),
-            DB::raw("0 as client")
-        )
-        ->where("order_services.status", "ACTIVO")
-        ->orderBy("order_services.id", "desc")
-        ->paginate($this->pagination);
+        if(strlen($this->search) == 0)
+        {
+            //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+            $service_orders = OrderService::select(
+                "order_services.id as code",
+                "order_services.created_at as reception_date",
+                DB::raw("0 as services"),
+                DB::raw("0 as client")
+            )
+            ->where("order_services.status", "ACTIVO")
+            ->orderBy("order_services.id", "desc")
+            ->paginate($this->pagination);
 
+        }
+        else
+        {
+            //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+            $service_orders = OrderService::join("services as s","s.order_service_id","order_services.id")
+            ->join("mov_services as ms","ms.service_id", "s.id")
+            ->join("movimientos as m","m.id", "ms.movimiento_id")
+            ->join("cliente_movs as cm","cm.movimiento_id", "m.id")
+            ->join("clientes as c","c.id", "cm.cliente_id")
+            ->select(
+                "order_services.id as code",
+                "order_services.created_at as reception_date",
+                DB::raw("0 as services"),
+                DB::raw("0 as client")
+            )
+            ->where("order_services.status", "ACTIVO")
+            ->where("order_services.id", $this->search)
+            ->orwhere('c.nombre', 'like', '%' . $this->search . '%')
+            ->orWhere('s.detalle', 'like', '%' . $this->search . '%')
+            ->distinct()
+            ->orderBy("order_services.id", "desc")
+            ->paginate($this->pagination);
+        }
         foreach ($service_orders as $so)
         {
             //Obtener los servicios de la orden de servicio
@@ -85,9 +115,6 @@ class OrderService2Controller extends Component
             //Obtener el nombre del cliente
             $so->client = $this->get_client($so->code);
         }
-
-
-
         return view("livewire.order_service.orderservice2", [
             "service_orders" => $service_orders,
         ])
@@ -324,11 +351,11 @@ class OrderService2Controller extends Component
             ->where('cajas.sucursal_id', $this->id_branch)
             ->select('cajas.*')
             ->first();
+
             if($box)
             {
                 $this->box_status = true;
-                $this->list_wallets = Cartera::where("caja_id", $box->id)
-                ->where("estado", "ACTIVO")
+                $this->list_wallets = Cartera::where("estado", "ACTIVO")
                 ->where("tipo","<>", "Sistema")
                 ->where("tipo","<>", "Telefono")
                 ->orwhere("caja_id", 1)
@@ -337,6 +364,21 @@ class OrderService2Controller extends Component
 
                 $this->s_id_wallet = $this->list_wallets->where("tipo","efectivo")->first()->id;
             }
+            if( $service->cost == "0.00")
+            {
+                $this->s_cost = "";
+            }
+            else
+            {
+                $this->s_cost = $service->cost;
+            }
+            $this->s_cost_detail = $service->cost_detail;
+
+            //Obteniendo detalles del servicio para actualizar las varibles antes de editar el servicio TERMINADO
+            $service = $this->get_details_Service($service->id);
+            $this->s_price = $service->price_service;
+            $this->s_on_account = $service->on_account;
+            $this->s_balance = $service->balance;
 
             $this->emit("show-edit-service-deliver");
         }
@@ -604,11 +646,66 @@ class OrderService2Controller extends Component
             $this->emit('item-error', 'ERROR' . $e->getMessage());
         }
     }
+    //Actualiza detalles generales de un servicio
+    public function update_service_deliver()
+    {
+        $rules = [
+            's_price' => 'required'
+        ];
+        if ($this->s_cost != null)
+        {
+            $rules['s_cost_detail'] = 'required';
+        }
+        $messages = [ 
+            's_price.required' => 'Campo Requerido',
+            's_cost_detail.required' => 'Detalla el motivo del costo'        
+        ];
+        $this->validate($rules, $messages);
+        // Actualizando saldo, a cuenta, precio y usuario técnico del servicio
+        $motion_deliver = Movimiento::find($this->get_details_Service($this->id_service)->idmotion);
+        $motion_deliver->update([
+            'saldo' => $this->s_price - $this->s_on_account,
+            'on_account' => $this->s_on_account,
+            'import' => $this->s_price,
+        ]);
+        $motion_deliver->save();
+
+        //Cambiando el tipo de pago
+        $movement_wallet = CarteraMov::where("cartera_movs.movimiento_id",$motion_deliver->id)->first();
+        $movement_wallet->update([
+            'cartera_id' => $this->s_id_wallet
+        ]);
+        $movement_wallet->save();
+
+        if($this->s_cost == null)
+        {
+            $this->s_cost = "0";
+        }
+        $service = Service::find($this->id_service);
+        $service->update([
+            'costo' => $this->s_cost,
+            'detalle_costo' => $this->s_cost_detail
+        ]);
+        $service->save();
+        //Buscando el movimiento TERMINADO inactivo (Que es donde se almacena el id del técnico responsable)
+        $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->select("m.*")
+        ->where("mov_services.service_id",$this->id_service)
+        ->where("m.type","TERMINADO")
+        ->first();
+        $motion_terminated = Movimiento::find($motion_terminated->id);
+        $motion_terminated->update([
+            'user_id' => $this->s_id_user_technicial
+        ]);
+        $motion_terminated->save();
+
+        $this->emit("hide-edit-service-deliver");
+    }
     protected $listeners = [
-        'updateorderservice' => 'update_order_service'
+        'updateservice' => 'update_service'
     ];
     //Actualiza detalles generales de un servicio
-    public function update_order_service($mark)
+    public function update_service($mark)
     {
         $rules = [
             's_model_detail' => 'required',
@@ -618,12 +715,10 @@ class OrderService2Controller extends Component
             's_price' => 'required',
             's_on_account' => 'required'
         ];
-        
         if ($this->s_cost != null)
         {
             $rules['s_cost_detail'] = 'required';
         }
-        
         $messages = [
             's_model_detail.required' => 'Campo Requerido',   
             's_fail_client.required' => 'Campo Requerido',   
@@ -633,11 +728,7 @@ class OrderService2Controller extends Component
             's_on_account.required' => 'Campo Requerido',
             's_cost_detail.required' => 'Detalla el motivo del costo'        
         ];
-        
         $this->validate($rules, $messages);
-        
-
-
         //Buscando la Marca seleccionada
         $mark_selected = SubCatProdService::where("name", $mark)->first();
         //Creando una nueva marca si no existe

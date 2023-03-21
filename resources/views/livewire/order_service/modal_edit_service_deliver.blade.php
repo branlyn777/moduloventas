@@ -47,9 +47,6 @@
                 <div class="col-4">
                   <label>A Cuenta:</label>
                   <input wire:model.lazy="s_on_account" type="number" class="form-control">
-                  @error('s_on_account')
-                    <span class="text-danger text-xs">{{ $message }}</span>
-                  @enderror
                 </div>
                 <div class="col-4 text-center">
                   <label>Saldo:</label>
@@ -77,7 +74,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button onclick="updateService()" type="button" class="btn bg-gradient-success">Actualizar Servicio Entregado</button>
+                <button wire:click.prevent="update_service_deliver()" type="button" class="btn bg-gradient-success">Actualizar Servicio Entregado</button>
             </div>
         </div>
     </div>
