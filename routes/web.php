@@ -64,6 +64,7 @@ use App\Http\Livewire\ReporteJornadaTMController;
 use App\Http\Livewire\ReporteMovimientoResumenController;
 use App\Http\Livewire\ReportEntregadoServController;
 use App\Http\Livewire\ReporteServiceController;
+use App\Http\Livewire\ReporteServicioClienteController;
 use App\Http\Livewire\ReporteServiciosCostosController;
 use App\Http\Livewire\ReportesTigoController;
 use App\Http\Livewire\ResumenSesionController;
@@ -229,6 +230,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reporteservices', ReporteServiceController::class)->name('rs')->middleware('permission:Reporte_Servicios_Index');
     Route::get('servicioscostos', ReporteServiciosCostosController::class)->name('servicioscostos');
     Route::get('reportentregservices', ReportEntregadoServController::class)->name('res')->middleware('permission:Boton_Entregar_Servicio');
+    Route::get('reporteserviciocliente', ReporteServicioClienteController::class)->name('reporteserviciocliente');
     /* SERVICIOS PDF */
     Route::get('reporte/pdf/{id}', [ImprimirController::class, 'print'])->middleware('permission:Imprimir_Orden_Servicio_Index');
     Route::group(['middleware' => ['permission:Reporte_Servicios_Export']], function () {
