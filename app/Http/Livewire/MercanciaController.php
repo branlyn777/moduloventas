@@ -19,6 +19,7 @@ use App\Models\SaleDetail;
 use App\Models\SaleLote;
 use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
+use App\Models\User;
 use Livewire\Component;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class MercanciaController extends Component
 
     use WithPagination;
     use WithFileUploads;
-    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,$op_selected,
+    public  $fecha,$buscarproducto=0,$selected,$registro,$tipo_de_operacion,$qq,$lotecantidad,$op_selected,$almacen,$usuario,
     $archivo,$operacion,$search,$mensaje_toast,$costo,$ajuste,$sm,$concepto,$destino,$detalle,$tipo_proceso,$col,$destinosucursal,$observacion,$cantidad,$result,$arr,$id_operacion,$destino_delete,$nextpage,$fromDate,$toDate;
     private $pagination = 15;
 
@@ -130,12 +131,6 @@ class MercanciaController extends Component
         $this->op_selected=null;
 }
 
-    
- 
-
-
-   
-
 public function ver($id){
   
     if ($this->op_selected =='entrada' or $this->tipo_de_operacion =='Inicial') {
@@ -146,21 +141,30 @@ public function ver($id){
             $val->pv=Lote::find($val->lote_id)->pv_lote;
           
         }
-        $this->observacion=IngresoProductos::find($id)->observacion;
+
+        $query=IngresoProductos::find($id);
+        $this->observacion=$query->observacion;
+        $this->almacen=Destino::find($query->destino)->nombre;
+        $this->usuario=User::find($query->user_id)->name;
         $this->emit('show-detail');
       
     }
     if ($this->op_selected =='salida') {
         $this->detalle= DetalleSalidaProductos::where('id_salida',$id)->select('detalle_salida_productos.*')->get();
-       
-        $this->observacion=SalidaProductos::find($id)->observacion;
+       $query=SalidaProductos::find($id);
+        $this->observacion=$query->observacion;
+        $this->almacen=Destino::find($query->destino)->nombre;
+        $this->usuario=User::find($query->user_id)->name;
         $this->emit('show-detail');
         $this->ajuste=$id;
     }
 
     if ($this->tipo_de_operacion =='Ajuste') {
         $this->detalle= DetalleAjustes::where('id_ajuste',$id)->get();
-        $this->observacion=Ajustes::find($id)->observacion;
+        $query=Ajustes::find($id);
+        $this->observacion=$query->observacion;
+        $this->almacen=Destino::find($query->destino)->nombre;
+        $this->usuario=User::find($query->user_id)->name;
         $this->emit('show-detail');
         $this->ajuste=$id;
     }

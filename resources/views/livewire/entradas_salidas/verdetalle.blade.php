@@ -1,6 +1,6 @@
 <div wire:ignore.self class="modal fade" id="verdetalle" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Detalle de
@@ -10,7 +10,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card-body px-0 pb-0">
+
+                <div class="d-flex">
+                    <div class="me-auto">
+                        <label>Almacen:{{$almacen}}</label>
+                    </div>
+                    <div class="p-2">
+                        <label>Usuario:{{$usuario}}</label>
+                    </div>
+                </div>
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
@@ -33,7 +41,7 @@
                                                             {{ $loop->index + 1 }}
                                                         </td>
                                                         <td style="text-align: left">
-                                                            {{ $dc->productos->nombre }}
+                                                            {{ $dc->productos->nombre }}({{$dc->productos->codigo}})
                                                         </td>
                                                         <td>
                                                             {{ $dc->tipo == 'positiva' ? $dc->recuentofisico - $dc->diferencia : $dc->recuentofisico + $dc->diferencia }}
@@ -70,7 +78,7 @@
                                                             {{ $loop->index + 1 }}
                                                         </td>
                                                         <td style="text-align: left">
-                                                            {{ $dc->productos->nombre }}
+                                                            {{ $dc->productos->nombre }}({{$dc->productos->codigo}})
                                                         </td>
                                                         <td>
                                                             {{ $dc->cantidad }}
@@ -109,7 +117,7 @@
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td style="text-align: left">
-                                                        {{ $dc->productos->nombre }}
+                                                        {{ $dc->productos->nombre }}({{$dc->productos->codigo}})
                                                     </td>
                                                     <td>
                                                         {{ $dc->cantidad }}
@@ -131,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
             <div class="text-center" style="color: black; font-size: 13px">
                 <b>Observación: {{ $observacion == null ? 'Ninguna observacion' : $observacion }}</b>

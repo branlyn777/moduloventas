@@ -107,9 +107,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 
-
-
-
     /* TIGO MONEY */
     Route::get('origenes', OrigenController::class)->name('origen')->middleware('permission:Origen_Index');
     Route::get('motivos', MotivoController::class)->name('motivo')->middleware('permission:Motivo_Index');
