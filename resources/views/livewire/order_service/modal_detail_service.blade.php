@@ -10,13 +10,6 @@
                 </button>
             </div>
             <div class="modal-body">
-              {{-- <div class="row">
-                <div class="col-12 text-center">
-                  <div class="btn-service PENDIENTE">
-                    SERVICIO PENDIENTE
-                  </div>
-                </div>
-              </div> --}}
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="numbers">
@@ -105,6 +98,19 @@
                                     </span>
                                 </div>
                             </ul>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-4">
+
+                            </div>
+                            <div class="col-4 text-center">
+                                <a href="informetecnico/pdf/{{$this->id_service}}" target="_blank" class="btn-edit-deliver">
+                                    Informe Técnico
+                                </a>
+                            </div>
+                            <div class="col-4">
+
+                            </div>
                         </div>
                     </div>
                 </div>

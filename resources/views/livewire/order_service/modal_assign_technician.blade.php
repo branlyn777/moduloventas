@@ -16,47 +16,42 @@
         </div>
 
         <br>
-
-        <table class="table-style">
-          <thead>
-            <tr class="text-center">
-              <th class="text-uppercase text-xs">#</th>
-              <th class="text-uppercase text-xs">Nombre</th>
-              <th class="text-uppercase text-xs">Seleccionar</th>
-              <th class="text-uppercase text-xs">Terminados</th>
-            </tr>
-          </thead>
-          <tbody>
-            @if($this->list_user_technicial)
-              @foreach($this->list_user_technicial as $u)
-              <tr>
-                <td class="text-center">
-                  <span class="text-sm">
-                    {{$loop->iteration}}
-                  </span>
-                </td>
-                <td>
-                  <span class="text-sm">
-                    {{$u->name}}
-                  </span>
-                </td>
-                <td class="text-center">
-                  <button wire:click.prevent="select_responsible_technician({{$this->id_service}}, {{$u->id}})" class="btn">
-                    <span class="text-sm">
-                      +
-                    </span>
-                  </button>
-                </td>
-                <td class="text-center">
-                  <span class="text-sm">
-                    @mdo
-                  </span>
-                </td>
+        <div class="table-style table-height">
+          <table>
+            <thead>
+              <tr class="text-center">
+                <th class="text-uppercase text-xs">#</th>
+                <th class="text-uppercase text-xs">Nombre</th>
+                <th class="text-uppercase text-xs">Seleccionar</th>
               </tr>
-              @endforeach
-            @endif
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @if($this->list_user_technicial)
+                @foreach($this->list_user_technicial as $u)
+                <tr>
+                  <td class="text-center">
+                    <span class="text-sm">
+                      {{$loop->iteration}}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="text-sm">
+                      {{$u->name}} - {{$u->profile}}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button wire:click.prevent="select_responsible_technician({{$this->id_service}}, {{$u->id}})" class="btn">
+                      <span class="text-sm">
+                        +
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+                @endforeach
+              @endif
+            </tbody>
+          </table>
+        </div>
         <br>
         <br>
       </div>

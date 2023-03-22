@@ -24,6 +24,15 @@ class UserSeeder extends Seeder
             'image' => 'user_admin.png'
         ]);
         User::create([
+            'name' => 'Usuario Fantasma',
+            'phone' => '00000000',
+            'email' => 'sistemaf@gmail.com',
+            'profile' => 'Sistema',
+            'status' => 'ACTIVE',
+            'password' => bcrypt('emanuel'),
+            'image' => 'user_admin.png'
+        ]);
+        User::create([
             'name' => 'Armando',
             'phone' => '60778498',
             'email' => 'juan@gmail.com',
@@ -32,11 +41,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('emanuel'),
             'image' => 'user_admin.png'
         ]);
+        //4
         User::create([
             'name' => 'Samuel',
             'phone' => '75975652',
             'email' => 'rosa@gmail.com',
-            'profile' => 'Administrador',
+            'profile' => 'Cajero',
             'status' => 'ACTIVE',
             'password' => bcrypt('emanuel'),
             'image' => 'user_admin.png'
@@ -105,6 +115,15 @@ class UserSeeder extends Seeder
             'image' => 'user_admin.png'
         ]);
         User::create([
+            'name' => 'Juan Mamani',
+            'phone' => 'Juan Mamani',
+            'email' => 'correo55@mail.com',
+            'profile' => 'Administrador',
+            'status' => 'ACTIVE',
+            'password' => bcrypt('emanuel'),
+            'image' => 'user_admin.png'
+        ]);
+        User::create([
             'name' => 'Luis Gonzalo Garey Tito',
             'phone' => '',
             'email' => 'correo6@mail.com',
@@ -123,7 +142,7 @@ class UserSeeder extends Seeder
             'image' => 'user_admin.png'
         ]);
         User::create([
-            'name' => 'Gery Arcenio Agreda Colque',
+            'name' => 'Patricio',
             'phone' => '',
             'email' => 'correo8@mail.com',
             'profile' => 'Administrador',

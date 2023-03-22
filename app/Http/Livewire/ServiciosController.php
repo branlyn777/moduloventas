@@ -99,7 +99,6 @@ class ServiciosController extends Component
         if (strlen($this->search) > 0)
         {
             $client = Cliente::distinct()
-            ->where("clientes.estado","ACTIVO")
             ->where(function ($query) {
             $query->where('clientes.nombre', 'like', '%' . $this->search . '%')
                     ->orWhere('clientes.cedula', 'like', '%' . $this->search . '%');

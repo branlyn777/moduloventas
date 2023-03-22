@@ -41,8 +41,11 @@
         .table-style {
             width: 100%;
             /* Altura de ejemplo */
-            /* height: 600px; */
+            /* height: 300px; */
             overflow: auto;
+        }
+        .table-height {
+            height: 300px;
         }
 
         .table-style table {
@@ -308,7 +311,7 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            <label>Sucursal</label>
+                            {{-- <label>Sucursal</label> --}}
                             {{-- <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -330,12 +333,12 @@
                         <div class="col-3">
                             <label>Estado Servicio</label>
                             <select wire:model="status_service_table" class="form-select">
+                                <option value="TODOS">TODOS</option>
                                 <option value="PENDIENTE">PENDIENTE</option>
                                 <option value="PROCESO">PROCESO</option>
                                 <option value="TERMINADO">TERMINADO</option>
                                 <option value="ENTREGADO">ENTREGADO</option>
-                                <option value="ANULADO">ANULADO</option>
-                                <option value="TODOS">TODOS</option>
+                                {{-- <option value="ANULADO">ANULADO</option> --}}
                             </select>
                         </div>
                     </div>
@@ -367,8 +370,7 @@
                                                 <tr>
                                                     <td class="text-center">
                                                         <span class="text-sm">
-                                                            {{-- {{ ($service_orders->currentpage() - 1) * $service_orders->perpage() + $loop->index + 1 }} --}}
-                                                            {{-- {{ $loop->index + 1 }} --}}
+                                                            {{ $loop->index + 1 }}
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
@@ -384,17 +386,19 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a wire:click.prevent="modify_order_service({{$so->code}})" href="" class="dropdown-item">
+                                                                <a wire:click.prevent="modify_order_service({{$so->code}})" class="dropdown-item">
                                                                     Modificar
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item">
-                                                                    Anular
+                                                                {{-- <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item"> --}}
+                                                                <a onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
+                                                                        Anular
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#">
+                                                                {{-- <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#"> --}}
+                                                                <a onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
                                                                     Eliminar
                                                                 </a>
                                                             </li>
@@ -548,36 +552,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- {{ $service_orders->links() }} --}}
-                @if ($service_orders->count() >= $this->pagination)
-                <div class="pagination">
-                
-                    <a href="{{ url('ordenesservicios') }}" class="page-link">Primero</a>
-
-                    @if ($service_orders->currentPage() > 1)
-                        <a class="page-link" href="{{ $service_orders->previousPageUrl() }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    @endif
-                
-                    <ul class="pagination justify-content-center">
-                        @foreach ($service_orders->getUrlRange(max($service_orders->currentPage() - 2, 1), min($service_orders->currentPage() + 2, $service_orders->lastPage())) as $page => $url)
-                            @if ($page == $service_orders->currentPage())
-                                <li class="page-item active"><span class="page-link text-white">{{ $page }}</span></li>
-                            @else
-                                <li class="page-item"><a href="{{ $url }}" class="page-link">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                
-                    @if ($service_orders->currentPage() < $service_orders->lastPage())
-                        <a class="page-link" href="{{ $service_orders->nextPageUrl() }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                    @endif
-                
-                    <a href="{{ $service_orders->lastPage() }}" class="page-link">Último</a>
-                </div>
+                @if ($service_orders->count() > 0)
+                    {{ $service_orders->links() }}
                 @endif
             </div>
         </div>
@@ -707,11 +683,57 @@
                     });
             });
 
-        });
 
-        function updateService() {
+            //Mostrar Mensaje de tipo toast
+            window.livewire.on('message-toast', event => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'success',
+                    title: @this.message_toast,
+                    padding: '2em',
+                })
+            });
+
+            
+
+
+        });
+        //Emite un evento para actualizar un servicio
+        function updateService()
+        {
             var mark = document.getElementById('product-input').value;
             window.livewire.emit('updateservice', mark)
+        }
+        //Lanza una alerta para eliminar o anular un servicio
+        function Confirm(code, nameclient, type)
+        {
+            swal({
+                title: '¿' + type + ' la Órden de Servicio "' + code + '"?',
+                text: "Cliente: " + nameclient,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: type + ' Servicio',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value)
+                {
+                    if(type == "Anular")
+                    {
+                        window.livewire.emit('annularservice', code)
+                    }
+                    else
+                    {
+                        window.livewire.emit('deleteservice', code)
+                    }
+                }
+            })
         }
     </script>
 @endsection

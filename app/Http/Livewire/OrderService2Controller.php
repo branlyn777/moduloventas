@@ -27,7 +27,7 @@ class OrderService2Controller extends Component
 {   
     //Guarda el numero de paginacion de la tabla ordenes de servicio
     public $pagination;
-    //Guarda los elementos de busqueda en la tabla principal
+    //Guarda una lista de posibles usuarios tecnicos responsables
     public $list_user_technicial;
     //Guarda el coódigo(id) de una orden de servicio
     public $id_order_service;
@@ -47,6 +47,8 @@ class OrderService2Controller extends Component
     public $list_marks;
     //Guarda un tipo de servcio (PENDIENTE, PROCESO, TERMINADO, ENTREGADO) para la ventana modal detalle servicio
     public $status_service;
+    //Guarda el mensaje que se vera en un toast
+    public $message_toast;
 
     //Variebles para los filtros
     public $search, $status_service_table;
@@ -65,9 +67,10 @@ class OrderService2Controller extends Component
     public function mount()
     {
         $this->status_service_table = "TODOS";
-        $this->pagination = 50;
+        $this->pagination = 10;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
+        //Guarda true si el usuario realizó corte de caja
         $this->box_status = false;
     }
     public function render()
@@ -89,28 +92,23 @@ class OrderService2Controller extends Component
             }
             else
             {
-                //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
-                // $service_orders = OrderService::select(
-                //     "order_services.id as code",
-                //     "order_services.created_at as reception_date",
-                //     DB::raw("'{$this->status_service_table}' as services"),
-                //     DB::raw("0 as client")
-                // )
-                // ->where("order_services.status", "ACTIVO")
-                // ->orderBy("order_services.id", "desc")
-                // ->paginate($this->pagination);
-
-
-                $service_orders = OrderService::select(
-                    "order_services.id as code",
-                    "order_services.created_at as reception_date",
-                    DB::raw("'{$this->status_service_table}' as services"),
-                    DB::raw("0 as client")
-                )
-                ->where("order_services.status", "ACTIVO")
-                ->orderBy("order_services.id", "desc")
+                $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
+                ->join("movimientos as m","m.id","ms.movimiento_id")
+                ->join("order_services as os","os.id","services.order_service_id")
+                ->select(
+                        "os.id as code",
+                        "os.created_at as reception_date",
+                        "m.type as estado_movimiento",
+                        DB::raw("0 as services"),
+                        DB::raw("0 as client")
+                    )
+                ->where("m.type", $this->status_service_table)
+                ->where("os.status", "ACTIVO")
+                ->where("m.status", "ACTIVO")
+                ->distinct()
+                ->orderBy("os.id", "desc")
                 ->paginate($this->pagination);
-                
+
             }
         }
         else
@@ -130,17 +128,17 @@ class OrderService2Controller extends Component
             ->where("order_services.status", "ACTIVO")
             ->where("order_services.id", $this->search)
             ->orwhere('c.nombre', 'like', '%' . $this->search . '%')
+            ->orwhere('c.celular', 'like', '%' . $this->search . '%')
+            ->orwhere('c.telefono', 'like', '%' . $this->search . '%')
             ->orWhere('s.detalle', 'like', '%' . $this->search . '%')
             ->distinct()
             ->orderBy("order_services.id", "desc")
             ->paginate($this->pagination);
         }
 
-
-
         foreach ($service_orders as $so)
         {
-            if($so->services == "0")
+            if($this->status_service_table == "TODOS")
             {
                 //Obtener los servicios de la orden de servicio
                 $so->services = $this->get_service_order_detail($so->code);
@@ -148,29 +146,11 @@ class OrderService2Controller extends Component
             else
             {
                 //Obtener los servicios de la orden de servicio
-                $so->services = $this->get_service_order_detail_type($so->code,$so->services);
+                $so->services = $this->get_service_order_detail_type($so->code,$this->status_service_table);
             }
             //Obtener el nombre del cliente
             $so->client = $this->get_client($so->code);
         }
-        
-        
-        foreach ($service_orders as $key => $order)
-        {
-            if ($order->services->count() == 0)
-            {
-                // Eliminar la fila usando el método 'forget' de la instancia de paginación
-                $service_orders->forget($key);
-                break;
-            }
-        }
-
-        // if($this->status_service_table != "TODOS")
-        // {
-        //     dd($service_orders);
-        // }
-        
-
 
         return view("livewire.order_service.orderservice2", [
             "service_orders" => $service_orders,
@@ -245,8 +225,7 @@ class OrderService2Controller extends Component
         ->select("u.*","m.type as type")
         ->where("mov_services.service_id", $idservice)
         ->where("m.status", "ACTIVO")
-        ->where("m.type","<>", "PENDIENTE")
-        ->where("m.type","<>", "ENTREGADO")
+        ->whereNotIn("m.type", ["PENDIENTE", "ENTREGADO"])
         ->orderBy("m.id", "desc")
         ->get();
 
@@ -263,7 +242,7 @@ class OrderService2Controller extends Component
 
         return $technician = $technician->first();
     }
-    // Obtiene Técnico Receptor a travéz del id de un servicio
+    // Obtiene nombre Técnico Receptor a travéz del id de un servicio
     public function get_receiving_technician($idservice)
     {
         $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
@@ -624,6 +603,7 @@ class OrderService2Controller extends Component
     public function show_modal_detail(Service $service)
     {
         $this->id_order_service = $service->order_service_id;
+        $this->id_service = $service->id;
 
         //Obteniendo detalles del cliente
         $client = $this->get_client($service->order_service_id);
@@ -659,88 +639,6 @@ class OrderService2Controller extends Component
         session(['od' => $orderservice->id]);
         session(['tservice' => $orderservice->type_service]);
         $this->redirect('service');
-    }
-    //Anula una orden de servico
-    public function annular_service(OrderService $orderservice)
-    {
-        foreach ($orderservice->services as $s)
-        {
-            //Verificando que la orden de servicio no tenga servicios con estado TERMINADO o ENTREGADO
-            foreach ($s->movservices as $mm)
-            {
-                if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
-                {
-                    $this->emit('delivered-finished');
-                    return;
-                }
-            }
-            //Si la orden de servicio cumple con la condición anterior se anula todo
-            foreach ($s->movservices as $mm)
-            {
-                if ($mm->movs->status == 'ACTIVO')
-                {
-                    $mm->movs->update([
-                        'type' => 'ANULADO',
-                        'status' => 'INACTIVO'
-                    ]);
-                    $mm->movs->save();
-                }
-            }
-        }
-        $orderservice->update([
-            'status' => 'INACTIVO'
-        ]);
-        $orderservice->save();
-    }
-    //Elimina totalmente un servicio con sus tablas relacionadas
-    public function delete_service(OrderService $orderservice)
-    {
-        DB::beginTransaction();
-        try
-        {
-            $delete = true;
-            foreach ($orderservice->services as $s)
-            {
-                foreach ($s->movservices as $mm)
-                {
-                    if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
-                    {
-                        $delete = false;
-                        break;
-                    }
-                }
-                if($delete)
-                {
-                    foreach ($s->movservices as $mm)
-                    {
-                        $mm->movs->climov->delete();
-                        $movimiento = $mm->movs;
-                        $mm->delete();
-                        $movimiento->delete();
-                    }
-                    $s->delete();
-                }
-            }
-
-            if($delete)
-            {
-                $orderservice->delete();
-                $this->emit('orden-eliminado');
-            }
-            else
-            {
-                $this->emit("delivered-finished");
-            }
-
-            DB::commit();
-
-        }
-        catch (Exception $e)
-        {
-            DB::rollback();
-            dd($e->getMessage());
-            $this->emit('item-error', 'ERROR' . $e->getMessage());
-        }
     }
     //Actualiza detalles generales de un servicio
     public function update_service_deliver()
@@ -798,7 +696,9 @@ class OrderService2Controller extends Component
         $this->emit("hide-edit-service-deliver");
     }
     protected $listeners = [
-        'updateservice' => 'update_service'
+        'updateservice' => 'update_service',
+        'annularservice' => 'annular_service',
+        'deleteservice' => 'delete_service'
     ];
     //Actualiza detalles generales de un servicio
     public function update_service($mark)
@@ -860,5 +760,91 @@ class OrderService2Controller extends Component
         ]);
         $service->save();
         $this->emit("hide-edit-service");
+    }
+    //Anula una orden de servico
+    public function annular_service(OrderService $orderservice)
+    {
+        foreach ($orderservice->services as $s)
+        {
+            //Verificando que la orden de servicio no tenga servicios con estado TERMINADO o ENTREGADO
+            foreach ($s->movservices as $mm)
+            {
+                if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
+                {
+                    $this->emit('delivered-finished');
+                    return;
+                }
+            }
+            //Si la orden de servicio cumple con la condición anterior se anula todo
+            foreach ($s->movservices as $mm)
+            {
+                if ($mm->movs->status == 'ACTIVO')
+                {
+                    $mm->movs->update([
+                        'type' => 'ANULADO',
+                        'status' => 'INACTIVO'
+                    ]);
+                    $mm->movs->save();
+                }
+            }
+        }
+        $orderservice->update([
+            'status' => 'INACTIVO'
+        ]);
+        $orderservice->save();
+        $this->message_toast = "¡Todos los servicios de la Órden N: " . $orderservice->id . " fueron anulados!";
+        $this->emit("message-toast");
+    }
+    //Elimina totalmente un servicio con sus tablas relacionadas
+    public function delete_service(OrderService $orderservice)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $delete = true;
+            foreach ($orderservice->services as $s)
+            {
+                foreach ($s->movservices as $mm)
+                {
+                    if(($mm->movs->status == 'ACTIVO') && ($mm->movs->type == 'TERMINADO' || $mm->movs->type == 'ENTREGADO'))
+                    {
+                        $delete = false;
+                        break;
+                    }
+                }
+                if($delete)
+                {
+                    foreach ($s->movservices as $mm)
+                    {
+                        $mm->movs->climov->delete();
+                        $movimiento = $mm->movs;
+                        $mm->delete();
+                        $movimiento->delete();
+                    }
+                    $s->delete();
+                }
+            }
+
+            if($delete)
+            {
+                $orderservicebackup = $orderservice;
+                $orderservice->delete();
+                $this->message_toast = "¡Todos los servicios de la Órden N: " . $orderservicebackup->id . " fueron eliminados!";
+                $this->emit("message-toast");
+            }
+            else
+            {
+                $this->emit("delivered-finished");
+            }
+
+            DB::commit();
+
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            dd($e->getMessage());
+            $this->emit('item-error', 'ERROR' . $e->getMessage());
+        }
     }
 }

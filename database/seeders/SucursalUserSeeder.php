@@ -14,7 +14,7 @@ class SucursalUserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=1; $i < 6; $i++)
+        for ($i=1; $i < 40; $i++)
         { 
             SucursalUser::create([
                 'user_id' => $i,
