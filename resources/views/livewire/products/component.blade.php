@@ -194,7 +194,7 @@
                     <div class="table-responsive">
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-container">
-                                <table class="" id="products-list">
+                                <table class="table align-items-center mb-4" id="products-list">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
