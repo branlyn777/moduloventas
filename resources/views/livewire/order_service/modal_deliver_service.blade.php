@@ -23,10 +23,16 @@
                 <div class="col-6">
                     <label>Precio Servicio:</label>
                     <input wire:model.lazy="s_price" type="number" class="form-control">
+                    @error('s_price')
+                        <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-6">
                     <label>Dejado a Cuenta:</label>
                     <input wire:model.lazy="s_on_account" type="number" class="form-control">
+                    @error('s_on_account')
+                        <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="row">

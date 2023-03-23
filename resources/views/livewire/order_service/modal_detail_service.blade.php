@@ -29,7 +29,8 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <h6 class="mb-0">{{ $this->s_cps }} {{ $this->s_mark }} {{ $this->s_model_detail }}
+                                <h6 class="mb-0">
+                                    {{$this->s_name_type_work}} {{ $this->s_cps }} {{ $this->s_mark }} {{ $this->s_model_detail }}
                                 </h6>
                             </div>
                             <div class="col-md-12">
@@ -95,21 +96,23 @@
                                     </h6>
                                     <span class="text-sm">
                                         {{ $this->s_solution }}
+                                        <br>
                                     </span>
                                 </div>
                             </ul>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-4">
-
+                            <div class="col-2 text-center">
+                                
                             </div>
-                            <div class="col-4 text-center">
-                                <a href="informetecnico/pdf/{{$this->id_service}}" target="_blank" class="btn-edit-deliver">
+                            <div class="col-8 text-center">
+                                <a href="informetecnico/pdf/{{$this->id_service}}" target="_blank" class="btn-formless-technical">
                                     Informe Técnico
                                 </a>
+                                <p class="text-xs mt-2">Tipo de Servicio: {{$this->s_name_type_service}}</p>
                             </div>
-                            <div class="col-4">
-
+                            <div class="col-2 text-center">
+                                
                             </div>
                         </div>
                     </div>

@@ -51,8 +51,6 @@
         .table-style table {
             border-collapse: separate;
             border-spacing: 0;
-            border-left: 0.3px solid #dbdbdb;
-            border-bottom: 0.3px solid #dbdbdb;
             width: 100%;
         }
 
@@ -64,8 +62,6 @@
         }
 
         .table-style table thead th {
-            border-top: 0.3px solid #dbdbdb;
-            border-right: 0.3px solid #dbdbdb;
             padding-top: 3px;
             padding-bottom: 10px;
         }
@@ -79,40 +75,26 @@
 
 
 
-
-
         .table-style table thead tr {
             background: #ffffff;
             color: rgb(0, 0, 0);
         }
 
         .table-style table td {
-            border-top: 0.3px solid #dbdbdb;
-            border-right: 0.3px solid #dbdbdb;
+            /* border-top: 0.3px solid #ffffff;
+            border-right: 0.3px solid #ffffff; */
         }
 
         /* Estilos para el codigo de servicio */
         .code {
-            padding-top: 0.3px;
-            padding-bottom: 0.5px;
-            padding-left: 4px;
-            padding-right: 4px;
+            padding-top: 1.5px;
+            padding-bottom: 2.5px;
+            padding-left: 6px;
+            padding-right: 6px;
             background-color: #5e72e4;
             color: white;
             border-radius: 3px;
             cursor: pointer;
-        }
-
-        /*Estilos para el precio del servicio*/
-        .price {
-            padding-top: 0.3px;
-            padding-bottom: 0.5px;
-            padding-left: 4px;
-            padding-right: 4px;
-            background-color: #f37500;
-            color: rgb(255, 255, 255);
-            border-radius: 3px;
-            font-size: 15px;
         }
         /* Estilos para la columna detalle de la tabla principal */
         .detail-service {
@@ -245,6 +227,86 @@
             border-color: #004585;
             transform: translateY(-2px);
         }
+        .btn-formless-technical {
+            background-color: #0043d4;
+            cursor: pointer;
+            color: white;
+            border-color: #0043d4;
+            border-radius: 7px;
+            padding: 4px;
+        }
+        .btn-formless-technical:hover {
+            background-color: #145bf3;
+            color: #ffffff;
+            transition: all 0.4s ease-out;
+            border-color: #00a8db;
+            padding: 4px;
+            transform: translateY(-4px);
+        }
+
+
+
+        /* Definición de estilo del botón */
+        .button {
+        background-color: #4CAF50; /* color de fondo */
+        border: none; /* borde sin estilo */
+        color: white; /* color de texto */
+        padding: 12px 24px; /* padding interno */
+        text-align: center; /* centrar texto */
+        text-decoration: none; /* sin subrayado */
+        display: inline-block; /* mostrar como bloque */
+        font-size: 16px; /* tamaño de letra */
+        margin: 4px 2px; /* margen exterior */
+        cursor: pointer; /* cursor al pasar por encima */
+        transition-duration: 0.3s; /* duración de la transición */
+        }
+
+        /* Efecto hover */
+        .button:hover {
+        background-color: #3e8e41; /* color de fondo al pasar por encima */
+        }
+
+        /* Efecto hover after */
+        .button:after {
+        content: "";
+        background-color: #4CAF50; /* color de fondo */
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: all 0.3s;
+        }
+
+        .button:hover:after {
+        opacity: 1;
+        }
+
+        /* Efecto hover before */
+        .button:before {
+        content: "";
+        background-color: #4CAF50; /* color de fondo */
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        opacity: 0;
+        transition: all 0.3s;
+        }
+
+        .button:hover:before {
+        width: 100%;
+        opacity: 1;
+        }
+
+
+
+
+
 
 
         /* Estilos para la lista de marcas disponibles a elegir en la ventana modal editar */
@@ -321,7 +383,7 @@
                             </div> --}}
                         </div>
                         <div class="col-3">
-                            <label>Categoria</label>
+                            {{-- <label>Categoria</label> --}}
                             {{-- <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -350,17 +412,17 @@
                         <div class="table-style">
                             <table>
                                 <thead>
-                                    <tr class="text-center">
+                                    <tr>
                                         <th class="text-uppercase text-xs">#</th>
-                                        <th class="text-uppercase text-xs">Código</th>
+                                        <th class="text-uppercase text-xs pe-3">Código</th>
                                         <th class="text-uppercase text-xs">Fecha Recepción</th>
                                         <th class="text-uppercase text-xs">Fecha Estimada Entrega</th>
-                                        <th class="text-uppercase text-xs">Responsable Técnico</th>
+                                        <th class="text-uppercase text-xs ps-3">Responsable Técnico</th>
                                         <th class="text-uppercase text-xs">Servicios</th>
-                                        <th class="text-uppercase text-xs">Precio</th>
-                                        <th class="text-uppercase text-xs">Técnico Receptor</th>
-                                        <th class="text-uppercase text-xs">Estado</th>
-                                        <th class="text-uppercase text-xs">Editar</th>
+                                        <th class="text-uppercase text-xs text-end">Precio</th>
+                                        <th class="text-uppercase text-xs ps-4">Técnico Receptor</th>
+                                        <th class="text-uppercase text-xs ps-3">Estado</th>
+                                        <th class="text-uppercase text-xs ps-4">Editar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -370,10 +432,10 @@
                                                 <tr>
                                                     <td class="text-center">
                                                         <span class="text-sm">
-                                                            {{ $loop->index + 1 }}
+                                                            1
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="pe-3">
                                                         <span class="text-sm code dropdown-toggle pointer"
                                                             id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
@@ -386,27 +448,27 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a wire:click.prevent="modify_order_service({{$so->code}})" class="dropdown-item">
+                                                                <a href="" wire:click.prevent="modify_order_service({{$so->code}})" class="dropdown-item">
                                                                     Modificar
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 {{-- <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item"> --}}
-                                                                <a onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
+                                                                <a href="" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
                                                                         Anular
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 {{-- <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#"> --}}
-                                                                <a onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
+                                                                <a href="" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
                                                                     Eliminar
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <span class="text-sm">
-                                                            <b>{{ $so->client->nombre }}</b>
+                                                            <b>{{ $so->client->nombre }}</b> 
                                                         </span>
                                                         <br>
                                                         <span class="text-sm">
@@ -418,12 +480,12 @@
                                                             {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="ps-3">
                                                         <span class="text-sm">
                                                             {{ $s->responsible_technician }}
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <div wire:click.prevent="show_modal_detail({{$s->idservice}})" class="detail-service">
                                                             <span class="text-sm">
                                                                 {{ $s->name_cps }} {{ $s->mark }}
@@ -433,22 +495,22 @@
                                                             </span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <span class="text-sm price">
-                                                            {{ number_format($s->price_service, 2, ',', '.') }} Bs
+                                                    <td class="text-end">
+                                                        <span class="text-sm">
+                                                            <b>{{ number_format($s->price_service, 2, ',', '.') }}</b>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="ps-4">
                                                         <span class="text-sm">
                                                             {{ $s->receiving_technician }}
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="ps-3">
                                                         <button wire:click.prevent="filter_type({{ $s->idservice }}, '{{ $s->type }}')" class="btn-service {{ $s->type }}">
                                                             {{ $s->type }}
                                                         </button>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="ps-4">
                                                         <button wire:click.prevent="filter_edit({{ $s->idservice }}, '{{ $s->type }}')" class="{{ $s->type != 'ENTREGADO' ? 'btn-edit' : 'btn-edit-deliver' }} text-sm">
                                                             EDITAR
                                                         </button>
@@ -549,12 +611,12 @@
                                     @endif
                                 </tbody>
                             </table>
+                            @if ($service_orders->count() > 0)
+                                {{ $service_orders->links() }}
+                            @endif
                         </div>
                     </div>
                 </div>
-                @if ($service_orders->count() > 0)
-                    {{ $service_orders->links() }}
-                @endif
             </div>
         </div>
     </div>

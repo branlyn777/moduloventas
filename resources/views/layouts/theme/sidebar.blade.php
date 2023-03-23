@@ -220,7 +220,7 @@
                             </a>
                         </li>
                         <li class=@yield('ordenservicioli', 'nav-item ')>
-                            <a class=@yield('ordenservicionav', 'nav-link ') href="{{ url('orderservice') }}">
+                            <a class=@yield('ordenservicionav', 'nav-link ') href="{{ url('ordenesservicios') }}">
                                 <span class="sidenav-mini-icon"> O </span>
                                 <span class="sidenav-normal"> Orden de Servicio </span>
                             </a>

@@ -29,6 +29,9 @@
                 <div class="col-6">
                     <label>Precio:</label>
                     <input wire:model.lazy="s_price" type="number" class="form-control">
+                    @error('s_price')
+                        <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-6">
                     <label>Técnico Responsable:</label>
@@ -49,6 +52,9 @@
                 <div class="col-8">
                     <label>Motivo Costo:</label>
                     <input wire:model.lazy="s_cost_detail" type="text" class="form-control">
+                    @error('s_cost_detail')
+                        <span class="text-danger text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

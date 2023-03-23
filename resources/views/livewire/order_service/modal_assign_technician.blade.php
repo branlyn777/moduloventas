@@ -34,7 +34,7 @@
                       {{$loop->iteration}}
                     </span>
                   </td>
-                  <td>
+                  <td class="ps-4">
                     <span class="text-sm">
                       {{$u->name}} - {{$u->profile}}
                     </span>

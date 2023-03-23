@@ -222,8 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
     Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
     Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
-    Route::get('orderservice', OrderServiceController::class)->name('os')->middleware('permission:Orden_Servicio_Index');
-    Route::get('ordenesservicios', OrderService2Controller::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
+    Route::get('ordenesservicios', OrderServiceController::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
     // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
     Route::get('idorderservice/{id}', [OrderServiceController::class, 'buscarid'])->name('buscarid')->middleware('permission:Orden_Servicio_Index');
     Route::get('abrirnuevo/{id}', [OrderServiceController::class, 'abrirventana'])->name('abrirventana')->middleware('permission:Orden_Servicio_Index');
