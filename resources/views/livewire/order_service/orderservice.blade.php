@@ -341,6 +341,38 @@
             background-color: #5e72e4;
             color: white;
         }
+
+        /* Estilos para l loading */
+        .loader {
+            width: 100%;
+            height: 4.8px;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            }
+            .loader::after {
+            content: '';  
+            width: 96px;
+            height: 4.8px;
+            background: #5e72e4;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            animation: hitZak 0.6s ease-in-out infinite alternate;
+            }
+
+            @keyframes hitZak {
+            0% {
+                left: 0;
+                transform: translateX(-1%);
+            }
+            100% {
+                left: 100%;
+                transform: translateX(-99%);
+            }
+        }
+                
     </style>
 @endsection
 <div>
@@ -407,13 +439,14 @@
                 </div>
             </div>
             <div class="card mb-4">
+                <span wire:loading class="loader"></span>
                 <div class="card-body p-4">
                     <div class="">
                         <div class="table-style">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-xs">#</th>
+                                        <th class="text-uppercase text-xs pe-3">#</th>
                                         <th class="text-uppercase text-xs pe-3">Código</th>
                                         <th class="text-uppercase text-xs">Fecha Recepción</th>
                                         <th class="text-uppercase text-xs">Fecha Estimada Entrega</th>
@@ -430,9 +463,9 @@
                                         @foreach ($service_orders as $so)
                                             @foreach ($so->services as $s)
                                                 <tr>
-                                                    <td class="text-center">
+                                                    <td class="text-center pe-3">
                                                         <span class="text-sm">
-                                                            1
+                                                            {{$so->number}}
                                                         </span>
                                                     </td>
                                                     <td class="pe-3">
@@ -467,7 +500,7 @@
                                                         </ul>
                                                     </td>
                                                     <td>
-                                                        <span class="text-sm">
+                                                        <span class="text-uppercase text-sm">
                                                             <b>{{ $so->client->nombre }}</b> 
                                                         </span>
                                                         <br>

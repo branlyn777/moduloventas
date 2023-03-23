@@ -16,7 +16,7 @@
                           <div class="box-detail {{$this->status_service}}">
                             SERVICIO {{$this->status_service}}
                           </div>
-                            <h5 class="font-weight-bolder">
+                            <h5 class="text-uppercase font-weight-bolder">
                                 {{ $this->s_client_name }}
                             </h5>
                             <p class="mb-0">

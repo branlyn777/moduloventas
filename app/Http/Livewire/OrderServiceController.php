@@ -84,7 +84,8 @@ class OrderServiceController extends Component
                     "order_services.id as code",
                     "order_services.created_at as reception_date",
                     DB::raw("0 as services"),
-                    DB::raw("0 as client")
+                    DB::raw("0 as client"),
+                    DB::raw("0 as number")
                 )
                 ->where("order_services.status", "ACTIVO")
                 ->orderBy("order_services.id", "desc")
@@ -100,7 +101,8 @@ class OrderServiceController extends Component
                         "os.created_at as reception_date",
                         "m.type as estado_movimiento",
                         DB::raw("0 as services"),
-                        DB::raw("0 as client")
+                        DB::raw("0 as client"),
+                        DB::raw("0 as number")
                     )
                 ->where("m.type", $this->status_service_table)
                 ->where("os.status", "ACTIVO")
@@ -113,29 +115,37 @@ class OrderServiceController extends Component
         }
         else
         {
+            if(strlen($this->search) == 1 || strlen($this->search) == 2)
+            {
+                $this->gotoPage(1);
+            }
             //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
-            $service_orders = OrderService::join("services as s","s.order_service_id","order_services.id")
-            ->join("mov_services as ms","ms.service_id", "s.id")
+            $service_orders = Service::join("order_services as os","os.id","services.order_service_id")
+            ->join("mov_services as ms","ms.service_id", "services.id")
             ->join("movimientos as m","m.id", "ms.movimiento_id")
             ->join("cliente_movs as cm","cm.movimiento_id", "m.id")
             ->join("clientes as c","c.id", "cm.cliente_id")
             ->select(
-                "order_services.id as code",
-                "order_services.created_at as reception_date",
+                "os.id as code",
+                "os.created_at as reception_date",
                 DB::raw("0 as services"),
-                DB::raw("0 as client")
+                DB::raw("0 as client"),
+                DB::raw("0 as number")
             )
-            ->where("order_services.status", "ACTIVO")
-            ->where("order_services.id", $this->search)
+            ->where("os.status", "ACTIVO")
+            ->where("os.id", $this->search)
             ->orwhere('c.nombre', 'like', '%' . $this->search . '%')
             ->orwhere('c.celular', 'like', '%' . $this->search . '%')
             ->orwhere('c.telefono', 'like', '%' . $this->search . '%')
-            ->orWhere('s.detalle', 'like', '%' . $this->search . '%')
+            ->orWhere('services.detalle', 'like', '%' . $this->search . '%')
             ->distinct()
-            ->orderBy("order_services.id", "desc")
-            ->paginate($this->pagination);
+            ->orderBy("os.id", "desc")
+            ->paginate(200);
+
         }
 
+
+        $row_number = ($service_orders->currentPage() - 1) * $service_orders->perPage();
         foreach ($service_orders as $so)
         {
             if($this->status_service_table == "TODOS")
@@ -150,6 +160,12 @@ class OrderServiceController extends Component
             }
             //Obtener el nombre del cliente
             $so->client = $this->get_client($so->code);
+
+
+            //Poniendo la numeración para la paginación
+            $row_number++;
+            $so->number = $row_number;
+
         }
 
         return view("livewire.order_service.orderservice", [
@@ -624,6 +640,15 @@ class OrderServiceController extends Component
         ]);
         $motion->save();
 
+        //Actualizando el saldo de cartera
+        $wallet = Cartera::find($this->s_id_wallet);
+        $balance_wallet = $wallet->saldocartera + $this->s_price + $this->s_on_account;
+        $wallet->update([
+            'saldocartera' => $balance_wallet
+        ]);
+        $wallet->save();
+
+
         $this->emit("hide-deliver-service");
     }
     //Muestra una ventana modal con los detalles de un servicio
@@ -669,7 +694,7 @@ class OrderServiceController extends Component
         session(['tservice' => $orderservice->type_service]);
         $this->redirect('service');
     }
-    //Actualiza detalles generales de un servicio
+    //Actualiza detalles generales de un servicio ENTREGADO
     public function update_service_deliver()
     {
         $rules = [
@@ -690,6 +715,9 @@ class OrderServiceController extends Component
         }
         // Actualizando saldo, a cuenta, precio y usuario técnico del servicio
         $motion_deliver = Movimiento::find($this->get_details_Service($this->id_service)->idmotion);
+        //Guardando el precio del servicio anterior
+        $previous_price = $motion_deliver->import;
+        //Actualizando
         $motion_deliver->update([
             'saldo' => $this->s_price - $this->s_on_account,
             'on_account' => $this->s_on_account,
@@ -697,12 +725,29 @@ class OrderServiceController extends Component
         ]);
         $motion_deliver->save();
 
+
+        
+
+
         //Cambiando el tipo de pago
         $movement_wallet = CarteraMov::where("cartera_movs.movimiento_id",$motion_deliver->id)->first();
+        //Guardando el id de la cartera anterior
+        $walletid = $movement_wallet->cartera_id;
+        //Actualizando
         $movement_wallet->update([
             'cartera_id' => $this->s_id_wallet
         ]);
         $movement_wallet->save();
+
+
+        
+        //Disminuyendo
+        $wallet_previus = Cartera::find($walletid);
+        $balance_wallet = $wallet_previus->saldocartera - $previous_price;
+        $wallet_previus->update([
+            'saldocartera' => $balance_wallet
+        ]);
+        $wallet_previus->save();
 
         if($this->s_cost == null)
         {
@@ -725,6 +770,17 @@ class OrderServiceController extends Component
             'user_id' => $this->s_id_user_technicial
         ]);
         $motion_terminated->save();
+
+
+
+
+         //Aumentando
+         $wallet = Cartera::find($this->s_id_wallet);
+         $balance_wallet = $wallet->saldocartera + $this->s_price + $this->s_on_account;
+         $wallet->update([
+             'saldocartera' => $balance_wallet
+         ]);
+         $wallet->save();
 
         $this->emit("hide-edit-service-deliver");
     }

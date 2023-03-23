@@ -205,7 +205,7 @@ class ServiciosController extends Component
         session(['od' => null]);
         session(['clie' => null]);
         session(['tservice' => null]);
-        $this->redirect('orderservice');
+        $this->redirect('ordenesservicios');
     }
     //Store de Agregar Servicio
     public function Store()
@@ -762,7 +762,7 @@ class ServiciosController extends Component
             $this->emit("crear-comprobante");
 
             // $this->emit("hide-fastservice");
-            $this->redirect('orderservice');
+            $this->redirect('ordenesservicios');
             // $this->emit("hide-fastservice");
         }
         catch (Exception $e)
