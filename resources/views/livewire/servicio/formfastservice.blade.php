@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="">Total</label>
                             <div class="input-group">
-                                <input type="text" wire:model.lazy="fs_import" class="form-control">
+                                <input type="number" wire:model.lazy="fs_import" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,6 @@
                         <div class="form-group">
                             <label for="">Responsable Técnico</label>
                             <select class="form-select" wire:model="fs_technical_support">
-                                <option value="Elegir">Elegir</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach

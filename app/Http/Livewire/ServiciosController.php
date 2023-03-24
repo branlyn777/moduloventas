@@ -52,7 +52,8 @@ class ServiciosController extends Component
     {
         //Servicio Rapido
         $this->fs_kind_of_team = "Elegir";
-        $this->fs_technical_support = "Elegir";
+        $this->fs_technical_support = Auth()->user()->id;
+        $this->fs_solution = "Revisión";
 
 
         //-------------------

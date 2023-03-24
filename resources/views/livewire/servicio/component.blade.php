@@ -1,3 +1,40 @@
+@section('migaspan')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm">
+                <a class="text-white" href="javascript:;">
+                    <i class="ni ni-box-2"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+                    href="{{ url('') }}">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0 text-white">Ordenes de Servicios</h6>
+    </nav>
+@endsection
+
+@section('serviciocollapse')
+    nav-link
+@endsection
+
+@section('servicioarrow')
+    true
+@endsection
+
+@section('ordenservicionav')
+    "nav-link active"
+@endsection
+
+@section('servicioshow')
+    "collapse show"
+@endsection
+
+@section('ordenservicioli')
+    "nav-item active"
+@endsection
+
+
 @section('css')
     <style>
         /* Estilos para las tablas */
@@ -156,16 +193,19 @@
                                 <b>Tipo de servicio: </b> {{ $typeservice }}
                             </span>
                         </div>
-                        <div class="col-2">
-                            
-                        </div>
-                        <div class="col-2">
+                        <div class="col-2" style="text-align: right;">
                             <span class="me-2 text-sm">
                                 @if (!empty(session('od')))
                                     <a class="btn btn-success mb-0"
                                         href="{{ url('reporte/pdf' . '/' . $orderservice) }}" target="_blank"
                                         wire:click="ResetSession">Guardar e Imprimir</a>
                                 @endif
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <span class="me-2 text-sm">
+                                <a class="btn btn-success mb-0"
+                                href="{{ url('ordenesservicios') }}" wire:click="ResetSession">Salir</a>
                             </span>
                         </div>
                     </div>
