@@ -23,6 +23,7 @@ class ComprasController extends Component
     use WithPagination;
     use WithFileUploads;
     public $pagination = 15;
+    public $paginationc = 15;
     public $fromDate,$toDate,
             $from,
             $to,
@@ -33,6 +34,7 @@ class ComprasController extends Component
             $fecha,
             $search,
             $datas_compras,
+            $compraprod,
             $totales,
             $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3;
 
@@ -44,6 +46,7 @@ class ComprasController extends Component
     {
         $this->nro=1;
         $this->pagination=15;
+        $this->paginationc=30;
         $this->filtro='Contado';
         $this->fecha='hoy';
         $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -55,7 +58,7 @@ class ComprasController extends Component
     }
     public function render()
     {
-      
+        $compraprod=null;
         $this->consultar();
         $datas_compras= Compra::join('users','compras.user_id','users.id')
         ->join('providers as prov','compras.proveedor_id','prov.id')
@@ -95,11 +98,13 @@ class ComprasController extends Component
 
         if ($this->search2 != null) {
 
-            $this->compraproducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+            $compraprod = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->where('products.nombre', 'like', '%' . $this->search2 . '%')
             ->select('compras.*','products.nombre','compra_detalles.cantidad',)
-            ->orderBy('compras.created_at','desc');
+            ->orderBy('compras.created_at','desc')
+            ->paginate($this->paginationc);
+           
         } 
         if ($this->search3 != null) {
      
@@ -115,7 +120,8 @@ class ComprasController extends Component
         ->get();
         return view('livewire.compras.component',
         [
-            'data_compras'=>$datas_compras->paginate($this->pagination), 
+            'data_compras'=>$datas_compras->paginate($this->pagination),
+            'compraproducto'=>$compraprod,
             'totales'=>$this->totales,
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios,

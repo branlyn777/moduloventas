@@ -67,7 +67,7 @@
 
                             <div class="flex-grow-1 ms-5">
                                 <label for="">Archivo Seleccionado</label>
-                                <input type="file" class="form-control mb-4" name="import_file"
+                                <input type="file" class="form-control mb-4" id="limpiar_archivo"
                                     wire:model.lazy="archivo" accept=".xls,.xlsx" wire:click='resetes()' />
                             </div>
 

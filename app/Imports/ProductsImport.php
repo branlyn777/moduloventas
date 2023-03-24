@@ -31,25 +31,21 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
         $product = new Product();
         $product->nombre = preg_replace('/\s+/', ' ', trim($row['nombre']));
-       // $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
+        // $product->costo = preg_replace('/\s+/', ' ',trim($row['costo']));
         // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio']));
-        $product->caracteristicas = preg_replace('/\s+/', ' ', trim($row['caracteristicas']??'s/c'));
+        $product->caracteristicas = preg_replace('/\s+/', ' ', trim($row['caracteristicas'] ?? 's/c'));
         $product->codigo = preg_replace('/\s+/', ' ', trim($row['codigo']));
         // $product->lote = preg_replace('/\s+/', ' ',trim($row['lote']));
         $product->lote = 0;
-        $product->unidad = preg_replace('/\s+/', ' ', trim($row['unidad']??'s/u'));
-        $product->marca = preg_replace('/\s+/', ' ', trim($row['marca']??'s/m'));
+        $product->unidad = preg_replace('/\s+/', ' ', trim($row['unidad'] ?? 's/u'));
+        $product->marca = preg_replace('/\s+/', ' ', trim($row['marca'] ?? 's/m'));
         $product->garantia = preg_replace('/\s+/', ' ', trim($row['garantia'] ?? 0));
-        $product->cantidad_minima = preg_replace('/\s+/', ' ', trim($row['cantidad_minima']??0));
-        $product->industria = preg_replace('/\s+/', ' ', trim($row['industria']??'s/i'));
-       // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio']));
-
+        $product->cantidad_minima = preg_replace('/\s+/', ' ', trim($row['cantidad_minima'] ?? 0));
+        $product->industria = preg_replace('/\s+/', ' ', trim($row['industria'] ?? 's/i'));
+        // $product->precio_venta = preg_replace('/\s+/', ' ',trim($row['precio']));
         $product->status = preg_replace('/\s+/', ' ', trim($row['status'] ?? 'ACTIVO'));
-
-
-
         if ($row['categoria'] == null) {
-            $product->category_id = $this->categories['No definido'];
+            $product->category_id = $this->categories['NO DEFINIDO'];
         } else {
             $auxi = Category::where('name', strtoupper($row['categoria']))->get();
             if (count($auxi) == 0) {
@@ -64,13 +60,11 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 $this->categories = Category::pluck('id', 'name');
             } else {
 
-                //dd($auxi);
                 $product->category_id = $this->categories[strtoupper($row['categoria'])];
             }
         }
 
         if ($row['subcategoria'] == null) {
-            
         } else {
             $auxi = Category::where('name', strtoupper($row['subcategoria']))->get();
 

@@ -382,7 +382,7 @@ class ProductsController extends Component
         $this->mensaje_toast = 'Producto Actualizado';
         $this->emit('product-updated', 'Producto Actualizado');
     }
-    protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently', 'EliminarSeleccionados'];
+    protected $listeners = ['deleteRow' => 'Destroy', 'deleteRowPermanently' => 'DestroyPermanently', 'EliminarSeleccionados','resetCampos'=>'resetImport'];
 
     /**
      * Elimina el producto y su imagen de la base de datos y la carpeta de almacenamiento.
@@ -617,7 +617,7 @@ class ProductsController extends Component
                 $this->failures = $e->failures();
             }
         } catch (Exception $e) {
-
+ 
             $this->emit('sin-archivo');
         }
     }
@@ -769,6 +769,11 @@ class ProductsController extends Component
 
     public function resetes()
     {
-        $this->failures = false;
+        $this->failures = null;
+    }
+
+    public function resetImport(){
+
+        $this->resetes();
     }
 }

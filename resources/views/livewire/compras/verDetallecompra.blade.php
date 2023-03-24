@@ -1,8 +1,10 @@
-<div wire:ignore.self class="modal fade" id="detalleCompra" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="detalleCompra" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Detalle de Compra Código: </h5>
+                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Detalle de
+                    Compra Código: </h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,33 +30,33 @@
                                             @foreach ($detalleCompra as $dc)
                                                 <tr class="text-center" style="font-size: 12px">
                                                     <td class="text-center">
-                                                        {{$loop->index+1}}
+                                                        {{ $loop->index + 1 }}
                                                     </td>
                                                     <td style="text-align: left">
-                                                        {{ $dc->productos->nombre}}
+                                                        {{ $dc->productos->nombre }}
                                                     </td>
-                                                    <td >
+                                                    <td>
                                                         {{ number_format($dc->precio, 2) }}
                                                     </td>
                                                     @if ($dc->compra->tipo_doc == 'FACTURA')
                                                         <td>
-                                                            {{ number_format(($dc->precio/0.87)*0.13*$dc->cantidad, 2) }}
+                                                            {{ number_format(($dc->precio / 0.87) * 0.13 * $dc->cantidad, 2) }}
                                                         </td>
                                                     @else
                                                         <td>
                                                             {{ number_format(0, 2) }}
                                                         </td>
                                                     @endif
-                                                        <td class="text-center">
-                                                            {{ $dc->cantidad }}
-                                                        </td>
+                                                    <td class="text-center">
+                                                        {{ $dc->cantidad }}
+                                                    </td>
                                                     @if ($dc->compra->tipo_doc == 'FACTURA')
                                                         <td>
-                                                            {{ number_format(($dc->precio * $dc->cantidad)/0.87, 2) }}
+                                                            {{ number_format(($dc->precio * $dc->cantidad) / 0.87, 2) }}
                                                         </td>
                                                     @else
                                                         <td>
-                                                            {{ number_format($dc->precio * $dc->cantidad,2)}}
+                                                            {{ number_format($dc->precio * $dc->cantidad, 2) }}
                                                         </td>
                                                     @endif
                                                 </tr>
@@ -62,7 +64,7 @@
                                         @else
                                             <p>nada</p>
                                         @endif
-                                    
+
                                     </tbody>
                                     <tfoot>
                                         <tr style="font-size: 13px">
@@ -83,11 +85,10 @@
                                             @if ($totalIva != null)
                                                 <td class="table-th text-withe text-right">
                                                     <b>
-                                                        {{number_format($totalIva,2)}}
+                                                        {{ number_format($totalIva, 2) }}
                                                     </b>
                                                 </td>
                                             @else
-                                                
                                                 <td class="text-center">
                                                     <b>
                                                         {{ number_format(0, 2) }}
@@ -96,16 +97,16 @@
                                             @endif
                                             <td class="text-center">
                                                 <b>
-                                                    {{$totalitems}}
+                                                    {{ $totalitems }}
                                                 </b>
                                             </td>
-                                        
-                                            <td  class="text-center">
-                                            
+
+                                            <td class="text-center">
+
                                                 <b>
-                                                    {{number_format( $compraTotal, 2) }}
+                                                    {{ number_format($compraTotal, 2) }}
                                                 </b>
-                                        
+
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -116,7 +117,7 @@
                 </div>
             </div>
             <div class="text-center" style="color: black; font-size: 13px">
-                <b>Observación: {{$observacion==null?'Ninguna observacion':$observacion}}</b>
+                <b>Observación: {{ $observacion == null ? 'Ninguna observacion' : $observacion }}</b>
             </div>
             <br>
         </div>

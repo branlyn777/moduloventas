@@ -56,10 +56,10 @@
                         </a>
                         @can('Reportes_Inventarios_Export')
                             <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
-                                {{-- <i class="fas fa-arrow-down"></i> --}} Importar
+                                {{-- <i class="fas fa-arrow-down"></i> --}} Importar Planilla
                             </button>
                             <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
-                                {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar
+                                {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar Planilla
                             </a>
                         @endcan
                     </div>
@@ -343,7 +343,9 @@
                 })
             });
             window.livewire.on('modal-import', msg => {
-                $('#modalimport').modal('show')
+                $('#modalimport').modal('show');
+                $("#limpiar_archivo").val('');
+                window.livewire.emit('resetCampos');
             });
 
             window.livewire.on('product-updated', Msg => {

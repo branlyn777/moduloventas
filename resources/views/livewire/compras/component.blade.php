@@ -242,7 +242,7 @@
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                     title="Exportar">
                                                     <i class="fas fa-print text-white" style="font-size: 14px"></i>
-                                            </a>
+                                                </a>
                                                 <button type="button" class="btn btn-danger"
                                                     wire:click="Confirm('{{ $data->id }}')"
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -280,9 +280,9 @@
             </div>
         </div>
     </div>
-    @include('livewire.compras.verDetallecompra')
     @include('livewire.compras.compra_producto')
-    @include('livewire.compras.producto_proveedor')
+    @include('livewire.compras.verDetallecompra')
+
 </div>
 
 <script>
