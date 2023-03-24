@@ -254,6 +254,16 @@ class OrderServiceController extends Component
             ->where("m.type", "TERMINADO")
             ->orderBy("m.id", "desc")
             ->get();
+            if($technician->count() == 0)
+            {
+                $technician = MovService::join("movimientos as m", "m.id","mov_services.movimiento_id")
+                ->join("users as u", "u.id", "m.user_id")
+                ->select("u.*","m.type as type")
+                ->where("mov_services.service_id", $idservice)
+                ->where("m.type", "PENDIENTE")
+                ->orderBy("m.id", "desc")
+                ->get();
+            }
         }
 
         return $technician = $technician->first();

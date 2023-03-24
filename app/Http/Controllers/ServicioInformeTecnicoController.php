@@ -57,7 +57,7 @@ class ServicioInformeTecnicoController extends Controller
         ->get()
         ->first();
 
-        $dia_mes_actual = Carbon::parse(Carbon::now())->format('d M Y');
+        $dia_mes_actual = Carbon::parse(Carbon::now())->format('d-m-Y');
         $year = Carbon::parse(Carbon::now())->format('Y');
 
         $nombreempresa = Company::find(1)->name;

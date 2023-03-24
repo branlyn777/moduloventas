@@ -7,14 +7,23 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        .mayus {
+            text-transform: uppercase;
+        }
+        .tablestyle {
+            border-spacing: 10px 20px;
+        }
+
+    </style>
 </head>
 
 <body>
     <table style="width: 100%;">
         <tbody>
             <tr>
-                <td class="text-center" style="font-size: 15px; width: 33%;">
-                    {{ strtoupper($nombreempresa) }}
+                <td class="text-center mayus" style="font-size: 15px; width: 33%;">
+                    {{ $nombreempresa }}
                     <br>
                     Sistema EDSOFT
                     <br>
@@ -50,7 +59,7 @@
 
                 </td>
                 <td class="text-center" style="font-size: 14px; width: 35%; ">
-                    Cochabamba, {{ $dia_mes_actual }} de {{ $year }}
+                    Cochabamba, {{ $dia_mes_actual }}
                     <br>
                     {{-- I.T.No: 6952/3913 --}}
                 </td>
@@ -77,14 +86,13 @@
 
         <div style="padding-left: 57px;">
 
-            <table class="table table-striped" style="font-size: 15px;">
+            <table class="table table-striped tablestyle" style="font-size: 15px;">
                 <tbody>
                     <tr>
                         <td class="text-center">
                             {{ ucwords(strtolower($detalles_extra->nombrecategoria)) }}
                             {{ ucwords(strtolower($datos_servicio->marca)) }}
-                            {{ $detalles_extra->detalle }} -
-                            {{ ucwords(strtolower($detalles_extra->tipotrabajo)) }}
+                            {{ $detalles_extra->detalle }}
 
                         </td>
                     </tr>
@@ -141,8 +149,8 @@
         </table>
 
         <br>
-        <div style="font-size: 15px;"">
-            {{ strtoupper($nombreempresa) }} | Cochabamba, {{ $dia_mes_actual }} de {{ $year }}
+        <div class="mayus" style="font-size: 15px;"">
+            {{ $nombreempresa }} | Cochabamba, {{ $dia_mes_actual }}
         </div>
 
     </div>

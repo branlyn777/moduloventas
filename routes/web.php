@@ -54,7 +54,6 @@ use App\Http\Livewire\ProcedenciaController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\NivelInventariosController;
 use App\Http\Livewire\NotificationInventoryController;
-use App\Http\Livewire\OrderService2Controller;
 use App\Http\Livewire\OrderServiceController;
 use App\Http\Livewire\ProvidersController;
 use App\Http\Livewire\ProximosController;

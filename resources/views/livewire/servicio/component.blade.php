@@ -177,7 +177,7 @@
                     <div class="table-responsive">
                         <table class="align-items-center mb-0" style="width: 100%;">
                             <thead>
-                                <tr class="bg-primary text-center text-white">
+                                <tr class="text-center">
                                     <th style="padding-top: 10px; padding-bottom: 10px;"
                                         class="text-uppercase text-xs font-weight-bolder">#</th>
                                     <th style="padding-top: 10px; padding-bottom: 10px;"
