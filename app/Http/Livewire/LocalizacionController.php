@@ -78,7 +78,7 @@ class LocalizacionController extends Component
                             ->take(3)
                             ->get();
     
-            //dd($this->arr);
+         
         }
        
             $data_subcategoria= Category::where('categories.categoria_padre',$this->categoria)
@@ -255,7 +255,6 @@ class LocalizacionController extends Component
         ->where('locations.id',$id)
         ->select('location_productos.*')
         ->get();
-        //dd($this->listaproductos->count());
         $this->emit('verprod');
     }
 

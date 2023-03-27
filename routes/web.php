@@ -25,6 +25,7 @@ use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
+use App\Http\Controllers\EstanteProductosController;
 use App\Http\Controllers\ExportMovDiaResController;
 use App\Http\Controllers\ExportMovDiaSesionController;
 use App\Http\Controllers\ExportMovimientoController;
@@ -34,6 +35,7 @@ use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\ComisionesController;
 use App\Http\Livewire\CotizationController;
 use App\Http\Livewire\KardexController;
+use App\Http\Livewire\ListaProductosEstanteController;
 use App\Http\Livewire\LocalizacionController;
 use App\Http\Livewire\MarcasController;
 use App\Http\Livewire\MercanciaController;
@@ -160,6 +162,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('marcas', MarcasController::class)->name('brands');
         Route::get('nivelinventarios', NivelInventariosController::class)->name('nivel_inventarios');
         Route::get('/kardex/productos/{id}',KardexController::class)->name('kardex-productos');
+        Route::get('/estante/listaproductos/{id}',ListaProductosEstanteController::class)->name('estante-productos');
     });
     Route::get('products', ProductsController::class)->name('productos');
     Route::group(['middleware' => ['permission:Transferencias']], function () {
@@ -182,6 +185,7 @@ Route::middleware(['auth'])->group(function () {
  
         Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
         Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
+        Route::get('estanteria/productos/pdf/{id}', [EstanteProductosController::class, 'estanteProductoPdf']);
         Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
         Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
         Route::get('productos/export/', [ProductsController::class, 'export']);

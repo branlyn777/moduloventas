@@ -10,8 +10,8 @@
             <th> INDUSTRIA</th>
             <th> CATEGORIA</th>
             <th> SUBCATEGORIA</th>
-            <th> COSTO</th>
-            <th> PRECIO VENTA</th>
+            <th> COSTO ACTIVO</th>
+            <th> PRECIO ACTIVO</th>
             <th> STATUS</th>
 
         </tr>

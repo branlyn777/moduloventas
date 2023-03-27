@@ -132,7 +132,7 @@
                                                             <i class="fas fa-eye"></i>
                                                         </a> --}}
 
-                                            <a href="javascript:void(0)" wire:click="ver({{ $location->id }})"
+                                            <a href="/estante/listaproductos/{{$location->id}}"
                                                 class="mx-3" title="Ver subcategorias">
                                                 <b class="mx-3">{{ $location->product->count() }}</b>
                                                 <i class="fas fa-eye" style="font-size: 14px"></i>
@@ -148,9 +148,13 @@
                                                 class="mx-3" title="Agregar Productos a este mobiliario">
                                                 <i class="fas fa-plus" style="font-size: 14px"></i>
                                             </a>
+                                            <a href="estanteria/productos/pdf/{{$location->id}}" target="_blank"
+                                                class="mx-3" title="Imprimir Productos por mobiliario">
+                                                <i class="fas fa-print" style="font-size: 14px"></i>
+                                            </a>
                                             <a href="javascript:void(0)"
                                                 onclick="Confirm('{{ $location->id }}','{{ $location->descripcion }}','{{ $location->product->count()}}')"
-                                                class="mx-3" title="Agregar Mobiliario">
+                                                class="mx-3" title="Eliminar Mobiliario">
                                                 <i class="fas fa-trash text-danger" style="font-size: 14px"></i>
                                             </a>
                                         </td>
