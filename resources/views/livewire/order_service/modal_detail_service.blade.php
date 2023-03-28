@@ -20,7 +20,7 @@
                                 {{ $this->s_client_name }}
                             </h5>
                             <p class="mb-0">
-                                {{ $this->s_client_cell }} {{ $this->s_client_phone }}
+                                @if($this->s_client_cell != "0") {{ $this->s_client_cell }} @endif @if($this->s_client_phone != "0") {{ $this->s_client_phone }} @endif
                             </p>
                         </div>
                     </div>

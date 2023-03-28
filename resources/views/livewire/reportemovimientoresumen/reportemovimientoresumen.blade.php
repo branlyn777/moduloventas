@@ -75,16 +75,11 @@
 <div>
     <div class="d-lg-flex" style="margin-bottom: 2.3rem">
         <h5 class="text-white" style="font-size: 16px">Movimientos Diarios </h5>
-
     </div>
-
     <div class="card">
         <div class="card-body">
-
             <div class="row">
-
                 <div class="col-12 col-sm-6 col-md-2">
-
                     @can('Reporte_Movimientos_General')
                         <div class="form-group">
                             <b class="">Sucursal</b>
@@ -98,7 +93,6 @@
                             </select>
                         </div>
                     @endcan
-
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
@@ -110,16 +104,12 @@
                                 </option>
                             @endforeach
                             <option value="TODAS">TODAS</option>
-
                         </select>
-
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
                     <div class="form-group">
-
                         <b class="">Fecha inicial</b>
-
                         <input type="date" wire:model="fromDate" class="form-control">
                         @error('fromDate')
                             <span class="text-danger">{{ $message }}</span>
@@ -133,7 +123,6 @@
                         @error('toDate')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2">
@@ -155,7 +144,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <br>
@@ -165,10 +153,8 @@
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <div class="accordion-header" id="headingTwo">
-
                         <div class="d-flex mb-3 mt-3 me-2">
                             <div class="me-auto p-2">
-
                                 <button class="collapsed btn btn-secondary px-2 py-3" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#collapseTwoventa" aria-expanded="false"
                                     aria-controls="collapseTwoventa">
@@ -191,15 +177,10 @@
                                 </label>
                             </div>
                         </div>
-
-
                     </div>
                     <div id="collapseTwoventa" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-
-
-
                             <div class="table-responsive text-dark">
                                 <table class="tablareporte">
                                     <thead>
@@ -612,9 +593,6 @@
             </div>
         </div>
     @endif
-
-
-
 
 
 
