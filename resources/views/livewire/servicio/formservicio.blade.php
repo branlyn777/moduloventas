@@ -58,7 +58,8 @@
                     <div class="col-lg-4 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>
-                                <span class="text-warning">* </span>Marca
+                                <span class="text-warning">* </span>
+                                Marca
                             </label>
                             <datalist id="colores">
                                 @foreach ($marcas as $cat)
@@ -72,6 +73,15 @@
                             @error('marc')
                                 <span class="text-danger er">{{ $message }}</span>
                             @enderror
+
+                            <br>
+
+
+                            <div class="product-search">
+                                <input required  type="text" id="product-input" class="form-control">
+                                <ul id="product-list"></ul>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-md-8">

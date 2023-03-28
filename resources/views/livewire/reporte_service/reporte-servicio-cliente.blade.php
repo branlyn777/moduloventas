@@ -47,7 +47,7 @@
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <button wire:click.prevent="generateexcel()" class="btn btn-success mb-0 text-white" type="button">
-                            Generar EXCEL
+                            Generar EXCEL2
                         </button>
                     </div>
                 </div>
