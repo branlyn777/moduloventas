@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Exports\ClientsReportExport;
+use App\Models\CatProdService;
 use App\Models\Cliente;
 use Livewire\Component;
 use App\Models\Customer;
@@ -15,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ReporteServicioClienteController extends Component
 { 
     use WithPagination;
-    public $listaprodencias, $dateFrom, $dateTo, $procedencia_id,$pagination;
+    public $listaprodencias,$listacategoria , $dateFrom, $dateTo, $procedencia_id,$pagination;
    
     public function paginationView()
     {
@@ -25,6 +26,7 @@ class ReporteServicioClienteController extends Component
     {
         $this->procedencia_id = "Todos";
         $this->listaprodencias = ProcedenciaCliente::all();
+        $this->listacategoria = CatProdService::all();
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->pagination = 100;
@@ -35,10 +37,15 @@ class ReporteServicioClienteController extends Component
         //fltro de procedencia 
         if ($this->procedencia_id == "Todos")
         {
-            $clients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id", "clientes.celular as celular")
-                ->select("clientes.*", "pc.procedencia as procedencia", "pc.created_at as created_at")
-                ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
-                ->paginate($this->pagination);
+            $clients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+            ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+            ->join("movimientos as m", "m.id", "cm.movimiento_id")
+            ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+            ->join("services as s", "s.id", "ms.service_id")
+            ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+            ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+            ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+            ->paginate($this->pagination);
         }
         else
         {
