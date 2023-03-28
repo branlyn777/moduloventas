@@ -20,7 +20,7 @@ class LocalizacionController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $sucursal, $codigo, $descripcion,$ubicacion, $tipo,$product,$product_name,
+    public $sucursal, $codigo, $descripcion,$ubicacion, $tipo,$product,$product_name,$selected_product,
     $selected_id, $categoria,$subcategoria,$location, $pageTitle, $componentName,$search,$search2,$destino,$listaproductos,$auxi=[],$arr,$vista,$data_prod_mob;
     private $pagination = 20;
     public $col,$selectedmob;
@@ -71,11 +71,10 @@ class LocalizacionController extends Component
         {
            
 
-            $this->data_prod_mob = Product::join('productos_destinos','productos_destinos.product_id','products.id')
-                            ->whereNotIn('products.id',$this->arr)
+            $this->data_prod_mob = Product::whereNotIn('products.id',$this->arr)
                             ->where('nombre', 'like', '%' . $this->search2 . '%')
                             ->orWhere('codigo','like','%'.$this->search2.'%')
-                            ->take(3)
+                            ->take(10)
                             ->get();
     
          
@@ -204,20 +203,6 @@ class LocalizacionController extends Component
     public function asignarMobiliario()
     {
         
-        // $rules = [
-        //     'product' => "required|not_in:Elegir|unique:location_productos,product,NULL,NULL,location,{$this->location}",
-        //     'location' => "required|not_in:Elegir|unique:location_productos,location,NULL,NULL,product,{$this->product}"
-        // ];
-        // $messages = [
-        //     'product.not_in' => 'Elija una opcion diferente de elegir',
-        //     'product.unique' => 'Este producto ya esta asignado a este mobiliario.',
-        //     'location.unique' => 'Este mobiliario ya esta asignado a este producto',
-        //     'location.required' => 'El nombre de tipo aparador es requerido'
-        // ];
-
-       
-
-        // $this->validate($rules, $messages);
 
 
          foreach ($this->col as $data) {
@@ -263,18 +248,18 @@ class LocalizacionController extends Component
         LocationProducto::where('location_productos.id',$id)->delete();
     }
 
-    public function addProd( Product $id){  
+    public function addProd( Product $product){  
+    $this->selected_product=$product->id;
 
-    $this->col->push(['product_id'=> $id->id,'product_name'=>$id->nombre,'product_codigo'=>$id->codigo]);
-    array_push($this->arr, $id->id);
+    $this->col->push(['product_id'=> $product->id,'product_name'=>$product->nombre,'product_codigo'=>$product->codigo]);
+    array_push($this->arr, $product->id);
     $this->search2=null;
    
-
     }
 
     public function asignaridmob($id){
 
-        $this->arr=[];
+        $this->resetAsignar();
         $this->selectedmob=$id;
         $this->location=$id;
         $loc=LocationProducto::where('location',$this->selectedmob)->get('product');
@@ -324,6 +309,12 @@ class LocalizacionController extends Component
         $nro=Location::where('tipo',$this->tipo)->count();
         $this->codigo= substr(strtoupper($this->tipo),0,3) .'-'.str_pad($nro+1,4,0,STR_PAD_LEFT);
 
+    }
+
+    public function resetAsignar(){
+        $this->arr=[];
+        $this->search2=null;
+        $this->data_prod_mob=null;
     }
 
 

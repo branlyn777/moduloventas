@@ -66,7 +66,7 @@
                                     @forelse ($data_prod_mob as $data_m)
                                         <tr>
                                             <td style="font-size: 0.9rem">
-                                                {{ $data_m->nombre }}
+                                                {{ $data_m->nombre }}({{$data_m->codigo}})
                                             </td>
                                             <td class="text-center">
                                                 <a wire:click="addProd({{ $data_m->id }})" class="btn btn-primary"

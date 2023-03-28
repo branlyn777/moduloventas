@@ -53,7 +53,7 @@
                 <thead class="text-white" style="background: #3d3d3d; color: aliceblue; ">
                     <tr>
                         <th colspan="2">Producto</th>
-                        <th>Cant.Total Almacen</th>
+                        <th>Total Almacen</th>
                         <th>Estantes relacionados</th>
                         <th>Cant. Estante</th>
                     </tr>
@@ -64,10 +64,10 @@
                         <td colspan="2">
                             {{ $item->nombre }}-({{$item->codigo}})
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $item->cantidad, 2}}
                         </td>
-                        <td class="ms-2">
+                        <td class="text-center">
                            @foreach ($item->otrosestantes as $estante)
                                 <li style="margin-left: 5px" >{{$estante->codigo}}</li>
                            @endforeach
