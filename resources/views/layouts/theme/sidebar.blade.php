@@ -243,6 +243,12 @@
                                 <span class="sidenav-normal"> Reporte Servicios Costos </span>
                             </a>
                         </li>
+                        <li class=@yield('reporteserviciocostoli', 'nav-item ')>
+                            <a class=@yield('ordenserviClinav', 'nav-link ') href="{{ url('reporteserviciocliente') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal"> Reporte Servicios Clientes </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
