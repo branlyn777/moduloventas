@@ -46,13 +46,9 @@
                 </div>
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                     
-
-                        {{-- <a class="btn btn-success mb-0 text-white" type="button"
-                            href="{{ url('reporteServicEntreg/pdf' . '/' . $reportType . '/' . $dateFrom . '/' . $dateTo . '/' . $sucursal . '/' . $sumaEfectivo . '/' . $sumaBanco . '/' . $caja) }}">Generar
-                            PDF</a> --}}
-                            <a class="btn btn-success mb-0 text-white" type="button" href="">Generar EXCEL</a>
-
+                        <button wire:click.prevent="generateexcel()" class="btn btn-success mb-0 text-white" type="button">
+                            Generar EXCEL
+                        </button>
                     </div>
                 </div>
 

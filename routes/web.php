@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\ClientsReportExport;
 use App\Http\Controllers\ExportSaleController;
 use App\Http\Livewire\AsignarController;
 use App\Http\Livewire\CajasController;
@@ -235,6 +236,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}/{f1}/{f2}', [ExportServicioPdfController::class, 'reporteServPDF']);
         Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}', [ExportServicioPdfController::class, 'reporteServPDF']);
     });
+    Route::get('reporteclientes/export/', [ClientsReportExport::class, 'export']);
     Route::get('informetecnico/pdf/{id}', [ServicioInformeTecnicoController::class, 'print']);
     Route::get('reporteServicEntreg/pdf/{type}/{f1}/{f2}/{sucursal}/{sE}/{sB}/{caja}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
     Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);

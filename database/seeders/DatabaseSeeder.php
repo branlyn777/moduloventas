@@ -51,16 +51,16 @@ class DatabaseSeeder extends Seeder
 
 
         //Factories
-       // Product::factory(10)->create();
-        // ProductosDestino::factory(10)->create()->each(function ($productodestino) {
-        //     $productodestino->ingresoproductos()->create([
-        //         'destino' => 1,
-        //         'user_id' => 1,
-        //         'concepto' => 'INGRESO',
-        //         'observacion' => 'INGRESO'
-        //     ]);
-        // });
-        //$this->call(ProductoDestino2Seeder::class);
-        // Cliente::factory(1000)->create();
+    //    Product::factory(10)->create();
+    //     ProductosDestino::factory(10)->create()->each(function ($productodestino) {
+    //         $productodestino->ingresoproductos()->create([
+    //             'destino' => 1,
+    //             'user_id' => 1,
+    //             'concepto' => 'INGRESO',
+    //             'observacion' => 'INGRESO'
+    //         ]);
+    //     });
+    //     $this->call(ProductoDestino2Seeder::class);
+        Cliente::factory(1000)->create();
     }
 }
