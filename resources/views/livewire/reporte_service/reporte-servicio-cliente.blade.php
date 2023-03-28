@@ -78,7 +78,7 @@
                                 <select wire:model="procedencia_id" class="form-select">
                                     <option value="Todos">todos los tipos</option>
                                     @foreach ($this->listacategoria as $ca)
-                                        <option value="{{ $ca->id }}">{{ $ca->nombrecps }}</option>
+                                        <option value="{{ $ca->id }}">{{ $ca->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>

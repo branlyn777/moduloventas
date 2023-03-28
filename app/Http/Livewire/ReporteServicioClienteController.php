@@ -52,6 +52,7 @@ class ReporteServicioClienteController extends Component
             $clients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id", "clientes.celular as celular")
                 ->select("clientes.*", "pc.procedencia as procedencia", "pc.created_at as created_at")
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->where("cps.id", $this->cat_prod_service_id)
                 ->where("pc.id", $this->procedencia_id)
                 ->paginate($this->pagination);
         }
