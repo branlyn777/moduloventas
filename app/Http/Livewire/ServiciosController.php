@@ -665,23 +665,6 @@ class ServiciosController extends Component
     //Guarda un servicio Rápido
     public function SaveFastService()
     {
-        $rules = [
-            'fs_kind_of_team' => 'required|not_in:Elegir',
-            'fs_mark' => 'required',
-            'fs_team_status' => 'required',
-            'fs_solution' => 'required',
-            'fs_import' => 'required',
-        ];
-        $messages = [
-            'fs_kind_of_team.not_in' => 'Debe Seleccionar',
-            'fs_mark.required' => 'Dato requerido.',
-            'fs_team_status.required' => 'Dato requerido.',
-            'fs_solution.required' => 'Dato requerido.',
-            'fs_import.required' => 'Dato requerido.',
-        ];
-        $this->validate($rules, $messages);
-
-
         //Busacndo el tipo de trabajo para Servicio Rápido, creandolo si no existe
         $type_work = TypeWork::where("type_works.name","Servicio Rápido")->get();
         if($type_work->count() > 0)

@@ -46,18 +46,18 @@
 <div>
     <div class="row">
         <div class="col-12">
-                <div class="d-lg-flex">
-                    <div>
-                        <h5 class="text-white" style="font-size: 16px">Lista de Usuarios</h5>
-                    </div>
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
+            <div class="d-lg-flex">
+                <div>
+                    <h5 class="text-white" style="font-size: 16px">Lista de Usuarios</h5>
+                </div>
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
 
-                            <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
-                                Nuevo Usuario</button>
-                        </div>
+                        <button wire:click="Agregar()" class="btn btn-add mb-0"> <i class="fas fa-plus me-2"></i>
+                            Nuevo Usuario</button>
                     </div>
                 </div>
+            </div>
             <br>
             <div class="card mb-4">
                 <div class="card-body">
