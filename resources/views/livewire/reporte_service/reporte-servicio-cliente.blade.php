@@ -46,9 +46,13 @@
                 </div>
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                        <button wire:click.prevent="generateexcel()" class="btn btn-success mb-0 text-white" type="button">
-                            Generar EXCEL2
-                        </button>
+                     
+
+                        {{-- <a class="btn btn-success mb-0 text-white" type="button"
+                            href="{{ url('reporteServicEntreg/pdf' . '/' . $reportType . '/' . $dateFrom . '/' . $dateTo . '/' . $sucursal . '/' . $sumaEfectivo . '/' . $sumaBanco . '/' . $caja) }}">Generar
+                            PDF</a> --}}
+                            <a class="btn btn-success mb-0 text-white" type="button" href="">Generar EXCEL</a>
+
                     </div>
                 </div>
 
@@ -64,6 +68,17 @@
                                     <option value="Todos">Todas las Precedencias</option>
                                     @foreach ($this->listaprodencias as $s)
                                         <option value="{{ $s->id }}">{{ $s->procedencia }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <h6>Tp. produc Service</h6>
+                            <div class="form-group">
+                                <select wire:model="procedencia_id" class="form-select">
+                                    <option value="Todos">todos los tipos</option>
+                                    @foreach ($this->listacategoria as $ca)
+                                        <option value="{{ $ca->id }}">{{ $ca->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -105,8 +120,10 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Clientes</th>
+                                        <th scope="col">estado</th>
                                         <th scope="col">Celulaar</th>
                                         <th scope="col">Procedencia</th>
+                                        <th scope="col">Categoria</th>
                                         <th scope="col">fecha de creacion</th>
 
                                     </tr>
@@ -129,11 +146,18 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                {{ $c->estado }}
+
+                                            </td>
+                                            <td>
                                                 {{ $c->celular }}
 
                                             </td>
                                             <td>
                                                 {{ $c->procedencia }}
+                                            </td>
+                                            <td>
+                                                {{ $c->nombrecps }}
                                             </td>
                                             <td>
                                                 {{ $c->created_at }}
