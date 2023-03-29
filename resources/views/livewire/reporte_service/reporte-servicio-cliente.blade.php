@@ -103,11 +103,11 @@
                         </div>
                         {{-- total --}}
                     
-                        <div class="card text-center " style="  border: 3px solid rgb(201, 199, 197);width: 8rem; height:6rem;text-align: left; margin-top: -8px;">                         
+                        <div class="card text-center " style="  border: 3px solid rgb(201, 199, 197);width: 12rem; height:6rem;text-align: left; margin-top: -8px;">                         
                             <div class="card-body">
                                 <div class="" style="">
                                     <h6 style="margin-top: -20px;color: #ff7300;">TOTAL</h6>
-                                    <h1 class="" style="color: #ff7300;  margin-top: -12px"> {{ $clients->total() }}</h1>
+                                    <h2 class="" style="color: #ff7300;  margin-top: -12px"> {{ $clients->total() }}</h2>
                                   
                                 </div>                              
                             

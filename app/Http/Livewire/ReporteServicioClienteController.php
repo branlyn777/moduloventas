@@ -30,7 +30,8 @@ class ReporteServicioClienteController extends Component
         $this->listacategoria = CatProdService::all();
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
-        $this->pagination = 100;
+        $this->pagination = 10;
+        
     }
 
     public function render()
@@ -47,6 +48,7 @@ class ReporteServicioClienteController extends Component
                 ->join("services as s", "s.id", "ms.service_id")
                 ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
                 ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+                
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
                 ->distinct()
                 ->paginate($this->pagination);
@@ -100,10 +102,6 @@ class ReporteServicioClienteController extends Component
             }
             dd($clients);
         }
-
-
-
-
         return view('livewire.reporte_service.reporte-servicio-cliente', [
             'clients' => $clients
         ])
