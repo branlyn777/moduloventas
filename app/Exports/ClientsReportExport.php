@@ -31,9 +31,8 @@ class ClientsReportExport implements FromCollection, WithHeadings, WithCustomSta
         ->join("mov_services as ms", "ms.movimiento_id", "m.id")
         ->join("services as s", "s.id", "ms.service_id")
         ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
-        ->select("clientes.id as id","clientes.nombre as nombre","clientes.celular as celular","pc.procedencia as procedencia","cps.nombre as cpsnombre","clientes.created_at as created_at")
+        ->select("clientes.id as id","clientes.nombre as nombre","clientes.celular as celular","pc.procedencia as procedencia","cps.nombre as nombre","clientes.created_at as created_at")
         ->whereBetween("clientes.created_at", [Carbon::parse($this->date_From)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->date_To)->format('Y-m-d')     . ' 23:59:59'])
-        ->where("clientes.estado","ACTIVO")
         ->get();
 
         foreach ($clients as $c)
