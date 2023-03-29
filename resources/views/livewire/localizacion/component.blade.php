@@ -126,13 +126,7 @@
                                             {{ $location->sucursal }}
                                         </td>
                                         <td>
-                                            {{-- <a href="javascript:void(0)" wire:click="ver({{$location->id}})"
-                                                            class="btn btn-info m-1 text-dark p-1" title="Ver subcategorias"> 
-                                                            <b class="pl-1">{{ $location->product->count()}}</b> 
-                                                            <i class="fas fa-eye"></i>
-                                                        </a> --}}
-
-                                            <a href="/estante/listaproductos/{{$location->id}}"
+                                            <a  href="{{ route('estante-productos', $location->id) }}"
                                                 class="mx-3" title="Ver subcategorias">
                                                 <b class="mx-3">{{ $location->product->count() }}</b>
                                                 <i class="fas fa-eye" style="font-size: 14px"></i>

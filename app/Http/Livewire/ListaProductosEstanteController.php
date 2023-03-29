@@ -35,18 +35,20 @@ class ListaProductosEstanteController extends Component
         return 'vendor.livewire.bootstrap';
     }
 
-
-
+   
     public function render()
     {
-         $listaproductos=Location::join('location_productos','location_productos.id','locations.id')
+         $listaproductos=Location::join('location_productos','location_productos.location','locations.id')
         ->join('products','products.id','location_productos.product')
         ->where('locations.id',$this->estante->id)
-        ->when($this->search != null, function ($query) {
-            $query->where('products.nombre', 'like', '%' . $this->search . '%')
-            ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
-        })
-        ->select('products.*',DB::raw('0 as cantidad'), DB::raw('0 as otrosestantes'))
+        ->where(function ($querys) {
+            $querys->where('locations.id',$this->estante->id)
+            ->when($this->search != null, function ($query) {
+                $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+        });
+    })
+    ->select('products.*',DB::raw('0 as cantidad'), DB::raw('0 as otrosestantes'))
         ->paginate($this->pagination);
 
         foreach ($listaproductos as $value) {
@@ -151,7 +153,7 @@ class ListaProductosEstanteController extends Component
     
                  LocationProducto::create([
                      'product'=>$data['product_id'],
-                     'location'=>$this->location
+                     'location'=>$this->estante->id
                  ]);
             }
     
@@ -172,6 +174,11 @@ class ListaProductosEstanteController extends Component
                  $this->col->pull($item);
     
     
+        }
+
+        public function resetUI(){
+            $this->search2=null;
+            $this->col=collect();
         }
     
 }

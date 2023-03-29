@@ -315,6 +315,7 @@ class LocalizacionController extends Component
         $this->arr=[];
         $this->search2=null;
         $this->data_prod_mob=null;
+        $this->col=collect();
     }
 
 
