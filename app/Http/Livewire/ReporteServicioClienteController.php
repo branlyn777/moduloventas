@@ -93,6 +93,7 @@ class ReporteServicioClienteController extends Component
                 ->where("pc.id", $this->procedencia_id)
                 ->paginate($this->pagination);
             }
+            dd($clients);
         }
 
 

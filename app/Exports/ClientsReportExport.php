@@ -26,7 +26,12 @@ class ClientsReportExport implements FromCollection, WithHeadings, WithCustomSta
         $cont = 0;
 
         $clients = Cliente::join("procedencia_clientes as pc", "pc.id","clientes.procedencia_cliente_id")
-        ->select("clientes.id as id","clientes.nombre as nombre","clientes.celular as celular","pc.procedencia as procedencia","clientes.created_at as created_at")
+        ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+        ->join("movimientos as m", "m.id", "cm.movimiento_id")
+        ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+        ->join("services as s", "s.id", "ms.service_id")
+        ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+        ->select("clientes.id as id","clientes.nombre as nombre","clientes.celular as celular","pc.procedencia as procedencia","cps.nombre as cpsnombre","clientes.created_at as created_at")
         ->whereBetween("clientes.created_at", [Carbon::parse($this->date_From)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->date_To)->format('Y-m-d')     . ' 23:59:59'])
         ->where("clientes.estado","ACTIVO")
         ->get();
@@ -40,7 +45,7 @@ class ClientsReportExport implements FromCollection, WithHeadings, WithCustomSta
     }
     public function headings(): array
     {
-        return ["ID","NOMBRE","CELULAR","PROCEDENCIA","FECHA CREACIÓN"];
+        return ["ID","NOMBRE","CELULAR","PROCEDENCIA","CATEGORIA","FECHA CREACIÓN"];
     }
     public function startCell(): string
     {
