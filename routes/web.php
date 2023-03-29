@@ -77,7 +77,6 @@ use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleReporteCantidadController;
 use App\Http\Livewire\SaleReportProductController;
-use App\Http\Livewire\ServicesController;
 use App\Http\Livewire\ServiciosController;
 use App\Http\Livewire\SesionesListaController;
 use App\Http\Livewire\SubCatProdServiceController;
@@ -223,7 +222,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
     Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
     Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
-    Route::get('nuevaordenservicio', ServicesController::class)->middleware('permission:Service_Index');
     Route::get('ordenesservicios', OrderServiceController::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
     // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
     Route::get('idorderservice/{id}', [OrderServiceController::class, 'buscarid'])->name('buscarid')->middleware('permission:Orden_Servicio_Index');

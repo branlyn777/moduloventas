@@ -160,6 +160,7 @@
 
     </style>
 @endsection
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -318,8 +319,8 @@
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="javascript:void(0)" wire:click="Edit({{ $item->id }})"
-                                                class="btn btn-primary btn-sm" title="Edit">
+                                            <a href="javascript:void(0)" wire:click.prevent="mostrareditar({{ $item->id }})"
+                                                class="btn btn-primary btn-sm" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             @if ($item->tipo != 'TERMINADO' && $item->tipo != 'ENTREGADO')
@@ -345,16 +346,6 @@
         @include('livewire.servicio.formclient')
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: 'Selecciona una opción',
-            allowClear: true
-        });
-    });
-</script>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -509,17 +500,5 @@
                 Swal.close()
             }
         })
-    }
-    function SelectClient(idcliente, idcelular, idtelefono)
-    {
-        var celular = document.getElementById(idcelular).value;
-        var telefono = document.getElementById(idtelefono).value;
-        
-        window.livewire.emit('selectclient', idcliente, celular, telefono)
-    }
-    function ClearNumbers(idcelular, idtelefono)
-    {
-        document.getElementById(idcelular).value = '';
-        document.getElementById(idtelefono).value = '';
     }
 </script>
