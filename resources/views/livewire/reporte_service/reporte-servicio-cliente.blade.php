@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white">OrdenServicioCliente</h6>
+        <h6 class="font-weight-bolder mb-0 text-white">Reporte Servicio Cliente</h6>
     </nav>
 @endsection
 
@@ -36,22 +36,23 @@
 @section('reporteserviciocostoli')
     "nav-item active"
 @endsection
+<style>
 
+
+</style>
 <div>
     <div class="row">
         <div class="col-12">
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px">Orden Servicio Cliente</h5>
+                    <h5 class=" text-white" style="font-size: 16px"><p>Reporte Servicio Cliente</p> </h5>
                 </div>
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
-                     
-
-                        {{-- <a class="btn btn-success mb-0 text-white" type="button"
-                            href="{{ url('reporteServicEntreg/pdf' . '/' . $reportType . '/' . $dateFrom . '/' . $dateTo . '/' . $sucursal . '/' . $sumaEfectivo . '/' . $sumaBanco . '/' . $caja) }}">Generar
-                            PDF</a> --}}
-                            <a class="btn btn-success mb-0 text-white" type="button" href="">Generar EXCEL</a>
+                    
+                        <button wire:click.prevent="generateexcel()" class="btn btn-success mb-0 text-white" type="button">
+                            Generar EXCEL
+                        </button>
 
                     </div>
                 </div>
@@ -75,7 +76,7 @@
                         <div class="col-12 col-sm-6 col-md-2">
                             <h6>Tp. produc Service</h6>
                             <div class="form-group">
-                                <select wire:model="procedencia_id" class="form-select">
+                                <select wire:model="categoria_id" class="form-select">
                                     <option value="Todos">todos los tipos</option>
                                     @foreach ($this->listacategoria as $ca)
                                         <option value="{{ $ca->id }}">{{ $ca->nombre }}</option>
@@ -95,13 +96,15 @@
                                 <input type="date" wire:model="dateTo" class="form-control">
                             </div>
                         </div>
-
-
                         <div class="col-12 col-sm-6 col-md-2">
                             <h4>TOTAL:</h4>
-                            <div class="form-group">
-                                <p> {{ $clients->total()}}</p>
-                            </div>
+                            <p> {{ $clients->total()}}</p>
+                            
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                
+                                <h1> {{ $clients->total()}}</h1>
+                            
                         </div>
                        
                         
@@ -162,7 +165,6 @@
                                             <td>
                                                 {{ $c->created_at }}
                                             </td>
-
                                         </tr>
                                     @endforeach
 
