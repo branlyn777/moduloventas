@@ -23,6 +23,9 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @error('fs_kind_of_team')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-6 col-sm-6 col-md-6">
@@ -36,9 +39,9 @@
                                 @endforeach
                             </datalist>
                             <input list="fs_marks" wire:model.lazy="fs_mark" name="colores" type="text" class="form-control">
-
-
-                            
+                            @error('fs_mark')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -50,6 +53,9 @@
                             <div class="input-group">
                                 <input type="text" wire:model.lazy="fs_team_status" class="form-control" placeholder="Ej: Huawei Y9 Prime Color Negro....">
                             </div>
+                            @error('fs_team_status')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     
@@ -59,6 +65,9 @@
                             <div class="input-group">
                                 <input type="text" wire:model.lazy="fs_solution" class="form-control" placeholder="Ej: No tiene Señal...">
                             </div>
+                            @error('fs_solution')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -71,6 +80,9 @@
                                 <input type="number" wire:model.lazy="fs_import" class="form-control">
                             </div>
                         </div>
+                        @error('fs_import')
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="col-12 col-sm-6 col-md-6">
                         <div class="form-group">

@@ -481,19 +481,19 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="" wire:click.prevent="modify_order_service({{$so->code}})" class="dropdown-item">
+                                                                <a href="#" wire:click.prevent="modify_order_service({{$so->code}})" class="dropdown-item">
                                                                     Modificar
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 {{-- <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item"> --}}
-                                                                <a href="" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
+                                                                <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
                                                                         Anular
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 {{-- <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#"> --}}
-                                                                <a href="" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
+                                                                <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
                                                                     Eliminar
                                                                 </a>
                                                             </li>
