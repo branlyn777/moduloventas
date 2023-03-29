@@ -29,7 +29,7 @@
 
                             </select>
                             @error('typeworkid')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -50,7 +50,7 @@
 
                             </select>
                             @error('catprodservid')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -58,19 +58,14 @@
                     <div class="col-lg-4 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label>
-                                <span class="text-warning">* </span>Marca
+                                <span class="text-warning">*</span>Marca
                             </label>
-                            <datalist id="colores">
-                                @foreach ($marcas as $cat)
-                                    @if ($cat->status == 'ACTIVE')
-                                        <option value="{{ $cat->name }}">{{ $cat->name }}</option>
-                                    @endif
-                                @endforeach
-                            </datalist>
-                            <input list="colores" wire:model.lazy="marc" name="colores" type="text"
-                                class="form-control">
+                            <div class="product-search">
+                                <input required  type="text" id="product-input" wire:model.lazy="marc" class="form-control">
+                                <ul id="product-list"></ul>
+                            </div>
                             @error('marc')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -82,7 +77,7 @@
                             <input type="text" wire:model.lazy="detalle" class="form-control"
                                 placeholder="ej: Note 7 con protector de pantalla">
                             @error('detalle')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -96,7 +91,7 @@
                             <input type="text" wire:model.lazy="falla_segun_cliente" class="form-control"
                                 placeholder="ej: No carga">
                             @error('falla_segun_cliente')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -109,7 +104,7 @@
                             <input type="text" wire:model.lazy="diagnostico" class="form-control"
                                 placeholder="ej: Revisión">
                             @error('diagnostico')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -122,7 +117,7 @@
                             <input type="text" wire:model.lazy="solucion" class="form-control"
                                 placeholder="ej: Revisión">
                             @error('solucion')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -134,7 +129,7 @@
                             </label>
                             <input type="number" wire:model="import" class="form-control" placeholder="ej: 0.0">
                             @error('import')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -145,7 +140,7 @@
                             </label>
                             <input type="number" wire:model="on_account" class="form-control" placeholder="ej: 0.0">
                             @error('on_account')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -158,7 +153,7 @@
                             <input type="number" wire:model.lazy="saldo" class="form-control" placeholder="ej: 0.0"
                                 disabled>
                             @error('saldo')
-                                <span class="text-danger er">{{ $message }}</span>
+                                <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -255,7 +250,7 @@
                                 @endif --}}
                                 </select>
                                 @error('opciones')
-                                    <span class="text-danger er">{{ $message }}</span>
+                                    <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         @endif
