@@ -48,7 +48,9 @@ class ReporteServicioClienteController extends Component
                 ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
                 ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->distinct()
                 ->paginate($this->pagination);
+             
             }
             else
             {
@@ -61,6 +63,7 @@ class ReporteServicioClienteController extends Component
                 ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
                 ->where("cps.id", $this->categoria_id)
+                ->distinct()
                 ->paginate($this->pagination);
             }
         }
@@ -77,6 +80,7 @@ class ReporteServicioClienteController extends Component
                 ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
                 ->where("pc.id", $this->procedencia_id)
+                ->distinct()
                 ->paginate($this->pagination);
             }
             else
@@ -91,6 +95,7 @@ class ReporteServicioClienteController extends Component
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
                 ->where("cps.id", $this->categoria_id)
                 ->where("pc.id", $this->procedencia_id)
+                ->distinct()
                 ->paginate($this->pagination);
             }
             dd($clients);

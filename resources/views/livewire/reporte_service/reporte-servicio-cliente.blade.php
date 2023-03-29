@@ -96,13 +96,18 @@
                                 <input type="date" wire:model="dateTo" class="form-control">
                             </div>
                         </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            
+                            <div class="form-group">  
+                            </div>
+                        </div>
                         {{-- total --}}
                     
-                        <div class="card text-center bg-warning bg-opacity-30" style="  border: 3px solid rgb(129, 56, 7);width: 8rem; height:6rem;text-align: left; margin-top: -8px;">                         
+                        <div class="card text-center " style="  border: 3px solid rgb(201, 199, 197);width: 8rem; height:6rem;text-align: left; margin-top: -8px;">                         
                             <div class="card-body">
                                 <div class="" style="">
-                                    <h6 style="margin-top: -20px;color: #FFFFFF;">TOTAL</h6>
-                                    <h1 class="" style="color: #FFFFFF;  margin-top: -12px"> {{ $clients->total() }}</h1>
+                                    <h6 style="margin-top: -20px;color: #ff7300;">TOTAL</h6>
+                                    <h1 class="" style="color: #ff7300;  margin-top: -12px"> {{ $clients->total() }}</h1>
                                   
                                 </div>                              
                             
