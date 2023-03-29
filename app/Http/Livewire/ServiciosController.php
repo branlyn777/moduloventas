@@ -41,7 +41,7 @@ class ServiciosController extends Component
     //Guarda el id del cliente para el servicio
     public $client_id;
 
-    public $name_client;
+    public $name_client, $list_marks;
 
 
     public function paginationView()
@@ -661,6 +661,13 @@ class ServiciosController extends Component
     public function ShowModalFastService()
     {
         $this->emit("show-fastservice");
+    }
+    //Muestra una ventana modal para agregar un servicio
+    public function modalswhow()
+    {
+        $this->list_marks = SubCatProdService::where("status", "ACTIVE")->orderBy('name', 'asc')->get();
+        $this->emit('marks-loaded', $this->list_marks);
+        $this->emit('modal-show');
     }
     //Guarda un servicio Rápido
     public function SaveFastService()
