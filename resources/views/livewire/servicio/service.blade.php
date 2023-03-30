@@ -69,11 +69,11 @@
             <div class="row justify-content-between">
                 <div class="col-12 col-md-3">
                     <h6>Cliente</h6>
-                    <span class="text-sm">{{$this->client->nombre}}</span>
+                    <span class="text-sm">{{ $this->client_name  }}</span>
                 </div>
                 <div class="col-12 col-md-3">
                     <h6>Celular</h6>
-                    <span class="text-sm">{{$this->client->celular}}</span>
+                    <span class="text-sm">{{ $this->client_cell }}</span>
                 </div>
                 <div class="col-12 col-md-3">
                     <h6></h6>
@@ -143,4 +143,20 @@
             </div>
         </div>
     </div>
+    @include('livewire.servicio.modal_service')
 </div>
+@section('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+            window.livewire.on('show-service', Msg => {
+                $('#modalservice').modal('show')
+            });
+            window.livewire.on('hide-service', Msg => {
+                $('#modalservice').modal('hide')
+            });
+
+        });
+    </script>
+@endsection

@@ -11,30 +11,40 @@ use Livewire\Component;
 class ServiceController extends Component
 {
     //Datos del Cliente
-    public $client;
+    public $client_name,$client_cell;
     //Guarda una lista de servicios de la Órden de Servicio
     public $list_services;
+    //Guarda el código de la Órden de Servicio
+    public $code;
 
     public function mount()
     {
+        $this->code = session('od');
 
+        
+        $client = $this->get_client($this->code);
+        $this->client_name = $client->nombre;
+        $this->client_cell = $client->celular;
+
+
+
+
+
+
+        // if (session()->has('od') && is_numeric(session('od')))
+        // {
+        //     // hacer algo si la variable de sesión existe y tiene un número como valor
+            
+        // }
+        // else
+        // {
+        //     dd("Crear");
+        // }
     }
     public function render()
     {
-        
-        if (session()->has('od') && is_numeric(session('od')))
-        {
-            // hacer algo si la variable de sesión existe y tiene un número como valor
-            $this->client = $this->get_client(session('od'));
-            $this->list_services = $this->get_service_order_detail(session('od'));
-        }
-        else
-        {
-            dd("Crear");
-        }
-
+        $this->list_services = $this->get_service_order_detail($this->code);
         $asd = "";
-
         return view('livewire.servicio.service', [
             'asd' => $asd
         ])
@@ -59,8 +69,7 @@ class ServiceController extends Component
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
         ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
-        ->select("services.id as idservice","services.created_at as created_at", 
-        DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
+        ->select("services.id as idservice","services.created_at as created_at",
         "m.import as price_service","m.type as type","m.on_account as on_account","m.saldo as balance",
         "cps.nombre as name_cps",
         'services.marca as mark','services.detalle as detail',
@@ -135,6 +144,6 @@ class ServiceController extends Component
     //Muestra una ventana modal para editar un servicio
     public function show_modal_service()
     {
-        dd("Hola");
+        $this->emit("show-service");
     }
 }
