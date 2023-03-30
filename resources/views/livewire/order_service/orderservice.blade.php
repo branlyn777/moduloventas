@@ -193,6 +193,13 @@
             cursor: default !important;
         }
 
+        .ALMACENADO {
+            background-color: rgb(99, 64, 0);
+            border-color: rgb(99, 64, 0);
+            border-color: rgb(99, 64, 0);
+            cursor: default !important;
+        }
+
 
 
         /*Estilos para el Botón Editar Servicio de la Tabla*/
@@ -432,7 +439,7 @@
                                 <option value="PROCESO">PROCESO</option>
                                 <option value="TERMINADO">TERMINADO</option>
                                 <option value="ENTREGADO">ENTREGADO</option>
-                                {{-- <option value="ANULADO">ANULADO</option> --}}
+                                <option value="ALMACENADO">ALMACENADO</option>
                             </select>
                         </div>
                     </div>
@@ -486,17 +493,22 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                {{-- <a wire:click.prevent="annular_service({{$so->code}})" href="" class="dropdown-item"> --}}
                                                                 <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
-                                                                        Anular
+                                                                    Anular
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                {{-- <a wire:click.prevent="delete_service({{$so->code}})" class="dropdown-item" href="#"> --}}
                                                                 <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
                                                                     Eliminar
                                                                 </a>
                                                             </li>
+                                                            @if($s->type == "TERMINADO")
+                                                            <li>
+                                                                <a href="#" onclick="ConfirmStorageService({{$so->code}}, {{$s->idservice}}, '{{$so->client->nombre}}')"  class="dropdown-item">
+                                                                    Almacenar
+                                                                </a>
+                                                            </li>
+                                                            @endif
                                                         </ul>
                                                     </td>
                                                     <td>
@@ -810,7 +822,7 @@
         {
             swal({
                 title: '¿' + type + ' la Órden de Servicio "' + code + '"?',
-                text: "Cliente: " + nameclient,
+                text: "Todos los Servicios correspondientes a esta Órden del Cliente: " + nameclient + " se verán afectados",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -821,12 +833,37 @@
                 {
                     if(type == "Anular")
                     {
-                        window.livewire.emit('annularservice', code)
+                        window.livewire.emit('annularservice', code);
                     }
                     else
                     {
-                        window.livewire.emit('deleteservice', code)
+                        if(type == "Eliminar")
+                        {
+                            window.livewire.emit('deleteservice', code);
+                        }
+                        else
+                        {
+                            window.livewire.emit('storeservice', code);
+                        }
                     }
+                }
+            })
+        }
+        //Lannza una lerta para almacenar un servicio de una Órden de Servicio
+        function ConfirmStorageService(code, idservice, nameclient)
+        {
+            swal({
+                title: '¿Almacenar Servicio?',
+                text: "Este servicio correspondinete a la Órden número " + code + " pasará a un estado almacenado",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Almacenar Servicio',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value)
+                {
+                    window.livewire.emit('storeservice', idservice);
                 }
             })
         }

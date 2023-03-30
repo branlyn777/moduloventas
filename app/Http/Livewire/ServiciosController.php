@@ -125,8 +125,7 @@ class ServiciosController extends Component
             ->join('movimientos as mov', 'mov.id', 'ms.movimiento_id')
             ->join('cliente_movs as cliemov', 'mov.id', 'cliemov.movimiento_id')
             ->join('clientes as c', 'c.id', 'cliemov.cliente_id')
-            ->select('services.*', 'mov.type as tipo', 'mov.import as import', 'mov.saldo as saldo', 'mov.on_account as on_account', 'cat.nombre as category')
-            ->where('services.order_service_id',  $this->orderservice)
+            ->select('services.*', 'mov.type as tipo', 'mov.import as import', 'mov.saldo as saldo', 'mov.on_account as on_account', 'cat.nombre as category')->where('services.order_service_id',  $this->orderservice)
             ->where('mov.status',  'ACTIVO')
             ->orderBy('services.id', 'desc')
             ->paginate($this->pagination);
@@ -339,12 +338,8 @@ class ServiciosController extends Component
         }
         session(['tservice' => $this->typeservice]);
     }
-    public function mostrareditar($idservice)
+    public function Edit(Service $service)
     {
-        dd($idservice);
-        $service = Service::find($idservice);
-
-
         $movimiento_Serv = Service::join('mov_services as ms', 'ms.service_id', 'services.id')
             ->join('movimientos as m', 'ms.movimiento_id', 'm.id')
             ->select('m.on_account as on_account', 'm.saldo as saldo', 'm.import as import', 'm.type', 'm.user_id as user_id')

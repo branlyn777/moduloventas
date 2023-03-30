@@ -636,7 +636,7 @@ class OrderServiceController extends Component
         ]);
 
 
-        //Buscando el movimiento PROCESO
+        //Buscando el movimiento TERMINADO
         $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
         ->where("mov_services.service_id", $service->id)
         ->where("m.type", "TERMINADO")
@@ -644,7 +644,7 @@ class OrderServiceController extends Component
         ->first();
 
         $motion = Movimiento::find($motion_terminated->id);
-        //Actualizando el estado del movimiento PROCESO
+        //Actualizando el estado del movimiento TERMINADO
         $motion->update([
             'status' => 'INACTIVO'
         ]);
@@ -797,7 +797,8 @@ class OrderServiceController extends Component
     protected $listeners = [
         'updateservice' => 'update_service',
         'annularservice' => 'annular_service',
-        'deleteservice' => 'delete_service'
+        'deleteservice' => 'delete_service',
+        'storeservice' => 'storage_service'
     ];
     //Actualiza detalles generales de un servicio
     public function update_service($mark)
@@ -945,5 +946,45 @@ class OrderServiceController extends Component
             dd($e->getMessage());
             $this->emit('item-error', 'ERROR' . $e->getMessage());
         }
+    }
+    //Almacena un servicio (Pasa un Servicio de TERMINADO a ALMACENADO)
+    public function storage_service(Service $service)
+    {
+        //Obteniendo información del servicio
+        $motion_terminated = $this->get_details_Service($service->id);
+
+        $motion_storage = Movimiento::create([
+            'type' => 'ALMACENADO',
+            'status' => 'ACTIVO',
+            'import' => $motion_terminated->price_service,
+            'on_account' => $motion_terminated->on_account,
+            'saldo' => $motion_terminated->balance,
+            'user_id' => Auth()->user()->id,
+        ]);
+        MovService::create([
+            'movimiento_id' => $motion_storage->id,
+            'service_id' => $service->id
+        ]);
+        //Obteniendo un objeto de los datos del cliente
+        $client = $this->get_client($service->order_service_id);
+        ClienteMov::create([
+            'movimiento_id' => $motion_storage->id,
+            'cliente_id' => $client->id
+        ]);
+
+
+        //Buscando el movimiento TERMINADO
+        $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->where("mov_services.service_id", $service->id)
+        ->where("m.type", "TERMINADO")
+        ->select("m.*")
+        ->first();
+
+        $motion = Movimiento::find($motion_terminated->id);
+        //Actualizando el estado del movimiento TERMINADO
+        $motion->update([
+            'status' => 'INACTIVO'
+        ]);
+        $motion->save();
     }
 }
