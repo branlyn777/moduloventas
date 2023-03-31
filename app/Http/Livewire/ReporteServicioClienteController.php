@@ -100,7 +100,7 @@ class ReporteServicioClienteController extends Component
                 ->distinct()
                 ->paginate($this->pagination);
             }
-            dd($clients);
+           
         }
         return view('livewire.reporte_service.reporte-servicio-cliente', [
             'clients' => $clients
@@ -113,4 +113,11 @@ class ReporteServicioClienteController extends Component
         $reportClients = "Reporte de Clientes_" . uniqid() . ".xlsx";
         return Excel::download(new ClientsReportExport($this->dateFrom, $this->dateTo), $reportClients);
     }
+    public function getTotalClients()
+{
+    $clients = Cliente::all();
+    $totalClients = $clients->total();
+
+    return view('clientes', compact('totalClients'));
+}
 }
