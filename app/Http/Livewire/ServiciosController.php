@@ -79,16 +79,16 @@ class ServiciosController extends Component
         $this->from = Carbon::parse(Carbon::now())->format('d-m-Y  H:i');
         $this->fecha_estimada_entrega = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->estatus = '';
-        $this->procedencia = "1";
+        $this->procedencia = "Elegir";
         $this->userId = 0;
         $this->hora_entrega = Carbon::parse(Carbon::now())->format('H:i');
         $this->usuariolog = Auth()->user()->name;
         if (!empty(session('od'))) {
             $this->orderservice = session('od');
         }
-        if (!empty(session('clie'))) {
-            $this->cliente = session('clie');
-        }
+        // if (!empty(session('clie'))) {
+        //     $this->cliente = session('clie');
+        // }
         if (!empty(session('tservice'))) {
             $this->typeservice = session('tservice');
             $this->type_service = session('tservice');
