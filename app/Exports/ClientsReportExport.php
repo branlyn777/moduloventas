@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Cliente;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -23,28 +24,32 @@ class ClientsReportExport implements FromCollection, WithHeadings, WithCustomSta
     
     public function collection()
     {
-        $cont = 0;
+        $cont = 1;
 
         $clients = Cliente::join("procedencia_clientes as pc", "pc.id","clientes.procedencia_cliente_id")
         ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
         ->join("movimientos as m", "m.id", "cm.movimiento_id")
         ->join("mov_services as ms", "ms.movimiento_id", "m.id")
         ->join("services as s", "s.id", "ms.service_id")
-        ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
-        ->select("clientes.id as id","clientes.nombre as nombre","clientes.celular as celular","pc.procedencia as procedencia","cps.nombre as nombre","clientes.created_at as created_at")
-        ->whereBetween("clientes.created_at", [Carbon::parse($this->date_From)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->date_To)->format('Y-m-d')     . ' 23:59:59'])
+        ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id" )
+        ->select(DB::raw('0 as no'),"clientes.nombre as nombre","clientes.celular as celular",
+        "pc.procedencia as procedencia","cps.nombre as nombrecps", DB::raw('0 as created'),"clientes.created_at as created_at")
+        ->whereBetween("clientes.created_at", [Carbon::parse($this->date_From)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->date_To)->format('Y-m-d')  . ' 23:59:59'])
         ->get();
 
         foreach ($clients as $c)
         {
-            $c->created_at = Carbon::parse($c->created_at)->format('d-m-Y H:i');
+            $c->created = Carbon::parse($c->created_at)->format('d-m-Y H:i:s');
+            $c->no = $cont;
             $cont++;
         }
+
+
         return $clients;
     }
     public function headings(): array
     {
-        return ["ID","NOMBRE","CELULAR","PROCEDENCIA","CATEGORIA","FECHA CREACIÓN"];
+        return ["NO","NOMBRE","CELULAR","PROCEDENCIA","CATEGORIA","FECHA CREACIÓN"];
     }
     public function startCell(): string
     {
