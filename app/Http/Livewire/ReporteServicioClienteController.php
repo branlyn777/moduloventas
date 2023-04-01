@@ -30,7 +30,7 @@ class ReporteServicioClienteController extends Component
         $this->listacategoria = CatProdService::all();
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
-        $this->pagination = 10;
+        $this->pagination = 300;
         
     }
 
@@ -48,10 +48,20 @@ class ReporteServicioClienteController extends Component
                 ->join("services as s", "s.id", "ms.service_id")
                 ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
                 ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
-                
                 ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
                 ->distinct()
                 ->paginate($this->pagination);
+
+                $numclients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+                ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+                ->join("movimientos as m", "m.id", "cm.movimiento_id")
+                ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+                ->join("services as s", "s.id", "ms.service_id")
+                ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+                ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+                ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->distinct()
+                ->get();
              
             }
             else
@@ -67,6 +77,18 @@ class ReporteServicioClienteController extends Component
                 ->where("cps.id", $this->categoria_id)
                 ->distinct()
                 ->paginate($this->pagination);
+
+                $numclients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+                ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+                ->join("movimientos as m", "m.id", "cm.movimiento_id")
+                ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+                ->join("services as s", "s.id", "ms.service_id")
+                ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+                ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+                ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->where("cps.id", $this->categoria_id)
+                ->distinct()
+                ->get();
             }
         }
         else
@@ -84,6 +106,18 @@ class ReporteServicioClienteController extends Component
                 ->where("pc.id", $this->procedencia_id)
                 ->distinct()
                 ->paginate($this->pagination);
+
+                $numclients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+                ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+                ->join("movimientos as m", "m.id", "cm.movimiento_id")
+                ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+                ->join("services as s", "s.id", "ms.service_id")
+                ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+                ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+                ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->where("pc.id", $this->procedencia_id)
+                ->distinct()
+                ->get();
             }
             else
             {
@@ -99,11 +133,26 @@ class ReporteServicioClienteController extends Component
                 ->where("pc.id", $this->procedencia_id)
                 ->distinct()
                 ->paginate($this->pagination);
+
+                $numclients = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+                ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+                ->join("movimientos as m", "m.id", "cm.movimiento_id")
+                ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+                ->join("services as s", "s.id", "ms.service_id")
+                ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+                ->select("clientes.*", "pc.procedencia as procedencia","cps.nombre as nombrecps")
+                ->whereBetween("clientes.created_at", [Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59'])
+                ->where("cps.id", $this->categoria_id)
+                ->where("pc.id", $this->procedencia_id)
+                ->distinct()
+                ->get();
             }
            
         }
+        $total_clients = $numclients->count();
         return view('livewire.reporte_service.reporte-servicio-cliente', [
-            'clients' => $clients
+            'clients' => $clients,
+            'total_clients' => $total_clients
         ])
             ->extends('layouts.theme.app')
             ->section('content');
@@ -114,10 +163,10 @@ class ReporteServicioClienteController extends Component
         return Excel::download(new ClientsReportExport($this->dateFrom, $this->dateTo), $reportClients);
     }
     public function getTotalClients()
-{
-    $clients = Cliente::all();
-    $totalClients = $clients->total();
+    {
+        $clients = Cliente::all();
+        $totalClients = $clients->total();
 
-    return view('clientes', compact('totalClients'));
-}
+        return view('clientes', compact('totalClients'));
+    }
 }

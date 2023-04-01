@@ -107,7 +107,7 @@
                             <div class="card-body">
                                 <div class="" style="">
                                     <h6 style="margin-top: -20px;color: #ff7300;">TOTAL</h6>
-                                    <h2 class="" style="color: #ff7300;  margin-top: -12px"> {{ $clients->total() }}</h2>
+                                    <h2 class="" style="color: #ff7300;  margin-top: -12px"> {{ $total_clients }}</h2>
                                   
                                 </div>                              
                             
@@ -131,7 +131,6 @@
                                     <tr>
                                         <th scope="col" style="color:black">#</th>
                                         <th scope="col">Clientes</th>
-                              
                                         <th scope="col">Celulaar</th>
                                         <th scope="col">Procedencia</th>
                                         <th scope="col">Categoria</th>
@@ -146,7 +145,7 @@
                                             <td width="2%">
                                                 <h6 class="text-center"
                                                     style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; color:black;">
-                                                    {{ ($clients->currentpage() - 1) * $clients->perpage() + $loop->index + 1 }}
+                                                    {{ ($clients->currentpage() - 1) * $clients->perpage() + $loop->index + 1 }} 
                                                 </h6>
                                             </td>
                                             <td>
@@ -158,7 +157,6 @@
                                                     @endif
                                                 </h6>
                                             </td>
-                                           
                                             <td>
                                                 <h6  style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0;">
                                                     {{ $c->celular }}
@@ -186,10 +184,8 @@
 
                                 </tbody>
                             </table>
-                            <div class="pagination">
-                                {{ $clients->links() }}
-                            </div>
                         </div>
+                        {{ $clients->links() }}
                     </div>
                 </div>
             </div>
