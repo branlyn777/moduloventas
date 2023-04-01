@@ -877,7 +877,7 @@ class ServiciosController extends Component
             'celular.digits' => 'El celular debe tener 8 numeros',
             'telefono.digits' => 'El telefono debe tener 7 numeros',
             'procedencia.required' => 'Seleccione la sucursal del usuario',
-            'procedencia.not_in' => 'Seleccione una sucursal distinto a Elegir',
+            'procedencia.not_in' => 'Seleccione una procedencia',
         ];
         $this->validate($rules, $messages);
 
