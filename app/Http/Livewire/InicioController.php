@@ -4,9 +4,11 @@ namespace App\Http\Livewire;
 
 // use Illuminate\View\Component as ViewComponent;
 
+use App\Models\Cliente;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
 use App\Models\Movimiento;
+use App\Models\ProcedenciaCliente;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\User;
@@ -22,8 +24,17 @@ class InicioController extends Component
     public $egresosMes, $egresosMesAnterior, $difEgresos;
     //graficos
     public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $labels = [];
+
+
+    //VARIABLES PARA PROCENDIA CLIENTES
+    public $quantity_origin_client, $name_origin_client, $color_origin_client;
+
+
     public function render()
     {
+        $this->name_origin_client = [];
+        $this->color_origin_client = [];
+        $this->quantity_origin_client = [];
         $variable = "";
         $inicio = Carbon::now()->format('m');
 
@@ -185,10 +196,60 @@ class InicioController extends Component
 
 
 
+        //GRAFICO PROCEDENCIA CLENTES
+
+        $origins = ProcedenciaCliente::where("estado","Activo")->get();
+
+
+
+
+
+        foreach($origins as $o)
+        {
+            array_push($this->name_origin_client, $o->procedencia);
+
+            $red = rand(0, 255);
+            $green = rand(0, 255);
+            $blue = rand(0, 255);
+
+            $color = sprintf("#%02x%02x%02x", $red, $green, $blue);
+
+            array_push($this->color_origin_client, $color);
+
+
+            $mount = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+            ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+            ->join("movimientos as m", "m.id", "cm.movimiento_id")
+            ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+            ->join("services as s", "s.id", "ms.service_id")
+            ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+            ->select("clientes.*", "pc.procedencia as procedencia", "pc.id as idprocedencia","cps.nombre as nombrecps")
+            ->whereMonth('clientes.created_at', Carbon::now()->month)
+            ->whereYear('clientes.created_at', Carbon::now()->year)
+            ->where("pc.estado","Activo")
+            ->where("clientes.procedencia_cliente_id", $o->id)
+            ->distinct()
+            ->get();
+
+
+            array_push($this->quantity_origin_client, $mount->count());
+
+        }
+
+
+
+        // $this->quantity_origin_client = [15, 20, 10];
+
+
+
+
+
+
         return view('livewire.inicio.inicio', [
             'variable' => $variable,
             'total_current_month' => $total_current_month,
             'difference_percentage' => $difference_percentage,
+            'origins' => $origins,
 
         ])
             ->extends('layouts.theme.app')

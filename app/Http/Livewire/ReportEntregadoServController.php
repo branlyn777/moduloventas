@@ -41,7 +41,7 @@ class ReportEntregadoServController extends Component
         $this->sumaEfectivo = 0;
         $this->sumaBanco = 0;
         $this->cajaSucursal = [];
-        $this->caja = 'Todos';
+        $this->caja = '2';
         $this->movbancarios = [];
         $this->contador = 0;
         $this->sumaCosto = 0;

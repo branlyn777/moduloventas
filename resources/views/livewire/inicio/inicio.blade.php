@@ -86,7 +86,7 @@
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Clientes</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    30
+                                    ??
                                 </h5>
                                 <span class="text-sm text-end text-success font-weight-bolder mt-auto mb-0">+12% <span
                                         class="font-weight-normal text-secondary">desde el mes pasado</span></span>
@@ -119,7 +119,7 @@
                             <div class="col-7 text-start">
                                 <p class="text-sm mb-1 text-uppercase font-weight-bold">Ganancias</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    Bs 140
+                                    Bs ???
                                 </h5>
                                 <span class="font-weight-normal text-secondary text-sm"><span
                                         class="font-weight-bolder">+Bs. 3.698</span> desde el mes pasado</span>
@@ -169,19 +169,12 @@
                                 </div>
                             </div>
                             <div class="col-5 my-auto">
+                                @foreach($origins as $no)
                                 <span class="badge badge-md badge-dot me-4 d-block text-start">
                                     <i class="bg-info"></i>
-                                    <span class="text-dark text-xs">Facebook</span>
+                                    <span class="text-dark text-xs">{{$no->procedencia}}</span>
                                 </span>
-                                <span class="badge badge-md badge-dot me-4 d-block text-start">
-                                    <i class="bg-primary"></i>
-                                    <span class="text-dark text-xs">Volantes</span>
-                                </span>
-                                <span class="badge badge-md badge-dot me-4 d-block text-start">
-                                    <i class="bg-dark"></i>
-                                    <span class="text-dark text-xs">Venta</span>
-                                </span>
-                            
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -538,7 +531,7 @@
     new Chart(ctx2, {
       type: "pie",
       data: {
-        labels: ['Facebook', 'Volantes', 'Venta'],
+        labels: @json($name_origin_client),
         datasets: [{
           label: "Projects",
           weight: 9,
@@ -546,8 +539,8 @@
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: ['#17c1e8', '#5e72e4', '#3A416F'],
-          data: [15, 20, 12],
+          backgroundColor: @json($color_origin_client),
+          data: @json($quantity_origin_client),
           fill: false
         }],
       },

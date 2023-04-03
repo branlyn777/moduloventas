@@ -10,6 +10,39 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
+            <li class="nav-item mt-3">
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#acceso" class="nav-link collapse" aria-controls="acceso"
+                        role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-align-left-2 text-dark text-sm"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Accesos Directos</span>
+                    </a>
+                    <div class="collapse" id="acceso" style="">
+                        <ul class="nav ms-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('reportentregservices') }}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Servicios </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('salemovimientodiario') }}">
+                                    <span class="sidenav-mini-icon"> Ventas </span>
+                                    <span class="sidenav-normal"> Ventas </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('resumenmovimientos') }}">
+                                    <span class="sidenav-mini-icon"> M </span>
+                                    <span class="sidenav-normal"> Movimientos </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </li>
             @can('Administracion_Sidebar')
                 <li class="nav-item mt-3">
                     <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Gestión</h6>
