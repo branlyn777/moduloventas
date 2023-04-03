@@ -66,7 +66,7 @@ class OrderServiceController extends Component
     }
     public function mount()
     {
-        $this->status_service_table = "TODOS";
+        $this->status_service_table = "PENDIENTE";
         $this->pagination = 20;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
@@ -148,16 +148,20 @@ class OrderServiceController extends Component
         $row_number = ($service_orders->currentPage() - 1) * $service_orders->perPage();
         foreach ($service_orders as $so)
         {
-            if($this->status_service_table == "TODOS")
-            {
-                //Obtener los servicios de la orden de servicio
-                $so->services = $this->get_service_order_detail($so->code);
-            }
-            else
-            {
-                //Obtener los servicios de la orden de servicio
-                $so->services = $this->get_service_order_detail_type($so->code,$this->status_service_table);
-            }
+            // if($this->status_service_table == "TODOS")
+            // {
+            //     //Obtener los servicios de la orden de servicio
+            //     $so->services = $this->get_service_order_detail($so->code);
+            // }
+            // else
+            // {
+            //     //Obtener los servicios de la orden de servicio por tipo de servicio
+            //     $so->services = $this->get_service_order_detail_type($so->code,$this->status_service_table);
+            // }
+
+            //Obtener los servicios de la orden de servicio por tipo de servicio
+            $so->services = $this->get_service_order_detail($so->code,$this->status_service_table);
+
             //Obtener el nombre del cliente
             $so->client = $this->get_client($so->code);
 

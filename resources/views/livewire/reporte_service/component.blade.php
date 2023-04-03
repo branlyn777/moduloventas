@@ -1,38 +1,5 @@
 @section('css')
     <style>
-        .tablaservicios {
-            width: 100%;
-            min-width: 1100px;
-            min-height: 140px;
-        }
-
-        .tablaservicios thead {
-            background-color: #1572e8;
-            color: white;
-        }
-
-        .tablaservicios th,
-        td {
-            border: 0.5px solid #1571e894;
-            padding-top: 3px;
-            padding-bottom: 3px;
-            padding-left: 3px;
-            padding-right: 4px;
-        }
-
-        .tablaserviciostr:hover {
-            background-color: rgba(0, 195, 255, 0.336);
-        }
-
-        .detalleservicios {
-            border: 1px solid #1572e8;
-            border-radius: 10px;
-            background-color: #ffffff00;
-            /* border-top: 4px; */
-            padding: 5px;
-        }
-
-
         /*Estilos para el Boton Pendiente en la Tabla*/
         .pendienteestilos {
             text-decoration: none !important;
@@ -270,7 +237,7 @@
                             <h6>Elige Usuario</h6>
                             <div class="form-group">
                                 <select wire:model="userId" class="form-select">
-                                    <option value="">Todos</option>
+                                    <option value="0">Todos</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
@@ -375,28 +342,35 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead>
+                        <table style="width: 100%">
+                            <thead style="color: black;">
                                 <tr>
-                                    <th class="table-th text-withe text-center">#</th>
-                                    <th class="table-th text-withe text-center">CÓDIGO</th>
-                                    <th class="table-th text-withe text-center">CLIENTE</th>
-                                    <th class="table-th text-withe text-center">FECHA HORA
-                                        REC.</th>
-                                    <th class="table-th text-withe text-center">FECHA HORA
+                                    <th class="table-th text-withe text-center text-sm">#</th>
+                                    <th class="table-th text-withe text-center text-sm">CÓDIGO</th>
+                                    <th class="table-th text-withe text-center text-sm">CLIENTE</th>
+                                    <th class="table-th text-withe text-center text-sm">
+                                        FECHA
+                                        <br>
+                                        REC
+                                    </th>
+                                    <th class="table-th text-withe text-center text-sm">
+                                        FECHA
+                                        <br>
                                         TERM.</th>
-                                    <th class="table-th text-withe text-center">FECHA HORA
+                                    <th class="table-th text-withe text-center text-sm">
+                                        FECHA
+                                        <br>
                                         ENTR.</th>
-                                    <th class="table-th text-withe text-center">COSTO</th>
-                                    <th class="table-th text-withe text-center">IMPORTE</th>
-                                    {{-- <th class="table-th text-withe text-center" style="font-size: 90%">A CUENTA</th>
-                                        <th class="table-th text-withe text-center" style="font-size: 90%">SALDO</th>
+                                    <th class="table-th text-withe text-center text-sm">COSTO</th>
+                                    <th class="table-th text-withe text-center text-sm">IMPORTE</th>
+                                    {{-- <th class="table-th text-withe text-center text-sm" style="font-size: 90%">A CUENTA</th>
+                                        <th class="table-th text-withe text-center text-sm" style="font-size: 90%">SALDO</th>
 
-                                        <th class="table-th text-withe text-center" style="font-size: 90%">TIPO SERVICIO</th> --}}
-                                    <th class="table-th text-withe text-center">UTILIDAD</th>
-                                    <th class="table-th text-withe text-center">DETALLE</th>
-                                    <th class="table-th text-withe text-center">ESTADO</th>
-                                    <th class="table-th text-withe text-center">TEC. RESP.
+                                        <th class="table-th text-withe text-center text-sm" style="font-size: 90%">TIPO SERVICIO</th> --}}
+                                    <th class="table-th text-withe text-center text-sm">UTILIDAD</th>
+                                    <th class="table-th text-withe text-center text-sm">DETALLE</th>
+                                    <th class="table-th text-withe text-center text-sm">ESTADO</th>
+                                    <th class="table-th text-withe text-center text-sm">TEC. RESP.
                                     </th>
 
                                 </tr>
@@ -411,7 +385,7 @@
                                 @endif
 
                                 @foreach ($data as $d)
-                                    <tr class="tablaserviciostr">
+                                    <tr class="tablaserviciostr text-sm">
                                         {{-- # --}}
                                         <td width="2%">
                                             <h6 class="text-center"
