@@ -145,7 +145,7 @@ class OrderServiceController extends Component
         }
 
 
-        $row_number = ($service_orders->currentPage() - 1) * $service_orders->perPage();
+        $row_number = ($service_orders->currentPage() - 1) * $service_orders->count();
         foreach ($service_orders as $so)
         {
             if(strlen($this->search) == 0)
@@ -391,8 +391,42 @@ class OrderServiceController extends Component
                         $this->s_id_wallet = $this->list_wallets->where("tipo","efectivo")->first()->id;
                     }
 
-
                     $this->emit("show-deliver-service");
+                }
+                else
+                {
+                    if($type == "ALMACENADO")
+                    {
+                        $service = $this->get_details_Service($service->id);
+                        $this->s_price = $service->price_service;
+                        $this->s_on_account = $service->on_account;
+    
+                        $box = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
+                        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+                        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+                        ->where('cajas.estado', 'Abierto')
+                        ->where('mov.user_id', Auth()->user()->id)
+                        ->where('mov.status', 'ACTIVO')
+                        ->where('mov.type', 'APERTURA')
+                        ->where('cajas.sucursal_id', $this->id_branch)
+                        ->select('cajas.*')
+                        ->first();
+                        if($box)
+                        {
+                            $this->box_status = true;
+                            $this->list_wallets = Cartera::where("caja_id", $box->id)
+                            ->where("estado", "ACTIVO")
+                            ->where("tipo","<>", "Sistema")
+                            ->where("tipo","<>", "Telefono")
+                            ->orwhere("caja_id", 1)
+                            ->orderBy("id","asc")
+                            ->get();
+    
+                            $this->s_id_wallet = $this->list_wallets->where("tipo","efectivo")->first()->id;
+                        }
+    
+                        $this->emit("show-deliver-service");
+                    }
                 }
             }
         }
@@ -654,19 +688,54 @@ class OrderServiceController extends Component
         ]);
 
 
-        //Buscando el movimiento TERMINADO
-        $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
-        ->where("mov_services.service_id", $service->id)
-        ->where("m.type", "TERMINADO")
-        ->select("m.*")
-        ->first();
 
-        $motion = Movimiento::find($motion_terminated->id);
-        //Actualizando el estado del movimiento TERMINADO
-        $motion->update([
-            'status' => 'INACTIVO'
-        ]);
-        $motion->save();
+
+
+        //Buscando el movimiento ALMACENADO (en caso de que el servicio este ALMACENADO)
+        $motion_storage = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->where("mov_services.service_id", $service->id)
+        ->where("m.type", "ALMACENADO")
+        ->where("m.status", "ACTIVO")
+        ->select("m.*")
+        ->get();
+
+        if($motion_storage->count() > 0)
+        {
+            $motion = Movimiento::find($motion_storage->first()->id);
+            //Actualizando el estado del movimiento ALMACENADO
+            $motion->update([
+                'status' => 'INACTIVO'
+            ]);
+            $motion->save();
+        }
+        else
+        {
+            //Buscando el movimiento TERMINADO
+            $motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+            ->where("mov_services.service_id", $service->id)
+            ->where("m.type", "TERMINADO")
+            ->select("m.*")
+            ->first();
+
+            $motion = Movimiento::find($motion_terminated->id);
+            //Actualizando el estado del movimiento TERMINADO
+            $motion->update([
+                'status' => 'INACTIVO'
+            ]);
+            $motion->save();
+        }
+
+
+
+
+        
+
+
+
+
+
+
+
 
         //Actualizando el saldo de cartera
         $wallet = Cartera::find($this->s_id_wallet);

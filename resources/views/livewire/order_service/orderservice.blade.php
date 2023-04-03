@@ -186,20 +186,30 @@
             transform: scale(1.05);
         }
 
+        .ALMACENADO {
+            background-color: rgb(99, 64, 0);
+            border-color: rgb(99, 64, 0);
+            border-color: rgb(99, 64, 0);
+            cursor: pointer;
+        }
+        .btn-service.ALMACENADO:hover {
+            background-color: rgb(255, 255, 255);
+            color: rgb(99, 64, 0);
+            transition: all 0.4s ease-out;
+            border-color: rgb(99, 64, 0);
+            text-decoration: underline;
+            -webkit-transform: scale(1.05);
+            -moz-transform: scale(1.05);
+            -ms-transform: scale(1.05);
+            transform: scale(1.05);
+        }
+
         .ENTREGADO {
             background-color: rgb(22, 192, 0);
             border-color: rgb(22, 192, 0);
             border-color: rgb(22, 192, 0);
             cursor: default !important;
         }
-
-        .ALMACENADO {
-            background-color: rgb(99, 64, 0);
-            border-color: rgb(99, 64, 0);
-            border-color: rgb(99, 64, 0);
-            cursor: default !important;
-        }
-
 
 
         /*Estilos para el Botón Editar Servicio de la Tabla*/
