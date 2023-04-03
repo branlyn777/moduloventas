@@ -98,7 +98,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn bg-gradient-primary" wire:click.prevent="SaveFastService()">Guardar Servicio</button>
+                <button type="button" class="btn bg-gradient-primary" wire:click.prevent="SaveFastService()" wire:loading.remove>Guardar Servicio</button>
             </div>
         </div>
     </div>

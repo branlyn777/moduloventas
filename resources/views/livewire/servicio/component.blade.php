@@ -188,8 +188,11 @@
                             <a href="javascript:void(0)" class="btn btn-add mb-0" wire:click="$emit('modaltype-show')">Tipo De Servicio</a>
                         @endif
 
-                        <button class="btn btn-add mb-0" wire:click="ResetSession">Ir a Órdenes de Servicio</button>
                         <button class="btn btn-add mb-0" wire:click="ShowModalFastService()">Servicio Rápido</button>
+                        <a href="#" type="button" class="btn btn-secondary" wire:click="ResetSession">
+                            Salir
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -228,19 +231,13 @@
                                 <b>Tipo de servicio: </b> {{ $typeservice }}
                             </span>
                         </div>
-                        <div class="col-2" style="text-align: right;">
+                        <div class="col-4" style="text-align: right;">
                             <span class="me-2 text-sm">
                                 @if (!empty(session('od')))
                                     <a class="btn btn-success mb-0"
                                         href="{{ url('reporte/pdf' . '/' . $orderservice) }}" target="_blank"
                                         wire:click="ResetSession">Guardar e Imprimir</a>
                                 @endif
-                            </span>
-                        </div>
-                        <div class="col-2">
-                            <span class="me-2 text-sm">
-                                <a class="btn btn-success mb-0"
-                                href="{{ url('ordenesservicios') }}" wire:click="ResetSession">Salir</a>
                             </span>
                         </div>
                     </div>

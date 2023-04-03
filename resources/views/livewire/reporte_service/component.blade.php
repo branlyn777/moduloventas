@@ -237,7 +237,7 @@
                             <h6>Elige Usuario</h6>
                             <div class="form-group">
                                 <select wire:model="userId" class="form-select">
-                                    <option value="">Todos</option>
+                                    <option value="0">Todos</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
