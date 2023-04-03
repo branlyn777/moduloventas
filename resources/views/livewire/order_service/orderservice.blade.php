@@ -536,7 +536,7 @@
                                                                 {{ $s->name_cps }} {{ $s->mark }}
                                                                 {{ $s->detail }}
                                                                 <br>
-                                                                Falla: {{ substr($s->client_fail, 1, 20) }}
+                                                                Falla: {{ substr($s->client_fail, 0, 20) }}
                                                             </span>
                                                         </div>
                                                     </td>
