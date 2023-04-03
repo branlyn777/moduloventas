@@ -87,11 +87,10 @@
                             </tr>
                         </table>
                     </td>
-                    <td style="width: 3px;"></td> {{-- espaciador entre columnas --}}
+                    <td style="width: 8px;"></td> {{-- espaciador entre columnas --}}
                     {{-- Aqui comienza la segunda columna --}}
                     <td style="width: 15cm">
-                     
-                            <table width="100%">
+                             <table width="100%">
                                 <tr>
 
                                     <td width="50%">
@@ -121,14 +120,9 @@
                                             </span><br>
                                         </div>
                                     </td>
-
-
                                 </tr>
-
-
-                            </table>
-                    
-                        <hr style="border-color: black; margin: 0px;">
+                            </table>        
+                        <hr style="border-color: rgb(0, 0, 0); margin: 0px;">
                         <div style=" margin-left: 5px;margin-right:5px;">
                             <div style=" display: flex;">
                                 <table>
@@ -172,7 +166,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <hr style="border-color: black; margin-top: 2px; margin-bottom: 2px">
+                            <hr style="border-color: rgb(0, 0, 0); margin: 0px;">
 
                             <table>
                                 <tr>
@@ -197,16 +191,16 @@
                                 </tr>
                             </table>
                         </div>
-                        <hr style="border-color: black;">
+                        <hr style="border-color: rgb(0, 0, 0); margin: 0px;">
 
 
 
                         <table width="100%">
                             <tr>
 
-                                <td width="50%">
-                                    <div class="col-sm-6 col-md-6" style="text-align: left; ">
-                                        <b>RESPONSABLE TÉCNICO: </b>
+                                <td width="50%" style="  ">
+                                    <div class="col-sm-6 col-md-6" style="text-align: left;">
+                                        <b style="margin-left:6px">  RESPONSABLE TÉCNICO: </b>
                                         @if ($s->type == 'PENDIENTE')
                                             {{ $s->receiving_technician }}
                                         @else
@@ -215,11 +209,11 @@
                                     </div>
                                 </td>
                                 <td width="50%">
-                                    <div class="col-sm-6 col-md-6" style="text-align: right ;">
-                                        <b>CLIENTE:</b>
-                                        
+                        {{-- <table style="font-weight: bold; font-size: 7pt; margin: auto">
+                        <table style="font-weight: bold; font-size: 7pt; margin: auto"> --}}
+                                    <div class="col-sm-6 col-md-6" style="text-align: right">
+                                        <b>CLIENTE:</b>  
                                         {{ $cliente->nombre }}
-                                   
                                     </div>
                                 </td>
 
