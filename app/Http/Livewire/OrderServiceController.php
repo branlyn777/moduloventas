@@ -148,27 +148,36 @@ class OrderServiceController extends Component
         $row_number = ($service_orders->currentPage() - 1) * $service_orders->perPage();
         foreach ($service_orders as $so)
         {
-            // if($this->status_service_table == "TODOS")
-            // {
-            //     //Obtener los servicios de la orden de servicio
-            //     $so->services = $this->get_service_order_detail($so->code);
-            // }
-            // else
-            // {
-            //     //Obtener los servicios de la orden de servicio por tipo de servicio
-            //     $so->services = $this->get_service_order_detail_type($so->code,$this->status_service_table);
-            // }
-
-            //Obtener los servicios de la orden de servicio por tipo de servicio
-            $so->services = $this->get_service_order_detail($so->code,$this->status_service_table);
-
-            //Obtener el nombre del cliente
-            $so->client = $this->get_client($so->code);
-
-
-            //Poniendo la numeración para la paginación
-            $row_number++;
-            $so->number = $row_number;
+            if(strlen($this->search) == 0)
+            {
+                if($this->status_service_table == "TODOS")
+                {
+                    //Obtener los servicios de la orden de servicio
+                    $so->services = $this->get_service_order_detail($so->code);
+                }
+                else
+                {
+                    //Obtener los servicios de la orden de servicio
+                    $so->services = $this->get_service_order_detail_type($so->code,$this->status_service_table);
+                }
+                //Obtener el nombre del cliente
+                $so->client = $this->get_client($so->code);
+    
+                //Poniendo la numeración para la paginación
+                $row_number++;
+                $so->number = $row_number;
+            }
+            else
+            {
+                //Obtener los servicios de la orden de servicio
+                $so->services = $this->get_service_order_detail($so->code);
+                //Obtener el nombre del cliente
+                $so->client = $this->get_client($so->code);
+    
+                //Poniendo la numeración para la paginación
+                $row_number++;
+                $so->number = $row_number;
+            }
 
         }
 
