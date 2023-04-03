@@ -281,7 +281,12 @@ class OrderServiceController extends Component
         ->where("mov_services.service_id", $idservice)
         ->where("m.type","PENDIENTE")
         ->first();
-        return $technician->user_name;
+        if($technician)
+        {
+            return $technician->user_name;
+        }
+        return $idservice;
+
     }
     // Obtiene el cliente de una órden de servicio
     public function get_client($code)
