@@ -37,40 +37,23 @@
 @section('movimientosli')
     "nav-item active"
 @endsection
-
-
-
-
-
 @section('css')
-    <style>
-        .tablareporte {
-            width: 100%;
-        }
+<style>
 
-        .tablareporte .ie {
-            width: 150px;
-            text-align: right;
-        }
+    .main tr:hover {
+    background-color: #d4f6c6;
+  }
+    .nohover:hover {
+    background-color: #ffffff;
+  }
+</style>
 
-        .tablareporte .fecha {
-            width: 120px;
-        }
 
-        .tablareporte .no {
-            width: 50px;
-        }
 
-        /* EStilos para los totales flotantes */
-        .flotante {
-            width: 82%;
-            z-index: 99;
-            position: fixed;
-            top: 350px;
-            right: 50px;
-        }
-    </style>
 @endsection
+
+
+
 
 <div>
     <div class="d-lg-flex" style="margin-bottom: 2.3rem">
@@ -159,60 +142,46 @@
         </div>
     </div>
     <br>
-    @if ($totalesIngresosV->count() > 0)
-        <br>
-        <div class="card">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <div class="accordion-header" id="headingTwo">
 
-                        <div class="d-flex mb-3 mt-3 me-2">
-                            <div class="me-auto p-2">
+ <div class="card">
 
-                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseTwoventa" aria-expanded="false"
-                                    aria-controls="collapseTwoventa">
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </button>
-                                <label>
-                                    <h6>
-                                        Ventas
-                                    </h6>
-                                </label>
-                            </div>
-                            <div class="p-2 mx-6">
-                                <label>
-                                    <h6>Bs:{{ number_format($totalesIngresosV->sum('importe'), 2) }}</h6>
-                                </label>
-                            </div>
-                            <div class="p-2">
-                                <label>
-                                    <h6>Bs:{{ number_format($totalesIngresosV->sum('utilidadventa'), 2) }}</h6>
-                                </label>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div id="collapseTwoventa" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-
-
-
-                            <div class="table-responsive text-dark">
-                                <table class="tablareporte">
+   <div class="card-body">
+    <div class="container">
+        
+        <div class="table-responsive">
+            <div class="table-responsive">
+                <table class="table main">
+                  <thead>
+                    <tr>
+                      <th class="w-85 text-xs">Descripción</th>
+                      <th class="w-5 text-xs text-center">Importe <br>en Bs.</th>
+                      <th class="text-end text-xs">Exp.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-bs-toggle="collapse" data-bs-target="#ingresos-detalle-ventas" class="accordion-toggle">
+                      <td class="w-85">Ingresos por Ventas</td>
+                      <td class="w-5 text-center">{{number_format($totalesIngresosV->sum('importe'), 2)}}</td>
+                      <td class="text-end"><button class="btn btn-primary"><i class="fa fa-chevron-down"></i></button></td>
+                    </tr>
+                    <tr class="nohover">
+                      <td colspan="3" class="hiddenRow">
+                        <div class="accordian-body collapse" id="ingresos-detalle-ventas">
+                         <label>Detalle de ingresos</label> 
+                         <div class="container">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="text-sm text-center">#</th>
-                                            <th class="text-xs">FECHA</th>
-                                            <th class="text-xs text-left">DETALLE</th>
-                                            <th class="text-xs ie">INGRESO NETO</th>
+                                            <th class="text-sm text-center">N°</th>
+                                            <th class="text-xs">Fecha</th>
+                                            <th class="text-xs text-left">Detalle</th>
                                             <th class="text-xs ie">
                                                 @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    UTILIDAD
+                                                    Utilidad
                                                 @endif
                                             </th>
+                                            <th class="text-xs ie">Importe</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -221,8 +190,10 @@
                                                 <td class="text-sm text-center no">
                                                     {{ $loop->iteration }}
                                                 </td>
-                                                <td class="text-sm fecha">
-                                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
+                                                <td class="text-sm">
+                                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y') }}
+                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('H:i') }}
                                                 </td>
                                                 <td>
                                                     <div class="accordion-1">
@@ -346,272 +317,77 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="ie">
-                                                    <span class="badge badge-sm bg-primary text-sm">
-                                                        {{ number_format($p->importe, 2) }}
-                                                    </span>
-                                                </td>
-                                                <td class="ie">
+                                                <td>
                                                     @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                                                         <span class="badge badge-sm bg-success text-sm">
                                                             {{ number_format($p->utilidadventa, 2) }}
                                                         </span>
                                                     @endif
                                                 </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-
-    @if ($totalesIngresosIE->count() > 0)
-        <br>
-        <div class="card">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <div class="accordion-header" id="headingThree">
-                        <div class="d-flex mb-3 mt-3 me-2">
-                            <div class="me-auto p-2">
-
-                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-                                    aria-controls="collapseTwo">
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </button>
-                                <label>
-                                    <h6>
-                                        Ingresos
-                                    </h6>
-                                </label>
-                            </div>
-                            <div class="p-2 mx-6">
-                                <label>
-                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
-                                </label>
-                            </div>
-                            <div class="p-2">
-                                <label>
-                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-
-
-
-                            <div class="table-responsive text-dark">
-                                <table class="tablareporte">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-xs text-center">#</th>
-                                            <th class="text-xs">FECHA</th>
-                                            <th class="text-xs">DETALLE</th>
-                                            <th class="text-xs ie">INGRESO NETO</th>
-                                            <th class="text-xs ie">
-                                                @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    UTILIDAD
-                                                @endif
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($totalesIngresosIE as $m)
-                                            <tr>
-                                                <td class="text-center text-sm no">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-sm fecha">
-                                                    {{ \Carbon\Carbon::parse($m->movcreacion)->format('d/m/Y H:i') }}
-                                                </td>
-
-                                                <td class="text-sm">
-                                                    <div>
-                                                        <b>{{ $m->ctipo == 'CajaFisica' ? 'Efectivo' : $m->ctipo }},({{ $m->nombrecartera }})</b>
-                                                    </div>
-                                                </td>
-                                                <td class="text-sm ie">
+                                                <td>
                                                     <span class="badge badge-sm bg-primary text-sm">
-                                                        {{ number_format($m->importe, 2) }}
+                                                        {{ number_format($p->importe, 2) }}
                                                     </span>
                                                 </td>
-                                                <td class="ie">
-                                                    <span class="badge badge-sm bg-success text-sm">
-                                                        {{ number_format($m->importe, 2) }}
-                                                    </span>
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="text-sm">
-                                                    {{ $m->coment }}
-                                                </td>
-                                                <td></td>
-                                                <td></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
-
                                 </table>
                             </div>
-
-
-
+                         </div>
 
                         </div>
-                    </div>
+                      </td>
+                    </tr>
+                    <tr data-bs-toggle="collapse" data-bs-target="#ingresos-detalle-servicios" class="accordion-toggle">
+                      <td class="w-85">Ingresos por Servicios</td>
+                      <td class="w-5 text-center">500</td>
+                      <td class="text-end"><button class="btn btn-primary"><i class="fa fa-chevron-down"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="hiddenRow">
+                        <div class="accordian-body collapse" id="ingresos-detalle-servicios">
+                          Detalle de Ingresos por servicios
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-bs-toggle="collapse" data-bs-target="#otros-ingresos" class="accordion-toggle">
+                      <td class="w-85">Otros Ingresos</td>
+                      <td class="w-5 text-center">{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</td>
+                      <td class="text-end"><button class="btn btn-primary"><i class="fa fa-chevron-down"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="hiddenRow">
+                        <div class="accordian-body collapse" id="otros-ingresos">
+                          Detalle de Otros Ingresos
+                        </div>
+                      </td>
+                    </tr>
+                    <tr data-bs-toggle="collapse" data-bs-target="#egresos-detalle" class="accordion-toggle">
+                      <td class="w-85">Egresos</td>
+                      <td class="w-5 text-center">{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</td>
+                      <td class="text-end"><button class="btn btn-primary"><i class="fa fa-chevron-down"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="hiddenRow">
+                        <div class="accordian-body collapse" id="egresos-detalle">
+                          Detalle de servicios
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 </div>
-            </div>
+              </div>
+              
+            
         </div>
-    @endif
+      </div>
+      
+   </div>
+ </div>
 
-
-    @if ($totalesEgresosIE->count() > 0)
-        <br>
-        <div class="card">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <div class="accordion-header" id="headingTwo">
-                        <div class="d-flex mb-3 mt-3 me-2">
-                            <div class="me-auto p-2">
-
-                                <button class="collapsed btn btn-secondary px-2 py-3" type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwoasd" aria-expanded="false" aria-controls="collapseTwoasd">
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </button>
-                                <label>
-                                    <h6>
-                                        Ingresos
-                                    </h6>
-                                </label>
-                            </div>
-                            <div class="p-2 mx-6">
-                                <label>
-                                    <h6>Bs:{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</h6>
-                                </label>
-                            </div>
-                          
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwoasd" aria-expanded="false" aria-controls="collapseTwoasd">
-                            <p><b>Egresos</b></p>
-                        </button>
-                    </h2>
-                    <div id="collapseTwoasd" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-
-
-
-                            <div class="table-responsive text-dark">
-                                <table class="tablareporte">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-sm text-center">#</th>
-                                            <th class="text-sm">FECHA</th>
-                                            <th class="text-sm">DETALLE</th>
-                                            <th class="text-sm ie">EGRESO</th>
-                                            {{-- <th class="text-sm ie">
-                                            @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                UTILIDAD
-                                            @endif
-                                        </th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($totalesEgresosIE as $st)
-                                            <tr>
-                                                <td class="text-sm no">
-                                                    {{ $loop->iteration }}
-                                                </td>
-                                                <td class="text-sm fecha">
-                                                    {{ \Carbon\Carbon::parse($st->movcreacion)->format('d/m/Y H:i') }}
-                                                </td>
-
-                                                <td class="text-sm">
-                                                    <b>{{ $st->ctipo == 'CajaFisica' ? 'Efectivo' : $st->ctipo }},({{ $st->nombrecartera }})</b>
-                                                </td>
-                                                <td class="text-sm text-right ie">
-                                                    <span class="badge badge-sm bg-danger text-sm">
-                                                        {{ number_format($st->importe, 2) }}
-                                                    </span>
-                                                </td>
-                                                <td class="ie">
-
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="text-sm">
-                                                    {{ $st->coment }}
-                                                </td>
-                                                <td></td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-
-                                    <tfoot class="text-end">
-                                        <tr>
-                                            <td colspan="5">
-                                                <hr style="background-color: black;height: 2px;">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <h5>Total Bs.</h5>
-                                            </td>
-                                            <td colspan="1">
-                                                <h5>{{ number_format($totalesEgresosIE->sum('importe'), 2) }}</h5>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-
-                                </table>
-                            </div>
-
-
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+ 
 
 
 

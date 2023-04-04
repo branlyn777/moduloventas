@@ -161,6 +161,9 @@ class ReporteMovimientoResumenController extends Component
                 $val->utilidadventa = $this->utilidadventa($val->idventa);
             }
 
+           
+
+
 
 
             $this->totalesIngresosV = $totalesIngresosVentas->where('caja', $this->caja);
@@ -297,7 +300,8 @@ class ReporteMovimientoResumenController extends Component
                     ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                     ->orderBy('movimientos.created_at', 'asc')
                     ->get();
-
+                
+      
                 $this->operaciones();
 
             } else {
