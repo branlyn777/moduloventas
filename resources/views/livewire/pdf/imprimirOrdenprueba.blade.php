@@ -17,7 +17,7 @@
 <body>
 
     @foreach ($servicios as $s)
-        <section style="height: 500px;">
+        <section style="height: 700px;">
 
             <table style="font-size: 11px;padding-left: 0px;margin-left:-30px;margin-top: -15px">
                 <tr>

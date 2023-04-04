@@ -51,7 +51,7 @@ class OrderServiceController extends Component
     public $message_toast;
 
     //Variebles para los filtros
-    public $search, $status_service_table;
+    public $search, $search_all, $status_service_table;
     
 
     //Guarda Información de un servicio
@@ -67,6 +67,7 @@ class OrderServiceController extends Component
     public function mount()
     {
         $this->status_service_table = "PENDIENTE";
+        $this->search_all = false;
         $this->pagination = 20;
         //Obteniendo el id de la sucursal del usuario autenticado
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
@@ -115,6 +116,7 @@ class OrderServiceController extends Component
         }
         else
         {
+            // Poniendo el numero de la paginacion en 1 cuando empieze a buscar
             if(strlen($this->search) == 1 || strlen($this->search) == 2)
             {
                 $this->gotoPage(1);
@@ -134,17 +136,17 @@ class OrderServiceController extends Component
             )
             ->where("os.status", "ACTIVO")
             ->where("os.id", $this->search)
-            ->orwhere('c.nombre', 'like', '%' . $this->search . '%')
-            ->orwhere('c.celular', 'like', '%' . $this->search . '%')
-            ->orwhere('c.telefono', 'like', '%' . $this->search . '%')
-            ->orWhere('services.detalle', 'like', '%' . $this->search . '%')
+            ->when($this->search_all, function($query) {
+                return $query->orWhere('c.nombre', 'like', '%' . $this->search . '%')
+                    ->orWhere('c.celular', 'like', '%' . $this->search . '%')
+                    ->orWhere('c.telefono', 'like', '%' . $this->search . '%')
+                    ->orWhere('services.detalle', 'like', '%' . $this->search . '%');
+            })
             ->distinct()
             ->orderBy("os.id", "desc")
             ->paginate(200);
 
         }
-
-
         $row_number = ($service_orders->currentPage() - 1) * $service_orders->count();
         foreach ($service_orders as $so)
         {
@@ -180,7 +182,6 @@ class OrderServiceController extends Component
             }
 
         }
-
         return view("livewire.order_service.orderservice", [
             "service_orders" => $service_orders,
         ])
@@ -647,7 +648,7 @@ class OrderServiceController extends Component
         //Cerrando la ventana modal
         $this->emit("hide-terminated-service");
     }
-    //Entrega un Servicio (Pasa un Servicio de TERMINADO a ENTREGADO)
+    // Entrega un Servicio (Pasa un Servicio de TERMINADO a ENTREGADO)
     public function deliver_service(Service $service)
     {
         $rules = [
@@ -748,7 +749,7 @@ class OrderServiceController extends Component
 
         $this->emit("hide-deliver-service");
     }
-    //Muestra una ventana modal con los detalles de un servicio
+    // Muestra una ventana modal con los detalles de un servicio
     public function show_modal_detail(Service $service)
     {
         $this->id_order_service = $service->order_service_id;
@@ -783,7 +784,7 @@ class OrderServiceController extends Component
 
         $this->emit("show-detail-service");
     }
-    //Redirige para modificar una Orden de Servicio
+    // Redirige para modificar una Orden de Servicio
     public function modify_order_service(OrderService $orderservice)
     {
         session(['clie' => $this->get_client($orderservice->id)]);
@@ -791,7 +792,7 @@ class OrderServiceController extends Component
         session(['tservice' => $orderservice->type_service]);
         $this->redirect('service');
     }
-    //Actualiza detalles generales de un servicio ENTREGADO
+    // Actualiza detalles generales de un servicio ENTREGADO
     public function update_service_deliver()
     {
         $rules = [
@@ -887,7 +888,7 @@ class OrderServiceController extends Component
         'deleteservice' => 'delete_service',
         'storeservice' => 'storage_service'
     ];
-    //Actualiza detalles generales de un servicio
+    // Actualiza detalles generales de un servicio
     public function update_service($mark)
     {
         $rules = [
@@ -948,7 +949,7 @@ class OrderServiceController extends Component
         $service->save();
         $this->emit("hide-edit-service");
     }
-    //Anula una orden de servico
+    // Anula una orden de servico
     public function annular_service(OrderService $orderservice)
     {
         foreach ($orderservice->services as $s)
@@ -982,7 +983,7 @@ class OrderServiceController extends Component
         $this->message_toast = "¡Todos los servicios de la Órden N: " . $orderservice->id . " fueron anulados!";
         $this->emit("message-toast");
     }
-    //Elimina totalmente un servicio con sus tablas relacionadas
+    // Elimina totalmente un servicio con sus tablas relacionadas
     public function delete_service(OrderService $orderservice)
     {
         DB::beginTransaction();
@@ -1034,7 +1035,7 @@ class OrderServiceController extends Component
             $this->emit('item-error', 'ERROR' . $e->getMessage());
         }
     }
-    //Almacena un servicio (Pasa un Servicio de TERMINADO a ALMACENADO)
+    // Almacena un servicio (Pasa un Servicio de TERMINADO a ALMACENADO)
     public function storage_service(Service $service)
     {
         //Obteniendo información del servicio

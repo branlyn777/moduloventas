@@ -416,20 +416,18 @@
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar..."
+                                    <input type="text" wire:model="search" placeholder="{{ $this->search_all ? 'Busqueda General...' : 'Buscar por Código...' }}"
                                         class="form-control">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
-                            {{-- <label>Sucursal</label> --}}
-                            {{-- <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar..."
-                                        class="form-control">
+                        <div class="col-3 mt-2">
+                            <label>&nbsp;</label>
+                            <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
+                                <div class="form-check form-switch ms-2">
+                                    <input class="form-check-input" type="checkbox" wire:model="search_all" title="{{ $this->search_all ? 'Click :: Para búsqueda solo por código' : 'Click :: Para busqueda general' }}">
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                         <div class="col-3">
                             {{-- <label>Categoria</label> --}}
