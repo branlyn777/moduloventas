@@ -156,8 +156,9 @@ class RegistrarAjuste extends Component
         } else {
             $pd = ProductosDestino::where('product_id', $id->id)->where('destino_id', $this->destino)->select('stock')->value('stock');
             $r = $this->datalote($id->id);
+       
            
-            if ($r != 'null') {
+            if ($r != null) {
                 $costo = $r->costo;
                 $precio = $r->pv_lote;
             
