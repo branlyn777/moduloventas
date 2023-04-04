@@ -8,6 +8,7 @@ use App\Models\CarteraMov;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\OperacionesCarterasCompartidas;
+use App\Models\OrderService;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\SaleLote;
@@ -32,7 +33,7 @@ class ReporteMovimientoResumenController extends Component
         $op_recaudo, $subtotalcaja,
         $utilidadtotal = 0, $caja,
         $ops = 0, $sucursal, $total,
-        $operacionfalt, $operacionsob, $operacionesZ, $operacionesW, $ajustes;
+        $operacionfalt, $operacionsob, $operacionesZ, $operacionesW, $ajustes,$totalServicios;
     //Operaciones totales
     public $ingresosTotalesCF,
         $ingresosTotalesBancos,
@@ -161,6 +162,9 @@ class ReporteMovimientoResumenController extends Component
                 $val->utilidadventa = $this->utilidadventa($val->idventa);
             }
 
+           
+
+
 
 
             $this->totalesIngresosV = $totalesIngresosVentas->where('caja', $this->caja);
@@ -197,8 +201,29 @@ class ReporteMovimientoResumenController extends Component
             $this->totalesIngresosIE = $totalesIngresosIngEg->where('carteramovtype', 'INGRESO')->where('caja', $this->caja);
             //Totales Egresos (EGRESOS/INGRESOS)
             $this->totalesEgresosIE = $totalesIngresosIngEg->where('carteramovtype', 'EGRESO')->where('caja', $this->caja);
-            //operacion auxiliar para deducion de tigo money
+            
+            $servicios=Service::join('order_services','order_services.id','services.order_service_id')
+            ->join('mov_services','mov_services.service_id','services.id')
+            ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+            ->select(
+                'movimientos.import as importe',
+                'movimientos.created_at as movcreacion',
+                'movimientos.id as idmov',
+                'order_services.id as order_id',
+                'services.solucion as servicio_solucion',
+                DB::raw('0 as caja')
+            )
+            ->where('movimientos.type','ENTREGADO')
+            ->where('movimientos.status', 'ACTIVO')
+            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+            ->get();
+            foreach ($servicios as $val) {
+                $dcaja = $this->cajaoperacion($val->idmov);
+                $val->caja = $dcaja;
+            }
 
+            $this->totalServicios = $servicios->where('caja', $this->caja);
+            dd($this->totalServicios);
             $this->operaciones();
         } else {
             if ($this->sucursal != 'TODAS') {
@@ -297,7 +322,8 @@ class ReporteMovimientoResumenController extends Component
                     ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                     ->orderBy('movimientos.created_at', 'asc')
                     ->get();
-
+                
+      
                 $this->operaciones();
 
             } else {
@@ -594,9 +620,10 @@ class ReporteMovimientoResumenController extends Component
         $this->comentario = null;
     }
 
-    public function generarpdf($totalesIngresosV, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $ingresosTotalesBancos, $operacionsob, $operacionfalt)
+    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $ingresosTotalesBancos, $operacionsob, $operacionfalt)
     {
         session(['totalIngresosV' => $totalesIngresosV]);
+        session(['totalIngresosS' => $totalesIngresosS]);
         session(['totalIngresosIE' => $totalesIngresosIE]);
         session(['totalEgresosV' => $totalesEgresosV]);
         session(['totalEgresosIE' => $totalesEgresosIE]);
