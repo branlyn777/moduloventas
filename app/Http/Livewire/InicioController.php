@@ -98,7 +98,7 @@ class InicioController extends Component
 
 
         //Grafica de barras para ingresos y egresos por categoria
-        for ($i = 0; $i <= 6; $i++) {
+        for ($i = 0; $i <= 3; $i++) {
             array_unshift($this->mesesbarras, Carbon::now()->subMonths($i)->isoFormat('MMMM'));
             $ingreso = Movimiento::join('cartera_movs', 'cartera_movs.movimiento_id', 'movimientos.id')
                 ->whereMonth('movimientos.created_at', now()->subMonths($i))
