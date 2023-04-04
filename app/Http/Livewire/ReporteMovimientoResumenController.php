@@ -205,13 +205,17 @@ class ReporteMovimientoResumenController extends Component
             $servicios=Service::join('order_services','order_services.id','services.order_service_id')
             ->join('mov_services','mov_services.service_id','services.id')
             ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+            ->join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+            ->join('carteras as c', 'c.id', 'crms.cartera_id')
             ->select(
                 'movimientos.import as importe',
                 'movimientos.created_at as movcreacion',
                 'movimientos.id as idmov',
                 'order_services.id as order_id',
                 'services.solucion as servicio_solucion',
-                DB::raw('0 as caja')
+                'c.tipo as ctipo',
+                DB::raw('0 as caja'),
+                DB::raw('0 as tipo'),
             )
             ->where('movimientos.type','ENTREGADO')
             ->where('movimientos.status', 'ACTIVO')
@@ -220,10 +224,11 @@ class ReporteMovimientoResumenController extends Component
             foreach ($servicios as $val) {
                 $dcaja = $this->cajaoperacion($val->idmov);
                 $val->caja = $dcaja;
+             
             }
 
             $this->totalServicios = $servicios->where('caja', $this->caja);
-            dd($this->totalServicios);
+         
             $this->operaciones();
         } else {
             if ($this->sucursal != 'TODAS') {
@@ -322,6 +327,26 @@ class ReporteMovimientoResumenController extends Component
                     ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
                     ->orderBy('movimientos.created_at', 'asc')
                     ->get();
+
+                    $servicios=Service::join('order_services','order_services.id','services.order_service_id')
+                    ->join('mov_services','mov_services.service_id','services.id')
+                    ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+                    ->select(
+                        'movimientos.import as importe',
+                        'movimientos.created_at as movcreacion',
+                        'movimientos.id as idmov',
+                        'order_services.id as order_id',
+                        'services.solucion as servicio_solucion',
+                        DB::raw('0 as caja')
+                    )
+                    ->where('movimientos.type','ENTREGADO')
+                    ->where('movimientos.status', 'ACTIVO')
+                    ->where('services.sucursal_id',$this->sucursal)
+                    ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                    ->get();
+              
+        
+                    $this->totalServicios = $servicios;
                 
       
                 $this->operaciones();
@@ -385,6 +410,23 @@ class ReporteMovimientoResumenController extends Component
 
                 $this->totalesIngresosIE = $IngresosIE->where('carteramovtype', 'INGRESO');
                 $this->totalesEgresosIE = $IngresosIE->where('carteramovtype', 'EGRESO');
+                $servicios=Service::join('order_services','order_services.id','services.order_service_id')
+                ->join('mov_services','mov_services.service_id','services.id')
+                ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+                ->select(
+                    'movimientos.import as importe',
+                    'movimientos.created_at as movcreacion',
+                    'movimientos.id as idmov',
+                    'order_services.id as order_id',
+                    'services.solucion as servicio_solucion',
+                    DB::raw('0 as caja')
+                )
+                ->where('movimientos.type','ENTREGADO')
+                ->where('movimientos.status', 'ACTIVO')
+                ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
+                ->get();
+        
+                $this->totalServicios = $servicios;
                 $this->operaciones();
             }
         }

@@ -347,7 +347,104 @@
                     <tr>
                       <td colspan="3" class="hiddenRow">
                         <div class="accordian-body collapse" id="ingresos-detalle-servicios">
-                          Detalle de Ingresos por servicios
+                            <label>Detalle de ingresos por Servicios</label> 
+                            <div class="container">
+                               <div class="table-responsive">
+                                   <table class="table table-hover">
+                                       <thead>
+                                           <tr>
+                                               <th class="text-sm text-center">N°</th>
+                                               <th class="text-xs">Fecha</th>
+                                               <th class="text-xs text-left">Detalle</th>
+                                               {{-- <th class="text-xs ie">
+                                                   @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                                       Utilidad
+                                                   @endif
+                                               </th> --}}
+                                               <th class="text-xs ie">Importe</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody>
+                                           @foreach ($totalServicios as $p)
+                                               <tr>
+                                                   <td class="text-sm text-center no">
+                                                       {{ $loop->iteration }}
+                                                   </td>
+                                                   <td class="text-sm">
+                                                       {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y') }}
+                                                       <br>
+                                                       {{ \Carbon\Carbon::parse($p->movcreacion)->format('H:i') }}
+                                                   </td>
+                                                   <td>
+                                                       <div class="accordion-1">
+                                                           <div class="">
+                                                               <div class="row">
+                                                                   <div class="col-md-12 mx-auto">
+                                                                       <div class="accordion" id="accordionRental">
+   
+                                                                           <div class="accordion-item mb-3">
+                                                                               <h6 class="accordion-header"
+                                                                                   id="headingOne">
+                                                                                   <button
+                                                                                       class="accordion-button border-bottom font-weight-bold collapsed"
+                                                                                       type="button"
+                                                                                       data-bs-toggle="collapse"
+                                                                                       data-bs-target="#collapseOne{{ $loop->iteration }}"
+                                                                                       aria-expanded="false"
+                                                                                       aria-controls="collapseOne{{ $loop->iteration }}">
+   
+                                                                                       <div class="text-sm">
+                                                                                           COD.{{ $p->order_id }},{{ $p->ctipo == 'efectivo' ? 'Cobro realizado en efectivo' : 'Cobro realizado por transaccion de ' }}
+                                                                                       </div>
+                                                                                       <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                                                           aria-hidden="true"></i>
+                                                                                       <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                                                           aria-hidden="true"></i>
+                                                                                   </button>
+                                                                               </h6>
+                                                                               <div id="collapseOne{{ $loop->iteration }}"
+                                                                                   class="accordion-collapse collapse"
+                                                                                   aria-labelledby="headingOne"
+                                                                                   data-bs-parent="#accordionRental"
+                                                                                   style="">
+                                                                                   <div class="accordion-body text-sm">
+   
+   
+   
+   
+   
+                                                                                   </div>
+                                                                               </div>
+                                                                           </div>
+   
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                   </td>
+                                                   <td>
+                                                       @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                                           <span class="badge badge-sm bg-success text-sm">
+                                                               {{ number_format($p->utilidadventa, 2) }}
+                                                           </span>
+                                                       @endif
+                                                   </td>
+                                                   <td>
+                                                       <span class="badge badge-sm bg-primary text-sm">
+                                                           {{ number_format($p->importe, 2) }}
+                                                       </span>
+                                                   </td>
+                                               </tr>
+                                           @endforeach
+                                       </tbody>
+                                   </table>
+                               </div>
+                            </div>
+   
+
+
+
                         </div>
                       </td>
                     </tr>
