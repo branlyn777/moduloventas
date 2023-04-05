@@ -478,12 +478,13 @@ class ReporteMovimientoResumenController extends Component
 
     public function operaciones()
     {
+       
         //Totales carteras tipo Caja Fisica
         $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'efectivo')
-            ->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe');
+        ->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') + $this->totalServicios->where('ctipo', 'efectivo')->sum('importe');
         //Totales carteras tipo No Caja Fisica CON BANCOS
         $this->ingresosTotalesBancos = $this->totalesIngresosV->where('ctipo', 'digital')->sum('importe') +
-            $this->totalesIngresosIE->where('ctipo', 'digital')->sum('importe');
+            $this->totalesIngresosIE->where('ctipo', 'digital')->sum('importe')+$this->totalServicios->where('ctipo', 'digital')->sum('importe');
         //dd($this->ingresosTotalesNoCFBancos);
         $this->ingresos_totales = $this->ingresosTotalesCF + $this->ingresosTotalesBancos;
         //Total Utilidad Ventas y Servicios
@@ -494,7 +495,9 @@ class ReporteMovimientoResumenController extends Component
         $this->EgresosTotalesCF = $this->totalesEgresosV->where('ctipo', 'efectivo')->sum('importe') + $this->totalesEgresosIE->where('ctipo', 'efectivo')->sum('importe');
         $this->saldo = $this->ingresosTotalesCF + $this->ingresosTotalesBancos - $this->EgresosTotalesCF;
         $this->operaciones_tigo = $this->trsbydate();
+   
         $this->total_efectivo = $this->ingresosTotalesCF - $this->EgresosTotalesCF + $this->operaciones_tigo;
+   
         //Ingresos - Egresos
         $this->subtotalcaja = $this->subtotalesIngresos - $this->EgresosTotalesCF;
         if ($this->caja != "TODAS") {
