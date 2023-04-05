@@ -347,18 +347,10 @@
                             </a>
                         </li>
                     </ul>
-                    {{-- <ul class="nav ms-4">
-                        <li class=@yield('cotizationli', 'nav-item ')>
-                            <a class=@yield('cotizationnav', 'nav-link ') href="{{ url('cotizacion') }}">
-                                <span class="sidenav-mini-icon"> C </span>
-                                <span class="sidenav-normal"> Cotización </span>
-                            </a>
-                        </li>
-                    </ul> --}}
                 </div>
             </li>
 
-            <li class=@yield('cotizacionli', 'nav-item ')>
+            {{-- <li class=@yield('cotizacionli', 'nav-item ')>
                 <a class=@yield('cotizacionnav', 'nav-link ') href="{{ url('cotizacion') }}">
                     <div
                         class="icon icon-shape icon-sm text-center me-2 d-flex align-items-center justify-content-center">
@@ -366,7 +358,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Cotización</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item">
                 <a class="nav-link active collapsed" aria-controls="dashboardsExamples" role="a"

@@ -23,21 +23,6 @@ class RoleHasPermissionSeeder extends Seeder
                 'role_id' => 1
             ]);
         }
-        for ($x = 1; $x <= 27; $x++) {  
-            /* TODOS LOS PERMISOS PARA EL ROL ADMINISTRADOR */
-            RoleHasPermissions::create([
-                'permission_id' => $x,
-                'role_id' => 2
-            ]);
-        }
-        for ($x = 1; $x <= 27; $x++) {  
-            /* TODOS LOS PERMISOS PARA EL ROL ADMINISTRADOR */
-            RoleHasPermissions::create([
-                'permission_id' => $x,
-                'role_id' => 3
-            ]);
-        }
-
     }
 
 }

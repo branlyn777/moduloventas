@@ -14,14 +14,11 @@ class SucursalUserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=1; $i < 6; $i++)
-        { 
-            SucursalUser::create([
-                'user_id' => $i,
-                'sucursal_id' => '1',
-                'estado' => 'ACTIVO',
-                'fecha_fin' => null,
-            ]);
-        }
+        SucursalUser::create([
+            'user_id' => 1,
+            'sucursal_id' => '1',
+            'estado' => 'ACTIVO',
+            'fecha_fin' => null,
+        ]);
     }
 }
