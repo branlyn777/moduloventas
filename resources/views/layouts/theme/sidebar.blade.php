@@ -36,7 +36,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('resumenmovimientos') }}">
                                     <span class="sidenav-mini-icon"> M </span>
-                                    <span class="sidenav-normal"> Movimientos </span>
+                                    <span class="sidenav-normal"> Movimientos Diarios</span>
                                 </a>
                             </li>
                         </ul>
@@ -536,7 +536,7 @@
                         <li class=@yield('movimientosli', 'nav-item ')>
                             <a class=@yield('movimientosnav', 'nav-link ') href="{{ url('resumenmovimientos') }}">
                                 <span class="sidenav-mini-icon"> M </span>
-                                <span class="sidenav-normal"> Movimientos </span>
+                                <span class="sidenav-normal"> Movimientos Diarios </span>
                             </a>
                         </li>
                     </ul>

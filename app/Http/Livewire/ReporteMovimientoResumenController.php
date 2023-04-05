@@ -162,10 +162,6 @@ class ReporteMovimientoResumenController extends Component
                 $val->utilidadventa = $this->utilidadventa($val->idventa);
             }
 
-           
-
-
-
 
             $this->totalesIngresosV = $totalesIngresosVentas->where('caja', $this->caja);
 
@@ -214,13 +210,15 @@ class ReporteMovimientoResumenController extends Component
                 'order_services.id as order_id',
                 'services.solucion as servicio_solucion',
                 'c.tipo as ctipo',
-                DB::raw('0 as caja'),
-                DB::raw('0 as tipo'),
+                'c.nombre as cnombre',
+                DB::raw('0 as caja')
+            
             )
             ->where('movimientos.type','ENTREGADO')
             ->where('movimientos.status', 'ACTIVO')
             ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
             ->get();
+            //dd($servicios);
             foreach ($servicios as $val) {
                 $dcaja = $this->cajaoperacion($val->idmov);
                 $val->caja = $dcaja;
@@ -331,12 +329,16 @@ class ReporteMovimientoResumenController extends Component
                     $servicios=Service::join('order_services','order_services.id','services.order_service_id')
                     ->join('mov_services','mov_services.service_id','services.id')
                     ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+                    ->join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                    ->join('carteras as c', 'c.id', 'crms.cartera_id')
                     ->select(
                         'movimientos.import as importe',
                         'movimientos.created_at as movcreacion',
                         'movimientos.id as idmov',
                         'order_services.id as order_id',
                         'services.solucion as servicio_solucion',
+                        'c.tipo as ctipo',
+                        'c.nombre as cnombre',
                         DB::raw('0 as caja')
                     )
                     ->where('movimientos.type','ENTREGADO')
@@ -413,12 +415,16 @@ class ReporteMovimientoResumenController extends Component
                 $servicios=Service::join('order_services','order_services.id','services.order_service_id')
                 ->join('mov_services','mov_services.service_id','services.id')
                 ->join('movimientos','movimientos.id','mov_services.movimiento_id')
+                ->join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                ->join('carteras as c', 'c.id', 'crms.cartera_id')
                 ->select(
                     'movimientos.import as importe',
                     'movimientos.created_at as movcreacion',
                     'movimientos.id as idmov',
                     'order_services.id as order_id',
                     'services.solucion as servicio_solucion',
+                    'c.tipo as ctipo',
+                    'c.nombre as cnombre',
                     DB::raw('0 as caja')
                 )
                 ->where('movimientos.type','ENTREGADO')
