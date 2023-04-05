@@ -155,8 +155,13 @@ class InicioController extends Component
 
         //Cálculo del total del mes anterior
         $previous_month_total = Sale::whereMonth('created_at', Carbon::now()->subMonth()->month)->where("status","PAID")->sum('total');
+        $percentage = 0;
 
-        $percentage = ($total_current_month * 100) / $previous_month_total;
+        if($previous_month_total != 0)
+        {
+            $percentage = ($total_current_month * 100) / $previous_month_total;
+        }
+
 
 
 
