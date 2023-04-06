@@ -133,7 +133,7 @@ class InicioController extends Component
             ->orderBy('cantidad_vendida','DESC')
             
             ->get();
-//dd($prod_mas_vendidos->count());
+
         //nuevos clientes
 
         $this->porcentajeclientes= $this->porcent_clientes();
@@ -182,7 +182,7 @@ class InicioController extends Component
       $percentage = 0;
 
 
-       //GRAFICO PROCEDENCIA CLENTES
+       //GRAFICO PROCEDENICA CLIENTE INICIO
 
        $origins = ProcedenciaCliente::where("estado","Activo")->get();
 
@@ -273,10 +273,6 @@ class InicioController extends Component
             //dd($gan_actual);
             return ($gan_actual/$lm)*100;
         }
-
-
-
-
 
     }
 
