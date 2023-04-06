@@ -480,7 +480,7 @@
                                                 <tr>
                                                     <td class="text-center pe-3">
                                                         <span class="text-sm">
-                                                            {{$s->number}}
+                                                            {{$so->number}}
                                                         </span>
                                                     </td>
                                                     <td class="pe-3">
