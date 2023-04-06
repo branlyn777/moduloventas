@@ -18,10 +18,11 @@ class ReporteServiceController extends Component
     public $componentName, $data, $details, $sumDetails, $countDetails, $reportType,
         $userId, $dateFrom, $dateTo, $transaccionId, $estado, $fechas, $tecnico,
         $estadovista, $fechadesde, $fechahasta, $from, $costoEntregado, $to, $sumaUtilidad,
-        $sucursal;
+        $sucursal, $show_date;
 
     public function mount()
     {
+        $this->show_date = false;
         $this->componentName = 'REPORTES SERVICIO';
         $this->data = [];
         $this->details = [];

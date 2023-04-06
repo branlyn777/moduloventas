@@ -52,6 +52,9 @@ class OrderServiceController extends Component
 
     //Variebles para los filtros
     public $search, $search_all, $status_service_table;
+
+    //
+    public $counter;
     
 
     //Guarda Información de un servicio
@@ -64,8 +67,12 @@ class OrderServiceController extends Component
     {
         return "vendor.livewire.bootstrap";
     }
-    public function mount()
+    public function mount($code = null)
     {
+        if($code != null)
+        {
+            $this->search = $code;
+        }
         $this->status_service_table = "PENDIENTE";
         $this->search_all = false;
         $this->pagination = 20;
@@ -73,6 +80,8 @@ class OrderServiceController extends Component
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
         //Guarda true si el usuario realizó corte de caja
         $this->box_status = false;
+
+        $this->counter = 0;
     }
     public function render()
     {
@@ -85,8 +94,7 @@ class OrderServiceController extends Component
                     "order_services.id as code",
                     "order_services.created_at as reception_date",
                     DB::raw("0 as services"),
-                    DB::raw("0 as client"),
-                    DB::raw("0 as number")
+                    DB::raw("0 as client")
                 )
                 ->where("order_services.status", "ACTIVO")
                 ->orderBy("order_services.id", "desc")
@@ -102,8 +110,7 @@ class OrderServiceController extends Component
                         "os.created_at as reception_date",
                         "m.type as estado_movimiento",
                         DB::raw("0 as services"),
-                        DB::raw("0 as client"),
-                        DB::raw("0 as number")
+                        DB::raw("0 as client")
                     )
                 ->where("m.type", $this->status_service_table)
                 ->where("os.status", "ACTIVO")
@@ -111,7 +118,6 @@ class OrderServiceController extends Component
                 ->distinct()
                 ->orderBy("os.id", "desc")
                 ->paginate($this->pagination);
-
             }
         }
         else
@@ -131,8 +137,7 @@ class OrderServiceController extends Component
                 "os.id as code",
                 "os.created_at as reception_date",
                 DB::raw("0 as services"),
-                DB::raw("0 as client"),
-                DB::raw("0 as number")
+                DB::raw("0 as client")
             )
             ->where("os.status", "ACTIVO")
             ->where("os.id", $this->search)
@@ -145,9 +150,14 @@ class OrderServiceController extends Component
             ->distinct()
             ->orderBy("os.id", "desc")
             ->paginate(200);
-
         }
-        $row_number = ($service_orders->currentPage() - 1) * $service_orders->count();
+        // if($service_orders->currentPage() == $service_orders->lastPage())
+        // {
+        //     $row_number = ($service_orders->currentPage() - 1) * $service_orders->count();
+        //     dd($row_number);
+        // }
+             
+        //Cargando todos los servicios correspondientes a la órdenes de servicio obtenidas
         foreach ($service_orders as $so)
         {
             if(strlen($this->search) == 0)
@@ -164,10 +174,6 @@ class OrderServiceController extends Component
                 }
                 //Obtener el nombre del cliente
                 $so->client = $this->get_client($so->code);
-    
-                //Poniendo la numeración para la paginación
-                $row_number++;
-                $so->number = $row_number;
             }
             else
             {
@@ -175,13 +181,31 @@ class OrderServiceController extends Component
                 $so->services = $this->get_service_order_detail($so->code);
                 //Obtener el nombre del cliente
                 $so->client = $this->get_client($so->code);
-    
-                //Poniendo la numeración para la paginación
-                $row_number++;
-                $so->number = $row_number;
             }
-
         }
+
+
+        if($service_orders->currentPage() == 1)
+        {
+            $row_number = ($service_orders->currentPage() - 1) * $this->pagination;
+        }
+        else
+        {
+            $row_number = $this->counter;
+            $this->counter = 0;
+        }
+
+        //Numerando todos los servicios
+        foreach ($service_orders as $so)
+        {
+            foreach($so->services as $s)
+            {
+                $row_number++;
+                $s->number = $row_number;
+            }
+        }
+
+        $this->counter = $row_number;
         return view("livewire.order_service.orderservice", [
             "service_orders" => $service_orders,
         ])
@@ -194,7 +218,7 @@ class OrderServiceController extends Component
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
         ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
-        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
+        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"), DB::raw("0 as number"),
         "m.import as price_service","m.type as type","cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.falla_segun_cliente as client_fail')
         ->where("services.order_service_id", $code)
         ->where("m.status", "ACTIVO")
@@ -223,7 +247,7 @@ class OrderServiceController extends Component
         $services = Service::join("mov_services as ms", "ms.service_id","services.id")
         ->join("movimientos as m", "m.id", "ms.movimiento_id")
         ->join('cat_prod_services as cps', 'cps.id', 'services.cat_prod_service_id')
-        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"),
+        ->select("services.id as idservice","services.created_at as created_at", DB::raw("0 as responsible_technician"), DB::raw("0 as receiving_technician"), DB::raw("0 as number"),
         "m.import as price_service","m.type as type","cps.nombre as name_cps",'services.marca as mark','services.detalle as detail','services.falla_segun_cliente as client_fail')
         ->where("services.order_service_id", $code)
         ->where("m.status", "ACTIVO")

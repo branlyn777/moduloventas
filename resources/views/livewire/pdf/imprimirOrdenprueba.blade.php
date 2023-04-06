@@ -87,17 +87,16 @@
                             </tr>
                         </table>
                     </td>
-                    <td style="width: 8px;"></td> {{-- espaciador entre columnas --}}
+                    <td style="width: 17px;"></td> {{-- espaciador entre columnas --}}
                     {{-- Aqui comienza la segunda columna --}}
                     <td style="width: 15cm">
                              <table width="100%">
                                 <tr>
-
                                     <td width="50%">
                                         <div class="col-sm-6 col-md-6" style="text-align: center; ">
                                             <div class="text-bold"
                                                 style="font-size: 15px; margin-top: 0px; margin-bottom: 0px;">
-                                                <b>ORDEN DE SERVICIOTÉCNICO<br>{{ $data }}</b>
+                                                <b>ORDEN DE SERVICIO TÉCNICO<br>{{ $data }}</b>
                                             </div>
                                             <!--<font size="2"><b>Nro.:  </b></font>-->
                                             <span style="font-size: 9px">
@@ -133,7 +132,6 @@
                                                 </b>
                                                 {{ \Carbon\Carbon::parse($orden_servicio->created_at)->format('d/m/Y H:i') }}
                                                 <br>
-
                                                 <b>CLIENTE: </b> {{ $cliente->nombre }}
                                             </div>
                                         </td>
