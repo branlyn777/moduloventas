@@ -26,7 +26,7 @@ use App\Http\Livewire\DetalleComprasController;
 use App\Http\Livewire\IngresoEgresoController;
 use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
-use App\Http\Controllers\ExportCotizationController;
+use App\Http\Controllers\EstanteProductosController;
 use App\Http\Controllers\ExportMovDiaResController;
 use App\Http\Controllers\ExportMovDiaSesionController;
 use App\Http\Controllers\ExportMovimientoController;
@@ -124,9 +124,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 
-
-
-
     /* TIGO MONEY */
     Route::get('origenes', OrigenController::class)->name('origen')->middleware('permission:Origen_Index');
     Route::get('motivos', MotivoController::class)->name('motivo')->middleware('permission:Motivo_Index');
@@ -169,9 +166,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
     Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
 
-    //Cotizacion
-    Route::get('pdfcotizacion/{idcotizacion}', [ExportCotizationController::class, 'PDFCotization']);
-
 
     //INVENTARIOS
     Route::group(['middleware' => ['permission:Inventarios']], function () {
@@ -203,43 +197,45 @@ Route::middleware(['auth'])->group(function () {
     });
     //Inventarios (Pdsf y Excel)
  
-    Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
-    Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
-    Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
-    Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
-    Route::get('productos/export/', [ProductsController::class, 'export']);
-    Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
+        Route::get('Compras/pdf/{id}', [ExportComprasController::class, 'PrintCompraPdf']);
+        Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
+        Route::get('estanteria/productos/pdf/{id}', [EstanteProductosController::class, 'estanteProductoPdf']);
+        Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
+        Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
+        Route::get('productos/export/', [ProductsController::class, 'export']);
+        Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
 
-    Route::get('chart', [ChartJSController::class, 'index']);
-    Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
-
-
-
+        Route::get('chart', [ChartJSController::class, 'index']);
+        Route::get('notificaciones', NotificationInventoryController::class)->name('notificaciones');
 
 
-    /* SERVICIOS */
-    Route::get('proximos', ProximosController::class)->name('proximos');
-    Route::get('catprodservice', CatProdServiceController::class)->name('cps')->middleware('permission:Cat_Prod_Service_Index');
-    Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
-    Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
-    Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
-    Route::get('creareditarorden', ServiceController::class)->name('creareditarorden');
-    Route::get('ordenesservicios', OrderServiceController::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
-    // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
-    Route::get('idorderservice/{id}', [OrderServiceController::class, 'buscarid'])->name('buscarid')->middleware('permission:Orden_Servicio_Index');
-    Route::get('abrirnuevo/{id}', [OrderServiceController::class, 'abrirventana'])->name('abrirventana')->middleware('permission:Orden_Servicio_Index');
-    Route::get('reporteservices', ReporteServiceController::class)->name('rs')->middleware('permission:Reporte_Servicios_Index');
-    Route::get('servicioscostos', ReporteServiciosCostosController::class)->name('servicioscostos');
-    Route::get('reportentregservices', ReportEntregadoServController::class)->name('res')->middleware('permission:Boton_Entregar_Servicio');
-    Route::get('reporteserviciocliente', ReporteServicioClienteController::class)->name('reporteserviciocliente');
-    /* SERVICIOS PDF */
-    Route::get('reporte/pdf/{id}', [ImprimirController::class, 'print'])->middleware('permission:Imprimir_Orden_Servicio_Index');
-    Route::group(['middleware' => ['permission:Reporte_Servicios_Export']], function () {
-        Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}/{f1}/{f2}', [ExportServicioPdfController::class, 'reporteServPDF']);
-        Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}', [ExportServicioPdfController::class, 'reporteServPDF']);
-    });
-    Route::get('reporteclientes/export/', [ClientsReportExport::class, 'export']);
-    Route::get('informetecnico/pdf/{id}', [ServicioInformeTecnicoController::class, 'print']);
-    Route::get('reporteServicEntreg/pdf/{type}/{f1}/{f2}/{sucursal}/{sE}/{sB}/{caja}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
-    Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
+
+
+
+
+        /* SERVICIOS */
+        Route::get('proximos', ProximosController::class)->name('proximos');
+        Route::get('catprodservice', CatProdServiceController::class)->name('cps')->middleware('permission:Cat_Prod_Service_Index');
+        Route::get('subcatprodservice', SubCatProdServiceController::class)->name('scps')->middleware('permission:SubCat_Prod_Service_Index');
+        Route::get('typework', TypeWorkController::class)->name('tw')->middleware('permission:Type_Work_Index');
+        Route::get('service', ServiciosController::class)->name('serv')->middleware('permission:Service_Index');
+        Route::get('creareditarorden', ServiceController::class)->name('creareditarorden');
+        Route::get('ordenesservicios/{code?}', OrderServiceController::class)->name('ordenesservicios')->middleware('permission:Orden_Servicio_Index');
+        // Route::get('inicio', InicioController::class)->name('in')->middleware('permission:Inicio_Index');
+        Route::get('abrirnuevo/{id}', [OrderServiceController::class, 'abrirventana'])->name('abrirventana')->middleware('permission:Orden_Servicio_Index');
+        Route::get('reporteservices', ReporteServiceController::class)->name('rs')->middleware('permission:Reporte_Servicios_Index');
+        Route::get('servicioscostos', ReporteServiciosCostosController::class)->name('servicioscostos');
+        Route::get('reportentregservices', ReportEntregadoServController::class)->name('res')->middleware('permission:Boton_Entregar_Servicio');
+        Route::get('reporteserviciocliente', ReporteServicioClienteController::class)->name('reporteserviciocliente');
+        /* SERVICIOS PDF */
+        Route::get('reporte/pdf/{id}', [ImprimirController::class, 'print'])->middleware('permission:Imprimir_Orden_Servicio_Index');
+        Route::group(['middleware' => ['permission:Reporte_Servicios_Export']], function () {
+            Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}/{f1}/{f2}', [ExportServicioPdfController::class, 'reporteServPDF']);
+            Route::get('reporteServicio/pdf/{user}/{estado}/{sucursal}/{type}', [ExportServicioPdfController::class, 'reporteServPDF']);
+        });
+        Route::get('reporteclientes/export/', [ClientsReportExport::class, 'export']);
+        Route::get('informetecnico/pdf/{id}', [ServicioInformeTecnicoController::class, 'print']);
+        Route::get('reporteServicEntreg/pdf/{type}/{f1}/{f2}/{sucursal}/{sE}/{sB}/{caja}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
+        Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
+
 });

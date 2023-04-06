@@ -64,8 +64,12 @@ class OrderServiceController extends Component
     {
         return "vendor.livewire.bootstrap";
     }
-    public function mount()
+    public function mount($code = null)
     {
+        if($code != null)
+        {
+            $this->search = $code;
+        }
         $this->status_service_table = "PENDIENTE";
         $this->search_all = false;
         $this->pagination = 20;
