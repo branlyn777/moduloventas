@@ -14,7 +14,6 @@
 
     </nav>
 @endsection
-
 <div>
     <div class="container-fluid">
         <div class="row">
@@ -49,7 +48,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col mt-sm-0 mt-4">
                 <div class="card">
                     <div class="card-body p-3 position-relative">
@@ -189,7 +187,7 @@
 
                                     <div class="col-md-7 text-start">
                                         <div class="chart">
-                                            <canvas id="chart-pie" class="chart-canvas" 
+                                            <canvas id="chart-pie" class="chart-canvas"
                                                 style="display: block; box-sizing: border-box; height: 320px; width: 161.5px;"></canvas>
                                         </div>
                                     </div>
@@ -205,8 +203,7 @@
                                 <div class="row">
                                     <div class="col-md-7">
                                         <div class="chart">
-                                            <canvas id="chart-pie-egresos" class="chart-canvas" 
-                                             
+                                            <canvas id="chart-pie-egresos" class="chart-canvas"
                                                 style="display: block; box-sizing: border-box; height: 250px; width: 300.5px;"></canvas>
                                         </div>
                                     </div>
@@ -239,9 +236,123 @@
                 </div>
             </div>
         </div>
+
+         {{-- grafica procedencia cliente--}}
+
         <div class="row mt-4">
+            <div class="col-lg-4 col-sm-6">
+                <div class="card h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Procedencia Clientes</h6>
+                            {{-- <button type="button"
+                                class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                                data-bs-original-title="See traffic channels">
+                                <i class="fas fa-info" aria-hidden="true"></i>
+                            </button> --}}
+                        </div>
+                    </div>
+                    <div class="card-body pb-0 p-3 mt-4">
+                        <div class="row">
+                            <div class="col-7 text-start">
+                                
+                                <div class="chart">
+                                    <canvas id="chart-procedencia" class="chart-canvas" height="200"
+                                        width="161"
+                                        style="display: block; box-sizing: border-box; height: 200px; width: 161.5px;"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-5 my-auto">
+                                @foreach ($origins as $no)
+                                    <span class="badge badge-md badge-dot me-4 d-block text-start">
+                                        <i class="bg-info"></i>
+                                        <span class="text-dark text-xs">{{ $no->procedencia }}</span>
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center">
+                     
+                     
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
+                <div class="card">
+                    
+                    <div class="card-header pb-0">
+                        <h6>Productos Mas Vendidos del Mes</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Nombre Producto</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Un.Vendidas</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            En Bs.</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach ($productos_vendidos as $item)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-3 py-1">
+                                                    <div>
+                                                        @if ($item->prodimg != null)
+                                                            <img src="{{ asset('storage/productos/' . $item->prodimg) }}"
+                                                                alt="productos vendidos" width="50"
+                                                                class="avatar me-3">
+                                                        @else
+                                                            <img src="{{ asset('storage/productos/' . 'noimagenproduct.png') }}"
+                                                                width="50" class="avatar me-3"
+                                                                alt="productos imagen">
+                                                        @endif
+
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $item->nombre }}</h6>
+                                                        {{-- <p class="text-sm font-weight-bold text-secondary mb-0"><span
+                                                                class="text-success">85</span> Ordenes</p> --}}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $item->cantidad_vendida }}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm font-weight-bold mb-0">{{ $item->total_vendido }}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- grafica procedencia cliente--}}
+
+
+        {{-- <div class="row mt-4">
             <div class="col-12">
                 <div class="card mb-4">
+
+
                     <div class="card-header pb-0">
                         <h6>Productos Mas Vendidos del Mes</h6>
                     </div>
@@ -283,8 +394,8 @@
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">{{ $item->nombre }}</h6>
-                                                        {{-- <p class="text-sm font-weight-bold text-secondary mb-0"><span
-                                                                class="text-success">85</span> Ordenes</p> --}}
+                                                         <p class="text-sm font-weight-bold text-secondary mb-0"><span
+                                                                class="text-success">85</span> Ordenes</p> 
                                                     </div>
                                                 </div>
                                             </td>
@@ -309,7 +420,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <footer class="footer pt-3  ">
             <div class="container-fluid">
                 <div class="row align-items-center justify-content-lg-between">
@@ -373,7 +484,7 @@
     var ctx2 = document.getElementById("chart-pie").getContext("2d");
     var ctx4 = document.getElementById("chart-pie-egresos").getContext("2d");
     var ctx3 = document.getElementById("chart-bar").getContext("2d");
-
+    var ctx5 = document.getElementById("chart-procedencia").getContext("2d");
     var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke1.addColorStop(1, 'rgba(94, 114, 228,0.2)');
@@ -396,7 +507,7 @@
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
-    // Line chart
+  // Line chart
     new Chart(ctx1, {
         type: "line",
         data: {
@@ -475,6 +586,7 @@
     });
 
 
+
     // Pie chart of incomes and bills
     new Chart(ctx2, {
         type: "pie",
@@ -543,7 +655,9 @@
                 tension: 0.9,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: ["#8056F0", "#5A5BFA", "#5D81E3", "#5AAFFA", "#56D0F0","#193545","#88F056","#CC5AFA"],
+                backgroundColor: ["#8056F0", "#5A5BFA", "#5D81E3", "#5AAFFA", "#56D0F0", "#193545",
+                    "#88F056", "#CC5AFA"
+                ],
                 data: chtegresos,
                 fill: false
             }],
@@ -653,5 +767,60 @@
                 },
             },
         }
+    });
+
+    new Chart(ctx5, {
+        type: "pie",
+        data: {
+            labels: @json($name_origin_client),
+            datasets: [{
+                label: "Projects",
+                weight: 9,
+                cutout: 0,
+                tension: 0.9,
+                pointRadius: 2,
+                borderWidth: 2,
+                backgroundColor: @json($color_origin_client),
+                data: @json($quantity_origin_client),
+                fill: false
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false
+                    }
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                    },
+                    ticks: {
+                        display: false,
+                    }
+                },
+            },
+        },
     });
 </script>
