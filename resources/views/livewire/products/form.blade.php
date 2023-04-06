@@ -369,7 +369,7 @@
                                   
                                  </div>
                              </div>
-                             <div class="col-sm-12 col-md-6">
+                             {{-- <div class="col-sm-12 col-md-6">
                                  <div class="form-group">
                                      <label>
                                          Almacen
@@ -386,7 +386,7 @@
                                     @enderror
                                   
                                  </div>
-                             </div>
+                             </div> --}}
                          </div>
                         @endif
 

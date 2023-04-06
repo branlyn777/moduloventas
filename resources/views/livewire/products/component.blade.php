@@ -171,18 +171,18 @@
                         </div>
                         {{-- <button wire:click='deleteProducts()' type="button" class="btn btn-danger">Eliminar
                             Seleccionados</button> --}}
-                        
+
                         {{-- @if ($selectedProduct) --}}
-                            <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
-                                Seleccionados ({{count($selectedProduct)}})</button>
+                        <button type="button" wire:click='EliminarSeleccion()' class="btn btn-danger">Eliminar
+                            Seleccionados ({{ count($selectedProduct) }})</button>
                         {{-- @endif --}}
                     </div>
                 </div>
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <div class="fixed-columns">
                             <div class="dataTable-container">
-                                <table class="" id="products-list">
+                                <table class="table" id="products-list">
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
@@ -195,12 +195,12 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm">Categoría</th>
-                                            <th class="text-uppercase text-sm">Sub Categoría</th>
-                                            <th class="text-uppercase text-sm">Código</th>
-                                            <th class="text-uppercase text-sm text-center">Costo Activo</th>
-                                            <th class="text-uppercase text-sm text-center">Precio Activo</th>
-                                            <th class="text-uppercase text-sm">Estado</th>
+                                            <th class="text-uppercase text-sm text-center">Categoría</th>
+                                            <th class="text-uppercase text-sm text-center">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm text-center">Código</th>
+                                            <th class="text-uppercase text-sm text-center">Cantidad</th>
+
+                                            <th class="text-uppercase text-sm text-center">Estado</th>
                                             <th class="text-uppercase text-sm text-center">Acciones</th>
                                         </tr>
                                     </thead>
@@ -213,7 +213,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <div class="d-flex">
+                                                    <div class="d-flex align-items-center">
                                                         <div class="form-check my-auto">
                                                             <input class="form-check-input" type="checkbox"
                                                                 wire:model="selectedProduct"
@@ -222,45 +222,44 @@
                                                         <img src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                             alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
-                                                            
-                                                            
+                                                            <label
+                                                                style="font-size: 14px">{{ $products->nombre }}</label>
+
+
                                                             {{ $products->caracteristicas }}
 
 
-                                                            <p>{{ $products->unidad}}|{{ $products->marca}}|{{ $products->industria }}
-                                                            {{ $products->caracteristicas }}</p>
-                                                            
+                                                            <p>{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
+                                                                {{ $products->caracteristicas }}</p>
+
                                                         </div>
                                                     </div>
                                                 </td>
                                                 @if ($products->category->subcat != null)
-                                                    <td>
+                                                    <td class="text-center align-middle">
                                                         {{ $products->category->subcat->name }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
                                                 @else
-                                                    <td>
+                                                    <td class="text-center align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center align-middle">
                                                         No definido
 
                                                     </td>
                                                 @endif
-                                                <td>
+                                                <td class="text-center align-middle">
                                                     {{ $products->codigo }}
                                                 </td>
-                                                <td class="text-center">
-                                                    {{ $products->costoActivo() == null ? '--' : $products->costoActivo() }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $products->precioActivo() == null ? '--' : $products->precioActivo() }}
+                                                <td class="text-center align-middle">
+                                                    {{ $products->cantidad }}
                                                 </td>
 
-                                                <td>
+
+                                                <td class="text-center align-middle">
 
                                                     @if ($products->status == 'ACTIVO')
                                                         <span class="badge badge-sm bg-gradient-success">
@@ -279,6 +278,7 @@
                                                         title="Editar">
                                                         <i class="fas fa-edit text-secondary"></i>
                                                     </a>
+
                                                     @if ($products->status == 'ACTIVO')
                                                         <a href="javascript:void(0)"
                                                             onclick="Confirm('{{ $products->id }}','{{ $products->nombre }}',{{ $products->destinos->count() }})"
@@ -286,6 +286,35 @@
                                                             <i class="fas fa-trash text-danger"></i>
                                                         </a>
                                                     @endif
+                                                    <a href="javascript:void(0)"
+                                                        wire:click="lotes({{ $products->id }})" class="mx-3"
+                                                        title="Lotes">
+                                                        <i class="fas fa-box-open text-info"></i>
+                                                    </a>
+
+                                                    <span class="text-sm code dropdown-toggle pointer"
+                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <b><i class="fa-solid fa-wrench"></i></b>
+                                                    </span>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <li>
+                                                            <a class="dropdown-item" target=”_blank”
+                                                                href="">
+                                                                Ajustar Inventario
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                wire:click.prevent=""
+                                                                class="dropdown-item">
+                                                                Registrar Entrada/Salida
+                                                            </a>
+                                                        </li>
+                                                   
+                                                   
+                                                    </ul>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -310,11 +339,22 @@
     @include('livewire.products.modalmarca')
     @include('livewire.products.modalsubcategory')
     @include('livewire.products.modalcategory')
+    @include('livewire.destinoproducto.lotecosto')
+    @include('livewire.destinoproducto.lotesproductos')
 
 </div>
 @section('javascript')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            window.livewire.on('show-modal-lotes', msg => {
+                $('#lotes').modal('show')
+            });
+            window.livewire.on('hide-modal-ajuste', msg => {
+                $('#ajustesinv').modal('hide')
+            });
+            window.livewire.on('hide-modal-lote', msg => {
+                $('#lotes').modal('hide')
+            });
             window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');

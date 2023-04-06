@@ -28,10 +28,10 @@ class ProductsController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion,
-        $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado,$stockswitch,
-        $image, $imagen,$selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
-        $cantidad,$costoUnitario,$costoTotal,$destinosp,$destino,$precioVenta;
+    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote,
+        $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
+        $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
+        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
     public $checkAll = false;
     public $errormessage;
     public $selectedProduct = [];
@@ -53,20 +53,20 @@ class ProductsController extends Component
 
         $this->estados = 'Activo';
 
-        $this->selected_categoria=null;
+        $this->selected_categoria = null;
         $this->selectedProduct = collect();
         $this->marca = null;
         $this->unidad = null;
         $this->cont_lote = null;
-        $this->imagen='noimagenproduct.png';
-        $this->stockswitch=false;
-        $this->cantidad=1;
+        $this->imagen = 'noimagenproduct.png';
+        $this->stockswitch = false;
+        $this->cantidad = 1;
     }
-    
+
 
     public function updatedSelectedCategoria()
     {
-            $this->selected_sub = null;
+        $this->selected_sub = null;
     }
 
     /**
@@ -85,7 +85,7 @@ class ProductsController extends Component
     }
 
 
-  
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -98,48 +98,47 @@ class ProductsController extends Component
         $this->searchData = [];
     }
 
-    public function updatedSelectedId2(){
-        
-        $this->categoryid=null;
+    public function updatedSelectedId2()
+    {
 
+        $this->categoryid = null;
     }
 
     public function render()
     {
-      
+
         $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
-        ->get();
+            ->get();
 
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
-        ->select('products.*')
-        ->where('products.status', $this->estados==true?'ACTIVO':'INACTIVO')
-        ->when($this->search != null,function ($query) {
-            $query->where('products.nombre', 'like', '%' . $this->search . '%')
-                ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
-                ->orWhere('products.marca', 'like', '%' . $this->search . '%')
-                ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
-                ->orWhere('products.costo', 'like', '%' . $this->search . '%')
-                ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+            ->join('productos_destinos', 'productos_destinos.product_id', 'products.id')
+            ->select('products.*', 'productos_destinos.stock as cantidad')
+            ->where('products.status', $this->estados == true ? 'ACTIVO' : 'INACTIVO')
+            ->when($this->search != null, function ($query) {
+                $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.costo', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
             })
-        ->when($this->selected_categoria!=null and $this->selected_sub == null ,function($query){
+            ->when($this->selected_categoria != null and $this->selected_sub == null, function ($query) {
                 $query->where('c.id', $this->selected_categoria)
-                        ->where('c.categoria_padre',0);
+                    ->where('c.categoria_padre', 0);
             })
-        ->when($this->selected_sub!=null,function($query){
+            ->when($this->selected_sub != null, function ($query) {
                 $query->where('c.id', $this->selected_sub)
-                ->where('categoria_padre','!=',0);
+                    ->where('categoria_padre', '!=', 0);
             })
-            
-        ->orderBy('products.created_at', 'desc');
-            
-           
 
-       
+            ->orderBy('products.created_at', 'desc');
+
+
         $ss = Category::select('categories.*')
-        ->get();
+            ->get();
 
         if (count($this->searchData) > 0) {
-            //dd($this->searchData);
+
             foreach ($this->searchData as $data) {
                 $this->data2 = $data;
                 $prod = $prod->where(function ($querys) {
@@ -157,12 +156,11 @@ class ProductsController extends Component
             }
         }
 
-        $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
-        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
-        ->get();
+        if ($this->productid != null) {
+            $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
+        }
 
-      
-     
+
 
         return view('livewire.products.component', [
             'data' => $prod->paginate($this->pagination),
@@ -171,8 +169,8 @@ class ProductsController extends Component
             'marcas' => Marca::select('nombre')->orderBy('nombre', 'asc')->get(),
             'subcat' => $ss
         ])
-        ->extends('layouts.theme.app')
-        ->section('content');
+            ->extends('layouts.theme.app')
+            ->section('content');
     }
     public function Store()
     {
@@ -184,7 +182,7 @@ class ProductsController extends Component
             'nombre' => 'required|unique:products|min:5',
             'nombre' => 'required|unique:products|max:245',
             'codigo' => 'required|unique:products|min:3',
- 
+
             'selected_id2' => 'required|not_in:Elegir'
         ];
 
@@ -206,98 +204,94 @@ class ProductsController extends Component
 
         $this->validate($rules, $messages);
         if ($this->stockswitch === true) {
-        
+
             $rules = [
 
                 'cantidad' => 'required|numeric|min:1',
                 'costoUnitario' => 'required',
-                'destino' => 'required',
-     
-           
+         
+
+
             ];
-    
+
             $messages = [
                 'cantidad.required' => 'Agregue una cantidad',
                 'cantidad.min' => 'Agregue una cantidad mayor a 0',
                 'costoUnitario.required' => 'Agregue un costo para el ingreso inicial.',
-                'destino.required' => 'Seleccione un destino.',
-            
+     
+
             ];
             $this->validate($rules, $messages);
         }
         DB::beginTransaction();
         try {
 
-        $product = Product::create([
-            'nombre' => $this->nombre,
-            'caracteristicas' => $this->caracteristicas,
-            'codigo' => $this->codigo,
-            'lote' => $this->lote,
-            'unidad' => $this->unidad,
-            'marca' => $this->marca,
-            'garantia' => $this->garantia,
-            'cantidad_minima' => $this->cantidad_minima,
-            'industria' => $this->industria,
-            'category_id' => $this->categoryid,
-            'control' => $this->cont_lote
-        ]);
-        if ($this->image) {
-            $customFileName = uniqid() . '_.' . $this->image->extension();
+            $product = Product::create([
+                'nombre' => $this->nombre,
+                'caracteristicas' => $this->caracteristicas,
+                'codigo' => $this->codigo,
+                'lote' => $this->lote,
+                'unidad' => $this->unidad,
+                'marca' => $this->marca,
+                'garantia' => $this->garantia,
+                'cantidad_minima' => $this->cantidad_minima,
+                'industria' => $this->industria,
+                'category_id' => $this->categoryid,
+                'control' => $this->cont_lote
+            ]);
+
+            if ($this->image) {
+                $customFileName = uniqid() . '_.' . $this->image->extension();
 
 
-            $this->image->storeAs('public/productos/', $customFileName);
-            $product->image = $customFileName;
-            $product->save();
-        }
+                $this->image->storeAs('public/productos/', $customFileName);
+                $product->image = $customFileName;
+                $product->save();
+            }
 
 
-        if ($this->stockswitch === true) {
-            $rs=IngresoProductos::create([
-                'destino'=>$this->destino,
-                'user_id'=>Auth()->user()->id,
-                'concepto'=>'INICIAL',
-                'observacion'=>'INVENTARIO INICIAL DE PRODUCTOS'
-               ]);
-       
-                               $lot= Lote::create([
-                                'existencia'=>$this->cantidad,
-                                'costo'=>$this->costoUnitario,
-                                'status'=>'Activo',
-                                'product_id'=>$product->id,
-                                'pv_lote'=>$this->precioVenta
-                            ]);
-            
-                               DetalleEntradaProductos::create([
-                                    'product_id'=>$product->id,
-                                    'cantidad'=>$this->cantidad,
-                                    'costo'=>$this->costoUnitario,
-                                    'id_entrada'=>$rs->id,
-                                    'lote_id'=>$lot->id
-                               ]);
+            if ($this->stockswitch === true) {
+                $rs = IngresoProductos::create([
+                    'destino' => 1,
+                    'user_id' => Auth()->user()->id,
+                    'concepto' => 'INICIAL',
+                    'observacion' => 'INVENTARIO INICIAL DE PRODUCTOS'
+                ]);
 
-                               $q=ProductosDestino::where('product_id',$product->id)
-                    ->where('destino_id',$this->destino)->value('stock');
+                $lot = Lote::create([
+                    'existencia' => $this->cantidad,
+                    'costo' => $this->costoUnitario,
+                    'status' => 'Activo',
+                    'product_id' => $product->id,
+                    'pv_lote' => $this->precioVenta
+                ]);
 
-                    ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id'=>$this->destino],['stock'=>$q+$this->cantidad]); 
-                
-            
-                            }
+                DetalleEntradaProductos::create([
+                    'product_id' => $product->id,
+                    'cantidad' => $this->cantidad,
+                    'costo' => $this->costoUnitario,
+                    'id_entrada' => $rs->id,
+                    'lote_id' => $lot->id
+                ]);
+
+                $q = ProductosDestino::where('product_id', $product->id)
+                    ->where('destino_id', 1)->value('stock');
+
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' =>'1'], ['stock' => $q + $this->cantidad]);
+            } else {
+
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => 1], ['stock' => 0]);
+            }
 
             DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
         }
-         catch (Exception $e)
-        {
-        DB::rollback();
-        dd($e->getMessage());
 
-        }
-        
 
         $this->emit('product-added', 'Producto Registrado');
         $this->resetUI();
-        
-
-
     }
     public function Edit(Product $product)
     {
@@ -331,7 +325,6 @@ class ProductsController extends Component
     {
         if ($this->categoryid === null) {
             $this->categoryid = $this->selected_id2;
-        
         }
 
         $rules = [
@@ -342,7 +335,7 @@ class ProductsController extends Component
             // 'costo' => 'required|numeric',
             // 'precio_venta' => 'required|numeric',
             'categoryid' => 'required|not_in:Elegir',
-      
+
         ];
         $messages = [
             'nombre.required' => 'Nombre del producto requerido',
@@ -452,12 +445,12 @@ class ProductsController extends Component
         $this->marca = null;
         $this->unidad = null;
         $this->cont_lote = null;
-        $this->stockswitch=false;
-        $this->costoTotal=0;
-        $this->costoUnitario=0;
-        $this->cantidad=1;
-        $this->destino=null;
-        $this->precioVenta=0;
+        $this->stockswitch = false;
+        $this->costoTotal = 0;
+        $this->costoUnitario = 0;
+        $this->cantidad = 1;
+        $this->destino = null;
+        $this->precioVenta = 0;
 
 
         $this->resetValidation(); //clear the error bag
@@ -625,20 +618,14 @@ class ProductsController extends Component
 
     public function import()
     {
-        try
-        {
-            try
-            {
+        try {
+            try {
                 Excel::import(new ProductsImport, $this->archivo);
                 return redirect()->route('productos');
-            }
-            catch (\Maatwebsite\Excel\Validators\ValidationException $e)
-            {
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $this->failures = $e->failures();
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
 
             $this->emit('sin-archivo');
         }
@@ -680,7 +667,7 @@ class ProductsController extends Component
     //         $this->mensaje_toast = 'Acccion realizada con exito';
     //         $this->emit('product-deleted');
     //     }
-    
+
     //     if ($auxi != 0) {
     //         $this->emit('restriccionProducto');
     //     } else {
@@ -695,9 +682,13 @@ class ProductsController extends Component
     {
         // dd($this->selectedProduct);
         // emite alert de confirmacion
-        $this->dispatchBrowserEvent('swal:EliminarSelect',
-            ['title'=>'PRECAUCION',
-            'id'=>$this->selectedProduct]);
+        $this->dispatchBrowserEvent(
+            'swal:EliminarSelect',
+            [
+                'title' => 'PRECAUCION',
+                'id' => $this->selectedProduct
+            ]
+        );
     }
 
     public function EliminarSeleccionados()
@@ -714,7 +705,7 @@ class ProductsController extends Component
             $this->mensaje_toast = 'Acccion realizada con exito';
             $this->emit('product-deleted');
         }
-        
+
         if ($auxi != 0) {
             $this->emit('restriccionProducto');
         } else {
@@ -724,7 +715,7 @@ class ProductsController extends Component
         }
     }
     // final Opcion de eliminar multiples datos
-    
+
     public function export()
     {
         return Excel::download(new ExportExcelProductosController, 'productos.xlsx');
@@ -736,57 +727,82 @@ class ProductsController extends Component
     }
 
 
-   
 
- 
-   public function mostrarOperacionInicial(){
-        if ($this->stockswitch==true) {
+
+
+    public function mostrarOperacionInicial()
+    {
+        if ($this->stockswitch == true) {
             $this->stockswitch = false;
         } else {
             $this->stockswitch = true;
         }
-        
-   }
-
-   public function updatedCostoUnitario(){
-
-    if ($this->costoUnitario>=0 and $this->costoUnitario!="") {
-      
-        $this->costoTotal = $this->costoUnitario*$this->cantidad;
     }
 
-    
-   }
+    public function updatedCostoUnitario()
+    {
 
-   public function updatedCostoTotal(){
-    if ($this->costoTotal>0 and $this->cantidad!=null) {
-    $this->costoUnitario = $this->costoTotal/$this->cantidad;
-   }
-}
+        if ($this->costoUnitario >= 0 and $this->costoUnitario != "") {
 
-
-public function stockChange(){
-    if ($this->cantidad>0) {
-        
-        $this->costoTotal=$this->costoUnitario*$this->cantidad;
+            $this->costoTotal = $this->costoUnitario * $this->cantidad;
+        }
     }
 
-}
-
-public function cambioestado()
-{
-    if ($this->estados) {
-        $this->estados = false;
-    } else {
-        $this->estados = true;
+    public function updatedCostoTotal()
+    {
+        if ($this->costoTotal > 0 and $this->cantidad != null) {
+            $this->costoUnitario = $this->costoTotal / $this->cantidad;
+        }
     }
-}
 
 
-    
+    public function stockChange()
+    {
+        if ($this->cantidad > 0) {
 
-public function resetes(){
-    $this->failures=false;
-}
+            $this->costoTotal = $this->costoUnitario * $this->cantidad;
+        }
+    }
 
+    public function cambioestado()
+    {
+        if ($this->estados) {
+            $this->estados = false;
+        } else {
+            $this->estados = true;
+        }
+    }
+
+
+
+
+    public function resetes()
+    {
+        $this->failures = false;
+    }
+
+
+    public function lotes($id)
+    {
+        $this->grouped = false;
+        $this->productid = $id;
+        $this->nombre_prodlote = Product::find($id)->nombre;
+
+        //Obteniendo el precio de venta del producto
+        $this->precio_actual = Lote::select("pv_lote")
+            ->where("lotes.product_id", $id)
+            ->orderBy("lotes.created_at", "desc")
+            ->first()->pv_lote;
+
+        $this->emit('show-modal-lotes');
+    }
+
+    //Muestra la ventana modal para cambiar el costo de un lote
+    public function modal_costo_lote($idlote)
+    {
+        $this->lote_id = $idlote;
+        $this->costo_lote = Lote::find($idlote)->costo;
+        $this->emit("hide-modal-lote");
+        $this->emit("show-modal-lotecosto");
+    }
 }

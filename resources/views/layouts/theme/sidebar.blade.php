@@ -130,16 +130,16 @@
                 </a>
                 <div class=@yield('Gestionproductosshow', 'collapse ') id="ecommerceExamples">
                     <ul class="nav ms-4">
-                        <li class=@yield('almacenstokcli', 'nav-item ')>
+                        {{-- <li class=@yield('almacenstokcli', 'nav-item ')>
                             <a class=@yield('almacenstokcnav', 'nav-link ') href="{{ url('destino_prod') }}">
                                 <span class="sidenav-mini-icon"> A </span>
                                 <span class="sidenav-normal"> Existencias Almacen </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class=@yield('listaproducli', 'nav-item ')>
                             <a class=@yield('listaproducnav', 'nav-link ') href="{{ url('products') }}"">
                                 <span class="sidenav-mini-icon"> L </span>
-                                <span class="sidenav-normal"> Lista Productos </span>
+                                <span class="sidenav-normal"> Productos y Stock </span>
                             </a>
                         </li>
                         <li class=@yield('categoriaproductli', 'nav-item ')>
@@ -148,18 +148,13 @@
                                 <span class="sidenav-normal"> Categoria Productos </span>
                             </a>
                         </li>
-                        <li class=@yield('entradasalidali', 'nav-item ')>
-                            <a class=@yield('entradasalidanav', 'nav-link ') href="{{ url('operacionesinv') }}">
-                                <span class="sidenav-mini-icon"> E </span>
-                                <span class="sidenav-normal"> Ajuste Inventarios </span>
-                            </a>
-                        </li>
-                        <li class=@yield('tranferenciasli', 'nav-item ')>
+                    
+                        {{-- <li class=@yield('tranferenciasli', 'nav-item ')>
                             <a class=@yield('tranferenciasnav', 'nav-link ') href="{{ url('all_transferencias') }}">
                                 <span class="sidenav-mini-icon"> T </span>
                                 <span class="sidenav-normal"> Transferencias </span>
                             </a>
-                        </li>
+                        </li> --}}
 
 
                         <li class="nav-item ">
@@ -170,18 +165,18 @@
                             </a>
                             <div class=@yield('parametroshow', 'collapse ') id="gettingStartedExample">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class=@yield('destinoli', 'nav-item ')>
+                                    {{-- <li class=@yield('destinoli', 'nav-item ')>
                                         <a class=@yield('destinonav', 'nav-link ') href="{{ url('destino') }}">
                                             <span class="sidenav-mini-icon text-xs"> D </span>
                                             <span class="sidenav-normal"> Almacenes </span>
                                         </a>
-                                    </li>
-                                    <li class=@yield('mobiliariosli', 'nav-item ')>
+                                    </li> --}}
+                                    {{-- <li class=@yield('mobiliariosli', 'nav-item ')>
                                         <a class=@yield('mobiliariosnav', 'nav-link ') href="{{ url('locations') }}">
                                             <span class="sidenav-mini-icon text-xs"> E </span>
                                             <span class="sidenav-normal"> Estanterías </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class=@yield('unidadesli', 'nav-item ')>
                                         <a class=@yield('unidadesnav', 'nav-link ') href="{{ url('unidades') }}">
                                             <span class="sidenav-mini-icon text-xs"> U </span>

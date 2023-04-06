@@ -19,10 +19,11 @@
                     <div class="col-12 col-sm-3">
                     </div>
                     <div class="col-12 col-sm-6">
-                        <input type="number" wire:model.lazy="costo_lote" class="form-control" style="text-align: right;">
+                        <input type="number" wire:model.lazy="costo_lote" class="form-control"
+                            style="text-align: right;">
                     </div>
                     <div class="col-12 col-sm-3">
-                        
+
                     </div>
 
                     <div class="col-12 text-center">

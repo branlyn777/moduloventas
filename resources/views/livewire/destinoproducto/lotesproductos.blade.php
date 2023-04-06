@@ -38,19 +38,21 @@
                 <div class="card-body px-0 pb-0">
 
 
-                   <div class="row">
-                    <div class="col-4">
-                        
+                    <div class="row">
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-4 text-center">
+                            <label>PRECIO DE VENTA</label>
+                            <input type="number" wire:model.lazy="precio_actual"
+                                style="font-size: 25px; text-align: right; margin-bottom: 10px;" class="form-control">
+                            <button wire:click="actualizar_precio()" class="btn btn-success btn-sm">ACTUALIZAR
+                                PRECIO</button>
+                        </div>
+                        <div class="col-4">
+
+                        </div>
                     </div>
-                    <div class="col-4 text-center">
-                        <label>PRECIO DE VENTA</label>
-                        <input type="number" wire:model.lazy="precio_actual" style="font-size: 25px; text-align: right; margin-bottom: 10px;" class="form-control">
-                        <button wire:click="actualizar_precio()" class="btn btn-success btn-sm">ACTUALIZAR PRECIO</button>
-                    </div>
-                    <div class="col-4">
-                        
-                    </div>
-                   </div>
 
 
                     <div class="table-responsive">
@@ -84,16 +86,20 @@
                                                     </td>
                                                     <td>
                                                         {{ $data->costo }}
-                                                        
-                                                        @if($this->estados == "ACTIVO")
-                                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                                            {{-- <input type="number" style="text-align: right; width: 100px; border: 1px solid #d2d6da; border-radius: .5rem;" value="{{ $data->costo }}"> --}}
-                                                            <button wire:click="modal_costo_lote({{$data->id}})" type="button" style="background-color: #5e72e4; color: aliceblue; border-color: #5e72e4;">
-                                                                Cambiar
-                                                            </button>
-                                                        </div>
+
+                                                        @if ($this->estados == 'ACTIVO')
+                                                            <div class="btn-group" role="group"
+                                                                aria-label="Basic example">
+                                                                {{-- <input type="number" style="text-align: right; width: 100px; border: 1px solid #d2d6da; border-radius: .5rem;" value="{{ $data->costo }}"> --}}
+                                                                <button
+                                                                    wire:click="modal_costo_lote({{ $data->id }})"
+                                                                    type="button"
+                                                                    style="background-color: #5e72e4; color: aliceblue; border-color: #5e72e4;">
+                                                                    Cambiar
+                                                                </button>
+                                                            </div>
                                                         @endif
-                                                        
+
                                                     </td>
                                                     <td>
                                                         {{ $data->pv_lote }}

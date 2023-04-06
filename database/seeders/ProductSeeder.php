@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Models\ProductosDestino;
 
 class ProductSeeder extends Seeder
 {
@@ -182,6 +183,15 @@ class ProductSeeder extends Seeder
             'image' => 'Mouse_Inalambrico.png',
             'category_id' => 1,
         ]);
+
+        foreach (Product::all() as $val) {
+            ProductosDestino::create([
+                'product_id'=> $val->id,
+                'destino_id' => 1,
+                'stock' => '0'
+            ]);
+    
+        }
 
         // for ($i=1; $i < 1001; $i++)
         // { 

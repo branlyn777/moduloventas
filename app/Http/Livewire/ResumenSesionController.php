@@ -31,6 +31,7 @@ class ResumenSesionController extends Component
       //se recibe el id de cartera movimiento
         $this->cartera_mov=CarteraMov::find($id);
        
+       
         $this->movimiento=Movimiento::where('id',$this->cartera_mov->movimiento_id)->first();
         $this->caja= $this->cartera_mov->cartera->caja->id;
 

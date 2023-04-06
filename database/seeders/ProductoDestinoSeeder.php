@@ -17,11 +17,11 @@ class ProductoDestinoSeeder extends Seeder
     public function run()
     {
         //Ingresando 100 unidades del Producto Cable USB C
-        ProductosDestino::create([
-            'product_id'=> 1,
-            'destino_id' => 1,
-            'stock' => '10',
-        ]);
+        for ($i=1; $i <=2; $i++) { 
+          
+            ProductosDestino::updateOrCreate(['product_id'=>$i, 'destino_id'=>1],['stock'=>10]); 
+        }
+    
 
         // Ingresando lote 1 del producto (Costo de 50 Bs)
         $ip1 = IngresoProductos::create([
@@ -67,34 +67,8 @@ class ProductoDestinoSeeder extends Seeder
             'lote_id' => $lote2->id
         ]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
-        //Ingresando 100 unidades del Producto Mouse Inalambrico
-        ProductosDestino::create([
-            'product_id'=> 2,
-            'destino_id' => 1,
-            'stock' => '10',
-        ]);
-
+ 
         // Ingresando lote 1 del producto (Costo de 50 Bs)
         $mouse1 = IngresoProductos::create([
             'destino' => 1,
