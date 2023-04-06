@@ -244,7 +244,7 @@
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-0">Procedencia Clientes</h6>
+                            <h6 class="mb-0">Procedencia Cliente</h6>
                             {{-- <button type="button"
                                 class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
@@ -281,7 +281,6 @@
             </div>
             <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4">
                 <div class="card">
-                    
                     <div class="card-header pb-0">
                         <h6>Productos Mas Vendidos del Mes</h6>
                     </div>
@@ -346,7 +345,6 @@
             </div>
         </div>
         {{-- grafica procedencia cliente--}}
-
 
         {{-- <div class="row mt-4">
             <div class="col-12">
