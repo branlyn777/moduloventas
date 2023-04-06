@@ -10,6 +10,7 @@ use App\Models\Cliente;
 use App\Models\Compra;
 use App\Models\CompraDetalle;
 use App\Models\Movimiento;
+use App\Models\ProcedenciaCliente;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
@@ -21,6 +22,9 @@ use Illuminate\Support\Facades\DB;
 
 class InicioController extends Component
 {
+    //VARIABLES PARA PROCENDIA CLIENTES
+    public $quantity_origin_client, $name_origin_client, $color_origin_client;
+
     public $ventasMes, $ventaMesAnterior, $difVenta;
     public $comprasMes, $compraMesAnterior, $difCompra;
     public $ingresosMes, $ingresosMesAnterior, $difIngresos;
@@ -40,6 +44,9 @@ class InicioController extends Component
 
     public function render()
     {
+        $this->name_origin_client = [];
+        $this->color_origin_client = [];
+        $this->quantity_origin_client = [];
 
         for ($i = 0; $i <= 6; $i++) {
             array_unshift($this->meses, Carbon::now()->subMonths($i)->isoFormat('MMMM'));
@@ -175,14 +182,51 @@ class InicioController extends Component
       $percentage = 0;
 
 
-    
+       //GRAFICO PROCEDENCIA CLENTES
 
+       $origins = ProcedenciaCliente::where("estado","Activo")->get();
+
+       foreach($origins as $o)
+       {
+           array_push($this->name_origin_client, $o->procedencia);
+
+           $red = rand(0, 255);
+           $green = rand(0, 255);
+           $blue = rand(0, 255);
+
+           $color = sprintf("#%02x%02x%02x", $red, $green, $blue);
+
+           array_push($this->color_origin_client, $color);
+       
+           $mount = Cliente::join("procedencia_clientes as pc", "pc.id", "clientes.procedencia_cliente_id")
+           ->join("cliente_movs as cm","cm.cliente_id", "clientes.id")
+           ->join("movimientos as m", "m.id", "cm.movimiento_id")
+           ->join("mov_services as ms", "ms.movimiento_id", "m.id")
+           ->join("services as s", "s.id", "ms.service_id")
+           ->join("cat_prod_services as cps", "cps.id", "s.cat_prod_service_id")
+           ->select("clientes.*", "pc.procedencia as procedencia", "pc.id as idprocedencia","cps.nombre as nombrecps")
+           ->whereMonth('clientes.created_at', Carbon::now()->month)
+           ->whereYear('clientes.created_at', Carbon::now()->year)
+           ->where("pc.estado","Activo")
+           ->where("clientes.procedencia_cliente_id", $o->id)
+           ->distinct()
+           ->get();
+
+
+           array_push($this->quantity_origin_client, $mount->count());
+
+       }
+
+
+
+       // $this->quantity_origin_client = [15, 20, 10];
 
 
 
 
         return view('livewire.inicio.inicio', [
 
+            'origins' => $origins,   
             'total_current_month' => $total_current_month,
             'previous_month_total' => $previous_month_total,
             'percentage' => $percentage,
@@ -232,7 +276,7 @@ class InicioController extends Component
 
 
 
-      
+
 
     }
 
