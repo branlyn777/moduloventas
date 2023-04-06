@@ -373,7 +373,7 @@
                                 <tr>
                                     <th class="text-withe text-center text-sm">#</th>
                                     <th class="text-withe text-center text-sm">CÓDIGO</th>
-                                    <th class="text-withe text-center text-sm">CLIENTE</th>
+                                    <th class="text-withe text-sm">CLIENTE</th>
                                     @if($this->show_date)
                                     <th class="text-withe text-center text-sm">
                                         FECHA REC
@@ -383,13 +383,13 @@
                                     <th class="text-withe text-center text-sm">
                                         FECHA ENTR.</th>
                                     @endif
-                                    <th class="text-withe text-center text-sm">COSTO</th>
-                                    <th class="text-withe text-center text-sm">IMPORTE</th>
+                                    <th class="text-withe text-sm" style="text-align: right;">COSTO</th>
+                                    <th class="text-withe text-sm" style="text-align: right;">IMPORTE</th>
                                     {{-- <th class="text-withe text-center text-sm" style="font-size: 90%">A CUENTA</th>
                                         <th class="text-withe text-center text-sm" style="font-size: 90%">SALDO</th>
 
                                         <th class="text-withe text-center text-sm" style="font-size: 90%">TIPO SERVICIO</th> --}}
-                                    <th class="text-withe text-center text-sm">UTILIDAD</th>
+                                    <th class="text-withe text-sm" style="text-align: right;">UTILIDAD</th>
                                     <th class="text-withe text-center text-sm">DETALLE</th>
                                     <th class="text-withe text-center text-sm">ESTADO</th>
                                     <th class="text-withe text-center text-sm">TEC. RESP.
@@ -508,24 +508,24 @@
                                             @endforeach
                                         @endif
                                         {{-- COSTO --}}
-                                        <td class="text-right">
-                                            {{ number_format($d->costo, 2) }}
+                                        <td style="text-align: right;">
+                                            {{ number_format($d->costo, 2, ',', '.') }}
                                         </td>
                                         {{-- TOTAL --}}
-                                        <td class="text-right">
+                                        <td style="text-align: right;">
                                             @if ($d->movservices[0]->movs->status == 'ACTIVO')
-                                                {{ number_format($d->movservices[0]->movs->import, 2) }}
+                                                {{ number_format($d->movservices[0]->movs->import, 2,',','.') }}
                                             @else
                                                 @if ($d->movservices[1]->movs->status == 'ACTIVO')
-                                                    {{ number_format($d->movservices[1]->movs->import, 2) }}
+                                                    {{ number_format($d->movservices[1]->movs->import, 2,',','.') }}
                                                 @else
                                                     @if ($d->movservices[2]->movs->status == 'ACTIVO')
-                                                        {{ number_format($d->movservices[2]->movs->import, 2) }}
+                                                        {{ number_format($d->movservices[2]->movs->import, 2,',','.') }}
                                                     @else
                                                         @if ($d->movservices[3]->movs->status == 'ACTIVO')
-                                                            {{ number_format($d->movservices[3]->movs->import, 2) }}
+                                                            {{ number_format($d->movservices[3]->movs->import, 2,',','.') }}
                                                         @else
-                                                            {{ number_format($d->movservices[3]->movs->import, 2) }}a
+                                                            {{ number_format($d->movservices[3]->movs->import, 2,',','.') }}a
                                                         @endif
                                                     @endif
                                                 @endif
@@ -547,8 +547,8 @@
                                             </td> --}}
 
                                         {{-- UTILIDAD --}}
-                                        <td class="text-right">
-                                            {{ number_format($d->utilidad, 2) }}
+                                        <td style="text-align: right;">
+                                            {{ number_format($d->utilidad, 2,',','.') }}
                                         </td>
 
                                         {{-- DETALLE --}}
@@ -634,17 +634,17 @@
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><b>TOTALES</b></span>
                                     </td>
-                                    <td class="text-right" colspan="{{ $this->show_date ? '4' : '1' }}">
+                                    <td style="text-align: right" colspan="{{ $this->show_date ? '4' : '1' }}">
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><strong>
                                                 @if (($estado == 'ENTREGADO' && $userId != 0) || ($estado == 'Todos' && $userId != 0))
                                                     {{ $costoEntregado }}
                                                 @else
-                                                    {{ number_format($data->sum('costo'), 2) }}
+                                                    {{ number_format($data->sum('costo'), 2,',','.') }}
                                                 @endif
                                             </strong></span>
                                     </td>
-                                    <td class="text-right" colspan="1">
+                                    <td style="text-align: right" colspan="1">
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><strong>
                                                 @php
@@ -659,13 +659,13 @@
                                                         @endif
                                                     @endforeach
                                                 @endforeach
-                                                {{ number_format($mytotal, 2) }}
+                                                {{ number_format($mytotal, 2,',','.') }}
 
                                             </strong></span>
                                     </td>
-                                    <td class="text-right" colspan="0">
+                                    <td style="text-align: right" colspan="0">
                                         <span class="text-sm">
-                                            <b>{{ number_format($sumaUtilidad, 2) }}</b>
+                                            <b>{{ number_format($sumaUtilidad, 2,',','.') }}</b>
                                         </span>
                                     </td>
                                 </tr>
