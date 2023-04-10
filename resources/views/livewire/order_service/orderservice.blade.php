@@ -500,16 +500,20 @@
                                                                     Modificar
                                                                 </a>
                                                             </li>
+                                                            @can('Anular_Servicio')
                                                             <li>
                                                                 <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Anular')" class="dropdown-item">
                                                                     Anular
                                                                 </a>
                                                             </li>
+                                                            @endcan
+                                                            @can('Eliminar_Servicio')
                                                             <li>
                                                                 <a href="#" onclick="Confirm({{$so->code}}, '{{$so->client->nombre}}', 'Eliminar')"  class="dropdown-item">
                                                                     Eliminar
                                                                 </a>
                                                             </li>
+                                                            @endcan
                                                             @if($s->type == "TERMINADO")
                                                             <li>
                                                                 <a href="#" onclick="ConfirmStorageService({{$so->code}}, {{$s->idservice}}, '{{$so->client->nombre}}')"  class="dropdown-item">
