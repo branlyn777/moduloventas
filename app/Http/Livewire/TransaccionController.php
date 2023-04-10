@@ -62,6 +62,8 @@ class TransaccionController extends Component
     }
     public function mount()
     {
+        
+        $this->verificar_caja();
         $this->identificador = rand();
         $this->identificador2 = rand();
 
@@ -478,6 +480,27 @@ class TransaccionController extends Component
         ])
             ->extends('layouts.theme.app')
             ->section('content');
+    }
+
+    public function verificar_caja()
+    {
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->select("cajas.nombre as nombre_caja", "cajas.id as id_caja")
+            ->where('cajas.id', '<>', 1)
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->get();
+
+
+
+        if ($cajausuario->count() == 0) {
+            return redirect('/cortecajas');
+        }
     }
     /* Cargar los datos seleccionados de la tabla a los label */
     public function Seleccionar($cedula, $celular)
