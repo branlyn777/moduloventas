@@ -18,16 +18,13 @@
     nav-link
 @endsection
 
-
 @section('servicioarrow')
     true
 @endsection
 
-
 @section('ordenserviClinav')
     "nav-link active"
 @endsection
-
 
 @section('servicioshow')
     "collapse show"
@@ -55,7 +52,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="row">
                 <div class="col-sm-10">
                   <div class="card">
@@ -105,25 +101,21 @@
                                 </div>
                             </div>
                             {{-- total --}}
-                  
-    
                         </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-2">
                   <div class="card">
-                    <div class="card-body">
+                                  <h6 style="margin-top: -20px;color: #000000;">TOTAL</h6>
+                                    <h2 class="" style="color: #030303;  margin-top: -12px"> {{ $total_clients }}</h2>
+                                  
+                                </div>                                                          
+                         <div class="card-body">
                         <div class="card text-center " style="  width: 13rem; height:6rem;text-align: left; margin-top: -8px;">                         
                             <div class="card-body">
                                 <div class="" style="">
-                                    <h6 style="margin-top: -20px;color: #000000;">TOTAL</h6>
-                                    <h2 class="" style="color: #030303;  margin-top: -12px"> {{ $total_clients }}</h2>
-                                  
-                                </div>                              
-                            
-                            </div>
-                  
+                         </div>
                           </div>
                     </div>
                   </div>
@@ -139,7 +131,7 @@
                                     <tr>
                                         <th scope="col" style="color:black">#</th>
                                         <th scope="col">Clientes</th>
-                                        <th scope="col">Celulaar</th>
+                                        <th scope="col">Celular</th>
                                         <th scope="col">Procedencia</th>
                                         <th scope="col">Categoria</th>
                                         <th scope="col">fecha de creacion</th>
@@ -189,17 +181,13 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
-                        {{ $clients->links() }}
+                    {{ $clients->links() }}
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-
 </div>
