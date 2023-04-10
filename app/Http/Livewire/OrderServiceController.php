@@ -64,8 +64,12 @@ class OrderServiceController extends Component
     {
         return "vendor.livewire.bootstrap";
     }
-    public function mount()
+    public function mount($code = null)
     {
+        if($code != null)
+        {
+            $this->search = $code;
+        }
         $this->status_service_table = "PENDIENTE";
         $this->search_all = false;
         $this->pagination = 20;
@@ -111,7 +115,6 @@ class OrderServiceController extends Component
                 ->distinct()
                 ->orderBy("os.id", "desc")
                 ->paginate($this->pagination);
-
             }
         }
         else
@@ -145,9 +148,9 @@ class OrderServiceController extends Component
             ->distinct()
             ->orderBy("os.id", "desc")
             ->paginate(200);
-
         }
-        $row_number = ($service_orders->currentPage() - 1) * $service_orders->count();
+        $row_number = ($service_orders->currentPage() - 1) * $this->pagination;    
+        //Cargando todos los servicios correspondientes a la órdenes de servicio obtenidas
         foreach ($service_orders as $so)
         {
             if(strlen($this->search) == 0)
@@ -164,10 +167,6 @@ class OrderServiceController extends Component
                 }
                 //Obtener el nombre del cliente
                 $so->client = $this->get_client($so->code);
-    
-                //Poniendo la numeración para la paginación
-                $row_number++;
-                $so->number = $row_number;
             }
             else
             {
@@ -175,12 +174,10 @@ class OrderServiceController extends Component
                 $so->services = $this->get_service_order_detail($so->code);
                 //Obtener el nombre del cliente
                 $so->client = $this->get_client($so->code);
-    
-                //Poniendo la numeración para la paginación
-                $row_number++;
-                $so->number = $row_number;
             }
-
+            $row_number++;
+            //Poniendo la numeración para la paginación
+            $so->number = $row_number;
         }
         return view("livewire.order_service.orderservice", [
             "service_orders" => $service_orders,

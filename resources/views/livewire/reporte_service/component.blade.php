@@ -54,6 +54,24 @@
             display: inline-block;
         }
 
+        .ALMACENADO {
+            text-decoration: none !important;
+            background-color: rgb(99, 64, 0);
+            color: white !important;
+            cursor: default;
+            border: none;
+            border-radius: 7px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+            padding-right: 5px;
+            box-shadow: none;
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgb(99, 64, 0);
+            display: inline-block;
+        }
+
         /*Estilos para el Boton Entregado en la Tabla*/
         .entregadoestilos {
             text-decoration: none !important;
@@ -219,13 +237,16 @@
                 <div>
                     <h5 class=" text-white" style="font-size: 16px">{{ $componentName }}</h5>
                 </div>
-
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
                         <a class="btn btn-success mb-0 text-white {{ count($data) < 1 ? 'disabled' : '' }}"
                             type="button"
                             href="{{ url('reporteServicio/pdf' . '/' . $userId . '/' . $estado . '/' . $sucursal . '/' . $reportType . '/' . $dateFrom . '/' . $dateTo) }}">
                             Generar PDF</a>
+                            <a href="ordenesservicios" type="button" class="btn btn-secondary">
+                                Ir a Órdenes de Servicio
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
                     </div>
                 </div>
             </div>
@@ -295,6 +316,11 @@
                                 <input @if ($reportType == 0) disabled @endif type="date"
                                     wire:model="dateTo" class="form-control" placeholder="Click para elegir">
                             </div>
+                            <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
+                                <div class="form-check form-switch ms-2">
+                                    <input class="form-check-input" type="checkbox" wire:model="show_date" title="Mostrar/Ocultar Fechas">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -342,35 +368,31 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table style="width: 100%">
+                        <table style="width: 100%;">
                             <thead style="color: black;">
                                 <tr>
-                                    <th class="table-th text-withe text-center text-sm">#</th>
-                                    <th class="table-th text-withe text-center text-sm">CÓDIGO</th>
-                                    <th class="table-th text-withe text-center text-sm">CLIENTE</th>
-                                    <th class="table-th text-withe text-center text-sm">
-                                        FECHA
-                                        <br>
-                                        REC
+                                    <th class="text-withe text-center text-sm">#</th>
+                                    <th class="text-withe text-center text-sm">CÓDIGO</th>
+                                    <th class="text-withe text-sm">CLIENTE</th>
+                                    @if($this->show_date)
+                                    <th class="text-withe text-center text-sm">
+                                        FECHA REC
                                     </th>
-                                    <th class="table-th text-withe text-center text-sm">
-                                        FECHA
-                                        <br>
-                                        TERM.</th>
-                                    <th class="table-th text-withe text-center text-sm">
-                                        FECHA
-                                        <br>
-                                        ENTR.</th>
-                                    <th class="table-th text-withe text-center text-sm">COSTO</th>
-                                    <th class="table-th text-withe text-center text-sm">IMPORTE</th>
-                                    {{-- <th class="table-th text-withe text-center text-sm" style="font-size: 90%">A CUENTA</th>
-                                        <th class="table-th text-withe text-center text-sm" style="font-size: 90%">SALDO</th>
+                                    <th class="text-withe text-center text-sm">
+                                        FECHA TERM.</th>
+                                    <th class="text-withe text-center text-sm">
+                                        FECHA ENTR.</th>
+                                    @endif
+                                    <th class="text-withe text-sm" style="text-align: right;">COSTO</th>
+                                    <th class="text-withe text-sm" style="text-align: right;">IMPORTE</th>
+                                    {{-- <th class="text-withe text-center text-sm" style="font-size: 90%">A CUENTA</th>
+                                        <th class="text-withe text-center text-sm" style="font-size: 90%">SALDO</th>
 
-                                        <th class="table-th text-withe text-center text-sm" style="font-size: 90%">TIPO SERVICIO</th> --}}
-                                    <th class="table-th text-withe text-center text-sm">UTILIDAD</th>
-                                    <th class="table-th text-withe text-center text-sm">DETALLE</th>
-                                    <th class="table-th text-withe text-center text-sm">ESTADO</th>
-                                    <th class="table-th text-withe text-center text-sm">TEC. RESP.
+                                        <th class="text-withe text-center text-sm" style="font-size: 90%">TIPO SERVICIO</th> --}}
+                                    <th class="text-withe text-sm" style="text-align: right;">UTILIDAD</th>
+                                    <th class="text-withe text-center text-sm">DETALLE</th>
+                                    <th class="text-withe text-center text-sm">ESTADO</th>
+                                    <th class="text-withe text-center text-sm">TEC. RESP.
                                     </th>
 
                                 </tr>
@@ -394,112 +416,116 @@
                                         </td>
                                         {{-- NÚMERO ORDEN --}}
                                         <td class="text-center">
-                                            {{ $d->order_service_id }}
+                                            <a href="{{ url('ordenesservicios/' . $d->order_service_id) }}" target="_blank">
+                                                {{ $d->order_service_id }}
+                                            </a>
                                         </td>
                                         {{-- CLIENTE --}}
                                         <td>
                                             {{ ucwords(strtolower($d->movservices[0]->movs->climov->client->nombre)) }}
                                         </td>
-                                        {{-- FECHA --}}
-                                        @foreach ($d->movservices as $mv)
-                                            @if ($mv->movs->type == 'PENDIENTE')
-                                                <td class="text-center">
-                                                    <h6
-                                                        style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                        {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
-                                                    </h6>
-                                                </td>
-                                                @if ($mv->movs->status == 'ACTIVO')
+                                        @if($this->show_date)
+                                            {{-- FECHA --}}
+                                            @foreach ($d->movservices as $mv)
+                                                @if ($mv->movs->type == 'PENDIENTE')
                                                     <td class="text-center">
                                                         <h6
                                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                            Pendiente</h6>
+                                                            {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
+                                                        </h6>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <h6
-                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                            Pendiente</h6>
-                                                    </td>
-                                                @endif
-                                            @endif
-                                            @if ($mv->movs->type == 'PROCESO')
-                                                @if ($mv->movs->status == 'ACTIVO')
-                                                    <td class="text-center">
-                                                        <h6
-                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                            Proceso</h6>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <h6
-                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                            Proceso</h6>
-                                                    </td>
-                                                @endif
-                                            @endif
-                                            @if ($mv->movs->type == 'TERMINADO')
-                                                <td class="text-center">
-                                                    <h6
-                                                        style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                        {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
-                                                    </h6>
-                                                </td>
-                                                @if ($mv->movs->status == 'ACTIVO')
-                                                    <td class="text-center">
-                                                        <h6
-                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                            Terminado</h6>
-                                                    </td>
-                                                @endif
-                                            @endif
-
-                                            @if ($mv->movs->type == 'ENTREGADO')
-                                                <td class="text-center">
-                                                    <h6
-                                                        style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                        {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
-                                                    </h6>
-                                                </td>
-                                            @elseif ($mv->movs->type == 'ABANDONADO')
-                                                <td class="text-center">
-                                                    <h6
-                                                        style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                        Abandonado</h6>
-                                                </td>
-                                            @endif
-
-                                            {{-- @if ($mv->movs->type == 'ABANDONADO')
                                                     @if ($mv->movs->status == 'ACTIVO')
                                                         <td class="text-center">
-                                                            <h6>Abandonado</h6>
+                                                            <h6
+                                                                style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                                Pendiente</h6>
                                                         </td>
                                                         <td class="text-center">
-                                                            <h6>Abandonado</h6>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <h6>Abandonado</h6>
+                                                            <h6
+                                                                style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                                Pendiente</h6>
                                                         </td>
                                                     @endif
-                                                @endif --}}
-                                        @endforeach
+                                                @endif
+                                                @if ($mv->movs->type == 'PROCESO')
+                                                    @if ($mv->movs->status == 'ACTIVO')
+                                                        <td class="text-center">
+                                                            <h6
+                                                                style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                                Proceso</h6>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h6
+                                                                style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                                Proceso</h6>
+                                                        </td>
+                                                    @endif
+                                                @endif
+                                                @if ($mv->movs->type == 'TERMINADO')
+                                                    <td class="text-center">
+                                                        <h6
+                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                            {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
+                                                        </h6>
+                                                    </td>
+                                                    @if ($mv->movs->status == 'ACTIVO')
+                                                        <td class="text-center">
+                                                            <h6
+                                                                style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                                Terminado</h6>
+                                                        </td>
+                                                    @endif
+                                                @endif
+
+                                                @if ($mv->movs->type == 'ENTREGADO')
+                                                    <td class="text-center">
+                                                        <h6
+                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                            {{ \Carbon\Carbon::parse($mv->movs->created_at)->format('d/m/Y') }}
+                                                        </h6>
+                                                    </td>
+                                                @elseif ($mv->movs->type == 'ABANDONADO')
+                                                    <td class="text-center">
+                                                        <h6
+                                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
+                                                            Abandonado</h6>
+                                                    </td>
+                                                @endif
+
+                                                {{-- @if ($mv->movs->type == 'ABANDONADO')
+                                                        @if ($mv->movs->status == 'ACTIVO')
+                                                            <td class="text-center">
+                                                                <h6>Abandonado</h6>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <h6>Abandonado</h6>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <h6>Abandonado</h6>
+                                                            </td>
+                                                        @endif
+                                                    @endif --}}
+                                            @endforeach
+                                        @endif
                                         {{-- COSTO --}}
-                                        <td class="text-right">
-                                            {{ number_format($d->costo, 2) }}
+                                        <td style="text-align: right;">
+                                            {{ number_format($d->costo, 2, ',', '.') }}
                                         </td>
                                         {{-- TOTAL --}}
-                                        <td class="text-right">
+                                        <td style="text-align: right;">
                                             @if ($d->movservices[0]->movs->status == 'ACTIVO')
-                                                {{ number_format($d->movservices[0]->movs->import, 2) }}
+                                                {{ number_format($d->movservices[0]->movs->import, 2,',','.') }}
                                             @else
                                                 @if ($d->movservices[1]->movs->status == 'ACTIVO')
-                                                    {{ number_format($d->movservices[1]->movs->import, 2) }}
+                                                    {{ number_format($d->movservices[1]->movs->import, 2,',','.') }}
                                                 @else
                                                     @if ($d->movservices[2]->movs->status == 'ACTIVO')
-                                                        {{ number_format($d->movservices[2]->movs->import, 2) }}
+                                                        {{ number_format($d->movservices[2]->movs->import, 2,',','.') }}
                                                     @else
                                                         @if ($d->movservices[3]->movs->status == 'ACTIVO')
-                                                            {{ number_format($d->movservices[3]->movs->import, 2) }}
+                                                            {{ number_format($d->movservices[3]->movs->import, 2,',','.') }}
                                                         @else
-                                                            {{ number_format($d->movservices[3]->movs->import, 2) }}a
+                                                            {{ number_format($d->movservices[3]->movs->import, 2,',','.') }}a
                                                         @endif
                                                     @endif
                                                 @endif
@@ -521,8 +547,8 @@
                                             </td> --}}
 
                                         {{-- UTILIDAD --}}
-                                        <td class="text-right">
-                                            {{ number_format($d->utilidad, 2) }}
+                                        <td style="text-align: right;">
+                                            {{ number_format($d->utilidad, 2,',','.') }}
                                         </td>
 
                                         {{-- DETALLE --}}
@@ -530,6 +556,7 @@
                                             {{ ucwords(strtolower($d->marca)) }}
                                             {{ ucwords(strtolower($d->categoria->nombre)) }}
                                             {{ ucwords(strtolower($d->detalle)) }}
+                                            <br>
                                             <b>Falla:</b> {{ ucwords(strtolower($d->falla_segun_cliente)) }}
                                             </h6>
 
@@ -576,11 +603,11 @@
                                                     {{ ucwords(strtolower($d->movservices[2]->movs->usermov->name)) }}
                                                 </td>
                                             @endif
-                                            @if ($mv->movs->type == 'ABANDONADO' && $mv->movs->status == 'ACTIVO')
+                                            @if ($mv->movs->type == 'ALMACENADO' && $mv->movs->status == 'ACTIVO')
                                                 <td class="text-center">
-                                                    <h6
-                                                        style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0">
-                                                        {{ $mv->movs->type }}</h6>
+                                                    <div class="ALMACENADO">
+                                                        {{ $mv->movs->type }}
+                                                    </div>
                                                 </td>
                                                 <td class="text-center">
                                                     <h6
@@ -597,21 +624,27 @@
                             </tbody>
                             <tfoot>
                                 <tr class="tablaserviciostr">
-                                    <td colspan="2" class="text-left">
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td class="text-left">
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><b>TOTALES</b></span>
                                     </td>
-                                    <td class="text-right" colspan="5">
+                                    <td style="text-align: right" colspan="{{ $this->show_date ? '4' : '1' }}">
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><strong>
                                                 @if (($estado == 'ENTREGADO' && $userId != 0) || ($estado == 'Todos' && $userId != 0))
                                                     {{ $costoEntregado }}
                                                 @else
-                                                    {{ number_format($data->sum('costo'), 2) }}
+                                                    {{ number_format($data->sum('costo'), 2,',','.') }}
                                                 @endif
                                             </strong></span>
                                     </td>
-                                    <td class="text-right" colspan="1">
+                                    <td style="text-align: right" colspan="1">
                                         <span
                                             style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><strong>
                                                 @php
@@ -626,17 +659,15 @@
                                                         @endif
                                                     @endforeach
                                                 @endforeach
-                                                {{ number_format($mytotal, 2) }}
+                                                {{ number_format($mytotal, 2,',','.') }}
 
                                             </strong></span>
                                     </td>
-                                    <td class="text-right" colspan="0">
-                                        <span
-                                            style="font-size: 90%; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0"><strong>
-                                                {{ number_format($sumaUtilidad, 2) }}
-                                            </strong></span>
+                                    <td style="text-align: right" colspan="0">
+                                        <span class="text-sm">
+                                            <b>{{ number_format($sumaUtilidad, 2,',','.') }}</b>
+                                        </span>
                                     </td>
-
                                 </tr>
                             </tfoot>
                         </table>
