@@ -342,6 +342,7 @@
     @include('livewire.destinoproducto.lotecosto')
     @include('livewire.destinoproducto.lotesproductos')
 
+
 </div>
 @section('javascript')
     <script>
@@ -351,6 +352,12 @@
             });
             window.livewire.on('hide-modal-ajuste', msg => {
                 $('#ajustesinv').modal('hide')
+            });
+            window.livewire.on('show-modal-lotecosto', msg => {
+                $('#lotecosto').modal('show')
+            });
+            window.livewire.on('show-modal-lotes', msg => {
+                $('#lotes').modal('show')
             });
             window.livewire.on('hide-modal-lote', msg => {
                 $('#lotes').modal('hide')

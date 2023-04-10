@@ -29,6 +29,7 @@ class ProductsController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote,
+    $estado_lote,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -61,6 +62,7 @@ class ProductsController extends Component
         $this->imagen = 'noimagenproduct.png';
         $this->stockswitch = false;
         $this->cantidad = 1;
+   
     }
 
 
@@ -805,4 +807,32 @@ class ProductsController extends Component
         $this->emit("hide-modal-lote");
         $this->emit("show-modal-lotecosto");
     }
+
+    public function actualizar_precio()
+    {
+        $precio = Lote::select("id")
+        ->where("lotes.product_id",$this->productid)
+        ->orderBy("lotes.created_at","desc")
+        ->first();
+
+        $lote = Lote::find($precio->id);
+
+        $lote->update([
+            'pv_lote' => $this->precio_actual,
+        ]);
+        $this->emit("hide-modal-lote");
+    }
+    //Actualiza el costo de un produto (updated en la tabla lote)
+    public function actualizar_costo()
+    {
+        $lote = Lote::find($this->lote_id);
+        $lote->update([
+            'costo' => $this->costo_lote,
+        ]);
+        $this->emit("hide-modal-lotecosto");
+        $this->emit("show-modal-lotes");
+        
+
+    }
+ 
 }

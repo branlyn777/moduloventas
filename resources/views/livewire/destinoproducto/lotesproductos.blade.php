@@ -25,7 +25,7 @@
 
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         @if ($loteproducto)
-                            <select wire:model='estados' class="form-select">
+                            <select wire:model='estado_lote' class="form-select">
                                 <option value="null" disabled>Estado</option>
                                 <option value="ACTIVO">ACTIVO</option>
                                 <option value="INACTIVO">INACTIVO</option>
