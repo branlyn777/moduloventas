@@ -21,9 +21,9 @@ en otros destinos dentro de la misma sucursal --}}
                         <h5>Stock Insuficiente</h5>
                     </div>
                     <div class="col-2">
-                        <div class="form-check form-switch">
+                        {{-- <div class="form-check form-switch">
                             <input wire:model="selloutofstock" class="form-check-input" type="checkbox" role="switch" title="Vender sin stock">
-                        </div>
+                        </div> --}}
                     </div>
 
 

@@ -129,7 +129,7 @@ class PosController extends Component
     public function mount()
     {
         $this->extraquantity = 1;
-        $this->selloutofstock = true;
+        $this->selloutofstock = false;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
