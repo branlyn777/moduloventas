@@ -85,7 +85,7 @@
                                     <b>Saldo total en Efectivo del periodo</b>
                                 </td>
                                 <td class="text-sm" style="float: right">
-                                    {{ number_format($saldo+$operaciones_tigo, 2) }}
+                                    {{ number_format($total_efectivo, 2) }}
                                 </td>
                             </tr>
                             <tr>
