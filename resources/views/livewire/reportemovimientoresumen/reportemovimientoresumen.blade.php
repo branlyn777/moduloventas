@@ -57,7 +57,7 @@
 
 
                     <button
-                        wire:click="generarpdf({{ $totalesIngresosV }}, {{ $totalesIngresosIE }}, {{ $totalesEgresosV }}, {{ $totalesEgresosIE }},{{ $ingresosTotalesBancos }},{{ $operacionsob }},{{ $operacionfalt }})"
+                        wire:click="generarpdf({{ $totalesIngresosV }},{{$totalServicios}} ,{{ $totalesIngresosIE }}, {{ $totalesEgresosIE }}, {{ $totalesEgresosV }})"
                         class="btn btn-light mb-0 pe-6 ps-6">
                         <i class="fas fa-print"></i> Generar PDF
                     </button>

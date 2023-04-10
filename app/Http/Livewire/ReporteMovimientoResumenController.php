@@ -44,7 +44,7 @@ class ReporteMovimientoResumenController extends Component
         $saldo,
         $operaciones_tigo,
         $total_efectivo,
-        $subtotalesIngresos,
+      
         $saldo_acumulado;
 
     public function mount()
@@ -498,8 +498,8 @@ class ReporteMovimientoResumenController extends Component
    
         $this->total_efectivo = $this->ingresosTotalesCF - $this->EgresosTotalesCF + $this->operaciones_tigo;
    
-        //Ingresos - Egresos
-        $this->subtotalcaja = $this->subtotalesIngresos - $this->EgresosTotalesCF;
+ 
+   
         if ($this->caja != "TODAS") {
             $ingresos = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                 ->join('carteras as c', 'c.id', 'crms.cartera_id')
@@ -671,37 +671,28 @@ class ReporteMovimientoResumenController extends Component
         $this->comentario = null;
     }
 
-    public function generarpdf($totalesIngresosV, $totalesIngresosS, $totalesIngresosIE, $totalesEgresosV, $totalesEgresosIE, $ingresosTotalesBancos, $operacionsob, $operacionfalt)
-    {
-        session(['totalIngresosV' => $totalesIngresosV]);
-        session(['totalIngresosS' => $totalesIngresosS]);
-        session(['totalIngresosIE' => $totalesIngresosIE]);
-        session(['totalEgresosV' => $totalesEgresosV]);
-        session(['totalEgresosIE' => $totalesEgresosIE]);
+    public function generarpdf($totalVentas,$totalServicios,$totalIE,$totalegresos,$totalegresosv)
+    {        
+     
+        session(['totalIngresosV' => $totalVentas]);
+        session(['totalIngresosS' => $totalServicios]);
+        session(['totalIngresosIE' => $totalIE]);
+        session(['totalEgresosIE' => $totalegresos]);
+        session(['totalEgresosV' => $totalegresosv]);
 
-        session(['ingresosTotalesBancos' => $ingresosTotalesBancos]);
-        session(['operacionsob' => $operacionsob]);
-        session(['operacionfalt' => $operacionfalt]);
-
-
-
+        session(['ingresosTotalesBancos' => $this->ingresosTotalesBancos]);
+        session(['operacionsob' => $this->operacionsob]); 
+        session(['operacionfalt' => $this->operacionfalt]);
 
         session(['ingresosTotalesCF' => $this->ingresosTotalesCF]); //
-        session(['subtotalesIngresos' => $this->subtotalesIngresos]); //
-        // session(['ingresosTotalesNoCFBancos' => $this->ingresosTotalesNoCFBancos]);
         session(['op_recaudo' => $this->op_recaudo]); //
         session(['total' => $this->total]);
-        session(['subtotalcaja' => $this->subtotalcaja]);
-        // session(['operacionesefectivas' => $this->operacionesefectivas]);
-        session(['ops' => $this->ops]);
-        session(['operacionesW' => $this->operacionesW]);
-        session(['EgresosTotales' => $this->EgresosTotales]);
+
         session(['totalutilidadSV' => $this->totalutilidadSV]);
         session(['EgresosTotalesCF' => $this->EgresosTotalesCF]);
 
-        session(['total' => $this->total]);
-
-        session(['operacionesZ' => $this->operacionesZ]);
+        session(['op_tigo' => $this->operaciones_tigo]);
+        session(['saldo_acumulado' => $this->saldo_acumulado]);
 
         //Sucursal, Caja, Fecha de Inicio y Fecha de Fin
         $caracteristicas = array($this->sucursal, $this->caja, $this->fromDate, $this->toDate);

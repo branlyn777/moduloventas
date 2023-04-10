@@ -172,8 +172,7 @@
                                     @foreach ($row['detalle'] as $item)
                                         <tr class="">
                                             <td class="filarownombre">
-                                                {{-- {{rtrim(mb_strimwidth($item['nombre'], 2, 2, '...', 'UTF-8'))}} --}}
-                                                {{-- {{$item['nombre']}} --}}
+                                         
                                                 {{ substr($item['nombre'], 0, 25) }}
                                             </td>
                                             <td class="filarow">
@@ -215,9 +214,9 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $p['idordenservicio'] }} {{ $p['tipoDeMovimiento'] }}
-                            {{ ucwords(strtolower($p['nombrecategoria'])) }}
-                            {{ $p['ctipo'] == 'CajaFisica' ? 'Efectivo' : $p['ctipo'] }} ({{ $p['nombrecartera'] }})
+                           Cod. Orden {{ $p['order_id'] }}, Servicio de  {{ ucwords(strtolower($p['servicio_solucion'])) }}
+                     
+                           ({{ $p['cnombre'] }})
                         </td>
                         <td style="text-align: right;">
                             {{ number_format($p['importe'], 2) }}
@@ -225,16 +224,12 @@
                         <td>
 
                         </td>
-                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                            <td style="text-align: right;">
-                                {{ number_format($p['utilidadservicios'], 2) }}
-                            </td>
-                        @endif
+               
                     </tr>
                     <tr>
                         <td></td>
                         <td class="filarowpp">
-                            {{ ucwords(strtolower($p['solucion'])) }}
+                            {{ ucwords(strtolower($p['servicio_solucion'])) }}
                         </td>
                         <td></td>
                         <td></td>
@@ -355,7 +350,7 @@
                         TOTAL OPERACIONES
                     </td>
                     <td style="text-align: right;">
-                        <b>{{ number_format($subtotalesIngresos, 2) }}</b>
+                        <b>{{ number_format($ingresosTotalesCF, 2) }}</b>
                     </td>
                     <td style="text-align: right;">
                         <b>{{ number_format($EgresosTotales, 2) }}</b>
@@ -396,13 +391,9 @@
 
 
 
-        <div class="">
-            <div class="">
-                <div style="text-align: right;">
-                    <h5 class="text-center">
-                        <b>CUADRO RESUMEN DE EFECTIVO</b>
-                    </h5>
-                </div>
+        <div>
+       
+         
                 <div class="table-responsive">
                     <table class="estilostable">
                         <tbody>
@@ -419,7 +410,7 @@
                                 <td style="text-align: right; padding-right: 10px;">
                                     INGRESOS POR BANCOS
                                 </td>
-                                <td style="text-align: right;">
+                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
                                     {{ number_format($ingresosTotalesBancos, 2) }}
                                 </td>
                             </tr>
@@ -427,8 +418,8 @@
                                 <td style="text-align: right; padding-right: 10px;">
                                     INGRESOS TOTALES
                                 </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($subtotalesIngresos, 2) }}
+                                <td style="text-align: right;">
+                                    {{ number_format($ingresosTotalesCF+$ingresosTotalesBancos, 2) }}
                                 </td>
                             </tr>
                             <tr>
@@ -443,26 +434,34 @@
                                 <td style="text-align: right; padding-right: 10px;">
                                     SALDO INGRESOS/EGRESOS TOTALES
                                 </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($subtotalcaja, 2) }}
+                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF, 2) }}
                                 </td>
                             </tr>
                             <tr class="p-5">
                                 <td style="text-align: right; padding-right: 10px;">
                                     OPERACIONES TIGO MONEY
                                 </td>
+                                <td style="text-align: right;">
+                                    {{number_format($operaciones_tigo,2)}}
+                                </td>
+                            </tr>
+                            <tr class="p-5">
+                                <td style="text-align: right; padding-right: 10px;">
+                                    Saldo Acumulado ant. al Periodo
+                                </td>
                                 <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{number_format($total,2)}}
+                                    {{number_format($saldo_acumulado,2)}}
                                 </td>
                             </tr>
                             <tr>
                                 <td style="text-align: right; padding-right: 10px;">
                                     <b>
-                                        TOTAL EFECTIVO
+                                        Efectivo antes de Ajustes
                                     </b>
                                 </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($operacionesW, 2) }}
+                                <td style="text-align: right;">
+                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo+$saldo_acumulado, 2) }}
                                 </td>
                             </tr>
                         </tbody>
@@ -477,7 +476,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: right;">
-                                    RECAUDO
+                                    Recaudo de Efectivo
                                 </td>
                                 <td style="text-align: right;">
                                     {{ number_format($op_recaudo, 2) }}
@@ -485,7 +484,7 @@
                             </tr>
                             <tr>
                                 <td style="text-align: right;">
-                                    SOBRANTES
+                                   Efectivo Sobrantes
                                 </td>
                                 <td style="text-align: right;">
                                     {{ number_format($operacionsob, 2) }}
@@ -493,16 +492,24 @@
                             </tr>
                             <tr>
                                 <td style="text-align: right;">
-                                    FALTANTES
+                                   Efectivo Faltante
+                                </td>
+                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                    {{ number_format($operacionfalt, 2) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; ">
+                                    Total Efectivo
                                 </td>
                                 <td style="text-align: right;">
-                                    {{ number_format($operacionfalt, 2) }}
+                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo+$op_recaudo+$operacionsob+$operacionfalt+$saldo_acumulado, 2) }}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
+       
         </div>
 
 

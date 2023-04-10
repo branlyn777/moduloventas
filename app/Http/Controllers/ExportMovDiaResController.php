@@ -29,11 +29,11 @@ class ExportMovDiaResController extends Controller
         $ingresosTotalesBancos = session('ingresosTotalesBancos');
         $operacionsob = session('operacionsob');
         $operacionfalt = session('operacionfalt');
+      
 
 
         //Variables para la tfoot
         $ingresosTotalesCF = session('ingresosTotalesCF');//
-        $subtotalesIngresos = session('subtotalesIngresos');//
         $op_recaudo = session('op_recaudo');//
         $ingresosTotalesNoCFBancos = session('ingresosTotalesNoCFBancos');
         $total = session('total');
@@ -44,6 +44,8 @@ class ExportMovDiaResController extends Controller
         $EgresosTotales = session('EgresosTotales');
         $totalutilidadSV = session('totalutilidadSV');
         $EgresosTotalesCF = session('EgresosTotalesCF');
+        $operaciones_tigo = session('op_tigo');
+        $saldo_acumulado = session('saldo_acumulado');
         //dd(session('op_sob_falt'));
         $op_sob_falt = session('op_sob_falt');
 
@@ -77,8 +79,9 @@ class ExportMovDiaResController extends Controller
         compact('totalesIngresosV','totalesIngresosS','totalesIngresosIE','totalesEgresosV','totalesEgresosIE',
                 'ingresosTotalesCF',
                 'ingresosTotalesNoCFBancos',
-                'subtotalesIngresos',
+                'operaciones_tigo',
                 'EgresosTotales',
+                'saldo_acumulado',
                 'EgresosTotalesCF',
                 'op_sob_falt',
                 'operacionesZ',
