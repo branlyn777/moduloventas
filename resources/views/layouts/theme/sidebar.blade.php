@@ -318,22 +318,22 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav ms-4">
+                    {{-- <ul class="nav ms-4">
                         <li class=@yield('movimientosli', 'nav-item ')>
                             <a class=@yield('movimientosnav', 'nav-link ') href="{{ url('resumenmovimientos') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal"> Movimientos </span>
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav ms-4">
+                    </ul> --}}
+                    {{-- <ul class="nav ms-4">
                         <li class=@yield('sesionesli', 'nav-item ')>
                             <a class=@yield('sesionesnav', 'nav-link ') href="{{ url('sesiones') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Reportes Sesion Caja </span>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <ul class="nav ms-4">
                         <li class=@yield('movimientodiarioventasli', 'nav-item ')>
                             <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
@@ -382,7 +382,7 @@
             </li>
         </ul>
     </div>
-    <div class="sidenav-footer mx-3 my-3">
+    {{-- <div class="sidenav-footer mx-3 my-3">
         <a href="{{ url('cortecajas') }}" class="btn btn-primary btn-sm w-100 mb-3 mt-2">Corte de Caja</a>
-    </div>
+    </div> --}}
 </aside>
