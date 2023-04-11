@@ -63,11 +63,18 @@
     {
       if(valor == 2)
       {
-        window.location.href = "resumenmovimientos";
+        window.location.href = "ordenesservicios";
       }
       else
       {
-        window.location.href = "ingresoegreso";
+        if(valor == 3)
+        {
+          window.location.href = "salemovimientodiario";
+        }
+        else
+        {
+          window.location.href = "cortecajas";
+        }
       }
     }
   }
