@@ -65,7 +65,7 @@
                                     placeholder="Ingrese Nombre o código">
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-md-2 text-left">
+                        {{-- <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Seleccionar Sucursal
                             </h6>
@@ -77,7 +77,7 @@
                                     <option value="Todos">Todas las Sucursales</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-12 col-sm-6 col-md-2 text-left">
                             <h6 class="mb-0">
                                 Seleccionar Usuario

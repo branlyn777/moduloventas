@@ -116,6 +116,9 @@ class PosController extends Component
     //Cotizacion
     public $finaldatecotization, $product_cost;
 
+    //Variables para el corte de caja
+    public $efectivo_actual, $saldoAcumulado, $idcaja, $conteoinicial, $cajas, $nombre_caja, $id_caja, $nota_ajuste;
+
 
     use WithPagination;
     public function paginationView()
@@ -206,16 +209,17 @@ class PosController extends Component
 
 
 
-        if ($cajausuario->count() > 0) {
+        if($cajausuario->count() > 0)
+        {
             $this->corte_caja = true;
             $this->caja_abierta_id = $cajausuario->first()->id;
-        } else {
+        }
+        else
+        {
             $this->corte_caja = false;
-
-            $cajas = Caja::where("sucursal_id", $this->idsucursal())
+            $this->cajas = Caja::where("sucursal_id", $this->idsucursal())
             ->where("id","<>",1)
             ->get();
-
         }
 
 
@@ -550,7 +554,7 @@ class PosController extends Component
         'clear-Cart' => 'clearcart',
         'clear-Product' => 'clearproduct',
         'saveSale' => 'savesale',
-        'aperturar-caja' => 'aperturarcaja'
+        'confirmar-Abrir' => 'confirmarAbrir'
     ];
     //Recibe el codigo del producto para ponerlo en el Carrito de Ventas (Carrito de Ventas)
     public function ScanCode($barcode, $cant = 1)
@@ -1408,8 +1412,23 @@ class PosController extends Component
         
         $this->emit("hide-stockinsuficiente");
     }
+
+    //Mustra la ventana modal para aperturar caja
+    public function confirmarAbrir(Caja $caja)
+    {
+        $this->efectivo_actual=null;
+        $this->idcaja = $caja->id;
+        //obtenemos la cartera efectiva
+        $cajafisica = $caja->carteras->where('tipo', 'efectivo')->first()->saldocartera;
+
+        $this->saldoAcumulado =  $cajafisica;
+
+        $this->emit('aperturarCaja');
+        $this->conteoinicial = true;
+    }
+
     //Realiza la apertura de caja
-    public function aperturarcaja($idcaja)
+    public function CorteCaja($idcaja)
     {
         $rules = [
             'efectivo_actual' => 'required',
@@ -1421,9 +1440,10 @@ class PosController extends Component
         $this->validate($rules, $messages);
 
 
-        if ($this->VerificarCajaAbierta($idcaja) == false) {
-
-            try {
+        if ($this->VerificarCajaAbierta($idcaja) == false)
+        {
+            try
+            {
                 DB::beginTransaction();
                 /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
                 $cortes = Movimiento::where('status', 'ACTIVO')
@@ -1431,7 +1451,8 @@ class PosController extends Component
                     ->where('user_id', Auth()->user()->id)
                     ->get();
 
-                foreach ($cortes as $c) {
+                foreach ($cortes as $c)
+                {
                     $c->update([
                         'status' => 'INACTIVO',
                     ]);
@@ -1442,9 +1463,8 @@ class PosController extends Component
                 $carteras = Cartera::where('caja_id', $idcaja)->where('tipo', 'efectivo')->get();
 
 
-                if ($this->efectivo_actual != $this->saldoAcumulado) {
-
-
+                if ($this->efectivo_actual != $this->saldoAcumulado)
+                {
                     $movimiento = Movimiento::create([
                         'type' => 'APERTURA',
                         'status' => 'ACTIVO',
@@ -1486,8 +1506,8 @@ class PosController extends Component
                     ]);
                     $this->saldoAcumulado = $saldo_cartera;
                 }
-
-                else{
+                else
+                {
                     $movimiento = Movimiento::create([
                         'type' => 'APERTURA',
                         'status' => 'ACTIVO',
@@ -1501,7 +1521,6 @@ class PosController extends Component
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $movimiento->id,
                     ]);
-
                 }
 
                 /* HABILITAR CAJA */
@@ -1523,15 +1542,39 @@ class PosController extends Component
 
                 $this->reset('efectivo_actual','nota_ajuste');
 
-
                 DB::commit();
-            } catch (Exception $e) {
+            }
+            catch (Exception $e)
+            {
                 DB::rollback();
                 $this->mensaje_toast = ": " . $e->getMessage();
                 $this->emit('sale-error');
             }
-        } else {
+        }
+        else
+        {
             $this->emit('caja-ocupada');
         }
+        return Redirect::to('pos');
+    }
+    //Verifica si una caja esta abierta
+    public function VerificarCajaAbierta($idcaja)
+    {
+        $result = false;
+        //Buscando el id usuario que abrio la caja
+        $cajausuario = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
+            ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
+            ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
+            ->join('users as u', 'u.id', 'm.user_id')
+            ->select('u.name as nombreusuario', 'u.id as idusuario')
+            ->where('m.status', 'ACTIVO')
+            ->where('m.type', 'APERTURA')
+            ->where('cajas.id', $idcaja)
+            ->get();
+
+        if ($cajausuario->count() > 0) {
+            $result = true;
+        }
+        return $result;
     }
 }

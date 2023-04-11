@@ -196,7 +196,7 @@
                             </div>
 
                             @if (Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
-                                <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
+                                {{-- <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Seleccionar Sucursal</h6>
                                     <select wire:model="sucursal_id" class="form-select">
                                         @foreach ($listasucursales as $sucursal)
@@ -206,7 +206,7 @@
                                         @endforeach
                                         <option value="Todos">Todas las Sucursales</option>
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-12 col-sm-6 col-md-3 text-left" style="margin-bottom: 7px;">
                                     <h6 class="mb-0">Seleccionar Usuario</h6>

@@ -758,7 +758,6 @@ class CorteCajaController extends Component
 
     public function confirmarAbrir(Caja $caja)
     {
-        //dd($caja);
         $this->efectivo_actual=null;
         $this->idcaja = $caja->id;
         //obtenemos la cartera efectiva

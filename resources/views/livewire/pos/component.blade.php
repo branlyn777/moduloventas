@@ -335,6 +335,12 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
+
+                            <a class="btn btn-add mb-0" href="cortecajas"
+                                style="background-color: #2e48dc; color: white;">
+                                Cerrar Caja
+                            </a>
+
                             <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
                                 <i class="fas fa-plus me-2"></i>
@@ -727,17 +733,19 @@
 
 
         <div class="row">
+            @foreach ($this->cajas as $c)
             <div class="col-3">
                 <div class="card">
                     <div class="card-body text-center">
                         <b>Caja 1</b>
                         <br>
-                        <button class="btn btn-primary mt-5" onclick="alerta_apertura()">
+                        <button class="btn btn-primary mt-5" wire:click.prevent="confirmarAbrir({{$c->id}})">
                             Aperturar Caja
                         </button>
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
 
         @include('livewire.pos.modalcortecaja.aperturacaja')
@@ -990,6 +998,20 @@
                 // Cambiar el foco al nuevo tab (punto opcional)
                 win.focus();
             });
+            window.livewire.on('aperturarCaja', msg => {
+                $('#aperturacaja').modal('show')
+            });
+             //Para mostrar mensaje de caja ya ocupada cuando se desee realizar corte de caja
+             window.livewire.on('caja-ocupada', msg => {
+                swal({
+                    title: 'Caja Ocupada',
+                    text: "Un usuario ya abrio la caja seleccionada",
+                    type: 'info',
+                    showCancelButton: false,
+                    cancelButtonText: 'Aceptar',
+                    padding: '2em'
+                })
+            });
         });
 
 
@@ -1025,7 +1047,7 @@
                 }
             })
         }
-        function alerta_apertura()
+        function alerta_apertura(id)
         {
             swal({
                 title: '¿Aperturar Caja?',
@@ -1037,7 +1059,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('aperturar-caja')
+                    window.livewire.emit('confirmar-Abrir', id)
                 }
             })
         }
