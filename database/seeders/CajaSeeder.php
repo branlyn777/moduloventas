@@ -17,12 +17,14 @@ class CajaSeeder extends Seeder
      */
     public function run()
     {
+        //Para carteras de tipo digital (Bancos, Soli, Yolo pago...)
         Caja::create([
             'nombre' => 'Caja General',
             'monto_base' => 0,
             'estado' => 'Cerrado',
             'sucursal_id' => '1',
         ]);
+        
         $caja= Caja::create([
             'nombre' => 'Caja 1',
             'monto_base' => 100,
@@ -52,27 +54,10 @@ class CajaSeeder extends Seeder
             'cartera_id' => 1,
             'movimiento_id' => $movimiento->id,
         ]);
-        $caja = Caja::find(1);
+        $caja = Caja::find(2);
         $caja->update([
             'estado' => 'Abierto',
         ]);
         $caja->save();
-
-
-
-        // $caja=Caja::create([
-        //     'nombre' => 'Caja 2',
-        //     'monto_base' => 100,
-        //     'estado' => 'Cerrado',
-        //     'sucursal_id' => '1',
-        // ]);
-        // Cartera::create([
-        //     'nombre' => 'Efectivo-'.$caja->nombre,
-        //     'saldocartera' => '0',
-        //     'descripcion' => 'Cuenta de dinero en efectivo',
-        //     'tipo' => 'efectivo',
-        //     'estado' => 'ACTIVO',
-        //     'caja_id' => $caja->id
-        // ]);
     }
 }

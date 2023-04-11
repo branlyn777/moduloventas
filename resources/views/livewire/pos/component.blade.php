@@ -726,6 +726,22 @@
 
 
 
+        <div class="row">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <b>Caja 1</b>
+                        <br>
+                        <button class="btn btn-primary mt-5" onclick="alerta_apertura()">
+                            Aperturar Caja
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @include('livewire.pos.modalcortecaja.aperturacaja')
+
     @endif
 
 
@@ -1006,6 +1022,22 @@
             }).then(function(result) {
                 if (result.value) {
                     window.livewire.emit('clear-Product', idproducto)
+                }
+            })
+        }
+        function alerta_apertura()
+        {
+            swal({
+                title: '¿Aperturar Caja?',
+                text: "Realizará el corte de caja",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aperturar',
+                padding: '2em'
+            }).then(function(result) {
+                if (result.value) {
+                    window.livewire.emit('aperturar-caja')
                 }
             })
         }

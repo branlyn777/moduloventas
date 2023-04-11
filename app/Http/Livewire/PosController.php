@@ -211,6 +211,11 @@ class PosController extends Component
             $this->caja_abierta_id = $cajausuario->first()->id;
         } else {
             $this->corte_caja = false;
+
+            $cajas = Caja::where("sucursal_id", $this->idsucursal())
+            ->where("id","<>",1)
+            ->get();
+
         }
 
 
@@ -544,7 +549,8 @@ class PosController extends Component
         'scan-code' => 'ScanCode',
         'clear-Cart' => 'clearcart',
         'clear-Product' => 'clearproduct',
-        'saveSale' => 'savesale'
+        'saveSale' => 'savesale',
+        'aperturar-caja' => 'aperturarcaja'
     ];
     //Recibe el codigo del producto para ponerlo en el Carrito de Ventas (Carrito de Ventas)
     public function ScanCode($barcode, $cant = 1)
@@ -1401,5 +1407,131 @@ class PosController extends Component
         $this->selloutofstock = true;
         
         $this->emit("hide-stockinsuficiente");
+    }
+    //Realiza la apertura de caja
+    public function aperturarcaja($idcaja)
+    {
+        $rules = [
+            'efectivo_actual' => 'required',
+        ];
+        $messages = [
+            'efectivo_actual.required' => 'Ingresa un monto para apertura la caja.',
+        ];
+
+        $this->validate($rules, $messages);
+
+
+        if ($this->VerificarCajaAbierta($idcaja) == false) {
+
+            try {
+                DB::beginTransaction();
+                /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
+                $cortes = Movimiento::where('status', 'ACTIVO')
+                    ->where('type', 'CIERRE')
+                    ->where('user_id', Auth()->user()->id)
+                    ->get();
+
+                foreach ($cortes as $c) {
+                    $c->update([
+                        'status' => 'INACTIVO',
+                    ]);
+                    $c->save();
+                }
+
+                /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
+                $carteras = Cartera::where('caja_id', $idcaja)->where('tipo', 'efectivo')->get();
+
+
+                if ($this->efectivo_actual != $this->saldoAcumulado) {
+
+
+                    $movimiento = Movimiento::create([
+                        'type' => 'APERTURA',
+                        'status' => 'ACTIVO',
+                        'import' => $this->efectivo_actual,
+                        'user_id' => Auth()->user()->id
+                    ]);
+                    CarteraMov::create([
+                        'type' => 'APERTURA',
+                        'tipoDeMovimiento' => 'CORTE',
+                        'comentario' => $this->nota_ajuste ?? 's/n',
+                        'cartera_id' => $carteras->first()->id,
+                        'movimiento_id' => $movimiento->id,
+                    ]);
+
+
+                    $margen = $this->efectivo_actual - $this->saldoAcumulado;
+                    $diferenciaCaja = $margen > 0 ? 'positivo' : 'negativo';
+                    $mvt = Movimiento::create([
+                        'type' => 'TERMINADO',
+                        'status' => 'ACTIVO',
+                        'import' => $margen > 0 ? $margen : $margen * (-1),
+                        'user_id' => Auth()->user()->id,
+                    ]);
+
+                    CarteraMov::create([
+                        'type' => ($diferenciaCaja == 'positivo') ? 'INGRESO' : 'EGRESO',
+                        'tipoDeMovimiento' => 'AJUSTE',
+                        'comentario' => $this->nota_ajuste,
+                        'cartera_id' => $carteras->first()->id,
+                        'movimiento_id' => $mvt->id
+                    ]);
+
+                    $cartera = Cartera::find($carteras->first()->id);
+
+                    $saldo_cartera = Cartera::find($carteras->first()->id)->saldocartera + $margen;
+
+                    $cartera->update([
+                        'saldocartera' => $saldo_cartera
+                    ]);
+                    $this->saldoAcumulado = $saldo_cartera;
+                }
+
+                else{
+                    $movimiento = Movimiento::create([
+                        'type' => 'APERTURA',
+                        'status' => 'ACTIVO',
+                        'import' => $this->efectivo_actual,
+                        'user_id' => Auth()->user()->id
+                    ]);
+                    CarteraMov::create([
+                        'type' => 'APERTURA',
+                        'tipoDeMovimiento' => 'CORTE',
+                        'comentario' => $this->nota_ajuste ?? 's/n',
+                        'cartera_id' => $carteras->first()->id,
+                        'movimiento_id' => $movimiento->id,
+                    ]);
+
+                }
+
+                /* HABILITAR CAJA */
+                $caja = Caja::find($idcaja);
+                $caja->update([
+                    'estado' => 'Abierto',
+                ]);
+                $caja->save();
+
+
+
+                $this->nombre_caja = $caja->nombre;
+                $this->id_caja = $caja->id;
+
+                session(['sesionCaja' => $caja->nombre]);
+                session(['sesionCajaID' => $caja->id]);
+
+                $this->emit('aperturarCajaCerrar');
+
+                $this->reset('efectivo_actual','nota_ajuste');
+
+
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                $this->mensaje_toast = ": " . $e->getMessage();
+                $this->emit('sale-error');
+            }
+        } else {
+            $this->emit('caja-ocupada');
+        }
     }
 }
