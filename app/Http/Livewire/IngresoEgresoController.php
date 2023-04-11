@@ -851,7 +851,7 @@ class IngresoEgresoController extends Component
 
         CarteraMov::create([
             'type' => $this->saldo_cartera_aj>$this->cantidad ? 'EGRESO' : 'INGRESO',
-            'tipoDeMovimiento' => 'AJUSTE',
+            'tipoDeMovimiento' => $this->saldo_cartera_aj>$this->cantidad ? 'FALTANTE' : 'SOBRANTE',
             'comentario' => $this->comentario,
             'cartera_id' => $this->cartajusteselected,
             'movimiento_id' => $mvt->id

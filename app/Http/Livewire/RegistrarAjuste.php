@@ -123,13 +123,10 @@ class RegistrarAjuste extends Component
 
     public function updatedConcepto()
     {
-
-
         if ($this->col->isNotEmpty()) {
             $this->emit('vaciarlista');
         }
         if ($this->failures != null and $this->archivo != null) {
-
             $this->failures = null;
             $this->archivo = null;
         }
