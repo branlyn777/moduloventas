@@ -29,7 +29,7 @@ class ProductsController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote,
-    $estado_lote,
+    $estado_lote,$nuevo_cantidad,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -833,6 +833,10 @@ class ProductsController extends Component
         $this->emit("show-modal-lotes");
         
 
+    }
+
+    public function resetAjuste(){
+        
     }
  
 }
