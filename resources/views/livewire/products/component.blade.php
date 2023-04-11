@@ -292,7 +292,26 @@
                                                         <i class="fas fa-box-open text-info"></i>
                                                     </a>
 
-                                                    <span class="text-sm code dropdown-toggle pointer"
+
+                                         
+                                                        <button class="btn btn-primary dropdown-toggle p-1"
+                                                            type="button" id="dropdownMenuButton1"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa-solid fa-wrench"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu"
+                                                            aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                                                wire:click='resetAjuste()' data-bs-target="#ajusteModal">Ajuste de inventarios</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="javascript:void(0)"
+                                                                data-bs-toggle="modal"
+                                                                wire:click='resetModalEntradaSalida()' data-bs-target="#entrada_salida_modal">Entrada/Salida Productos</a></li>
+                                                           
+                                                        </ul>
+                                                  
+
+                                                    {{-- <span class="text-sm code dropdown-toggle pointer"
                                                         id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                         aria-expanded="false">
                                                         <b><i class="fa-solid fa-wrench"></i></b>
@@ -313,7 +332,7 @@
                                                         </li>
                                                    
                                                    
-                                                    </ul>
+                                                    </ul> --}}
 
                                                 </td>
                                             </tr>
@@ -341,6 +360,8 @@
     @include('livewire.products.modalcategory')
     @include('livewire.destinoproducto.lotecosto')
     @include('livewire.destinoproducto.lotesproductos')
+    @include('livewire.products.modalajuste')
+
 
 
 </div>
