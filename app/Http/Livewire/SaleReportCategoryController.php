@@ -8,9 +8,25 @@ class SaleReportCategoryController extends Component
 {
     public function render()
     {
-        $asd = "";
+        $chartOptions = [
+            'chart' => [
+                'type' => 'bar'
+            ],
+            'series' => [
+                [
+                    'name' => 'Sales',
+                    'data' => [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                ]
+            ],
+            'xaxis' => [
+                'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            ]
+        ];
+
+
+
         return view('livewire.sales.salereportcategory', [
-            'asd' => $asd
+            'chartOptions' => json_encode($chartOptions)
             ])
             ->extends('layouts.theme.app')
             ->section('content');
