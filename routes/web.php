@@ -50,6 +50,7 @@ use App\Http\Livewire\SaleListController;
 use App\Http\Livewire\SaleListProductsController;
 use App\Http\Livewire\SaleReportCategoryController;
 use App\Http\Livewire\SaleReporteCantidadController;
+use App\Http\Livewire\SaleReportMonthController;
 use App\Http\Livewire\SaleReportProductController;
 use App\Http\Livewire\SesionesListaController;
 use App\Http\Livewire\SucursalController;
@@ -105,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ventalistaproductos', SaleListProductsController::class)->name('ventalistaproductos');
     Route::get('salemovimientodiario', SaleDailyMovementController::class)->name('salemovimientodiario')->middleware('permission:VentasMovDia_Index');
     Route::get('reportecategoria', SaleReportCategoryController::class)->name('reportecategoria');
+
+    Route::get('reportemes', SaleReportMonthController::class)->name('reportemes');
     //Ventas Pdf
     Route::get('report/pdf/{total}/{idventa}/{totalitems}', [ExportSaleController::class, 'reportPDFVenta']);
     Route::get('report/pdfmovdia', [ExportSaleMovDiaController::class, 'reportPDFMovDiaVenta']);
