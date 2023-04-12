@@ -336,6 +336,22 @@
                     </ul> --}}
                     <ul class="nav ms-4">
                         <li class=@yield('movimientodiarioventasli', 'nav-item ')>
+                            <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('reportemes') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal">Reporte Ventas Mes</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
+                            <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('reportecategoria') }}">
+                                <span class="sidenav-mini-icon"> R </span>
+                                <span class="sidenav-normal">Reporte Ventas Categoria</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
                             <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('salemovimientodiario') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal">Movimiento Diario Ventas</span>
