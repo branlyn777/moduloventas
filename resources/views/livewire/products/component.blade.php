@@ -327,7 +327,7 @@
                                                         aria-expanded="false">
                                                         <i class="fa-solid fa-wrench"></i>
                                                     </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
                                                                 data-bs-toggle="modal" wire:click='resetAjuste()'
                                                                 data-bs-target="#ajusteModal">Ajuste de inventarios</a>
@@ -341,29 +341,7 @@
                                                     </ul>
 
 
-                                                    {{-- <span class="text-sm code dropdown-toggle pointer"
-                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <b><i class="fa-solid fa-wrench"></i></b>
-                                                    </span>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li>
-                                                            <a class="dropdown-item" target=”_blank”
-                                                                href="">
-                                                                Ajustar Inventario
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"
-                                                                wire:click.prevent=""
-                                                                class="dropdown-item">
-                                                                Registrar Entrada/Salida
-                                                            </a>
-                                                        </li>
-                                                   
-                                                   
-                                                    </ul> --}}
-
+                                            
                                                 </td>
                                             </tr>
                                         @endforeach

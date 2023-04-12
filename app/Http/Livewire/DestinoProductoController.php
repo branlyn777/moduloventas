@@ -63,8 +63,7 @@ class DestinoProductoController extends Component
     {
         $almacen = ProductosDestino::join('products as p', 'p.id', 'productos_destinos.product_id')
             ->join('destinos as dest', 'dest.id', 'productos_destinos.destino_id')
-            ->where(function ($query)
-            {
+            ->where(function ($query) {
                 $query->where('p.nombre', 'like', '%' . $this->search . '%')
                     ->orWhere('p.codigo', 'like', '%' . $this->search . '%');
             })
@@ -76,36 +75,24 @@ class DestinoProductoController extends Component
                 return $query->select('p.*', 'p.cantidad_minima as cant2', 'productos_destinos.stock as stock')
                     ->where('productos_destinos.destino_id', $this->selected_id);
             })
-            ->when($this->selected_mood == 'cero', function ($query)
-            {
-                if ($this->selected_id == 'General')
-                {
+            ->when($this->selected_mood == 'cero', function ($query) {
+                if ($this->selected_id == 'General') {
                     return $query->having('stock_s', 0);
-                }
-                else
-                {
+                } else {
                     return $query->where('stock', 0);
                 }
             })
-            ->when($this->selected_mood == 'bajo', function ($query)
-            {
-                if ($this->selected_id == 'General')
-                {
+            ->when($this->selected_mood == 'bajo', function ($query) {
+                if ($this->selected_id == 'General') {
                     return $query->having('stock_s', '<', DB::raw("cant"));
-                }
-                else
-                {
+                } else {
                     return $query->whereColumn('stock', '<', 'cantidad_minima');
                 }
             })
-            ->when($this->selected_mood == 'positivo', function ($query)
-            {
-                if ($this->selected_id == 'General')
-                {
+            ->when($this->selected_mood == 'positivo', function ($query) {
+                if ($this->selected_id == 'General') {
                     return $query->having('stock_s', '>', 0);
-                }
-                else
-                {
+                } else {
                     return $query->where('stock', '>', 0);
                 }
             });
@@ -114,8 +101,7 @@ class DestinoProductoController extends Component
             ->select('suc.name as sucursal', 'destinos.nombre as destino', 'destinos.id')
             ->orderBy('suc.name', 'asc');
 
-        if ($this->productid != null)
-        {
+        if ($this->productid != null) {
             $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
         }
 
@@ -508,9 +494,9 @@ class DestinoProductoController extends Component
 
         //Obteniendo el precio de venta del producto
         $this->precio_actual = Lote::select("pv_lote")
-        ->where("lotes.product_id",$id)
-        ->orderBy("lotes.created_at","desc")
-        ->first()->pv_lote;
+            ->where("lotes.product_id", $id)
+            ->orderBy("lotes.created_at", "desc")
+            ->first()->pv_lote;
 
         $this->emit('show-modal-lotes');
     }
@@ -522,9 +508,9 @@ class DestinoProductoController extends Component
     public function actualizar_precio()
     {
         $precio = Lote::select("id")
-        ->where("lotes.product_id",$this->productid)
-        ->orderBy("lotes.created_at","desc")
-        ->first();
+            ->where("lotes.product_id", $this->productid)
+            ->orderBy("lotes.created_at", "desc")
+            ->first();
 
         $lote = Lote::find($precio->id);
 
@@ -542,8 +528,6 @@ class DestinoProductoController extends Component
         ]);
         $this->emit("hide-modal-lotecosto");
         $this->emit("show-modal-lotes");
-        
-
     }
     //Muestra la ventana modal para cambiar el costo de un lote
     public function modal_costo_lote($idlote)
