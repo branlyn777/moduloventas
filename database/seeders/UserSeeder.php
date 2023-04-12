@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'name' => 'Usuario Administrador',
             'phone' => '00000000',
             'email' => 'admin@gmail.com',
-            'profile' => 'Sistema',
+            'profile' => 'Administrador',
             'status' => 'ACTIVE',
             'password' => bcrypt('emanuel'),
             'image' => 'user_admin.png'

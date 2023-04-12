@@ -54,14 +54,14 @@
                             wire:click='resetUI()' data-bs-target="#theModal">
                             <i class="fas fa-plus me-2"></i> Nuevo Producto
                         </a>
-                        @can('Reportes_Inventarios_Export')
+                        {{-- @can('Reportes_Inventarios_Export')
                             <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
-                                {{-- <i class="fas fa-arrow-down"></i> --}} Importar
+                             Importar
                             </button>
                             <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
-                                {{-- <i class="fas fa-arrow-alt-circle-up"></i> --}} Exportar
+                        Exportar
                             </a>
-                        @endcan
+                        @endcan --}}
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
+                            <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem">Filtrar por Estado</label>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" wire:change="cambioestado()" type="checkbox"
@@ -116,9 +116,20 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col">
 
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Categoría</label>
+                                <label style="font-size: 1rem">Filtro por Stock</label>
+                                <select wire:model='selected_mood' class="form-select">
+                                    <option value="todos">Todos</option>
+                                    <option value='positivo'>Productos con stock</option>
+                                    <option value='cero'>Productos agotados</option>
+                                    <option value='bajo'>Productos bajo stock</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem">Filtrar Categoría</label>
                                 <div class="input-group">
                                     <select wire:model='selected_categoria' class="form-select">
                                         <option value=null selected disabled>Elegir Categoría</option>
@@ -134,8 +145,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem">Subcategorías</label>
+                            <div class="col" style="margin-bottom: 7px;">
+                                <label style="font-size: 1rem">Filtrar Subcategorías</label>
                                 <div class="input-group">
                                     <select wire:model='selected_sub' class="form-select">
                                         <option value="null" disabled>Elegir Subcategoría</option>
@@ -159,7 +170,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header pb-0">
+                <div class="card-header pb-0 d-flex justify-content-between">
                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                         <div class="btn-group" role="group">
                             <select wire:model="pagination" class="btn btn-primary dropdown-toggle">
@@ -177,6 +188,23 @@
                             Seleccionados ({{ count($selectedProduct) }})</button>
                         {{-- @endif --}}
                     </div>
+                    <div>
+
+                        <a class="px-2" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i style="font-size: 1.6rem" class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
+                    </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="javascript:void(0)"
+                                wire:click="$emit('modal-import')">Importar Archivo Excel</a>
+                            </li>
+                            <li><a class="dropdown-item" href='{{ url('productos/export/') }}' 
+                                
+                                 >Exporta Lista excel</a></li>
+
+                        </ul>
+                    </div>
+
                 </div>
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
@@ -293,23 +321,25 @@
                                                     </a>
 
 
-                                         
-                                                        <button class="btn btn-primary dropdown-toggle p-1"
-                                                            type="button" id="dropdownMenuButton1"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa-solid fa-wrench"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu"
-                                                            aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
-                                                                wire:click='resetAjuste()' data-bs-target="#ajusteModal">Ajuste de inventarios</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item" href="javascript:void(0)"
+
+                                                    <button class="btn btn-primary dropdown-toggle p-1" type="button"
+                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <i class="fa-solid fa-wrench"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <li><a class="dropdown-item" href="javascript:void(0)"
+                                                                data-bs-toggle="modal" wire:click='resetAjuste()'
+                                                                data-bs-target="#ajusteModal">Ajuste de inventarios</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="javascript:void(0)"
                                                                 data-bs-toggle="modal"
-                                                                wire:click='resetModalEntradaSalida()' data-bs-target="#entrada_salida_modal">Entrada/Salida Productos</a></li>
-                                                           
-                                                        </ul>
-                                                  
+                                                                wire:click='resetModalEntradaSalida()'
+                                                                data-bs-target="#entrada_salida_modal">Entrada/Salida
+                                                                Productos</a></li>
+
+                                                    </ul>
+
 
                                                     {{-- <span class="text-sm code dropdown-toggle pointer"
                                                         id="dropdownMenuButton" data-bs-toggle="dropdown"
