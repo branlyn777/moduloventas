@@ -52,6 +52,28 @@
                     Reporte por Categoria
                 </h5>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <span class="text-sm">
+                                <b>Fecha Inicio</b>
+                            </span>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <span class="text-sm">
+                                <b>Fecha Fin</b>
+                            </span>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">

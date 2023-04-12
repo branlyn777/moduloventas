@@ -2,24 +2,59 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class SaleReportCategoryController extends Component
 {
     public function render()
     {
+
+        
+        $list_categories = Category::select('categories.name as category_name', DB::raw('SUM(sale_details.quantity * sale_details.price) as total_sales'))
+        ->join('products', 'categories.id', '=', 'products.category_id')
+        ->join('sale_details', 'products.id', '=', 'sale_details.product_id')
+        ->join('sales', 'sale_details.sale_id', '=', 'sales.id')
+        ->groupBy('categories.name')
+        ->orderBy('total_sales', 'DESC')
+        ->get();
+
+
+
+
+        $name_categories = array();
+        $total_categories = array();
+        foreach($list_categories as $c)
+        {
+            array_push($name_categories, $c->category_name);
+            array_push($total_categories, intval($c->total_sales));
+        }
+
+
+        
+
+
+
         $chartOptions = [
+            'series' => $total_categories,
             'chart' => [
-                'type' => 'bar'
+                'width' => 1000,
+                'type' => 'pie',
             ],
-            'series' => [
+            'labels' => $name_categories,
+            'responsive' => [
                 [
-                    'name' => 'Sales',
-                    'data' => [30, 40, 35, 50, 49, 60, 70, 91, 125]
+                    'breakpoint' => 1080,
+                    'options' => [
+                        'chart' => [
+                            'width' => 500
+                        ],
+                        'legend' => [
+                            'position' => 'bottom'
+                        ]
+                    ]
                 ]
-            ],
-            'xaxis' => [
-                'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
             ]
         ];
 
