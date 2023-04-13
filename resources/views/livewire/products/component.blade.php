@@ -380,7 +380,7 @@
                 $('#lotes').modal('show')
             });
             window.livewire.on('hide-modal-ajuste', msg => {
-                $('#ajustesinv').modal('hide')
+                $('#ajusteModal').modal('hide')
             });
             window.livewire.on('show-modal-lotecosto', msg => {
                 $('#lotecosto').modal('show')
