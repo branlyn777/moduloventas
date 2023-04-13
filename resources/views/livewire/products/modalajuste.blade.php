@@ -14,9 +14,9 @@
 
                 <div class="row">
                     <div class="col">
-                        <div class="form-group text-center align-middle">
+                        <div class="form-group text-left align-middle">
                             <label>Cantidad Actual Sistema</label>
-                            <h5>50</h5>
+                            <h5 class="text-center">50</h5>
                             
                         </div>
                     </div>
@@ -29,6 +29,12 @@
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="floatingTextarea">Observacion:</label>
+                        <textarea wire:model.lazy="observacion" class="form-control" placeholder="Agregar una observacion" id="floatingTextarea"></textarea>
                     </div>
                 </div>
 

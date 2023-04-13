@@ -5,8 +5,10 @@ namespace App\Http\Livewire;
 use App\Http\Controllers\ExportExcelProductosController;
 use App\Imports\ProductsImport;
 use App\Imports\PruebaImport;
+use App\Models\Ajustes;
 use App\Models\Category;
 use App\Models\Destino;
+use App\Models\DetalleAjustes;
 use App\Models\DetalleEntradaProductos;
 use App\Models\IngresoProductos;
 use App\Models\Lote;
@@ -28,8 +30,8 @@ class ProductsController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote,
-    $estado_lote,$nuevo_cantidad,
+    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,
+        $estado_lote, $nuevo_cantidad,$observacion,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -50,10 +52,7 @@ class ProductsController extends Component
     }
     public function mount()
     {
-
-
         $this->estados = 'Activo';
-
         $this->selected_categoria = null;
         $this->selectedProduct = collect();
         $this->marca = null;
@@ -62,7 +61,6 @@ class ProductsController extends Component
         $this->imagen = 'noimagenproduct.png';
         $this->stockswitch = false;
         $this->cantidad = 1;
-   
     }
 
 
@@ -132,11 +130,21 @@ class ProductsController extends Component
                 $query->where('c.id', $this->selected_sub)
                     ->where('categoria_padre', '!=', 0);
             })
+            ->when($this->selected_mood == 'cero', function ($query) {
+                return $query->where('stock', 0);
+            })
+            ->when($this->selected_mood == 'bajo', function ($query) {
+                return $query->whereColumn('stock', '<', 'cantidad_minima');
+            })
+            ->when($this->selected_mood == 'positivo', function ($query) {
+
+                return $query->where('stock', '>', 0);
+            })
 
             ->orderBy('products.created_at', 'desc');
 
 
-        $ss = Category::select('categories.*')
+        $ss = Category::select('categories.*')->where('categoria_padre', $this->selected_id2)
             ->get();
 
         if (count($this->searchData) > 0) {
@@ -211,7 +219,7 @@ class ProductsController extends Component
 
                 'cantidad' => 'required|numeric|min:1',
                 'costoUnitario' => 'required',
-         
+
 
 
             ];
@@ -220,7 +228,7 @@ class ProductsController extends Component
                 'cantidad.required' => 'Agregue una cantidad',
                 'cantidad.min' => 'Agregue una cantidad mayor a 0',
                 'costoUnitario.required' => 'Agregue un costo para el ingreso inicial.',
-     
+
 
             ];
             $this->validate($rules, $messages);
@@ -279,7 +287,7 @@ class ProductsController extends Component
                 $q = ProductosDestino::where('product_id', $product->id)
                     ->where('destino_id', 1)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' =>'1'], ['stock' => $q + $this->cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => '1'], ['stock' => $q + $this->cantidad]);
             } else {
 
                 ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => 1], ['stock' => 0]);
@@ -811,9 +819,9 @@ class ProductsController extends Component
     public function actualizar_precio()
     {
         $precio = Lote::select("id")
-        ->where("lotes.product_id",$this->productid)
-        ->orderBy("lotes.created_at","desc")
-        ->first();
+            ->where("lotes.product_id", $this->productid)
+            ->orderBy("lotes.created_at", "desc")
+            ->first();
 
         $lote = Lote::find($precio->id);
 
@@ -831,12 +839,103 @@ class ProductsController extends Component
         ]);
         $this->emit("hide-modal-lotecosto");
         $this->emit("show-modal-lotes");
-        
-
     }
 
-    public function resetAjuste(){
-        
+    public function resetAjuste()
+    {
     }
- 
+
+    public function guardarAjuste($product_id,$cantidad_actual){
+        try {
+
+            $ajuste = Ajustes::create([
+                'destino' => 1,
+                'user_id' => Auth()->user()->id,
+                'observacion' => $this->observacion
+            ]);
+            // dd($auxi2->pluck('stock')[0]);
+
+            foreach ($this->col as $datas) {
+
+                    DetalleAjustes::create([
+                    'product_id' => $product_id,
+                    'recuentofisico' => $this->nuevo_cantidad,
+                    'diferencia' => $this->nuevo_cantidad - $cantidad_actual > 0 ? $this->nuevo_cantidad - $cantidad_actual : ($this->nuevo_cantidad - $cantidad_actual) * -1,
+                    'tipo' =>$this->nuevo_cantidad - $cantidad_actual > 0 ? 'positiva' : 'negativa',
+                    'id_ajuste' => $ajuste->id
+
+                ]);
+
+                if ($this->nuevo_cantidad> $cantidad_actual) {
+
+                    $lot = Lote::where('product_id',$product_id)->where('status', 'Activo')->first();
+
+                    if ($lot != null) {
+                        $lot->update([
+                            'existencia' => $lot->existencia + ($this->nuevo_cantidad -$cantidad_actual)
+                        ]);
+                        $lot->save();
+                        ProductosDestino::updateOrCreate(['product_id' =>$product_id , 'destino_id' => 1], ['stock' => ]);
+                    } else {
+                        $lot = Lote::create([
+                            'existencia' => $datas['recuento'],
+                            'costo' => $datas['costo'],
+                            'pv_lote' => $datas['pv_lote'],
+                            'status' => 'Activo',
+                            'product_id' => $datas['product_id']
+                        ]);
+                    }
+                } else {
+                    
+
+                    $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
+                    //obtener la cantidad del detalle de la venta 
+                    $this->qq = $datas['stockactual'] - $datas['recuento']; //q=8
+                    foreach ($lot as $val) {
+                        //lote1= 3 Lote2=3 Lote3=3
+                        $this->lotecantidad = $val->existencia;
+                        //dd($this->lotecantidad);
+                        if ($this->qq >= 0) {
+                            //true//5//2
+                            //dd($val);
+                            if ($this->qq > $this->lotecantidad) {
+
+                                $val->update([
+
+                                    'existencia' => 0,
+                                    'status' => 'Inactivo'
+
+                                ]);
+                                $val->save();
+                                $this->qq = $this->qq - $this->lotecantidad;
+                                //dump("dam",$this->qq);
+                            } else {
+                                //dd($this->lotecantidad);
+
+
+
+                                $val->update([
+                                    'existencia' => $this->lotecantidad - $this->qq
+                                ]);
+                                $val->save();
+                                $this->qq = 0;
+                                //dd("yumi",$this->qq);
+                            }
+                        }
+                    }
+
+
+                    $q = ProductosDestino::where('product_id', $datas['product_id'])
+                        ->where('destino_id', $this->destino)->value('stock');
+
+                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
+                }
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+        }
+    }
 }
