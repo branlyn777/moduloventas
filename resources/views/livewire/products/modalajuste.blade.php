@@ -1,6 +1,6 @@
 <div wire:ignore.self class="modal fade" id="ajusteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <div>
@@ -13,18 +13,40 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-3">
                         <div class="form-group text-left align-middle">
-                            <label>Cantidad Actual Sistema</label>
-                            <h5 class="text-center">50</h5>
+                            <label>Cantidad Actual</label>
+                            <h5 class="text-center">{{$prod_stock}}</h5>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-3">
                         <div class="form-group">
-                            <label>Nuevo Recuento Fisico</label>
+                            <label>Recuento Fisico</label>
                             <input type="number" wire:model.lazy="nuevo_cantidad" class="form-control">
                             @error('nuevo_cantidad')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Costo Unit.</label>
+                            <input type="number" wire:model.lazy="costoAjuste" class="form-control"
+                            {{ $nuevo_cantidad > $prod_stock ? '' : 'disabled=true' }}
+                            >
+                            @error('costo')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Precio V.</label>
+                            <input type="number" wire:model.lazy="pv_lote" class="form-control"
+                            {{ $nuevo_cantidad > $prod_stock ? '' : 'disabled=true' }}
+                            >
+                            @error('precio')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
                         </div>

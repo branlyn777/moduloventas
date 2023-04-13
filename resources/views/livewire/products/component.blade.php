@@ -329,7 +329,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
-                                                                data-bs-toggle="modal" wire:click='resetAjuste()'
+                                                                data-bs-toggle="modal" wire:click='abrirModalAjuste({{$products->id}})'
                                                                 data-bs-target="#ajusteModal">Ajuste de inventarios</a>
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
@@ -391,6 +391,7 @@
             window.livewire.on('hide-modal-lote', msg => {
                 $('#lotes').modal('hide')
             });
+         
             window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');

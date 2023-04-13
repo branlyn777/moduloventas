@@ -31,7 +31,7 @@ class ProductsController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,$lotecantidad,
-        $estado_lote, $nuevo_cantidad,$observacion,
+        $estado_lote, $nuevo_cantidad,$observacion,$prod_stock,$costoAjuste,$pv_lote,$prod_id,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -843,47 +843,48 @@ class ProductsController extends Component
 
     public function resetAjuste()
     {
+        $this->prod_stock=null;
+        $this->nuevo_cantidad=null;
+        $this->costoAjuste=null;
+        $this->pv_lote=null;
+        
     }
 
-    public function guardarAjuste($product_id,$cantidad_actual){
-        try {
+    public function guardarAjuste(){
+      
 
+        try {
             $ajuste = Ajustes::create([
-                'destino' => $this->destino,
+                'destino' => 1,
                 'user_id' => Auth()->user()->id,
                 'observacion' => $this->observacion
             ]);
 
-
-       
-
                 DetalleAjustes::create([
-                    'product_id' => $product_id,
+                    'product_id' => $this->prod_id,
                     'recuentofisico' => $this->nuevo_cantidad,
-                    'diferencia' => $this->nuevo_cantidad - $cantidad_actual > 0 ? $this->nuevo_cantidad - $cantidad_actual : ($this->nuevo_cantidad - $cantidad_actual) * -1,
-                    'tipo' => $this->nuevo_cantidad - $cantidad_actual > 0 ? 'positiva' : 'negativa',
+                    'diferencia' => $this->nuevo_cantidad - $this->prod_stock > 0 ? $this->nuevo_cantidad - $this->prod_stock : ($this->nuevo_cantidad - $this->prod_stock) * -1,
+                    'tipo' => $this->nuevo_cantidad - $this->prod_stock > 0 ? 'positiva' : 'negativa',
                     'id_ajuste' => $ajuste->id
 
                 ]);
 
-                if ($this->nuevo_cantidad > $cantidad_actual) {
+                if ($this->nuevo_cantidad > $this->prod_stock) {
 
 
-                    $lot = Lote::where('product_id', $product_id)->where('status', 'Activo')->first();
+                    $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->first();
                         $lot = Lote::create([
-                            'existencia' => $this->nuevo_cantidad-$cantidad_actual,
+                            'existencia' => $this->nuevo_cantidad-$this->prod_stock,
                             'costo' => $this->costoAjuste,
                             'pv_lote' => $this->pv_lote,
                             'status' => 'Activo',
-                            'product_id' => $product_id
+                            'product_id' => $this->prod_id
                         ]);
                   
                 } else {
-
-
-                    $lot = Lote::where('product_id', $product_id)->where('status', 'Activo')->get();
+                    $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->get();
                     //obtener la cantidad del detalle de la venta 
-                    $qq = $cantidad_actual - $this->nuevo_cantidad; //q=8
+                    $qq = $this->prod_stock - $this->nuevo_cantidad; //q=8
                     foreach ($lot as $val) {
                         //lote1= 3 Lote2=3 Lote3=3
                         $this->lotecantidad = $val->existencia;
@@ -894,7 +895,6 @@ class ProductsController extends Component
                             if ($qq >= $this->lotecantidad) {
 
                                 $val->update([
-
                                     'existencia' => 0,
                                     'status' => 'Inactivo'
 
@@ -904,9 +904,6 @@ class ProductsController extends Component
                                 //dump("dam",$qq);
                             } else {
                                 //dd($this->lotecantidad);
-
-
-
                                 $val->update([
                                     'existencia' => $this->lotecantidad - $qq
                                 ]);
@@ -917,10 +914,9 @@ class ProductsController extends Component
                         }
                     }
                 }
-                $q = ProductosDestino::where('product_id', $product_id)
-                    ->where('destino_id',1)->value('stock');
+             
 
-                ProductosDestino::updateOrCreate(['product_id' => $product_id, 'destino_id' =>1], ['stock' => $this->nuevo_cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' =>1], ['stock' => $this->nuevo_cantidad]);
             
 
             DB::commit();
@@ -928,5 +924,14 @@ class ProductsController extends Component
             DB::rollback();
             dd($e->getMessage());
         }
+        $this->emit('hide-modal-ajuste');
+    }
+
+
+    public function abrirModalAjuste($producto){
+        $this->resetAjuste();
+        $this->prod_stock=ProductosDestino::where('product_id',$producto)->first()->stock;
+        $this->prod_id=Product::find($producto)->id;
+      
     }
 }
