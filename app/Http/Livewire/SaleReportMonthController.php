@@ -3,22 +3,33 @@
 namespace App\Http\Livewire;
 
 use App\Models\Sale;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class SaleReportMonthController extends Component
 {
+
     public $year;
-
     public $months;
-
+   
+    //grafica del reporte del mes 
     public function mount()
     {
         $this->year = Carbon::now()->year;
         $this->months = array();
+
     }
     public function render()
     {
+        
+
+        
+        //user 
+
+        $names = User::pluck('name')
+        ->all();
+
         //grafica del reporte del mes 
         for ($i=1; $i < 13; $i++)
         { 
@@ -50,7 +61,8 @@ class SaleReportMonthController extends Component
         ];
 
         return view('livewire.sales.salereportmonth', [
-            'chartOptions' => json_encode($chartOptions)
+            'chartOptions' => json_encode($chartOptions),
+            'names' => $names
         ])
             ->extends('layouts.theme.app')
             ->section('content');
