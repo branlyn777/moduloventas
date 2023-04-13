@@ -30,7 +30,7 @@ class ProductsController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,
+    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,$lotecantidad,
         $estado_lote, $nuevo_cantidad,$observacion,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
@@ -849,56 +849,49 @@ class ProductsController extends Component
         try {
 
             $ajuste = Ajustes::create([
-                'destino' => 1,
+                'destino' => $this->destino,
                 'user_id' => Auth()->user()->id,
                 'observacion' => $this->observacion
             ]);
-            // dd($auxi2->pluck('stock')[0]);
 
-            foreach ($this->col as $datas) {
 
-                    DetalleAjustes::create([
+       
+
+                DetalleAjustes::create([
                     'product_id' => $product_id,
                     'recuentofisico' => $this->nuevo_cantidad,
                     'diferencia' => $this->nuevo_cantidad - $cantidad_actual > 0 ? $this->nuevo_cantidad - $cantidad_actual : ($this->nuevo_cantidad - $cantidad_actual) * -1,
-                    'tipo' =>$this->nuevo_cantidad - $cantidad_actual > 0 ? 'positiva' : 'negativa',
+                    'tipo' => $this->nuevo_cantidad - $cantidad_actual > 0 ? 'positiva' : 'negativa',
                     'id_ajuste' => $ajuste->id
 
                 ]);
 
-                if ($this->nuevo_cantidad> $cantidad_actual) {
+                if ($this->nuevo_cantidad > $cantidad_actual) {
 
-                    $lot = Lote::where('product_id',$product_id)->where('status', 'Activo')->first();
 
-                    if ($lot != null) {
-                        $lot->update([
-                            'existencia' => $lot->existencia + ($this->nuevo_cantidad -$cantidad_actual)
-                        ]);
-                        $lot->save();
-                        ProductosDestino::updateOrCreate(['product_id' =>$product_id , 'destino_id' => 1], ['stock' => ]);
-                    } else {
+                    $lot = Lote::where('product_id', $product_id)->where('status', 'Activo')->first();
                         $lot = Lote::create([
-                            'existencia' => $datas['recuento'],
-                            'costo' => $datas['costo'],
-                            'pv_lote' => $datas['pv_lote'],
+                            'existencia' => $this->nuevo_cantidad-$cantidad_actual,
+                            'costo' => $this->costoAjuste,
+                            'pv_lote' => $this->pv_lote,
                             'status' => 'Activo',
-                            'product_id' => $datas['product_id']
+                            'product_id' => $product_id
                         ]);
-                    }
+                  
                 } else {
-                    
 
-                    $lot = Lote::where('product_id', $datas['product_id'])->where('status', 'Activo')->get();
+
+                    $lot = Lote::where('product_id', $product_id)->where('status', 'Activo')->get();
                     //obtener la cantidad del detalle de la venta 
-                    $this->qq = $datas['stockactual'] - $datas['recuento']; //q=8
+                    $qq = $cantidad_actual - $this->nuevo_cantidad; //q=8
                     foreach ($lot as $val) {
                         //lote1= 3 Lote2=3 Lote3=3
                         $this->lotecantidad = $val->existencia;
                         //dd($this->lotecantidad);
-                        if ($this->qq >= 0) {
+                        if ($qq >= 0) {
                             //true//5//2
                             //dd($val);
-                            if ($this->qq > $this->lotecantidad) {
+                            if ($qq >= $this->lotecantidad) {
 
                                 $val->update([
 
@@ -907,30 +900,28 @@ class ProductsController extends Component
 
                                 ]);
                                 $val->save();
-                                $this->qq = $this->qq - $this->lotecantidad;
-                                //dump("dam",$this->qq);
+                                $qq = $qq - $this->lotecantidad;
+                                //dump("dam",$qq);
                             } else {
                                 //dd($this->lotecantidad);
 
 
 
                                 $val->update([
-                                    'existencia' => $this->lotecantidad - $this->qq
+                                    'existencia' => $this->lotecantidad - $qq
                                 ]);
                                 $val->save();
-                                $this->qq = 0;
-                                //dd("yumi",$this->qq);
+                                $qq = 0;
+                                //dd("yumi",$qq);
                             }
                         }
                     }
-
-
-                    $q = ProductosDestino::where('product_id', $datas['product_id'])
-                        ->where('destino_id', $this->destino)->value('stock');
-
-                    ProductosDestino::updateOrCreate(['product_id' => $datas['product_id'], 'destino_id' => $this->destino], ['stock' => $datas['recuento']]);
                 }
-            }
+                $q = ProductosDestino::where('product_id', $product_id)
+                    ->where('destino_id',1)->value('stock');
+
+                ProductosDestino::updateOrCreate(['product_id' => $product_id, 'destino_id' =>1], ['stock' => $this->nuevo_cantidad]);
+            
 
             DB::commit();
         } catch (Exception $e) {

@@ -17,7 +17,6 @@
                         <div class="form-group text-left align-middle">
                             <label>Cantidad Actual Sistema</label>
                             <h5 class="text-center">50</h5>
-                            
                         </div>
                     </div>
 
