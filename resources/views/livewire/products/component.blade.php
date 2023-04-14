@@ -54,14 +54,7 @@
                             wire:click='resetUI()' data-bs-target="#theModal">
                             <i class="fas fa-plus me-2"></i> Nuevo Producto
                         </a>
-                        {{-- @can('Reportes_Inventarios_Export')
-                            <button wire:click="$emit('modal-import')" type="button" class="btn btn-light mb-0">
-                             Importar
-                            </button>
-                            <a href='{{ url('productos/export/') }}' class="btn btn-success mb-0" type="button">
-                        Exportar
-                            </a>
-                        @endcan --}}
+                  
                     </div>
                 </div>
             </div>
@@ -334,9 +327,14 @@
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
                                                                 data-bs-toggle="modal"
-                                                                wire:click='resetModalEntradaSalida()'
+                                                                wire:click='abrirModalE_S()'
                                                                 data-bs-target="#entrada_salida_modal">Entrada/Salida
                                                                 Productos</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item" href="javascript:void(0)"
+                                                            data-bs-toggle="modal"
+                                                            wire:click='redirectHistorialAjuste()'
+                                                            data-bs-target="#entrada_salida_modal">Historial de Ajuste</a></li>
 
                                                     </ul>
 
@@ -369,6 +367,7 @@
     @include('livewire.destinoproducto.lotecosto')
     @include('livewire.destinoproducto.lotesproductos')
     @include('livewire.products.modalajuste')
+    @include('livewire.products.modal_ent_sal')
 
 
 
@@ -381,6 +380,9 @@
             });
             window.livewire.on('hide-modal-ajuste', msg => {
                 $('#ajusteModal').modal('hide')
+            });
+            window.livewire.on('hide-modal-ent_sal', msg => {
+                $('#ajusteEnt_Sal').modal('hide')
             });
             window.livewire.on('show-modal-lotecosto', msg => {
                 $('#lotecosto').modal('show')

@@ -10,11 +10,14 @@ use App\Models\Category;
 use App\Models\Destino;
 use App\Models\DetalleAjustes;
 use App\Models\DetalleEntradaProductos;
+use App\Models\DetalleSalidaProductos;
 use App\Models\IngresoProductos;
 use App\Models\Lote;
 use App\Models\Marca;
 use App\Models\Product;
 use App\Models\ProductosDestino;
+use App\Models\SalidaLote;
+use App\Models\SalidaProductos;
 use App\Models\Unidad;
 use Carbon\Carbon;
 use Exception;
@@ -31,7 +34,7 @@ class ProductsController extends Component
     use WithPagination;
     use WithFileUploads;
     public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,$lotecantidad,
-        $estado_lote, $nuevo_cantidad,$observacion,$prod_stock,$costoAjuste,$pv_lote,$prod_id,
+        $estado_lote, $nuevo_cantidad,$observacion,$prod_stock,$costoAjuste,$pv_lote,$prod_id,$select_operacion,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -847,6 +850,8 @@ class ProductsController extends Component
         $this->nuevo_cantidad=null;
         $this->costoAjuste=null;
         $this->pv_lote=null;
+        $this->observacion=null;
+        $this->prod_id=null;
         
     }
 
@@ -924,7 +929,134 @@ class ProductsController extends Component
             DB::rollback();
             dd($e->getMessage());
         }
+
         $this->emit('hide-modal-ajuste');
+        $this->resetAjuste();
+    }
+
+    public function guardarEntradaSalida(){
+        if ($this->tipo_proceso == 'INGRESO') {
+            DB::beginTransaction();
+            try {
+                $rs = IngresoProductos::create([
+                    'destino' =>1,
+                    'user_id' => Auth()->user()->id,
+                    'concepto' => $this->tipo_proceso == 'INGRESO' ? 'INGRESO' : 'INICIAL',
+                    'observacion' => $this->observacion
+                ]);
+        
+                    $lot = Lote::create([
+                        'existencia' => $this->nuevo_cantidad,
+                        'costo' => $this->costoAjuste,
+                        'status' => 'Activo',
+                        'product_id' => $this->prod_id,
+                        'pv_lote' => $this->pv_lote
+                    ]);
+
+                    DetalleEntradaProductos::create([
+                        'product_id' => $this->prod_id,
+                        'cantidad' => $this->nuevo_cantidad,
+                        'costo' => $this->costoAjuste,
+                        'id_entrada' => $rs->id,
+                        'lote_id' => $lot->id
+                    ]);
+
+                    $q = ProductosDestino::where('product_id', $this->prod_id)
+                        ->where('destino_id',1)->value('stock');
+
+                    ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' =>1], ['stock' => $q + $this->nuevo_cantidad]);
+            
+
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                dd($e->getMessage());
+            }
+        }
+        else{
+            try {
+
+                $operacion = SalidaProductos::create([
+                    'destino' => 1,
+                    'user_id' => Auth()->user()->id,
+                    'concepto' => 1,
+                    'observacion' => $this->observacion
+                ]);
+
+
+                foreach ($this->col as $datas) {
+
+                    $auxi = DetalleSalidaProductos::create([
+                        'product_id' => $this->prod_id,
+                        'cantidad' => $this->nuevo_cantidad,
+                        'id_salida' => $operacion->id
+                    ]);
+
+
+                    $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->get();
+
+                    //obtener la cantidad del detalle de la venta 
+                    $qq = $this->nuevo_cantidad; //q=8
+                    foreach ($lot as $val) {
+                        //lote1= 3 Lote2=3 Lote3=3
+                        $this->lotecantidad = $val->existencia;
+                        //dd($this->lotecantidad);
+                        if ($qq > 0) {
+                            //true//5//2
+                            //dd($val);
+                            if ($qq >= $this->lotecantidad) {
+                                $ss = SalidaLote::create([
+                                    'salida_detalle_id' => $auxi->id,
+                                    'lote_id' => $val->id,
+                                    'cantidad' => $val->existencia
+                                ]);
+                                $val->update([
+
+                                    'existencia' => 0,
+                                    'status' => 'Inactivo'
+
+                                ]);
+                                $val->save();
+                                $qq = $qq - $this->lotecantidad;
+                                //dump("dam",$this->qq);
+                            } else {
+                                //dd($this->lotecantidad);
+                                $ss = SalidaLote::create([
+                                    'salida_detalle_id' => $auxi->id,
+                                    'lote_id' => $val->id,
+                                    'cantidad' => $qq
+
+                                ]);
+
+
+                                $val->update([
+                                    'existencia' => $this->lotecantidad - $qq
+                                ]);
+                                $val->save();
+                                $qq = 0;
+                                //dd("yumi",$this->qq);
+                            }
+                        }
+                    }
+
+
+                    $q = ProductosDestino::where('product_id', $this->prod_id)
+                        ->where('destino_id', $this->destino)->value('stock');
+
+                    $varm = $this->nuevo_cantidad;
+
+
+                    ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' =>1], ['stock' => $q - $varm]);
+                }
+
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                dd($e->getMessage());
+            }
+        }
+        $this->emit('hide-modal-ent_sal');
+        $this->resetEntradaSalida();
     }
 
 
@@ -932,6 +1064,21 @@ class ProductsController extends Component
         $this->resetAjuste();
         $this->prod_stock=ProductosDestino::where('product_id',$producto)->first()->stock;
         $this->prod_id=Product::find($producto)->id;
-      
+       
+    }
+
+    public function abrirModalE_S($producto){
+        $this->resetEntradaSalida();
+        $this->prod_id=Product::find($producto)->id;
+    }
+
+    public function resetEntradaSalida(){
+        $this->prod_id=null;
+       $this->select_operacion=null;
+       $this->nuevo_cantidad=null;
+       $this->costoAjuste=null;
+       $this->pv_lote=null;
+       $this->observacion=null;
+
     }
 }
