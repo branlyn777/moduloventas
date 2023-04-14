@@ -33,8 +33,8 @@ class ProductsController extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,$lotecantidad,
-        $estado_lote, $nuevo_cantidad,$observacion,$prod_stock,$costoAjuste,$pv_lote,$prod_id,$select_operacion,
+    public $nombre, $costo, $precio_venta, $cantidad_minima, $name, $descripcion, $grouped, $productid, $nombre_prodlote, $loteproducto, $lote_id, $costo_lote, $selected_mood,$lotecantidad,$prod_name,
+        $estado_lote, $nuevo_cantidad,$observacion,$prod_stock,$costoAjuste,$pv_lote,$prod_id,$select_operacion,$tipo_proceso,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
         $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
@@ -852,6 +852,8 @@ class ProductsController extends Component
         $this->pv_lote=null;
         $this->observacion=null;
         $this->prod_id=null;
+        $this->prod_name=null;
+        $this->tipo_proceso=null;
         
     }
 
@@ -935,13 +937,16 @@ class ProductsController extends Component
     }
 
     public function guardarEntradaSalida(){
+ 
+ 
+
         if ($this->tipo_proceso == 'INGRESO') {
             DB::beginTransaction();
             try {
                 $rs = IngresoProductos::create([
                     'destino' =>1,
                     'user_id' => Auth()->user()->id,
-                    'concepto' => $this->tipo_proceso == 'INGRESO' ? 'INGRESO' : 'INICIAL',
+                    'concepto' => $this->tipo_proceso,
                     'observacion' => $this->observacion
                 ]);
         
@@ -961,9 +966,8 @@ class ProductsController extends Component
                         'lote_id' => $lot->id
                     ]);
 
-                    $q = ProductosDestino::where('product_id', $this->prod_id)
-                        ->where('destino_id',1)->value('stock');
-
+                    $q = ProductosDestino::where('product_id', $this->prod_id)->where('destino_id',1)->value('stock');
+          
                     ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' =>1], ['stock' => $q + $this->nuevo_cantidad]);
             
 
@@ -976,6 +980,7 @@ class ProductsController extends Component
         else{
             try {
 
+       
                 $operacion = SalidaProductos::create([
                     'destino' => 1,
                     'user_id' => Auth()->user()->id,
@@ -984,7 +989,7 @@ class ProductsController extends Component
                 ]);
 
 
-                foreach ($this->col as $datas) {
+        
 
                     $auxi = DetalleSalidaProductos::create([
                         'product_id' => $this->prod_id,
@@ -1041,13 +1046,13 @@ class ProductsController extends Component
 
 
                     $q = ProductosDestino::where('product_id', $this->prod_id)
-                        ->where('destino_id', $this->destino)->value('stock');
+                        ->where('destino_id',1)->value('stock');
 
                     $varm = $this->nuevo_cantidad;
 
 
                     ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' =>1], ['stock' => $q - $varm]);
-                }
+                
 
                 DB::commit();
             } catch (Exception $e) {
@@ -1063,22 +1068,27 @@ class ProductsController extends Component
     public function abrirModalAjuste($producto){
         $this->resetAjuste();
         $this->prod_stock=ProductosDestino::where('product_id',$producto)->first()->stock;
-        $this->prod_id=Product::find($producto)->id;
+        $prod =Product::find($producto);
+        $this->prod_id= $prod->id;
+        $this->prod_name= $prod->nombre;
        
     }
 
     public function abrirModalE_S($producto){
         $this->resetEntradaSalida();
-        $this->prod_id=Product::find($producto)->id;
+        $prod =Product::find($producto);
+        $this->prod_id= $prod->id;
+        $this->prod_name= $prod->nombre;
     }
 
     public function resetEntradaSalida(){
-        $this->prod_id=null;
+       $this->prod_id=null;
        $this->select_operacion=null;
        $this->nuevo_cantidad=null;
        $this->costoAjuste=null;
        $this->pv_lote=null;
        $this->observacion=null;
-
+       $this->prod_name=null;
+       $this->tipo_proceso=null;
     }
 }

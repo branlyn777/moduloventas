@@ -1,6 +1,6 @@
-<div wire:ignore.self class="modal fade" id="ajusteEnt_Sal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div wire:ignore.self class="modal fade" id="entrada_salida_modal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <div>
@@ -11,51 +11,100 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                <u> <h5 class="text-center">{{$prod_name}}</h5></u>
                 <div class="row">
                     <div class="col">
+                        <label>Tipo de Operacion</label>
                         <select wire:model="tipo_proceso" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected>Elegir tipo de operacion</option>
-                            <option value="entrada">Entrada de Productos</option>
-                            <option value="salida">Salida de productos</option>
+                            <option selected disabled value="null">Elegir tipo de operacion</option>
+                            <option value="INGRESO">Entrada de Productos</option>
+                            <option value="SALIDA">Salida de productos</option>
                          
                           </select>
                     </div>
                 </div>
                 <div class="row">
-                
+                    <div class="col">
+                          <div class="form-group">
 
-                    <div class="col-3">
-                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <div class="input-group">
+                                <input type="number" style="max-height: 33px;" wire:model="nuevo_cantidad"
+                                    class="form-control">
+
+                                <span class="input-group-text">Uds.</span>
+
+                            </div>
+                             @error('nuevo_cantidad')
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {{-- <div class="form-group">
                             <label>Cantidad</label>
                             <input type="number" wire:model.lazy="nuevo_cantidad" class="form-control">
                             @error('nuevo_cantidad')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="col-3">
+                    @if ($tipo_proceso=='INGRESO')
+                        
+                    <div class="col">
+
                         <div class="form-group">
+
                             <label>Costo Unit.</label>
-                            <input type="number" wire:model.lazy="costoAjuste" class="form-control"
+                            <div class="input-group">
+                                <input type="number" style="max-height: 33px;" wire:model.lazy="costoAjuste"
+                                    class="form-control" placeholder="--"
+                             >
+
+                                <span class="input-group-text">Bs</span>
+
+                            </div>
+                            
+                        </div>
+                        @error('costoAjuste')
+                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                    @enderror
+
+
+
+
+
+
+
+
+
+                        {{-- <div class="form-group">
+                            <label>Costo Unit.</label>
+                            <input type="number" wire:model.lazy="costoAjuste" class="form-control" placeholder="--"
                             {{ $nuevo_cantidad > $prod_stock ? '' : 'disabled=true' }}
                             >
                             @error('costo')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="col-3">
-                        <div class="form-group">
+                    <div class="col">
+
+                           <div class="form-group">
+
                             <label>Precio V.</label>
-                            <input type="number" wire:model.lazy="pv_lote" class="form-control"
-                            {{ $nuevo_cantidad > $prod_stock ? '' : 'disabled=true' }}
-                            >
-                            @error('precio')
-                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                            @enderror
+                            <div class="input-group">
+                                <input type="number" style="max-height: 33px;" wire:model.lazy="pv_lote"
+                                    class="form-control" placeholder="--"
+                              >
+
+                                <span class="input-group-text">Bs</span>
+
+                            </div>
                         </div>
+                        @error('pv_lote')
+                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                    @enderror
                     </div>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col">
@@ -66,9 +115,9 @@
 
             </div>
             <div class="modal-footer">
-                <button wire:click.prevent="resetAjuste" type="button" class="btn btn-secondary"
+                <button wire:click.prevent="resetEntradaSalida" type="button" class="btn btn-secondary"
                     data-bs-dismiss="modal">Cancelar</button>
-                <button wire:click.prevent="guardarAjuste()" type="button" class="btn btn-primary"
+                <button wire:click.prevent="guardarEntradaSalida()" type="button" class="btn btn-primary"
                     style="font-size: 13px">Guardar Ajuste</button>
             </div>
         </div>

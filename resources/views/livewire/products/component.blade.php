@@ -327,14 +327,12 @@
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
                                                                 data-bs-toggle="modal"
-                                                                wire:click='abrirModalE_S()'
+                                                                wire:click='abrirModalE_S({{$products->id}})'
                                                                 data-bs-target="#entrada_salida_modal">Entrada/Salida
                                                                 Productos</a></li>
                                                         <li><hr class="dropdown-divider"></li>
-                                                        <li><a class="dropdown-item" href="javascript:void(0)"
-                                                            data-bs-toggle="modal"
-                                                            wire:click='redirectHistorialAjuste()'
-                                                            data-bs-target="#entrada_salida_modal">Historial de Ajuste</a></li>
+                                                        <li><a class="dropdown-item" href="/operacionesinv"
+                                                          >Historial de Ajuste</a></li>
 
                                                     </ul>
 
@@ -382,7 +380,7 @@
                 $('#ajusteModal').modal('hide')
             });
             window.livewire.on('hide-modal-ent_sal', msg => {
-                $('#ajusteEnt_Sal').modal('hide')
+                $('#entrada_salida_modal').modal('hide')
             });
             window.livewire.on('show-modal-lotecosto', msg => {
                 $('#lotecosto').modal('show')
