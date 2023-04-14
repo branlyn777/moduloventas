@@ -3,22 +3,46 @@
 namespace App\Http\Livewire;
 
 use App\Models\Sale;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 
 class SaleReportMonthController extends Component
 {
+    public $user_id = 1;
     public $year;
-
     public $months;
-
+   
+    //grafica del reporte del mes 
     public function mount()
     {
         $this->year = Carbon::now()->year;
         $this->months = array();
+
     }
     public function render()
     {
+        // $ventas = Sale::query();
+
+        // if ($this->user_id) {
+        //     $ventas->where('user_id', $this->user_id);
+        // }
+
+        // $ventas = $ventas->get();
+
+        // $listausuarios = User::join("sales as s", "s.user_id", "users.id")
+        //     ->select("users.*")
+        //     ->where("s.status", "PAID")
+        //     ->where("users.status", "ACTIVE")
+        //     ->when($this->user_id, function ($query, $user_id) {
+        //         return $query->where('users.id', $user_id);
+        //     })
+        //     ->distinct()
+        //     ->get();
+
+        
+      
+
         //grafica del reporte del mes 
         for ($i=1; $i < 13; $i++)
         { 
@@ -50,9 +74,22 @@ class SaleReportMonthController extends Component
         ];
 
         return view('livewire.sales.salereportmonth', [
-            'chartOptions' => json_encode($chartOptions)
+            'chartOptions' => json_encode($chartOptions),
+            'listausuarios' => $this->listausuarios(),
         ])
             ->extends('layouts.theme.app')
             ->section('content');
+    }
+    
+    public function listausuarios()
+    { 
+        $listausuarios = User::join("sales as s", "s.user_id", "users.id")
+            ->select("users.*")
+            ->where("s.status", "PAID")
+            ->where("s.status", "PAID")
+            ->where("users.status", "ACTIVE")
+            ->distinct()
+            ->get();
+        return $listausuarios;
     }
 }
