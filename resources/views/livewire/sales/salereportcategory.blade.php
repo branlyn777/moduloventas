@@ -60,13 +60,13 @@
                             <span class="text-sm">
                                 <b>Fecha Inicio</b>
                             </span>
-                            <input type="date" class="form-control">
+                            <input wire:model="dateFrom" type="date" class="form-control">
                         </div>
                         <div class="col-3">
                             <span class="text-sm">
                                 <b>Fecha Fin</b>
                             </span>
-                            <input type="date" class="form-control">
+                            <input wire:model="dateTo" type="date" class="form-control">
                         </div>
                         <div class="col-3"></div>
                         <div class="col-3"></div>
