@@ -53,9 +53,11 @@
                 <div class="form-group">
                     <select wire:model="user_id" class="form-select">
                         <option value="Todos" selected>Todos</option>
-                        @foreach ($names as $name)
-                            <option value="{{ $name }}">{{ $name }}</option>
-                        @endforeach
+                        @foreach ($listausuarios as $u)
+                        <option value="{{ $u->id }}">{{ ucwords(strtolower($u->name)) }}</option>
+                    @endforeach
+
+
                     </select>
                 </div>
             </div>
@@ -66,8 +68,7 @@
                 </h6>
                 <div class="form-group">
                     <select wire:model="categoria_id" class="form-select">
-                        <option value="Todos" selected>
-                            
+                        <option value="Todos" selected>   
                         </option>
 
                     </select>
