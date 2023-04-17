@@ -823,26 +823,32 @@ class OrderServiceController extends Component
 
         
 
+        
 
-        //Cambiando el tipo de pago
-        $movement_wallet = CarteraMov::where("cartera_movs.movimiento_id",$motion_deliver->id)->first();
-        //Guardando el id de la cartera anterior
-        $walletid = $movement_wallet->cartera_id;
-        //Actualizando
-        $movement_wallet->update([
-            'cartera_id' => $this->s_id_wallet
-        ]);
-        $movement_wallet->save();
+        if($this->s_id_wallet != null)
+        {
+            //Cambiando el tipo de pago
+            $movement_wallet = CarteraMov::where("cartera_movs.movimiento_id",$motion_deliver->id)->first();
+            //Guardando el id de la cartera anterior
+            $walletid = $movement_wallet->cartera_id;
+            //Actualizando
+            $movement_wallet->update([
+                'cartera_id' => $this->s_id_wallet
+            ]);
+            $movement_wallet->save();
+            //Disminuyendo
+            $wallet_previus = Cartera::find($walletid);
+            $balance_wallet = $wallet_previus->saldocartera - $previous_price;
+            $wallet_previus->update([
+                'saldocartera' => $balance_wallet
+            ]);
+            $wallet_previus->save();
+        }
+
 
 
         
-        //Disminuyendo
-        $wallet_previus = Cartera::find($walletid);
-        $balance_wallet = $wallet_previus->saldocartera - $previous_price;
-        $wallet_previus->update([
-            'saldocartera' => $balance_wallet
-        ]);
-        $wallet_previus->save();
+        
 
         if($this->s_cost == null)
         {
@@ -867,15 +873,18 @@ class OrderServiceController extends Component
         $motion_terminated->save();
 
 
+        if($this->s_id_wallet != null)
+        {
+            //Aumentando
+            $wallet = Cartera::find($this->s_id_wallet);
+            $balance_wallet = $wallet->saldocartera + $this->s_price + $this->s_on_account;
+            $wallet->update([
+                'saldocartera' => $balance_wallet
+            ]);
+            $wallet->save();
+        }
 
 
-         //Aumentando
-         $wallet = Cartera::find($this->s_id_wallet);
-         $balance_wallet = $wallet->saldocartera + $this->s_price + $this->s_on_account;
-         $wallet->update([
-             'saldocartera' => $balance_wallet
-         ]);
-         $wallet->save();
 
         $this->emit("hide-edit-service-deliver");
     }
