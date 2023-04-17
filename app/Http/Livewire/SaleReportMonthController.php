@@ -57,9 +57,12 @@ class SaleReportMonthController extends Component
                     ->sum("sales.total");
         
                 array_push($this->months, $total);
+
+           
             } 
             
         } 
+        if()
 
         
         //grafica del reporte del mes 
