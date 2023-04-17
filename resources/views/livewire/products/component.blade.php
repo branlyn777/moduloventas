@@ -69,19 +69,30 @@
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         <input type="text" wire:model="search"
-                                            placeholder="nombre de producto, codigo" class="form-control">
+                                            placeholder="nombre de producto, codigo" wire:keydown.enter="overrideFilter()" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-2">
+                                    @if (!empty($searchData))
+                                        
+                                    <div class="border border-primary rounded-1 m-1">
 
-                                    @forelse ($searchData as $key=>$value)
-                                        <span class="badge badge-primary pl-2 pr-2 pt-1 pb-1 m-1">{{ $value }}
-                                            <button class="btn btn-sm btn-info fas fa-times pl-1 pr-1 pt-0 pb-0 m-0"
-                                                wire:click="outSearchData('{{ $value }}')"></button></span>
+                                        <div class="overflow-auto rounded-1 m-1" style="max-width: auto; max-height: 5rem;">
+                                            
+                                            @forelse ($searchData as $key=>$value)
+                                            <span
+                                                class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
+                                                <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
+                                                    wire:click="outSearchData('{{ $value }}')"><i
+                                                        class=" fas fa-times"></i></button></span>
 
-                                    @empty
-                                        <p></p>
-                                    @endforelse
+                                        @empty
+                                            <p></p>
+                                        @endforelse
+                                          </div>
+                                    </div>
+                                    @endif
+
                                 </div>
                             </div>
 
@@ -117,6 +128,9 @@
                                     <option value='positivo'>Productos con stock</option>
                                     <option value='cero'>Productos agotados</option>
                                     <option value='bajo'>Productos bajo stock</option>
+                                    <option value='masvendidosmes'>Productos mas vendidos ultimo mes</option>
+                                    <option value='masvendidostrimestre'>Productos mas vendidos ultimo trimestre</option>
+                                    <option value='masvendidosanio'>Productos mas vendidos ultimo año</option>
                                 </select>
 
                             </div>
@@ -209,7 +223,7 @@
                                             <th class="text-uppercase text-sm text-center">N°</th>
                                             <th class="text-uppercase text-sm text-center">
                                                 <div class="d-flex justify-content-start">
-                                                    <div class="form-check my-auto">
+                                                    <div class="form-check my-auto px-2">
                                                         <input type="checkbox" class="form-check-input"
                                                             wire:model="checkAll">
                                                     </div>
@@ -236,26 +250,16 @@
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="form-check my-auto">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                wire:model="selectedProduct"
-                                                                value="{{ $products->id }}">
+                                                            <input class="form-check-input" type="checkbox" wire:model="selectedProduct" value="{{ $products->id }}">
                                                         </div>
-                                                        <img src="{{ asset('storage/productos/' . $products->imagen) }}"
-                                                            alt="hoodie" width="50" height="50">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <label
-                                                                style="font-size: 14px">{{ $products->nombre }}</label>
-
-
-                                                            {{ $products->caracteristicas }}
-
-
-                                                            <p>{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
-                                                                {{ $products->caracteristicas }}</p>
-
+                                                        <img style="border: 1px solid #aaa9a9;border-radius: 4px;" src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="50" height="50">
+                                                        <div class="d-flex flex-column justify-content-center mx-2">
+                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
+                                                            <div style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">{{ $products->caracteristicas }}</div>
+                                                            <div style="font-size: 12px">{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}</div>
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td>                                                
                                                 @if ($products->category->subcat != null)
                                                     <td class="text-center align-middle">
                                                         {{ $products->category->subcat->name }}

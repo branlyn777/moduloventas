@@ -107,7 +107,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
+                        {{-- <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Observación: </strong>
                                 <textarea wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
@@ -115,9 +115,9 @@
                                     <span class="text-danger er">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-12 col-sm-6 col-md-3">
+                        {{-- <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
                                 <strong style="color: rgb(74, 74, 74)">Sucursal Destino</strong>
                                 <select wire:model.lazy="destinocompra" class="form-select">
@@ -131,7 +131,7 @@
                                     <span class="text-danger er" style="font-size: 14px">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
@@ -287,6 +287,20 @@
                             @endif
                         </div>
                     </div><br>
+                    <div class="card p-2">
+                        <div class="form-group">
+                            <strong style="color: rgb(74, 74, 74)">Observación: </strong>
+                            <textarea wire:model='observacion' class="form-control" aria-label="With textarea" placeholder="Agregar una observacion"></textarea>
+                            @error('observacion')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+
+
+                    
+                    <br>
                     <div class="text-center">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @if ($this->itemsQuantity > 0)

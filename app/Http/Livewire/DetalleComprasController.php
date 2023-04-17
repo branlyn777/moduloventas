@@ -66,7 +66,7 @@ class DetalleComprasController extends Component
         $this->estado_compra = "finalizada";
         $this->selected_id = 0;
         $this->pago_parcial = 0;
-        $this->destinocompra = 'Elegir';
+        $this->destinocompra = '1';
         $this->tipo_transaccion = "CONTADO";
         $this->tipo_documento = "FACTURA";
         $this->imagen = 'noimagenproduct.png';

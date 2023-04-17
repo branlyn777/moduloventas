@@ -143,7 +143,43 @@ class ProductsController extends Component
 
                 return $query->where('stock', '>', 0);
             })
-
+            ->when($this->selected_mood == 'masvendidosmes', function ($query) {
+                return $query
+                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
+                    ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
+                    ->where('s.status', 'PAID')
+                    ->whereMonth('s.created_at', now())
+                    ->groupBy('products.id', 'productos_destinos.stock')
+                    ->orderByRaw('SUM(sale_details.quantity) DESC')
+                    ->where('products.status', 'ACTIVO')
+                    ->where('productos_destinos.destino_id','1');
+                 
+            })
+            ->when($this->selected_mood == 'masvendidostrimestre', function ($query) {
+                return $query
+                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
+                    ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
+                    ->where('s.status', 'PAID')
+                    ->whereBetween('s.created_at',[now()
+                    ->subMonth(3)->startOfDay(),now()->endOfDay()])
+                    ->groupBy('products.id', 'productos_destinos.stock')
+                    ->orderByRaw('SUM(sale_details.quantity) DESC')
+                    ->where('products.status', 'ACTIVO')
+                    ->where('productos_destinos.destino_id','1');
+                 
+            })
+            ->when($this->selected_mood == 'masvendidosanio', function ($query) {
+                return $query
+                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
+                    ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
+                    ->where('s.status', 'PAID')
+                    ->whereYear('s.created_at', now())
+                    ->groupBy('products.id', 'productos_destinos.stock')
+                    ->orderByRaw('SUM(sale_details.quantity) DESC')
+                    ->where('products.status', 'ACTIVO')
+                    ->where('productos_destinos.destino_id','1');
+                 
+            })
             ->orderBy('products.created_at', 'desc');
 
 
@@ -1092,3 +1128,6 @@ class ProductsController extends Component
        $this->tipo_proceso=null;
     }
 }
+
+
+
