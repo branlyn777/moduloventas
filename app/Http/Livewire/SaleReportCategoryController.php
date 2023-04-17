@@ -11,6 +11,8 @@ class SaleReportCategoryController extends Component
 {
     public $dateFrom, $dateTo;
 
+    public $name_categories ,$total_categories;
+
     public function mount()
     {
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -18,8 +20,7 @@ class SaleReportCategoryController extends Component
     }
     public function render()
     {
-
-        
+        $this->emit("asd");
         $list_categories = Category::select('categories.name as category_name', DB::raw('SUM(sale_details.quantity * sale_details.price) as total_sales'))
         ->join('products', 'categories.id', '=', 'products.category_id')
         ->join('sale_details', 'products.id', '=', 'sale_details.product_id')
@@ -29,39 +30,16 @@ class SaleReportCategoryController extends Component
         ->orderBy('total_sales', 'DESC')
         ->get();
 
-        $name_categories = array();
-        $total_categories = array();
+
+        $this->name_categories = array();
+        $this->total_categories = array();
         foreach($list_categories as $c)
         {
-            array_push($name_categories, $c->category_name);
-            array_push($total_categories, intval($c->total_sales));
+            array_push($this->name_categories, $c->category_name);
+            array_push($this->total_categories, intval($c->total_sales));
         }
-        $chartOptions = [
-            'series' => $total_categories,
-            'chart' => [
-                'width' => 1000,
-                'type' => 'pie',
-            ],
-            'labels' => $name_categories,
-            'responsive' => [
-                [
-                    'breakpoint' => 1080,
-                    'options' => [
-                        'chart' => [
-                            'width' => 500
-                        ],
-                        'legend' => [
-                            'position' => 'bottom'
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-
-
         return view('livewire.sales.salereportcategory', [
-            'chartOptions' => json_encode($chartOptions)
+            'chartOptions' => 0
             ])
             ->extends('layouts.theme.app')
             ->section('content');
