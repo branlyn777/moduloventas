@@ -128,9 +128,9 @@
                                     <option value='positivo'>Productos con stock</option>
                                     <option value='cero'>Productos agotados</option>
                                     <option value='bajo'>Productos bajo stock</option>
-                                    <option value='masvendidosmes'>Productos mas vendidos ultimo mes</option>
-                                    <option value='masvendidostrimestre'>Productos mas vendidos ultimo trimestre</option>
-                                    <option value='masvendidosanio'>Productos mas vendidos ultimo año</option>
+                                    <option value='masvendidosmes'>Stock de productos mas vendidos ultimo mes</option>
+                                    <option value='masvendidostrimestre'>Stock de productos mas vendidos ultimo trimestre</option>
+                                    <option value='masvendidosanio'>Stock de productos mas vendidos ultimo año</option>
                                 </select>
 
                             </div>
@@ -221,7 +221,7 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-sm text-center">N°</th>
-                                            <th class="text-uppercase text-sm text-center">
+                                            <th class="text-uppercase text-sm">
                                                 <div class="d-flex justify-content-start">
                                                     <div class="form-check my-auto px-2">
                                                         <input type="checkbox" class="form-check-input"
@@ -230,13 +230,13 @@
                                                     Producto
                                                 </div>
                                             </th>
-                                            <th class="text-uppercase text-sm text-center">Categoría</th>
-                                            <th class="text-uppercase text-sm text-center">Sub Categoría</th>
-                                            <th class="text-uppercase text-sm text-center">Código</th>
-                                            <th class="text-uppercase text-sm text-center">Cantidad</th>
+                                            <th class="text-uppercase text-sm text-left ps-1">Categoría</th>
+                                            <th class="text-uppercase text-sm text-left ps-1">Sub Categoría</th>
+                                            <th class="text-uppercase text-sm text-left">Código</th>
+                                            <th class="text-uppercase text-sm text-left">Cantidad</th>
 
-                                            <th class="text-uppercase text-sm text-center">Estado</th>
-                                            <th class="text-uppercase text-sm text-center">Acciones</th>
+                                            <th class="text-uppercase text-sm text-left">Estado</th>
+                                            <th class="text-uppercase text-sm text-left">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -261,25 +261,25 @@
                                                     </div>
                                                 </td>                                                
                                                 @if ($products->category->subcat != null)
-                                                    <td class="text-center align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
                                                         {{ $products->category->subcat->name }}
                                                     </td>
-                                                    <td class="text-center align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
                                                 @else
-                                                    <td class="text-center align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
-                                                    <td class="text-center align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
                                                         No definido
 
                                                     </td>
                                                 @endif
-                                                <td class="text-center align-middle">
+                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-center align-middle">
                                                     {{ $products->codigo }}
                                                 </td>
-                                                <td class="text-center align-middle">
+                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-center align-middle">
                                                     {{ $products->cantidad }}
                                                 </td>
 

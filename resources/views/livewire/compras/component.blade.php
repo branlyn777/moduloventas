@@ -60,16 +60,16 @@
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-start">
-                            <div class="col" style="margin-bottom: 7px;">
+                            <div class="col-5" style="margin-bottom: 7px;">
 
                                 <label style="font-size: 1rem;">Buscar</label><br>
                                 <div class="input-group">
-                                    <span class="input-group-text">
+                                    <span class="input-group-text"  style="background-color:rgba(39, 39, 205, 0.659); color: rgb(38, 38, 40); border-color: #1d4cc2;">
                                         <i class="fa fa-search"></i>
                                     </span>
-                                    <input type="text" class="form-control" wire:model="search"
+                                    <input type="text" class="form-control ps-2" style="border-color: #1d4cc2;" wire:model="search"
                                     placeholder="nro.documento,proveedor,usuario">
-                                    <select wire:model="tipo_search" class="form-select">
+                                    <select wire:model="tipo_search" class="form-select" style="background-color:rgba(49, 12, 230, 0.659); color: rgb(236, 236, 248); border-color: #1d4cc2;">
                                         <option value="codigo"> Cod. Compra</option>
                                         <option value="proveedor">Proveedor</option>
                                         <option value="usuario">Usuario</option>

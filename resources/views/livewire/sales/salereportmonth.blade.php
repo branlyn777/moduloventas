@@ -101,74 +101,55 @@
       Livewire.on('asd', function (data) {
 
 
+       
+
+
+
+
+
+
+
         var options = {
           series: [{
-          name: 'Servings',
-          data: @this.months,
-        }],
-          annotations: {
-          points: [{
-            x: 'Bananas',
-            seriesIndex: 0,
-            label: {
-              borderColor: '#775DD0',
-              offsetY: 0,
-              style: {
-                color: '#fff',
-                background: '#775DD0',
-              },
-              text: 'Bananas are good',
-            }
-          }]
-        },
-        chart: {
-          height: 350,
+          name: 'Net Profit',
+          data:  @this.months,
+        },],
+          chart: {
           type: 'bar',
+          height: 350
         },
         plotOptions: {
           bar: {
-            borderRadius: 10,
-            columnWidth: '50%',
-          }
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
         },
         dataLabels: {
           enabled: false
         },
         stroke: {
-          width: 2
-        },
-        
-        grid: {
-          row: {
-            colors: ['#fff', '#f2f2f2']
-          }
+          show: true,
+          width: 2,
+          colors: ['transparent']
         },
         xaxis: {
-          labels: {
-            rotate: -45
-          },
-          categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-            'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-          ],
-          tickPlacement: 'on'
+          categories: ['Ene','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
         },
         yaxis: {
           title: {
-            text: 'Servings',
-          },
+            text: '$ (thousands)'
+          }
         },
         fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'light',
-            type: "horizontal",
-            shadeIntensity: 0.25,
-            gradientToColors: undefined,
-            inverseColors: true,
-            opacityFrom: 0.85,
-            opacityTo: 0.85,
-            stops: [50, 0, 100]
-          },
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "$ " + val + " thousands"
+            }
+          }
         }
         };
 
@@ -176,6 +157,21 @@
         chart.render();
       
       
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

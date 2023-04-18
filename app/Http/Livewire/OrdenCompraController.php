@@ -31,7 +31,7 @@ class OrdenCompraController extends Component
    
     public function mount(){
         
-        $this->sucursal_id = $this->idsucursal();
+        $this->sucursal_id = 1;
         $this->estado='Todos';
         //dd($this->sucursal_id);
     }

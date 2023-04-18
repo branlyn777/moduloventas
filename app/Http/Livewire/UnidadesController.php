@@ -21,13 +21,13 @@ class UnidadesController extends Component
 
     public  $search, $nombre, $selected_id, $mensaje_toast;
     public  $pageTitle, $componentName;
-    private $pagination = 5;
+    private $pagination = 25;
 
 
     //MARCAS
 
     public $search_marca, $nombre_marca, $selected_id_marca;
-    private $pagination_marca = 5;
+    private $pagination_marca = 25;
 
     public function paginationView()
     {

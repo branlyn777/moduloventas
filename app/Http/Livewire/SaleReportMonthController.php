@@ -62,8 +62,6 @@ class SaleReportMonthController extends Component
             } 
             
         } 
-        if()
-
         
         //grafica del reporte del mes 
         

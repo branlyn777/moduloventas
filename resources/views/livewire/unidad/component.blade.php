@@ -59,7 +59,7 @@
 
             <div class="d-lg-flex my-auto p-0 mb-3">
                 <div>
-                    <h5 class=" text-white" style="font-size: 16px">Unidades</h5>
+                    <h5 class=" text-white" style="font-size: 16px">Unidades y Marcas</h5>
                 </div>
 
                 <div class="ms-auto my-auto mt-lg-1">
@@ -83,7 +83,7 @@
 
                     <div class="row justify-content-between">
                         <div class="col-12 col-md-6">
-                            <h6>Buscar</h6>
+                            <h6>Buscar Unidad</h6>
                             <div class="form-group">
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -134,7 +134,7 @@
                                 @else
                                     <tr>
                                         <td colspan="5">
-                                            <div class="row justify-content-center align-items-center mx-auto my-5">
+                                            <div class="row justify-content-center align-items-center mx-auto my-10">
 
                                                 <label class="text-center">No tiene unidades que
                                                     mostrar</label>
@@ -157,9 +157,9 @@
 
         <div class="col-6">
             <div class="d-lg-flex my-auto p-0 mb-3">
-                <div>
+                {{-- <div>
                     <h5 class=" text-white" style="font-size: 16px">Marcas</h5>
-                </div>
+                </div> --}}
 
                 <div class="ms-auto my-auto mt-lg-1">
                     <div class="ms-auto my-auto">
@@ -224,7 +224,7 @@
                                 <tr>
                                     <td colspan="5">
                                         <div
-                                            class="row justify-content-center align-items-center mx-auto my-5">
+                                            class="row justify-content-center align-items-center mx-auto my-10">
 
                                             <label class="text-center">No tiene marcas que
                                                 mostrar</label>
