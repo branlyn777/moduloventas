@@ -820,22 +820,26 @@
             datasets: [{
                 data: @json($quantity_origin_client),
                 backgroundColor: [
-                    '#FF6384',
                     '#36A2EB',
+                    '#FF6384',
                     '#FFCE56',
                     '#a2eb36',
                     '#eb7f36',
                     '#3647eb',
-                    '#36ebda'
+                    '#36ebda',
+                    '#ED4D5D',
+                    '#1b2155'
                 ],
                 hoverBackgroundColor: [
-                    '#FF6384',
                     '#36A2EB',
+                    '#FF6384',
                     '#FFCE56',
                     '#a2eb36',
                     '#eb7f36',
                     '#3647eb',
-                    '#36ebda'
+                    '#36ebda',
+                    '#ED4D5D',
+                    '#1b2155'
                 ]
             }]
         },
