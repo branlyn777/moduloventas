@@ -18,13 +18,16 @@
     nav-link
 @endsection
 
+
 @section('servicioarrow')
     true
 @endsection
 
+
 @section('ordenserviClinav')
     "nav-link active"
 @endsection
+
 
 @section('servicioshow')
     "collapse show"
@@ -52,75 +55,72 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-10">
-                  <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            {{-- filtro de procedencia --}}
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <h6>Seleccionar Procedencia</h6>
-                                <div class="form-group">
-                                    <select wire:model="procedencia_id" class="form-select">
-                                        <option value="Todos">Todas las Precedencias</option>
-                                        @foreach ($this->listaprodencias as $s)
-                                            <option value="{{ $s->id }}">{{ $s->procedencia }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        {{-- filtro de procedencia --}}
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <h6>Seleccionar Procedencia</h6>
+                            <div class="form-group">
+                                <select wire:model="procedencia_id" class="form-select">
+                                    <option value="Todos">Todas las Precedencias</option>
+                                    @foreach ($this->listaprodencias as $s)
+                                        <option value="{{ $s->id }}">{{ $s->procedencia }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            {{-- filtro de categoria --}}
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <h6>Tp. produc Service</h6>
-                                <div class="form-group">
-                                    <select wire:model="categoria_id" class="form-select">
-                                        <option value="Todos">todos los tipos</option>
-                                        @foreach ($this->listacategoria as $ca)
-                                            <option value="{{ $ca->id }}">{{ $ca->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            {{-- filtro de fecha de inicio --}}
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <h6>Fecha Inicio</h6>
-                                <div class="form-group">
-                                    <input type="date" wire:model="dateFrom" class="form-control">
-                                </div>
-                            </div>
-                            {{-- filtro de fecha de fin --}}
-                            <div class="col-12 col-sm-6 col-md-2">
-                                <h6>Fecha Fin</h6>
-                                <div class="form-group">
-                                    <input type="date" wire:model="dateTo" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-2">
-                                
-                                <div class="form-group">  
-                                </div>
-                            </div>
-                            {{-- total --}}
                         </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="card">
-                                  <h6 style="margin-top: -20px;color: #000000;">TOTAL</h6>
-                                    <h2 class="" style="color: #030303;  margin-top: -12px"> {{ $total_clients }}</h2>
-                                  
-                                </div>                                                          
-                         <div class="card-body">
-                        <div class="card text-center " style="  width: 13rem; height:6rem;text-align: left; margin-top: -8px;">                         
+                        {{-- filtro de categoria --}}
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <h6>Tp. produc Service</h6>
+                            <div class="form-group">
+                                <select wire:model="categoria_id" class="form-select">
+                                    <option value="Todos">todos los tipos</option>
+                                    @foreach ($this->listacategoria as $ca)
+                                        <option value="{{ $ca->id }}">{{ $ca->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        {{-- filtro de fecha de inicio --}}
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <h6>Fecha Inicio</h6>
+                            <div class="form-group">
+                                <input type="date" wire:model="dateFrom" class="form-control">
+                            </div>
+                        </div>
+                        {{-- filtro de fecha de fin --}}
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <h6>Fecha Fin</h6>
+                            <div class="form-group">
+                                <input type="date" wire:model="dateTo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            
+                            <div class="form-group">  
+                            </div>
+                        </div>
+                        {{-- total --}}
+                    
+                        <div class="card text-center " style="  border: 3px solid rgb(201, 199, 197);width: 12rem; height:6rem;text-align: left; margin-top: -8px;">                         
                             <div class="card-body">
                                 <div class="" style="">
-                         </div>
+                                    <h6 style="margin-top: -20px;color: #ff7300;">TOTAL</h6>
+                                    <h2 class="" style="color: #ff7300;  margin-top: -12px"> {{ $total_clients }}</h2>
+                                  
+                                </div>                              
+                            
+                            </div>
+                  
                           </div>
+              
+
                     </div>
-                  </div>
+
+
                 </div>
-              </div>
+            </div>
             <br>
             <div class="card">
                 <div class="card-body">
@@ -131,7 +131,7 @@
                                     <tr>
                                         <th scope="col" style="color:black">#</th>
                                         <th scope="col">Clientes</th>
-                                        <th scope="col">Celular</th>
+                                        <th scope="col">Celulaar</th>
                                         <th scope="col">Procedencia</th>
                                         <th scope="col">Categoria</th>
                                         <th scope="col">fecha de creacion</th>
@@ -181,13 +181,17 @@
                                             </td>
                                         </tr>
                                     @endforeach
+
                                 </tbody>
                             </table>
                         </div>
-                    {{ $clients->links() }}
+                        {{ $clients->links() }}
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
+
 </div>

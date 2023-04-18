@@ -14,6 +14,9 @@
 
     </nav>
 @endsection
+@section('css')
+    
+@endsection
 <div>
     <div class="container-fluid">
         <div class="row">
@@ -237,7 +240,7 @@
             </div>
         </div>
 
-         {{-- grafica procedencia cliente--}}
+        {{-- grafica procedencia cliente --}}
 
         <div class="row mt-4">
             <div class="col-lg-4 col-sm-6">
@@ -245,23 +248,17 @@
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-0">Procedencia Cliente</h6>
-                            {{-- <button type="button"
-                                class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                                data-bs-original-title="See traffic channels">
-                                <i class="fas fa-info" aria-hidden="true"></i>
-                            </button> --}}
                         </div>
                     </div>
                     <div class="card-body pb-0 p-3 mt-4">
                         <div class="row">
                             <div class="col-7 text-start">
-                                
+                              
                                 <div class="chart">
-                                    <canvas id="chart-procedencia" class="chart-canvas" height="200"
-                                        width="161"
-                                        style="display: block; box-sizing: border-box; height: 200px; width: 161.5px;"></canvas>
+                                    <canvas id="chart-doughnut" class="chart-canvas"width="800" height="600"
+                                        style="display: block; box-sizing: border-box; height: 220px; width: 200.5px; text-alingt: center"></canvas>
                                 </div>
+                                
                             </div>
                             <div class="col-5 my-auto">
                                 @foreach ($origins as $no)
@@ -271,11 +268,31 @@
                                     </span>
                                 @endforeach
                             </div>
+                           
+                        </div>
+                    </div>
+                    <div class="card-body pb-0 p-1 mt-1">
+                        <div class="row">
+
+                            <div class="col-4 text-start">
+
+                                <div class="chart">
+
+                                    <canvas id="chart-procedencia" class="chart-canvas" 
+                                       
+                                        style="display: block; box-sizing: border-box; height: 10px; width: 10px;"></canvas>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-5 my-auto">
+                                
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex align-items-center">
-                     
-                     
+
+
                     </div>
                 </div>
             </div>
@@ -344,7 +361,7 @@
                 </div>
             </div>
         </div>
-        {{-- grafica procedencia cliente--}}
+        {{-- grafica procedencia cliente --}}
 
         {{-- <div class="row mt-4">
             <div class="col-12">
@@ -478,6 +495,7 @@
 
 <script src="{{ asset('js/plugins/chartjs.min.js') }}"></script>
 <script>
+    var ctx = document.getElementById('chart-doughnut').getContext('2d');
     var ctx1 = document.getElementById("chart-line").getContext("2d");
     var ctx2 = document.getElementById("chart-pie").getContext("2d");
     var ctx4 = document.getElementById("chart-pie-egresos").getContext("2d");
@@ -505,7 +523,7 @@
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
-  // Line chart
+    // Line chart
     new Chart(ctx1, {
         type: "line",
         data: {
@@ -773,7 +791,7 @@
             labels: @json($name_origin_client),
             datasets: [{
                 label: "Projects",
-                weight: 9,
+                weight: 10,
                 cutout: 0,
                 tension: 0.9,
                 pointRadius: 2,
@@ -791,34 +809,45 @@
                     display: false,
                 }
             },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            scales: {
-                y: {
-                    grid: {
-                        drawBorder: false,
-                        display: false,
-                        drawOnChartArea: false,
-                        drawTicks: false,
-                    },
-                    ticks: {
-                        display: false
-                    }
-                },
-                x: {
-                    grid: {
-                        drawBorder: false,
-                        display: false,
-                        drawOnChartArea: false,
-                        drawTicks: false,
-                    },
-                    ticks: {
-                        display: false,
-                    }
-                },
-            },
+            
         },
+    });
+
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: @json($name_origin_client),
+            datasets: [{
+                data: @json($quantity_origin_client),
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#a2eb36',
+                    '#eb7f36',
+                    '#3647eb',
+                    '#36ebda'
+                ],
+                hoverBackgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#a2eb36',
+                    '#eb7f36',
+                    '#3647eb',
+                    '#36ebda'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+
+        }
     });
 </script>
