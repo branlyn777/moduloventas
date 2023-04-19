@@ -20,21 +20,21 @@ nav-link
 @endsection
 
 
-@section('Ventasarrow')
+@section('Reportesarrow')
 true
 @endsection
 
 
-@section('ventasagrupadasnav')
+@section('ventacategorianav')
 "nav-link active"
 @endsection
 
 
-@section('Ventasshow')
+@section('Reportesshow')
 "collapse show"
 @endsection
 
-@section('ventasagrupadasli')
+@section('ventacategoriali')
 "nav-item active"
 @endsection
 
