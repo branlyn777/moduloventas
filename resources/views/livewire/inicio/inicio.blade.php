@@ -500,7 +500,7 @@
     var ctx2 = document.getElementById("chart-pie").getContext("2d");
     var ctx4 = document.getElementById("chart-pie-egresos").getContext("2d");
     var ctx3 = document.getElementById("chart-bar").getContext("2d");
-    var ctx5 = document.getElementById("chart-procedencia").getContext("2d");
+    var ctx5 = document.getElementById("chart-procedencia").getContext("2");
     var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke1.addColorStop(1, 'rgba(94, 114, 228,0.2)');
