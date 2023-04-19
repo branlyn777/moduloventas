@@ -503,7 +503,7 @@
                                     Total Efectivo
                                 </td>
                                 <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo+$op_recaudo+$operacionsob+$operacionfalt+$saldo_acumulado, 2) }}
+                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo-$op_recaudo+$operacionsob-$operacionfalt+$saldo_acumulado, 2) }}
                                 </td>
                             </tr>
                         </tbody>
