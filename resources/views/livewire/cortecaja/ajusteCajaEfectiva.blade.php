@@ -212,11 +212,14 @@
                                                                 data-bs-target="#contador_monedas"
                                                                 class="input-group-text"><i
                                                                     class="fas fa-calculator mx-2"></i></button>
-                                                            <input type="number" 
-                                                            class="form-control needs-validation" novalidate id="validationCustom03"
-                                                                 autofocus
+                                                            <input type="number"
+                                                                class="form-control needs-validation" novalidate
+                                                                id="validationCustom03" autofocus
                                                                 wire:model='efectivo_actual'>
                                                         </div>
+                                                        @error('efectivo_actual')
+                                                        <span class="text-danger text-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
 
                                                 </div>
@@ -338,9 +341,8 @@
             <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='finArqueo()'>Finalizar
                 Arqueo de Caja</button>
         @elseif($recaudo > 0)
-            <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='RecaudarEfectivo()'> Recaudar y
-                Finalizar
-                Cierre</button>
+            <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='RecaudarEfectivo()'>Recaudar y
+                Finalizar Cierre</button>
         @else
             <button type="button" class="btn btn-dark btn-sm mb-3" wire:click='finalizarCierre()'>Finalizar
                 Cierre</button>

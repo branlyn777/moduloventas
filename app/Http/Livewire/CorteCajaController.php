@@ -282,7 +282,7 @@ class CorteCajaController extends Component
             'efectivo_actual' => 'required',
         ];
         $messages = [
-            'efectivo_actual.required' => 'Ingresa un monto para apertura la caja.',
+            'efectivo_actual.required' => 'Ingresa un monto para aperturar la caja.',
         ];
 
         $this->validate($rules, $messages);
@@ -338,7 +338,7 @@ class CorteCajaController extends Component
 
                     CarteraMov::create([
                         'type' => ($diferenciaCaja == 'positivo') ? 'INGRESO' : 'EGRESO',
-                        'tipoDeMovimiento' => 'AJUSTE',
+                        'tipoDeMovimiento' => ($diferenciaCaja == 'positivo') ? 'SOBRANTE' : 'FALTANTE',
                         'comentario' => $this->nota_ajuste,
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $mvt->id
@@ -647,6 +647,14 @@ class CorteCajaController extends Component
 
     public function finArqueo()
     {
+        $rules = [
+            'efectivo_actual' => 'required',
+        ];
+        $messages = [
+            'efectivo_actual.required' => 'Registre el efectivo actual por favor.',
+        ];
+
+        $this->validate($rules, $messages);
 
         if ($this->efectivo_actual != null and $this->saldoAcumulado !=$this->efectivo_actual) {
             $margen = $this->efectivo_actual - $this->saldoAcumulado;
@@ -728,7 +736,7 @@ class CorteCajaController extends Component
             $movimiento = Movimiento::create([
                 'type' => 'CIERRE',
                 'status' => 'ACTIVO',
-                'import' => $this->efectivo_actual-$this->recaudo,
+                'import' => $this->saldoAcumulado,
                 'user_id' => Auth()->user()->id
             ]);
             CarteraMov::create([
