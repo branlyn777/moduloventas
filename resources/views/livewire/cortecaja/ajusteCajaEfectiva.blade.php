@@ -217,6 +217,9 @@
                                                                 id="validationCustom03" autofocus
                                                                 wire:model='efectivo_actual'>
                                                         </div>
+                                                        @error('efectivo_actual')
+                                                        <span class="text-danger text-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
 
                                                 </div>
