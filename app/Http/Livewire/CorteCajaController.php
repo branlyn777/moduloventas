@@ -275,7 +275,7 @@ class CorteCajaController extends Component
         'cerrar-caja-usuario' => 'CerrarCajaUsuario'
     ];
 
-    public function CorteCaja($idcaja)
+    public function corteCaja($idcaja)
     {
         
         $rules = [

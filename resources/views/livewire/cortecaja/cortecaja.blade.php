@@ -167,7 +167,7 @@
         @endforeach
 
     </div>
-    @include('livewire.cortecaja.ajusteCajaEfectiva')
+    @include('livewire.cortecaja.cierreCaja')
     @include('livewire.cortecaja.aperturacaja')
     @include('livewire.cortecaja.contador')
 </div>
