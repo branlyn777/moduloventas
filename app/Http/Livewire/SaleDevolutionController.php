@@ -24,6 +24,7 @@ use Carbon\Carbon;
 
 class SaleDevolutionController extends Component
 {
+    public $search, $salelist;
 
     public function paginationView()
     {
@@ -31,18 +32,35 @@ class SaleDevolutionController extends Component
     }
     public function mount()
     {
-        
+        $this->search="";
+        $this->salelist =[];
     }
     public function render()
     {
 
-        $asd = "";
-
+        $list_products = [];
+        if (strlen($this->search) > 0) {
+            $list_products = Product::where("products.status", "ACTIVO")//muestra lista del buscador
+            ->where("products.nombre","like","%" . $this->search. "%")//busca 
+            ->get();
+        }
+       
 
         return view('livewire.saledevolution.saledevolution', [
-            'datosnombreproducto' => $asd
+            'list_products' => $list_products
         ])
-        ->extends('layouts.theme.app')
-        ->section('content');
+            ->extends('layouts.theme.app')
+            ->section('content');
+    }
+    public function showmodalsalelist($idproduct)
+    {
+        $this->salelist = Sale::join("sale_details as sd","sd.sale_id","sales.id")
+        ->join("sale as s", "s.user_id", "users.id")
+        ->select("sales.id as codigo", "users.name as nombre")
+        ->where("sales.status", "PAID")
+        ->where("sd.product_id",$idproduct)
+        ->get();
+
+        $this->emit("show-modalsalelist");
     }
 }
