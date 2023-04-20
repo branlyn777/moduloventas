@@ -44,7 +44,6 @@ use App\Http\Livewire\ResumenSesionController;
 use App\Http\Livewire\RolesController;
 use App\Http\Livewire\SaleCreditController;
 use App\Http\Livewire\SaleDailyMovementController;
-use App\Http\Livewire\SaleDevolucionController;
 use App\Http\Livewire\SaleDevolutionController;
 use App\Http\Livewire\SaleEditController;
 use App\Http\Livewire\SaleListController;
@@ -102,7 +101,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('salelist', SaleListController::class)->name('salelist')->middleware('permission:VentasLista_Index');
     Route::get('editarventa', SaleEditController::class)->name('editarventa');
     Route::get('devolucionventa', SaleDevolutionController::class)->name('devolucionventa');
-    Route::get('devolucionventa2', SaleDevolucionController::class)->name('devolucionventa2');
     Route::get('productosvendidos', SaleReportProductController::class)->name('productosvendidos');
     Route::get('ventalistaproductos', SaleListProductsController::class)->name('ventalistaproductos');
     Route::get('salemovimientodiario', SaleDailyMovementController::class)->name('salemovimientodiario')->middleware('permission:VentasMovDia_Index');
