@@ -18,18 +18,28 @@
                             <b>Arqueo de Caja</b>
                         </h6>
                         <div class="table-responsive">
-                            <div class="table-responsive">
+                          
                                 <table class="table main">
 
                                     <tbody>
-                                        <tr data-bs-toggle="collapse" data-bs-target="#ingresos-detalle-ventas"
-                                            class="accordion-toggle">
-                                            <td class="w-85 mb-1 text-dark text-sm">Saldo s/EDSOFT</td>
-                                            <td class="w-5 text-center">
-                                                {{ number_format($saldoAcumulado, 2) }}
+                                        <tr>
+                                            <td><h6 class="mb-1 text-dark text-sm">
+                                                Saldo s/EDSOFT</h6></td>
+                                            <td class="text-left">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        {{ number_format($saldoAcumulado, 2) }}
+                                                    </div>
+                                                    <div class="col text-end">
+                                                        <a class="btn btn-primary px-2 py-2" data-bs-toggle="collapse" data-bs-target="#ingresos-detalle-ventas"
+                                                        class="accordion-toggle"><i
+                                                            class="fa fa-chevron-down"></i></a>
+                                                    </div>
+                                                </div>
+                                             
+                                            
                                             </td>
-                                            <td class="text-end"><button class="btn btn-primary"><i
-                                                        class="fa fa-chevron-down"></i></button></td>
+                                          
                                         </tr>
                                         <tr class="nohover">
                                             <td colspan="3" class="hiddenRow">
@@ -43,11 +53,7 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                                                    <i
-                                                                                        class="ni ni-books text-white opacity-10"></i>
-                                                                                </div>
+                                                                                
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-sm">
                                                                                         Ingresos en Efectivo
@@ -56,7 +62,7 @@
                                                                             </div>
                                                                         </td>
                                                                         <td class="pe-3">
-                                                                            <h6 class="text-sm text-end"> Bs.
+                                                                            <h6 class="text-sm text-end text-success"> Bs.
                                                                                 {{ number_format($ing_efectivo, 2) }}
                                                                             </h6>
                                                                         </td>
@@ -64,11 +70,7 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                                                    <i
-                                                                                        class="ni ni-vector text-white opacity-10"></i>
-                                                                                </div>
+                                                                             
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-sm">
                                                                                         Ingresos No efectivos
@@ -78,7 +80,7 @@
                                                                         </td>
                                                                         <td class="pe-3">
                                                                             <u>
-                                                                                <h6 class="text-sm text-end">
+                                                                                <h6 class="text-sm text-end text-success">
                                                                                     Bs.
                                                                                     {{ number_format($ing_dig, 2) }}
                                                                                 </h6>
@@ -88,13 +90,9 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-success shadow text-center">
-                                                                                    <i
-                                                                                        class="fas fa-check text-white opacity-10"></i>
-                                                                                </div>
+                                                                              
                                                                                 <div class="d-flex flex-column">
-                                                                                    <h6 class="mb-1 text-dark text-sm">
+                                                                                    <h6 class="mb-1 text-dark text-sm text-success">
                                                                                         Total Ingresos
                                                                                     </h6>
                                                                                 </div>
@@ -110,11 +108,7 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-success shadow text-center">
-                                                                                    <i
-                                                                                        class="fas fa-check text-white opacity-10"></i>
-                                                                                </div>
+                                                                                
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-sm">
                                                                                         Ingresos en efectivo
@@ -123,7 +117,7 @@
                                                                             </div>
                                                                         </td>
                                                                         <td class="pe-3">
-                                                                            <h6 class="text-sm text-end"> Bs.
+                                                                            <h6 class="text-sm text-end text-success"> Bs.
                                                                                 {{ number_format($subtotal_ing - $ing_dig, 2) }}
                                                                             </h6>
                                                                         </td>
@@ -133,11 +127,7 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                                                    <i
-                                                                                        class="ni ni-square-pin text-white opacity-10"></i>
-                                                                                </div>
+                                                                                
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-sm">
                                                                                         Egresos Efectivos</h6>
@@ -146,7 +136,7 @@
                                                                         </td>
                                                                         <td class="pe-3">
                                                                             <u>
-                                                                                <h6 class="text-sm text-end">
+                                                                                <h6 class="text-sm text-end text-danger">
                                                                                     Bs.
                                                                                     {{ number_format($egresos_efectivos, 2) }}
                                                                                 </h6>
@@ -156,11 +146,7 @@
                                                                     <tr>
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
-                                                                                <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                                                    <i
-                                                                                        class="ni ni-square-pin text-white opacity-10"></i>
-                                                                                </div>
+                                                                              
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-sm">
                                                                                         Saldo</h6>
@@ -179,7 +165,7 @@
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
                                                                                 <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                                                                    class="icon icon-shape icon-sm me-3 bg-warning text-center">
                                                                                     <i
                                                                                         class="ni ni-money-coins text-white opacity-10"></i>
                                                                                 </div>
@@ -201,7 +187,7 @@
                                                                         <td class="ps-3">
                                                                             <div class="d-flex align-items-center">
                                                                                 <div
-                                                                                    class="icon icon-shape icon-sm me-3 bg-gradient-success shadow text-center">
+                                                                                    class="icon icon-shape icon-sm me-3 bg-warning text-center">
                                                                                     <i
                                                                                         class="fas fa-check text-white opacity-10"></i>
                                                                                 </div>
@@ -228,32 +214,23 @@
                                             </td>
                                         </tr>
                                         <tr>
-
-                                            <div class="row">
-                                                <div class="col-6">
-
-
-
-                                                    <h6 class="mb-1 text-dark text-sm">
-                                                        Efectivo Actual</h6>
-
+                                            <td> <h6 class="mb-1 text-dark text-sm">
+                                                Efectivo Actual</h6>
+                                                
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    
+                                                    <input type="number" class="form-control"
+                                                    wire:model='efectivo_actual'>
+                                                    <button class="btn"
+                                                        style="background-color: #5e72e4; color: white; border: 1px solid #5e72e4;"
+                                                        data-bs-toggle="modal" data-bs-target="#contador_monedas">
+                                                        <i class="fas fa-calculator mx-2"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="col-6">
-                                                    <div class="input-group">
-                                                        <button
-                                                            style="background-color: #5e72e4; color: white; border: 1px solid #5e72e4;"
-                                                            data-bs-toggle="modal" data-bs-target="#contador_monedas">
-                                                            <i class="fas fa-calculator mx-2"></i>
-                                                        </button>
+                                            </td>
 
-                                                        <input type="number" class="form-control"
-                                                            wire:model='efectivo_actual'>
-                                                    </div>
-                                                    @error('efectivo_actual')
-                                                        <span class="text-danger text-sm">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
 
 
 
@@ -264,10 +241,7 @@
                                                 <td class="ps-3">
 
                                                     <div class="d-flex align-items-center">
-                                                        <div
-                                                            class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                            <i class="ni ni-satisfied text-white opacity-10"></i>
-                                                        </div>
+                                                       
                                                         <div class="d-flex flex-column">
                                                             <h6 class="mb-1 text-dark text-sm">
                                                                 <h6> <b>
@@ -294,7 +268,7 @@
                                                     <h6 class="mb-1 text-dark text-sm">
                                                         Nota/Comentario</h6>
                                                     {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
-                                                    <textarea wire:model='nota_ajuste' class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                                                    <textarea wire:model='nota_ajuste' class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Agregue una observacion para el ajuste..."></textarea>
 
                                                 </td>
                                             </tr>
@@ -303,10 +277,7 @@
                                                 <td class="ps-3">
 
                                                     <div class="d-flex align-items-center">
-                                                        <div
-                                                            class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                                            <i class="ni ni-satisfied text-white opacity-10"></i>
-                                                        </div>
+                                                   
                                                         <div class="d-flex flex-column">
                                                             <h6 class="mb-1 text-dark text-sm">
                                                                 Efectivo Sob./Falt.
@@ -325,7 +296,7 @@
 
                                     </tbody>
                                 </table>
-                            </div>
+                            
                         </div>
                     @else
                         <h5>
@@ -336,7 +307,7 @@
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
                                             <i class="ni ni-satisfied text-white opacity-10"></i>
                                         </div>
                                         <div class="d-flex flex-column">
@@ -349,7 +320,7 @@
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
                                             <i class="ni ni-satisfied text-white opacity-10"></i>
                                         </div>
                                         <div class="d-flex flex-column">
@@ -363,7 +334,7 @@
                                 <div
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
                                             <i class="ni ni-satisfied text-white opacity-10"></i>
                                         </div>
                                         <div class="d-flex flex-column">

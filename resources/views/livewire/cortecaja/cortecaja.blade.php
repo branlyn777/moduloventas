@@ -224,10 +224,12 @@
             swal({
                 title: '¿Cerrar esta Caja?',
                 text: "Se realizará el cierre de la caja: " + nombrecaja,
-                type: 'warning',
+                type: 'info',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
+                confirmButtonColor: "#DD6B55",
                 confirmButtonText: 'Aceptar',
+              
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {

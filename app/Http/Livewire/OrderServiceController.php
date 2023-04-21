@@ -884,8 +884,6 @@ class OrderServiceController extends Component
             $wallet->save();
         }
 
-
-
         $this->emit("hide-edit-service-deliver");
     }
     protected $listeners = [
