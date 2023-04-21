@@ -1,42 +1,41 @@
-
 @section('migaspan')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm">
-                <a class="text-white" href="javascript:;">
-                    <i class="ni ni-box-2"></i>
-                </a>
-            </li>
-            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
-                    href="{{ url('') }}">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
-        </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Reporte Categoria </h6>
-    </nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm">
+            <a class="text-white" href="javascript:;">
+                <i class="ni ni-box-2"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white" href="{{ url('') }}">Inicio</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0 text-white"> Reporte Categoria </h6>
+</nav>
 @endsection
 
 
 @section('Ventascollapse')
-    nav-link
+nav-link
 @endsection
 
 
-@section('Ventasarrow')
-    true
+@section('Reportesarrow')
+true
 @endsection
 
 
-@section('ventasagrupadasnav')
-    "nav-link active"
+@section('ventacategorianav')
+"nav-link active"
 @endsection
 
 
-@section('Ventasshow')
-    "collapse show"
+@section('Reportesshow')
+"collapse show"
 @endsection
 
-@section('ventasagrupadasli')
-    "nav-item active"
+@section('ventacategoriali')
+"nav-item active"
 @endsection
 
 @section("css")
@@ -68,7 +67,16 @@
                             </span>
                             <input wire:model="dateTo" type="date" class="form-control">
                         </div>
-                        <div class="col-3"></div>
+                        <div class="col-3">
+
+
+
+
+
+
+                            {{-- <button wire:click="$emit('asd')">Haz clic en mí</button> --}}
+
+                        </div>
                         <div class="col-3"></div>
                     </div>
                 </div>
@@ -78,9 +86,9 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            
 
-                            <div id="chart"></div>
+
+                            <div style="width: 700px; height: 700px;" id="chart"></div>
 
 
 
@@ -92,11 +100,76 @@
     </div>
 </div>
 @section('javascript')
-    <script>
-        var chartOptions = {!! $chartOptions !!};
 
-        var chart = new ApexCharts(document.querySelector("#chart"), chartOptions);
 
+<script>
+    document.addEventListener('livewire:load', function () {
+
+
+
+
+      Livewire.on('asd', function (data) {
+
+
+        var options = {
+          series: @this.total_categories,
+          chart: {
+          type: 'donut',
+        },
+        labels: @this.name_categories,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-    </script>
+
+        // var options = {
+        //   series: @this.total_categories,
+        //   chart: {
+        //   width: 880,
+        //   type: 'pie',
+        // },
+        // labels: @this.name_categories,
+        // responsive: [{
+        //   breakpoint: 480,
+        //   options: {
+        //     chart: {
+        //       width: 400
+        //     },
+        //     legend: {
+        //       position: 'bottom'
+        //     }
+        //   }
+        // }]
+        // };
+
+        // var chart = new ApexCharts(document.querySelector("#chart"), options);
+        // chart.render();
+      
+
+
+
+
+
+      });
+
+
+
+
+
+    });
+
+</script>
+
+
 @endsection

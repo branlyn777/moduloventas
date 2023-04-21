@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
-                    <p class="text-sm mb-0">Crear Provider</p>
+                    <p class="text-sm mb-0">Agregar Proveedor</p>
   
                 </h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">

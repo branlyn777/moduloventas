@@ -60,17 +60,7 @@
                 <div class="card-body m-2">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-end">
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem;">Seleccionar Sucursal</label>
-                                <div class="">
-                                    <select wire:model="sucursal_id" class="form-select">
-                                        @foreach ($listasucursales as $sucursal)
-                                            <option value="{{ $sucursal->id }}">{{ $sucursal->name }}</option>
-                                        @endforeach
-                                        <option value="Todos">Todas las Sucursales</option>
-                                    </select>
-                                </div>
-                            </div>
+                    
 
                             <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>

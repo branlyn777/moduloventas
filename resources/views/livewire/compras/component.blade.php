@@ -59,42 +59,28 @@
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
-                        <div class="row justify-content-end">
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                        <div class="row justify-content-start">
+                            <div class="col-5" style="margin-bottom: 7px;">
+
                                 <label style="font-size: 1rem;">Buscar</label><br>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                        <input type="text" wire:model="search"
-                                            placeholder="nro.documento,proveedor,usuario" class="form-control">
-                                    </div>
-                                    <div class="input-group mb-4">
-                                        <select wire:model="tipo_search" class="form-select">
-                                            <option value="codigo"> Cod. Compra</option>
-                                            <option value="proveedor">Proveedor</option>
-                                            <option value="usuario">Usuario</option>
-                                            <option value="documento">Documento</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem;">Seleccionar Sucursal</label>
-                                <div class="">
-                                    <select wire:model="sucursal_id" class="form-select">
-                                        @foreach ($listasucursales as $sucursal)
-                                            <option value="{{ $sucursal->id }}">{{ $sucursal->name }}</option>
-                                        @endforeach
-                                        <option value="Todos">Todas las Sucursales</option>
+                                <div class="input-group">
+                                    <span class="input-group-text"  style="background-color:rgba(39, 39, 205, 0.659); color: rgb(38, 38, 40); border-color: #1d4cc2;">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control ps-2" style="border-color: #1d4cc2;" wire:model="search"
+                                    placeholder="nro.documento,proveedor,usuario">
+                                    <select wire:model="tipo_search" class="form-select" style="background-color:rgba(49, 12, 230, 0.659); color: rgb(236, 236, 248); border-color: #1d4cc2;">
+                                        <option value="codigo"> Cod. Compra</option>
+                                        <option value="proveedor">Proveedor</option>
+                                        <option value="usuario">Usuario</option>
+                                        <option value="documento">Documento</option>
                                     </select>
-                                </div>
+                                  </div>
                             </div>
+                            
 
-                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
+
+                            <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>
                                 <div class="">
                                     <select wire:model="estado" class="form-select">
@@ -105,7 +91,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
+                            <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Tipo de Fecha</label>
                                 <div class="">
                                     <select wire:model="fecha" class="form-select">
@@ -118,14 +104,14 @@
                             </div>
 
                             @if ($this->fecha != 'hoy' and $this->fecha != 'ayer' and $this->fecha != 'semana')
-                                <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <div class="col" style="margin-bottom: 7px;">
                                     <label>Fecha Inicio</label>
                                     <div class="form-group">
                                         <input type="date" wire:model="fromDate" class="form-control flatpickr">
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                                <div class="col" style="margin-bottom: 7px;">
                                     <label>Fecha Fin</label>
                                     <div class="form-group">
                                         <input type="date" wire:model="toDate" class="form-control flatpickr">
@@ -133,12 +119,12 @@
                                 </div>
                             @endif
 
-                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
+                            <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Otros</label>
                                 <div class="dropdown">
                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        Ver
+                                        Mas Filtros
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" wire:click="VerComprasProducto()">Compras por

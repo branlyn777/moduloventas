@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div><br>
-            <div class="card mb-4">
+            <div class="card mb-4 py-4">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-3">
@@ -85,7 +85,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-12 col-sm-12 col-md-3">
+                        {{-- <div class="col-12 col-sm-12 col-md-3">
                             <strong style="color: rgb(74, 74, 74)">Destino de la Compra</strong>
                             <select wire:model.lazy="destino" class="form-select">
                                 <option value=null disabled>Elegir Destino</option>
@@ -97,15 +97,9 @@
                             @error('destino')
                                 <span class="text-danger er">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
 
-                        <div class="col-12 col-sm-12 col-md-3">
-                            <strong style="color: rgb(74, 74, 74)">Observación: </strong>
-                            <textarea wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
-                            @error('observacion')
-                                <span class="text-danger er">{{ $message }}</span>
-                            @enderror
-                        </div>
+                
                     </div>
                 </div>
             </div>
@@ -116,11 +110,12 @@
                         <div class="card-body">
 
                             <div class="form-group">
+                                <h6>Busqueda Productos</h6>
                                 <div class="input-group mb-4">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-search"></i>
+                                    <span class="input-group-text" style="border-color: #2e48dc; background-color: #2e48dc">
+                                        <i class="fa fa-search text-white"></i>
                                     </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                    <input type="text" wire:model="search" placeholder="Buscar nombre o codigo de producto" class="form-control ps-2" style="border-color: #2e48dc" >
                                 </div>
                             </div>
 
@@ -161,16 +156,16 @@
                 </div>
 
                 <div class="col-12 col-md-8 mb-4 mb-md-0">
-                    <div class="card"><br>
+                    <div class="card p-3"><br>
                         <div class="text-center">
-                            <h5><b>Detalle Orden de Compra</b></h5>
+                            <h6>Detalle Registro Orden de Compra</h6>
                         </div>
+                        @if ($cart->isNotEmpty())
                         <div class="table-responsive">
-                            @if ($cart->isNotEmpty())
-                                <table class="table align-items-center mb-4">
+                                <table class="table mb-4">
                                     <thead>
                                         <tr class="text-center" style="font-size: 14px; color: black;">
-                                            <th class="text-uppercase text-sm text-left">Producto</th>
+                                            <th class="text-uppercase text-sm text-start ps-2">Producto</th>
                                             <th class="text-uppercase text-sm ps-2">Precio Compra</th>
                                             <th class="text-uppercase text-sm text-center">Cantidad</th>
                                             <th class="text-uppercase text-sm text-center">Total</th>
@@ -185,18 +180,20 @@
 
                                                     <h6 class='text-xs'>
                                                         {{ $prod['product_name'] }}
+                                                        <br>
+                                                        ({{ $prod['product_code'] }})
                                                     </h6>
                                                 </td>
 
                                                 <td>
-                                                    <input type="text" id="r{{ $prod['product_id'] }}"
+                                                    <input type="number" id="r{{ $prod['product_id'] }}"
                                                         wire:change="actualizarPrecio({{ $prod['product_id'] }}, $('#r' + {{ $prod['product_id'] }}).val() )"
                                                         style="font-size: 0.8rem!important; padding:0!important"
                                                         class="form-control text-center" value="{{ $prod['price'] }}">
                                                 </td>
 
                                                 <td>
-                                                    <input type="text" id="rr{{ $prod['product_id'] }}"
+                                                    <input type="number" id="rr{{ $prod['product_id'] }}"
                                                         wire:change="actualizarCantidad({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"
                                                         style="font-size: 0.8rem!important; padding:0!important"
                                                         class="form-control text-center"
@@ -211,12 +208,12 @@
                                                 <td class="text-center">
                                                     <a href="javascript:void(0)"
                                                         wire:click="quitarProducto({{ $prod['product_id'] }})"
-                                                        class="boton-rojo p-1" title="Quitar Item">
+                                                        class="btn btn-danger p-2" title="Quitar Item">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                     <a href="javascript:void(0)"
                                                         wire:click="calcularStock({{ $prod['product_id'] }})"
-                                                        class="boton-verde p-1" title="Calcular stock">
+                                                        class="btn btn-success p-2" title="Calcular stock">
                                                         <i class="fas fa-calculator"></i>
                                                     </a>
                                                 </td>
@@ -226,17 +223,27 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <h5><b>Total Bs.- {{ number_format($total, 2) }}</b></h5>
+                                    <u><h5><b>Total Bs. {{ number_format($total, 2) }}</b></h5></u>
                                 </div>
+                                <br>
+                                <div class="p-3 py-3 mb-3">
+                                    <strong style="color: rgb(74, 74, 74)">Observación: </strong>
+                                    <textarea wire:model='observacion' class="form-control" aria-label="With textarea" placeholder="Agregar una observacion"></textarea>
+                                    @error('observacion')
+                                        <span class="text-danger er">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                             @else
-                                <div class="table-wrapper row align-items-center m-auto mb-4">
+                                <div class="py-8">
                                     <div class="col-lg-12">
-                                        <div class="row justify-content-center">AGREGAR ÍTEMS</div>
+                                        <div class="row justify-content-center" style="font-size: 20px">LISTA VACIA(0)</div>
                                     </div>
                                 </div>
                             @endif
-                        </div>
+                         
                     </div><br>
+
                     <div class="text-center mb-4">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @if ($this->itemsQuantity > 0)
@@ -253,6 +260,7 @@
                                 @endif
                         </div>
                     </div>
+              
                 </div>
             </div>
         </div>

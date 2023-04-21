@@ -11,36 +11,38 @@
             </div>
             <div class="modal-body">
 
-                <div class="row">
-                    <div class="col-lg-6">Tipo Pronostico</div>
+                <div class="row mb-2">
+                    <label>Tipo Pronostico</label>
 
-                    <div class="col-lg-7">
-                        <div class="col-lg-12">
+                    <div class="col-12">
+                       
                             <select wire:model='tipo' class="form-select mt-2">
                                 <option value="null" disabled>Elegir Pronostico</option>
                                 <option value="xdias">Los ultimos dias</option>
                                 <option value="rango_fechas">Rango de fechas personalizado</option>
 
                             </select>
-                        </div>
+                       
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-12">
                     <div class="row">
-                @if ($tipo =="xdias")
-                     
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="" class="mb-2">Introducir Dias</label>
-                                        <input type="number" wire:model="ult_dias" class="form-control"
-                                            placeholder="ej: 7">
-                                    </div>
+                        @if ($tipo == 'xdias')
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="mb-2">Introducir Dias</label>
+                                    <input type="number" wire:model="ult_dias" class="form-control"
+                                        placeholder="ej: 7">
                                 </div>
-                      
+                                <div class="col-8 align-middle">
+                                    <br>
+                                    <p>En promedio los ultimos {{$ult_dias}} dias has vendido {{number_format($unidxdia,2)}} unidades por dia.</p>
+                                </div>
+                            </div>
                         @endif
                         @if ($tipo == 'rango_fechas')
-                            <div class="col-lg-12">
+                            <div class="col-12">
                                 <div class="row">
 
                                     <div class="ms-auto my-auto mt-lg-0 mt-4">
@@ -58,6 +60,13 @@
                                                     <input type="date" wire:model="toDate" class="form-control">
                                                 </div>
                                             </div>
+                                            @if ($errorDate !=null)
+                                            <span class="text-danger er">{{ $errorDate }}</span>
+                                            @endif
+                                            <div class="align-middle">
+                                                <br>
+                                                <p>En promedio los ultimos {{$ult_dias}} dias has vendido {{number_format($unidxdia,2)}} unidades por dia.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-12">
                     <div class="form-group">
                         <label>Sugerir para:</label>
                         <div class="input-group mb-4">

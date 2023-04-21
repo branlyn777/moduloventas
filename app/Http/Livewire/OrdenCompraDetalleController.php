@@ -18,7 +18,7 @@ class OrdenCompraDetalleController extends Component
 {
 
 public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$observacion,$tipo,$dias,$fromDate,$toDate,$ult_dias,$calculado,$mensaje_toast;
-    public $exp,$prod_exp;
+    public $exp,$prod_exp,$errorDate,$unidxdia;
     public function updatingTipo(){
         $this->ult_dias=null;
         $this->dias=null;
@@ -29,6 +29,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
         $this->verPermisos();
         $this->cart = collect([]);
         $this->calculado=0;
+        $this->destino=1;
   
     }
     public function render()
@@ -57,26 +58,33 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
             Carbon::now()
                 ]);
             })->sum('quantity');
-            $unidxdia=$this->exp/$this->ult_dias;
+            $this->unidxdia=$this->exp/$this->ult_dias;
 
-            $this->calculado=round($unidxdia*$this->dias);
+            $this->calculado=round($this->unidxdia*$this->dias);
         
         
         }
         if ($this->fromDate != null and $this->toDate!=null) {
             $this->exp= SaleDetail::where('product_id',$this->prod_exp)
             ->when($this->tipo == 'rango_fechas',function($query){
-                return $query->whereBetween('created_at', [ Carbon::parse($this->fromDate)->format('Y-m-d'),
+                return $query->whereBetween('created_at', [ Carbon::parse($this->fromDate)->format('Y-m-d') .' 00:00:00',
            Carbon::parse($this->toDate)->format('Y-m-d')  . ' 23:59:59'
                 ]);
             })->sum('quantity');
-            $from=Carbon::parse($this->fromDate);
-            $to=Carbon::parse($this->toDate);
+          
+            if ($this->fromDate == $this->toDate) {
+                $this->errorDate='Escoja un rango de fecha diferente';
+                
+            }
+            else{
+                $this->errorDate=null;
+                $this->ult_dias=Carbon::parse($this->fromDate)->diffInDays(Carbon::parse($this->toDate));
+                $this->unidxdia=$this->exp/$this->ult_dias;
+    
+                $this->calculado=round($this->unidxdia*$this->ult_dias);
+            }
 
        
-            $unidxdia=$this->exp/$from->diffInDays($to);
-
-            $this->calculado=round($unidxdia*$this->dias);
         }
 
         return view('livewire.ordencompra.orden-compra-detalle',[
@@ -116,6 +124,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
             $this->cart->push([
                
                 'product_id' => $prod->id,
+                'product_code' => $prod->codigo,
                 'product_name' => $prod->nombre,
                 'quantity' => $exist!=null?$exist+1:1,
                 'price'=>Lote::where('product_id',$prod->id)->latest('created_at')->value('costo'),
@@ -133,6 +142,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
                
                 'product_id' => $prod->id,
                 'product_name' => $prod->nombre,
+                'product_code' => $prod->codigo,
                 'quantity' => 1,
                 'price'=>Lote::where('product_id',$prod->id)->latest('created_at')->value('costo'),
                 'order'=>$this->order
@@ -171,6 +181,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
         $this->cart->push([
             'product_id'=>$prod->id,
             'product_name'=>$prod->nombre,
+            'product_code' => $prod->codigo,
             'quantity'=>$cant,
             'price'=>$precio,
             'order'=>$order
@@ -190,6 +201,7 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
         $this->cart->push([
             'product_id'=>$prod->id,
             'product_name'=>$prod->nombre,
+            'product_code' => $prod->codigo,
             'quantity'=>$cant,
             'price'=>$precio,
             'order'=>$order
@@ -204,9 +216,10 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
        
     }
 
-    public function calcularStock(Product $id){
+    public function calcularStock($product_id){
 
-      $this->prod_exp=$id->id;
+      $this->prod_exp=$product_id;
+      $this->resetCalculo();
         $this->emit('show-modal');
 
     }

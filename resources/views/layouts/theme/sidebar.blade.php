@@ -335,16 +335,16 @@
                         </li>
                     </ul> --}}
                     <ul class="nav ms-4">
-                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
-                            <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('reportemes') }}">
+                        <li class=@yield('ventamesventasli', 'nav-item ')>
+                            <a class=@yield('ventamesventasnav', 'nav-link ') href="{{ url('reportemes') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal">Reporte Ventas Mes</span>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav ms-4">
-                        <li class=@yield('movimientodiarioventasli', 'nav-item ')>
-                            <a class=@yield('movimientodiarioventasnav', 'nav-link ') href="{{ url('reportecategoria') }}">
+                        <li class=@yield('ventacategoriali', 'nav-item ')>
+                            <a class=@yield('ventacategorianav', 'nav-link ') href="{{ url('reportecategoria') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal">Reporte Ventas Categoria</span>
                             </a>

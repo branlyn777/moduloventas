@@ -5,91 +5,92 @@ namespace App\Http\Livewire;
 use App\Models\Sale;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
 class SaleReportMonthController extends Component
 {
-    public $user_id = 1;
+    public $user_id;
     public $year;
-    public $months;
-   
+    public $months, $listausuarios, $listayears;
+
     //grafica del reporte del mes 
     public function mount()
     {
+        if (session('y'))
+        {
+            // La variable de sesión existe y tiene un valor no nulo
+            $this->year = session('y');
+            $this->user_id = session('u');
+        }
+        else
+        {
+            
         $this->year = Carbon::now()->year;
+        $this->user_id = "todos";
+        }
         $this->months = array();
+        $this->listausuarios = User::join("sales as s", "s.user_id", "users.id")
+                ->select("users.*")
+                ->where("s.status", "PAID")
+                ->where("users.status", "ACTIVE")
+                ->distinct()
+                ->get();
+        $this->listayears = User::join("sales as s", "s.user_id", "users.id")
+                ->select(DB::raw('YEAR(s.created_at) as year'))
+                ->where("s.status", "PAID")
+                ->where("users.status", "ACTIVE")
+                ->distinct()
+                ->get();
 
     }
     public function render()
     {
-        // $ventas = Sale::query();
-
-        // if ($this->user_id) {
-        //     $ventas->where('user_id', $this->user_id);
-        // }
-
-        // $ventas = $ventas->get();
-
-        // $listausuarios = User::join("sales as s", "s.user_id", "users.id")
-        //     ->select("users.*")
-        //     ->where("s.status", "PAID")
-        //     ->where("users.status", "ACTIVE")
-        //     ->when($this->user_id, function ($query, $user_id) {
-        //         return $query->where('users.id', $user_id);
-        //     })
-        //     ->distinct()
-        //     ->get();
-
         
-      
 
-        //grafica del reporte del mes 
-        for ($i=1; $i < 13; $i++)
-        { 
-            $total = Sale::where("status","PAID")
-            ->whereYear("created_at",$this->year)
-            ->whereMonth("created_at", $i)
-            ->sum("total");
 
-            array_push($this->months,$total);
+        $this->months = [];
+        if ($this->user_id == "todos")
+        {
+            for ($i = 1; $i < 13; $i++)
+            {
+                $total = Sale::join("users", "sales.user_id", "users.id")
+                    ->where("sales.status", "=", "PAID")
+                    ->whereYear("sales.created_at", $this->year)
+                    ->whereMonth("sales.created_at", $i)
+                    ->sum("sales.total");
+        
+                array_push($this->months, $total);
+            } 
         }
-        // dd($this->months[11]);
+        else
+        {
+            for ($i = 1; $i < 13; $i++) {
+                $total = Sale::join("users", "sales.user_id", "users.id")
+                    ->where("sales.status", "=", "PAID")
+                    ->whereYear("sales.created_at", $this->year)
+                    ->whereMonth("sales.created_at", $i)
+                    ->where("sales.user_id", $this->user_id)
+                    ->sum("sales.total");
+        
+                array_push($this->months, $total);
 
-        $chartOptions = [
-            'chart' => [
-                'type' => 'bar'
-            ],
-            'series' => [
-                [
-                    'name' => 'Sales',
-                    
-                    'data' => [$this->months[0] , $this->months[1], $this->months[2], $this->months[3], $this->months[4], $this->months[5], 
-                    $this->months[6], $this->months[7], $this->months[8],$this->months[9],$this->months[10],$this->months[11]]
-                ]
-            ],
-            'xaxis' => [
-               
-                'categories' => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre','Octubre', 'Noviembre','Diciembre']
-            ]
-        ];
-
+           
+            } 
+            
+        }
         return view('livewire.sales.salereportmonth', [
-            'chartOptions' => json_encode($chartOptions),
-            'listausuarios' => $this->listausuarios(),
+            'listausuarios' => $this->listausuarios,
         ])
             ->extends('layouts.theme.app')
             ->section('content');
     }
-    
-    public function listausuarios()
-    { 
-        $listausuarios = User::join("sales as s", "s.user_id", "users.id")
-            ->select("users.*")
-            ->where("s.status", "PAID")
-            ->where("s.status", "PAID")
-            ->where("users.status", "ACTIVE")
-            ->distinct()
-            ->get();
-        return $listausuarios;
+    public function actualizar()
+    {
+        session(['y' => $this->year]);
+        session(['u' => $this->user_id]);
+        return Redirect::to('reportemes');
     }
 }

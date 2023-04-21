@@ -55,25 +55,31 @@
                             <a class="btn btn-success mb-0" href='{{ url('almacen/export/') }}'>
                                 <i class="fas fa-arrow-alt-circle-up"></i> Exportar Excel</a> --}}
 
-                        <button data-bs-toggle="modal" data-bs-target="#theModal" class="btn btn-add mb-0">Registrar Producto</button>
-                        <button data-bs-toggle="modal" wire:click='mostrarOrdenes()' class="btn btn-add mb-0">Ordenes De Compra</button>
+                        <button data-bs-toggle="modal" data-bs-target="#theModal" class="btn btn-add mb-0"> <i class="fas fa-plus"></i> Registrar Producto</button>
+                        <button data-bs-toggle="modal" wire:click='mostrarOrdenes()' class="btn btn-add mb-0"> <i class="fas fa-list"></i> Ordenes De Compra</button>
                     </div>
                 </div>
 
             </div>
             <div class="card  mb-4">
-                <div class="card-body p-3">
+                <div class="card-body p-4">
                     <div class="row">
 
                         <div class="col-12 col-sm-12 col-md-3">
                             <strong style="color: rgb(74, 74, 74)">Proveedor</strong><br>
                             <div class="input-group mb-3" role="group" aria-label="Basic example">
-                                <input list="provider" wire:model="provider" class="form-control">
-                                <datalist id="provider">
-                                    @foreach ($data_prov as $datas)
+
+                                <select wire:model.lazy="provider" class="form-select">
+                                    <option value=null disabled>Elegir Proveedor</option>
+                                  
+                                        @foreach ($data_prov as $datas)
                                         <option value="{{ $datas->nombre_prov }}">{{ $datas->nombre_prov }}</option>
                                     @endforeach
-                                </datalist>
+                                </select>
+
+
+
+                              
                                 <button type="button" data-bs-toggle="modal" class="btn btn-add pl-2 pr-2"
                                     data-bs-target="#modal_prov"><i class="fas fa-plus"></i></button>
                             </div>
@@ -107,45 +113,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Observación: </strong>
-                                <textarea wire:model='observacion' class="form-control" aria-label="With textarea"></textarea>
-                                @error('observacion')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Sucursal Destino</strong>
-                                <select wire:model.lazy="destinocompra" class="form-select">
-                                    <option value='Elegir'>Elegir Destino</option>
-                                    @foreach ($data_suc as $data)
-                                        <option value="{{ $data->destino_id }}">{{ $data->nombre }}-{{ $data->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('destinocompra')
-                                    <span class="text-danger er" style="font-size: 14px">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        {{-- <div class="col-12 col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <strong style="color: rgb(74, 74, 74)">Tipo transacción:</strong>
-                                <select wire:model='tipo_transaccion' class="form-select">
-                                    <option value="Contado" selected>Contado</option>
-                                    <option value="Credito">Crédito</option>
-
-                                </select>
-                                @error('tipo_documento')
-                                    <span class="text-danger er">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div> --}}
+                 
 
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="form-group">
@@ -159,20 +127,21 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
+                                <h6>Busqueda Productos</h6>
                                 <div class="input-group mb-4">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-search"></i>
+                                    <span class="input-group-text" style="border-color: #2e48dc; background-color: #2e48dc">
+                                        <i class="fa fa-search text-white"></i>
                                     </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
+                                    <input type="text" wire:model="search" placeholder="Buscar nombre o codigo de producto" class="form-control" style="border-color: #2e48dc" >
                                 </div>
                             </div>
 
                             @if (strlen($search) > 0)
-                                <div class="table-wrapper">
+                                <div>
                                     <table>
                                         <thead>
                                             <tr style="font-size: 14px">
@@ -208,10 +177,10 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8 mb-4 mb-md-0">
-                    <div class="card"><br>
+                <div class="col-8 mb-md-0">
+                    <div class="card p-3"><br>
                         <div class="text-center">
-                            <h5><b>Detalle Compra</b></h5>
+                            <h6>Detalle Registro de Compra</h6>
                         </div>
                         <div class="table-responsive">
                             @if ($cart->isNotEmpty())
@@ -219,7 +188,6 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Producto</th>
-                      
                                             <th class="text-uppercase text-xxs font-weight-bolder">Precio Compra</th>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Precio Venta</th>
                                             <th class="text-uppercase text-xxs font-weight-bolder">Cantidad</th>
@@ -236,21 +204,21 @@
                                                 </td>
                                          
                                                 <td>
-                                                    <input type="text" id="r{{ $prod->id }}"
+                                                    <input type="number" id="r{{ $prod->id }}"
                                                         wire:change="UpdatePrice({{ $prod->id }}, $('#r' + {{ $prod->id }}).val() )"
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="{{ $prod->price }}">
                                                 </td>
 
                                                 <td>
-                                                    <input type="text" id="rs{{ $prod->id }}"
+                                                    <input type="number" id="rs{{ $prod->id }}"
                                                         wire:change="UpdatePrecioVenta({{ $prod->id }}, $('#rs' + {{ $prod->id }}).val() )"
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="{{ $prod->attributes->precio }}">
                                                 </td>
 
                                                 <td>
-                                                    <input type="text" id="rr{{ $prod->id }}"
+                                                    <input type="number" id="rr{{ $prod->id }}"
                                                         wire:change="UpdateQty({{ $prod->id }}, $('#rr' + {{ $prod->id }}).val() )"
                                                         style="padding:0!important" class="form-control text-center"
                                                         value="{{ $prod->quantity }}">
@@ -276,7 +244,7 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <h5><b>Total Bs.- {{ $total_compra }}</b></h5>
+                                    <h5><b>Total Bs. {{ $total_compra }}</b></h5>
                                 </div>
                             @else
                                 <div class="table-wrapper row align-items-center m-auto mb-4">
@@ -287,6 +255,20 @@
                             @endif
                         </div>
                     </div><br>
+                    <div class="card p-2 px-3 pt-3">
+                        <div class="form-group">
+                            <strong style="color: rgb(74, 74, 74)">Observación: </strong>
+                            <textarea wire:model='observacion' class="form-control" aria-label="With textarea" placeholder="Agregar una observacion"></textarea>
+                            @error('observacion')
+                                <span class="text-danger er">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+
+
+                    
+                    <br>
                     <div class="text-center">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @if ($this->itemsQuantity > 0)
