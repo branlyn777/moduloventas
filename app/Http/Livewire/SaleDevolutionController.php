@@ -76,8 +76,8 @@ class SaleDevolutionController extends Component
         $this->emit("hide-modalsalelist");
         //buscando el producto
         $listdestinations=ProductosDestino::join('destinos as d','d.id','productos_destino.destino_id')
-        ->join('sucursal as s','s.id','destinos.sucursal_id')
-        ->select('d.nombre as destino','s.name as sucursal')
+        // ->join('sucursals as s','s.id','productos_destino.sucursal_id')
+        // ->select('d.nombre as destino','s.name as sucursal')
         ->where("product_id", $this->product_id)
         ->get();
         //abre
