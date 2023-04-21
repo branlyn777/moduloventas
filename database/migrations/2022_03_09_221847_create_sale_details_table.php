@@ -19,9 +19,11 @@ class CreateSaleDetailsTable extends Migration
             $table->decimal('price',10,2);
             $table->decimal('cost',10,2);
             $table->integer('quantity');
+            $table->enum('condition', ['normal','returned','changed'])->default('normal');
             $table->foreignId('product_id')->constrained();
             $table->foreignId('sale_id')->constrained();
             $table->timestamps();
+            
         });
     }
 

@@ -9,5 +9,5 @@ class SaleDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['original_price','price','cost','quantity','product_id','sale_id'];
+    protected $fillable = ['original_price','price','cost','quantity','condition','product_id','sale_id',];
 }

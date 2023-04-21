@@ -31,7 +31,8 @@
                                         {{$p ->nombre}}
                                     </td>
                                     <td>
-                                        <button wire:click="showmodalsalelist({{$p ->id}})">+</button>
+                                        <button wire:click="showmodalsalelist({{$p ->id}})" type="button" class="btn btn-primary btn-sm"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                                       
                                     </td>
                                 </tr>
                                 @endforeach
@@ -46,6 +47,7 @@
     </div>
 
     @include('livewire.saledevolution.modalsalelist')
+    @include('livewire.saledevolution.modaldevolution')
 </div>
 
 @section('javascript')
@@ -54,6 +56,15 @@
             //Mostrar ventana modal detalle venta
             window.livewire.on('show-modalsalelist', msg => {
                 $('#Modalsalelist').modal('show')
+            });
+
+            window.livewire.on('hide-modalsalelist', msg => {
+                $('#Modalsalelist').modal('hide')
+            });
+
+            window.livewire.on('show-modaldevolution', msg => {
+               
+                $('#modaldevolution').modal('show')
             });
           
         });

@@ -74,26 +74,27 @@ class SaleListController extends Component
     {
         return 'vendor.livewire.bootstrap';
     }
-    public function mount()
+    public function mount($code = null)
     {
+        $this->search = "";
+        if ($code != null) {
+            $this->search = $code;
+        }
+
         $this->paginacion = 50;
         $this->masfiltros = false;
         $this->dateFrom = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->dateTo = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->timeFrom = '00:00';
         $this->timeTo = '23:59';
-        $this->search = "";
         $this->detalle_venta = [];
         $this->tipofecha = 'hoy';
         $this->sucursal_id = $this->idsucursal();
         $this->nombreusuariovendedor = "";
         //Si el usuario tiene el permiso para filtrar lista de ventas
-        if(Auth::user()->hasPermissionTo('VentasListaMasFiltros'))
-        {
+        if (Auth::user()->hasPermissionTo('VentasListaMasFiltros')) {
             $this->user_id = "Todos";
-        }
-        else
-        {
+        } else {
             $this->user_id = Auth::user()->id;
         }
     }
@@ -102,33 +103,72 @@ class SaleListController extends Component
         $from = Carbon::parse($this->dateFrom)->format('Y-m-d') . ' 00:00:00';
         $to = Carbon::parse($this->dateTo)->format('Y-m-d')     . ' 23:59:59';
 
-        if (strlen($this->search) == 0)
-        {
-            if($this->sucursal_id != "Todos")
-            {
-                if($this->user_id == "Todos")
-                {
-                    if($this->tipofecha == "hoy")
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.sucursal_id",$this->sucursal_id)
-                        ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
+        if (strlen($this->search) == 0) {
+            if ($this->sucursal_id != "Todos") {
+                if ($this->user_id == "Todos") {
+                    if ($this->tipofecha == "hoy") {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.sucursal_id", $this->sucursal_id)
+                            ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
                         //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
+                        foreach ($listaventas as $lv) {
+                            //Obtener el nombre de la sucursal de una venta
+                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
+                            //Obtener datos de un cliente de una venta
+                            $lv->datoscliente = $this->datoscliente($lv->codigo);
+                            //Obtener total descuento o recargo de una venta
+                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
+                            //Obtener el tiempo en minutos si es una venta reciente
+                            $lv->ventareciente = $this->ventareciente($lv->codigo);
+                        }
+                    } else {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.sucursal_id", $this->sucursal_id)
+
+                            ->whereBetween('sales.created_at', [$from, $to])
+                            ->whereTime('sales.created_at', '>=', $this->timeFrom)
+                            ->whereTime('sales.created_at', '<=', $this->timeTo . ':59')
+
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
+                        //Llenando las columnas adicionales a la lsita de ventas
+                        foreach ($listaventas as $lv) {
                             //Obtener el nombre de la sucursal de una venta
                             $lv->nombresucursal = $this->nombresucursal($lv->codigo);
                             //Obtener datos de un cliente de una venta
@@ -139,31 +179,72 @@ class SaleListController extends Component
                             $lv->ventareciente = $this->ventareciente($lv->codigo);
                         }
                     }
-                    else
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.sucursal_id",$this->sucursal_id)
-    
-                        ->whereBetween('sales.created_at', [$from, $to])
-                        ->whereTime('sales.created_at', '>=', $this->timeFrom)
-                        ->whereTime('sales.created_at', '<=', $this->timeTo.':59')
-    
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
+                } else {
+                    if ($this->tipofecha == "hoy") {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.user_id", $this->user_id)
+                            ->where("sales.sucursal_id", $this->sucursal_id)
+                            ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
                         //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
+                        foreach ($listaventas as $lv) {
+                            //Obtener el nombre de la sucursal de una venta
+                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
+                            //Obtener datos de un cliente de una venta
+                            $lv->datoscliente = $this->datoscliente($lv->codigo);
+                            //Obtener total descuento o recargo de una venta
+                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
+                            //Obtener el tiempo en minutos si es una venta reciente
+                            $lv->ventareciente = $this->ventareciente($lv->codigo);
+                        }
+                    } else {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.user_id", $this->user_id)
+                            ->where("sales.sucursal_id", $this->sucursal_id)
+
+                            ->whereBetween('sales.created_at', [$from, $to])
+                            ->whereTime('sales.created_at', '>=', $this->timeFrom)
+                            ->whereTime('sales.created_at', '<=', $this->timeTo . ':59')
+
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
+                        //Llenando las columnas adicionales a la lsita de ventas
+                        foreach ($listaventas as $lv) {
                             //Obtener el nombre de la sucursal de una venta
                             $lv->nombresucursal = $this->nombresucursal($lv->codigo);
                             //Obtener datos de un cliente de una venta
@@ -175,30 +256,69 @@ class SaleListController extends Component
                         }
                     }
                 }
-                else
-                {
-                    if($this->tipofecha == "hoy")
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.user_id",$this->user_id)
-                        ->where("sales.sucursal_id",$this->sucursal_id)
-                        ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
+            } else {
+                if ($this->user_id == "Todos") {
+                    if ($this->tipofecha == "hoy") {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
                         //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
+                        foreach ($listaventas as $lv) {
+                            //Obtener el nombre de la sucursal de una venta
+                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
+                            //Obtener datos de un cliente de una venta
+                            $lv->datoscliente = $this->datoscliente($lv->codigo);
+                            //Obtener total descuento o recargo de una venta
+                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
+                            //Obtener el tiempo en minutos si es una venta reciente
+                            $lv->ventareciente = $this->ventareciente($lv->codigo);
+                        }
+                    } else {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+
+                            ->whereBetween('sales.created_at', [$from, $to])
+                            ->whereTime('sales.created_at', '>=', $this->timeFrom)
+                            ->whereTime('sales.created_at', '<=', $this->timeTo . ':59')
+
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
+                        //Llenando las columnas adicionales a la lsita de ventas
+                        foreach ($listaventas as $lv) {
                             //Obtener el nombre de la sucursal de una venta
                             $lv->nombresucursal = $this->nombresucursal($lv->codigo);
                             //Obtener datos de un cliente de una venta
@@ -209,32 +329,70 @@ class SaleListController extends Component
                             $lv->ventareciente = $this->ventareciente($lv->codigo);
                         }
                     }
-                    else
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.user_id",$this->user_id)
-                        ->where("sales.sucursal_id",$this->sucursal_id)
-    
-                        ->whereBetween('sales.created_at', [$from, $to])
-                        ->whereTime('sales.created_at', '>=', $this->timeFrom)
-                        ->whereTime('sales.created_at', '<=', $this->timeTo.':59')
-    
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
+                } else {
+                    if ($this->tipofecha == "hoy") {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.user_id", $this->user_id)
+                            ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
                         //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
+                        foreach ($listaventas as $lv) {
+                            //Obtener el nombre de la sucursal de una venta
+                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
+                            //Obtener datos de un cliente de una venta
+                            $lv->datoscliente = $this->datoscliente($lv->codigo);
+                            //Obtener total descuento o recargo de una venta
+                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
+                            //Obtener el tiempo en minutos si es una venta reciente
+                            $lv->ventareciente = $this->ventareciente($lv->codigo);
+                        }
+                    } else {
+                        $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                            ->join("carteras as c", "c.id", "sales.cartera_id")
+                            ->join("cajas as cj", "cj.id", "c.caja_id")
+                            ->select(
+                                "sales.id as codigo",
+                                "sales.created_at as fechaventa",
+                                "u.name as nombreusuario",
+                                "c.nombre as nombrecartera",
+                                "sales.total as totalbs",
+                                "sales.change as totalcambio",
+                                "sales.status as estado",
+                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as totaldescuento'),
+                                DB::raw('0 as datoscliente'),
+                                DB::raw('0 as ventareciente')
+                            )
+                            //->where("sales.status","PAID")
+                            ->where("sales.user_id", $this->user_id)
+
+                            ->whereBetween('sales.created_at', [$from, $to])
+                            ->whereTime('sales.created_at', '>=', $this->timeFrom)
+                            ->whereTime('sales.created_at', '<=', $this->timeTo . ':59')
+
+                            ->orderBy("sales.created_at", "desc")
+                            ->paginate($this->paginacion);
+
+                        //Llenando las columnas adicionales a la lsita de ventas
+                        foreach ($listaventas as $lv) {
                             //Obtener el nombre de la sucursal de una venta
                             $lv->nombresucursal = $this->nombresucursal($lv->codigo);
                             //Obtener datos de un cliente de una venta
@@ -247,179 +405,43 @@ class SaleListController extends Component
                     }
                 }
             }
-            else
-            {
-                if($this->user_id == "Todos")
-                {
-                    if($this->tipofecha == "hoy")
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
-                        //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
-                            //Obtener el nombre de la sucursal de una venta
-                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
-                            //Obtener datos de un cliente de una venta
-                            $lv->datoscliente = $this->datoscliente($lv->codigo);
-                            //Obtener total descuento o recargo de una venta
-                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
-                            //Obtener el tiempo en minutos si es una venta reciente
-                            $lv->ventareciente = $this->ventareciente($lv->codigo);
-                        }
-                    }
-                    else
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-    
-                        ->whereBetween('sales.created_at', [$from, $to])
-                        ->whereTime('sales.created_at', '>=', $this->timeFrom)
-                        ->whereTime('sales.created_at', '<=', $this->timeTo.':59')
-    
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
-                        //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
-                            //Obtener el nombre de la sucursal de una venta
-                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
-                            //Obtener datos de un cliente de una venta
-                            $lv->datoscliente = $this->datoscliente($lv->codigo);
-                            //Obtener total descuento o recargo de una venta
-                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
-                            //Obtener el tiempo en minutos si es una venta reciente
-                            $lv->ventareciente = $this->ventareciente($lv->codigo);
-                        }
-                    }
-                }
-                else
-                {
-                    if($this->tipofecha == "hoy")
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.user_id",$this->user_id)
-                        ->whereBetween('sales.created_at', [Carbon::parse(Carbon::now())->format('Y-m-d') . ' 00:00:00', Carbon::parse(Carbon::now())->format('Y-m-d') . ' 23:59:59'])
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
-                        //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
-                            //Obtener el nombre de la sucursal de una venta
-                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
-                            //Obtener datos de un cliente de una venta
-                            $lv->datoscliente = $this->datoscliente($lv->codigo);
-                            //Obtener total descuento o recargo de una venta
-                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
-                            //Obtener el tiempo en minutos si es una venta reciente
-                            $lv->ventareciente = $this->ventareciente($lv->codigo);
-                        }
-                    }
-                    else
-                    {
-                        $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-                        //->where("sales.status","PAID")
-                        ->where("sales.user_id",$this->user_id)
-    
-                        ->whereBetween('sales.created_at', [$from, $to])
-                        ->whereTime('sales.created_at', '>=', $this->timeFrom)
-                        ->whereTime('sales.created_at', '<=', $this->timeTo.':59')
-    
-                        ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
-                        //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
-                            //Obtener el nombre de la sucursal de una venta
-                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
-                            //Obtener datos de un cliente de una venta
-                            $lv->datoscliente = $this->datoscliente($lv->codigo);
-                            //Obtener total descuento o recargo de una venta
-                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
-                            //Obtener el tiempo en minutos si es una venta reciente
-                            $lv->ventareciente = $this->ventareciente($lv->codigo);
-                        }
-                    }
-                }
+        } else {
+            $listaventas = Sale::join("users as u", "u.id", "sales.user_id")
+                ->join("carteras as c", "c.id", "sales.cartera_id")
+                ->join("cajas as cj", "cj.id", "c.caja_id")
+                ->select(
+                    "sales.id as codigo",
+                    "sales.created_at as fechaventa",
+                    "u.name as nombreusuario",
+                    "c.nombre as nombrecartera",
+                    "sales.total as totalbs",
+                    "sales.change as totalcambio",
+                    "sales.status as estado",
+                    DB::raw('0 as nombresucursal'),
+                    DB::raw('0 as totaldescuento'),
+                    DB::raw('0 as datoscliente'),
+                    DB::raw('0 as ventareciente')
+                )
+
+
+
+                ->where('sales.id', 'like', '%' . $this->search . '%')
+
+
+                ->orderBy("sales.created_at", "desc")
+                ->paginate($this->paginacion);
+
+            //Llenando las columnas adicionales a la lsita de ventas
+            foreach ($listaventas as $lv) {
+                //Obtener el nombre de la sucursal de una venta
+                $lv->nombresucursal = $this->nombresucursal($lv->codigo);
+                //Obtener datos de un cliente de una venta
+                $lv->datoscliente = $this->datoscliente($lv->codigo);
+                //Obtener total descuento o recargo de una venta
+                $lv->totaldescuento = $this->totaldescuento($lv->codigo);
+                //Obtener el tiempo en minutos si es una venta reciente
+                $lv->ventareciente = $this->ventareciente($lv->codigo);
             }
-        }
-        else
-        {
-            $listaventas = Sale::join("users as u","u.id","sales.user_id")
-                        ->join("carteras as c","c.id","sales.cartera_id")
-                        ->join("cajas as cj","cj.id","c.caja_id")
-                        ->select("sales.id as codigo","sales.created_at as fechaventa", "u.name as nombreusuario","c.nombre as nombrecartera",
-                        "sales.total as totalbs","sales.change as totalcambio",
-                        "sales.status as estado",
-                        DB::raw('0 as nombresucursal'),
-                        DB::raw('0 as totaldescuento'),
-                        DB::raw('0 as datoscliente'),
-                        DB::raw('0 as ventareciente'))
-
-
-                        
-                        ->where('sales.id', 'like', '%' . $this->search . '%')
-
-
-                       ->orderBy("sales.created_at","desc")
-                        ->paginate($this->paginacion);
-    
-                        //Llenando las columnas adicionales a la lsita de ventas
-                        foreach ($listaventas as $lv)
-                        {
-                            //Obtener el nombre de la sucursal de una venta
-                            $lv->nombresucursal = $this->nombresucursal($lv->codigo);
-                            //Obtener datos de un cliente de una venta
-                            $lv->datoscliente = $this->datoscliente($lv->codigo);
-                            //Obtener total descuento o recargo de una venta
-                            $lv->totaldescuento = $this->totaldescuento($lv->codigo);
-                            //Obtener el tiempo en minutos si es una venta reciente
-                            $lv->ventareciente = $this->ventareciente($lv->codigo);
-                        }
         }
 
 
@@ -428,8 +450,8 @@ class SaleListController extends Component
 
 
         $usuarios = User::select("users.*")
-        ->where("users.status","ACTIVE")
-        ->get();
+            ->where("users.status", "ACTIVE")
+            ->get();
 
 
 
@@ -438,18 +460,18 @@ class SaleListController extends Component
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios
         ])
-        ->extends('layouts.theme.app')
-        ->section('content');
+            ->extends('layouts.theme.app')
+            ->section('content');
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
     {
-        $idsucursal = User::join("sucursal_users as su","su.user_id","users.id")
-        ->select("su.sucursal_id as id","users.name as n")
-        ->where("users.id",Auth()->user()->id)
-        ->where("su.estado","ACTIVO")
-        ->get()
-        ->first();
+        $idsucursal = User::join("sucursal_users as su", "su.user_id", "users.id")
+            ->select("su.sucursal_id as id", "users.name as n")
+            ->where("users.id", Auth()->user()->id)
+            ->where("su.estado", "ACTIVO")
+            ->get()
+            ->first();
         return $idsucursal->id;
     }
     //Devuelve el nombre de la sucursal de una venta
@@ -468,55 +490,59 @@ class SaleListController extends Component
     //Devuelve el id de la sucursal de una venta
     public function idsucursalventa($idventa)
     {
-        $idsucursal = Caja::join("carteras as car","car.caja_id","cajas.id")
-        ->join("sales as s","s.cartera_id","car.id")
-        ->select("cajas.sucursal_id as sucursal_id")
-        ->where("s.id",$idventa)
-        ->first()->sucursal_id;
+        $idsucursal = Caja::join("carteras as car", "car.caja_id", "cajas.id")
+            ->join("sales as s", "s.cartera_id", "car.id")
+            ->select("cajas.sucursal_id as sucursal_id")
+            ->where("s.id", $idventa)
+            ->first()->sucursal_id;
 
         return $idsucursal;
     }
     //Devuelve CI, nombre y celular del cliente
     public function datoscliente($idventa)
     {
-        $datoscliente = Cliente::join("cliente_movs as cm","cm.cliente_id", "clientes.id")
-        ->join("movimientos as m","m.id", "cm.movimiento_id")
-        ->join("sales as s","s.movimiento_id", "m.id")
-        ->select("clientes.nombre as nombrecliente", "clientes.cedula as cedulacliente", "clientes.celular as celularcliente")
-        ->where("s.id", $idventa)
-        ->get();
-        
+        $datoscliente = Cliente::join("cliente_movs as cm", "cm.cliente_id", "clientes.id")
+            ->join("movimientos as m", "m.id", "cm.movimiento_id")
+            ->join("sales as s", "s.movimiento_id", "m.id")
+            ->select("clientes.nombre as nombrecliente", "clientes.cedula as cedulacliente", "clientes.celular as celularcliente")
+            ->where("s.id", $idventa)
+            ->get();
+
         return $datoscliente;
     }
     //Devuelve descuento o recargo de una venta
     public function totaldescuento($idventa)
     {
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-        ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre','p.precio_venta as po', DB::raw('0 as po'),
-        'sale_details.price as pv','sale_details.quantity as cantidad')
-        ->where('sale_details.sale_id', $idventa)
-        ->orderBy('sale_details.id', 'asc')
-        ->get();
+            ->join("products as p", "p.id", "sale_details.product_id")
+            ->select(
+                'sale_details.id as detalleid',
+                'p.image as image',
+                'p.nombre as nombre',
+                'p.precio_venta as po',
+                DB::raw('0 as po'),
+                'sale_details.price as pv',
+                'sale_details.quantity as cantidad'
+            )
+            ->where('sale_details.sale_id', $idventa)
+            ->orderBy('sale_details.id', 'asc')
+            ->get();
 
 
-        foreach($descuento as $dx)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $dx->detalleid)
-            ->first();
+        foreach ($descuento as $dx) {
+            $po = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
+                ->select("l.pv_lote as precio_original")
+                ->where("sale_lotes.sale_detail_id", $dx->detalleid)
+                ->first();
 
-            if($po != null)
-            {
+            if ($po != null) {
                 $dx->po = $po->precio_original;
             }
         }
 
         $totaldescuento = 0;
-        foreach($descuento as $d)
-        {
-            $totaldescuento = (($d->pv - $d->po)*$d->cantidad) + $totaldescuento;
+        foreach ($descuento as $d) {
+            $totaldescuento = (($d->pv - $d->po) * $d->cantidad) + $totaldescuento;
         }
         return $totaldescuento;
     }
@@ -542,41 +568,45 @@ class SaleListController extends Component
     {
         //Listando todos los productos, cantidades, precio, etc...
         $this->detalle_venta = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-        ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.id as idproducto','p.image as image','p.nombre as nombre',
-        'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid', DB::raw('0 as po'))
-        ->where('sale_details.sale_id', $idventa)
-        ->orderBy('sale_details.id', 'asc')
-        ->get();
+            ->join("products as p", "p.id", "sale_details.product_id")
+            ->select(
+                'sale_details.id as detalleid',
+                'p.id as idproducto',
+                'p.image as image',
+                'p.nombre as nombre',
+                'sale_details.price as pv',
+                'sale_details.quantity as cantidad',
+                'sale_details.id as sid',
+                DB::raw('0 as po')
+            )
+            ->where('sale_details.sale_id', $idventa)
+            ->orderBy('sale_details.id', 'asc')
+            ->get();
 
 
-        foreach($this->detalle_venta as $d)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $d->detalleid)
-            ->first();
+        foreach ($this->detalle_venta as $d) {
+            $po = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
+                ->select("l.pv_lote as precio_original")
+                ->where("sale_lotes.sale_detail_id", $d->detalleid)
+                ->first();
 
-            if($po != null)
-            {
+            if ($po != null) {
                 $d->po = $po->precio_original;
             }
-
         }
 
 
 
-        
+
         //Obteniendo detalles generales (observacion, total Bs, etc..) de una venta
         $this->venta = Sale::find($idventa);
 
         //Obteniendo la cantidad total de los productos de una venta
         $detalle = SaleDetail::select('sale_details.*')
-        ->where('sale_details.sale_id', $idventa)
-        ->get();
+            ->where('sale_details.sale_id', $idventa)
+            ->get();
         $totalcantidad = 0;
-        foreach($detalle as $d)
-        {
+        foreach ($detalle as $d) {
             $totalcantidad = $d->quantity + $totalcantidad;
         }
         $this->totalitems = $totalcantidad;
@@ -584,22 +614,26 @@ class SaleListController extends Component
 
         //obteniendo la cantidad total de Bs en Descuento o Recargo
         $descuento = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-        ->join("products as p", "p.id", "sale_details.product_id")
-        ->select('sale_details.id as detalleid','p.image as image','p.nombre as nombre', DB::raw('0 as po'),
-        'sale_details.price as pv','sale_details.quantity as cantidad')
-        ->where('sale_details.sale_id', $idventa)
-        ->orderBy('sale_details.id', 'asc')
-        ->get();
+            ->join("products as p", "p.id", "sale_details.product_id")
+            ->select(
+                'sale_details.id as detalleid',
+                'p.image as image',
+                'p.nombre as nombre',
+                DB::raw('0 as po'),
+                'sale_details.price as pv',
+                'sale_details.quantity as cantidad'
+            )
+            ->where('sale_details.sale_id', $idventa)
+            ->orderBy('sale_details.id', 'asc')
+            ->get();
 
-        foreach($descuento as $des)
-        {
-            $po = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-            ->select("l.pv_lote as precio_original")
-            ->where("sale_lotes.sale_detail_id", $des->detalleid)
-            ->first();
+        foreach ($descuento as $des) {
+            $po = SaleLote::join("lotes as l", "l.id", "sale_lotes.lote_id")
+                ->select("l.pv_lote as precio_original")
+                ->where("sale_lotes.sale_detail_id", $des->detalleid)
+                ->first();
 
-            if($po != null)
-            {
+            if ($po != null) {
                 $des->po = $po->precio_original;
             }
         }
@@ -608,24 +642,19 @@ class SaleListController extends Component
 
 
         $descuento_recargo = 0;
-        foreach($descuento as $d)
-        {
-            $descuento_recargo = (($d->pv - $d->po)*$d->cantidad) + $descuento_recargo;
+        foreach ($descuento as $d) {
+            $descuento_recargo = (($d->pv - $d->po) * $d->cantidad) + $descuento_recargo;
         }
         $this->desc_rec = $descuento_recargo;
-
     }
     //Mostrar u Ocultar Mas filtros en la Vista
     public function mostrarocultarmasfiltros()
     {
-        if($this->masfiltros)
-        {
+        if ($this->masfiltros) {
             $this->usuario = 'Todos';
             $this->tipofecha = 'Todos';
             $this->masfiltros = false;
-        }
-        else
-        {
+        } else {
             $this->masfiltros = true;
         }
     }
@@ -637,15 +666,14 @@ class SaleListController extends Component
     public function anular_venta($idventa)
     {
         DB::beginTransaction();
-        try
-        {
+        try {
             //Obteniendo Información de la Venta
             $venta = Sale::find($idventa);
             //Buscando el movimiento y desactivandolo
             $movimiento = Movimiento::find($venta->movimiento_id);
             $movimiento->update([
                 'status' => 'INACTIVO'
-                ]);
+            ]);
             $movimiento->save();
 
 
@@ -654,57 +682,63 @@ class SaleListController extends Component
             $cartera = Cartera::find($venta->cartera_id);
             $cartera->update([
                 'saldocartera' => $cartera->saldocartera - $venta->total
-                ]);
+            ]);
             $cartera->save();
 
 
             //Buscando el id de destino de donde salieron los productos para la Venta
-            $destinoid = DestinoSucursal::where("destino_sucursals.sucursal_id", $this->idsucursalventa($idventa))->first()->destino_id; 
+            $destinoid = DestinoSucursal::where("destino_sucursals.sucursal_id", $this->idsucursalventa($idventa))->first()->destino_id;
 
 
             //Devolviento los productos a la tienda
             //Guardando en una variable los productos y sus cantidades de una venta para devolverlos a la Tienda
             $detalleventa = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-            ->join("products as p", "p.id", "sale_details.product_id")
-            ->select('p.id as idproducto','p.image as image','p.nombre as nombre','p.precio_venta as po',
-            'sale_details.price as pv','sale_details.quantity as cantidad','sale_details.id as sid')
-            ->where('sale_details.sale_id', $idventa)
-            ->get();
-            
-            foreach ($detalleventa as $item)
-            {
+                ->join("products as p", "p.id", "sale_details.product_id")
+                ->select(
+                    'p.id as idproducto',
+                    'p.image as image',
+                    'p.nombre as nombre',
+                    'p.precio_venta as po',
+                    'sale_details.price as pv',
+                    'sale_details.quantity as cantidad',
+                    'sale_details.id as sid'
+                )
+                ->where('sale_details.sale_id', $idventa)
+                ->get();
+
+            foreach ($detalleventa as $item) {
                 //Incrementando el stock en tienda
                 $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-                ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-                ->select("productos_destinos.id as id","p.nombre as name",
-                "productos_destinos.stock as stock")
-                ->where("p.id", $item->idproducto)
-                ->where("des.id", $destinoid)
-                ->where("des.sucursal_id", $this->idsucursal())
-                ->get()->first();
+                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                    ->select(
+                        "productos_destinos.id as id",
+                        "p.nombre as name",
+                        "productos_destinos.stock as stock"
+                    )
+                    ->where("p.id", $item->idproducto)
+                    ->where("des.id", $destinoid)
+                    ->where("des.sucursal_id", $this->idsucursal())
+                    ->get()->first();
                 $tiendaproducto->update([
                     'stock' => $tiendaproducto->stock + $item->cantidad
                 ]);
             }
-            foreach($detalleventa as $i)
-            {
+            foreach ($detalleventa as $i) {
                 $lotes = SaleLote::where('sale_detail_id', $i->sid)
-                ->get();
+                    ->get();
 
-                foreach($lotes as $j)
-                {
+                foreach ($lotes as $j) {
 
-                    $lot=Lote::where('lotes.id',$j->lote_id)->first();
+                    $lot = Lote::where('lotes.id', $j->lote_id)->first();
 
                     //dump($lot);
                     $lot->update([
                         'existencia' => $lot->existencia + $j->cantidad,
-                        'status'=>'Activo'
+                        'status' => 'Activo'
                     ]);
-                    
+
                     $lotes = SaleLote::where('sale_detail_id', $i->sid)->delete();
                 }
-    
             }
             //Anulando la venta
             $venta->update([
@@ -715,16 +749,11 @@ class SaleListController extends Component
             $this->venta_id = $idventa;
             DB::commit();
             $this->emit('sale-cancel-ok');
-        
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollback();
             $this->mensaje = $e->getMessage();
             $this->emit('sale-error');
         }
-
-        
     }
     //Llama a la ventana modal para cambiar usuario vendedor
     public function modalcambiarusuario($idventa)
@@ -740,7 +769,7 @@ class SaleListController extends Component
         $venta = Sale::find($this->venta_id);
         $venta->update([
             'user_id' => $idusuario,
-            ]);
+        ]);
         $venta->save();
         $username = User::find($venta->user_id)->name;
         $this->mensaje = "¡Usuario Vendedor Cambiado a : " . $username . " Cambiado Exitósamente!";
