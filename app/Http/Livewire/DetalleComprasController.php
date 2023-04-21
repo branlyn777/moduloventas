@@ -43,7 +43,7 @@ class DetalleComprasController extends Component
         $estado_compra, $total_compra, $itemsQuantity, $price, $status, $tipo_transaccion, $destinocompra, $porcentaje, $importe, $dscto = 0, $aplicar = false, $lote_compra;
 
     public $nombre_prov, $apellido, $correo, $direccion, $nit,
-        $telefono;
+        $telefono,$newunidad,$newmarca,$subcategory,$des_subcategory;
 
     public $nombre, $costo, $precio_venta, $barcode, $codigo, $caracteristicas, $lote, $unidad, $marca, $garantia, $industria, $total,
         $categoryid, $component, $stockswitch, $destino, $imagen, $destinosp, $selected_categoria, $image, $selected_id2, $name, $descripcion;
@@ -154,7 +154,7 @@ class DetalleComprasController extends Component
 
         $exist = Compras::get($product->id);
         $attributos = [
-            'precio' => $product->precio_venta,
+            'precio' => $product->precio_venta??0,
             'codigo' => $product->codigo,
             'fecha_compra' => $this->fecha_compra
         ];
@@ -219,6 +219,7 @@ class DetalleComprasController extends Component
         ]);
 
         $category->save();
+        $this->selected_id2=$category->id;
         $this->resetCategory();
         $this->emit('cat-added', 'Categoría Registrada');
     }
@@ -246,7 +247,8 @@ class DetalleComprasController extends Component
         $prod->categoryid = $this->categoryid;
         $prod->Store();
         $this->emit('products_added', 'ahola');
-        $pr = Product::where('nombre', $this->nombre)->pluck('id');
+        $pr = Product::where('codigo', $this->codigo)->first()->id;
+
         $this->increaseQty($pr);
         $this->resetUI();
     }
@@ -685,4 +687,95 @@ public function stockChange(){
     }
 
 }
+
+
+
+/**
+ * Valida la entrada, crea un nuevo objeto Marca, lo guarda en la base de datos y luego reinicia la
+ * entrada y emite un evento
+ */
+public function StoreMarca()
+{
+    $rules = ['newmarca' => 'required|unique:marcas,nombre|min:3'];
+    $messages = [
+        'newmarca.required' => 'El nombre de la marca es requerido',
+        'newmarca.unique' => 'Ya existe el nombre de la marca',
+        'newmarca.min' => 'El nombre de la marca debe tener al menos 3 caracteres'
+    ];
+    $this->validate($rules, $messages);
+    $marca = Marca::create([
+        'nombre' =>  strtoupper($this->newmarca)
+    ]);
+
+    $marca->save();
+    $this->resetMarca();
+    $this->marca = $marca->nombre;
+}
+
+public function resetMarca()
+{
+    $this->reset('newmarca');
+    $this->emit('marca-added');
+    $this->emit('product-form');
+}
+
+
+/**
+ * Valida la entrada, crea una nueva unidad, la guarda y luego reinicia la entrada y emite un evento.
+ */
+public function StoreUnidad()
+{
+    $rules = ['newunidad' => 'required|unique:unidads,nombre|min:3'];
+    $messages = [
+        'newunidad.required' => 'El nombre de la unidad es requerido',
+        'newunidad.unique' => 'Ya existe el nombre de la unidad',
+        'newunidad.min' => 'El nombre de la unidad debe tener al menos 3 caracteres'
+    ];
+    $this->validate($rules, $messages);
+    $unidad = Unidad::create([
+        'nombre' =>  strtoupper($this->newunidad)
+    ]);
+
+    $unidad->save();
+    $this->resetUnidad();
+    $this->unidad = $unidad->nombre;
+}
+public function resetUnidad()
+{
+    $this->reset('newunidad');
+    $this->emit('unidad-added');
+    $this->emit('product-form');
+}
+
+/**
+ * Crea una nueva categoría y luego emite un evento al componente principal
+ */
+public function StoreSubcategory()
+{
+
+    $rules = ['subcategory' => 'required|unique:categories,name|min:3'];
+    $messages = [
+        'subcategory.required' => 'El nombre de la subcategoría es requerido',
+        'subcategory.unique' => 'Ya existe el nombre de la subcategoría',
+        'subcategory.min' => 'El nombre de la subcategoría debe tener al menos 3 caracteres'
+    ];
+    $this->validate($rules, $messages);
+
+    $category = Category::create([
+        'name' =>  strtoupper($this->subcategory),
+        'descripcion' => $this->descripcion,
+        'categoria_padre' => $this->selected_id2
+    ]);
+
+    $category->save();
+    $this->resetSubCat();
+    $this->categoryid = $category->id;
+}
+
+public function resetSubCat()
+{
+    $this->reset('des_subcategory', 'subcategory');
+    $this->emit('subcat-added');
+}
+
 }

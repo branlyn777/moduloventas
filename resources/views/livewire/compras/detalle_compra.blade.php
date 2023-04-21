@@ -304,6 +304,10 @@
     </div>
     @include('livewire.compras.provider_info')
     @include('livewire.products.form')
+    @include('livewire.products.modalunidad')
+    @include('livewire.products.modalsubcategory')
+    @include('livewire.products.modalcategory')
+    @include('livewire.products.modalmarca')
     @include('livewire.compras.descuento')
     @include('livewire.compras.pago')
     @include('livewire.compras.verOrdenesCompra')

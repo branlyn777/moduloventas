@@ -239,7 +239,7 @@
                         </div>
                     </div>
 
-                  
+
 
                     <div class="col-sm-12 col-lg-4 col-md-4">
                         <div class="form-group">
@@ -324,52 +324,55 @@
                             </div>
                         </div>
 
-           
-                        @if ($stockswitch)
-                         <div class="row mt-4">
 
-                             <div class="col-sm-12 col-md-3">
-                                 <div class="form-group">
-                                     <label>
-                                         Stock Inicial
-                                     </label>
-                                     <input type="number" wire:model="cantidad" class="form-control" wire:change='stockChange()'>
-                                     @error('cantidad')
-                                         <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
-                                     @enderror
-                                 </div>
-                             </div>
-     
-                             <div class="col-sm-12 col-md-3">
-                                 <div class="form-group">
-                                     <label>
-                                         Costo Unitario
-                                     </label>
-                                     <input wire:model="costoUnitario"  type="number" class="form-control  mx-1">
-                                     @error('costoUnitario')
-                                         <span class="text-danger" style="font-size: 0.8rem">{{ $message }}</span>
-                                     @enderror
-                                 </div>
-                             </div>
-                             <div class="col-sm-12 col-md-3">
-                                 <div class="form-group">
-                                     <label>
-                                         Costo Total Lote
-                                     </label>
-                                     <input wire:model="costoTotal"  type="number" class="form-control  mx-1">
-                                  
-                                 </div>
-                             </div>
-                             <div class="col-sm-12 col-md-3">
-                                 <div class="form-group">
-                                     <label>
-                                         Precio Venta Unitario
-                                     </label>
-                                     <input wire:model="precioVenta"  type="number" class="form-control  mx-1">
-                                  
-                                 </div>
-                             </div>
-                             {{-- <div class="col-sm-12 col-md-6">
+                        @if ($stockswitch)
+                            <div class="row mt-4">
+
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Stock Inicial
+                                        </label>
+                                        <input type="number" wire:model="cantidad" class="form-control"
+                                            wire:change='stockChange()'>
+                                        @error('cantidad')
+                                            <span class="text-danger"
+                                                style="font-size: 0.8rem">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Costo Unitario
+                                        </label>
+                                        <input wire:model="costoUnitario" type="number" class="form-control  mx-1">
+                                        @error('costoUnitario')
+                                            <span class="text-danger"
+                                                style="font-size: 0.8rem">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Costo Total Lote
+                                        </label>
+                                        <input wire:model="costoTotal" type="number" class="form-control  mx-1">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            Precio Venta Unitario
+                                        </label>
+                                        <input wire:model="precioVenta" type="number" class="form-control  mx-1">
+
+                                    </div>
+                                </div>
+                                {{-- <div class="col-sm-12 col-md-6">
                                  <div class="form-group">
                                      <label>
                                          Almacen
@@ -387,7 +390,7 @@
                                   
                                  </div>
                              </div> --}}
-                         </div>
+                            </div>
                         @endif
 
                     @endif
@@ -416,7 +419,7 @@
             <div class="modal-footer">
 
 
-                
+
                 <button type="button" wire:click.prevent="resetUI()" class="btn btn-secondary close-btn"
                     data-bs-dismiss="modal">Cancelar</button><br>
                 @if ($selected_id < 1)
