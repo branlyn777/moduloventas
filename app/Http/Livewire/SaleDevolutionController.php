@@ -25,7 +25,7 @@ use Carbon\Carbon;
 
 class SaleDevolutionController extends Component
 {
-    public $search, $salelist, $product_id, $listdestinations, $other_sucursals;
+    public $search, $salelist, $product_id, $listdestinations, $other_sucursals, $selected_destination_id;
 
 
     public function paginationView()
@@ -84,7 +84,7 @@ class SaleDevolutionController extends Component
             ->join('sucursals as s', 's.id', 'd.sucursal_id')
             ->join('products as p', 'p.id', 'productos_destinos.product_id')
 
-            ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom')
+            ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom','d.id as destino_id')
             ->where("product_id", $this->product_id)
             ->where("s.id", $sucursal_id)
             ->get();
@@ -99,5 +99,9 @@ class SaleDevolutionController extends Component
 
         //abre
         $this->emit("show-modaldevolution");
+    }
+    public function select_destination()
+    {
+        
     }
 }
