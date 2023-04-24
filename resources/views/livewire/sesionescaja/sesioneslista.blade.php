@@ -10,7 +10,7 @@
                     href="{{ url('') }}">Inicio</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ventas</li>
         </ol>
-        <h6 class="font-weight-bolder mb-0 text-white"> Reporte Sesion Caja</h6>
+        <h6 class="font-weight-bolder mb-0 text-white"> Sesion Caja</h6>
     </nav>
 @endsection
 
@@ -80,7 +80,7 @@
 
 <div>
     <div class="d-lg-flex" style="margin-bottom: 2.3rem">
-        <h5 class="text-white" style="font-size: 16px">Sesiones Cajas </h5>
+        <h5 class="text-white" style="font-size: 16px">Lista de Sesiones </h5>
 
     </div>
 
@@ -162,7 +162,7 @@
                             <th class="text-uppercase text-sm ps-2">Fecha Apertura</th>
                             <th class="text-uppercase text-sm ps-2">Fecha Cierre</th>
                             <th class="text-uppercase text-sm ps-2">Estado Caja</th>
-                            <th class="text-center text-uppercase text-sm">Detalle</th>
+                            <th class="text-center text-uppercase text-sm">Opc.</th>
 
                         </tr>
                     </thead>
@@ -195,8 +195,8 @@
                             </td>
                          
                             <td class="align-middle text-center">
-                                <a href="{{ route('sesiones', $item->id) }}" class="mx-3">
-                                    <i class="fas fa-list text-info"></i>
+                                <a class="btn btn-primary" href="{{ route('sesiones', $item->id) }}" class="mx-3">
+                                   Ver Informe de Caja
                                 </a>
                             </td>
                         </tr>
