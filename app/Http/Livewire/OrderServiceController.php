@@ -49,7 +49,8 @@ class OrderServiceController extends Component
     public $status_service;
     //Guarda el mensaje que se vera en un toast
     public $message_toast;
-
+    //Guarda true o false, dependiendo si el servicio corresponde al dia actual (para editar precio en servicios terminados)
+    public $check_service_date;
     //Variebles para los filtros
     public $search, $search_all, $status_service_table;
     
@@ -485,6 +486,30 @@ class OrderServiceController extends Component
         }
         else
         {
+            
+            $motion_deliver = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+            ->select("m.type", "m.created_at")
+            ->where("m.type", "ENTREGADO")
+            ->where("m.status", "ACTIVO")
+            ->where("mov_services.service_id", $service->id)
+            ->first();
+            
+            //Verificando que el servicio sea del dia actual
+            $currentDate = Carbon::now()->toDateString();
+            $serviceDate = $motion_deliver->created_at->toDateString();
+            
+            if ($currentDate == $serviceDate)
+            {
+                $this->check_service_date = true;
+            }
+            else
+            {
+                $this->check_service_date = false;
+            }
+
+
+
+
             //Actualizando la lista de usuarios tecnicos para el servicio
             $permission = Permission::where('name', 'Aparecer_Lista_Servicios')->first();
             $this->list_user_technicial = $permission->usersWithPermission('Aparecer_Lista_Servicios');

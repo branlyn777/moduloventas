@@ -72,7 +72,7 @@
             @if($this->box_status)
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button wire:click.prevent="deliver_service({{$this->id_service}})" type="button" class="btn bg-gradient-success">Entregar Servicio</button>
+                <button wire:click.prevent="deliver_service({{$this->id_service}})" type="button" wire:loading.remove class="btn bg-gradient-success">Entregar Servicio</button>
             </div>
             @endif
           @endif

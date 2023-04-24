@@ -39,7 +39,7 @@
               <div class="row mb-3">
                 <div class="col-4">
                   <label>Precio Servicio:</label>
-                  <input wire:model.lazy="s_price" type="number" class="form-control">
+                  <input wire:model.lazy="s_price" {{ $this->check_service_date ? '' : 'disabled' }}  type="number" class="form-control">
                   @error('s_price')
                     <span class="text-danger text-xs">{{ $message }}</span>
                   @enderror
