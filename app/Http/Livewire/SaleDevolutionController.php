@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SucursalUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -24,7 +25,8 @@ use Carbon\Carbon;
 
 class SaleDevolutionController extends Component
 {
-    public $search, $salelist, $product_id;
+    public $search, $salelist, $product_id, $listdestinations, $other_sucursals;
+
 
     public function paginationView()
     {
@@ -34,6 +36,8 @@ class SaleDevolutionController extends Component
     {
         $this->search = "";
         $this->salelist = [];
+        $this->listdestinations = [];
+        $this->other_sucursals = [];
     }
     public function render()
     {
@@ -74,12 +78,25 @@ class SaleDevolutionController extends Component
     public function hidemodalsalelist()
     {
         $this->emit("hide-modalsalelist");
+        $sucursal_id = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
         //buscando el producto
-        $listdestinations=ProductosDestino::join('destinos as d','d.id','productos_destino.destino_id')
-        // ->join('sucursals as s','s.id','productos_destino.sucursal_id')
-        // ->select('d.nombre as destino','s.name as sucursal')
-        ->where("product_id", $this->product_id)
-        ->get();
+        $this->listdestinations = ProductosDestino::join('destinos as d', 'd.id', 'productos_destinos.destino_id')
+            ->join('sucursals as s', 's.id', 'd.sucursal_id')
+            ->join('products as p', 'p.id', 'productos_destinos.product_id')
+
+            ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom')
+            ->where("product_id", $this->product_id)
+            ->where("s.id", $sucursal_id)
+            ->get();
+
+    
+        $this->other_sucursals = ProductosDestino::join('destinos as d', 'd.id', 'productos_destinos.destino_id')
+            ->join('sucursals as s', 's.id', 'd.sucursal_id')
+            ->join('products as p', 'p.id', 'productos_destinos.product_id')
+            ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom')
+            ->where("s.id", "<>", $sucursal_id)
+            ->get();
+
         //abre
         $this->emit("show-modaldevolution");
     }
