@@ -49,7 +49,11 @@
                         <tbody>
                             @foreach ($listdestinations as $destino)
                                 <tr>
-                                    <td>{{ $destino->destino }}</td>
+                                    <td>
+                                        <div wire:click='select_destination({{$desino->destino_id}})' style="background-color: aqua;">
+                                            {{ $destino->destino }}
+                                        </div>
+                                    </td>
                                     <td>{{ $destino->sucursal }}</td>
                                     <td class="text-center">{{ $destino->co }}</td>
                                     <td class="text-center">{{ $destino->stock }}</td>
