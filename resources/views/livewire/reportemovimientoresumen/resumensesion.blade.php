@@ -43,9 +43,7 @@
     <div class="row">
         <div class="col-12">
             <div class="d-lg-flex my-auto p-0 mb-3">
-                <div>
-                    <h5 class="mb-0 text-white" style="font-size: 16px"><b>Reporte de Sesion</b></h5>
-                </div>
+
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
                         <a href="javascript:void(0)" class="btn btn-success mb-0"
@@ -57,38 +55,36 @@
             </div>
 
             <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-3 text-dark text-center mt-2" style="font-size: 20px"><b>Informe de sesión de caja
+                            <br> (12/04/2022-15/04/2023)</b></h5>
+
+                </div>
                 <div class="card-body p-4">
-                    <label style="font-size: 1rem;">Ventas</label>
+                    <label class="text-lg">Saldo inicial de caja : </label> <span> <b>451212.00</span>
+                    <br>
+                    <u><label class="text-lg">Ventas Realizadas durante la Sesion:</label></u>
                     @if ($totalesIngresosV->count() > 0)
-                        <div class="table-responsive p-0">
-                            <table class="table table-hover">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered border-primary">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-sm text-center">N°</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">FECHA</th>
-                                        <th class="text-uppercase text-sm ps-2 text-left">DETALLE</th>
-                                        <th class="text-uppercase text-sm ps-3 text-left">INGRESO</th>
-                                        <th class="text-uppercase text-sm ps-1 text-left">
-                                            @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                UTILIDAD
-                                            @endif
-                                        </th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Detalle</th>
+                                        <th scope="col">Bs</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($totalesIngresosV as $p)
-                                        <tr class="text-left">
-                                            <td class="text-sm mb-0 text-center">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0 text-left">
-                                                    {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}
-                                                </p>
-                                            </td>
-                                            <td>
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td scope="row">{{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/Y H:i') }}</td>
+                                            <td scope="row">
                                                 <div class="accordion-1">
-                                                    <div class="">
+                                             
                                                         <div class="row">
                                                             <div class="col-md-12 mx-auto">
                                                                 <div class="accordion" id="accordionRental">
@@ -192,25 +188,19 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    
                                                 </div>
                                             </td>
-                                            <td class="ie">
-                                                <span class="badge badge-sm bg-primary text-sm">
-                                                    {{ number_format($p->importe, 2) }}
-                                                </span>
-                                            </td>
-                                            <td class="ie">
-                                                @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    <span class="badge badge-sm bg-success text-sm">
-                                                        {{ number_format($p->utilidadventa, 2) }}
-                                                    </span>
-                                                @endif
-                                            </td>
+                                            <td scope="row">{{ number_format($p->importe, 2) }}</td>
                                         </tr>
                                     @endforeach
+
                                 </tbody>
+
                             </table>
+
+
+
                         </div>
                     @else
                         <p class="m-4 text-center mt-4">(Sin registros de Ventas)</p>
@@ -218,141 +208,6 @@
                 </div>
             </div>
 
-            <div class="card mb-4 mt-4">
-                <div class="card-body">
-                    <label style="font-size: 1rem;">Ingresos</label>
-                    @if ($totalesIngresosIE->isNotEmpty())
-                        @foreach ($totalesIngresosIE as $item)
-                            <tr>
-                                <td class="text-sm text-center no">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm fecha">
-                                    {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-                                <td>
-                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
-
-                                </td>
-
-                                <td class="ie">
-                                    <span class="badge badge-sm bg-primary text-sm">
-                                        {{ number_format($item->importe, 2) }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="m-4 text-center">(Sin registros de Ingresos)</p>
-                    @endif
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <label style="font-size: 1rem;">Egresos</label>
-                    @if ($totalesEgresosIE->isNotEmpty())
-                        @foreach ($totalesEgresosIE as $item)
-                            <tr>
-                                <td class="text-sm text-center no">
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td class="text-sm fecha">
-                                    {{ \Carbon\Carbon::parse($item->movcreacion)->format('d/m/Y H:i') }}
-                                </td>
-                                <td>
-                                    {{ $item->tipoDeMovimiento }},{{ $item->ctipo == 'efectivo' ? 'Efectivo' : $item->ctipo }},({{ $item->nombrecartera }})
-
-                                </td>
-                                <td class="ie">
-                                    <span class="badge badge-sm bg-danger text-sm">
-                                        {{ number_format($item->importe, 2) }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <p class="m-4 text-center">(Sin registros de Egresos)</p>
-                    @endif
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="card p-1 bg-white">
-                        <table class="table align">
-                            <tbody>
-
-                                <tr style="height: 2rem"></tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Total Ingresos
-                                    </td>
-                                    <td class="text-sm-4 text-end pe-8" style="float: center">
-                                        {{ number_format($totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe'), 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Total Egresos
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        {{ number_format($totalesEgresosIE->sum('importe') ?? 0, 2) }}
-                                    </td>
-                                </tr>
-                                
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Saldo
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        {{ number_format($totalesIngresosV->where('ctipo', 'efectivo')->sum('importe') + $totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') - $totalesEgresosIE->sum('importe') ?? 0, 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Apertura Caja
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        {{ number_format($movimiento->import, 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Sobrantes
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        {{ number_format($sobrante, 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Faltantes
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        {{ number_format($faltante, 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr class="p-5">
-                                    <td class="text-sm text-center">
-                                        Saldo al cierre de caja
-                                    </td>
-                                    <td class="text-sm text-end pe-8" style="float: center">
-                                        Bs. {{ $cierremonto }}
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
 
 

@@ -718,6 +718,7 @@ class ReporteMovimientoResumenController extends Component
             ->where('movimientos.created_at', '<', Carbon::parse($mov->created_at)->toDateTimeString())
             ->select('cajas.id')
             ->value('cajas.id');
+       
 
         if ($caja_abierta != null) {
             return $caja_abierta;

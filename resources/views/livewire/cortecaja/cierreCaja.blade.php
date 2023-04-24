@@ -1,16 +1,15 @@
+<style>
+    .nohover:hover {
+        background-color: rgb(255, 255, 255);
+    }
 
-    <style>
-        .nohover:hover {
-            background-color: rgb(255, 255, 255);
-        }
-
-        .hr-sm {
-            height: 1.3px;
-            border: none;
-            background-color: #aea9a9;
-            margin: 5px 0;
-        }
-    </style>
+    .hr-sm {
+        height: 1.3px;
+        border: none;
+        background-color: #aea9a9;
+        margin: 5px 0;
+    }
+</style>
 
 <div wire:ignore.self class="modal fade" id="ajusteCaja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -40,19 +39,21 @@
                                         <td>
                                             <h6 class="mb-1 text-dark text-sm">
                                                 <b>
-                                                Saldo s/EDSOFT:</h6>
+                                                    Saldo s/EDSOFT:
+                                            </h6>
                                         </td>
                                         <td class="text-left">
 
                                             <div class="input-group">
 
-                                                <input disabled type="number" class="form-control" wire:model='saldoAcumulado' placeholder="Bs...">
+                                                <input disabled type="number" class="form-control"
+                                                    wire:model='saldoAcumulado' placeholder="Bs...">
                                                 <a class="btn btn-primary px-4 py-2" data-bs-toggle="collapse"
-                                                data-bs-target="#ingresos-detalle-ventas"
-                                                class="accordion-toggle"><i class="fa fa-chevron-down"></i></a>
+                                                    data-bs-target="#ingresos-detalle-ventas"
+                                                    class="accordion-toggle"><i class="fa fa-chevron-down"></i></a>
                                             </div>
 
-                                     
+
 
 
                                         </td>
@@ -208,7 +209,8 @@
                                                                             <div class="d-flex flex-column">
                                                                                 <h6 class="mb-1 text-dark text-sm">
                                                                                     <b>
-                                                                                    Saldo s/EDSOFT</h6>
+                                                                                        Saldo s/EDSOFT
+                                                                                </h6>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -232,13 +234,15 @@
                                         <td>
                                             <h6 class="mb-1 text-dark text-sm ps-1">
                                                 <b>
-                                                Efectivo Actual:</h6>
+                                                    Efectivo Actual:
+                                            </h6>
 
                                         </td>
                                         <td>
                                             <div class="input-group">
 
-                                                <input type="number" class="form-control" wire:model='efectivo_actual' placeholder="Bs...">
+                                                <input type="number" class="form-control" wire:model='efectivo_actual'
+                                                    placeholder="Bs...">
                                                 <button class="btn"
                                                     style="background-color: #5e72e4; color: white; border: 1px solid #5e72e4;"
                                                     data-bs-toggle="modal" data-bs-target="#contador_monedas">
@@ -260,9 +264,9 @@
 
                                                     <div class="d-flex flex-column">
                                                         <h6 class="mb-1 text-dark text-sm">
-                                                    <b>
-                                                                    {{ $efectivo_actual > $saldoAcumulado ? 'Efectivo Sobrante: ' : 'Efectivo Faltante: ' }}</b>
-                                                            
+                                                            <b>
+                                                                {{ $efectivo_actual > $saldoAcumulado ? 'Efectivo Sobrante: ' : 'Efectivo Faltante: ' }}</b>
+
 
                                                         </h6>
 
@@ -271,10 +275,10 @@
                                             </td>
 
                                             <td class="ps-3">
-                                              
 
-                                                    {{number_format($efectivo_actual - $saldoAcumulado,2)}}
-                                        
+
+                                                {{ number_format($efectivo_actual - $saldoAcumulado, 2) }}
+
                                             </td>
                                         </tr>
 
@@ -283,7 +287,8 @@
 
                                                 <h6 class="mb-1 text-dark text-sm">
                                                     <b>
-                                                    Nota/Comentario:</h6>
+                                                        Nota/Comentario:
+                                                </h6>
                                                 {{-- <span class="text-xs font-weight-bold"> Bs. 0</span> --}}
                                                 <textarea wire:model='nota_ajuste' class="form-control" id="exampleFormControlTextarea1" rows="2"
                                                     placeholder="Agregue una observacion para el ajuste..."></textarea>
@@ -299,9 +304,9 @@
                                                     <div class="d-flex flex-column">
                                                         <h6 class="mb-1 text-dark text-sm">
                                                             <b>
-                                                            Efectivo Sob./Falt.
+                                                                Efectivo Sob./Falt.
                                                         </h6>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </td>
@@ -320,17 +325,15 @@
 
                         </div>
                     @else
-                        <h5>
+                        <h6 class="text-center">
                             <b>Recaudar Efectivo</b>
-                        </h5>
+                        </h6>
                         <div class="card-body p-3">
                             <ul class="list-group">
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
-                                            <i class="ni ni-satisfied text-white opacity-10"></i>
-                                        </div>
+
                                         <div class="d-flex flex-column">
                                             <h6 class="mb-1 text-dark text-sm">Monto Limite Efectivo:</h6>
                                             <span class="text-xs font-weight-bold">{{ $monto_limite }}</span>
@@ -341,9 +344,7 @@
                                 <li
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
-                                            <i class="ni ni-satisfied text-white opacity-10"></i>
-                                        </div>
+
                                         <div class="d-flex flex-column">
                                             <h6 class="mb-1 text-dark text-sm">Efectivo Excedente</h6>
                                             <span class="text-xs font-weight-bold">
@@ -355,9 +356,7 @@
                                 <div
                                     class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon icon-shape icon-sm me-3 bg-warning text-center">
-                                            <i class="ni ni-satisfied text-white opacity-10"></i>
-                                        </div>
+
                                         <div class="d-flex flex-column">
                                             <h6 class="mb-1 text-dark text-sm">Recaudo</h6>
                                             <input type="number" wire:model='recaudo' style="direction: rtl;"
@@ -384,7 +383,7 @@
                             Finalizar Cierre</button>
                     @else
                         <button type="button" class="btn btn-dark btn-sm mb-3"
-                            wire:click='finalizarCierre()'>Finalizar
+                            wire:click='finalizarCierre({{ $usuarioSesion }})'>Finalizar
                             Cierre</button>
                     @endif
                 </div>

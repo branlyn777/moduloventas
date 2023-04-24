@@ -544,7 +544,7 @@
                         <li class=@yield('sesionesli', 'nav-item ')>
                             <a class=@yield('sesionesnav', 'nav-link ') href="{{ url('sesiones') }}">
                                 <span class="sidenav-mini-icon"> S </span>
-                                <span class="sidenav-normal"> Reportes Sesion Caja </span>
+                                <span class="sidenav-normal"> Sesiones Caja </span>
                             </a>
                         </li>
 

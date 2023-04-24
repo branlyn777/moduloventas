@@ -104,7 +104,7 @@
                                     @if ($this->nombre_caja != null)
                                         @if ($c->id == $this->id_caja)
                                             <button type="button"
-                                                onclick="ConfirmarCerrar({{ $c->id }},'{{ $c->nombre }}')"
+                                                wire:click="CerrarCaja({{ $c->id }},'{{$c->abiertapor_id}}')"
                                                 class="btn btn-danger">
                                                 <i class="fas fa-arrow-right"></i>
                                                 Cerrar Sesion
@@ -118,7 +118,7 @@
                                         @endif
                                     @else
                                         <button
-                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}')"
+                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}','{{$c->abiertapor_id}}')"
                                             class="btn btn-primary">
                                             CERRAR CAJA DE OTRO USUARIO
                                         </button>
@@ -220,28 +220,12 @@
         });
 
  
-        function ConfirmarCerrar(id, nombrecaja) {
-            swal({
-                title: '¿Cerrar esta Caja?',
-                text: "Se realizará el cierre de la caja: " + nombrecaja,
-                type: 'info',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: 'Aceptar',
-              
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('cerrar-caja', id)
-                }
-            })
-        }
+     
         // Código para lanzar la Alerta de Confirmación para cerrar una caja abierta por otro usuario
-        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario) {
+        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario,userid) {
             swal({
-                title: '¿Cerrar la Caja abierta por ' + nombreusuario + '?',
-                text: "Se realizará el cierre de la caja: " + nombrecaja,
+                title:'Confirmar Cierre de Caja de Otro usuario' ,
+                text: '¿Desea proseguir con el cierre de la caja: '+  nombrecaja+' ,abierta por ' + nombreusuario + '?',
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -249,7 +233,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('cerrar-caja-usuario', id)
+                    window.livewire.emit('cerrar-caja', id,userid)
                 }
             })
         }
