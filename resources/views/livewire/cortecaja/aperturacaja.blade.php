@@ -16,23 +16,19 @@
                         <b>Arqueo de Caja</b>
                     </h6>
 
-                    <div class="col-12 d-flex align-items-center">
-                        <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                            <i class="ni ni-tag text-white opacity-10"></i>
-                        </div>
-                        <div class="d-flex flex-column">
+                    <div class="col-12">
+                      
+                        <div class="d-flex justify-content-between">
                             <h6 class="mb-1 text-dark text-sm">Efectivo s/Edsoft</h6>
                             <h6 class="text-xs"> Bs. {{ $saldoAcumulado }}</h6>
                         </div>
                     </div>
 
-                    <div class="col-12 d-flex align-items-center">
-                        <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                            <i class="ni ni-box-2 text-white opacity-10"></i>
-                        </div>
-                        <div class="d-flex flex-column">
+                    <div class="col-12 mt-3">
+                 
+                        <div class="d-flex justify-content-between px-3">
                             <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
-                            <div class="form-group">
+                            <div class="form-group text-end">
                                 <div class="input-group">
                                     <button style="background-color: #5e72e4; color: white; border: #5e72e4;"
                                         data-bs-toggle="modal" data-bs-target="#contador_monedas"
@@ -47,9 +43,7 @@
 
                     @if ($efectivo_actual != null and $efectivo_actual != $saldoAcumulado)
                         <div class="col-12 d-flex align-items-center mb-3">
-                            <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                <i class="ni ni-satisfied text-white opacity-10"></i>
-                            </div>
+                         
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm">
                                     <h6>
