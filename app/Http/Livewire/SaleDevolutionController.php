@@ -25,7 +25,7 @@ use Carbon\Carbon;
 
 class SaleDevolutionController extends Component
 {
-    public $search, $salelist, $product_id, $listdestinations, $other_sucursals, $selected_destination_id;
+    public $search, $salelist, $product_id, $listdestinations, $other_sucursals, $selected_destination_id, $selected_destination_name;
 
 
     public function paginationView()
@@ -90,18 +90,39 @@ class SaleDevolutionController extends Component
             ->get();
 
     
-        $this->other_sucursals = ProductosDestino::join('destinos as d', 'd.id', 'productos_destinos.destino_id')
-            ->join('sucursals as s', 's.id', 'd.sucursal_id')
-            ->join('products as p', 'p.id', 'productos_destinos.product_id')
-            ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom')
-            ->where("s.id", "<>", $sucursal_id)
-            ->get();
+        // $this->other_sucursals = ProductosDestino::join('destinos as d', 'd.id', 'productos_destinos.destino_id')
+        //     ->join('sucursals as s', 's.id', 'd.sucursal_id')
+        //     ->join('products as p', 'p.id', 'productos_destinos.product_id')
+        //     ->select('d.nombre as destino', 's.name as sucursal', 'p.codigo as co', 'productos_destinos.stock as stock', 'p.nombre as nom')
+        //     ->where("s.id", "<>", $sucursal_id)
+        //     ->get();
 
         //abre
         $this->emit("show-modaldevolution");
     }
-    public function select_destination()
+    public function select_destination(Destino $destino)
     {
-        
+
+        $this->selected_destination_id = $destino->id; 
+        $this->selected_destination_name = $destino->nombre;
+
+
+     
+    }
+    public function return_product()
+    {     $rules = [
+        'name' => 'required|unique:categories|min:3',
+        'name' => 'required|unique:categories|max:255'
+        // 'descripcion' => 'required|unique:categories|max:255'
+    ];
+    $messages = [
+        'name.required' => 'El nombre de la categoría es requerido',
+        'name.unique' => 'Ya existe el nombre de la categoría',
+        'name.min' => 'El nombre de la categoría debe tener al menos 3 caracteres',
+        'name.max' => 'El nombre de la categoría no debe pasar los 255 caracteres'
+        // 'descripcion.max' =>'La descripción no debe pasar los 255 caracteres' 
+    ];
+    $this->validate($rules, $messages);
+
     }
 }

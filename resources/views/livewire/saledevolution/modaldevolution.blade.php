@@ -50,7 +50,8 @@
                             @foreach ($listdestinations as $destino)
                                 <tr>
                                     <td>
-                                        <div wire:click='select_destination({{$desino->destino_id}})' style="background-color: aqua;">
+                                        <div wire:click='select_destination({{ $destino->destino_id }})'
+                                            style="background-color: aqua;">
                                             {{ $destino->destino }}
                                         </div>
                                     </td>
@@ -64,6 +65,7 @@
                         </tbody>
                     </table>
                     <br>
+
 
                     {{-- <table class="table text-xs">
                         <thead>
@@ -83,6 +85,40 @@
                     </table> --}}
 
                 </div>
+
+
+
+                @if ($this->selected_destination_id != null)
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            Destino seleccionado:
+                            {{$selected_destination_name}}
+                        </div>
+                    
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4"> </div>
+                        <div class="col-12 col-sm-6 col-md-4 text-center">
+                            <span class="text-sm "><b>
+                                    cantidad:
+                                </b>
+                                <input type="text" class="form-control" value="1">
+                            </span>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4"></div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="button" class="btn btn-secondary">Devolver</button>
+                        </div>
+                    </div>
+                @endif()
+
+
+
             </div>
         </div>
     </div>
