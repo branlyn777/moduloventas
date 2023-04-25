@@ -26,15 +26,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($list_products as $p)
-                                <tr>
-                                    <td>    
-                                        {{$p ->nombre}}
-                                    </td>
-                                    <td>
-                                        <button wire:click="showmodalsalelist({{$p ->id}})" type="button" class="btn btn-primary btn-sm"><i class="fas fa-plus" aria-hidden="true"></i></button>
-                                       
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            {{ $p->nombre }}
+                                        </td>
+                                        <td>
+                                            <button wire:click="showmodalsalelist({{ $p->id }})" type="button"
+                                                class="btn btn-primary btn-sm"><i class="fas fa-plus"
+                                                    aria-hidden="true"></i></button>
+
+                                        </td>
+                                    </tr>
                                 @endforeach
 
                             </tbody>
@@ -63,12 +65,26 @@
             });
 
             window.livewire.on('show-modaldevolution', msg => {
-               
+
                 $('#modaldevolution').modal('show')
             });
-          
+
+            window.livewire.on('message-warning', msg => {
+
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'warning',
+                    title: 'Cantidad superada',
+                    padding: '2em',
+                })
+            });
+
         });
-
-
     </script>
 @endsection

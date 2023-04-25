@@ -10,14 +10,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        @foreach ($listdestinations as $destino)
-                            <td>{{ $destino->nom }}</td>
-                        @endforeach
+                <div class="row " style=" ">
+                    <div class="col-12 text-center">
+                        <p>
+                        <h5>{{ $selected_product_name }}</h5>
+                        </p>
                     </div>
-
-
                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-3"></div>
@@ -35,66 +33,49 @@
                 </div>
 
 
-                <div class="table-responsive">
-                    <table class="table text-xs">
-                        <thead>
-                            <tr>
-                                <th>Destino</th>
-                                <th>Sucursal</th>
-                                <th>Codigo</th>
-                                <th>Cantidad</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($listdestinations as $destino)
-                                <tr>
-                                    <td>
-                                        <div wire:click='select_destination({{ $destino->destino_id }})'
-                                            style="background-color: aqua;">
-                                            {{ $destino->destino }}
-                                        </div>
-                                    </td>
-                                    <td>{{ $destino->sucursal }}</td>
-                                    <td class="text-center">{{ $destino->co }}</td>
-                                    <td class="text-center">{{ $destino->stock }}</td>
-
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-                    </table>
-                    <br>
 
 
-                    {{-- <table class="table text-xs">
-                        <thead>
-                            <tr>
+                <div class="row mb-3">
+                
+                    <div class="col-6">
+                        <span class="text-sm text-center" title="Seleccione el destino de donde va ha sacar el producto ">
+                            <b> Devolver producto de:</b>
                            
-                                <th>Sucursal</th>
-                                
+                        </span>
+                        <select wire:model='selected_destination_id' class="form-select text-center">
+                            <option value="0">seleccionar destino</option>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($other_sucursals as $sucursal)
-                            <td>{{ $sucursal->sucursal }}</td>
-                        @endforeach
+                            @foreach ($list_destinations as $d)
+                                <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-sm text-center" title="Seleccione el destino de donde va ga guardar el prducto devuelto por el cliente.">
+                            <b>Guardar producto en:</b>
+                            
+                        </span>
+                        <select wire:model='selected_destination_id' class="form-select text-center">
+                            <option value="0">seleccionar destino</option>
 
-                        </tbody>
-                    </table> --}}
-
+                            @foreach ($list_destinations as $d)
+                                <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                   
                 </div>
 
 
 
-                @if ($this->selected_destination_id != null)
+                @if ($this->selected_destination_id != 0)
                     <div class="row">
                         <div class="col-12 text-center">
-                            Destino seleccionado:
-                            {{$selected_destination_name}}
+                            <b>Destino seleccionado:</b>
+                         
+                            {{ $selected_destination_name }}
                         </div>
-                    
+
                     </div>
 
                     <div class="row">
@@ -103,16 +84,43 @@
                             <span class="text-sm "><b>
                                     cantidad:
                                 </b>
-                                <input type="text" class="form-control" value="1">
+                                <input wire:model='received_amount' type="number" max="2" class="form-control"
+                                    value="1">
+                                @error('received_amount')
+                                    <div class="form-text text-danger ">{{ $message }}</div>
+                                @enderror
                             </span>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4"></div>
 
                     </div>
                     <br>
+
+
+        
+                    <div class="row mb-3">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <span>
+                                Guardar producto en:
+                            </span>
+                            <select wire:model='selected_destination_id' class="form-select">
+                                <option value="0">seleccionar destino</option>
+    
+                                @foreach ($list_destinations as $d)
+                                    <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+    
+
+                    <br>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <button type="button" class="btn btn-secondary">Devolver</button>
+                            <button wire:click='return_product' type="button"
+                                class="btn btn-secondary">Devolver</button>
                         </div>
                     </div>
                 @endif()
