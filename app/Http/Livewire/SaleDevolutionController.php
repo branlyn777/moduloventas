@@ -156,7 +156,23 @@ class SaleDevolutionController extends Component
 
             $this->emit("message-warning");
         } else {
-            dd('valor corecto');
+
+
+            $product_destination = ProductosDestino::where("destino_id",$this->selected_destination_id)
+            ->where("product_id", $this->product_id)
+            ->first();
+
+            $new_stock = $product_destination->stock - $this->received_amount;
+
+            $pd = ProductosDestino::find($product_destination->id);
+            $pd->update([
+                'stock' => $new_stock
+            ]);
+            $pd->save();
+            dd("Registro Actualizado");
+
+
+
         }
     }
 }
