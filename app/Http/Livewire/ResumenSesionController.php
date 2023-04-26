@@ -26,7 +26,7 @@ class ResumenSesionController extends Component
 {
     public $cartera_mov;
 
-    public $apertura, $cierre, $movimiento, $usuario, $totalesServicios, $operacionestigo, $totalesIngresosV, $totalesIngresosIE, $totalesEgresosIE, $sobrante, $faltante, $cierremonto, $total, $caja;
+    public $apertura, $cierre,$apertura_monto ,$movimiento, $usuario, $totalsesion,$totalesServicios, $operacionestigo, $totalesIngresosV, $totalesIngresosIE, $totalesEgresosIE, $sobrante, $faltante, $cierremonto, $total, $caja;
     public function mount($id)
     {
         //se recibe el id de cartera movimiento
@@ -38,6 +38,8 @@ class ResumenSesionController extends Component
 
 
         $this->apertura = $this->movimiento->created_at;
+
+       
         $this->cierre = $this->movimiento->updated_at;
         if ($this->movimiento->status == 'ACTIVO') {
             $this->cierremonto = 0;
@@ -157,7 +159,9 @@ class ResumenSesionController extends Component
                 ->where('movimientos.created_at', '>', Carbon::parse($this->apertura)->toDateTimeString())
                 ->where('u.id', $this->usuario)
                 ->sum('import');
-        } else {
+                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->movimiento->import+$this->operacionestigo;
+
+            } else {
 
             $this->totalesIngresosV = Cartera::join('cartera_movs', 'cartera_movs.cartera_id', 'carteras.id')
                 ->join('movimientos', 'movimientos.id', 'cartera_movs.movimiento_id')
@@ -264,6 +268,9 @@ class ResumenSesionController extends Component
                 ->whereBetween('movimientos.created_at', [Carbon::parse($this->apertura)->toDateTimeString(), Carbon::parse($this->cierre)->toDateTimeString()])
                 ->where('u.id', $this->usuario)
                 ->sum('import');
+
+                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->movimiento->import+$this->operacionestigo;
+
         }
 
 
