@@ -68,6 +68,10 @@
 
                 $('#modaldevolution').modal('show')
             });
+            window.livewire.on('hide-modaldevolution', msg => {
+
+                $('#modaldevolution').modal('hide')
+            });
 
             window.livewire.on('message-warning', msg => {
 

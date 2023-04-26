@@ -23,8 +23,4 @@ class ProductosDestino extends Model
     {
         return $this->hasMany(IngresoProductos::class,'destino');
     }
-
-    
-
-   
 }

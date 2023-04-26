@@ -36,11 +36,12 @@
 
 
                 <div class="row mb-3">
-                
+
                     <div class="col-6">
-                        <span class="text-sm text-center" title="Seleccione el destino de donde va ha sacar el producto ">
+                        <span class="text-sm text-center"
+                            title="Seleccione el destino de donde va ha sacar el producto ">
                             <b> Devolver producto de:</b>
-                           
+
                         </span>
                         <select wire:model='selected_destination_id' class="form-select text-center">
                             <option value="0">seleccionar destino</option>
@@ -51,19 +52,23 @@
                         </select>
                     </div>
                     <div class="col-6">
-                        <span class="text-sm text-center" title="Seleccione el destino de donde va ga guardar el prducto devuelto por el cliente.">
+                        <span class="text-sm text-center"
+                            title="Seleccione el destino de donde va ga guardar el prducto devuelto por el cliente.">
                             <b>Guardar producto en:</b>
-                            
+
                         </span>
-                        <select wire:model='selected_destination_id' class="form-select text-center">
+                        <select wire:model='selected_destination_entrance_id' class="form-select text-center">
                             <option value="0">seleccionar destino</option>
 
                             @foreach ($list_destinations as $d)
                                 <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
                             @endforeach
                         </select>
+                        @error('selected_destination_entrance_id')
+                            <div class="form-text text-danger ">{{ $message }}</div>
+                        @enderror
                     </div>
-                   
+
                 </div>
 
 
@@ -72,7 +77,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <b>Destino seleccionado:</b>
-                         
+
                             {{ $selected_destination_name }}
                         </div>
 
@@ -97,7 +102,7 @@
                     <br>
 
 
-        
+
                     <div class="row mb-3">
                         <div class="col-2"></div>
                         <div class="col-8">
@@ -106,7 +111,7 @@
                             </span>
                             <select wire:model='selected_destination_id' class="form-select">
                                 <option value="0">seleccionar destino</option>
-    
+
                                 @foreach ($list_destinations as $d)
                                     <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
                                 @endforeach
@@ -114,7 +119,7 @@
                         </div>
                         <div class="col-2"></div>
                     </div>
-    
+
 
                     <br>
                     <div class="row">

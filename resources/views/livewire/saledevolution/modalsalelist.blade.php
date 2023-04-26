@@ -24,32 +24,38 @@
                         </thead>
                         <tbody>
                             @foreach ($this->salelist as $s)
-                                <tr>
-                                    <td>
-                                        {{ $s->codigo }}
-                                    </td>
-                                    <td>
-                                        {{ $s->nombre_usuario }}
-                                    </td>
-                                    <td>
-                                        {{ $s->nombre_cliente }}
-                                    </td>
-                                    <td>
-                                        {{ $s->sucur }}
-                                    </td>
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
-                                    </td>
-                                    <td>
-                                      <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="salelist/{{ $s->codigo }}"  target="_blank" class="btn btn-sm"><i class="fas fa-bars text-warning" aria-hidden="true"></i></a>
-                              
-                                        <button wire:click='hidemodalsalelist()' type="button" class="btn btn-sm"><i class="fas fa-plus text-warning" aria-hidden="true"></i></button>
-                                 
-                                      </div>
-                                     
-                                    </td>
-                                </tr>
+                            @if ($s->verify == 0)
+                            <tr>
+                                
+                            @else
+                            <tr style="background-color: rgb(168, 178, 242) " title="Esta venta ya fue devuelto">
+                            @endif
+
+                            <td>
+                                {{ $s->codigo }}
+                            </td>
+                            <td>
+                                {{ $s->nombre_usuario }}
+                            </td>
+                            <td>
+                                {{ $s->nombre_cliente }}
+                            </td>
+                            <td>
+                                {{ $s->sucur }}
+                            </td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
+                            </td>
+                            <td>
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="salelist/{{ $s->codigo }}"  target="_blank" class="btn btn-sm"><i class="fas fa-bars text-warning" aria-hidden="true"></i></a>
+                      
+                                <button wire:click='hidemodalsalelist({{$s->codigo}})' type="button" class="btn btn-sm"><i class="fas fa-plus text-warning" aria-hidden="true"></i></button>
+                         
+                              </div>
+                             
+                            </td>
+                        </tr>
                             @endforeach
 
                         </tbody>
