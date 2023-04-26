@@ -546,9 +546,9 @@ class OrderServiceController extends Component
             }
             else
             {
-                $this->s_cost = $service->cost;
+                $this->s_cost = $service->costo;
             }
-            $this->s_cost_detail = $service->cost_detail;
+            $this->s_cost_detail = $service->detalle_costo;
 
             //Obteniendo detalles del servicio para actualizar las varibles antes de editar el servicio TERMINADO
             $service = $this->get_details_Service($service->id);
