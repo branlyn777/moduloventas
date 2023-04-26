@@ -22,6 +22,7 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Deviations;
 use PhpParser\Node\Stmt\Foreach_;
 
 class SaleDevolutionController extends Component
@@ -46,6 +47,15 @@ class SaleDevolutionController extends Component
     }
     public function render()
     {
+
+        $devolution_list = DevolutionSale::join('users as u', 'u.id', 'devolution_sales.user_id')
+        ->join('sucursals as su', 'su.id', 'devolution_sales.sucursal_id')
+        ->join('sale_details as sl', 'sl.id', 'devolution_sales.sale_detail_id')
+        ->join('products as p', 'p.id', 'sl.product_id')
+        ->select('u.name as nombre_u','sl.quantity as cantidad','su.name as nombre_su','p.nombre as nombre_prod','devolution_sales.created_at as fecha')
+        ->where('devolution_sales.status', 'active')
+        ->get();
+     
 
         $list_products = [];
         if (strlen($this->search) > 0) {
@@ -87,7 +97,8 @@ class SaleDevolutionController extends Component
 
 
         return view('livewire.saledevolution.saledevolution', [
-            'list_products' => $list_products
+            'list_products' => $list_products,
+            'devolution_list' =>   $devolution_list
         ])
             ->extends('layouts.theme.app')
             ->section('content');
@@ -127,6 +138,10 @@ class SaleDevolutionController extends Component
     // cerrar pestaña
     public function hidemodalsalelist($sale)
     {
+       
+
+
+
         $this->sale_id = $sale;
         $this->emit("hide-modalsalelist");
         $sucursal_id = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
@@ -226,6 +241,20 @@ class SaleDevolutionController extends Component
                     'condition' => 'changed'
                 ]);
                 $sd->save();
+
+                $sale_detail_id = SaleDetail::where('sale_id', $this->sale_id)
+                ->where('product_id', $this->product_id)
+                ->first()
+                ->id;
+                $sucursal_id = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
+
+                DevolutionSale::create([
+                    'observations' => 'hola',
+                    'user_id' => Auth()->user()->id,
+                    'sale_detail_id' =>  $sale_detail_id,
+                    'sucursal_id' =>  $sucursal_id 
+
+                ]);
 
 
 

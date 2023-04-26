@@ -46,6 +46,53 @@
                 </div>
             </div>
         </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Usuario</th>
+                                    <th>Sucursal</th>
+                                    <th>fecha devolucion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($devolution_list as $d)
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            {{ $d->nombre_prod }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $d->cantidad }}
+                                        </td>
+                                        <td>
+                                            {{ $d->nombre_u }}
+                                        </td>
+                                        <td>
+                                            {{ $d->nombre_su }}
+                                        </td>
+                                        <td>
+                                            {{ $d->fecha }}
+                                        </td>
+                                        
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     @include('livewire.saledevolution.modalsalelist')
@@ -70,7 +117,7 @@
             });
             window.livewire.on('hide-modaldevolution', msg => {
 
-                $('#modaldevolution').modal('hide')
+                $('#modaldevolution').modal('')
             });
 
             window.livewire.on('message-warning', msg => {
