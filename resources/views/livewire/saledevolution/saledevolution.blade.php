@@ -65,7 +65,7 @@
                                 @foreach ($devolution_list as $d)
                                     <tr>
                                         <td>
-                                            
+                                            {{  $loop->iteration }}
                                         </td>
                                         <td>
                                             {{ $d->nombre_prod }}
@@ -79,8 +79,9 @@
                                         <td>
                                             {{ $d->nombre_su }}
                                         </td>
-                                        <td>
-                                            {{ $d->fecha }}
+                                        <td class="text-center">
+                                          
+                                            {{ \Carbon\Carbon::parse($d->fecha)->format('d/m/Y') }}
                                         </td>
                                         
                                     </tr>
