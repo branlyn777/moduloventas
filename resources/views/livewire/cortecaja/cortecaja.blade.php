@@ -24,7 +24,7 @@
 @endsection
 
 
-<div class="">
+<div>
     <div class="row">
         <div class="col-12 text-left text-white">
             <p class="h5 text-white"><b>Cajas Disponibles En Tu Sucursal</b></p>
@@ -47,7 +47,7 @@
                 {{-- Botones de Cerrar y Ajustar --}}
 
 
-                {{-- <div class="col-12 col-md-2">
+                <div class="col-12 col-md-2">
                     <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
                     <button wire:click.prevent="cerrartodo()" class="btn btn-primary form-control">
                         Cerrar Todo
@@ -58,7 +58,7 @@
                     <button wire:click.prevent="ajustarcarteras()" class="btn btn-primary form-control">
                         Ajustar
                     </button>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
                                     @if ($this->nombre_caja != null)
                                         @if ($c->id == $this->id_caja)
                                             <button type="button"
-                                                onclick="ConfirmarCerrar({{ $c->id }},'{{ $c->nombre }}')"
+                                                wire:click="CerrarCaja({{ $c->id }},'{{$c->abiertapor_id}}')"
                                                 class="btn btn-danger">
                                                 <i class="fas fa-arrow-right"></i>
                                                 Cerrar Sesion
@@ -118,7 +118,7 @@
                                         @endif
                                     @else
                                         <button
-                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}')"
+                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}','{{$c->abiertapor_id}}')"
                                             class="btn btn-primary">
                                             CERRAR CAJA DE OTRO USUARIO
                                         </button>
@@ -167,7 +167,7 @@
         @endforeach
 
     </div>
-    @include('livewire.cortecaja.ajusteCajaEfectiva')
+    @include('livewire.cortecaja.cierreCaja')
     @include('livewire.cortecaja.aperturacaja')
     @include('livewire.cortecaja.contador')
 </div>
@@ -220,26 +220,12 @@
         });
 
  
-        function ConfirmarCerrar(id, nombrecaja) {
-            swal({
-                title: '¿Cerrar esta Caja?',
-                text: "Se realizará el cierre de la caja: " + nombrecaja,
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Aceptar',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('cerrar-caja', id)
-                }
-            })
-        }
+     
         // Código para lanzar la Alerta de Confirmación para cerrar una caja abierta por otro usuario
-        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario) {
+        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario,userid) {
             swal({
-                title: '¿Cerrar la Caja abierta por ' + nombreusuario + '?',
-                text: "Se realizará el cierre de la caja: " + nombrecaja,
+                title:'Confirmar Cierre de Caja de Otro usuario' ,
+                text: '¿Desea proseguir con el cierre de la caja: '+  nombrecaja+' ,abierta por ' + nombreusuario + '?',
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -247,7 +233,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('cerrar-caja-usuario', id)
+                    window.livewire.emit('cerrar-caja', id,userid)
                 }
             })
         }
