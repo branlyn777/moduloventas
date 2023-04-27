@@ -281,12 +281,18 @@
                             <a class=@yield('ventasnoagrupadasnav', 'nav-link ') href="{{ url('ventalistaproductos') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Ventas por Productos </span>
-                            </a>
+                            </a> 
                         </li>
                         <li class=@yield('ventasagrupadasli', 'nav-item ')>
                             <a class=@yield('ventasagrupadasnav', 'nav-link ') href="{{ url('salelist') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Ventas </span>
+                            </a>
+                        </li>
+                        <li class=@yield('devoli', 'nav-item ')>
+                            <a class=@yield('devonav', 'nav-link ') href="{{ url('devolucionventa') }}">
+                                <span class="sidenav-mini-icon"> V </span>
+                                <span class="sidenav-normal"> Ventas Devolucion </span>
                             </a>
                         </li>
                     </ul>

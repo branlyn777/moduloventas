@@ -10,10 +10,11 @@
                   </button>
             </div>
             <div class="modal-body">
+                @if ($sl)
                 <div class="table-responsive">
                     <table class="table text-xs">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th>Codigo</th>
                                 <th>Usuario</th>
                                 <th>Cliente</th>
@@ -23,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($this->salelist as $s)
+                            @foreach ($sl as $s)
                             @if ($s->verify == 0)
                             <tr>
                                 
@@ -31,7 +32,7 @@
                             <tr style="background-color: rgb(168, 178, 242) " title="Esta venta ya fue devuelto">
                             @endif
 
-                            <td>
+                            <td class="text-center">
                                 {{ $s->codigo }}
                             </td>
                             <td>
@@ -48,9 +49,11 @@
                             </td>
                             <td>
                               <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="salelist/{{ $s->codigo }}"  target="_blank" class="btn btn-sm"><i class="fas fa-bars text-warning" aria-hidden="true"></i></a>
-                      
-                                <button wire:click='hidemodalsalelist({{$s->codigo}})' type="button" class="btn btn-sm"><i class="fas fa-plus text-warning" aria-hidden="true"></i></button>
+
+                                <a href="salelist/{{ $s->codigo }}"  target="_blank" class="btn btn-xs btn-danger mb-0"><i class="fas fa-bars " aria-hidden="true"></i></a>
+                        
+                                <button wire:click='hidemodalsalelist({{$s->codigo}})' type="button" class="btn btn-xs btn-primary mb-0"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                                
                          
                               </div>
                              
@@ -61,6 +64,12 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{$sl->links() }}
+                @endif
+               
+
+        
             </div>
         </div>
     </div>

@@ -100,28 +100,7 @@
 
                     </div>
                     <br>
-
-
-
-                    <div class="row mb-3">
-                        <div class="col-2"></div>
-                        <div class="col-8">
-                            <span>
-                                Guardar producto en:
-                            </span>
-                            <select wire:model='selected_destination_id' class="form-select">
-                                <option value="0">seleccionar destino</option>
-
-                                @foreach ($list_destinations as $d)
-                                    <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-2"></div>
-                    </div>
-
-
-                    <br>
+                    
                     <div class="row">
                         <div class="col-12 text-center">
                             <button wire:click='return_product' type="button"

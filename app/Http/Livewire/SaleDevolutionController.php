@@ -29,9 +29,9 @@ class SaleDevolutionController extends Component
 {
     public $search, $salelist, $product_id, $listdestinations, $other_sucursals, $selected_destination_id,
         $selected_destination_name, $selected_product_name, $list_destinations, $received_amount, $stock_limit,
-        $selected_destination_entrance_id, $sale_id;
+        $selected_destination_entrance_id, $sale_id, $search_devolution;
 
-
+    use WithPagination;
     public function paginationView()
     {
         return 'vendor.livewire.bootstrap';
@@ -47,21 +47,60 @@ class SaleDevolutionController extends Component
     }
     public function render()
     {
+       
 
-        $devolution_list = DevolutionSale::join('users as u', 'u.id', 'devolution_sales.user_id')
-        ->join('sucursals as su', 'su.id', 'devolution_sales.sucursal_id')
-        ->join('sale_details as sl', 'sl.id', 'devolution_sales.sale_detail_id')
-        ->join('products as p', 'p.id', 'sl.product_id')
-        ->select('u.name as nombre_u','sl.quantity as cantidad','su.name as nombre_su','p.nombre as nombre_prod','devolution_sales.created_at as fecha')
-        ->where('devolution_sales.status', 'active')
-        ->get();
+        $sl = Sale::join("sale_details as sd", "sd.sale_id", "sales.id")
+        ->join("users as u", "u.id", "sales.user_id")
+        ->join("sucursals as su", "su.id", "sales.sucursal_id")
+        ->join("movimientos as m", "m.id", "sales.movimiento_id")
+        ->join("cliente_movs as clim", "clim.movimiento_id", "m.id")
+        ->join("clientes as c", "c.id", "clim.cliente_id")
+        ->select("sales.id as codigo", "u.name as nombre_usuario", "su.name as sucur", "c.nombre as nombre_cliente",DB::raw('0 as verify'))
+        ->where("sales.status", "PAID")
+        ->where("sd.product_id", $this->product_id)
+        ->paginate(10);
+
+        Foreach($this->salelist as $sl)
+        {
+            $sd=SaleDetail::where('sale_id', $sl->codigo)
+            ->where('condition','<>','normal')
+            ->get();
+            if($sd->count() > 0)
+            {
+
+                $sl->verify= 1;
+            }
+
+        }
+        if(strlen($this->search_devolution) == 0)
+        {
+            $devolution_list = DevolutionSale::join('users as u', 'u.id', 'devolution_sales.user_id')
+            ->join('sucursals as su', 'su.id', 'devolution_sales.sucursal_id')
+            ->join('sale_details as sl', 'sl.id', 'devolution_sales.sale_detail_id')
+            ->join('products as p', 'p.id', 'sl.product_id')
+            ->select('u.name as nombre_u','sl.quantity as cantidad','su.name as nombre_su','p.nombre as nombre_prod','devolution_sales.created_at as fecha')
+            ->where('devolution_sales.status', 'active')
+            ->paginate(10);
+            
+        }
+        else{
+            $devolution_list = DevolutionSale::join('users as u', 'u.id', 'devolution_sales.user_id')
+            ->join('sucursals as su', 'su.id', 'devolution_sales.sucursal_id')
+            ->join('sale_details as sl', 'sl.id', 'devolution_sales.sale_detail_id')
+            ->join('products as p', 'p.id', 'sl.product_id')
+            ->select('u.name as nombre_u','sl.quantity as cantidad','su.name as nombre_su','p.nombre as nombre_prod','devolution_sales.created_at as fecha')
+            ->where('devolution_sales.status', 'active')
+            ->where("p.nombre", "like","%" . $this->search_devolution . "%")//buscar
+            ->paginate(10);
+        }
+      
      
 
         $list_products = [];
         if (strlen($this->search) > 0) {
             $list_products = Product::where("products.status", "ACTIVO") //muestra lista del buscador
                 ->where("products.nombre", "like", "%" . $this->search . "%") //busca 
-                ->get();
+                ->paginate(10);
         }
 
         if ($this->selected_destination_id != 0) {
@@ -97,6 +136,7 @@ class SaleDevolutionController extends Component
 
 
         return view('livewire.saledevolution.saledevolution', [
+            'sl' => $sl,
             'list_products' => $list_products,
             'devolution_list' =>   $devolution_list
         ])
@@ -108,29 +148,7 @@ class SaleDevolutionController extends Component
     {
         $this->selected_product_name = $product->nombre;
         $this->product_id = $product->id;
-        $this->salelist = Sale::join("sale_details as sd", "sd.sale_id", "sales.id")
-            ->join("users as u", "u.id", "sales.user_id")
-            ->join("sucursals as su", "su.id", "sales.sucursal_id")
-            ->join("movimientos as m", "m.id", "sales.movimiento_id")
-            ->join("cliente_movs as clim", "clim.movimiento_id", "m.id")
-            ->join("clientes as c", "c.id", "clim.cliente_id")
-            ->select("sales.id as codigo", "u.name as nombre_usuario", "su.name as sucur", "c.nombre as nombre_cliente",DB::raw('0 as verify'))
-            ->where("sales.status", "PAID")
-            ->where("sd.product_id", $product->id)
-            ->get();
-
-            Foreach($this->salelist as $sl)
-            {
-                $sd=SaleDetail::where('sale_id', $sl->codigo)
-                ->where('condition','<>','normal')
-                ->get();
-                if($sd->count() > 0)
-                {
-
-                    $sl->verify= 1;
-                }
-
-            }
+     
 
 
         $this->emit("show-modalsalelist");
