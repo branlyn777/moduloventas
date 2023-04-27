@@ -160,7 +160,8 @@ class ResumenSesionController extends Component
                 ->where('movimientos.created_at', '>', Carbon::parse($this->apertura)->toDateTimeString())
                 ->where('u.id', $this->usuario)
                 ->sum('import');
-                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->movimiento->import+$this->operacionestigo;
+
+                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesServicios->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
 
             } else {
 
@@ -270,7 +271,7 @@ class ResumenSesionController extends Component
                 ->where('u.id', $this->usuario)
                 ->sum('import');
 
-                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->movimiento->import+$this->operacionestigo;
+                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesServicios->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
 
         }
 
