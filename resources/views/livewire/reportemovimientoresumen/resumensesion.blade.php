@@ -261,65 +261,7 @@
           
                     @endif
 
-                    <div class="d-flex bd-highlight mb-3">
-                        <div class="me-auto p-2 bd-highlight">
-                            <h6 class="text-lg">Servicios Cobrados durante la Sesion: </h6>
-                        </div>
-
-                        <div class="p-2 bd-highlight"><span class="me-4">
-                                <b>{{ number_format($totalesServicios->sum('importe'), 2) }}</span>
-                                    <a class="btn btn-primary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaservicios" aria-expanded="false" aria-controls="tablaservicios">
-                                        <i class="fas fa-chevron-down collapse-icon collapsed"></i>
-                                 
-                                    </a>
-                                </div>
-                    </div>
-                    @if ($totalesServicios->count() > 0)
-
-                        <div class="table-responsive px-7 collapse" id="tablaservicios">
-
-                            <table class="table table-custom">
-                                <thead>
-                                    <tr>
-                                        <th class="col-1">#</th>
-                                        <th class="col-1">Fecha</th>
-                                        <th class="col-7">Detalle</th>
-                                        <th class="col-2 text-center">Monto (Bs)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($totalesServicios as $p)
-                                        <tr>
-                                            <td class="text-sm text-center no">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td class="text-sm fw-normal">
-                                                {{ \Carbon\Carbon::parse($p->movcreacion)->format('h:i:s') }}
-                                                <br>
-                                                {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/y') }}
-                                            </td>
-                                            <td class="text-sm fw-normal">
-
-                                                {{ 'Orden N° ' . $p->order_id . ',Servicio de ' . $p->servicio_solucion }}{{ $p->ctipo == 'efectivo' ? '(Pago en efectivo)' : '(Pago por transaccion de ' . $p->cnombre . ')' }}
-                                            </td>
-
-                                            <td class="text-center fw-normal">
-                                                <span class=" text-sm">
-                                                    {{ number_format($p->importe, 2) }}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-
-                            </table>
-
-
-
-                        </div>
-
-                    @endif
+         
 
 
                     <div class="d-flex bd-highlight mb-3">
@@ -447,13 +389,7 @@
 
                     @endif
 
-                    <div class="d-flex bd-highlight mb-3">
-                        <div class="me-auto p-2 bd-highlight">
-                            <h6 class="text-lg">Operaciones Tigo : </h6>
-                        </div>
-
-                        <div class="p-2 bd-highlight"><span class="me-5"> <b>{{ number_format($operacionestigo, 2) }}</span></div>
-                    </div>
+          
 
                     <div class="d-flex bd-highlight mb-3">
                         <div class="me-auto p-2 bd-highlight">
