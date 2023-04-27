@@ -35,12 +35,13 @@ class ResumenSesionController extends Component
         $this->movimiento = Movimiento::where('id', $this->cartera_mov->movimiento_id)->first();
         $this->caja = $this->cartera_mov->cartera->caja->id;
         $this->usuario = $this->movimiento->user_id;
+        $this->nombre_usuario=User::find($this->usuario)->name;
 
 
         $this->apertura = $this->movimiento->created_at;
 
        
-        $this->cierre = $this->movimiento->updated_at;
+        $this->cierre = $this->movimiento->updated_at== $this->movimiento->created_at?'Sesion Activa':$this->movimiento->updated_at;
         if ($this->movimiento->status == 'ACTIVO') {
             $this->cierremonto = 0;
         } else {

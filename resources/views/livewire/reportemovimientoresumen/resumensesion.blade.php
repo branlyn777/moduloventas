@@ -55,33 +55,36 @@
                 </div>
             </div>
 
-            <div class="card mb-4 px-8">
+            <div class="card mb-4 px-2">
                
            
-                <div class="card-body px-8 pt-3 mt-6  border rounded-3 mb-6" style="background-color: rgb(228, 234, 234)">
-                    <div class="card-header" style="background-color: rgb(228, 234, 234)">
-                        <h5 class="mb-3 text-dark text-center mt-1" style="font-size: 20px"><b>INFORME DE SESION DE CAJA
-                        </h5>
-    
-                    </div>
-    
-                    <div class="row mb-3" style="background-color: rgb(253, 253, 253); margin-left: -130px; padding-left: 120px">
-                        <div class="col">
-    
-                            <span class="fw-700">Fecha de Apertura:</span class="fw5">
-                          
-                            <span class="fw-normal">{{$apertura}}</span> 
-                            <br>
-                            <span class="fw-700">Fecha de Cierre:</span class="fw5">
-                            <span class="fw-normal">{{$cierre}}</span> 
-                            <br>
-                            <span class="fw-700">Responsable de Turno:</span class="fw5">
-                                <span class="fw-normal"></span> 
-                        </div>
-    
+                <div class="card-header mt-4" style="background-color: rgb(255, 255, 255)">
+                    <h5 class="mb-3 text-dark text-center mt-1" style="font-size: 20px"><b>INFORME DE SESION DE CAJA
+                    </h5>
+
+                </div>
+                <hr color="black" size="5">
+
+
+                <div class="row mb-1 px-6 mx-0">
+                    <div class="col">
+
+                        <h6 class="fw-800">Fecha de Apertura:</span>
                       
+                        <span class="fw-normal">{{$apertura}}</span> 
+                        <br>
+                        <span class="fw-700">Fecha de Cierre:</span>
+                        <span class="fw-normal">{{$cierre}}</span> 
+                        <br>
+                        <span class="fw-700">Responsable de Turno:</span>
+                            <span class="fw-normal">{{$nombre_usuario}}</span> 
                     </div>
-                    <div class="d-flex mb-3 hover:bg-secondary">
+                    
+                    
+                </div>
+                <hr color="black" size="7">
+                <div class="card-body px-12 pt-3 mt-4 mb-6" style="background-color: rgb(255, 255, 255)">
+                    <div class="d-flex mb-3">
                         <div class="me-auto p-2 bd-highlight">
                             <h6 class="text-lg">Saldo inicial de caja : </h6>
                         </div>
@@ -89,7 +92,6 @@
                         <div class="p-2 bd-highlight"><span class="me-5"> <b>{{ $movimiento->import }}</span></div>
                     </div>
 
-                    @if ($totalesIngresosV->count() > 0)
                         <div class="d-flex bd-highlight mb-1">
                             <div class="me-auto p-2 bd-highlight">
                                 <h6 class="text-lg">Ventas Realizadas durante la
@@ -97,17 +99,18 @@
                             </div>
                             <div class="p-2 bd-highlight">
                                 <span class="me-4">
-                                  <b>{{ number_format($totalesIngresosV->sum('importe'), 2) }}</b>
+                                <b>{{ number_format($totalesIngresosV->sum('importe'), 2) }}</b>
                                 </span>
-                                <a class="btn btn-secondary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaventas" aria-expanded="false" aria-controls="tablaventas">
+                                <a class="btn btn-primary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaventas" aria-expanded="false" aria-controls="tablaventas">
                                     <i class="fas fa-chevron-down collapse-icon collapsed"></i>
-                             
+                            
                                 </a>
-                                  
-                                  
-                              </div>
-                              
+                                
+                                
+                            </div>
+                            
                         </div>
+                    @if ($totalesIngresosV->count() > 0)
 
 
 
@@ -126,7 +129,7 @@
                                     @foreach ($totalesIngresosV as $p)
                                         <tr>
                                             <th class="align-middle">{{ $loop->iteration }}</th>
-                                            <td class="text-sm align-middle">
+                                            <td class="text-sm align-middle fw-normal">
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('H:i:s') }}
                                                 <br>
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/y') }}
@@ -243,7 +246,7 @@
 
                                                 </div>
                                             </td>
-                                            <td scope="row" class="text-center align-middle">
+                                            <td scope="row" class="text-center align-middle fw-normal">
                                                 {{ number_format($p->importe, 2) }}</td>
                                         </tr>
                                     @endforeach
@@ -255,15 +258,7 @@
 
 
                         </div>
-                    @else
-                        <div class="d-flex bd-highlight mb-3">
-                            <div class="me-auto p-2 bd-highlight">
-                                <h6 class="text-lg">Ventas Realizadas durante la
-                                    Sesion: </h6>
-                            </div>
-
-                            <div class="p-2 bd-highlight"><span> <b>0</span></div>
-                        </div>
+          
                     @endif
 
                     <div class="d-flex bd-highlight mb-3">
@@ -273,7 +268,7 @@
 
                         <div class="p-2 bd-highlight"><span class="me-4">
                                 <b>{{ number_format($totalesServicios->sum('importe'), 2) }}</span>
-                                    <a class="btn btn-secondary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaservicios" aria-expanded="false" aria-controls="tablaservicios">
+                                    <a class="btn btn-primary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaservicios" aria-expanded="false" aria-controls="tablaservicios">
                                         <i class="fas fa-chevron-down collapse-icon collapsed"></i>
                                  
                                     </a>
@@ -298,17 +293,17 @@
                                             <td class="text-sm text-center no">
                                                 {{ $loop->iteration }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('h:i:s') }}
                                                 <br>
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/y') }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
 
                                                 {{ 'Orden N° ' . $p->order_id . ',Servicio de ' . $p->servicio_solucion }}{{ $p->ctipo == 'efectivo' ? '(Pago en efectivo)' : '(Pago por transaccion de ' . $p->cnombre . ')' }}
                                             </td>
 
-                                            <td class="text-center">
+                                            <td class="text-center fw-normal">
                                                 <span class=" text-sm">
                                                     {{ number_format($p->importe, 2) }}
                                                 </span>
@@ -335,7 +330,7 @@
 
                         <div class="p-2 bd-highlight"><span class="me-3">
                                 <b>{{ number_format($totalesIngresosIE->sum('importe'), 2) }}</span>
-                                    <a class="btn btn-secondary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaotrosingresos" aria-expanded="false" aria-controls="tablaotrosingresos">
+                                    <a class="btn btn-primary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaotrosingresos" aria-expanded="false" aria-controls="tablaotrosingresos">
                                         <i class="fas fa-chevron-down collapse-icon collapsed"></i>
                                  
                                     </a>
@@ -360,18 +355,18 @@
                                             <td class="text-sm text-center">
                                                 {{ $loop->iteration }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('h:i:s') }}
                                                 <br>
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/y') }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
 
                                                 Ingreso
                                                 {{ $p->ctipo == 'efectivo' ? ' en efectivo' : 'por transaccion de ' . $p->cnombre . ')' }}
                                             </td>
 
-                                            <td class="text-center">
+                                            <td class="text-center fw-normal">
                                                 <span class=" text-sm">
                                                     {{ number_format($p->importe, 2) }}
                                                 </span>
@@ -397,7 +392,7 @@
 
                         <div class="p-2 bd-highlight"><span class="me-3">
                                 <b>{{ number_format($totalesEgresosIE->sum('importe'), 2) }}</span>
-                                    <a class="btn btn-secondary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaegresos" aria-expanded="false" aria-controls="tablaegresos">
+                                    <a class="btn btn-primary rounded-circle btn-sm btn-xs px-2 py-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tablaegresos" aria-expanded="false" aria-controls="tablaegresos">
                                         <i class="fas fa-chevron-down collapse-icon collapsed"></i>
                                  
                                     </a>
@@ -420,21 +415,21 @@
                                 <tbody>
                                     @foreach ($totalesEgresosIE as $p)
                                         <tr>
-                                            <td class="text-sm text-center no">
+                                            <td class="text-sm text-center">
                                                 {{ $loop->iteration }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('h:i:s') }}
                                                 <br>
                                                 {{ \Carbon\Carbon::parse($p->movcreacion)->format('d/m/y') }}
                                             </td>
-                                            <td class="text-sm">
+                                            <td class="text-sm fw-normal">
 
-                                                Ingreso
+                                                Egreso
                                                 {{ $p->ctipo == 'efectivo' ? ' en efectivo' : 'por transaccion de ' . $p->cnombre . ')' }}
                                             </td>
 
-                                            <td class="text-center">
+                                            <td class="text-center fw-normal">
                                                 <span class=" text-sm">
                                                     {{ number_format($p->importe, 2) }}
                                                 </span>
