@@ -17,13 +17,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-12 col-sm-6 col-md-3"></div>
-                    <div class="col-12 col-sm-6 col-md-6">
-                        <span class="text-sm tex-center">
-                            <b> Seleccione Accion:</b>
+                    <div class="col-12 col-sm-6 col-md-6 text-center">
+                        <span class="text-sm">
+                            Seleccione Accion:
                         </span>
-                        <br>
                         <select class="form-select">
                             <option value="">Cambiar Producto</option>
                             <option value="">Devolver Dinero</option>
@@ -32,34 +31,31 @@
                     <div class="col-12 col-sm-6 col-md-3"></div>
                 </div>
 
+                
+
 
 
 
                 <div class="row mb-3">
 
-                    <div class="col-6">
-                        <span class="text-sm text-center"
+                    <div class="col-6 text-center">
+                        <span class="text-sm"
                             title="Seleccione el destino de donde va ha sacar el producto ">
-                            <b> Devolver producto de:</b>
-
+                            Devolver Producto de:
                         </span>
                         <select wire:model='selected_destination_id' class="form-select text-center">
-                            <option value="0">seleccionar destino</option>
-
+                            <option value="0">Seleccionar</option>
                             @foreach ($list_destinations as $d)
                                 <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-6">
-                        <span class="text-sm text-center"
-                            title="Seleccione el destino de donde va ga guardar el prducto devuelto por el cliente.">
-                            <b>Guardar producto en:</b>
-
+                    <div class="col-6 text-center">
+                        <span class="text-sm" title="Seleccione el destino de donde va ga guardar el prducto devuelto por el cliente.">
+                            Guardar Producto en:
                         </span>
                         <select wire:model='selected_destination_entrance_id' class="form-select text-center">
-                            <option value="0">seleccionar destino</option>
-
+                            <option value="0">Seleccionar</option>
                             @foreach ($list_destinations as $d)
                                 <option value="{{ $d->id }}"> {{ $d->nombre }} </option>
                             @endforeach
@@ -74,21 +70,18 @@
 
 
                 @if ($this->selected_destination_id != 0)
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-12 text-center">
                             <b>Destino seleccionado:</b>
-
                             {{ $selected_destination_name }}
                         </div>
-
-                    </div>
+                    </div> --}}
 
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-4"> </div>
                         <div class="col-12 col-sm-6 col-md-4 text-center">
-                            <span class="text-sm "><b>
-                                    cantidad:
-                                </b>
+                            <span class="text-sm ">
+                                Cantidad:
                                 <input wire:model='received_amount' type="number" max="2" class="form-control"
                                     value="1">
                                 @error('received_amount')
