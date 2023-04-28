@@ -64,7 +64,7 @@
                         <div class="col text-start">
                             <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">BALANCE TOTAL</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. 456.00 
+                                Bs. 456.00
                             </h5>
 
                         </div>
@@ -96,7 +96,7 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(214, 3, 3)">EGRESOS TOTALES</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs.  850.00 
+                                Bs. 850.00
                             </h5>
 
                         </div>
@@ -112,32 +112,23 @@
             <div class="card-body">
 
                 <div class="row">
-              
-                    {{-- <div class="col">
-                        <div class="form-group">
-                            <label style="font-size: 1rem">Sucursal</label>
-                            <select wire:model="sucursal" class="form-select">
-                                @foreach ($sucursals as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
 
-                        </div>
-                    </div> --}}
+             
                     <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Carteras</label>
                             <select wire:model="caja" class="form-select">
                                 @foreach ($cajas2 as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
                                 @endforeach
                                 <option value="TODAS">TODAS</option>
                             </select>
 
                         </div>
                     </div>
-             
-                
+
+
                     <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Tipo Movimiento</label>
@@ -187,38 +178,37 @@
                     <div class="form-group mt-4">
                         <div class="input-group mb-4">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
-                            <input type="text" wire:model="search" placeholder="Buscar..."
-                                class="form-control ">
+                            <input type="text" wire:model="search" placeholder="Buscar..." class="form-control ">
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                <div class="row">
-                    <div class="col">
+                    <div class="row">
+                        <div class="col">
 
-                        <div class="form-group">
-                            <h7 class="text-xs">Fecha inicial</h7>
-                            <input type="date" wire:model="fromDate" class="form-control">
-                            @error('fromDate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            <div class="form-group">
+                                <h7 class="text-xs">Fecha inicial</h7>
+                                <input type="date" wire:model="fromDate" class="form-control">
+                                @error('fromDate')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col">
+
+                            <div class="form-group">
+                                <h7 class="text-xs">Fecha final</h7>
+                                <input type="date" wire:model="toDate" class="form-control">
+                                @error('toDate')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
 
-                        <div class="form-group">
-                            <h7 class="text-xs">Fecha final</h7>
-                            <input type="date" wire:model="toDate" class="form-control">
-                            @error('toDate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-        
-                        </div>
-                    </div>
-                </div>
-                 
-                   
-                   
+
+
                 </div>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
@@ -275,10 +265,10 @@
 
 
                                     <td class="text-sm">
-                                        
-                                            {{ $p->carteramovtype }} 
-                                            <br>{{ $p->nombre }}
-                                        
+
+                                        {{ $p->carteramovtype }}
+                                        <br>{{ $p->nombre }}
+
                                     </td>
                                     <td class="text-sm">
                                         @if ($p->tipoDeMovimiento == 'SOBRANTE')
@@ -290,19 +280,19 @@
                                         @endif
                                     </td>
                                     <td class="text-sm">
-                                      
-                                            @if ($p->nombrecategoria != null)
-                                                {{ $p->nombrecategoria }}
-                                            @else
-                                                S/Categoria
-                                            @endif
-                                      
+
+                                        @if ($p->nombrecategoria != null)
+                                            {{ $p->nombrecategoria }}
+                                        @else
+                                            S/Categoria
+                                        @endif
+
                                     </td>
                                     <td style="text-sm text-align: right;">
                                         {{ number_format($p->import, 2) }}
                                     </td>
-                            
-                               
+
+
 
 
 
@@ -319,9 +309,9 @@
                                             <i class="fas fa-trash text-danger"></i>
                                         </a>
                                     </td>
-                            
 
-                            </tr>
+
+                                </tr>
                             @endforeach
                         </tbody>
 

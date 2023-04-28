@@ -74,7 +74,8 @@ class IngresoEgresoController extends Component
                         ->get();
             //dd($sucursales);
 
-            $cajab=Caja::where('cajas.sucursal_id',$this->sucursal)->where('cajas.nombre','!=','Caja General')->get();
+            $cajab=Caja::join('carteras','carteras.caja_id','cajas.id')
+            ->select('carteras.nombre as carteranombre','carteras.id','cajas.nombre as cajanombre');
         }
 
         if ($this->caja == 'TODAS')
