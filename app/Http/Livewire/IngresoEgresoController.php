@@ -77,8 +77,6 @@ class IngresoEgresoController extends Component
             $cajab=Caja::where('cajas.sucursal_id',$this->sucursal)->where('cajas.nombre','!=','Caja General')->get();
         }
 
-     
-
         if ($this->caja == 'TODAS')
         {
             $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
@@ -114,9 +112,6 @@ class IngresoEgresoController extends Component
             /* REALIZAR CALCULO DE INGRESOS - EGRESOS */
             $c->monto = $INGRESOS - $EGRESOS;
         }
-
-
-
 
         if($this->tipo_movimiento == "TODOS")
         {

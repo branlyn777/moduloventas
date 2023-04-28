@@ -1,14 +1,14 @@
 @section('migaspan')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm">
+            <li class="breadcrumb-item text-xs">
                 <a class="text-white" href="javascript:;">
                     <i class="ni ni-box-2"></i>
                 </a>
             </li>
-            <li class="breadcrumb-item text-sm text-white"><a class="opacity-5 text-white"
+            <li class="breadcrumb-item text-xs text-white"><a class="opacity-5 text-white"
                     href="{{ url('') }}">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Gestion</li>
+            <li class="breadcrumb-item text-xs text-white active" aria-current="page">Gestion</li>
         </ol>
         <h6 class="font-weight-bolder mb-0 text-white"> Ingresos y Egresos </h6>
     </nav>
@@ -59,12 +59,12 @@
         <div class="col-4">
 
             <div class="card">
-                <div class="card-body p-3 py-5 position-relative">
+                <div class="card-body p-3 py-4 position-relative">
                     <div class="row">
-                        <div class="col-12 text-start">
-                            <p class="text-sm mb-1 text-uppercase font-weight-bold">BALANCE TOTAL</p>
+                        <div class="col text-start">
+                            <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">BALANCE TOTAL</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                456.00 Bs
+                                Bs. 456.00 
                             </h5>
 
                         </div>
@@ -74,52 +74,29 @@
         </div>
         <div class="col-4">
             <div class="card">
-                <div class="card-body p-3 py-5 position-relative">
+                <div class="card-body p-3 py-4 position-relative">
                     <div class="row">
                         <div class="col-12 text-start">
-                            <p class="text-sm mb-1 text-uppercase font-weight-bold">TOTAL BALANCE</p>
+                            <h6 class="mb-2 text-sm" style="color: rgb(4, 202, 96)">INGRESOS TOTALES</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                456 Bs
+                                Bs. 900.00
                             </h5>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- 
-                @foreach ($grouped as $key => $item)
-                    <div class="card mx-2">
-                        <div class="card-body position-relative">
-                            <div class="row">
-
-                                <h6> Caja: {{ $key }}</h6>
-                                <h6>
-                                    @foreach ($item as $dum)
-                                        <div>{{ $dum->carteraNombre }}:{{ $dum->saldocartera }}</div>
-                                    @endforeach
-                                </h6>
-                                <div class="dropdown text-end">
-                                    <a href="javascript:;" class="cursor-pointer text-secondary" id="dropdownUsers1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                  
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach --}}
         </div>
 
         <div class="col-4">
 
             <div class="card">
-                <div class="card-body p-3 py-5 position-relative">
+                <div class="card-body p-3 py-4 position-relative">
                     <div class="row">
                         <div class="col-12 text-start">
-                            <p class="text-sm mb-1 text-uppercase font-weight-bold">TOTAL BALANCE</p>
+                            <h5 class="mb-2 text-sm" style="color: rgb(214, 3, 3)">EGRESOS TOTALES</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                456 Bs
+                                Bs.  850.00 
                             </h5>
 
                         </div>
@@ -134,52 +111,9 @@
         <div class="card">
             <div class="card-body">
 
-                <div class="row justify-content-between">
-
-                    <div class="col-sm-12 col-md-4">
-                        <div class="form-group">
-                            <label style="font-size: 1rem">Buscar</label>
-                            {{-- <div class="input-group mb-4">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text input-gp">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" wire:model="search" placeholder="Buscar" class="form-control">
-                                </div> --}}
-                            <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar"
-                                        class="form-control ">
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group">
-                            <label style="font-size: 1rem">Fecha inicial</label>
-                            <input type="date" wire:model="fromDate" class="form-control">
-                            @error('fromDate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
-                        <div class="form-group">
-                            <label style="font-size: 1rem">Fecha final</label>
-                            <input type="date" wire:model="toDate" class="form-control">
-                            @error('toDate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
+                <div class="row">
+              
+                    {{-- <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Sucursal</label>
                             <select wire:model="sucursal" class="form-select">
@@ -189,10 +123,10 @@
                             </select>
 
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-md-2">
+                    </div> --}}
+                    <div class="col">
                         <div class="form-group">
-                            <label style="font-size: 1rem">Cajas</label>
+                            <label style="font-size: 1rem">Carteras</label>
                             <select wire:model="caja" class="form-select">
                                 @foreach ($cajas2 as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -202,24 +136,20 @@
 
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12 col-md-8">
-
-                    </div>
-                    <div class="col-sm-12 col-md-2">
+             
+                
+                    <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Tipo Movimiento</label>
                             <select wire:model='tipo_movimiento' class="form-select">
-                                <option class="text-uppercase text-sm ps-2" value="TODOS">Todos</option>
-                                <option class="text-uppercase text-sm ps-2" value="INGRESO">Ingreso</option>
-                                <option class="text-uppercase text-sm ps-2" value="EGRESO">Egreso</option>
-                                <option class="text-uppercase text-sm ps-2" value="AJUSTE">Ajustes</option>
+                                <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
+                                <option class="text-uppercase text-xs ps-2" value="INGRESO">Ingreso</option>
+                                <option class="text-uppercase text-xs ps-2" value="EGRESO">Egreso</option>
+                                <option class="text-uppercase text-xs ps-2" value="AJUSTE">Ajustes</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-2">
+                    <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Categoria</label>
                             <select wire:model='categoria_id' class="form-select">
@@ -243,91 +173,87 @@
             </div>
 
         </div>
-{{-- 
+
         <br>
-        <div class="card">
-            <div class="text-center m-4">
-                <div class="row">
-                    <div class="col-6">
-                        <span class="bg-warning text-white p-2 border-round ">
-                            <b>
-                                TOTAL Bs. {{ number_format($sumaTotal, 2) }}
-                            </b>
-                        </span>
-                    </div>
-                    <div class="col-6">
-                        <span class="bg-danger text-white p-2">
-                            <b>
-                                <b>TOTAL $us. {{ number_format($sumaTotal / $cot_dolar, 2) }}</b>
-                            </b>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        <br>
-       
+
     </div>
 
     <div class="row mt-2 m-1">
         <div class="card mb-4">
+            <h6 class="mt-3">Historial de Transacciones</h6>
+            <div class="row">
+                <div class="col">
 
+                    <div class="form-group mt-4">
+                        <div class="input-group mb-4">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" wire:model="search" placeholder="Buscar..."
+                                class="form-control ">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                <div class="row">
+                    <div class="col">
+
+                        <div class="form-group">
+                            <h7 class="text-xs">Fecha inicial</h7>
+                            <input type="date" wire:model="fromDate" class="form-control">
+                            @error('fromDate')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col">
+
+                        <div class="form-group">
+                            <h7 class="text-xs">Fecha final</h7>
+                            <input type="date" wire:model="toDate" class="form-control">
+                            @error('toDate')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+        
+                        </div>
+                    </div>
+                </div>
+                 
+                   
+                   
+                </div>
+            </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <div class="table-responsive p-0">
+                <div class="table-responsive p-0 mt-0">
                     <table class="table align-items-center mb-0">
 
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-sm text-center">#</th>
-                                <th class="text-uppercase text-sm ps-2">FECHA</th>
-                                <th class="text-uppercase text-sm ps-2">MOVIMIENTO</th>
-                                <th class="text-uppercase text-sm ps-2">CATEGORIA</th>
-                                <th class="text-uppercase text-sm ps-2">IMPORTE</th>
-                                <th class="text-uppercase text-sm ps-2">MOTIVO</th>
-                                <th class="text-uppercase text-sm ps-2">USUARIO</th>
-                                <th class="text-uppercase text-sm ps-2">ESTADO</th>
-                                <th class="text-uppercase text-sm text-center">ACCION</th>
+                                <th class="col text-uppercase text-xs text-center">#</th>
+                                <th class="col text-uppercase text-xs text-center">FECHA</th>
+                                <th class="col-3 text-uppercase text-xs ps-2">USUARIO</th>
+                                <th class="col text-uppercase text-xs ps-2">ESTADO</th>
+                                <th class="text-uppercase text-xs ps-2">MOVIMIENTO</th>
+                                <th class="text-uppercase text-xs ps-2">MOTIVO</th>
+                                <th class="text-uppercase text-xs ps-2">CATEGORIA</th>
+                                <th class="text-uppercase text-xs ps-2">IMPORTE</th>
+                                <th class="text-uppercase text-xs text-center">ACC.</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $p)
                                 <tr>
-                                    <td>
-                                        <p>{{ $loop->iteration }}</p>
+                                    <td class="text-sm text-center">
+                                        {{ $loop->iteration }}
                                     </td>
-                                    <td>
-                                        <p>{{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/Y') }}
-                                            {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format(' H:i') }}</p>
+                                    <td class="text-sm text-center">
+                                        {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format('d/m/y') }}
+                                        <br>
+                                        {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format(' H:i:s') }}
                                     </td>
-                                    <td>
-                                        <p>
-                                            {{ $p->carteramovtype }} {{ $p->nombre }}
-                                        </p>
+
+                                    <td class="text-sm">
+                                        {{ $p->usuarioNombre }}
                                     </td>
-                                    <td>
-                                        <p>
-                                            @if ($p->nombrecategoria != null)
-                                                {{ $p->nombrecategoria }}
-                                            @else
-                                                Sin Categoria
-                                            @endif
-                                        </p>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <p>{{ number_format($p->import, 2) }}</p>
-                                    </td>
-                                    <td>
-                                        @if ($p->tipoDeMovimiento == 'SOBRANTE')
-                                            <p>SOBRANTE:{{ $p->comentario }}</p>
-                                        @elseif($p->tipoDeMovimiento == 'FALTANTE')
-                                            <p>FALTANTE:{{ $p->comentario }}</p>
-                                        @else
-                                            <p>{{ $p->comentario }}</p>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <p>{{ $p->usuarioNombre }}</p>
-                                    </td>
+
                                     @if ($p->movstatus == 'ACTIVO')
                                         <td>
                                             <span class="badge badge-sm bg-gradient-success">
@@ -342,27 +268,60 @@
                                         </td>
                                     @endif
 
-                                    @if ($p->movstatus == 'INACTIVO')
-                                        <td class="align-middle text-center">
-                                            --
-                                        </td>
-                                    @else
-                                        <td class="align-middle text-center">
-                                            <a href="javascript:void(0)"
-                                                wire:click="editarOperacion({{ $p->movid }})"
-                                                title="Editar Ingreso/egreso">
-                                                <i class="fas fa-edit text-info"></i>
-                                            </a>
 
-                                            <a href="javascript:void(0)" href="javascript:void(0)"
-                                                onclick="Confirm('{{ $p->movid }}')"
-                                                title="Anular Ingreso/Egreso">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </a>
-                                        </td>
-                                    @endif
 
-                                </tr>
+
+
+
+
+                                    <td class="text-sm">
+                                        
+                                            {{ $p->carteramovtype }} 
+                                            <br>{{ $p->nombre }}
+                                        
+                                    </td>
+                                    <td class="text-sm">
+                                        @if ($p->tipoDeMovimiento == 'SOBRANTE')
+                                            SOBRANTE:{{ $p->comentario }}
+                                        @elseif($p->tipoDeMovimiento == 'FALTANTE')
+                                            FALTANTE:{{ $p->comentario }}
+                                        @else
+                                            {{ $p->comentario }}
+                                        @endif
+                                    </td>
+                                    <td class="text-sm">
+                                      
+                                            @if ($p->nombrecategoria != null)
+                                                {{ $p->nombrecategoria }}
+                                            @else
+                                                S/Categoria
+                                            @endif
+                                      
+                                    </td>
+                                    <td style="text-sm text-align: right;">
+                                        {{ number_format($p->import, 2) }}
+                                    </td>
+                            
+                               
+
+
+
+
+                                    <td class="text-sm align-middle text-center">
+                                        <a href="javascript:void(0)"
+                                            wire:click="editarOperacion({{ $p->movid }})"
+                                            title="Editar Ingreso/egreso">
+                                            <i class="fas fa-edit text-info"></i>
+                                        </a>
+
+                                        <a href="javascript:void(0)" href="javascript:void(0)"
+                                            onclick="Confirm('{{ $p->movid }}')" title="Anular Ingreso/Egreso">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </a>
+                                    </td>
+                            
+
+                            </tr>
                             @endforeach
                         </tbody>
 
