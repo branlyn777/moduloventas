@@ -110,10 +110,26 @@
     <div class="row mt-3 m-1">
         <div class="card">
             <div class="card-body">
+                <div class="row justify-content-end">
 
+                    <div class="col-auto">
+
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined"
+                                autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="primary-outlined">Por Caja</label>
+
+                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined"
+                                autocomplete="off">
+                            <label class="btn btn-outline-dark" for="dark-outlined">Por Cartera</label>
+
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
 
-             
+
+
                     <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Carteras</label>
@@ -171,8 +187,8 @@
 
     <div class="row mt-2 m-1">
         <div class="card mb-4">
-            <h6 class="mt-3">Historial de Transacciones</h6>
-            <div class="row">
+            <h6 class="m-3 mt-4 ">Historial de Transacciones</h6>
+            <div class="row m-2">
                 <div class="col">
 
                     <div class="form-group mt-4">
@@ -212,7 +228,7 @@
                 </div>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <div class="table-responsive p-0 mt-0">
+                <div class="table-responsive p-0 mt-0 mb-5">
                     <table class="table align-items-center mb-0">
 
                         <thead>

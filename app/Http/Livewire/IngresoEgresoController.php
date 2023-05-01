@@ -51,17 +51,19 @@ class IngresoEgresoController extends Component
     }
     public function render()
     {
+        
         if (Auth::user()->hasPermissionTo('Admin_Views') or Auth::user()->hasPermissionTo('Caja_Index'))
         {
             $this->sucursals= Sucursal::all();
             if ($this->sucursal == 'TODAS')
             {
-                $cajab=Caja::where('cajas.nombre','!=','Caja General')->get();
+                // $cajab=Caja::where('cajas.nombre','!=','Caja General')->get();
+                $cajab=Caja::join('carteras','carteras.caja_id','cajas.id')
+                ->select('carteras.nombre as carteranombre','carteras.id','cajas.nombre as cajanombre');
             }
             else
             {
                 $cajab=Caja::where('cajas.sucursal_id',$this->sucursal)->where('cajas.nombre','!=','Caja General')->get();
-
             }
         }
         else
