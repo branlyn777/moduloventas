@@ -114,22 +114,20 @@
 
                     <div class="col-auto">
 
+                        <h1>{{$carteraselected}}</h1>
                         <div class="btn-group">
-                            <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined"
-                                autocomplete="off" checked>
+                            <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined" wire:model="cajaselected" wire:click='cambio_option'
+                            {{$cajaselected=='on'?'checked':' '}}  autocomplete="off">
                             <label class="btn btn-outline-primary" for="primary-outlined">Por Caja</label>
 
-                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined"
-                                autocomplete="off">
+                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" wire:model="carteraselected"  wire:click='cambio_option'
+                                autocomplete="off" {{$carteraselected=='on'?'checked':' '}}>
                             <label class="btn btn-outline-dark" for="dark-outlined">Por Cartera</label>
 
                         </div>
                     </div>
                 </div>
                 <div class="row">
-
-
-
                     <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Carteras</label>

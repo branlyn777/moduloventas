@@ -20,7 +20,7 @@ class IngresoEgresoController extends Component
 
     public $fromDate,$toDate,$caja,$data,$search,$cv,$sucursal,$sucursals,$sumaTotal,$cantidad,$mov_selected,$cantidad_edit,$comentario_edit,$carterasSucursal,$mensaje_toast,$saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit,$type_edit, $selected_id, $opciones, $cartera_id, $type, $comentario,$cartajusteselected;
+    public $cartera_id_edit,$type_edit, $selected_id, $opciones, $cartera_id, $type, $comentario,$cartajusteselected,$cajaselected,$carteraselected;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -46,6 +46,7 @@ class IngresoEgresoController extends Component
         $this->categoria_id = 'Todos';
         //Variable para guardar el id de una categoria en la ventana modal modalDetails
         $this->categoria_ie_id = "Elegir";
+        $this->carteraselected='on';
        //$this->sucursal=collect();
 
     }
@@ -1098,5 +1099,13 @@ class IngresoEgresoController extends Component
         ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc','car.tipo as tipo')
         ->get();
         return $carteras;
+    }
+
+    public function cambio_option(){
+
+        dump($this->cajaselected);
+        $this->cajaselected=$this->carteraselected=='on'?$this->cajaselected=='off':$this->cajaselected=='on';
+        $this->carteraselected=$this->cajaselected=='on'?$this->carteraselected=='off':$this->carteraselected=='on';
+        dump($this->cajaselected,$this->carteraselected);
     }
 }
