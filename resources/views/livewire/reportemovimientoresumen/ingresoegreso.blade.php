@@ -25,6 +25,8 @@
 @endsection
 
 
+
+
 <div>
     <div class="row mb-3">
         <div class="col-12">
@@ -114,34 +116,72 @@
 
                     <div class="col-auto">
 
-                        <h1>{{$carteraselected}}</h1>
-                        <div class="btn-group">
-                            <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined" wire:model="cajaselected" wire:click='cambio_option'
-                            {{$cajaselected=='on'?'checked':' '}}  autocomplete="off">
-                            <label class="btn btn-outline-primary" for="primary-outlined">Por Caja</label>
+                        <div class="row">
+                            <div class="col">
 
-                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" wire:model="carteraselected"  wire:click='cambio_option'
-                                autocomplete="off" {{$carteraselected=='on'?'checked':' '}}>
-                            <label class="btn btn-outline-dark" for="dark-outlined">Por Cartera</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="toggleSwitch"
+                                        {{ $cajaselected == 'true' ? 'checked' : '' }} wire:click="$toggle('cajaselected')">
+                                    <label class="form-check-label" for="toggleSwitch">
 
+
+                                        <span class="option2">Por caja</span>
+
+
+
+                                    </label>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label style="font-size: 1rem">Carteras</label>
-                            <select wire:model="caja" class="form-select">
-                                @foreach ($cajas2 as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
-                                @endforeach
-                                <option value="TODAS">TODAS</option>
-                            </select>
+                    @if ($cajaselected == 'true')
+                        <div class="col">
 
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Sucursal</label>
+                                <select wire:model="caja" class="form-select">
+                                    @foreach ($cajas2 as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
+                                    @endforeach
+                                    <option value="TODAS">TODAS</option>
+                                </select>
+
+                            </div>
                         </div>
-                    </div>
+                        <div class="col">
 
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Cajas</label>
+                                <select wire:model="caja" class="form-select">
+                                    @foreach ($cajas2 as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
+                                    @endforeach
+                                    <option value="TODAS">TODAS</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    @else
+                        <div class="col">
+                            <div class="form-group">
+                                <label style="font-size: 1rem">Carteras</label>
+                                <select wire:model="carterasel" class="form-select">
+                                    @foreach ($cajas2 as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->carteranombre }}</option>
+                                    @endforeach
+                                    <option value="TODAS">TODAS</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                    @endif
 
                     <div class="col">
                         <div class="form-group">
