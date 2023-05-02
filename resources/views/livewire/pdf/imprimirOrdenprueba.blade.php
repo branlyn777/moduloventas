@@ -38,7 +38,7 @@
                         <div style=" font-size: 7pt; line-height: 12px">
                             <b>CELULAR: </b>{{ $cliente->telefono == 0 ? ' ' : $cliente->telefono . '-' }}
                             {{ $cliente->celular }}<br>
-                            <b>SERVICIO: </b>{{ $loop->iteration }}&nbsp;&nbsp;<br <b>DESCRIPCIÓN:
+                            <b>SERVICIO: </b>{{ $loop->iteration }}&nbsp;&nbsp;<br> <b>DESCRIPCIÓN:
                             </b>{{ $s->mark }} {{ $s->detail }}<br>
                             <b>FALLA:</b>{{ $s->client_fail }}
                             <br>
@@ -107,7 +107,7 @@
                                     <td width="50%">
                                         <div class="col-sm-6 col-md-6" style="text-align: right ;">
                                             <div class="text-bold" style=" margin-top: 0px; margin-bottom: 0px;">
-                                                <u style="font-size: 10px;">Soluciones Informaticas Emanuel
+                                                <u style="font-size: 10px;">{{$nombre_empresa}}
                                                 </u></span><br>
                                             </div>
                                             <!--<font size="2"><b>Nro.:  </b></font>-->
@@ -170,7 +170,7 @@
                                 <tr>
                                     <td style="font-size: 10px; width: 10cm">
                                         <b>SERVICIO: </b>{{ $loop->iteration }}&nbsp;&nbsp;<br>
-                                        <b>DESCRIPCIÓN:</b>{{ $s->detail }} {{ $s->mark }}<br>
+                                        <b>DESCRIPCIÓN: </b>{{ $s->detail }} {{ $s->mark }}<br>
                                         <b>FALLA SEGUN CLIENTE: </b>{{ $s->client_fail }}<br>
                                         <b>DIAGNÓSTICO: </b>{{ $s->diag }}<br>
                                         <b>SOLUCIÓN: </b>{{ $s->servi }}<br>
@@ -228,7 +228,7 @@
                                     $today = date('d-m-Y H:i', time());
                                 @endphp
 
-                                CCA: SIS.INF. Soluciones Informaticas Emanuel |
+                                CCA:{{$nombre_empresa}} |
                                 {{ \Carbon\Carbon::parse($s->inicio)->format('d/m/Y ') }}
                             </div>
                         </div>

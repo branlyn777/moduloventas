@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\MovService;
 use App\Models\OrderService;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -32,10 +33,11 @@ class ImprimirController extends Controller
             ->first();
         //nombre de cliente
         $cliente = $this->get_client($idOrdenServicio);
+        $nombre_empresa=Company::find(1)->name;
         //usuarios
         // $usuario = User::find()
 
-        $pdf = PDF::loadView('livewire.pdf.imprimirOrdenprueba', compact('servicios','data', 'sucursal', 'cliente', 'servicio','orden_servicio'));
+        $pdf = PDF::loadView('livewire.pdf.imprimirOrdenprueba', compact('servicios','data', 'sucursal', 'cliente', 'servicio','orden_servicio','nombre_empresa'));
         /* $pdf->setPaper("A4", "landscape"); //orientacion y tamaño */
 
         return $pdf->stream('OrdenTrServicio.pdf');  //visualizar
