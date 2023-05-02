@@ -16,6 +16,8 @@ use App\Models\Cotization;
 use App\Models\CotizationDetail;
 use App\Models\Destino;
 use App\Models\DestinoSucursal;
+use App\Models\DetalleEntradaProductos;
+use App\Models\IngresoProductos;
 use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\OperacionesCarterasCompartidas;
@@ -64,7 +66,7 @@ class PosController extends Component
     //Variable para mostrar en un Mensaje Toast (Mensaje Emergente Arriba a la derecha en la Pantalla)
     public $mensaje_toast;
     //Variable para guardar la cantidad de dinero y cambio que se debe dar al cliente en una venta
-    public $dinero_recibido, $cambio; 
+    public $dinero_recibido, $cambio;
     //Lista de destinos dentro de la sucursal (menos tienda) para mostrar en la ventana nodal stock insuficiente
     public $listadestinos;
     //Para guardar el nombre de un producto
@@ -112,7 +114,7 @@ class PosController extends Component
 
 
     //Cotizacion
-    public $finaldatecotization;
+    public $finaldatecotization, $product_cost;
 
 
     use WithPagination;
@@ -126,35 +128,33 @@ class PosController extends Component
     }
     public function mount()
     {
-        $this->selloutofstock = false;
+        $this->extraquantity = 1;
+        $this->selloutofstock = true;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
         $this->categoria_id_ie = "Elegir";
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-        ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
-        ->join('carteras as car', 'cajas.id', 'car.caja_id')
-        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
-        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
-        ->where('mov.user_id', Auth()->user()->id)
-        ->where('mov.status', 'ACTIVO')
-        ->where('mov.type', 'APERTURA')
-        ->select('cajas.id as id')
-        ->get();
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->select('cajas.id as id')
+            ->get();
 
 
-        if($cajausuario->count() > 0)
-        {
+        if ($cajausuario->count() > 0) {
             $this->corte_caja = true;
             $this->caja_abierta_id = $cajausuario->first()->id;
-        }
-        else
-        {
+        } else {
             $this->corte_caja = false;
         }
 
-        $this->destino_id = DestinoSucursal::where("destino_sucursals.sucursal_id",$this->idsucursal())->first()->destino_id;
+        $this->destino_id = DestinoSucursal::where("destino_sucursals.sucursal_id", $this->idsucursal())->first()->destino_id;
 
 
         $this->paginacion = 10;
@@ -168,10 +168,8 @@ class PosController extends Component
         $this->observacion = "";
         $this->lotes_producto = [];
         $this->precio_promedio = 0;
-        foreach($this->listarcarteras() as $list)
-        {
-            if($list->tipo == 'efectivo')
-            {
+        foreach ($this->listarcarteras() as $list) {
+            if ($list->tipo == 'efectivo') {
                 $this->cartera_id = $list->idcartera;
                 break;
             }
@@ -185,78 +183,72 @@ class PosController extends Component
     }
     public function render()
     {
-        if($this->categoria_id_ie != "Elegir")
+        if ($this->categoria_id_ie != "Elegir")
         {
             $this->detallecategoria = CarteraMovCategoria::find($this->categoria_id_ie)->detalle;
         }
 
-        
+
         //Categorias para Ingresos y Egresos
-        $categorias_ie = CarteraMovCategoria::where("cartera_mov_categorias.tipo",$this->tipo_movimiento_ie)->get();
+        $categorias_ie = CarteraMovCategoria::where("cartera_mov_categorias.tipo", $this->tipo_movimiento_ie)->get();
 
         /* Caja en la cual se encuentra el usuario */
         $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
-        ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
-        ->join('carteras as car', 'cajas.id', 'car.caja_id')
-        ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
-        ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
-        ->where('mov.user_id', Auth()->user()->id)
-        ->where('mov.status', 'ACTIVO')
-        ->where('mov.type', 'APERTURA')
-        ->select('cajas.id as id')
-        ->get();
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->select('cajas.id as id')
+            ->get();
 
-        
 
-        if($cajausuario->count() > 0)
-        {
+
+        if ($cajausuario->count() > 0) {
             $this->corte_caja = true;
             $this->caja_abierta_id = $cajausuario->first()->id;
-        }
-        else
-        {
+        } else {
             $this->corte_caja = false;
         }
 
 
         //Variable para guardar todos los productos encontrados que contengan el nombre o código en $buscarproducto
         $listaproductos = [];
-        if($this->buscarproducto != "")
+        if ($this->buscarproducto != "")
         {
-            // $listaproductos = Product::join("productos_destinos as pd", "pd.product_id", "products.id")
-            // ->join('destinos as des', 'des.id', 'pd.destino_id')
-            // ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
-            // "pd.stock as stock", "products.codigo as barcode", "products.status as estado")
-            // ->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
-            // ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%')
-            // ->distinct()
-            // ->paginate($this->paginacion);
-
             $listaproductos = Product::distinct()
             ->join("productos_destinos as pd", "pd.product_id", "products.id")
-            ->select("products.id as id","products.nombre as nombre", "products.image as image", "products.precio_venta as precio_venta",
-            "products.codigo as barcode", "products.status as estado")
-            ->where(function ($query) {
-                $query->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
-                      ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%');
-            })
-            ->paginate($this->paginacion);
+            ->select(
+                    "products.id as id",
+                    "products.nombre as nombre",
+                    "products.image as image",
+                    "products.precio_venta as precio_venta",
+                    "products.codigo as barcode",
+                    "products.status as estado"
+                )
+                ->where(function ($query) {
+                    $query->where('products.nombre', 'like', '%' . $this->buscarproducto . '%')
+                        ->orWhere('products.codigo', 'like', '%' . $this->buscarproducto . '%');
+                })
+                ->paginate($this->paginacion);
             // $this->resetPage();
 
         }
         //---------------------------------------------------------------------------------------------------------
         //Modulo para Calcular el Cambio
-        if($this->dinero_recibido < 0 || $this->dinero_recibido == "-")
+        if ($this->dinero_recibido < 0 || $this->dinero_recibido == "-")
         {
             $this->dinero_recibido = 0;
         }
-        if($this->dinero_recibido != "")
+        if ($this->dinero_recibido != "")
         {
             $this->cambio = $this->dinero_recibido - $this->total_bs;
         }
         //---------------------------------------------------------------
         //Modulo para cambiar a si o no la variable $invoice (Factura)
-        if($this->factura)
+        if ($this->factura)
         {
             $this->invoice = "Si";
         }
@@ -267,25 +259,26 @@ class PosController extends Component
         //---------------------------------------------------------------
         //Lista a todos los clientes que tengan el nombre de la variable $this->buscarcliente
         $listaclientes = [];
-        if(strlen($this->buscarcliente) > 0)
+        if (strlen($this->buscarcliente) > 0)
         {
             $listaclientes = Cliente::select("clientes.*")
             ->where('clientes.nombre', 'like', '%' . $this->buscarcliente . '%')
-            ->orderBy("clientes.created_at","desc")
+            ->orderBy("clientes.created_at", "desc")
             ->get();
         }
-
-
 
         //Actualizar los valores de Total Bs y Total Artículos en una Venta
         $this->actualizarvalores();
 
-        //dd($this->listarcarterasg());
 
 
 
+        //Devolución en Ventas
 
-        
+        $list_product_devolution = Product::where("status","ACTIVO")->paginate(10);
+
+
+        //------------------
 
 
 
@@ -299,28 +292,28 @@ class PosController extends Component
             'listaclientes' => $listaclientes,
             'nombrecliente' => Cliente::find($this->cliente_id)->nombre,
             'nombrecartera' => $this->nombrecartera(),
-            'categorias_ie' => $categorias_ie
+            'categorias_ie' => $categorias_ie,
+            'list_product_devolution' => $list_product_devolution
 
         ])
-        ->extends('layouts.theme.app')
-        ->section('content');
+            ->extends('layouts.theme.app')
+            ->section('content');
     }
     //Obtener el Id de la Sucursal donde esta el Usuario
     public function idsucursal()
     {
-        $idsucursal = User::join("sucursal_users as su","su.user_id","users.id")
-        ->select("su.sucursal_id as id","users.name as n")
-        ->where("users.id",Auth()->user()->id)
-        ->where("su.estado","ACTIVO")
-        ->get()
-        ->first();
+        $idsucursal = User::join("sucursal_users as su", "su.user_id", "users.id")
+            ->select("su.sucursal_id as id", "users.name as n")
+            ->where("users.id", Auth()->user()->id)
+            ->where("su.estado", "ACTIVO")
+            ->get()
+            ->first();
         return $idsucursal->id;
     }
     //Poner la variable $clienteanonimo en true o false dependiendo el caso
     public function clienteanonimo()
     {
-        if($this->clienteanonimo)
-        {
+        if ($this->clienteanonimo) {
             $this->clienteanonimo = false;
             $this->mensaje_toast = "Por favor cree o seleccione a un cliente, si no lo hace, se usará a un cliente anónimo";
             $this->emit('clienteanonimo-false');
@@ -336,20 +329,19 @@ class PosController extends Component
     //Obtener el id de un cliente anónimo, si no existe creará uno
     public function clienteanonimo_id()
     {
-        $client = Cliente::select('clientes.nombre as nombrecliente','clientes.id as idcliente')
-        ->where('clientes.nombre','Cliente Anónimo')
-        ->get();
-        
-        if($client->count() > 0)
+        $client = Cliente::select('clientes.nombre as nombrecliente', 'clientes.id as idcliente')
+            ->where('clientes.nombre', 'Cliente Anónimo')
+            ->get();
+
+        if ($client->count() > 0)
         {
             return $client->first()->idcliente;
         }
         else
         {
-            $procedencia = ProcedenciaCliente::where('procedencia_clientes.procedencia','Venta')
-            ->get();
-            if($procedencia->count() > 0)
-            {
+            $procedencia = ProcedenciaCliente::where('procedencia_clientes.procedencia', 'Venta')
+                ->get();
+            if ($procedencia->count() > 0) {
                 $cliente_anonimo = Cliente::create([
                     'nombre' => "Cliente Anónimo",
                     'procedencia_cliente_id' => $procedencia->first()->id
@@ -382,54 +374,53 @@ class PosController extends Component
     {
         $product_cart = Cart::get($producto->id);
         //Verificamos que exista stock en la TIENDA de la sucursal
-        if($this->stocktienda($producto->id, 1))
+        if ($this->stocktienda($producto->id, 1))
         {
             //Para saber si el Producto ya esta en el carrrito para cambiar el Mensaje Toast de Producto Agregado a Cantidad Actualizada
-            if ($product_cart)
-            {
-                $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre)."'!";
-                if($producto->image == null)
+            if ($product_cart) {
+                $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre) . "'!";
+                if ($producto->image == null)
                 {
-
-                    Cart::add($product_cart->id, $product_cart->name, $product_cart->price, 1 , 'noimgproduct.png');
+                    Cart::add($product_cart->id, $product_cart->name, $product_cart->price, 1, 'noimgproduct.png');
                     $this->emit('increase-ok');
-                }
+                } 
                 else
                 {
-                    Cart::add($product_cart->id, $product_cart->name, $product_cart->price, 1 , $producto->image);
+                    Cart::add($product_cart->id, $product_cart->name, $product_cart->price, 1, $producto->image);
                     $this->emit('increase-ok');
                 }
             }
             else
             {
-                $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
-                if($producto->image == null)
+
+                $precio = Lote::select("lotes.pv_lote as pv")
+                ->where("lotes.product_id", $producto->id)
+                // ->where("lotes.status","Activo")
+                ->orderby("lotes.created_at", "desc")
+                ->get();
+
+
+                if($precio->count() > 0)
                 {
+                    $precio = $precio->first()->pv;
+                }
+                else
+                {
+                    $precio = 0;
+                }
 
-                    $precio = Lote::select("lotes.pv_lote as pv")
-                    ->where("lotes.product_id",$producto->id)
-                    // ->where("lotes.status","Activo")
-                    ->orderby("lotes.created_at","desc")
-                    ->first()->pv;
-
-
-                    Cart::add($producto->id, $producto->nombre, $precio, 1 , 'noimgproduct.png');
+                $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
+                if ($producto->image == null)
+                {
+                    Cart::add($producto->id, $producto->nombre, $precio, 1, 'noimgproduct.png');
                     $this->emit('increase-ok');
                 }
                 else
                 {
-                    $precio = Lote::select("lotes.pv_lote as pv")
-                    ->where("lotes.product_id",$producto->id)
-                    // ->where("lotes.status","Activo")
-                    ->orderby("lotes.created_at","desc")
-                    ->first()->pv;
-                    Cart::add($producto->id, $producto->nombre, $precio, 1 , $producto->image);
+                    Cart::add($producto->id, $producto->nombre, $precio, 1, $producto->image);
                     $this->emit('increase-ok');
                 }
             }
-
-
-
             //Actualizar los valores de Total Bs y Total Artículos en una Venta
             $this->actualizarvalores();
         }
@@ -445,14 +436,50 @@ class PosController extends Component
         {
             //Guardamos los datos del producto en Carrito de Ventas
             $product_cart = Cart::get($producto->id);
+
+            //Obteniendo la cantidad extra que se debe incrementar (en caso de que se nesecite) en los lotes, cuando se quiera vender mas alla del stock disponible
+            $cantidad_previa = $product_cart->attributes->Cantidad;
+
+            if($cantidad_previa)
+            {
+                $cantida_nueva = $cantidad_previa - 1;
+                if($cantida_nueva == 0)
+                {
+                    $miArray = array(
+                        "Imagen" => "noimgproduct.png"
+                    );
+                }
+                else
+                {
+                    $miArray = array(
+                        "Imagen" => $producto->image,
+                        "Cantidad" => $cantidad_previa - 1,
+                        "Costo" => $this->product_cost
+                    );
+                }
+            }
+            else
+            {
+                if($producto->image == null)
+                {
+                    $miArray = array(
+                        "Imagen" => "noimgproduct.png"
+                    );
+                }
+                else
+                {
+                    $miArray = array(
+                        "Imagen" => $producto->image
+                    );
+                }
+            }
             //Elimnamos el producto del Carrito de Ventas
             Cart::remove($producto->id);
             //Obtenmos la cantidad que existia del producto en el Carrito de Ventas
             $cant = $product_cart->quantity - 1;
             //Volvemos a añadir el produto al Carrito de Ventas pero con la cantidad actualizada
-            if ($cant > 0)
-            {
-                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cant, $product_cart->image);
+            if ($cant > 0) {
+                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cant, $miArray);
                 // $this->total = Cart::getTotal();
                 $this->total = $this->gettotalcart();
                 $this->itemsQuantity = Cart::getTotalQuantity();
@@ -466,66 +493,53 @@ class PosController extends Component
             $this->mensaje_toast = "Por favor no realize tantos clicks";
             $this->emit('message-error-sale');
         }
-
-
-
-
     }
     //Para verificar que quede stock disponible en la TIENDA para la venta
     public function stocktienda($idproducto, $cantidad)
     {
         //Primero buscamos stock dispnible del producto en el destino TIENDA
         $producto = Destino::join("productos_destinos as pd", "pd.destino_id", "destinos.id")
-        ->join("products as p", "p.id", "pd.product_id")
-        ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
-        ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.id', $this->destino_id)
-        ->where('pd.product_id', $idproducto)
-        ->where('p.status', 'ACTIVO')
-        ->where('pd.stock','>=', $cantidad)
-        ->get();
+            ->join("products as p", "p.id", "pd.product_id")
+            ->select("destinos.id as id", "destinos.nombre as nombredestino", "pd.product_id as idproducto", "pd.stock as stock")
+            ->where("destinos.sucursal_id", $this->idsucursal())
+            ->where('destinos.id', $this->destino_id)
+            ->where('pd.product_id', $idproducto)
+            ->where('p.status', 'ACTIVO')
+            ->where('pd.stock', '>=', $cantidad)
+            ->get();
 
 
-        if($producto->count() > 0)
-        {
+        if ($producto->count() > 0) {
             //Variable donde se guardará el stock del producto del Carrito de Ventas
             $stock_cart = 0;
             //Para saber si el Producto ya esta en el carrrito
             $exist = Cart::get($idproducto);
             //Si el producto existe en el Carrito de Ventas actualizamos la variable $stock_cart
-            if($exist)
-            {
+            if ($exist) {
                 $stock_cart = Cart::get($idproducto)->quantity;
             }
             //Restamos el stock de la tienda con el stock del Carrito de Ventas
 
-            //dd($producto->first()->stock);
 
             $stock = $producto->first()->stock - $stock_cart;
-            if($stock > 0)
-            {
+            if ($stock > 0) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
-        
     }
     //Llama al modal para calcular cambio y finalizar una venta
     public function modalfinalizarventa()
     {
         // Solo si la variable $this->stock_disponible es true e mostrara la ventana modal
-        if($this->stock_disponible)
+        if ($this->stock_disponible)
         {
-            if($this->cartera_id != "Elegir")
+            if ($this->cartera_id != "Elegir")
             {
-                if($this->stock_disponible)
+                if ($this->stock_disponible)
                 {
                     $this->emit('show-finalizarventa');
                 }
@@ -534,7 +548,6 @@ class PosController extends Component
             {
                 $this->emit('show-elegircartera');
             }
-            
         }
         else
         {
@@ -552,24 +565,27 @@ class PosController extends Component
     {
         //Buscando Stock del Producto en Tienda
         $product = Product::join("productos_destinos as pd", "pd.product_id", "products.id")
-        ->join('destinos as des', 'des.id', 'pd.destino_id')
-        ->select("products.id as id","products.image as image","des.sucursal_id as sucursal_id","products.nombre as name",
-        "products.precio_venta as price","products.codigo", "pd.stock as stock")
-        ->where("products.codigo", $barcode)
-        ->where("des.id", $this->destino_id)
-        ->where("des.sucursal_id", $this->idsucursal())
-        ->get()->first();
-        
-        
-        if ($product == null || empty($product))
-        {
-            $this->mensaje_toast = "El producto con el código '". $barcode ."' no existe o no esta registrado";
+            ->join('destinos as des', 'des.id', 'pd.destino_id')
+            ->select(
+                "products.id as id",
+                "products.image as image",
+                "des.sucursal_id as sucursal_id",
+                "products.nombre as name",
+                "products.precio_venta as price",
+                "products.codigo",
+                "pd.stock as stock"
+            )
+            ->where("products.codigo", $barcode)
+            ->where("des.id", $this->destino_id)
+            ->where("des.sucursal_id", $this->idsucursal())
+            ->get()->first();
+
+
+        if ($product == null || empty($product)) {
+            $this->mensaje_toast = "El producto con el código '" . $barcode . "' no existe o no esta registrado";
             $this->emit('increase-notfound');
-        }
-        else
-        {
-            if($this->stocktienda($product->id, $cant))
-            {
+        } else {
+            if ($this->stocktienda($product->id, $cant)) {
                 //Añadiendo al Carrrito los Productos
                 Cart::add(
                     $product->id,
@@ -581,12 +597,9 @@ class PosController extends Component
                 $this->actualizarvalores();
                 $this->mensaje_toast = "¡Producto: '" . $product->name . "' escaneado correctamente!";
                 $this->emit('increase-ok');
-            }
-            else
-            {
+            } else {
                 $this->modalstockinsuficiente($product->id);
             }
-            
         }
     }
     //Vaciar todos los Items en el Carrito
@@ -616,14 +629,10 @@ class PosController extends Component
     //Sumar Denominaciones de Monedas y Billetes a la variable $dinero_recibido
     public function sumar($value)
     {
-        if($value == 0)
-        {
+        if ($value == 0) {
             $this->dinero_recibido = $this->total_bs;
-        }
-        else
-        {
-            if($this->dinero_recibido == "")
-            {
+        } else {
+            if ($this->dinero_recibido == "") {
                 $this->dinero_recibido = 0;
             }
             $this->dinero_recibido = $this->dinero_recibido + $value;
@@ -654,7 +663,7 @@ class PosController extends Component
             //Actualizamos el saldo de la cartera
             $cartera->update([
                 'saldocartera' => $saldo_cartera
-                ]);
+            ]);
             $cartera->save();
 
             //Creando la venta
@@ -678,15 +687,73 @@ class PosController extends Component
             //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
             $productos = Cart::getContent();
 
-            foreach($productos as $p)
+            //Variable que guarda que si existe productos con stock mas allá del disponible
+            $stock_extra = false;
+
+            //Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
+            foreach ($productos as $pp)
             {
+                if ($pp->attributes->Cantidad > 0)
+                {
+                    //Registrando Ingreso Producto
+                    $ip = IngresoProductos::create([
+                        'destino' => $this->destino_id,
+                        'user_id' => Auth()->user()->id,
+                        'concepto' => "INGRESO",
+                        'observacion' => "Ingreso automático del producto para venta rápida",
+                    ]);
+                    $stock_extra = true;
+                    break;
+                }
+            }
+
+            if($stock_extra)
+            {
+                foreach ($productos as $ppp)
+                {
+                    $precio_producto = Lote::select("pv_lote")
+                    ->where("lotes.product_id",$ppp->id)
+                    ->orderBy("lotes.created_at","desc")
+                    ->first()->pv_lote;
+                    //Creando el Lote
+                    $l = Lote::create([
+                        'existencia' => $ppp->attributes->Cantidad,
+                        'costo' => $ppp->attributes->Costo,
+                        'pv_lote' => $precio_producto,
+                        'status' => 'Activo',
+                        'product_id' => $ppp->id
+                    ]);
+                    //Creando Detalle entrada producto
+                    DetalleEntradaProductos::create([
+                        'product_id' => $ppp->id,
+                        'cantidad' => $ppp->attributes->Cantidad,
+                        'costo' => $ppp->attributes->Costo,
+                        'id_entrada' => $ip->id,
+                        'lote_id' => $l->id
+                    ]);
+                    //Incrementando el Stock en Tienda
+                    $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                    ->select("productos_destinos.id as id","p.nombre as name",
+                    "productos_destinos.stock as stock")
+                    ->where("p.id", $ppp->id)
+                    ->where("des.id", $this->destino_id)
+                    ->where("des.sucursal_id", $this->idsucursal())
+                    ->get()->first();
+                    $tiendaproducto->update([
+                        'stock' => $tiendaproducto->stock + $ppp->attributes->Cantidad
+                    ]);
+                }
+            }
+
+            foreach ($productos as $p)
+            {
+                    
                 $precio_original = Lote::select("lotes.pv_lote as po")
-                ->where("lotes.product_id",$p->id)
-                ->where("lotes.status","Activo")
-                ->orderBy("lotes.created_at","desc")
+                ->where("lotes.product_id", $p->id)
+                ->where("lotes.status", "Activo")
+                ->orderBy("lotes.created_at", "desc")
                 ->first();
-
-
 
                 $sd = SaleDetail::create([
                     'original_price' => $precio_original->po,
@@ -701,17 +768,17 @@ class PosController extends Component
                 $cantidad_producto_venta = $p->quantity;
 
                 //Buscamos todos los lotes que tengan ese producto
-                $lotes = Lote::where('product_id', $p->id)->where('status','Activo')->get();
+                $lotes = Lote::where('product_id', $p->id)->where('status', 'Activo')->get();
 
                 //Recorremos todos los lotes que tengan ese producto
-                foreach($lotes as $l)
+                foreach ($lotes as $l)
                 {
                     //Obtenemos la cantidad de existencia que tenga ese lote de ese producto
                     $cantidad_producto_lote = $l->existencia;
 
                     //Si la cantidad del producto para la venta supera la existencia en el lote
                     //Vaciamos toda la existencia de ese lote y lo inactivamos
-                    if($cantidad_producto_venta > $cantidad_producto_lote)
+                    if ($cantidad_producto_venta > $cantidad_producto_lote)
                     {
                         //Creamos un registro en la tabla SaleLote con la cantidad total del producto en el lote
                         $sale_lote = SaleLote::create([
@@ -727,7 +794,7 @@ class PosController extends Component
                         $l->update([
                             'existencia' => 0,
                             'status' => 'Inactivo'
-                            ]);
+                        ]);
                         $l->save();
                     }
                     else
@@ -743,53 +810,48 @@ class PosController extends Component
 
                         $diferencia = $cantidad_producto_lote - $cantidad_producto_venta;
 
-                        if($diferencia != 0)
-                        {
-                            $l->update([ 
-                                'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta
+                        if ($diferencia != 0) {
+                            $l->update([
+                                'existencia' => $cantidad_producto_lote - $cantidad_producto_venta
+                            ]);
+                            $l->save();
+                        } else {
+                            $l->update([
+                                'existencia' => $cantidad_producto_lote - $cantidad_producto_venta,
+                                'status' => "Inactivo"
                             ]);
                             $l->save();
                         }
-                        else
-                        {
-                            $l->update([ 
-                                'existencia'=> $cantidad_producto_lote - $cantidad_producto_venta,
-                                'status'=> "Inactivo"
-                            ]);
-                            $l->save();
-                            
-                        }
-                        $cantidad_producto_venta=0;
-
-
-
-                        
+                        $cantidad_producto_venta = 0;
                     }
                 }
 
                 //Decrementando el stock
                 $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-                ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-                ->select("productos_destinos.id as id","p.nombre as name",
-                "productos_destinos.stock as stock")
+                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                    ->select(
+                        "productos_destinos.id as id",
+                        "p.nombre as name",
+                        "productos_destinos.stock as stock"
+                    )
                 ->where("p.id", $p->id)
                 ->where("des.id", $this->destino_id)
                 ->where("des.sucursal_id", $this->idsucursal())
-                ->get()->first();
+                ->get()
+                ->first();
 
 
                 $product_destination = ProductosDestino::find($tiendaproducto->id);
-
 
                 $product_destination->update([
                     'stock' => $tiendaproducto->stock - $p->quantity
                 ]);
                 $product_destination->save();
-
+                
             }
 
             //Creando Cartera Movimiento
-            $cv=CarteraMov::create([
+            $cv = CarteraMov::create([
                 'type' => "INGRESO",
                 'tipoDeMovimiento' => "VENTA",
                 'comentario' => "Venta",
@@ -798,19 +860,7 @@ class PosController extends Component
             ]);
 
             //verificar que caja esta aperturada
-            $cajaId= session('sesionCajaID');
-            //dd($cajaId);
-
-                
-
-            //verificar que esta venta no tuvo operaciones en caja general
-            if ($this->listarcarterasg()->contains('idcartera',$this->cartera_id))
-            {
-                $op = OperacionesCarterasCompartidas::create([
-                'caja_id'=>$cajaId,
-                'cartera_mov_id'=>$cv->id]);
-            }
-
+            $cajaId = session('sesionCajaID');
 
             $this->resetUI();
             $this->clearcart();
@@ -819,7 +869,7 @@ class PosController extends Component
 
 
             //Verificando la variable $this->pdf para crear o no un comprobante pdf
-            if($this->pdf)
+            if ($this->pdf)
             {
                 $this->emit('opentap');
             }
@@ -827,20 +877,18 @@ class PosController extends Component
 
             DB::commit();
             return Redirect::to('pos');
+                
         }
         catch (Exception $e)
         {
             DB::rollback();
-            $this->mensaje_toast = ": ".$e->getMessage();
+            $this->mensaje_toast = ": " . $e->getMessage();
             $this->emit('sale-error');
         }
     }
     //Listar las Carteras disponibles en su corte de caja
     public function listarcarteras()
     {
-
-
-
         // $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
         // ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
         // ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
@@ -853,9 +901,9 @@ class PosController extends Component
         // ->get();
 
 
-        $carteras = Cartera::select('carteras.id as idcartera', 'carteras.nombre as nombrecartera', 'carteras.descripcion as dc','carteras.tipo as tipo')
-        ->where("carteras.caja_id", $this->caja_abierta_id)
-        ->get();
+        $carteras = Cartera::select('carteras.id as idcartera', 'carteras.nombre as nombrecartera', 'carteras.descripcion as dc', 'carteras.tipo as tipo')
+            ->where("carteras.caja_id", $this->caja_abierta_id)
+            ->get();
 
 
 
@@ -866,9 +914,9 @@ class PosController extends Component
     public function listarcarterasg()
     {
         $carteras = Caja::join('carteras as car', 'cajas.id', 'car.caja_id')
-        ->where('cajas.id', 1)
-        ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc','car.tipo as tipo')
-        ->get();
+            ->where('cajas.id', 1)
+            ->select('car.id as idcartera', 'car.nombre as nombrecartera', 'car.descripcion as dc', 'car.tipo as tipo')
+            ->get();
         return $carteras;
     }
     //Volver a los valores por defecto
@@ -883,50 +931,40 @@ class PosController extends Component
         $this->clienteanonimo = true;
         $this->observacion = "";
         $this->dinero_recibido = "";
-        foreach($this->listarcarteras() as $list)
-        {
-            if($list->tipo == "efectivo")
-            {
+        foreach ($this->listarcarteras() as $list) {
+            if ($list->tipo == "efectivo") {
                 $this->cartera_id = $list->idcartera;
                 break;
             }
-            
         }
     }
     //llama al modal buscarcliente
     public function modalbuscarcliente()
     {
-        $this->procedencias = ProcedenciaCliente::where("estado","ACTIVO")->get();
+        $this->procedencias = ProcedenciaCliente::where("estado", "ACTIVO")->get();
         $this->emit('show-buscarcliente');
     }
     //Devuelve el nombre de la cartera seleccionada y su tipo
     public function nombrecartera()
     {
         $nombrecartera = Cartera::select('carteras.*')
-        ->where('carteras.id' , $this->cartera_id)
-        ->get();
-        if($nombrecartera->count() > 0)
-        {
+            ->where('carteras.id', $this->cartera_id)
+            ->get();
+        if ($nombrecartera->count() > 0) {
             return $nombrecartera->first()->nombre . " - " . $nombrecartera->first()->tipo;
-        }
-        else
-        {
+        } else {
             return "Tipo de Pago no selecccionado";
         }
-        
     }
     //Método para guardar SI o NO en la variable $invoice para saber si una venta es con factura
     public function facturasino()
     {
-        if($this->factura)
-        {
+        if ($this->factura) {
             $this->invoice = "No";
             $this->factura = false;
             $this->mensaje_toast = "Venta con factura desactivada";
             $this->emit('mensaje-ok');
-        }
-        else
-        {
+        } else {
             $this->invoice = "Si";
             $this->factura = true;
             $this->mensaje_toast = "Venta con factura activada";
@@ -936,12 +974,9 @@ class PosController extends Component
     //Método para guardar true o false para la variable $this->pdf crear o no comprobante de venta
     public function pdfsino()
     {
-        if($this->pdf)
-        {
+        if ($this->pdf) {
             $this->pdf = false;
-        }
-        else
-        {
+        } else {
             $this->pdf = true;
         }
     }
@@ -950,8 +985,7 @@ class PosController extends Component
     {
         //Guardamos los datos del producto del Carrito de Ventas
         $product_cart = Cart::get($idproducto);
-        if($precio_nuevo >= 0 && $precio_nuevo != "")
-        {
+        if ($precio_nuevo >= 0 && $precio_nuevo != "") {
             //Eliminamos el producto del Carrito de Ventas
             Cart::remove($idproducto);
             //Volvemos a añadir el producto con el precio actualizado
@@ -961,15 +995,13 @@ class PosController extends Component
             //mensaje a Mostrar
             $this->mensaje_toast = "Precio: '" . $precio_nuevo . " Bs' Actualizado";
             $this->emit('mensaje-ok');
-        }
-        else
-        {
+        } else {
             $this->mensaje_toast = "El precio dado no esta admitido, se usará el precio de '" . $product_cart->price . " Bs'";
             //Eliminamos el producto del Carrito de Ventas
             Cart::remove($idproducto);
-            
+
             //Volvemos a añadir el producto con el precio que tenia en el Carrito de Ventas
-            
+
             Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $product_cart->quantity, $product_cart->image);
             $this->actualizarvalores();
             $this->emit('mensaje-advertencia');
@@ -981,13 +1013,10 @@ class PosController extends Component
         //Actualizando la variable $this->cantidad_venta para mostrar cantidad en lotes en la ventana modal lotes productos
         $this->cantidad_venta = $cantidad_nueva;
 
-
         //Guardamos los datos del producto del Carrito de Ventas
         $product_cart = Cart::get($idproducto);
-        if($this->stocktienda($idproducto, $cantidad_nueva))
-        {
-            if($cantidad_nueva > 0 && $cantidad_nueva != "")
-            {
+        if ($this->stocktienda($idproducto, $cantidad_nueva)) {
+            if ($cantidad_nueva > 0 && $cantidad_nueva != "") {
                 //Eliminamos el producto del Carrito de Ventas
                 Cart::remove($idproducto);
                 //Volvemos a añadir el producto con el precio actualizado
@@ -997,39 +1026,33 @@ class PosController extends Component
                 //mensaje a Mostrar
                 $this->mensaje_toast = "Cantidad: '" . $cantidad_nueva . " Unidades' Actualizada";
                 $this->emit('mensaje-ok');
-            }
-            else
-            {
+            } else {
                 $this->mensaje_toast = "La cantidad dada no esta admitida, se usará la cantidad de '" . $product_cart->quantity . " unidades'";
                 //Eliminamos el producto del Carrito de Ventas
                 Cart::remove($idproducto);
-                
+
                 //Volvemos a añadir el producto con el precio que tenia en el Carrito de Ventas
-                
+
                 Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $product_cart->quantity, $product_cart->image);
                 //Actualizamos Valores (Unidades y Bs de la Venta)
                 $this->actualizarvalores();
                 $this->emit('mensaje-advertencia');
             }
-        }
-        else
-        {   
+        } else {
             $this->modalstockinsuficiente($idproducto);
         }
-
-        
     }
     //Devolver nombredestino y stock de una sucursal diferente a la que se fue asignado
     public function buscarstocksucursal($idsucursal)
     {
         $destinos = Destino::join("productos_destinos as pd", "pd.destino_id", "destinos.id")
-                ->join("products as p", "p.id", "pd.product_id")
-                ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
-                ->where("destinos.sucursal_id", $idsucursal)
-                ->where('pd.product_id', $this->producto_id)
-                ->where('p.status', 'ACTIVO')
-                ->where('pd.stock','>', 0)
-                ->get();
+            ->join("products as p", "p.id", "pd.product_id")
+            ->select("destinos.id as id", "destinos.nombre as nombredestino", "pd.product_id as idproducto", "pd.stock as stock")
+            ->where("destinos.sucursal_id", $idsucursal)
+            ->where('pd.product_id', $this->producto_id)
+            ->where('p.status', 'ACTIVO')
+            ->where('pd.stock', '>', 0)
+            ->get();
         return $destinos;
     }
     //Actualizar la variable descuento_recargo
@@ -1049,9 +1072,7 @@ class PosController extends Component
         $bs_total_cart = 0;
         $items = Cart::getContent();
 
-        foreach ($items as $item)
-        
-        {
+        foreach ($items as $item) {
             $bs_total_cart = ($item->price * $item->quantity) + $bs_total_cart;
         }
 
@@ -1061,10 +1082,21 @@ class PosController extends Component
     public function buscarprecio($id)
     {
         $precio = Lote::select("lotes.pv_lote as pv")
-        ->where("lotes.product_id",$id)
+        ->where("lotes.product_id", $id)
         // ->where("lotes.status","Activo")
-        ->orderby("lotes.created_at","desc")
-        ->first()->pv;
+        ->orderby("lotes.created_at", "desc")
+        ->get();
+
+
+        if($precio->count() > 0)
+        {
+            $precio = $precio->first()->pv;
+        }
+        else
+        {
+            $precio = 0;
+        }
+
         return $precio;
     }
     //Cierra la ventana modal Buscar Cliente y Cambia el id de la variable $cliente_id con un cliente Creado
@@ -1076,22 +1108,19 @@ class PosController extends Component
         ];
         $messages = [
             'procedencia_cliente_id.not_in' => 'Elegir un tipo diferente de elegir',
-            'procedencia_cliente_id.required' => 'Elegir un tipo diferente de elegir',            
+            'procedencia_cliente_id.required' => 'Elegir un tipo diferente de elegir',
         ];
 
         $this->validate($rules, $messages);
 
-        if($this->cliente_celular == null)
-        {
+        if ($this->cliente_celular == null) {
             $newclient = Cliente::create([
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
                 'celular' => 0,
                 'procedencia_cliente_id' => $this->procedencia_cliente_id,
             ]);
-        }
-        else
-        {
+        } else {
             $newclient = Cliente::create([
                 'nombre' => $this->buscarcliente,
                 'cedula' => $this->cliente_ci,
@@ -1099,7 +1128,7 @@ class PosController extends Component
                 'procedencia_cliente_id' => $this->procedencia_cliente_id,
             ]);
         }
-        
+
         $this->cliente_id = $newclient->id;
         $this->nombrecliente = $newclient->nombre;
         $this->message = "Se selecciono al cliente creado: '" . $newclient->nombre . "'";
@@ -1113,14 +1142,14 @@ class PosController extends Component
 
         // Cambiando la variable $this->stock_disponible a false para que no se pueda mostrar la ventana modal finalizar venta
         $this->stock_disponible = false;
-        //Buscamos stock disponible del producto en toda la sucursal menos en el destino TIENDA
+        //Buscamos stock disponible del producto en toda la sucursal menos en el destino de venta
         //Y actualizando la variable $this->listadestinos para guardar todos los destinos
         //de la sucursal (Menos Tienda) en los que existan stocks disponibles
         $this->listadestinos = Destino::join("productos_destinos as pd", "pd.destino_id", "destinos.id")
         ->join("products as p", "p.id", "pd.product_id")
-        ->select("destinos.id as id","destinos.nombre as nombredestino","pd.product_id as idproducto","pd.stock as stock")
+        ->select("destinos.id as id", "destinos.nombre as nombredestino", "pd.product_id as idproducto", "pd.stock as stock")
         ->where("destinos.sucursal_id", $this->idsucursal())
-        ->where('destinos.id', '<>' ,$this->destino_id)
+        ->where('destinos.id', '<>', $this->destino_id)
         ->where('pd.product_id', $this->producto_id)
         ->where('p.status', 'ACTIVO')
         ->get();
@@ -1129,11 +1158,31 @@ class PosController extends Component
         $this->nombreproducto = Product::find($idproducto)->nombre;
         $this->nombresucursal = Sucursal::find($this->idsucursal())->name;
 
-        
+
         // Lista todas las sucursales menos la sucursal en la que esta
         $this->listasucursales = Sucursal::select("sucursals.*")
-        ->where('sucursals.id', '<>' , $this->idsucursal())
+        ->where('sucursals.id', '<>', $this->idsucursal())
         ->get();
+
+
+
+        //Obteniendo el costo del Producto para mostrarlo en la ventana modal
+        $this->product_cost = Lote::select("lotes.costo as costo")
+        ->where("lotes.product_id",$idproducto)
+        // ->where("lotes.status","Activo")
+        ->orderBy("lotes.created_at","desc")
+        ->get();
+
+        if($this->product_cost->count() > 0)
+        {
+            $this->product_cost = $this->product_cost->first()->costo;
+        }
+        else
+        {
+            $this->product_cost = "0";
+        }
+
+
 
         //Mostrando la ventana modal
         $this->emit('show-stockinsuficiente');
@@ -1147,40 +1196,36 @@ class PosController extends Component
         $this->cantidad_venta = Cart::get($idproducto)->quantity;
         //Guardando todos los lotes de un producto
         $this->lotes_producto = Lote::select("lotes.*")
-        ->where("lotes.status", "Activo")
-        ->where("lotes.product_id", $idproducto)
-        ->orderBy("lotes.created_at","asc")
-        ->get();
+            ->where("lotes.status", "Activo")
+            ->where("lotes.product_id", $idproducto)
+            ->orderBy("lotes.created_at", "asc")
+            ->get();
         //Variable array en donde se guardarán todos los ids de los lotes de un producto que son nesesarios para llegar a la cantidad puesta en el carrito ded ventas
         $lotes = [];
         //Guardando la cantidad para vender del producto de la variable $this->cantidad_venta (Cantidad obtenida del método $this->cambiarcantidad($idproducto, $cantidad_nueva))
         $cant = $this->cantidad_venta;
         //Recorriendo todos los lotes nesesarios para llegar a la cantida ($cant) requerrida
-        foreach($this->lotes_producto as $lp)
-        {
-            if($lp->existencia >= $cant)
-            {
+        foreach ($this->lotes_producto as $lp) {
+            if ($lp->existencia >= $cant) {
                 array_push($lotes, $lp->id);
                 break;
-            }
-            else
-            {
+            } else {
                 $cant = $cant - $lp->existencia;
                 array_push($lotes, $lp->id);
             }
         }
         //Guardando todos los lotes de un producto nesesarios para llegar a la cantidad puesta en el carrito ded ventas
         $this->lotes_producto = Lote::select("lotes.*")
-        ->where("lotes.status", "Activo")
-        ->where("lotes.product_id", $idproducto)
-        ->whereIn('lotes.id', $lotes)
-        ->orderBy("lotes.created_at","desc")
-        ->get();
+            ->where("lotes.status", "Activo")
+            ->where("lotes.product_id", $idproducto)
+            ->whereIn('lotes.id', $lotes)
+            ->orderBy("lotes.created_at", "desc")
+            ->get();
         //Guarda un promedio de precios en los lotes de un producto para mostrar en la ventana modal lotes producto 
         $this->precio_promedio = Lote::select("lotes.pv_lote as pv_lote")
-        ->where("lotes.status", "Activo")
-        ->where("lotes.product_id", $idproducto)
-        ->avg('lotes.pv_lote');
+            ->where("lotes.status", "Activo")
+            ->where("lotes.product_id", $idproducto)
+            ->avg('lotes.pv_lote');
         //Guardando el nombre del producto
         $this->nombreproducto = Product::find($idproducto)->nombre;
         //Mostrando la Ventana Modal Lotes Producto
@@ -1190,8 +1235,8 @@ class PosController extends Component
     public function aplicar_precio_promedio()
     {
         //Llamando al método cambiarprecio para actualizar el precio promedio por lotes de un produto en el carrito de ventas
-        $this->cambiarprecio($this->producto_id, number_format($this->precio_promedio,2));
-        $this->mensaje_toast = "Precio promedio: " . number_format($this->precio_promedio,2) . "Bs aplicado al producto " . $this->nombreproducto;
+        $this->cambiarprecio($this->producto_id, number_format($this->precio_promedio, 2));
+        $this->mensaje_toast = "Precio promedio: " . number_format($this->precio_promedio, 2) . "Bs aplicado al producto " . $this->nombreproducto;
         //Ocultando la Ventana Modal Lotes Producto
         $this->emit('hide-modallotesproducto');
     }
@@ -1240,22 +1285,19 @@ class PosController extends Component
             'cartera_mov_categoria_id' => $this->categoria_id_ie
         ]);
 
-        if($this->tipo_movimiento_ie == "INGRESO")
-        {
+        if ($this->tipo_movimiento_ie == "INGRESO") {
             $cartera = Cartera::find($this->cartera_id_ie);
 
             $saldo_cartera = $cartera->saldocartera + $this->cantidad_ie;
-    
+
             $cartera->update([
                 'saldocartera' => $saldo_cartera
             ]);
-        }
-        else
-        {
+        } else {
             $cartera = Cartera::find($this->cartera_id_ie);
 
             $saldo_cartera = $cartera->saldocartera - $this->cantidad_ie;
-    
+
             $cartera->update([
                 'saldocartera' => $saldo_cartera
             ]);
@@ -1270,7 +1312,6 @@ class PosController extends Component
     {
         $this->emit("show-modalcotization");
     }
-    
     public function generatecotization()
     {
         $cotization = Cotization::create([
@@ -1284,17 +1325,16 @@ class PosController extends Component
         ]);
 
         //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
-         $productos = Cart::getContent();
+        $productos = Cart::getContent();
 
-         foreach ($productos as $p)
-         {
+        foreach ($productos as $p) {
             CotizationDetail::create([
                 'price' => $p->price,
                 'quantity' => $p->quantity,
                 'product_id' => $p->id,
                 'cotization_id' => $cotization->id
             ]);
-         }
+        }
         Cart::clear();
         $this->actualizarvalores();
 
@@ -1302,63 +1342,72 @@ class PosController extends Component
 
         $this->emit('generatepdfcotizacion');
 
-         return Redirect::to('pos');
+        return Redirect::to('pos');
     }
-    //Incrementa cantidades extra al carrito de ventas
+    //Incrementa cantidades extra al carrito de ventas (Cantidades que sobrepasan el stock disponible)
     public function extraincrease()
     {
         $producto = Product::find($this->producto_id);
         $product_cart = Cart::get($producto->id);
+
+        if ($producto->image == null)
+        {
+            $producto->image = "noimgproduct.png";
+        }
         //Para saber si el Producto ya esta en el carrrito para cambiar el Mensaje Toast de Producto Agregado a Cantidad Actualizada
         if ($product_cart)
         {
-            $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre)."'!";
-            if($producto->image == null)
-            {
+            //Cantidad extra para incrementar
+            $cantidad_previa = $product_cart->attributes->Cantidad;
+            $miArray = array(
+                "Imagen" => $producto->image,
+                "Cantidad" => $this->extraquantity + $cantidad_previa,
+                "Costo" => $this->product_cost
+            );
+            //Cantidad para vender
+            $cantidad_vender = $product_cart->quantity + $this->extraquantity;
 
-                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $this->extraquantity , 'noimgproduct.png');
-                $this->emit('increase-ok');
-            }
-            else
-            {
-                Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $this->extraquantity , $producto->image);
-                $this->emit('increase-ok');
-            }
+            $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre) . "'!";
+            Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cantidad_vender ,$miArray);
+            $this->emit('increase-ok');
         }
         else
         {
-            $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
-            if($producto->image == null)
+            $miArray = array(
+                "Imagen" => $producto->image,
+                "Cantidad" => $this->extraquantity,
+                "Costo" => $this->product_cost
+            );
+
+            $precio = Lote::select("lotes.pv_lote as pv")
+            ->where("lotes.product_id", $producto->id)
+            ->orderby("lotes.created_at", "desc")
+            ->get();
+
+            if($precio->count() > 0)
             {
-
-                $precio = Lote::select("lotes.pv_lote as pv")
-                ->where("lotes.product_id",$producto->id)
-                // ->where("lotes.status","Activo")
-                ->orderby("lotes.created_at","desc")
-                ->first()->pv;
-
-
-                Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity , 'noimgproduct.png');
-                $this->emit('increase-ok');
+                $precio = $precio->first()->pv;
             }
             else
             {
-                $precio = Lote::select("lotes.pv_lote as pv")
-                ->where("lotes.product_id",$producto->id)
-                // ->where("lotes.status","Activo")
-                ->orderby("lotes.created_at","desc")
-                ->first()->pv;
-                Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity , $producto->image);
-                $this->emit('increase-ok');
+                $precio = "0";
             }
+
+            $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
+            Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity, $miArray);
+            $this->emit('increase-ok');
         }
 
-        //Actualizar los valores de Total Bs y Total Artículos en una Venta
-        $this->actualizarvalores();
 
-        $this->extraquantity = null;
-        $this->selloutofstock = false;
-
+        $this->extraquantity = 1;
+        $this->selloutofstock = true;
+        
         $this->emit("hide-stockinsuficiente");
+    }
+
+    // Muestra la ventana modal de devolución
+    public function show_modal_devolution()
+    {
+        $this->emit("show-modal-devolution");
     }
 }
