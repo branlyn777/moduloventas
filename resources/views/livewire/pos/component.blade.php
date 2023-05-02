@@ -335,6 +335,12 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
+                            <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
+                                style="background-color: #2e48dc; color: white;">
+                                <i class="fas fa-plus me-2"></i>
+                                Devolver Producto
+                            </button>
+
                             <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
                                 <i class="fas fa-plus me-2"></i>
@@ -690,6 +696,7 @@
         @include('livewire.pos.modal.modallotesproducto')
         @include('livewire.pos.modal.modal_ingreso_egreso')
         @include('livewire.pos.modal.modal_cotization')
+        @include('livewire.pos.modal.modal_devolution')
 
 
         @if ($descuento_recargo >= 0)
@@ -763,6 +770,10 @@
             //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
             window.livewire.on('show-modalcotization', Msg => {
                 $("#modalcotization").modal("show");
+            });
+            //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
+            window.livewire.on('show-modal-devolution', Msg => {
+                $("#modaldevolution").modal("show");
             });
             //Mostrar Toast cuando un producto se incrementa en el Carrito de Ventas
             window.livewire.on('increase-ok', msg => {

@@ -275,7 +275,7 @@ class PosController extends Component
 
         //Devolución en Ventas
 
-        $list_product_devolution = Product::where("status","ACTIVO")->paginate(10);
+        $list_products_devolution = Product::where("status","ACTIVO")->paginate(10);
 
 
         //------------------
@@ -293,7 +293,7 @@ class PosController extends Component
             'nombrecliente' => Cliente::find($this->cliente_id)->nombre,
             'nombrecartera' => $this->nombrecartera(),
             'categorias_ie' => $categorias_ie,
-            'list_product_devolution' => $list_product_devolution
+            'list_products_devolution' => $list_products_devolution
 
         ])
             ->extends('layouts.theme.app')
@@ -1406,7 +1406,7 @@ class PosController extends Component
     }
 
     // Muestra la ventana modal de devolución
-    public function show_modal_devolution()
+    public function showModalDevolution()
     {
         $this->emit("show-modal-devolution");
     }

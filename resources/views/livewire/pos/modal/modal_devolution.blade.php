@@ -1,4 +1,4 @@
-<div class="modal fade" id="devolution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="modaldevolution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -25,7 +25,7 @@
                 </tr>
               </thead>
               <tbody class="text-sm">
-                @foreach ($list_product_devolution as $pd)
+                @foreach ($list_products_devolution as $pd)
                 <tr>
                   <th scope="row">1</th>
                   <td>{{$pd->nombre}}</td>
@@ -35,6 +35,7 @@
                 @endforeach
               </tbody>
             </table>
+            {{ $list_products_devolution->links() }}
           </div>
         </div>
         <div class="modal-footer">
