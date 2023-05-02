@@ -282,6 +282,17 @@
                 transform: rotate(360deg);
             }
         }
+
+
+
+        /* estilos para mostrar u ocultar las filas en la ventana modal devolución en ventas */
+        .detalles {
+            background-color: #f9f9f9;
+        }
+        .detalles p {
+            padding: 10px;
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -1020,5 +1031,12 @@
                 }
             })
         }
+        // Script para mostrar u ocultar detalles en la fila de la tabla de la ventana modal devolución venta
+        $(document).ready(function() {
+            $('.fila-click').click(function() {
+                $(this).next('.detalles').toggle();
+            });
+        });
+
     </script>
 @endsection

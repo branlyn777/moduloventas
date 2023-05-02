@@ -8,10 +8,21 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <div class="input-group mb-4">
-              <span class="input-group-text"><i class="fa fa-search"></i></span>
-              <input class="form-control" placeholder="Buscar Producto..." type="text">
+          <div class="row mb-4">
+            <div class="col-12 col-sm-6 col-md-4 mb-3">
+              <label>Buscar</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                  <input class="form-control" placeholder="Buscar Producto..." type="text">
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 mb-3">
+              <label>Fecha Inicio</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 mb-3">
+              <label>Fecha Fin</label>
+              <input type="date" class="form-control">
             </div>
           </div>
           <div class="table-wrapper">
@@ -26,11 +37,18 @@
               </thead>
               <tbody class="text-sm">
                 @foreach ($list_products_devolution as $pd)
-                <tr>
+                <tr class="fila-click">
                   <th scope="row">1</th>
                   <td>{{$pd->nombre}}</td>
                   <td>Otto</td>
                   <td>@mdo</td>
+                </tr>
+                <tr class="detalles" style="display:none;">
+                  <td colspan="3">
+                      <span class="text-sm">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptates perferendis nostrum necessitatibus repellat ullam veritatis nam adipisci laudantium. Expedita dolor eum nulla fugit omnis quam amet esse sit aperiam?
+                      </span>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
