@@ -13,6 +13,7 @@ use App\Models\OrderService;
 use App\Models\Permission;
 use App\Models\Service;
 use App\Models\SubCatProdService;
+use App\Models\Sucursal;
 use App\Models\SucursalUser;
 use App\Models\TypeWork;
 use App\Models\User;
@@ -51,8 +52,12 @@ class OrderServiceController extends Component
     public $message_toast;
     //Guarda true o false, dependiendo si el servicio corresponde al dia actual (para editar precio en servicios terminados)
     public $check_service_date;
-    //Variebles para los filtros
-    public $search, $search_all, $status_service_table;
+    //Variables para los filtros
+    public $search, $status_service_table, $branch_id;
+    //Guarda una lista de sucursales para los filtros
+    public $list_branches;
+    //Variable que guarda true o false para buscar por solo codigo o por mas datos (Nombre Cliente, Descripcio, Detalle del Equipo, etc)
+    public $search_all;
     
 
     //Guarda Información de un servicio
@@ -78,44 +83,102 @@ class OrderServiceController extends Component
         $this->id_branch = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
         //Guarda true si el usuario realizó corte de caja
         $this->box_status = false;
+        //Guarda todas las sucursales
+        $this->list_branches = Sucursal::all();
+        //Obteniendo el id de la sucursal del usuario
+        $this->branch_id = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
     }
     public function render()
     {
         if(strlen($this->search) == 0)
         {
-            if($this->status_service_table == "TODOS")
+            if($this->branch_id != "all")
             {
-                //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
-                $service_orders = OrderService::select(
-                    "order_services.id as code",
-                    "order_services.created_at as reception_date",
-                    DB::raw("0 as services"),
-                    DB::raw("0 as client"),
-                    DB::raw("0 as number")
-                )
-                ->where("order_services.status", "ACTIVO")
-                ->orderBy("order_services.id", "desc")
-                ->paginate($this->pagination);
+                if($this->status_service_table == "TODOS")
+                {
+                    //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+                    $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
+                    ->join("movimientos as m","m.id","ms.movimiento_id")
+                    ->join("order_services as os","os.id","services.order_service_id")
+                    ->select(
+                            "os.id as code",
+                            "os.created_at as reception_date",
+                            "m.type as estado_movimiento",
+                            DB::raw("0 as services"),
+                            DB::raw("0 as client"),
+                            DB::raw("0 as number")
+                        )
+                    ->where("os.status", "ACTIVO")
+                    ->where("m.status", "ACTIVO")
+                    ->where("services.sucursal_id", $this->branch_id)
+                    ->distinct()
+                    ->orderBy("os.id", "desc")
+                    ->paginate($this->pagination);
+                }
+                else
+                {
+                    $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
+                    ->join("movimientos as m","m.id","ms.movimiento_id")
+                    ->join("order_services as os","os.id","services.order_service_id")
+                    ->select(
+                            "os.id as code",
+                            "os.created_at as reception_date",
+                            "m.type as estado_movimiento",
+                            DB::raw("0 as services"),
+                            DB::raw("0 as client"),
+                            DB::raw("0 as number")
+                        )
+                    ->where("m.type", $this->status_service_table)
+                    ->where("os.status", "ACTIVO")
+                    ->where("m.status", "ACTIVO")
+                    ->where("services.sucursal_id", $this->branch_id)
+                    ->distinct()
+                    ->orderBy("os.id", "desc")
+                    ->paginate($this->pagination);
+                }
             }
             else
             {
-                $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
-                ->join("movimientos as m","m.id","ms.movimiento_id")
-                ->join("order_services as os","os.id","services.order_service_id")
-                ->select(
-                        "os.id as code",
-                        "os.created_at as reception_date",
-                        "m.type as estado_movimiento",
-                        DB::raw("0 as services"),
-                        DB::raw("0 as client"),
-                        DB::raw("0 as number")
-                    )
-                ->where("m.type", $this->status_service_table)
-                ->where("os.status", "ACTIVO")
-                ->where("m.status", "ACTIVO")
-                ->distinct()
-                ->orderBy("os.id", "desc")
-                ->paginate($this->pagination);
+                if($this->status_service_table == "TODOS")
+                {
+                    //Consulta para obtener la lista de órdenes de servicio ordenados por fecha de creación
+                    $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
+                    ->join("movimientos as m","m.id","ms.movimiento_id")
+                    ->join("order_services as os","os.id","services.order_service_id")
+                    ->select(
+                            "os.id as code",
+                            "os.created_at as reception_date",
+                            "m.type as estado_movimiento",
+                            DB::raw("0 as services"),
+                            DB::raw("0 as client"),
+                            DB::raw("0 as number")
+                        )
+                    ->where("os.status", "ACTIVO")
+                    ->where("m.status", "ACTIVO")
+                    ->distinct()
+                    ->orderBy("os.id", "desc")
+                    ->paginate($this->pagination);
+                }
+                else
+                {
+                    $service_orders = Service::join("mov_services as ms","ms.service_id","services.id")
+                    ->join("movimientos as m","m.id","ms.movimiento_id")
+                    ->join("order_services as os","os.id","services.order_service_id")
+                    ->select(
+                            "os.id as code",
+                            "os.created_at as reception_date",
+                            "m.type as estado_movimiento",
+                            DB::raw("0 as services"),
+                            DB::raw("0 as client"),
+                            DB::raw("0 as number")
+                        )
+                    ->where("m.type", $this->status_service_table)
+                    ->where("os.status", "ACTIVO")
+                    ->where("m.status", "ACTIVO")
+                    ->distinct()
+                    ->orderBy("os.id", "desc")
+                    ->paginate($this->pagination);
+                }
             }
         }
         else

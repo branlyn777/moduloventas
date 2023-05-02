@@ -430,14 +430,13 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            {{-- <label>Categoria</label> --}}
-                            {{-- <div class="form-group">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model="search" placeholder="Buscar..."
-                                        class="form-control">
-                                </div>
-                            </div> --}}
+                            <label>Sucursal</label>
+                            <select wire:model="branch_id" class="form-select">
+                                <option value="all">Todas</option>
+                                @foreach ($this->list_branches as $b)
+                                <option value="{{$b->id}}">{{$b->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-3">
                             <label>Estado Servicio</label>
@@ -525,14 +524,14 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-uppercase text-sm">
-                                                            <b>{{ $so->client->nombre }}</b> 
+                                                            <b>{{ $so->client->nombre }}</b>
                                                         </span>
                                                         <br>
                                                         <span class="text-sm">
                                                             {{ \Carbon\Carbon::parse($so->reception_date)->format('d/m/Y H:i') }}
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <span class="text-sm">
                                                             {{ \Carbon\Carbon::parse($s->created_at)->format('d/m/Y H:i') }}
                                                         </span>
