@@ -212,6 +212,17 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label style="font-size: 1rem">Estado</label>
+                            <select wire:model='tipo_movimiento' class="form-select">
+                                <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
+                                <option class="text-uppercase text-xs ps-2" value="ACTIVO">Activos</option>
+                                <option class="text-uppercase text-xs ps-2" value="INACTIVO">Anulados</option>
+                   
+                            </select>
+                        </div>
+                    </div>
 
                 </div>
 
