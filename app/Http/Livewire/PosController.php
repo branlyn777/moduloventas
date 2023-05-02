@@ -107,6 +107,8 @@ class PosController extends Component
     //Guarda el id de una cotizacion
     public $cotization_id;
     public $page = 1;
+    //Variable que guarda lo que hay que buscar en una devolucion en venta
+    public $search_devolution, $date_from_devolution, $date_of_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -128,6 +130,10 @@ class PosController extends Component
     }
     public function mount()
     {
+        $this->date_from_devolution = Carbon::now()->subDays(4)->format('Y-m-d');
+        $this->date_of_devolution = Carbon::parse(Carbon::now())->format('Y-m-d');
+
+
         $this->extraquantity = 1;
         $this->selloutofstock = true;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -274,8 +280,31 @@ class PosController extends Component
 
 
         //Devolución en Ventas
+        $list_sales_devolution = Sale::join("sale_details as sd","sd.sale_id","sales.id")
+        ->join("users as u","u.id","sales.user_id")
+        ->join("carteras as c","c.id","sales.cartera_id")
+        ->join("sucursals as s","s.id","sales.sucursal_id")
+        ->join("products as p","p.id","sd.product_id")
+        ->select("sales.id as code","c.created_at as created","sales.total as total","u.name as user",
+        "c.nombre as wallet","s.name as branch", DB::raw('0 as saledetail'))
+        ->where("sales.status","PAID")
+        ->whereBetween('sales.created_at', [$this->date_from_devolution . ' 00:00:00', $this->date_of_devolution . ' 23:59:59'])
+        ->where(function ($query) {
+            $query->where('p.nombre', 'like', '%' . $this->search_devolution . '%')
+            ->orWhere('p.codigo', 'like', '%' . $this->search_devolution . '%')
+            ->orWhere('sales.id', 'like', '%' . $this->search_devolution . '%');
+        })
+        ->distinct()
+        ->orderBy("sales.created_at", "desc")
+        ->paginate(20);
 
-        $list_products_devolution = Product::where("status","ACTIVO")->paginate(10);
+        foreach($list_sales_devolution as $s)
+        {
+            $s->saledetail = SaleDetail::join("products as p","p.id","sale_details.product_id")
+            ->select("p.nombre as name_product","sale_details.price as price","sale_details.quantity as quantity","p.codigo as code_product")
+            ->where("sale_details.sale_id",$s->code)
+            ->get();
+        }
 
 
         //------------------
@@ -293,7 +322,7 @@ class PosController extends Component
             'nombrecliente' => Cliente::find($this->cliente_id)->nombre,
             'nombrecartera' => $this->nombrecartera(),
             'categorias_ie' => $categorias_ie,
-            'list_products_devolution' => $list_products_devolution
+            'list_sales_devolution' => $list_sales_devolution
 
         ])
             ->extends('layouts.theme.app')

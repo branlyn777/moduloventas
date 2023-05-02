@@ -297,13 +297,6 @@
 @endsection
 
 
-@section('asd')
-    <style>
-
-    </style>
-@endsection
-
-
 @section('migaspan')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
