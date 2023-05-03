@@ -121,7 +121,8 @@
 
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="toggleSwitch"
-                                        {{ $cajaselected == 'true' ? 'checked' : '' }} wire:click="$toggle('cajaselected')">
+                                        {{ $cajaselected == 'true' ? 'checked' : '' }}
+                                        wire:click="$toggle('cajaselected')">
                                     <label class="form-check-label" for="toggleSwitch">
 
 
@@ -143,9 +144,9 @@
                             <div class="form-group">
                                 <label style="font-size: 1rem">Sucursal</label>
                                 <select wire:model="caja" class="form-select">
-                                    @foreach ($cajas2 as $item)
+                                    @foreach ($sucursales as $item)
                                         <option value="{{ $item->id }}">
-                                            {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
+                                            {{ $item->name }}</option>
                                     @endforeach
                                     <option value="TODAS">TODAS</option>
                                 </select>
@@ -157,9 +158,9 @@
                             <div class="form-group">
                                 <label style="font-size: 1rem">Cajas</label>
                                 <select wire:model="caja" class="form-select">
-                                    @foreach ($cajas2 as $item)
+                                    @foreach ($cajas as $item)
                                         <option value="{{ $item->id }}">
-                                            {{ $item->carteranombre }}-{{ $item->cajanombre }}</option>
+                                            {{ $item->cajanombre }}</option>
                                     @endforeach
                                     <option value="TODAS">TODAS</option>
                                 </select>
@@ -171,7 +172,7 @@
                             <div class="form-group">
                                 <label style="font-size: 1rem">Carteras</label>
                                 <select wire:model="carterasel" class="form-select">
-                                    @foreach ($cajas2 as $item)
+                                    @foreach ($carteras as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->carteranombre }}</option>
                                     @endforeach
@@ -219,7 +220,7 @@
                                 <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
                                 <option class="text-uppercase text-xs ps-2" value="ACTIVO">Activos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INACTIVO">Anulados</option>
-                   
+
                             </select>
                         </div>
                     </div>

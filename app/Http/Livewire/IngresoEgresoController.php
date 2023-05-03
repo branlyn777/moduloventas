@@ -18,9 +18,9 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursals, $sumaTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
+    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $sumaTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit, $type_edit, $selected_id, $estado,$opciones, $cartera_id, $type, $comentario,$carterasel, $cartajusteselected, $cajaselected, $carteraselected;
+    public $cartera_id_edit, $type_edit, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -45,58 +45,59 @@ class IngresoEgresoController extends Component
         //Variable para guardar el id de una categoria en la tabla principal
         $this->categoria_id = 'Todos';
         //Variable para guardar el id de una categoria en la ventana modal modalDetails
-        $this->categoria_ie_id = "Elegir";
+        $this->categoria_ie_id = null;
         $this->cajaselected = false;
+        $this->carterasel = 'TODAS';
         //$this->sucursal=collect();
 
     }
     public function render()
     {
 
+        // if (Auth::user()->hasPermissionTo('Admin_Views') or Auth::user()->hasPermissionTo('Caja_Index')) {
+        //     $this->sucursales = Sucursal::all();
+        //     if ($this->sucursal == 'TODAS') {
+
+        //         $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+        //             ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
+        //     } else {
+        //         $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+        //             ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
+        //     }
+        // } else {
+        //     $this->sucursales = User::join('sucursal_users as su', 'su.user_id', 'users.id')
+        //         ->join('sucursals as s', 's.id', 'su.sucursal_id')
+        //         ->where('users.id', Auth()->user()->id)
+        //         ->where('su.estado', 'ACTIVO')
+        //         ->select('s.*')
+        //         ->get();
+
+
+        //     $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+        //         ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
+        // }
+        // if ($this->caja == 'TODAS') {
+        //     $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
+        //         ->join('sucursals as s', 's.id', 'c.sucursal_id')
+        //         ->where('s.id', $this->sucursal)
+        //         ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo', 'carteras.saldocartera')->get();
+        // } else {
+        //     $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
+        //         ->join('sucursals as s', 's.id', 'c.sucursal_id')
+        //         ->where('c.id', $this->caja)
+        //         ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo', 'carteras.saldocartera')->get();
+        // }
+
+
+        $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+            ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+            ->get();
 
 
 
-
-        if (Auth::user()->hasPermissionTo('Admin_Views') or Auth::user()->hasPermissionTo('Caja_Index')) {
-            $this->sucursals = Sucursal::all();
-            if ($this->sucursal == 'TODAS') {
-
-                $cajab = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-                    ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-            } else {
-                $cajab = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-                    ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-            }
-        } else {
-            $this->sucursals = User::join('sucursal_users as su', 'su.user_id', 'users.id')
-                ->join('sucursals as s', 's.id', 'su.sucursal_id')
-                ->where('users.id', Auth()->user()->id)
-                ->where('su.estado', 'ACTIVO')
-                ->select('s.*')
-                ->get();
-
-
-            $cajab = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-                ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-        }
-
-
-
-        if ($this->caja == 'TODAS')
-        {
-            $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
-            ->join('sucursals as s', 's.id', 'c.sucursal_id')
-            ->where('s.id', $this->sucursal)
-            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo','carteras.saldocartera')->get();
-        }
-        else
-        {
-            $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
-            ->join('sucursals as s', 's.id', 'c.sucursal_id')
-            ->where('c.id', $this->caja)
-            ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo' ,'carteras.saldocartera')->get();
-        }
-
+        $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+            ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+            ->get();
 
 
         $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
@@ -105,8 +106,6 @@ class IngresoEgresoController extends Component
             ->join('users as u', 'u.id', 'movimientos.user_id')
             ->select('movimientos.type as movimientotype', 'movimientos.import as import', 'crms.type as carteramovtype', 'crms.tipoDeMovimiento', 'crms.comentario', 'c.nombre as nombre', 'c.descripcion', 'c.tipo', 'c.telefonoNum', 'ca.nombre as cajaNombre', 'u.name as usuarioNombre', 'movimientos.created_at as movimientoCreacion', 'movimientos.id as movid', 'movimientos.status as movstatus')
             ->where('crms.tipoDeMovimiento', '=', 'EGRESO/INGRESO')
-
-
             ->when($this->search != null, function ($query) {
                 $query->where('crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
                     ->orWhere('u.name', 'like', '%' . $this->search . '%')
@@ -116,7 +115,7 @@ class IngresoEgresoController extends Component
             ->when($this->carterasel == 'TODAS', function ($query) {
                 $query->where('c.id', $this->carterasel);
             })
-      
+
             ->when($this->tipo_movimiento == 'ingreso', function ($query) {
                 $query->where('crms.type', 'INGRESO');
             })
@@ -131,48 +130,31 @@ class IngresoEgresoController extends Component
         $this->sumaTotal = $this->data->sum('import');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //Listando todas las categorias con estado activo
 
-        if ($this->tipo_movimiento == "TODOS") {
+        if ($this->type == "TODOS") {
             $categorias = CarteraMovCategoria::select("cartera_mov_categorias.*")
                 ->where("cartera_mov_categorias.status", "ACTIVO")
                 ->get();
         } else {
             $categorias = CarteraMovCategoria::select("cartera_mov_categorias.*")
                 ->where("cartera_mov_categorias.status", "ACTIVO")
-                ->where("cartera_mov_categorias.tipo", $this->tipo_movimiento)
+                ->where("cartera_mov_categorias.tipo", $this->type)
                 ->get();
         }
 
-
-
-
-
+        if ($this->categoria_ie_id != null) {
+            $detail = CarteraMovCategoria::find($this->categoria_ie_id)->detalle;
+        } else {
+            $detail = null;}
 
         return view('livewire.reportemovimientoresumen.ingresoegreso', [
             'carterasSucursal' => $this->carterasSucursal,
-
-            'cajas2' => $cajab,
+            'categorias_ie' => $categorias,
+            'carteras' => $cartera,
             'data' => $this->data,
             'categorias' => $categorias,
-
-
-
-
+            'detalle' => $detail
         ])
             ->extends('layouts.theme.app')
             ->section('content');

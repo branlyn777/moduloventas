@@ -20,9 +20,9 @@
                             <label><span class="text-warning">* </span>Cartera</label>
                             <select wire:model='cartera_id' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
-                                @foreach ($carterasSucursal as $item)
-                                    <option value="{{ $item->id }}">{{ $item->cajaNombre }},
-                                        {{ $item->carteraNombre }}</option>
+                                @foreach ($carterasAjuste as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->carteranombre }}</option>
                                 @endforeach
                             </select>
                             @error('cartera_id')
@@ -50,7 +50,7 @@
                             @if ($this->type != 'Elegir')
                                 <label><span class="text-warning">* </span>Categoria</label>
                                 <select wire:model='categoria_ie_id' class="form-select">
-                                    <option value="Elegir" selected disabled>Elegir</option>
+                                    <option value=null selected disabled>Elegir</option>
                                     @foreach ($categorias_ie as $c)
                                         <option value="{{ $c->id }}">{{ $c->nombre }}</option>
                                     @endforeach
@@ -79,7 +79,7 @@
                             <label>Detalles de la Categoria Seleccionada:</label>
                             <br>
                             @if ($detalle)
-                                <label>{{ $detalle }}</label>
+                                <label>{{$detalle}}</label>
                             @else
                                 <label>No se puso ningún detalle a la categoria seleccionada</label>
                             @endif

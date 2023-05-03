@@ -19,9 +19,9 @@
                             <label>Cartera</label>
                             <select wire:model='cartera_id_edit' disabled class="form-control">
                                 <option value="Elegir" selected disabled>Elegir</option>
-                                @foreach ($carterasSucursal as $item)
-                                    <option value="{{ $item->id }}">{{ $item->cajaNombre }},
-                                        {{ $item->carteraNombre }}</option>
+                                @foreach ($carterasAjuste as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->carteranombre }}</option>
                                 @endforeach
                             </select>
                             @error('cartera_id')

@@ -9,7 +9,7 @@
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
 
             <div class="modal-body">
@@ -20,9 +20,9 @@
                             <label><span class="text-warning">* </span>Cartera</label>
                             <select wire:model='cartajusteselected' class="form-select">
                                 <option value=null selected disabled>Elegir</option>
-                                @foreach ($carterasSucursal as $item)
-                                    <option value="{{ $item->id }}">{{ $item->cajaNombre }},
-                                        {{ $item->carteraNombre }}</option>
+                                @foreach ($carterasAjuste as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->carteranombre }}</option>
                                 @endforeach
                             </select>
                             @error('cartera_id')
@@ -34,7 +34,8 @@
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Saldo Cartera</label>
                             <br>
-                            <h6 class="badge badge-lg bg-primary p-2 text-center text-lg" >{{$saldo_cartera_aj??0}}</h6>
+                            <h6 class="badge badge-lg bg-primary p-2 text-center text-lg">{{ $saldo_cartera_aj ?? 0 }}
+                            </h6>
                         </div>
                     </div>
 
@@ -42,7 +43,9 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <label><span class="text-warning">* </span>Nuevo Saldo</label>
-                            <input type="number" onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;" required wire:model.lazy="cantidad" class="form-control">
+                            <input type="number"
+                                onkeypress="if(event.keyCode < 46 || event.keyCode > 57 || event.keyCode == 47) event.returnValue = false;"
+                                required wire:model.lazy="cantidad" class="form-control">
                             @error('cantidad')
                                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                             @enderror
