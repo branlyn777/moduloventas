@@ -293,6 +293,83 @@
             padding: 10px;
             margin: 0;
         }
+
+        /*Estilos para tabla con thead estática*/
+        .table-static {
+            width: 100%;/* Anchura de ejemplo */
+            height: 310px; /* Altura de ejemplo */
+            overflow: auto;
+        }
+        .table-static table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-left: 0.3px solid #5e72e4;
+            border-bottom: 0.3px solid #5e72e4;
+            width: 100%;
+        }
+        .table-static table thead {
+            position: -webkit-sticky; /* Safari... */
+            position: sticky;
+            top: 0;
+            left: 0;
+        }
+        .table-static table thead tr {
+            background: #5e72e4;
+            color: white;
+        }
+        .table-static table tbody tr:hover {
+            background-color: #ffdf76a4;
+        }
+        .table-static table td {
+            border-top: 0.3px solid #5e72e4;
+            padding-left: 10px;
+            border-right: 0.3px solid #5e72e4;
+        }
+
+        .table-product{
+            width: 100%;/* Anchura de ejemplo */
+        }
+        .table-product table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-left: 0.3px solid #5e72e4;
+            border-bottom: 0.3px solid #5e72e4;
+            width: 100%;
+        }
+        .table-product table thead {
+            position: -webkit-sticky; /* Safari... */
+            position: sticky;
+            top: 0;
+            left: 0;
+        }
+        .table-product table thead tr {
+            background: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .table-product table tbody tr {
+            background-color: #ffffff;
+        }
+        .table-product table tbody tr:hover {
+            background-color: #ffffff;
+        }
+        .table-product table thead tr:hover {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .table-product table td {
+            border-top: 0.3px solid #5e72e4;
+            padding-left: 10px;
+            border-right: 0.3px solid #5e72e4;
+        }
+        /*Estilos para seleccionar producto en las devoluciones*/
+        .product-devolution {
+            cursor: pointer;
+        }
+        .product-devolution:hover {
+            background-color: black;
+            color: white;
+            border-radius: 7px;
+        }
     </style>
 @endsection
 
@@ -379,9 +456,6 @@
                         <button wire:click="modalbuscarcliente()" type="button" class="btn btn-default">
                             Buscar/Crear
                         </button>
-
-
-
                     </div> --}}
                     <div class="col-12 col-sm-6 col-md-2 text-left">
                         <b>Tipo de Pago</b>

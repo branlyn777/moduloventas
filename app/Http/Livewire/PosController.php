@@ -285,7 +285,7 @@ class PosController extends Component
         ->join("carteras as c","c.id","sales.cartera_id")
         ->join("sucursals as s","s.id","sales.sucursal_id")
         ->join("products as p","p.id","sd.product_id")
-        ->select("sales.id as code","c.created_at as created","sales.total as total","u.name as user",
+        ->select("sales.id as code","sales.created_at as created","sales.total as total","u.name as user",
         "c.nombre as wallet","s.name as branch", DB::raw('0 as saledetail'))
         ->where("sales.status","PAID")
         ->whereBetween('sales.created_at', [$this->date_from_devolution . ' 00:00:00', $this->date_of_devolution . ' 23:59:59'])
@@ -296,7 +296,7 @@ class PosController extends Component
         })
         ->distinct()
         ->orderBy("sales.created_at", "desc")
-        ->paginate(20);
+        ->paginate(100);
 
         foreach($list_sales_devolution as $s)
         {

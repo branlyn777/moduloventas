@@ -25,7 +25,7 @@
               <input wire:model="date_of_devolution" type="date" class="form-control">
             </div>
           </div>
-          <div class="table-wrapper">
+          <div class="table-static">
             <table>
               <thead class="text-sm">
                 <tr class="text-center">
@@ -36,7 +36,6 @@
                   <th>Usuario</th>
                   <th>Cartera</th>
                   <th>Sucursal</th>
-                  <th>*</th>
                 </tr>
               </thead>
               <tbody class="text-sm">
@@ -44,9 +43,7 @@
                 <tr class="fila-click" style="cursor: pointer;">
                   <th class="text-center" scope="row">{{ ($list_sales_devolution->currentpage() - 1) * $list_sales_devolution->perpage() + $loop->index + 1 }}</th>
                   <td class="text-center">
-                    <span style="background-color: #5e72e4; color: white; padding: 2px; border-radius: 7px;">
-                      {{$pd->code}}
-                    </span>
+                    {{$pd->code}}
                   </td>
                   <td class="text-center">{{ \Carbon\Carbon::parse($pd->created)->format('d/m/Y H:i') }}</td>
                   <td class="text-end">{{number_format($pd->total, 2, ',', '.')}}</td>
@@ -56,7 +53,7 @@
                 </tr>
                 <tr class="detalles" style="display:none;">
                   <td colspan="7">
-                    <div>
+                    <div class="table-product">
                       <table>
                         <thead>
                           <tr class="text-center">
@@ -75,9 +72,9 @@
                               {{$loop->iteration}}
                             </td>
                             <td>
-                              <button class="btn btn-sm">
+                              <span class="product-devolution">
                                 {{$d->name_product}}
-                              </button>
+                              </span>
                             </td>
                             <td>
                               {{$d->code_product}}
