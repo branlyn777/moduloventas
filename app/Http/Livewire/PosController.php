@@ -110,7 +110,7 @@ class PosController extends Component
     //Variable que guarda lo que hay que buscar en una devolucion en venta
     public $search_devolution, $date_from_devolution, $date_of_devolution;
     //Variable que guarda el id y nombre del producto para devolución
-    public $product_id_devolution, $product_name_devolution;
+    public $product_id_devolution, $product_name_devolution, $sale_id_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -298,14 +298,17 @@ class PosController extends Component
         })
         ->distinct()
         ->orderBy("sales.created_at", "desc")
-        ->paginate(100);
+        ->paginate(10);
 
         foreach($list_sales_devolution as $s)
         {
-            $s->saledetail = SaleDetail::join("products as p","p.id","sale_details.product_id")
-            ->select("p.nombre as name_product","sale_details.price as price","sale_details.id as idsaledetail","sale_details.quantity as quantity","p.codigo as code_product")
-            ->where("sale_details.sale_id",$s->code)
-            ->get();
+            if($s->code == $this->sale_id_devolution)
+            {
+                $s->saledetail = SaleDetail::join("products as p","p.id","sale_details.product_id")
+                ->select("p.nombre as name_product","sale_details.price as price","sale_details.id as idsaledetail","sale_details.quantity as quantity","p.codigo as code_product")
+                ->where("sale_details.sale_id",$s->code)
+                ->get();
+            }
         }
 
 
@@ -1440,6 +1443,18 @@ class PosController extends Component
     public function showModalDevolution()
     {
         $this->emit("show-modal-devolution");
+    }
+    //Selecciona una venta para deolución
+    public function select_sale($idsale)
+    {
+        if($this->sale_id_devolution == $idsale)
+        {
+            $this->sale_id_devolution = null;
+        }
+        else
+        {
+            $this->sale_id_devolution = $idsale;
+        }
     }
     // Selecciona un producto y venta para devolución
     public function select_product(SaleDetail $sale_detail)

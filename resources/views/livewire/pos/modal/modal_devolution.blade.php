@@ -43,7 +43,9 @@
                 <tr class="fila-click" style="cursor: pointer;">
                   <th class="text-center" scope="row">{{ ($list_sales_devolution->currentpage() - 1) * $list_sales_devolution->perpage() + $loop->index + 1 }}</th>
                   <td class="text-center">
-                    {{$pd->code}}
+                    <span wire:click.prevent='select_sale({{$pd->code}})'>
+                      <b>{{$pd->code}}</b>
+                    </span>
                   </td>
                   <td class="text-center">{{ \Carbon\Carbon::parse($pd->created)->format('d/m/Y H:i') }}</td>
                   <td class="text-end">{{number_format($pd->total, 2, ',', '.')}}</td>
@@ -51,50 +53,52 @@
                   <td class="text-center">{{$pd->wallet}}</td>
                   <td class="text-center">{{$pd->branch}}</td>
                 </tr>
-                <tr class="detalles" style="display:none;">
-                  <td colspan="7">
-                    <div class="table-product">
-                      <table>
-                        <thead>
-                          <tr class="text-center">
-                            <th>No</th>
-                            <th>Producto</th>
-                            <th>Código</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th>Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @foreach ($pd->saledetail as $d)
-                          <tr>
-                            <td class="text-center">
-                              {{$loop->iteration}}
-                            </td>
-                            <td>
-                              <span class="product-devolution" wire:click.prevent='select_product({{$d->idsaledetail}})'>
-                                {{$d->name_product}}
-                              </span>
-                            </td>
-                            <td>
-                              {{$d->code_product}}
-                            </td>
-                            <td class="text-center">
-                              {{$d->price}}
-                            </td>
-                            <td class="text-center">
-                              {{$d->quantity}}
-                            </td>
-                            <td class="text-center">
-                              {{$d->price * $d->quantity}}
-                            </td>
-                          </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
-                    </div>
-                  </td>
-                </tr>
+                  @if($pd->saledetail != "0")
+                  <tr>
+                    <td colspan="7">
+                      <div class="table-product">
+                        <table>
+                          <thead>
+                            <tr class="text-center">
+                              <th>No</th>
+                              <th>Producto</th>
+                              <th>Código</th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($pd->saledetail as $d)
+                            <tr>
+                              <td class="text-center">
+                                {{$loop->iteration}}
+                              </td>
+                              <td>
+                                <span class="product-devolution" wire:click.prevent='select_product({{$d->idsaledetail}})'>
+                                  {{$d->name_product}}
+                                </span>
+                              </td>
+                              <td>
+                                {{$d->code_product}}
+                              </td>
+                              <td class="text-center">
+                                {{$d->price}}
+                              </td>
+                              <td class="text-center">
+                                {{$d->quantity}}
+                              </td>
+                              <td class="text-center">
+                                {{$d->price * $d->quantity}}
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                  @endif
                 @endforeach
               </tbody>
             </table>
@@ -109,19 +113,25 @@
               </h5>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-3"></div>
-            <div class="col-12 col-sm-6 col-md-3 text-center">
+          <div class="row mb-2">
+            <div class="col-12 col-sm-6 col-md-2"></div>
+            <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Cantidad:</label>
               <input type="number" class="form-control">
             </div>
-            <div class="col-12 col-sm-6 col-md-3 text-center">
+            <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Guardar en:</label>
               <select class="form-select">
                 <option value=""></option>
               </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-3"></div>
+            <div class="col-12 col-sm-6 col-md-2"></div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-12">
+                <label>Motivo Devolución</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+            </div>
           </div>
           @endif
         </div>
