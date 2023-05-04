@@ -18,9 +18,9 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $sumaTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
+    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $balanceTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit, $type_edit, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
+    public $cartera_id_edit,$ingresosTotal,$egresosTotal, $type_edit,$saldosCartera, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -43,12 +43,13 @@ class IngresoEgresoController extends Component
         $this->caja = 'TODAS';
         $this->sucursal = $this->usuarioSucursal();
         //Variable para guardar el id de una categoria en la tabla principal
-        $this->categoria_id = 'Todos';
+      
         //Variable para guardar el id de una categoria en la ventana modal modalDetails
         $this->categoria_ie_id = null;
         $this->cajaselected = false;
         $this->carterasel = 'TODAS';
         $this->estado='ACTIVO';
+        $this->categoria_id='TODOS';
         //$this->sucursal=collect();
 
     }
@@ -73,6 +74,7 @@ class IngresoEgresoController extends Component
               //dump($this->fromDate,$this->toDate);
               $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
                         ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cartera_mov_categorias as crmc', 'crmc.id', 'crms.cartera_mov_categoria_id')
                         ->join('cajas as ca', 'ca.id', 'c.caja_id')
                         ->join('users as u', 'u.id', 'movimientos.user_id')
                         ->where('movimientos.status', '=', $this->estado)
@@ -94,15 +96,32 @@ class IngresoEgresoController extends Component
                         ->when($this->tipo_movimiento == 'EGRESO', function ($query) {
                             $query->where('crms.type', 'EGRESO');
                         })
-                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO', 'FALTANTE', 'SOBRANTE', 'RECAUDO'])
+                        ->when($this->categoria_id != 'TODOS', function ($query) {
+                            $query->where('crms.cartera_mov_categoria_id',$this->categoria_id);
+                        })
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','FALTANTE','SOBRANTE','RECAUDO'])
                         ->orderBy('movimientos.id', 'desc')
-                        ->select('movimientos.type as movimientotype', 'movimientos.import as import', 'crms.type as carteramovtype', 'crms.tipoDeMovimiento', 'crms.comentario', 'c.nombre as nombre', 'c.descripcion', 'c.tipo', 'ca.nombre as cajaNombre', 'u.name as usuarioNombre', 'movimientos.created_at as movimientoCreacion', 'movimientos.id as movid', 'movimientos.status as movstatus')
-                        ->get();
-
-                          
+                        ->select('movimientos.type as movimientotype', 'movimientos.import as import', 'crms.type as carteramovtype',
+                         'crms.tipoDeMovimiento', 'crms.comentario', 'c.nombre as nombre', 'c.descripcion', 'c.tipo', 'ca.nombre as cajaNombre', 'u.name as usuarioNombre',
+                          'movimientos.created_at as movimientoCreacion', 'movimientos.id as movid', 'movimientos.status as movstatus','crmc.nombre as nombrecategoria')
+                        ->get();                       
             }
-        $this->sumaTotal = $this->data->sum('import');
+            $this->ingresosTotal =$this->data->where('carteramovtype','INGRESO')->sum('import');
+            $this->egresosTotal = $this->data->where('carteramovtype','EGRESO')->sum('import');
+            $this->balanceTotal = $this->ingresosTotal-$this->egresosTotal;
 
+
+
+            $this->saldosCartera = Cartera::all();
+
+            if ($this->carterasel != 'TODAS') {
+                $ingresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')->join('movimientos','movimientos,id','cartera_movs.movimiento_id')
+                ->where('cartera_movs.type','INGRESO')
+                ->where('movimientos.status','ACTIVO')
+                ->get();
+            }
+
+          
 
         //Listando todas las categorias con estado activo
 
@@ -132,6 +151,10 @@ class IngresoEgresoController extends Component
          
         } else {
             $detail = null;}
+
+          if ($this->cartajusteselected!=null) {
+                $this->saldo_cartera_aj=Cartera::find($this->cartajusteselected)->saldocartera;
+          } 
 
         return view('livewire.reportemovimientoresumen.ingresoegreso', [
             'carterasSucursal' => $this->carterasSucursal,
@@ -182,16 +205,15 @@ class IngresoEgresoController extends Component
         ]);
 
         CarteraMov::create([
-            'type' => $this->saldo_cartera_aj > $this->cantidad ? 'INGRESO' : 'EGRESO',
-            'tipoDeMovimiento' => 'AJUSTE',
+            'type' =>$this->cantidad>$this->saldo_cartera_aj ? 'INGRESO' : 'EGRESO',
+            'tipoDeMovimiento' =>$this->cantidad>$this->saldo_cartera_aj ? 'SOBRANTE' : 'FALTANTE',
             'comentario' => $this->comentario,
             'cartera_id' => $this->cartajusteselected,
-            'movimiento_id' => $mvt->id
+            'movimiento_id' => $mvt->id,
+            'cartera_mov_categoria_id'=>$this->categoria_ie_id
         ]);
 
         $cartera = Cartera::find($this->cartajusteselected);
-
-
 
         $cartera->update([
             'saldocartera' => $this->cantidad
