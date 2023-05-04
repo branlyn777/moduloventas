@@ -224,6 +224,9 @@
                         <td>
 
                         </td>
+                        <td style="text-align: right;">
+                            {{ number_format($p['importe'] - $p['servicio_costo'] , 2) }}
+                        </td>
                
                     </tr>
                     <tr>

@@ -697,6 +697,12 @@ class OrderServiceController extends Component
         ->where("m.type", "PROCESO")
         ->select("m.*")
         ->first();
+        $motion = Movimiento::find($motion_process->id);
+        //Actualizando el estado del movimiento PROCESO
+        $motion->update([
+            'status' => 'INACTIVO'
+        ]);
+        $motion->save();
 
         //CREANDO EL SERVICIO EN TERMINADO
         $motion_terminated = Movimiento::create([
@@ -717,12 +723,6 @@ class OrderServiceController extends Component
             'movimiento_id' => $motion_terminated->id,
             'cliente_id' => $client->id
         ]);
-        $motion = Movimiento::find($motion_process->id);
-        //Actualizando el estado del movimiento PROCESO
-        $motion->update([
-            'status' => 'INACTIVO'
-        ]);
-        $motion->save();
         //Actualizando el servicio
         $service->update([
             'solucion' => $this->s_solution,

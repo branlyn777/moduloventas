@@ -63,10 +63,10 @@ class ServicioInformeTecnicoController extends Controller
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
         $direccionempresa = Company::find(1)->adress;
-
+        $telefono = Company::find(1)->phone;
 
         
-        $pdf = PDF::loadView('livewire.pdf.InformeTecnico', compact('datos_servicio','detalles_extra', 'direccionempresa' ,'year','logoempresa','nombreempresa' , 'codigo','fecharecepcion','responsable_tecnico','dia_mes_actual'));
+        $pdf = PDF::loadView('livewire.pdf.InformeTecnico', compact('datos_servicio','telefono','detalles_extra', 'direccionempresa' ,'year','logoempresa','nombreempresa' , 'codigo','fecharecepcion','responsable_tecnico','dia_mes_actual'));
         /* $pdf->setPaper("A4", "landscape"); //orientacion y tamaño */
 
         return $pdf->stream('InformeTecnico.pdf');  //visualizar

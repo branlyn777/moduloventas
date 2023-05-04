@@ -29,14 +29,14 @@
                     <br>
                     {{ $direccionempresa }}
                     <br>
-                    4240013- 79771777
+                    {{ $telefono }}
                 </td>
                 <td class="text-center" style="width: 33%;">
 
                 </td>
                 <td class="text-center" style="width: 33%;">
 
-                    <img src="storage/iconos/logo_company.png" alt="" class="invoice-logo" height="100px">
+                    <img src="{{ asset('storage/iconos/' . $logoempresa) }}" alt="" class="invoice-logo" height="100px">
                 </td>
             </tr>
         </tbody>

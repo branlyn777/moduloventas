@@ -71,6 +71,15 @@ class ExportMovDiaResController extends Controller
             $caja = Caja::find($caja)->nombre;
         }
 
+        //Calculando el total utilidad en servicios
+        $utilidad_servicios = 0;
+        foreach($totalesIngresosS as $s)
+        {
+            $utilidad_servicios = ($s['importe'] - $s['servicio_costo']) + $utilidad_servicios;
+        }
+
+
+        $totalutilidadSV = $totalutilidadSV + $utilidad_servicios;
 
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->horizontal_image;
