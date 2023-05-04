@@ -72,7 +72,7 @@
                               {{$loop->iteration}}
                             </td>
                             <td>
-                              <span class="product-devolution">
+                              <span class="product-devolution" wire:click.prevent='select_product({{$d->idsaledetail}})'>
                                 {{$d->name_product}}
                               </span>
                             </td>
@@ -100,6 +100,30 @@
             </table>
             {{ $list_sales_devolution->links() }}
           </div>
+          @if($this->product_id_devolution > 0)
+          <br>
+          <div class="row">
+            <div class="col-12 text-center">
+              <h5>
+                {{$this->product_name_devolution}}
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3"></div>
+            <div class="col-12 col-sm-6 col-md-3 text-center">
+              <label>Cantidad:</label>
+              <input type="number" class="form-control">
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 text-center">
+              <label>Guardar en:</label>
+              <select class="form-select">
+                <option value=""></option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3"></div>
+          </div>
+          @endif
         </div>
         <div class="modal-footer">
           <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
