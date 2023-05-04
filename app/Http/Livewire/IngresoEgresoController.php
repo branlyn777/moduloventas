@@ -18,9 +18,9 @@ use Livewire\Component;
 class IngresoEgresoController extends Component
 {
 
-    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $sumaTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
+    public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $balanceTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit, $type_edit, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
+    public $cartera_id_edit,$ingresosTotal,$egresosTotal, $type_edit,$saldosCartera, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -43,51 +43,20 @@ class IngresoEgresoController extends Component
         $this->caja = 'TODAS';
         $this->sucursal = $this->usuarioSucursal();
         //Variable para guardar el id de una categoria en la tabla principal
-        $this->categoria_id = 'Todos';
+      
         //Variable para guardar el id de una categoria en la ventana modal modalDetails
         $this->categoria_ie_id = null;
         $this->cajaselected = false;
         $this->carterasel = 'TODAS';
+        $this->estado='ACTIVO';
+        $this->categoria_id='TODOS';
         //$this->sucursal=collect();
 
     }
     public function render()
     {
 
-        // if (Auth::user()->hasPermissionTo('Admin_Views') or Auth::user()->hasPermissionTo('Caja_Index')) {
-        //     $this->sucursales = Sucursal::all();
-        //     if ($this->sucursal == 'TODAS') {
-
-        //         $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-        //             ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-        //     } else {
-        //         $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-        //             ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-        //     }
-        // } else {
-        //     $this->sucursales = User::join('sucursal_users as su', 'su.user_id', 'users.id')
-        //         ->join('sucursals as s', 's.id', 'su.sucursal_id')
-        //         ->where('users.id', Auth()->user()->id)
-        //         ->where('su.estado', 'ACTIVO')
-        //         ->select('s.*')
-        //         ->get();
-
-
-        //     $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-        //         ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')->get();
-        // }
-        // if ($this->caja == 'TODAS') {
-        //     $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
-        //         ->join('sucursals as s', 's.id', 'c.sucursal_id')
-        //         ->where('s.id', $this->sucursal)
-        //         ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo', 'carteras.saldocartera')->get();
-        // } else {
-        //     $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
-        //         ->join('sucursals as s', 's.id', 'c.sucursal_id')
-        //         ->where('c.id', $this->caja)
-        //         ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo', 'carteras.saldocartera')->get();
-        // }
-
+   
 
         $cartera = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
             ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
@@ -100,35 +69,59 @@ class IngresoEgresoController extends Component
             ->get();
 
 
-        $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
-            ->join('carteras as c', 'c.id', 'crms.cartera_id')
-            ->join('cajas as ca', 'ca.id', 'c.caja_id')
-            ->join('users as u', 'u.id', 'movimientos.user_id')
-            ->select('movimientos.type as movimientotype', 'movimientos.import as import', 'crms.type as carteramovtype', 'crms.tipoDeMovimiento', 'crms.comentario', 'c.nombre as nombre', 'c.descripcion', 'c.tipo', 'c.telefonoNum', 'ca.nombre as cajaNombre', 'u.name as usuarioNombre', 'movimientos.created_at as movimientoCreacion', 'movimientos.id as movid', 'movimientos.status as movstatus')
-            ->where('crms.tipoDeMovimiento', '=', 'EGRESO/INGRESO')
-            ->when($this->search != null, function ($query) {
-                $query->where('crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
-                    ->orWhere('u.name', 'like', '%' . $this->search . '%')
-                    ->orWhere('crms.comentario', 'like', '%' . $this->search . '%');
-            })
+            if ($this->cajaselected==false) {
 
-            ->when($this->carterasel == 'TODAS', function ($query) {
-                $query->where('c.id', $this->carterasel);
-            })
+              //dump($this->fromDate,$this->toDate);
+              $this->data = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                        ->join('carteras as c', 'c.id', 'crms.cartera_id')
+                        ->join('cartera_mov_categorias as crmc', 'crmc.id', 'crms.cartera_mov_categoria_id')
+                        ->join('cajas as ca', 'ca.id', 'c.caja_id')
+                        ->join('users as u', 'u.id', 'movimientos.user_id')
+                        ->where('movimientos.status', '=', $this->estado)
+                        ->whereBetween('movimientos.created_at', [$this->fromDate. ' 00:00:00', $this->toDate. ' 23:59:59'])
+                        ->when($this->search != null, function ($query) {
+                            $query->where(function ($query) {
+                                $query->where('crms.tipoDeMovimiento', 'like', '%' . $this->search . '%')
+                                    ->orWhere('u.name', 'like', '%' . $this->search . '%')
+                                    ->orWhere('crms.comentario', 'like', '%' . $this->search . '%');
+                            })
+                            ->whereBetween('movimientos.created_at', [$this->fromDate. ' 00:00:00', $this->toDate. ' 23:59:59']);
+                        })
+                        ->when($this->carterasel != 'TODAS', function ($query) {
+                            $query->where('c.id', $this->carterasel);
+                        })
+                        ->when($this->tipo_movimiento == 'INGRESO', function ($query) {
+                            $query->where('crms.type', 'INGRESO');
+                        })
+                        ->when($this->tipo_movimiento == 'EGRESO', function ($query) {
+                            $query->where('crms.type', 'EGRESO');
+                        })
+                        ->when($this->categoria_id != 'TODOS', function ($query) {
+                            $query->where('crms.cartera_mov_categoria_id',$this->categoria_id);
+                        })
+                        ->whereIn('crms.tipoDeMovimiento', ['EGRESO/INGRESO','FALTANTE','SOBRANTE','RECAUDO'])
+                        ->orderBy('movimientos.id', 'desc')
+                        ->select('movimientos.type as movimientotype', 'movimientos.import as import', 'crms.type as carteramovtype',
+                         'crms.tipoDeMovimiento', 'crms.comentario', 'c.nombre as nombre', 'c.descripcion', 'c.tipo', 'ca.nombre as cajaNombre', 'u.name as usuarioNombre',
+                          'movimientos.created_at as movimientoCreacion', 'movimientos.id as movid', 'movimientos.status as movstatus','crmc.nombre as nombrecategoria')
+                        ->get();                       
+            }
+            $this->ingresosTotal =$this->data->where('carteramovtype','INGRESO')->sum('import');
+            $this->egresosTotal = $this->data->where('carteramovtype','EGRESO')->sum('import');
+            $this->balanceTotal = $this->ingresosTotal-$this->egresosTotal;
 
-            ->when($this->tipo_movimiento == 'ingreso', function ($query) {
-                $query->where('crms.type', 'INGRESO');
-            })
-            ->when($this->tipo_movimiento == 'egreso', function ($query) {
-                $query->where('crms.type', 'EGRESO');
-            })
-            ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
-            ->where('movimientos.status', '=', $this->estado)
 
-            ->orderBy('movimientos.id', 'desc')
-            ->get();
-        $this->sumaTotal = $this->data->sum('import');
 
+            $this->saldosCartera = Cartera::all();
+
+            if ($this->carterasel != 'TODAS') {
+                $ingresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')->join('movimientos','movimientos,id','cartera_movs.movimiento_id')
+                ->where('cartera_movs.type','INGRESO')
+                ->where('movimientos.status','ACTIVO')
+                ->get();
+            }
+
+          
 
         //Listando todas las categorias con estado activo
 
@@ -142,15 +135,31 @@ class IngresoEgresoController extends Component
                 ->where("cartera_mov_categorias.tipo", $this->type)
                 ->get();
         }
+        if ($this->tipo_movimiento == "TODOS") {
+            $categorias2 = CarteraMovCategoria::select("cartera_mov_categorias.*")
+                ->where("cartera_mov_categorias.status", "ACTIVO")
+                ->get();
+        } else {
+            $categorias2 = CarteraMovCategoria::select("cartera_mov_categorias.*")
+                ->where("cartera_mov_categorias.status", "ACTIVO")
+                ->where("cartera_mov_categorias.tipo", $this->tipo_movimiento)
+                ->get();
+        }
 
         if ($this->categoria_ie_id != null) {
             $detail = CarteraMovCategoria::find($this->categoria_ie_id)->detalle;
+         
         } else {
             $detail = null;}
+
+          if ($this->cartajusteselected!=null) {
+                $this->saldo_cartera_aj=Cartera::find($this->cartajusteselected)->saldocartera;
+          } 
 
         return view('livewire.reportemovimientoresumen.ingresoegreso', [
             'carterasSucursal' => $this->carterasSucursal,
             'categorias_ie' => $categorias,
+            'categorias2' => $categorias2,
             'carteras' => $cartera,
             'data' => $this->data,
             'categorias' => $categorias,
@@ -196,16 +205,15 @@ class IngresoEgresoController extends Component
         ]);
 
         CarteraMov::create([
-            'type' => $this->saldo_cartera_aj > $this->cantidad ? 'INGRESO' : 'EGRESO',
-            'tipoDeMovimiento' => 'AJUSTE',
+            'type' =>$this->cantidad>$this->saldo_cartera_aj ? 'INGRESO' : 'EGRESO',
+            'tipoDeMovimiento' =>$this->cantidad>$this->saldo_cartera_aj ? 'SOBRANTE' : 'FALTANTE',
             'comentario' => $this->comentario,
             'cartera_id' => $this->cartajusteselected,
-            'movimiento_id' => $mvt->id
+            'movimiento_id' => $mvt->id,
+            'cartera_mov_categoria_id'=>$this->categoria_ie_id
         ]);
 
         $cartera = Cartera::find($this->cartajusteselected);
-
-
 
         $cartera->update([
             'saldocartera' => $this->cantidad
@@ -300,13 +308,7 @@ class IngresoEgresoController extends Component
         $cajaId = session('sesionCajaID');
 
 
-        if ($this->listarcarterasg()->contains('idcartera', $this->cartera_id) and $cajaId != null) {
-
-            $op = OperacionesCarterasCompartidas::create([
-                'caja_id' => $cajaId,
-                'cartera_mov_id' => $this->cv,
-            ]);
-        }
+     
 
         $this->emit('hide-modal', 'Se generó el ingreso/egreso');
         $this->resetUI();
@@ -318,7 +320,7 @@ class IngresoEgresoController extends Component
         $this->cantidad = '';
         $this->comentario = '';
         $this->emit('hide-modal');
-        $this->categoria_ie_id = "Elegir";
+        $this->categoria_ie_id =null;
     }
     public function usuarioSucursal()
     {

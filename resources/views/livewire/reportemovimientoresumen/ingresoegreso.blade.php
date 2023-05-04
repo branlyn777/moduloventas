@@ -58,15 +58,15 @@
     </div>
 
     <div class="row">
-        <div class="col-4">
+        <div class="col">
 
             <div class="card">
                 <div class="card-body p-3 py-4 position-relative">
                     <div class="row">
                         <div class="col text-start">
-                            <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">BALANCE TOTAL</h6>
+                            <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">SALDOS CARTERA</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. 456.00
+                                Bs. {{number_format($saldosCartera,2)}}
                             </h5>
 
                         </div>
@@ -74,14 +74,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col">
             <div class="card">
                 <div class="card-body p-3 py-4 position-relative">
                     <div class="row">
                         <div class="col-12 text-start">
-                            <h6 class="mb-2 text-sm" style="color: rgb(4, 202, 96)">INGRESOS TOTALES</h6>
+                            <h6 class="mb-2 text-sm" style="color: rgb(4, 202, 96)">OTROS INGRESOS TOTALES</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. 900.00
+                                Bs. {{number_format($ingresosTotal,2)}}
                             </h5>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
 
         </div>
 
-        <div class="col-4">
+        <div class="col">
 
             <div class="card">
                 <div class="card-body p-3 py-4 position-relative">
@@ -98,7 +98,22 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(214, 3, 3)">EGRESOS TOTALES</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. 850.00
+                                Bs. {{number_format($egresosTotal,2)}}
+                            </h5>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body p-3 py-4 position-relative">
+                    <div class="row">
+                        <div class="col-12 text-start">
+                            <h5 class="mb-2 text-sm" style="color: rgb(12, 73, 79)">BALANCE</h5>
+                            <h5 class="font-weight-bolder mb-0">
+                                Bs. {{number_format($balanceTotal,2)}}
                             </h5>
 
                         </div>
@@ -202,9 +217,9 @@
                                 @if ($tipo_movimiento == 'AJUSTE')
                                     <option value=null>-- --</option>
                                 @else
-                                    <option value="Todos">Todas las Categorias</option>
+                                    <option value='TODOS'>Todas las Categorias</option>
 
-                                    @foreach ($categorias as $c)
+                                    @foreach ($categorias2 as $c)
                                         <option value="{{ $c->id }}">
                                             {{ $c->tipo }} - {{ $c->nombre }}
                                         </option>
@@ -216,7 +231,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label style="font-size: 1rem">Estado</label>
-                            <select wire:model='tipo_movimiento' class="form-select">
+                            <select wire:model='estado' class="form-select">
                                 <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
                                 <option class="text-uppercase text-xs ps-2" value="ACTIVO">Activos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INACTIVO">Anulados</option>
@@ -285,10 +300,10 @@
                             <tr>
                                 <th class="col text-uppercase text-xs text-center">#</th>
                                 <th class="col text-uppercase text-xs text-center">FECHA</th>
-                                <th class="col-3 text-uppercase text-xs ps-2">USUARIO</th>
+                                <th class="col text-uppercase text-xs ps-2">USUARIO</th>
                                 <th class="col text-uppercase text-xs ps-2">ESTADO</th>
                                 <th class="text-uppercase text-xs ps-2">MOVIMIENTO</th>
-                                <th class="text-uppercase text-xs ps-2">MOTIVO</th>
+                                <th class="col-3 text-uppercase text-xs ps-2">MOTIVO</th>
                                 <th class="text-uppercase text-xs ps-2">CATEGORIA</th>
                                 <th class="text-uppercase text-xs ps-2">IMPORTE</th>
                                 <th class="text-uppercase text-xs text-center">ACC.</th>
