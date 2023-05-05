@@ -27,11 +27,11 @@
 <div>
     <div class="row">
         <div class="col-12 text-left text-white">
-            <p class="h5 text-white"><b>Cajas Disponibles En Tu Sucursal</b></p>
+            <p class="h5 text-white"><b>Cajas Disponibles</b></p>
             <p>Seleccione la caja en la cual va a trabajar</p>
         </div>
     </div>
-    <div class="card mb-4">
+    {{-- <div class="card mb-4">
         <div class="card-body p-4 m-0">
             <div class="row m-3 justify-content-end">
                 <div class="col-md-4 col-12 col-sm-12">
@@ -44,7 +44,7 @@
                     </select>
                 </div>
 
-                {{-- Botones de Cerrar y Ajustar --}}
+          
 
 
                 <div class="col-12 col-md-2">
@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 
@@ -82,15 +82,14 @@
     </center>
     <div class="col-sm-12 col-md-12 d-flex">
         @foreach ($cajas as $c)
-            <div class="card mx-2">
-                <div class="card-body position-relative">
-                    <div
-                        class="{{ $c->estado == 'Abierto' ? 'card-body position-relative' : 'card-body position-relative' }}">
-                        <div class="connect-sorting text-left">
-                            <h5> <b>{{ $c->nombre }}</b> </h5>
-                            <br>
-                            <b>Sucursal:</b> {{ $c->nombresucursal }}
-                        </div>
+
+ 
+            <div class="card">
+                <div class="card-body text-center">
+                    <div>
+                        <b>{{ $c->nombre }}</b>
+                        <br>
+                     
                         @if ($c->carteras->count() > 0 || $carteras_generales->count() > 0)
 
                             <div class="connect-sorting text-left">

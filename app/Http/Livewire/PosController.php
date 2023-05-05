@@ -1416,6 +1416,7 @@ class PosController extends Component
     //Mustra la ventana modal para aperturar caja
     public function confirmarAbrir(Caja $caja)
     {
+    
         $this->efectivo_actual=null;
         $this->idcaja = $caja->id;
         //obtenemos la cartera efectiva
@@ -1428,22 +1429,21 @@ class PosController extends Component
     }
 
     //Realiza la apertura de caja
-    public function CorteCaja($idcaja)
+    public function corteCaja($idcaja)
     {
         $rules = [
             'efectivo_actual' => 'required',
         ];
         $messages = [
-            'efectivo_actual.required' => 'Ingresa un monto para apertura la caja.',
+            'efectivo_actual.required' => 'Ingresa un monto para aperturar la caja.',
         ];
 
         $this->validate($rules, $messages);
 
 
-        if ($this->VerificarCajaAbierta($idcaja) == false)
-        {
-            try
-            {
+        if ($this->VerificarCajaAbierta($idcaja) == false) {
+
+            try {
                 DB::beginTransaction();
                 /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
                 $cortes = Movimiento::where('status', 'ACTIVO')
@@ -1451,8 +1451,7 @@ class PosController extends Component
                     ->where('user_id', Auth()->user()->id)
                     ->get();
 
-                foreach ($cortes as $c)
-                {
+                foreach ($cortes as $c) {
                     $c->update([
                         'status' => 'INACTIVO',
                     ]);
@@ -1463,8 +1462,9 @@ class PosController extends Component
                 $carteras = Cartera::where('caja_id', $idcaja)->where('tipo', 'efectivo')->get();
 
 
-                if ($this->efectivo_actual != $this->saldoAcumulado)
-                {
+                if ($this->efectivo_actual != $this->saldoAcumulado) {
+
+
                     $movimiento = Movimiento::create([
                         'type' => 'APERTURA',
                         'status' => 'ACTIVO',
@@ -1491,10 +1491,11 @@ class PosController extends Component
 
                     CarteraMov::create([
                         'type' => ($diferenciaCaja == 'positivo') ? 'INGRESO' : 'EGRESO',
-                        'tipoDeMovimiento' => 'AJUSTE',
+                        'tipoDeMovimiento' => ($diferenciaCaja == 'positivo') ? 'SOBRANTE' : 'FALTANTE',
                         'comentario' => $this->nota_ajuste,
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $mvt->id
+                        
                     ]);
 
                     $cartera = Cartera::find($carteras->first()->id);
@@ -1506,8 +1507,8 @@ class PosController extends Component
                     ]);
                     $this->saldoAcumulado = $saldo_cartera;
                 }
-                else
-                {
+
+                else{
                     $movimiento = Movimiento::create([
                         'type' => 'APERTURA',
                         'status' => 'ACTIVO',
@@ -1521,6 +1522,7 @@ class PosController extends Component
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $movimiento->id,
                     ]);
+
                 }
 
                 /* HABILITAR CAJA */
@@ -1542,19 +1544,28 @@ class PosController extends Component
 
                 $this->reset('efectivo_actual','nota_ajuste');
 
+
                 DB::commit();
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 DB::rollback();
                 $this->mensaje_toast = ": " . $e->getMessage();
                 $this->emit('sale-error');
             }
-        }
-        else
-        {
+        } else {
             $this->emit('caja-ocupada');
         }
+
+
+
+
+
+
+
+
+
+
+
+        
         return Redirect::to('pos');
     }
     //Verifica si una caja esta abierta

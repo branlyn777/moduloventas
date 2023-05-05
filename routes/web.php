@@ -59,6 +59,7 @@ use App\Http\Livewire\TransferenciasController;
 use App\Http\Livewire\TransferirProductoController;
 use App\Http\Livewire\UnidadesController;
 use App\Http\Livewire\UsersController;
+use App\Http\Controllers\ExportIngresosController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -149,6 +150,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('OrdenCompra/pdf/{id}', [ExportComprasController::class, 'PrintOrdenCompraPdf']);
     Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
     Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
+    Route::get('/report/pdf-ingresos',[ExportIngresosController::class,'reportPDFIngresos'])->name('report.pdf.ingresos');
+
     Route::get('productos/export/', [ProductsController::class, 'export']);
     Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);
 

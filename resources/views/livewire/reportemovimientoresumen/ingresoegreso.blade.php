@@ -131,7 +131,7 @@
                         <div class="row">
                             <div class="col">
 
-                                <div class="form-check form-switch">
+                                {{-- <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="toggleSwitch"
                                         {{ $cajaselected == 'true' ? 'checked' : '' }}
                                         wire:click="$toggle('cajaselected')">
@@ -143,7 +143,7 @@
 
 
                                     </label>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -203,7 +203,7 @@
                                 <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INGRESO">Ingreso</option>
                                 <option class="text-uppercase text-xs ps-2" value="EGRESO">Egreso</option>
-                                <option class="text-uppercase text-xs ps-2" value="AJUSTE">Ajustes</option>
+                        
                             </select>
                         </div>
                     </div>

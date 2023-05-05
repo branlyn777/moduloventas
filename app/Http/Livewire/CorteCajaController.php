@@ -345,6 +345,7 @@ class CorteCajaController extends Component
                         'comentario' => $this->nota_ajuste,
                         'cartera_id' => $carteras->first()->id,
                         'movimiento_id' => $mvt->id
+                        
                     ]);
 
                     $cartera = Cartera::find($carteras->first()->id);

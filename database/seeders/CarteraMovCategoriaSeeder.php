@@ -23,9 +23,15 @@ class CarteraMovCategoriaSeeder extends Seeder
             'subcategoria' => ""
         ]);
         CarteraMovCategoria::create([
-            'nombre' => "Ajuste de Efectivo faltante",
+            'nombre' => "Ajuste de Efectivo Faltante",
             'detalle' => "Para registrar Ajuste de caja por faltante de efectivo",
             'tipo' => 'INGRESO',
+            'subcategoria' => ""
+        ]);
+        CarteraMovCategoria::create([
+            'nombre' => "Recaudo",
+            'detalle' => "Para registrar el monto de efectivo excedente del limite de efectivo establecido.",
+            'tipo' => 'EGRESO',
             'subcategoria' => ""
         ]);
 

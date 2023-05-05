@@ -26,7 +26,7 @@ class ExportIngresosController extends Controller
 
 
         //Variables para la tfoot
-        $ingresossumatotal = session('ingresossumatotal');//
+        $ingresossumatotal = session('sumatotal');//
     
         $caracteristicas = session('caracteristicas');
 

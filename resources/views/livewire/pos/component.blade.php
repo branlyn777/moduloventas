@@ -748,7 +748,8 @@
             @endforeach
         </div>
 
-        @include('livewire.pos.modalcortecaja.aperturacaja')
+      
+        @include('livewire.cortecaja.aperturacaja')
 
     @endif
 
