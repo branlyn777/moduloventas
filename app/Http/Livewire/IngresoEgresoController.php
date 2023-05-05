@@ -109,16 +109,39 @@ class IngresoEgresoController extends Component
             $this->ingresosTotal =$this->data->where('carteramovtype','INGRESO')->sum('import');
             $this->egresosTotal = $this->data->where('carteramovtype','EGRESO')->sum('import');
             $this->balanceTotal = $this->ingresosTotal-$this->egresosTotal;
+            
 
-
-
-            $this->saldosCartera = Cartera::all();
-
+            //$this->saldosCartera = Cartera::all();
             if ($this->carterasel != 'TODAS') {
-                $ingresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')->join('movimientos','movimientos,id','cartera_movs.movimiento_id')
+                $ingresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+                ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+                ->where('carteras.id',$this->carterasel)
                 ->where('cartera_movs.type','INGRESO')
                 ->where('movimientos.status','ACTIVO')
-                ->get();
+                ->sum('movimientos.import');
+                $egresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+                ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+                ->where('carteras.id',$this->carterasel)
+                ->where('cartera_movs.type','EGRESO')
+                ->where('movimientos.status','ACTIVO')
+                ->sum('movimientos.import');
+                $this->saldosCartera=$ingresos-$egresos;
+
+            }
+            else{
+                $ingresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+                ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+             
+                ->where('cartera_movs.type','INGRESO')
+                ->where('movimientos.status','ACTIVO')
+                ->sum('movimientos.import');
+                $egresos=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+                ->join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+             
+                ->where('cartera_movs.type','EGRESO')
+                ->where('movimientos.status','ACTIVO')
+                ->sum('movimientos.import');
+                $this->saldosCartera=$ingresos-$egresos;
             }
 
           
