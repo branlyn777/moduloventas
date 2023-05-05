@@ -25,6 +25,7 @@ use App\Models\ProcedenciaCliente;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
@@ -110,7 +111,8 @@ class PosController extends Component
     //Variable que guarda lo que hay que buscar en una devolucion en venta
     public $search_devolution, $date_from_devolution, $date_of_devolution;
     //Variable que guarda el id y nombre del producto para devolución
-    public $product_id_devolution, $product_name_devolution, $sale_id_devolution;
+    public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
+     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -132,6 +134,8 @@ class PosController extends Component
     }
     public function mount()
     {
+        $this->destiny_id_devolution = 1;
+        $this->list_destinations_devolution = Destino::where("sucursal_id", $this->idsucursal())->get();
         $this->date_from_devolution = Carbon::now()->subDays(4)->format('Y-m-d');
         $this->date_of_devolution = Carbon::parse(Carbon::now())->format('Y-m-d');
 
@@ -1438,13 +1442,12 @@ class PosController extends Component
         
         $this->emit("hide-stockinsuficiente");
     }
-
     // Muestra la ventana modal de devolución
     public function showModalDevolution()
     {
         $this->emit("show-modal-devolution");
     }
-    //Selecciona una venta para deolución
+    //Selecciona una venta para devolución
     public function select_sale($idsale)
     {
         if($this->sale_id_devolution == $idsale)
@@ -1459,8 +1462,34 @@ class PosController extends Component
     // Selecciona un producto y venta para devolución
     public function select_product(SaleDetail $sale_detail)
     {
+        $this->sale_detail_id_devolution = $sale_detail->id;
         $this->product_name_devolution = Product::find($sale_detail->product_id)->nombre;
         $this->product_id_devolution = $sale_detail->product_id;
+    }
+    //Guarda una devolución
+    public function save_devolution()
+    {
+        $rules = [
+            'quantity_devolution' => 'required|not_in:0',
+            'detail_devolution' => 'required'
+        ];
+        $messages = [
+            'quantity_devolution.required' => 'La cantidad es requerida',
+            'quantity_devolution.not_in' => 'Valor no valido',
+            'detail_devolution.required' => 'Motivo requerido',
+        ];
+        $this->validate($rules, $messages);
         
+        $devolution = SaleDevolution::create([
+            'quantity' => $this->quantity_devolution,
+            // 'amount' => $this->permissionArea,
+            'description' => $this->detail_devolution,
+            'destino_id' => $this->destiny_id_devolution,
+            'sale_detail_id' => $this->sale_detail_id_devolution
+        ]);
+
+        $this->observacion = "Venta por devolución de la venta : X.";
+
+        $this->emit("hide-modal-devolution");
     }
 }

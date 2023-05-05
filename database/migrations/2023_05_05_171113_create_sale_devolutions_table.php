@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSaleDevolutionsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('sale_devolutions', function (Blueprint $table) {
+            $table->id();
+            $table->integer('quantity');
+            $table->decimal('amount', 8, 2)->default(0.00);
+            $table->text('description');
+            $table->enum('status',['active','inactive'])->default('active');
+            $table->foreignId('destino_id')->constrained();
+            $table->foreignId('sale_detail_id')->constrained();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('sale_devolutions');
+    }
+}

@@ -114,22 +114,35 @@
             </div>
           </div>
           <div class="row mb-2">
-            <div class="col-12 col-sm-6 col-md-2"></div>
             <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Cantidad:</label>
-              <input type="number" class="form-control">
+              <input wire:model='quantity_devolution' type="number" class="form-control">
+              @error('quantity_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
             </div>
             <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Guardar en:</label>
-              <select class="form-select">
-                <option value=""></option>
+              <select wire:model='destiny_id_devolution' class="form-select">
+                @foreach ($this->list_destinations_devolution as $d)
+                <option value="{{$d->id}}">{{$d->nombre}}</option>
+                @endforeach
               </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-2"></div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label>Monto Bs:</label>
+              <input wire:model='quantity_devolution' type="number" class="form-control">
+              @error('quantity_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
+            </div>
             <div class="row">
               <div class="col-12 col-sm-6 col-md-12">
                 <label>Motivo Devolución</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea wire:model.lazy='detail_devolution' class="form-control" rows="3"></textarea>
+                @error('detail_devolution')
+                  <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                @enderror
               </div>
             </div>
           </div>
@@ -137,7 +150,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn bg-gradient-primary">Guardar</button>
+          @if($this->product_id_devolution > 0)
+          <button wire:click.prevent='save_devolution()' type="button" class="btn bg-gradient-primary">Guardar</button>
+          @endif
         </div>
       </div>
     </div>

@@ -297,7 +297,7 @@
         /*Estilos para tabla con thead estática*/
         .table-static {
             width: 100%;/* Anchura de ejemplo */
-            height: 310px; /* Altura de ejemplo */
+            height: 320px; /* Altura de ejemplo */
             overflow: auto;
         }
         .table-static table {
@@ -852,6 +852,10 @@
             //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
             window.livewire.on('show-modal-devolution', Msg => {
                 $("#modaldevolution").modal("show");
+            });
+            //Mètodo JavaScript para llamar al modal para ocultar lotes con precio y costos
+            window.livewire.on('hide-modal-devolution', Msg => {
+                $("#modaldevolution").modal("hide");
             });
             //Mostrar Toast cuando un producto se incrementa en el Carrito de Ventas
             window.livewire.on('increase-ok', msg => {
