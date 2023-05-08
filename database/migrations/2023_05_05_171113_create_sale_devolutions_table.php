@@ -18,6 +18,7 @@ class CreateSaleDevolutionsTable extends Migration
             $table->integer('quantity');
             $table->decimal('amount', 8, 2)->default(0.00);
             $table->text('description');
+            $table->decimal('utility', 8, 2)->default(0.00);
             $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('destino_id')->constrained();
             $table->foreignId('sale_detail_id')->constrained();

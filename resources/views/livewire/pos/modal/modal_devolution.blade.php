@@ -131,8 +131,8 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4">
               <label>Monto Bs:</label>
-              <input wire:model='quantity_devolution' type="number" class="form-control">
-              @error('quantity_devolution')
+              <input wire:model='amount_devolution' type="number" class="form-control">
+              @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>

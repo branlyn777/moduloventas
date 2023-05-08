@@ -555,7 +555,9 @@
                                         <td class="text-center">
                                             {{ ucwords(strtolower($d->marca)) }}
                                             {{ ucwords(strtolower($d->categoria->nombre)) }}
-                                            {{ ucwords(strtolower($d->detalle)) }}
+                                            <b>
+                                                {{ ucwords(strtolower($d->detalle)) }}
+                                            </b>
                                             <br>
                                             <b>Falla:</b> {{ ucwords(strtolower($d->falla_segun_cliente)) }}
                                             </h6>

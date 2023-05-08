@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SaleDevolution extends Model
 {
     use HasFactory;
-    protected $fillable = ['quantity','amount','description','status','destino_id','sale_detail_id'];
+    protected $fillable = ['quantity','amount','description','utility','status','destino_id','sale_detail_id'];
 }

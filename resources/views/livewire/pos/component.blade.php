@@ -1067,6 +1067,24 @@
                 // Cambiar el foco al nuevo tab (punto opcional)
                 win.focus();
             });
+
+
+            //Creando un pdf para la cotizacion
+            window.livewire.on('message-quantity', Msg => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    padding: '2em'
+                });
+                toast({
+                    type: 'error',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
+                })
+            });
+
         });
 
 

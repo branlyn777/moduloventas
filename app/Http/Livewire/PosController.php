@@ -112,7 +112,7 @@ class PosController extends Component
     public $search_devolution, $date_from_devolution, $date_of_devolution;
     //Variable que guarda el id y nombre del producto para devolución
     public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
-     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution;
+     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -1479,17 +1479,70 @@ class PosController extends Component
             'detail_devolution.required' => 'Motivo requerido',
         ];
         $this->validate($rules, $messages);
-        
-        $devolution = SaleDevolution::create([
-            'quantity' => $this->quantity_devolution,
-            // 'amount' => $this->permissionArea,
-            'description' => $this->detail_devolution,
-            'destino_id' => $this->destiny_id_devolution,
-            'sale_detail_id' => $this->sale_detail_id_devolution
-        ]);
 
-        $this->observacion = "Venta por devolución de la venta : X.";
+        if($this->amount_devolution == null)
+        {
+            $this->amount_devolution = 0;
+        }
 
-        $this->emit("hide-modal-devolution");
+        //Buscando si la devolución no se hizo antes
+        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->get();
+
+        if($cont->count() > 0)
+        {
+            $dev = $cont->first()->quantity;
+            $quantity_sale = SaleDetail::find($this->sale_detail_id_devolution)->quantity;
+            $quantity_sale = $quantity_sale - $dev;
+        }
+        else
+        {
+            $quantity_sale = SaleDetail::find($this->sale_detail_id_devolution)->quantity;
+        }
+
+
+
+        if($this->quantity_devolution <= $quantity_sale)
+        {
+            //Buscando la utilidad que representa la venta del producto
+            $sql = Lote::join("sale_lotes as sl", "sl.lote_id","lotes.id")
+            ->join("sale_details as sd", "sd.id","sl.sale_detail_id")
+            ->select("lotes.costo as cost", "sl.cantidad as quantity","sd.price as price")
+            ->where("sl.sale_detail_id",$this->sale_detail_id_devolution)
+            ->get();
+            
+            $utility = 0;
+
+            foreach($sql as $s)
+            {
+                $utility = $utility + ($s->price * $s->quantity) - ($s->cost * $s->quantity);
+            }
+
+            $devolution = SaleDevolution::create([
+                'quantity' => $this->quantity_devolution,
+                'amount' => $this->amount_devolution,
+                'description' => $this->detail_devolution,
+                'utility' => $utility,
+                'destino_id' => $this->destiny_id_devolution,
+                'sale_detail_id' => $this->sale_detail_id_devolution
+            ]);
+    
+            // $this->observacion = "Venta por devolución de la venta : X.";
+    
+            //Reseteando las varibles de devolución
+            $this->search_devolution = "";
+            $this->sale_detail_id_devolution = null;
+            $this->amount_devolution = null;
+            $this->quantity_devolution = "";
+            $this->detail_devolution = "";
+            $this->destino_id = 1;
+            $this->product_id_devolution = null;
+    
+            $this->emit("hide-modal-devolution");
+        }
+        else
+        {
+            $this->mensaje_toast = "La cantidad máxima para devolver es de " . $quantity_sale . " unidades";
+            $this->emit("message-quantity");
+        }
     }
 }
