@@ -37,14 +37,13 @@
                         @can('Ver_Generar_Ingreso_Egreso_Boton')
                             <button wire:click.prevent="viewDetails()" class="btn btn-add">
                                 <i class="fas fa-arrow-alt-circle-down"></i> <i class="fas fa-arrow-alt-circle-up"></i>
-                                Generar
-                                Ingreso/Egreso
+                                Generar Ingreso/Egreso
                             </button>
                             <button wire:click.prevent="ajuste()" class="btn btn-light">
                                 <i class="fa-solid fa-wrench"></i>
                                 Ajustar Carteras
                             </button>
-                            <a wire:click.prevent="generarpdf({{ $data }})" target="_blank" class="btn btn-success mx-0">
+                            <a wire:click="generarpdf({{ $data }})" class="btn btn-success mx-0">
                                 <i class="fas fa-print"></i> Generar PDF
                             </a>
                         @endcan
@@ -63,7 +62,7 @@
                         <div class="col text-start">
                             <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">SALDOS CARTERA</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($saldosCartera,2)}}
+                                Bs. {{ number_format($saldosCartera, 2) }}
                             </h5>
 
                         </div>
@@ -78,7 +77,7 @@
                         <div class="col-12 text-start">
                             <h6 class="mb-2 text-sm" style="color: rgb(4, 202, 96)">OTROS INGRESOS TOTALES</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($ingresosTotal,2)}}
+                                Bs. {{ number_format($ingresosTotal, 2) }}
                             </h5>
                         </div>
                     </div>
@@ -95,7 +94,7 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(214, 3, 3)">EGRESOS TOTALES</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($egresosTotal,2)}}
+                                Bs. {{ number_format($egresosTotal, 2) }}
                             </h5>
 
                         </div>
@@ -110,7 +109,7 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(12, 73, 79)">BALANCE</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($balanceTotal,2)}}
+                                Bs. {{ number_format($balanceTotal, 2) }}
                             </h5>
 
                         </div>
@@ -203,7 +202,7 @@
                                 <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INGRESO">Ingreso</option>
                                 <option class="text-uppercase text-xs ps-2" value="EGRESO">Egreso</option>
-                        
+
                             </select>
                         </div>
                     </div>
@@ -229,7 +228,7 @@
                         <div class="form-group">
                             <label style="font-size: 1rem">Estado</label>
                             <select wire:model='estado' class="form-select">
-                                <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
+                             
                                 <option class="text-uppercase text-xs ps-2" value="ACTIVO">Activos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INACTIVO">Anulados</option>
 

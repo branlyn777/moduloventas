@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
 class IngresoEgresoController extends Component
@@ -373,7 +374,7 @@ class IngresoEgresoController extends Component
     public function generarpdf($data)
     {
         if ($this->tipo_movimiento != 'TODOS') {
-            session(['sumatotal' => $this->sumaTotal]);
+            session(['sumatotal' => $this->balanceTotal]);
         } else {
             if ($this->tipo_movimiento == 'INGRESO') {
                 session(['sumatotal' => $this->ingresosTotal]);
@@ -386,7 +387,8 @@ class IngresoEgresoController extends Component
         $caracteristicas = array($this->sucursal, $this->caja, $this->fromDate, $this->toDate);
         session(['caracteristicas' => $caracteristicas]);
         
-        return redirect()->route('report.pdf.ingresos');
+        return redirect()->away('/report/pdf-ingresos');
+      
  
     }
     protected $listeners = [
@@ -453,10 +455,6 @@ class IngresoEgresoController extends Component
                 'saldocartera' => $saldo_cartera
             ]);
         }
-
-
-
-
 
         $this->resetUIedit();
     }
