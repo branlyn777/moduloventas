@@ -785,22 +785,35 @@ class PosController extends Component
             }
 
             foreach ($productos as $p)
-            {
-                    
+            { 
                 $precio_original = Lote::select("lotes.pv_lote as po")
                 ->where("lotes.product_id", $p->id)
                 ->where("lotes.status", "Activo")
                 ->orderBy("lotes.created_at", "desc")
-                ->first();
-
-                $sd = SaleDetail::create([
-                    'original_price' => $precio_original->po,
-                    'price' => $p->price,
-                    'cost' => 0,
-                    'quantity' => $p->quantity,
-                    'product_id' => $p->id,
-                    'sale_id' => $sale->id,
-                ]);
+                ->get();
+                
+                if($precio_original->count() > 0)
+                {
+                    $sd = SaleDetail::create([
+                        'original_price' => $precio_original->first()->po,
+                        'price' => $p->price,
+                        'cost' => 0,
+                        'quantity' => $p->quantity,
+                        'product_id' => $p->id,
+                        'sale_id' => $sale->id,
+                    ]);
+                }
+                else
+                {
+                    $sd = SaleDetail::create([
+                        'original_price' => 0,
+                        'price' => $p->price,
+                        'cost' => 0,
+                        'quantity' => $p->quantity,
+                        'product_id' => $p->id,
+                        'sale_id' => $sale->id,
+                    ]);
+                }
 
                 //Para obtener la cantidad del producto que se va a vender
                 $cantidad_producto_venta = $p->quantity;
