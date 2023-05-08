@@ -131,12 +131,14 @@ class IngresoEgresoController extends Component
                 ->where('carteras.id', $this->carterasel)
                 ->where('cartera_movs.type', 'INGRESO')
                 ->where('movimientos.status', 'ACTIVO')
+                ->whereBetween('movimientos.created_at', ['2020-05-03 00:00:00', $this->fromDate . ' 23:59:59'])
                 ->sum('movimientos.import');
             $egresos = Cartera::join('cartera_movs', 'cartera_movs.cartera_id', 'carteras.id')
                 ->join('movimientos', 'movimientos.id', 'cartera_movs.movimiento_id')
                 ->where('carteras.id', $this->carterasel)
                 ->where('cartera_movs.type', 'EGRESO')
                 ->where('movimientos.status', 'ACTIVO')
+                ->whereBetween('movimientos.created_at', ['2020-05-03 00:00:00', $this->fromDate . ' 23:59:59'])
                 ->sum('movimientos.import');
             $this->saldosCartera = $ingresos - $egresos;
         } else {
@@ -383,8 +385,9 @@ class IngresoEgresoController extends Component
         session(['ingresos' => $data]);
         $caracteristicas = array($this->sucursal, $this->caja, $this->fromDate, $this->toDate);
         session(['caracteristicas' => $caracteristicas]);
-
-        $this->emit('openothertap');
+        
+        return redirect()->route('report.pdf.ingresos');
+ 
     }
     protected $listeners = [
         'eliminar_operacion' => 'anularOperacion'

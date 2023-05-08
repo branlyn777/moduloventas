@@ -44,9 +44,9 @@
                                 <i class="fa-solid fa-wrench"></i>
                                 Ajustar Carteras
                             </button>
-                            <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
+                            <a wire:click.prevent="generarpdf({{ $data }})" target="_blank" class="btn btn-success mx-0">
                                 <i class="fas fa-print"></i> Generar PDF
-                            </button>
+                            </a>
                         @endcan
                     </div>
                 </div>
