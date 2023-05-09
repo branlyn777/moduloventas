@@ -21,8 +21,14 @@
                             <select wire:model='cartera_id' class="form-select">
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
-                                    <option value="{{ $item->id }}">{{ $item->cajaNombre }},
-                                        {{ $item->carteraNombre }}</option>
+
+                                @if ($item->tipo =='efectivo' and )
+                                    
+                                <option value="{{ $item->id }}">{{ $item->cajaNombre }},
+                                    {{ $item->carteraNombre }}</option>
+                                @endif
+                                @else
+
                                 @endforeach
                             </select>
                             @error('cartera_id')

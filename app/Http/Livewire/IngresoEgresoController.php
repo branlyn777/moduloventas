@@ -77,14 +77,15 @@ class IngresoEgresoController extends Component
             $cajab=Caja::where('cajas.sucursal_id',$this->sucursal)->where('cajas.nombre','!=','Caja General')->get();
         }
 
-     
-
+    
         if ($this->caja == 'TODAS')
         {
             $this->carterasSucursal = Cartera::join('cajas as c', 'carteras.caja_id', 'c.id')
             ->join('sucursals as s', 's.id', 'c.sucursal_id')
             ->where('s.id', $this->sucursal)
             ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo','carteras.saldocartera')->get();
+
+            $caja_us_abierta=
         }
         else
         {
@@ -816,6 +817,8 @@ class IngresoEgresoController extends Component
     public function viewDetails()
     {
         $this->emit('show-modal', 'open modal');
+        $this->caja_us_abierta=CarteraMov::join('movimientos','movimientos.id','cartera_movs.movimiento_id')
+        ->where('cartera_movs.type','APERTURA')->where();
     }
     public function ajuste()
     {
@@ -1016,11 +1019,12 @@ class IngresoEgresoController extends Component
             'status' => 'INACTIVO'
             ]);
         $mov->save();
-        $carteraid = CarteraMov::where('movimiento_id',$mov->id)->first()->cartera_id;
-        $cartera=Cartera::find($carteraid);
 
-        $cartera->update([
-            'saldocartera' => $cartera->saldocartera-$mov->import
+        $cart=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+        ->where('cartera_movs.movimiento_id',$mov->id)->select('carteras.saldocartera','cartera_movs.type','carteras.id')->first();
+
+        Cartera::where('id',$cart->id)->update([
+            'saldocartera' => $cart->type=='INGRESO'?$cart->saldocartera-$mov->import:$cart->saldocartera+$mov->import
         ]);
 
 
@@ -1047,6 +1051,8 @@ class IngresoEgresoController extends Component
             'import' => $this->cantidad_edit
             ]);
         $mov->save();
+
+
 
 
         CarteraMov::find($mov->cartmov[0]->id)->update([

@@ -373,8 +373,6 @@
             }
         });
 
-
-
         function Confirm(id) {
 
             Swal.fire({
