@@ -112,7 +112,8 @@ class PosController extends Component
     public $search_devolution, $date_from_devolution, $date_of_devolution;
     //Variable que guarda el id y nombre del producto para devolución
     public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
-     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution;
+     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution,
+     $list_categories_devolution, $category_id_devolution, $cartera_id_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -134,6 +135,8 @@ class PosController extends Component
     }
     public function mount()
     {
+        $this->category_id_devolution = 9;
+        $this->list_categories_devolution = CarteraMovCategoria::where("tipo", "EGRESO")->where("status","ACTIVO")->get();
         $this->destiny_id_devolution = 1;
         $this->list_destinations_devolution = Destino::where("sucursal_id", $this->idsucursal())->get();
         $this->date_from_devolution = Carbon::now()->subDays(4)->format('Y-m-d');
@@ -186,6 +189,7 @@ class PosController extends Component
                 break;
             }
         }
+        $this->cartera_id_devolution = $this->cartera_id;
         $this->cliente_id = $this->clienteanonimo_id();
         $this->listadestinos = [];
         $this->listasucursales = [];
@@ -1589,13 +1593,19 @@ class PosController extends Component
             //Generando un ingreso si el monto devuelto es mayor que 0
             if($this->amount_devolution > 0)
             {
+                $m = Movimiento::create([
+                    'type' => "DEVOLUCIONVENTA",
+                    'import' => $this->amount_devolution,
+                    'user_id' => Auth()->user()->id,
+                ]);
+
                 CarteraMov::create([
                     'type' => "EGRESO",
                     'tipoDeMovimiento' => "VENTA",
                     'comentario' => $this->detail_devolution,
-                    'cartera_id' => $utility,
-                    'movimiento_id' => $this->destiny_id_devolution,
-                    'cartera_mov_categoria_id' => $this->sale_detail_id_devolution
+                    'cartera_id' => $this->cartera_id_devolution,
+                    'movimiento_id' => $m->id,
+                    'cartera_mov_categoria_id' => $this->category_id_devolution
                 ]);
             }
 

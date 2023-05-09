@@ -209,6 +209,7 @@ class ReporteMovimientoResumenController extends Component
                 'movimientos.id as idmov',
                 'order_services.id as order_id',
                 'services.solucion as servicio_solucion',
+                'services.costo as servicio_costo',
                 'c.tipo as ctipo',
                 'c.nombre as cnombre',
                 DB::raw('0 as caja')

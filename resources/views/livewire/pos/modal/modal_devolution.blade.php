@@ -114,14 +114,15 @@
             </div>
           </div>
           <div class="row mb-2">
-            <div class="col-12 col-sm-6 col-md-2 text-center">
+            <div class="col-12 col-sm-6 col-md-1 text-center"></div>
+            <div class="col-12 col-sm-6 col-md-5 text-center">
               <label>Cantidad:</label>
               <input wire:model='quantity_devolution' type="number" class="form-control">
               @error('quantity_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
-            <div class="col-12 col-sm-6 col-md-4 text-center">
+            <div class="col-12 col-sm-6 col-md-5 text-center">
               <label>Guardar en:</label>
               <select wire:model='destiny_id_devolution' class="form-select">
                 @foreach ($this->list_destinations_devolution as $d)
@@ -129,43 +130,53 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-2">
+            <div class="col-12 col-sm-6 col-md-1 text-center"></div>
+          </div>
+          <div class="row">
+            
+            <div class="col-12 col-sm-6 col-md-4">
               <label>Monto Bs:</label>
               <input wire:model='amount_devolution' type="number" class="form-control">
               @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
-            <div class="col-12 col-sm-6 col-md-2">
+            <div class="col-12 col-sm-6 col-md-4">
               <label>Cartera:</label>
-              <select wire:model='destiny_id_devolution' class="form-select">
-                @foreach ($this->list_destinations_devolution as $d)
-                <option value="{{$d->id}}">{{$d->nombre}}</option>
+              <select wire:model='cartera_id_devolution' class="form-select">
+                <option value="Elegir">Elegir</option>
+                @foreach ($carteras as $c)
+                    <option value="{{ $c->idcartera }}">{{ $c->nombrecartera }} - {{ $c->dc }}
+                    </option>
+                @endforeach
+                @foreach ($carterasg as $g)
+                    <option value="{{ $g->idcartera }}">{{ $g->nombrecartera }} - {{ $g->dc }}
+                    </option>
                 @endforeach
               </select>
               @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
-            <div class="col-12 col-sm-6 col-md-2">
-              <label>Cartera:</label>
-              <select wire:model='destiny_id_devolution' class="form-select">
-                @foreach ($this->list_destinations_devolution as $d)
-                <option value="{{$d->id}}">{{$d->nombre}}</option>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label>Categoria:</label>
+              <select wire:model='category_id_devolution' class="form-select">
+                @foreach ($this->list_categories_devolution as $c)
+                <option value="{{$c->id}}">{{$c->nombre}}</option>
                 @endforeach
               </select>
               @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
-            <div class="row">
-              <div class="col-12 col-sm-12 col-md-12">
-                <label>Motivo Devolución</label>
-                <textarea wire:model.lazy='detail_devolution' class="form-control" rows="3"></textarea>
-                @error('detail_devolution')
-                  <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                @enderror
-              </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12">
+              <label>Motivo Devolución</label>
+              <textarea wire:model.lazy='detail_devolution' class="form-control" rows="3"></textarea>
+              @error('detail_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
             </div>
           </div>
           @endif
