@@ -10,7 +10,7 @@
         </div>
     </div>
     @if(!$this->selected_id)
-        <div class="col-sm-12 col-md-6">
+        {{-- <div class="col-sm-12 col-md-6">
             <div class="form-group">
                 <label><span class="text-warning">* </span>Sucursal</label>
                 <select wire:model='sucursal_id' class="form-select">
@@ -23,7 +23,7 @@
                     <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
+        </div> --}}
     @else
 
     <div class="col-sm-12 col-md-6">

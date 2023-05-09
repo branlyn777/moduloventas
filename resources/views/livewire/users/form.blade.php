@@ -230,7 +230,7 @@
 
 
                             @if ($selected_id == 0)
-                                <div class="col-sm-12 col-md-6">
+                                {{-- <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label><span class="text-warning">* </span>Sucursal</label>
                                         <select wire:model='sucursal_id' class="form-select">
@@ -244,7 +244,7 @@
                                                 class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                             @endif
 
 

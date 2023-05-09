@@ -29,7 +29,7 @@ class CajasController extends Component
         $this->estado2 = "Activo";
         $this->pageTitle = 'Listado';
         $this->componentName = 'Cajas';
-        $this->sucursal_id = 'Elegir';
+        $this->sucursal_id = 1;
         $this->selected_id = 0;
     }
     public function render()
@@ -74,15 +74,16 @@ class CajasController extends Component
     {
         $rules = [
             'nombre' => 'required|unique:cajas',
-            'sucursal_id' => 'required|not_in:Elegir',
+            // 'sucursal_id' => 'required|not_in:Elegir',
         ];
         $messages = [
             'nombre.required' => 'El nombre de la caja es requerido.',
             'nombre.unique' => 'Ya existe una caja con ese nombre.',
-            'sucursal_id.not_in' => 'Seleccione una sucursal diferente de Elegir',
+            // 'sucursal_id.not_in' => 'Seleccione una sucursal diferente de Elegir',
         ];
         $this->validate($rules, $messages);
 
+   
         $caja = Caja::create([
             'nombre' => $this->nombre,
             'estado' => 'Cerrado',
@@ -237,7 +238,7 @@ class CajasController extends Component
     public function resetUI()
     {
         $this->nombre = '';
-        $this->sucursal_id = 'Elegir';
+        $this->sucursal_id = 1;
         $this->search = '';
         $this->selected_id = 0;
         $this->resetValidation();

@@ -70,12 +70,12 @@
                                 <span class="sidenav-normal">Editar Empresa </span>
                             </a>
                         </li>
-                        <li class=@yield('sucursalesli', 'nav-item ')>
+                        {{-- <li class=@yield('sucursalesli', 'nav-item ')>
                             <a class=@yield('sucursalesnav', 'nav-link ') href="{{ url('sucursales') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Sucursales </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class=@yield('cajasli', 'nav-item ')>
                             <a class=@yield('cajasnav', 'nav-link ') href="{{ url('cajas') }}">
                                 <span class="sidenav-mini-icon"> C </span>

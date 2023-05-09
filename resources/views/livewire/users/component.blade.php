@@ -101,9 +101,7 @@
                                     </select> --}}
 
                                 </div>
-                                <div class="col-md-4">
-
-
+                                {{-- <div class="col-md-4">
                                     <h6>Filtrar por Sucursal</h6>
                                     <select wire:model='sucursal'  class="form-select">
                                         @if ($lista_sucursales!=null)
@@ -114,10 +112,8 @@
                                         @else
                                         <option value=null>-- --</option> 
                                         @endif
-                                      
                                     </select>
-
-                                </div>
+                                </div> --}}
                            
                             </div>
                         </div>
@@ -138,7 +134,7 @@
                                     <th class="text-uppercase text-sm">Usuario</th>
                                     <th class="text-uppercase text-sm ps-2">Teléfono</th>
                                     <th class="text-center text-uppercase text-sm  ps-2">Estado</th>
-                                    <th class="text-center text-uppercase text-sm  ps-2">Sucursal</th>
+                                    {{-- <th class="text-center text-uppercase text-sm  ps-2">Sucursal</th> --}}
                                     <th class="text-center text-uppercase text-sm  ps-2">Acciones</th>
                                 </tr>
                             </thead>
@@ -180,7 +176,7 @@
                                             @endif
 
                                         </td>
-                                        <td class="align-middle text-center">
+                                        {{-- <td class="align-middle text-center">
                                             <span class="text-xs text-xs font-weight-bold">
                                                 @foreach ($r->sucursalusers as $su)
                                                     @if ($su->estado == 'ACTIVO')
@@ -188,7 +184,7 @@
                                                     @endif
                                                 @endforeach
                                             </span>
-                                        </td>
+                                        </td> --}}
                                         <td class="align-middle text-center">
                                             <a href="javascript:void(0)" wire:click="Edit({{ $r->id }})"
                                                 class="mx-3">
@@ -196,11 +192,11 @@
 
                                             </a>
                                             @if ($r->status == 'ACTIVE')
-                                                <a href="javascript:void(0)"
+                                                {{-- <a href="javascript:void(0)"
                                                     wire:click="viewDetails('{{ $r->id }}')" class="mx-3">
 
                                                     <i class="fas fa-store text-warning"></i>
-                                                </a>
+                                                </a> --}}
                                                 <a href="javascript:void(0)"
                                                     onclick="Confirm('{{ $r->id }}','{{ $r->name }}',{{ $r->ventas->count() }},{{ $r->compras->count() }},{{ $r->transferencia->count() }},{{ $r->ingreso->count() }})"
                                                     class="mx-3">
