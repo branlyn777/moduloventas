@@ -710,7 +710,7 @@ class OrderServiceController extends Component
             'status' => 'ACTIVO',
             'import' => $this->s_price,
             'on_account' => $motion_process->on_account,
-            'saldo' => $motion_process->saldo,
+            'saldo' => $this->s_price - $motion_process->on_account,
             'user_id' =>  $this->s_id_user_technicial,
         ]);
         MovService::create([
@@ -1075,7 +1075,7 @@ class OrderServiceController extends Component
         $this->message_toast = "¡Todos los servicios de la Órden N: " . $orderservice->id . " fueron anulados!";
         $this->emit("message-toast");
     }
-    // Elimina totalmente un servicio con sus tablas relacionadas
+    // Elimina una orden de servico
     public function delete_service(OrderService $orderservice)
     {
         DB::beginTransaction();

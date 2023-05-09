@@ -114,7 +114,7 @@
             </div>
           </div>
           <div class="row mb-2">
-            <div class="col-12 col-sm-6 col-md-4 text-center">
+            <div class="col-12 col-sm-6 col-md-2 text-center">
               <label>Cantidad:</label>
               <input wire:model='quantity_devolution' type="number" class="form-control">
               @error('quantity_devolution')
@@ -129,15 +129,37 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-4">
+            <div class="col-12 col-sm-6 col-md-2">
               <label>Monto Bs:</label>
               <input wire:model='amount_devolution' type="number" class="form-control">
               @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
+            <div class="col-12 col-sm-6 col-md-2">
+              <label>Cartera:</label>
+              <select wire:model='destiny_id_devolution' class="form-select">
+                @foreach ($this->list_destinations_devolution as $d)
+                <option value="{{$d->id}}">{{$d->nombre}}</option>
+                @endforeach
+              </select>
+              @error('amount_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
+            </div>
+            <div class="col-12 col-sm-6 col-md-2">
+              <label>Cartera:</label>
+              <select wire:model='destiny_id_devolution' class="form-select">
+                @foreach ($this->list_destinations_devolution as $d)
+                <option value="{{$d->id}}">{{$d->nombre}}</option>
+                @endforeach
+              </select>
+              @error('amount_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
+            </div>
             <div class="row">
-              <div class="col-12 col-sm-6 col-md-12">
+              <div class="col-12 col-sm-12 col-md-12">
                 <label>Motivo Devolución</label>
                 <textarea wire:model.lazy='detail_devolution' class="form-control" rows="3"></textarea>
                 @error('detail_devolution')

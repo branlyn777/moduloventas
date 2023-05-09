@@ -1504,31 +1504,101 @@ class PosController extends Component
         if($cont->count() > 0)
         {
             $dev = $cont->first()->quantity;
-            $quantity_sale = SaleDetail::find($this->sale_detail_id_devolution)->quantity;
-            $quantity_sale = $quantity_sale - $dev;
+            $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
+            $quantity = $sale_detail->quantity - $dev;
         }
         else
         {
-            $quantity_sale = SaleDetail::find($this->sale_detail_id_devolution)->quantity;
+            $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
+            $quantity = $sale_detail->quantity;
         }
 
 
 
-        if($this->quantity_devolution <= $quantity_sale)
+        if($this->quantity_devolution <= $quantity)
         {
-            //Buscando la utilidad que representa la venta del producto
-            $sql = Lote::join("sale_lotes as sl", "sl.lote_id","lotes.id")
-            ->join("sale_details as sd", "sd.id","sl.sale_detail_id")
-            ->select("lotes.costo as cost", "sl.cantidad as quantity","sd.price as price")
-            ->where("sl.sale_detail_id",$this->sale_detail_id_devolution)
-            ->get();
-            
-            $utility = 0;
+            //Incrementando el stock
+            $product_destiny = ProductosDestino::where("product_id", $sale_detail->product_id)
+            ->where("destino_id", $this->destiny_id_devolution)
+            ->first();
 
-            foreach($sql as $s)
+            $stock = $product_destiny->stock + $this->quantity_devolution;
+
+            $product_destiny_update = ProductosDestino::find($product_destiny->id);
+            $product_destiny_update->update([
+                'stock' => $stock
+            ]);
+            $product_destiny_update->save();
+
+            //Actualizando lotes (Reactivando los lotes necesarios)
+            $sale_detail_lots = SaleLote::where("sale_detail_id", $this->sale_detail_id_devolution)
+            ->orderBy("id", "desc")
+            ->get();
+            $cont = $this->quantity_devolution;
+            //Determina la utilidad total que representa la devolución de x cantidad del producto
+            $utility = 0;
+            foreach($sale_detail_lots as $sdl)
             {
-                $utility = $utility + ($s->price * $s->quantity) - ($s->cost * $s->quantity);
+                if($sdl->cantidad > 0)
+                {
+                    $cont = $cont - $sdl->cantidad;
+                    if($cont <= 0)
+                    {
+                        if($cont == 0)
+                        {
+                            $lot = Lote::find($sdl->lote_id);
+                            $stock_lot = $lot->existencia + $sdl->cantidad;
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
+
+                            $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                        }
+                        else
+                        {
+                            $n_stock = $sdl->cantidad + $cont;
+                            $lot = Lote::find($sdl->lote_id);
+                            $stock_lot = $lot->existencia + $n_stock;
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
+
+                            $utility = $utility + ($sale_detail->price * $n_stock) - ($lot->costo * $n_stock);
+                        }
+                    }
+                    else
+                    {
+                        $lot = Lote::find($sdl->lote_id);
+                        $stock_lot = $lot->existencia + $sdl->cantidad;
+                        $lot->update([
+                            'existencia' => $stock_lot,
+                            'status' => "Activo"
+                        ]);
+                        $lot->save();
+
+                        $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                    }
+                }
             }
+
+
+            //Generando un ingreso si el monto devuelto es mayor que 0
+            if($this->amount_devolution > 0)
+            {
+                CarteraMov::create([
+                    'type' => "EGRESO",
+                    'tipoDeMovimiento' => "VENTA",
+                    'comentario' => $this->detail_devolution,
+                    'cartera_id' => $utility,
+                    'movimiento_id' => $this->destiny_id_devolution,
+                    'cartera_mov_categoria_id' => $this->sale_detail_id_devolution
+                ]);
+            }
+
 
             $devolution = SaleDevolution::create([
                 'quantity' => $this->quantity_devolution,
@@ -1554,7 +1624,7 @@ class PosController extends Component
         }
         else
         {
-            $this->mensaje_toast = "La cantidad máxima para devolver es de " . $quantity_sale . " unidades";
+            $this->mensaje_toast = "La cantidad máxima para devolver es de " . $quantity . " unidades";
             $this->emit("message-quantity");
         }
     }
