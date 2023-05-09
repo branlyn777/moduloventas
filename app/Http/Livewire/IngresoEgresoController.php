@@ -85,7 +85,7 @@ class IngresoEgresoController extends Component
             ->where('s.id', $this->sucursal)
             ->select('carteras.id', 'carteras.nombre as carteraNombre', 'c.nombre as cajaNombre', 'carteras.tipo as tipo','carteras.saldocartera')->get();
 
-            $caja_us_abierta=
+         
         }
         else
         {

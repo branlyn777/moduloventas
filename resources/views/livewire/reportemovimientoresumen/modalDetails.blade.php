@@ -22,12 +22,12 @@
                                 <option value="Elegir" selected disabled>Elegir</option>
                                 @foreach ($carterasSucursal as $item)
 
-                                @if ($item->tipo =='efectivo' and )
+                                {{-- @if ($item->tipo =='efectivo' and )
                                     
                                 <option value="{{ $item->id }}">{{ $item->cajaNombre }},
                                     {{ $item->carteraNombre }}</option>
                                 @endif
-                                @else
+                                @else --}}
 
                                 @endforeach
                             </select>
