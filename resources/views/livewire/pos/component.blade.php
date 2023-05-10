@@ -366,9 +366,24 @@
             cursor: pointer;
         }
         .product-devolution:hover {
-            background-color: black;
+            background-color: rgb(0, 0, 0);
             color: white;
-            border-radius: 7px;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
+        }
+        .fila-click {
+            cursor: pointer;
+            background-color: #5e72e4;
+            color: white;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
+        }
+        .fila-click:hover {
+            cursor: pointer;
+            background-color: rgb(55, 0, 182);
+            color: white;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
         }
     </style>
 @endsection
@@ -1120,12 +1135,6 @@
                 }
             })
         }
-        // Script para mostrar u ocultar detalles en la fila de la tabla de la ventana modal devolución venta
-        $(document).ready(function() {
-            $('.fila-click').click(function() {
-                $(this).next('.detalles').toggle();
-            });
-        });
 
     </script>
 @endsection

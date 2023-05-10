@@ -1487,12 +1487,13 @@ class PosController extends Component
     public function save_devolution()
     {
         $rules = [
-            'quantity_devolution' => 'required|not_in:0',
+            'quantity_devolution' => 'required|numeric|min:1',
             'detail_devolution' => 'required'
         ];
         $messages = [
             'quantity_devolution.required' => 'La cantidad es requerida',
-            'quantity_devolution.not_in' => 'Valor no valido',
+            'quantity_devolution.numeric' => 'Debe ser un número',
+            'quantity_devolution.min' => 'Debe ser un número positivo',
             'detail_devolution.required' => 'Motivo requerido',
         ];
         $this->validate($rules, $messages);
@@ -1504,16 +1505,14 @@ class PosController extends Component
 
         //Buscando si la devolución no se hizo antes
         $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->get();
-
+        $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
         if($cont->count() > 0)
         {
-            $dev = $cont->first()->quantity;
-            $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
+            $dev = $cont->sum('quantity');
             $quantity = $sale_detail->quantity - $dev;
         }
         else
         {
-            $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
             $quantity = $sale_detail->quantity;
         }
 
@@ -1522,9 +1521,10 @@ class PosController extends Component
         if($this->quantity_devolution <= $quantity)
         {
             //Incrementando el stock
-            $product_destiny = ProductosDestino::where("product_id", $sale_detail->product_id)
-            ->where("destino_id", $this->destiny_id_devolution)
-            ->first();
+            $product_destiny = ProductosDestino::firstOrCreate([
+                "product_id" => $sale_detail->product_id,
+                "destino_id" => $this->destiny_id_devolution
+            ]);
 
             $stock = $product_destiny->stock + $this->quantity_devolution;
 
@@ -1590,18 +1590,18 @@ class PosController extends Component
             }
 
 
-            //Generando un ingreso si el monto devuelto es mayor que 0
+            //Generando un egreso si el monto devuelto es mayor que 0
             if($this->amount_devolution > 0)
             {
                 $m = Movimiento::create([
-                    'type' => "DEVOLUCIONVENTA",
+                    'type' => "TERMINADO",
                     'import' => $this->amount_devolution,
                     'user_id' => Auth()->user()->id,
                 ]);
 
                 CarteraMov::create([
                     'type' => "EGRESO",
-                    'tipoDeMovimiento' => "VENTA",
+                    'tipoDeMovimiento' => "EGRESO/INGRESO",
                     'comentario' => $this->detail_devolution,
                     'cartera_id' => $this->cartera_id_devolution,
                     'movimiento_id' => $m->id,
@@ -1610,7 +1610,7 @@ class PosController extends Component
             }
 
 
-            $devolution = SaleDevolution::create([
+            SaleDevolution::create([
                 'quantity' => $this->quantity_devolution,
                 'amount' => $this->amount_devolution,
                 'description' => $this->detail_devolution,

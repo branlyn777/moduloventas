@@ -40,10 +40,10 @@
               </thead>
               <tbody class="text-sm">
                 @foreach ($list_sales_devolution as $pd)
-                <tr class="fila-click" style="cursor: pointer;">
+                <tr>
                   <th class="text-center" scope="row">{{ ($list_sales_devolution->currentpage() - 1) * $list_sales_devolution->perpage() + $loop->index + 1 }}</th>
                   <td class="text-center">
-                    <span wire:click.prevent='select_sale({{$pd->code}})'>
+                    <span class="fila-click" wire:click.prevent='select_sale({{$pd->code}})'>
                       <b>{{$pd->code}}</b>
                     </span>
                   </td>
@@ -114,15 +114,15 @@
             </div>
           </div>
           <div class="row mb-2">
-            <div class="col-12 col-sm-6 col-md-1 text-center"></div>
-            <div class="col-12 col-sm-6 col-md-5 text-center">
+            <div class="col-12 col-sm-6 col-md-2 text-center"></div>
+            <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Cantidad:</label>
               <input wire:model='quantity_devolution' type="number" class="form-control">
               @error('quantity_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
-            <div class="col-12 col-sm-6 col-md-5 text-center">
+            <div class="col-12 col-sm-6 col-md-4 text-center">
               <label>Guardar en:</label>
               <select wire:model='destiny_id_devolution' class="form-select">
                 @foreach ($this->list_destinations_devolution as $d)
@@ -130,17 +130,9 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-1 text-center"></div>
+            <div class="col-12 col-sm-6 col-md-2 text-center"></div>
           </div>
           <div class="row">
-            
-            <div class="col-12 col-sm-6 col-md-4">
-              <label>Monto Bs:</label>
-              <input wire:model='amount_devolution' type="number" class="form-control">
-              @error('amount_devolution')
-                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-              @enderror
-            </div>
             <div class="col-12 col-sm-6 col-md-4">
               <label>Cartera:</label>
               <select wire:model='cartera_id_devolution' class="form-select">
@@ -165,6 +157,13 @@
                 <option value="{{$c->id}}">{{$c->nombre}}</option>
                 @endforeach
               </select>
+              @error('amount_devolution')
+                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+              @enderror
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label>Monto Bs:</label>
+              <input wire:model='amount_devolution' type="number" class="form-control">
               @error('amount_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
