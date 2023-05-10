@@ -86,9 +86,10 @@ class ServiciosController extends Component
         if (!empty(session('od'))) {
             $this->orderservice = session('od');
         }
-        // if (!empty(session('clie'))) {
-        //     $this->cliente = session('clie');
-        // }
+        if(!empty(session('clie')))
+        {
+            $this->cliente = session('clie');
+        }
         if (!empty(session('tservice'))) {
             $this->typeservice = session('tservice');
             $this->type_service = session('tservice');
@@ -201,8 +202,6 @@ class ServiciosController extends Component
     }
     public function ResetSession()
     {
-        /* $this->cliente = '';
-        $this->orderservice = ''; */
         session(['od' => null]);
         session(['clie' => null]);
         session(['tservice' => null]);
