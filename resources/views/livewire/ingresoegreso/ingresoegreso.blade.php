@@ -369,21 +369,21 @@
                                         {{ number_format($p->import, 2) }}
                                     </td>
 
-
-
-
-
-
                                     <td class="text-sm align-middle text-center">
                                         <a href="javascript:void(0)"
                                             wire:click="editarOperacion({{ $p->movid }})"
                                             title="Editar Ingreso/egreso">
-                                            <i class="fas fa-edit text-info"></i>
+                                            <i class="fas fa-edit text-info mx-2"></i>
                                         </a>
 
                                         <a href="javascript:void(0)" href="javascript:void(0)"
                                             onclick="Confirm('{{ $p->movid }}')" title="Anular Ingreso/Egreso">
-                                            <i class="fas fa-trash text-danger"></i>
+                                            <i class="fas fa-trash text-danger mx-2"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" href="javascript:void(0)"
+                                         wire:click='imprimirComprobante({{ $p->movid }})'
+                                             title="Imprimir comprobante">
+                                            <i class="fas fa-print text-add mx-2"></i>
                                         </a>
                                     </td>
 
@@ -398,13 +398,9 @@
         </div>
     </div>
 
-
-
-
-
-    @include('livewire.reportemovimientoresumen.modalDetails')
-    @include('livewire.reportemovimientoresumen.modaleditar')
-    @include('livewire.reportemovimientoresumen.modalajuste')
+    @include('livewire.ingresoegreso.modalDetails')
+    @include('livewire.ingresoegreso.modaleditar')
+    @include('livewire.ingresoegreso.modalajuste')
 </div>
 
 

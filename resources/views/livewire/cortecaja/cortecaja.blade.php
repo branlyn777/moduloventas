@@ -31,79 +31,26 @@
             <p>Seleccione la caja en la cual va a trabajar</p>
         </div>
     </div>
-    {{-- <div class="card mb-4">
-        <div class="card-body p-4 m-0">
-            <div class="row m-3 justify-content-end">
-                <div class="col-md-4 col-12 col-sm-12">
-                    <h6>Sucursal</h6>
-                    <select wire:model="idsucursal" class="form-select" name="" id="">
-                        @foreach ($sucursales as $s)
-                            <option value="{{ $s->id }}">{{ $s->name }}</option>
-                        @endforeach
-                        <option value="Todos">Todas las Sucursales</option>
-                    </select>
-                </div>
-
-          
-
-
-                <div class="col-12 col-md-2">
-                    <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
-                    <button wire:click.prevent="cerrartodo()" class="btn btn-primary form-control">
-                        Cerrar Todo
-                    </button>
-                </div>
-                <div class="col-12 col-md-2">
-                    <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
-                    <button wire:click.prevent="ajustarcarteras()" class="btn btn-primary form-control">
-                        Ajustar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-
-
     <br>
-    <center>
-        <div id="preloader_3" wire:loading>
-            <div class="lds-roller">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </center>
-    <div class="col-sm-12 col-md-12 d-flex">
-        @foreach ($cajas as $c)
+    <div class="col-sm-12 col-md-12">
+        <div class="row">
 
- 
-            <div class="card">
-                <div class="card-body text-center">
-                    <div>
-                        <b>{{ $c->nombre }}</b>
-                        <br>
-                     
-                        @if ($c->carteras->count() > 0 || $carteras_generales->count() > 0)
-
+            @foreach ($cajas as $c)
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <b>{{ $c->nombre }}</b>
+                            <br>
                             <div class="connect-sorting text-left">
-                                <b>Abierta por:</b> {{ $c->abiertapor }}
+                                <b>Abierta por:</b> {{ substr($c->abiertapor, 0, 15) }}
                             </div>
                             <br>
                             <div class="connect-sorting text-center">
-
                                 @if ($c->estado == 'Abierto')
-
                                     @if ($this->nombre_caja != null)
                                         @if ($c->id == $this->id_caja)
                                             <button type="button"
-                                                wire:click="CerrarCaja({{ $c->id }},'{{$c->abiertapor_id}}')"
+                                                wire:click="CerrarCaja({{ $c->id }},'{{ $c->abiertapor_id }}')"
                                                 class="btn btn-danger">
                                                 <i class="fas fa-arrow-right"></i>
                                                 Cerrar Sesion
@@ -111,13 +58,14 @@
                                         @else
                                             @if ($c->misucursal)
                                                 <p>
-                                                    <b>Para usar esta caja cierre la caja "{{ $this->nombre_caja }}"</b>
+                                                    <b>Para usar esta caja cierre la caja
+                                                        "{{ $this->nombre_caja }}"</b>
                                                 </p>
                                             @endif
                                         @endif
                                     @else
                                         <button
-                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}','{{$c->abiertapor_id}}')"
+                                            onclick="ConfirmarCerrarUsuario({{ $c->id }},'{{ $c->nombre }}','{{ $c->abiertapor }}','{{ $c->abiertapor_id }}')"
                                             class="btn btn-primary">
                                             CERRAR CAJA DE OTRO USUARIO
                                         </button>
@@ -146,24 +94,16 @@
                                 @endif
 
                             </div>
-                        @else
-                            <div class="connect-sorting text-center">
-                                <br>
-                                <br>
-                                <p class="h1">Esta caja no tiene carteras</p>
-                                <br>
-                                <br>
-                                <br>
-                            </div>
 
-                        @endif
 
+
+
+                        </div>
                     </div>
-                    <br>
-                </div>
-            </div>
 
-        @endforeach
+                </div>
+            @endforeach
+        </div>
 
     </div>
     @include('livewire.cortecaja.cierreCaja')
@@ -218,13 +158,14 @@
             });
         });
 
- 
-     
+
+
         // Código para lanzar la Alerta de Confirmación para cerrar una caja abierta por otro usuario
-        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario,userid) {
+        function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario, userid) {
             swal({
-                title:'Confirmar Cierre de Caja de Otro usuario' ,
-                text: '¿Desea proseguir con el cierre de la caja: '+  nombrecaja+' ,abierta por ' + nombreusuario + '?',
+                title: 'Confirmar Cierre de Caja de Otro usuario',
+                text: '¿Desea proseguir con el cierre de la caja: ' + nombrecaja + ' ,abierta por ' +
+                    nombreusuario + '?',
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -232,7 +173,7 @@
                 padding: '2em'
             }).then(function(result) {
                 if (result.value) {
-                    window.livewire.emit('cerrar-caja', id,userid)
+                    window.livewire.emit('cerrar-caja', id, userid)
                 }
             })
         }

@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                                color: rgb(0, 0, 0); */
+                                    color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                                    border-top: 0.3px solid rgb(0, 0, 0);
-                                } */
+                                        border-top: 0.3px solid rgb(0, 0, 0);
+                                    } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -428,7 +428,7 @@
 
                 <div class="col-12 col-sm-6 col-md-4">
 
-                    <div class="card p-3" >
+                    <div class="card p-3">
 
 
 
@@ -519,7 +519,7 @@
 
                 <div class="col-12 col-sm-6 col-md-8">
 
-                    <div class="card" >
+                    <div class="card">
 
                         <div>
                             @if ($this->total_items > 0)
@@ -533,11 +533,13 @@
                                                     <tr>
                                                         <th class="text-uppercase text-sm text-center">Nº</th>
                                                         <th class="text-uppercase text-sm ps-2 text-left">
-                                                            <b>DESCRIPCION</b></th>
+                                                            <b>DESCRIPCION</b>
+                                                        </th>
                                                         <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b>
                                                         </th>
                                                         <th class="text-uppercase text-sm ps-2 text-left">
-                                                            <b>CANTIDAD</b></th>
+                                                            <b>CANTIDAD</b>
+                                                        </th>
                                                         <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b>
                                                         </th>
                                                         <th class="text-uppercase text-sm text-center">ACCIONES</th>
@@ -649,7 +651,7 @@
                             <p class="text-sm">
                                 Nombre Cliente: <b>{{ ucwords(strtolower($nombrecliente)) }}</b>
                             </p>
-                            
+
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 @if ($this->total_items > 0)
                                     <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">
@@ -704,52 +706,8 @@
             <button style="cursor: default" class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
         @endif
     @else
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-4">
-
-            </div>
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="card  mb-4">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-12 text-center">
-                                <div class="numbers">
-                                    <a href="{{ url('cortecajas') }}">
-                                        <h5 class="font-weight-bolder">
-                                            NO SE SELECCIONO NINGUNA CAJA
-                                        </h5>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4">
-
-            </div>
-        </div>
-
-
-
-        <div class="row">
-            @foreach ($this->cajas as $c)
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <b>Caja 1</b>
-                        <br>
-                        <button class="btn btn-primary mt-5" wire:click.prevent="confirmarAbrir({{$c->id}})">
-                            Aperturar Caja
-                        </button>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-
-      
-        @include('livewire.cortecaja.aperturacaja')
+        <livewire:corte-caja-controller>
+        </livewire:corte-caja-controller>
 
     @endif
 
@@ -1002,8 +960,8 @@
             window.livewire.on('aperturarCaja', msg => {
                 $('#aperturacaja').modal('show')
             });
-             //Para mostrar mensaje de caja ya ocupada cuando se desee realizar corte de caja
-             window.livewire.on('caja-ocupada', msg => {
+            //Para mostrar mensaje de caja ya ocupada cuando se desee realizar corte de caja
+            window.livewire.on('caja-ocupada', msg => {
                 swal({
                     title: 'Caja Ocupada',
                     text: "Un usuario ya abrio la caja seleccionada",
@@ -1048,8 +1006,8 @@
                 }
             })
         }
-        function alerta_apertura(id)
-        {
+
+        function alerta_apertura(id) {
             swal({
                 title: '¿Aperturar Caja?',
                 text: "Realizará el corte de caja",

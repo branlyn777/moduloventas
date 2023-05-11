@@ -64,10 +64,29 @@ class IngresoEgresoController extends Component
             ->get();
 
 
-
-        $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-            ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->select('cajas.id as id')
             ->get();
+
+
+        if ($cajausuario->count() > 0) {
+
+            $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+                ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+                ->get();
+        } else {
+            $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+                ->where('carteras.tipo', '!=', 'efectivo')
+                ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+                ->get();
+        }
 
 
         if ($this->cajaselected == false) {
@@ -193,7 +212,7 @@ class IngresoEgresoController extends Component
             $this->saldo_cartera_aj = Cartera::find($this->cartajusteselected)->saldocartera;
         }
 
-        return view('livewire.reportemovimientoresumen.ingresoegreso', [
+        return view('livewire.ingresoegreso.ingresoegreso', [
             'carterasSucursal' => $this->carterasSucursal,
             'categorias_ie' => $categorias,
             'categorias2' => $categorias2,
@@ -386,10 +405,8 @@ class IngresoEgresoController extends Component
         session(['ingresos' => $data]);
         $caracteristicas = array($this->sucursal, $this->caja, $this->fromDate, $this->toDate);
         session(['caracteristicas' => $caracteristicas]);
-        
+
         return redirect()->away('/report/pdf-ingresos');
-      
- 
     }
     protected $listeners = [
         'eliminar_operacion' => 'anularOperacion'
