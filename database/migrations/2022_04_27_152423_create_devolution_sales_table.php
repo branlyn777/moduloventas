@@ -20,6 +20,7 @@ class CreateDevolutionSalesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('sale_detail_id')->constrained();
             $table->foreignId('sucursal_id')->constrained();
+            $table->foreignId('movimiento_id')->constrained();
             $table->timestamps();
         });
     }

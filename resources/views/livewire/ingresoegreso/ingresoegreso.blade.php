@@ -37,16 +37,15 @@
                         @can('Ver_Generar_Ingreso_Egreso_Boton')
                             <button wire:click.prevent="viewDetails()" class="btn btn-add">
                                 <i class="fas fa-arrow-alt-circle-down"></i> <i class="fas fa-arrow-alt-circle-up"></i>
-                                Generar
-                                Ingreso/Egreso
+                                Generar Ingreso/Egreso
                             </button>
                             <button wire:click.prevent="ajuste()" class="btn btn-light">
                                 <i class="fa-solid fa-wrench"></i>
                                 Ajustar Carteras
                             </button>
-                            <button wire:click.prevent="generarpdf({{ $data }})" class="btn btn-success mx-0">
+                            <a wire:click="generarpdf({{ $data }})" class="btn btn-success mx-0">
                                 <i class="fas fa-print"></i> Generar PDF
-                            </button>
+                            </a>
                         @endcan
                     </div>
                 </div>
@@ -63,7 +62,7 @@
                         <div class="col text-start">
                             <h6 class="mb-2 text-sm" style="color: rgb(73, 4, 202)">SALDOS CARTERA</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($saldosCartera,2)}}
+                                Bs. {{ number_format($saldosCartera, 2) }}
                             </h5>
 
                         </div>
@@ -78,7 +77,7 @@
                         <div class="col-12 text-start">
                             <h6 class="mb-2 text-sm" style="color: rgb(4, 202, 96)">OTROS INGRESOS TOTALES</h6>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($ingresosTotal,2)}}
+                                Bs. {{ number_format($ingresosTotal, 2) }}
                             </h5>
                         </div>
                     </div>
@@ -95,7 +94,7 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(214, 3, 3)">EGRESOS TOTALES</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($egresosTotal,2)}}
+                                Bs. {{ number_format($egresosTotal, 2) }}
                             </h5>
 
                         </div>
@@ -110,7 +109,7 @@
                         <div class="col-12 text-start">
                             <h5 class="mb-2 text-sm" style="color: rgb(12, 73, 79)">BALANCE</h5>
                             <h5 class="font-weight-bolder mb-0">
-                                Bs. {{number_format($balanceTotal,2)}}
+                                Bs. {{ number_format($balanceTotal, 2) }}
                             </h5>
 
                         </div>
@@ -203,7 +202,7 @@
                                 <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INGRESO">Ingreso</option>
                                 <option class="text-uppercase text-xs ps-2" value="EGRESO">Egreso</option>
-                        
+
                             </select>
                         </div>
                     </div>
@@ -229,7 +228,7 @@
                         <div class="form-group">
                             <label style="font-size: 1rem">Estado</label>
                             <select wire:model='estado' class="form-select">
-                                <option class="text-uppercase text-xs ps-2" value="TODOS">Todos</option>
+                             
                                 <option class="text-uppercase text-xs ps-2" value="ACTIVO">Activos</option>
                                 <option class="text-uppercase text-xs ps-2" value="INACTIVO">Anulados</option>
 
@@ -370,21 +369,21 @@
                                         {{ number_format($p->import, 2) }}
                                     </td>
 
-
-
-
-
-
                                     <td class="text-sm align-middle text-center">
                                         <a href="javascript:void(0)"
                                             wire:click="editarOperacion({{ $p->movid }})"
                                             title="Editar Ingreso/egreso">
-                                            <i class="fas fa-edit text-info"></i>
+                                            <i class="fas fa-edit text-info mx-2"></i>
                                         </a>
 
                                         <a href="javascript:void(0)" href="javascript:void(0)"
                                             onclick="Confirm('{{ $p->movid }}')" title="Anular Ingreso/Egreso">
-                                            <i class="fas fa-trash text-danger"></i>
+                                            <i class="fas fa-trash text-danger mx-2"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" href="javascript:void(0)"
+                                         wire:click='imprimirComprobante({{ $p->movid }})'
+                                             title="Imprimir comprobante">
+                                            <i class="fas fa-print text-add mx-2"></i>
                                         </a>
                                     </td>
 
@@ -399,13 +398,9 @@
         </div>
     </div>
 
-
-
-
-
-    @include('livewire.reportemovimientoresumen.modalDetails')
-    @include('livewire.reportemovimientoresumen.modaleditar')
-    @include('livewire.reportemovimientoresumen.modalajuste')
+    @include('livewire.ingresoegreso.modalDetails')
+    @include('livewire.ingresoegreso.modaleditar')
+    @include('livewire.ingresoegreso.modalajuste')
 </div>
 
 

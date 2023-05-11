@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
 class IngresoEgresoController extends Component
@@ -63,10 +64,29 @@ class IngresoEgresoController extends Component
             ->get();
 
 
-
-        $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
-            ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+        $cajausuario = Caja::join('sucursals as s', 's.id', 'cajas.sucursal_id')
+            ->join('sucursal_users as su', 'su.sucursal_id', 's.id')
+            ->join('carteras as car', 'cajas.id', 'car.caja_id')
+            ->join('cartera_movs as cartmovs', 'car.id', 'cartmovs.cartera_id')
+            ->join('movimientos as mov', 'mov.id', 'cartmovs.movimiento_id')
+            ->where('mov.user_id', Auth()->user()->id)
+            ->where('mov.status', 'ACTIVO')
+            ->where('mov.type', 'APERTURA')
+            ->select('cajas.id as id')
             ->get();
+
+
+        if ($cajausuario->count() > 0) {
+
+            $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+                ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+                ->get();
+        } else {
+            $this->carterasAjuste = Caja::join('carteras', 'carteras.caja_id', 'cajas.id')
+                ->where('carteras.tipo', '!=', 'efectivo')
+                ->select('carteras.nombre as carteranombre', 'carteras.id', 'cajas.nombre as cajanombre')
+                ->get();
+        }
 
 
         if ($this->cajaselected == false) {
@@ -131,12 +151,14 @@ class IngresoEgresoController extends Component
                 ->where('carteras.id', $this->carterasel)
                 ->where('cartera_movs.type', 'INGRESO')
                 ->where('movimientos.status', 'ACTIVO')
+                ->whereBetween('movimientos.created_at', ['2020-05-03 00:00:00', $this->fromDate . ' 23:59:59'])
                 ->sum('movimientos.import');
             $egresos = Cartera::join('cartera_movs', 'cartera_movs.cartera_id', 'carteras.id')
                 ->join('movimientos', 'movimientos.id', 'cartera_movs.movimiento_id')
                 ->where('carteras.id', $this->carterasel)
                 ->where('cartera_movs.type', 'EGRESO')
                 ->where('movimientos.status', 'ACTIVO')
+                ->whereBetween('movimientos.created_at', ['2020-05-03 00:00:00', $this->fromDate . ' 23:59:59'])
                 ->sum('movimientos.import');
             $this->saldosCartera = $ingresos - $egresos;
         } else {
@@ -190,7 +212,7 @@ class IngresoEgresoController extends Component
             $this->saldo_cartera_aj = Cartera::find($this->cartajusteselected)->saldocartera;
         }
 
-        return view('livewire.reportemovimientoresumen.ingresoegreso', [
+        return view('livewire.ingresoegreso.ingresoegreso', [
             'carterasSucursal' => $this->carterasSucursal,
             'categorias_ie' => $categorias,
             'categorias2' => $categorias2,
@@ -371,7 +393,7 @@ class IngresoEgresoController extends Component
     public function generarpdf($data)
     {
         if ($this->tipo_movimiento != 'TODOS') {
-            session(['sumatotal' => $this->sumaTotal]);
+            session(['sumatotal' => $this->balanceTotal]);
         } else {
             if ($this->tipo_movimiento == 'INGRESO') {
                 session(['sumatotal' => $this->ingresosTotal]);
@@ -384,7 +406,7 @@ class IngresoEgresoController extends Component
         $caracteristicas = array($this->sucursal, $this->caja, $this->fromDate, $this->toDate);
         session(['caracteristicas' => $caracteristicas]);
 
-        $this->emit('openothertap');
+        return redirect()->away('/report/pdf-ingresos');
     }
     protected $listeners = [
         'eliminar_operacion' => 'anularOperacion'
@@ -450,10 +472,6 @@ class IngresoEgresoController extends Component
                 'saldocartera' => $saldo_cartera
             ]);
         }
-
-
-
-
 
         $this->resetUIedit();
     }

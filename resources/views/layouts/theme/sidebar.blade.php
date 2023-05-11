@@ -70,12 +70,12 @@
                                 <span class="sidenav-normal">Editar Empresa </span>
                             </a>
                         </li>
-                        <li class=@yield('sucursalesli', 'nav-item ')>
+                        {{-- <li class=@yield('sucursalesli', 'nav-item ')>
                             <a class=@yield('sucursalesnav', 'nav-link ') href="{{ url('sucursales') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Sucursales </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class=@yield('cajasli', 'nav-item ')>
                             <a class=@yield('cajasnav', 'nav-link ') href="{{ url('cajas') }}">
                                 <span class="sidenav-mini-icon"> C </span>
@@ -259,8 +259,7 @@
 
             <li class=@yield('nuevaventali', 'nav-item ')>
                 <a class=@yield('nuevaventanav', 'nav-link ') href="{{ url('pos') }}">
-                    <div
-                        class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
+                    <div class="icon icon-shape icon-sm text-center  me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-cart text-warning text-sm"></i>
                     </div>
                     <span class="nav-link-text ms-1">Nueva Venta</span>
@@ -316,19 +315,12 @@
                             </a>
                         </li> --}}
                     </ul>
-                    <ul class="nav ms-4">
-                        <li class=@yield('productosmasvendidosli', 'nav-item ')>
-                            <a class=@yield('productosmasvendidosnav', 'nav-link ') href="{{ url('productosvendidos') }}">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal">Productos Mas Vendidos</span>
-                            </a>
-                        </li>
-                    </ul>
+             
                     <ul class="nav ms-4">
                         <li class=@yield('movimientosli', 'nav-item ')>
                             <a class=@yield('movimientosnav', 'nav-link ') href="{{ url('resumenmovimientos') }}">
                                 <span class="sidenav-mini-icon"> M </span>
-                                <span class="sidenav-normal"> Movimientos </span>
+                                <span class="sidenav-normal"> Movimientos Caja </span>
                             </a>
                         </li>
                     </ul>
@@ -349,7 +341,15 @@
                         </li>
                     </ul>
                     <ul class="nav ms-4">
-                        <li class=@yield('ventacategoriali', 'nav-item ')>
+                        <li class=@yield('productosmasvendidosli', 'nav-item ')>
+                            <a class=@yield('productosmasvendidosnav', 'nav-link ') href="{{ url('productosvendidos') }}">
+                                <span class="sidenav-mini-icon"> P </span>
+                                <span class="sidenav-normal">Productos Mas Vendidos</span>
+                            </a>
+                    </ul>
+                    <ul class="nav ms-4">
+                        <li class=@yield('ventacategoriali
+                        </li>', 'nav-item ')>
                             <a class=@yield('ventacategorianav', 'nav-link ') href="{{ url('reportecategoria') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal">Reporte Ventas Categoria</span>

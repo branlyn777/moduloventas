@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movimiento Diario General-Resumen</title>
+    <title>Reporte Otros Ingresos y Egresos</title>
 
 
 
@@ -87,7 +87,7 @@
     <table class="estilostable">
         <tbody>
             <tr>
-                <td colspan="2"><b>Sucursal:</b> {{$sucursal}}</td>
+                {{-- <td colspan="2"><b>Sucursal:</b> {{$sucursal}}</td> --}}
                 <td><b>Caja:</b> {{$caja}}</td>
                 <td><b>Fecha Inicial:</b> {{\Carbon\Carbon::parse($fromDate)->format('d-m-Y')}}</td>
                 <td><b>Fecha Final:</b> {{\Carbon\Carbon::parse($toDate)->format('d-m-Y')}}</td>

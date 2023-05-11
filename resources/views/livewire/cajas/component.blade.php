@@ -95,7 +95,7 @@
                                 <tr>
                                     <th class="text-uppercase text-sm text-center">Nº</th>
                                     <th class="text-uppercase text-sm ps-2 text-left">NOMBRE</th>
-                                    <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th>
+                                    {{-- <th class="text-uppercase text-sm ps-2 text-left">SUCURSAL</th> --}}
                                     <th class="text-uppercase text-sm ps-2 text-left"> ESTADO</th>
                                     <th class="text-uppercase text-sm ps-2 text-center">ACCIONES</th>
                                 </tr>
@@ -109,9 +109,9 @@
                                         <td class="text-sm mb-0 text-left ">
                                             {{ $item->nombre }}
                                         </td>
-                                        <td class="text-sm mb-0 text-left">
+                                        {{-- <td class="text-sm mb-0 text-left">
                                             {{ $item->sucursal }}
-                                        </td>
+                                        </td> --}}
                                         <td class="text-sm mb-0 text-left">
 
                                             {{-- @if ($item->estado != 'Inactivo')

@@ -266,6 +266,9 @@
             </div>
         </div>
     </div>
+    <div class="table-5">
+        {{$data_compras->links()}}
+    </div>
     @include('livewire.compras.verDetallecompra')
     @include('livewire.compras.compra_producto')
     @include('livewire.compras.producto_proveedor')

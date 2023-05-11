@@ -37,7 +37,7 @@ class UsersController extends Component
         $this->componentName = 'Usuarios';
         $this->selected_id = 0;
         $this->profile = 'Elegir';
-        $this->sucursal_id = 'Elegir';
+        $this->sucursal_id = 1;
         $this->details = [];
         $this->estados = true;
         $this->imagen = 'noimagen.png';

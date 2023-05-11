@@ -44,14 +44,22 @@
 
 <div>
     <div wire:loading>
-        <div class="modal-backdrop fade show"></div>
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Cargando...</span>
+
+        <div class="modal-backdrop fade show">
         </div>
+        <div class="spinner-border text-light" role="status">
+        </div>
+        <span class="text-white">
+            Cargando...
+        </span>
+
+
+
+
     </div>
     <div>
         <div class="d-lg-flex my-auto p-0 mb-3" style="margin-bottom: 2.3rem">
-            <h5 class="text-white" style="font-size: 16px">Movimientos Diarios </h5>
+            <h5 class="text-white" style="font-size: 16px">Movimientos Diarios Caja</h5>
             <div class="ms-auto my-auto mt-lg-1">
                 <div class="ms-auto my-auto">
 
@@ -334,8 +342,8 @@
                                         </div>
                                     </td>
                                 </tr>
-                         
-                       
+
+
                                 <tr data-bs-toggle="collapse" data-bs-target="#otros-ingresos"
                                     class="accordion-toggle">
                                     <td class="w-85">Otros Ingresos</td>
