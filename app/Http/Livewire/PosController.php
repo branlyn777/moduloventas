@@ -1488,13 +1488,18 @@ class PosController extends Component
     {
         $rules = [
             'quantity_devolution' => 'required|numeric|min:1',
-            'detail_devolution' => 'required'
+            'detail_devolution' => 'required',
+
+            'cartera_id_devolution' => 'not_in:Elegir',
         ];
         $messages = [
             'quantity_devolution.required' => 'La cantidad es requerida',
             'quantity_devolution.numeric' => 'Debe ser un número',
             'quantity_devolution.min' => 'Debe ser un número positivo',
             'detail_devolution.required' => 'Motivo requerido',
+
+            'cartera_id_devolution.not_in' => 'Seleccione Tipo Pago',
+
         ];
         $this->validate($rules, $messages);
 

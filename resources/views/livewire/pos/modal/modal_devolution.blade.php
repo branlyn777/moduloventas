@@ -146,7 +146,7 @@
                     </option>
                 @endforeach
               </select>
-              @error('amount_devolution')
+              @error('cartera_id_devolution')
                 <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
               @enderror
             </div>
