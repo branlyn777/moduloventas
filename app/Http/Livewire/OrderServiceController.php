@@ -872,7 +872,7 @@ class OrderServiceController extends Component
     // Redirige para modificar una Orden de Servicio
     public function modify_order_service(OrderService $orderservice)
     {
-        session(['clie' => $this->get_client($orderservice->id)]);
+        session(['clie' => $this->get_client($orderservice->id)->id]);
         session(['od' => $orderservice->id]);
         session(['tservice' => $orderservice->type_service]);
         $this->redirect('service');

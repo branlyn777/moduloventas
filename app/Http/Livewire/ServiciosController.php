@@ -88,7 +88,7 @@ class ServiciosController extends Component
         }
         if(!empty(session('clie')))
         {
-            $this->cliente = session('clie');
+            $this->cliente = Cliente::find(session('clie'));
         }
         if (!empty(session('tservice'))) {
             $this->typeservice = session('tservice');
