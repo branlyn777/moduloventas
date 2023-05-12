@@ -20,8 +20,11 @@ class CreateSaleDevolutionsTable extends Migration
             $table->text('description');
             $table->decimal('utility', 8, 2)->default(0.00);
             $table->enum('status',['active','inactive'])->default('active');
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('destino_id')->constrained();
             $table->foreignId('sale_detail_id')->constrained();
+            $table->unsignedBigInteger('sucursal_id');
+            $table->foreign('sucursal_id')->references('id')->on('sucursals');
             $table->timestamps();
         });
     }

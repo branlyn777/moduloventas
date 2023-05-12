@@ -1628,8 +1628,10 @@ class PosController extends Component
                 'amount' => $this->amount_devolution,
                 'description' => $this->detail_devolution,
                 'utility' => $utility,
+                'user_id' => Auth()->user()->id,
                 'destino_id' => $this->destiny_id_devolution,
-                'sale_detail_id' => $this->sale_detail_id_devolution
+                'sale_detail_id' => $this->sale_detail_id_devolution,
+                'sucursal_id' => $this->idsucursal()
             ]);
     
             // $this->observacion = "Venta por devolución de la venta : X.";
