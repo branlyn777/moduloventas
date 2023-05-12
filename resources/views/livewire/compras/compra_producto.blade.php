@@ -1,5 +1,5 @@
-<div wire:ignore.self class="modal fade" id="compraprod" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="compraprod" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -37,25 +37,25 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($compraproducto as $cp)
+                                    @foreach ($compra as $item)
                                         <tr>
                                             <td class="text-center">
-                                                {{ $loop->index + 1 }}
+                                                {{ $loop->iteration+1}}
                                             </td>
                                             <td class="text-left">
-                                                {{ substr($cp->nombre, 0, 10) }}
+                                                {{ substr($item->nombre, 0, 10) }}
                                             </td>
                                             <td class="text-left">
-                                                {{ $cp->proveedor->nombre_prov }}
+                                                {{ $item->proveedor->nombre_prov }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->cantidad }}
+                                                {{ $item->cantidad }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->id }}
+                                                {{ $item->id }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->created_at }}
+                                                {{ $item->created_at }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -63,8 +63,7 @@
                                 </tbody>
                             </table>
                             <div class="table-5">
-
-                                {{ $compraproducto->links() }}
+                                    {{$compra->links()}}
                             </div>
                         @else
                             <div class="row justify-content-center align-items-center">
@@ -77,6 +76,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

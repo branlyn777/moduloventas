@@ -259,6 +259,9 @@
     </div>
 
     @include('livewire.compras.compra_producto')
+    @include('livewire.compras.verDetallecompra')
+  
+  
 
 </div>
 

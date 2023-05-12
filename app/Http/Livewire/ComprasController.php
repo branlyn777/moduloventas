@@ -34,7 +34,7 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3;
+            $aprobado,$detalleCompra,$pag,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3;
 
     public function paginationView()
     {
@@ -44,6 +44,7 @@ class ComprasController extends Component
     {
         $this->nro=1;
         $this->pagination=15;
+        $this->pag=10;
         $this->filtro='Contado';
         $this->fecha='hoy';
         $this->fromDate = Carbon::parse(Carbon::now())->format('Y-m-d');
@@ -92,14 +93,18 @@ class ComprasController extends Component
        // dd($datas_compras->get());
 
         $this->totales = $datas_compras->sum('compras.importe_total');
-        $compraproducto=[];
+        $compraproducto='hellos';
         if ($this->search2 != null) {
+       
+
             $compraproducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->where('products.nombre', 'like', '%' . $this->search2 . '%')
             ->select('compras.*','products.nombre','compra_detalles.cantidad',)
             ->orderBy('compras.created_at','desc')
-            ->paginate(5);
+            ->paginate($this->pag);
+
+            //dd($compraproducto);
         } 
         if ($this->search3 != null) {
      
@@ -117,7 +122,7 @@ class ComprasController extends Component
         return view('livewire.compras.component',
         [
             'data_compras'=>$datas_compras->paginate($this->pagination), 
-            'compraproducto'=>$compraproducto, 
+            'compra'=>$compraproducto, 
             'totales'=>$this->totales,
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios,
