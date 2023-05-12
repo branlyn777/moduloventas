@@ -1612,6 +1612,14 @@ class PosController extends Component
                     'movimiento_id' => $m->id,
                     'cartera_mov_categoria_id' => $this->category_id_devolution
                 ]);
+
+                //Actualizando saldo cartera
+                $wallet = Cartera::find($this->cartera_id_devolution);
+                $balance = $wallet->saldocartera - $this->amount_devolution;
+                $wallet->update([
+                    'saldocartera' => $balance
+                ]);
+                $wallet->save();
             }
 
 

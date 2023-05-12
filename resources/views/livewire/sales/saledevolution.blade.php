@@ -108,7 +108,6 @@
           </div>
   
           <div class="col-12 col-sm-12 col-md-4 text-center">
-            @if(Auth::user()->hasPermissionTo('VentasDevolucionesFiltrar'))
             <b>Seleccionar Usuario</b>
             <select wire:model="usuarioseleccionado" class="form-control">
                 <option value="Todos" selected>Todos los Usuarios</option>
@@ -116,7 +115,6 @@
                 <option value="{{$u->id}}">{{$u->nombreusuario}}</option>
                 @endforeach
             </select>
-            @endif
           </div>
   
           <div class="col-12 col-sm-12 col-md-4 text-right">
@@ -141,9 +139,7 @@
                     <th>Artículo Devuelto</th>
                     <th>Usuario</th>
                     <th>Motivo</th>
-                    @if(Auth::user()->hasPermissionTo('VentasDevolucionesFiltrar'))
                     <th>Acción</th>
-                    @endif
                 </tr>
             </thead>
 
