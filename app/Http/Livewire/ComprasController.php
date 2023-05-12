@@ -92,14 +92,14 @@ class ComprasController extends Component
        // dd($datas_compras->get());
 
         $this->totales = $datas_compras->sum('compras.importe_total');
-
+        $compraproducto=[];
         if ($this->search2 != null) {
-
-            $this->compraproducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+            $compraproducto = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->where('products.nombre', 'like', '%' . $this->search2 . '%')
             ->select('compras.*','products.nombre','compra_detalles.cantidad',)
-            ->orderBy('compras.created_at','desc');
+            ->orderBy('compras.created_at','desc')
+            ->paginate(5);
         } 
         if ($this->search3 != null) {
      
@@ -110,12 +110,14 @@ class ComprasController extends Component
             ->select('prov.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
             ->get();
         }
+   
         $usuarios = User::select("users.*")
         ->where("users.status","ACTIVE")
         ->get();
         return view('livewire.compras.component',
         [
             'data_compras'=>$datas_compras->paginate($this->pagination), 
+            'compraproducto'=>$compraproducto, 
             'totales'=>$this->totales,
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios,

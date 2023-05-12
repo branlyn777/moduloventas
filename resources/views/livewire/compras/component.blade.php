@@ -2,7 +2,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-4 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm">
-                <a class="text-white" href="javascript:;">
+                <a class="text-white" href="javascript:void(0)">
                     <i class="ni ni-box-2"></i>
                 </a>
             </li>
@@ -60,24 +60,26 @@
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-start">
-                            <div class="col-5" style="margin-bottom: 7px;">
-
-                                <label style="font-size: 1rem;">Buscar</label><br>
+                            <div class="col-5 mb-3">
+                                <label for="search-input" class="form-label">Buscar</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"  style="background-color:rgba(39, 39, 205, 0.659); color: rgb(38, 38, 40); border-color: #1d4cc2;">
+                                    <span class="input-group-text border border-primary">
                                         <i class="fa fa-search"></i>
                                     </span>
-                                    <input type="text" class="form-control ps-2" style="border-color: #1d4cc2;" wire:model="search"
-                                    placeholder="nro.documento,proveedor,usuario">
-                                    <select wire:model="tipo_search" class="form-select" style="background-color:rgba(49, 12, 230, 0.659); color: rgb(236, 236, 248); border-color: #1d4cc2;">
+                                    <input id="search-input" type="text"
+                                        class="form-control border-primary rounded-end" wire:model="search"
+                                        placeholder="nro.documento,proveedor,usuario">
+                                    <select class="form-select border-primary rounded-start" wire:model="tipo_search">
                                         <option value="codigo"> Cod. Compra</option>
                                         <option value="proveedor">Proveedor</option>
                                         <option value="usuario">Usuario</option>
                                         <option value="documento">Documento</option>
                                     </select>
-                                  </div>
+                                </div>
                             </div>
-                            
+
+
+
 
 
                             <div class="col" style="margin-bottom: 7px;">
@@ -93,7 +95,7 @@
 
                             <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Tipo de Fecha</label>
-                                <div class="">
+                                <div>
                                     <select wire:model="fecha" class="form-select">
                                         <option value='hoy' selected>Hoy</option>
                                         <option value='ayer'>Ayer</option>
@@ -107,14 +109,14 @@
                                 <div class="col" style="margin-bottom: 7px;">
                                     <label>Fecha Inicio</label>
                                     <div class="form-group">
-                                        <input type="date" wire:model="fromDate" class="form-control flatpickr">
+                                        <input type="date" wire:model="fromDate" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col" style="margin-bottom: 7px;">
                                     <label>Fecha Fin</label>
                                     <div class="form-group">
-                                        <input type="date" wire:model="toDate" class="form-control flatpickr">
+                                        <input type="date" wire:model="toDate" class="form-control">
                                     </div>
                                 </div>
                             @endif
@@ -122,7 +124,7 @@
                             <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Otros</label>
                                 <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                    <a class="btn btn-secondary dropdown-toggle" href="javascript:void(0)" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         Mas Filtros
                                     </a>
@@ -228,7 +230,7 @@
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                     title="Exportar">
                                                     <i class="fas fa-print text-white" style="font-size: 14px"></i>
-                                            </a>
+                                                </a>
                                                 <button type="button" class="btn btn-danger"
                                                     wire:click="Confirm('{{ $data->id }}')"
                                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -241,21 +243,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            {{-- <tfoot class="text-dark text-right">
-                                <tr>
-                                    <td colspan="5">
 
-                                    </td>
-                                    <td>
-                                        <h5 class="text-center" style="font-size: 14.5px">
-                                        </h5>
-                                        <h5 class="text-center" style="font-size: 14.5px">
-                                            </h5>
-                                    </td>
-                                    <td colspan="4">
-                                    </td>
-                                </tr>
-                            </tfoot> --}}
                         </table><br>
                         <div class="text-center">
                             <h6><b> Total Bs.- {{ $totales }}</b></h6>
@@ -266,12 +254,12 @@
             </div>
         </div>
     </div>
-    <div class="table-5">
-        {{$data_compras->links()}}
+    <div>
+        {{ $data_compras->links() }}
     </div>
-    @include('livewire.compras.verDetallecompra')
+
     @include('livewire.compras.compra_producto')
-    @include('livewire.compras.producto_proveedor')
+
 </div>
 
 <script>
