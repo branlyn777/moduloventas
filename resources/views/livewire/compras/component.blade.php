@@ -258,8 +258,11 @@
         {{ $data_compras->links() }}
     </div>
 
-    @include('livewire.compras.compra_producto')
+
+
     @include('livewire.compras.verDetallecompra')
+    @include('livewire.compras.compra_producto')
+    @include('livewire.compras.producto_proveedor')
   
   
 

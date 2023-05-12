@@ -89,7 +89,6 @@ class ComprasController extends Component
         ->when($this->estado != 'Todos', function($query){
             return $query->where('compras.status',$this->estado);
         });
-        
        // dd($datas_compras->get());
 
         $this->totales = $datas_compras->sum('compras.importe_total');
