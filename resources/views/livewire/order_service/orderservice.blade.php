@@ -389,6 +389,19 @@
                 transform: translateX(-99%);
             }
         }
+
+        /*Estilos para el boton añadir precio servicio*/
+        .add-price {
+            background-color: #5e72e4;
+            cursor: pointer;
+            border-radius: 1px;
+            color: white;
+            padding: 0px 4px 1.2px 4px;
+            margin-right: -5px;
+        }
+        .add-price:hover {
+            background-color: #e28800;
+        }
                 
     </style>
 @endsection
@@ -452,9 +465,60 @@
                     </div>
                 </div>
             </div>
+            {{-- @if($this->total_prices_services > 0)
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="badge badge-primary text-lg">
+                                <b>{{$this->total_prices_services}} Bs</b>
+                            </span>
+                            <span>
+                                =
+                            </span>
+                            <span class="badge badge-secondary">
+                                23 Bs
+                            </span>
+                            <span>
+                                +
+                            </span>
+                            <span class="badge badge-secondary">
+                                23 Bs
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif --}}
             <div class="card mb-4">
                 <span wire:loading class="loader"></span>
                 <div class="card-body p-4">
+
+
+                    @if($this->total_prices_services > 0)
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="badge badge-primary text-lg">
+                                    <b>{{$this->total_prices_services}} Bs</b>
+                                </span>
+                                <span>
+                                    =
+                                </span>
+                                @foreach ($this->prices_services as $ps)
+                                    <span class="badge badge-secondary">
+                                        {{$ps['price']}} Bs
+                                    </span>
+                                    <span>
+                                        +
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                        <br>
+                    @endif
+
+
+
                     <div class="">
                         <div class="table-style">
                             <table>
@@ -483,6 +547,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="pe-3">
+                                                        <span class="add-price" wire:click.prevent="add_price_service({{$s->price_service}})">+</span>
                                                         <span class="text-sm code dropdown-toggle pointer"
                                                             id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                             aria-expanded="false">

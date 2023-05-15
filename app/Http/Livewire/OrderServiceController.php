@@ -58,6 +58,10 @@ class OrderServiceController extends Component
     public $list_branches;
     //Variable que guarda true o false para buscar por solo codigo o por mas datos (Nombre Cliente, Descripcio, Detalle del Equipo, etc)
     public $search_all;
+    //Variable que guarda la suma total de precios de los servicios
+    public $total_prices_services;
+    //Variable que guardará todos los precios de servicios seleccionados
+    public $prices_services;
     
 
     //Guarda Información de un servicio
@@ -87,6 +91,9 @@ class OrderServiceController extends Component
         $this->list_branches = Sucursal::all();
         //Obteniendo el id de la sucursal del usuario
         $this->branch_id = SucursalUser::where("user_id", Auth()->user()->id)->where("estado", "ACTIVO")->first()->sucursal_id;
+        $this->total_prices_services = 0;
+        //Creando lista para guardar precios de servicios
+        $this->prices_services = collect([]);
     }
     public function render()
     {
@@ -973,6 +980,15 @@ class OrderServiceController extends Component
         }
 
         $this->emit("hide-edit-service-deliver");
+    }
+    //Añade el precio al total precio servicios
+    public function add_price_service($price)
+    {
+        $this->total_prices_services = $this->total_prices_services + $price;
+
+        $this->prices_services->push([
+            'price' => $price
+        ]);
     }
     protected $listeners = [
         'updateservice' => 'update_service',

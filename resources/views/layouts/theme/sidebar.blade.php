@@ -503,6 +503,12 @@
                                 <span class="sidenav-normal"> Ventas No Agrupadas </span>
                             </a>
                         </li>
+                        <li class=@yield('ventasnoagrupadasli', 'nav-item ')>
+                            <a class=@yield('ventasnoagrupadasnav', 'nav-link ') href="{{ url('devolucionventa') }}">
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Devoluciónes Ventas </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
