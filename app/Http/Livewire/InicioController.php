@@ -15,6 +15,7 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\SaleLote;
+use App\Models\Sucursal;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -32,7 +33,7 @@ class InicioController extends Component
     public $ventasusuario,$clientesnuevos,$porcentajeclientes,$clientesmesanterior;
     //graficos
     public $ventas = [], $compras = [], $ingresos = [], $egresos = [], $meses = [], $labelingresos, $chartingresos, $intchart,
-        $tipo, $chartegresos, $labelegresos, $mesesbarras = [],$ganancias;
+        $tipo, $chartegresos, $labelegresos, $mesesbarras = [],$ganancias, $porcentajeganancias;
 
     public function mount()
     {
@@ -169,17 +170,42 @@ class InicioController extends Component
 
         $this->porcentajeganancias=$this->porcent_ganancias();
 
-                          
-        //dd($this->porcentajeclientes);
-        //dd($clientesnuevos);
-      //Cálculo del total ventas en el mes actual
-      $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)->where("status","PAID")->sum('total');
 
-      //Cálculo del total del mes anterior
-      $previous_month_total = Sale::whereMonth('created_at', Carbon::now()->subMonth()->month)->where("status","PAID")->sum('total');
 
-    //$percentage = ($total_current_month * 100) / $previous_month_total;
-      $percentage = 0;
+
+
+
+        
+    $branchs = Sucursal::select("sucursals.*", DB::raw('0 as total_current_month'), DB::raw('0 as previous_month_total'), DB::raw('0 as percentage'))->get();
+    foreach($branchs as $b)
+    {
+        //Cálculo del total ventas en el mes actual
+        $total_current_month = Sale::whereMonth('created_at', Carbon::now()->month)
+        ->where("status","PAID")
+        ->where('sucursal_id', $b->id)
+        ->sum('total');
+
+        //Cálculo del total del mes anterior
+        $previous_month_total = Sale::whereMonth('created_at', Carbon::now()->subMonth()->month)
+        ->where("status","PAID")
+        ->where('sucursal_id', $b->id)
+        ->sum('total');
+
+        if($previous_month_total == 0)
+        {
+            $percentage = 0;
+        }
+        else
+        {
+            $percentage = ($total_current_month * 100) / $previous_month_total;
+        }
+
+
+        $b->total_current_month = $total_current_month;
+        $b->previous_month_total = $previous_month_total;
+        $b->percentage = $percentage;
+
+    }
 
 
        //GRAFICO PROCEDENICA CLIENTE INICIO
@@ -225,7 +251,7 @@ class InicioController extends Component
 
 
         return view('livewire.inicio.inicio', [
-
+            'branchs' => $branchs,
             'origins' => $origins,   
             'total_current_month' => $total_current_month,
             'previous_month_total' => $previous_month_total,

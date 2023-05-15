@@ -27,7 +27,7 @@
 
                     <div class="col-12 text-center">
                         <br>
-                        <button wire:click="" class="btn btn-success">
+                        <button wire:click="actualizar_costo()" class="btn btn-success">
                             ACTUALIZAR COSTO
                         </button>
                     </div>
