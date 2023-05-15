@@ -13,6 +13,20 @@
         <h6 class="font-weight-bolder mb-0 text-white"> Corte de Caja </h6>
     </nav>
 @endsection
+@section('css')
+    <style>
+        .nohover:hover {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .hr-sm {
+            height: 1.3px;
+            border: none;
+            background-color: #aea9a9;
+            margin: 5px 0;
+        }
+    </style>
+@endsection
 
 
 @section('cortecajanav')
@@ -80,7 +94,7 @@
                                         @endif
                                     @else
                                         @if ($c->misucursal)
-                                            <button wire:click.prevent="confirmarAbrir({{ $c->id }})"
+                                            <button wire:click="confirmarAbrir('{{ $c->id }}')"
                                                 class="btn btn-primary">
                                                 <i class="fas fa-arrow-up"></i>
 
@@ -113,8 +127,6 @@
 @section('javascript')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
-
             //Para mostrar mensaje de caja ya ocupada cuando se desee realizar corte de caja
             window.livewire.on('caja-ocupada', msg => {
                 swal({
@@ -124,7 +136,7 @@
                     showCancelButton: false,
                     cancelButtonText: 'Aceptar',
                     padding: '2em'
-                })
+                });
             });
             //Para mostrar mensaje de caja ya cerrada cuando se desee cerrar una caja
             window.livewire.on('caja-cerrada', msg => {
@@ -136,7 +148,7 @@
                     cancelButtonText: 'Aceptar',
                     footer: '<a href="cortecajas">Recargue la Pagina</a>',
                     padding: '2em'
-                })
+                });
             });
 
             window.livewire.on('abrirAjustedeCaja', msg => {
@@ -158,8 +170,6 @@
             });
         });
 
-
-
         // Código para lanzar la Alerta de Confirmación para cerrar una caja abierta por otro usuario
         function ConfirmarCerrarUsuario(id, nombrecaja, nombreusuario, userid) {
             swal({
@@ -175,7 +185,7 @@
                 if (result.value) {
                     window.livewire.emit('cerrar-caja', id, userid)
                 }
-            })
+            });
         }
     </script>
 @endsection

@@ -1,16 +1,3 @@
-<style>
-    .nohover:hover {
-        background-color: rgb(255, 255, 255);
-    }
-
-    .hr-sm {
-        height: 1.3px;
-        border: none;
-        background-color: #aea9a9;
-        margin: 5px 0;
-    }
-</style>
-
 <div wire:ignore.self class="modal fade" id="ajusteCaja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

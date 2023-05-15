@@ -43,7 +43,8 @@
                                                 {{ $loop->iteration+1}}
                                             </td>
                                             <td class="text-left">
-                                                {{ substr($item->nombre, 0, 10) }}
+                                                <div style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">{{ $item->nombre }}</div>
+        
                                             </td>
                                             <td class="text-left">
                                                 {{ $item->proveedor->nombre_prov }}
@@ -66,10 +67,9 @@
                                     {{$compra->links()}}
                             </div>
                         @else
-                            <div class="row justify-content-center align-items-center">
-
-                                Realice la busqueda...
-                            </div>
+                            <p class="h1 text-center align-item-center">
+                                Buscar...  <i class="fas fa-search"></i>
+                            </p>
                         @endif
                     </div>
                 </div>

@@ -128,7 +128,7 @@
                                 {{ \Carbon\Carbon::parse($c->finaldate)->format('d/m/Y') }}
                             </td>
                             <td class="text-center">
-                                {{$c->diasrestantes + 1}}
+                                {{$c->diasrestantes =='Vencido'?'Vencido': $c->diasrestantes+1}}
                             </td>
                             <td class="text-center">
                                 @if ($c->estado == "ACTIVO")

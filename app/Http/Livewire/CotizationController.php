@@ -55,6 +55,8 @@ class CotizationController extends Component
             if(Carbon::now() > $fechaLimite)
             {
                 $key->diasrestantes = "Vencido";
+               
+      
             }
             else
             {

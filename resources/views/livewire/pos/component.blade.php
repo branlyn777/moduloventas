@@ -86,12 +86,12 @@
 
         .table-wrapper table thead tr {
             /* background: #ffffff;
-                                    color: rgb(0, 0, 0); */
+                                color: rgb(0, 0, 0); */
         }
 
         /* .table-wrapper table tbody tr {
-                                        border-top: 0.3px solid rgb(0, 0, 0);
-                                    } */
+                                    border-top: 0.3px solid rgb(0, 0, 0);
+                                } */
         .table-wrapper table tbody tr:hover {
             background-color: #8e9ce96c;
         }
@@ -282,13 +282,109 @@
                 transform: rotate(360deg);
             }
         }
-    </style>
-@endsection
 
 
-@section('asd')
-    <style>
 
+        /* estilos para mostrar u ocultar las filas en la ventana modal devolución en ventas */
+        .detalles {
+            background-color: #f9f9f9;
+        }
+        .detalles p {
+            padding: 10px;
+            margin: 0;
+        }
+
+        /*Estilos para tabla con thead estática*/
+        .table-static {
+            width: 100%;/* Anchura de ejemplo */
+            height: 320px; /* Altura de ejemplo */
+            overflow: auto;
+        }
+        .table-static table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-left: 0.3px solid #5e72e4;
+            border-bottom: 0.3px solid #5e72e4;
+            width: 100%;
+        }
+        .table-static table thead {
+            position: -webkit-sticky; /* Safari... */
+            position: sticky;
+            top: 0;
+            left: 0;
+        }
+        .table-static table thead tr {
+            background: #5e72e4;
+            color: white;
+        }
+        .table-static table tbody tr:hover {
+            background-color: #ffdf76a4;
+        }
+        .table-static table td {
+            border-top: 0.3px solid #5e72e4;
+            padding-left: 10px;
+            border-right: 0.3px solid #5e72e4;
+        }
+
+        .table-product{
+            width: 100%;/* Anchura de ejemplo */
+        }
+        .table-product table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-left: 0.3px solid #5e72e4;
+            border-bottom: 0.3px solid #5e72e4;
+            width: 100%;
+        }
+        .table-product table thead {
+            position: -webkit-sticky; /* Safari... */
+            position: sticky;
+            top: 0;
+            left: 0;
+        }
+        .table-product table thead tr {
+            background: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .table-product table tbody tr {
+            background-color: #ffffff;
+        }
+        .table-product table tbody tr:hover {
+            background-color: #ffffff;
+        }
+        .table-product table thead tr:hover {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+        .table-product table td {
+            border-top: 0.3px solid #5e72e4;
+            padding-left: 10px;
+            border-right: 0.3px solid #5e72e4;
+        }
+        /*Estilos para seleccionar producto en las devoluciones*/
+        .product-devolution {
+            cursor: pointer;
+        }
+        .product-devolution:hover {
+            background-color: rgb(0, 0, 0);
+            color: white;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
+        }
+        .fila-click {
+            cursor: pointer;
+            background-color: #5e72e4;
+            color: white;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
+        }
+        .fila-click:hover {
+            cursor: pointer;
+            background-color: rgb(55, 0, 182);
+            color: white;
+            border-radius: 4px;
+            padding: 0.2px 4px 0.5px 4px;
+        }
     </style>
 @endsection
 
@@ -335,11 +431,15 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-
                             <a class="btn btn-add mb-0" href="cortecajas"
+                            style="background-color: #2e48dc; color: white;">
+                            Cerrar Caja
+                        </a>
+                            <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
-                                Cerrar Caja
-                            </a>
+                                <i class="fas fa-plus me-2"></i>
+                                Devolver Producto
+                            </button>
 
                             <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
@@ -375,9 +475,6 @@
                         <button wire:click="modalbuscarcliente()" type="button" class="btn btn-default">
                             Buscar/Crear
                         </button>
-
-
-
                     </div> --}}
                     <div class="col-12 col-sm-6 col-md-2 text-left">
                         <b>Tipo de Pago</b>
@@ -428,7 +525,7 @@
 
                 <div class="col-12 col-sm-6 col-md-4">
 
-                    <div class="card p-3">
+                    <div class="card p-3" >
 
 
 
@@ -519,7 +616,7 @@
 
                 <div class="col-12 col-sm-6 col-md-8">
 
-                    <div class="card">
+                    <div class="card" >
 
                         <div>
                             @if ($this->total_items > 0)
@@ -533,13 +630,11 @@
                                                     <tr>
                                                         <th class="text-uppercase text-sm text-center">Nº</th>
                                                         <th class="text-uppercase text-sm ps-2 text-left">
-                                                            <b>DESCRIPCION</b>
-                                                        </th>
+                                                            <b>DESCRIPCION</b></th>
                                                         <th class="text-uppercase text-sm ps-2 text-left"><b>PRECIO</b>
                                                         </th>
                                                         <th class="text-uppercase text-sm ps-2 text-left">
-                                                            <b>CANTIDAD</b>
-                                                        </th>
+                                                            <b>CANTIDAD</b></th>
                                                         <th class="text-uppercase text-sm ps-2 text-left"><b>IMPORTE</b>
                                                         </th>
                                                         <th class="text-uppercase text-sm text-center">ACCIONES</th>
@@ -651,7 +746,7 @@
                             <p class="text-sm">
                                 Nombre Cliente: <b>{{ ucwords(strtolower($nombrecliente)) }}</b>
                             </p>
-
+                            
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 @if ($this->total_items > 0)
                                     <button onclick="ConfirmarLimpiar()" type="button" class="btn btn-danger">
@@ -698,6 +793,7 @@
         @include('livewire.pos.modal.modallotesproducto')
         @include('livewire.pos.modal.modal_ingreso_egreso')
         @include('livewire.pos.modal.modal_cotization')
+        @include('livewire.pos.modal.modal_devolution')
 
 
         @if ($descuento_recargo >= 0)
@@ -706,8 +802,9 @@
             <button style="cursor: default" class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
         @endif
     @else
-        <livewire:corte-caja-controller>
-        </livewire:corte-caja-controller>
+    <livewire:corte-caja-controller>
+    </livewire:corte-caja-controller>
+
 
     @endif
 
@@ -746,6 +843,14 @@
             //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
             window.livewire.on('show-modalcotization', Msg => {
                 $("#modalcotization").modal("show");
+            });
+            //Mètodo JavaScript para llamar al modal para mostrar lotes con precio y costos
+            window.livewire.on('show-modal-devolution', Msg => {
+                $("#modaldevolution").modal("show");
+            });
+            //Mètodo JavaScript para llamar al modal para ocultar lotes con precio y costos
+            window.livewire.on('hide-modal-devolution', Msg => {
+                $("#modaldevolution").modal("hide");
             });
             //Mostrar Toast cuando un producto se incrementa en el Carrito de Ventas
             window.livewire.on('increase-ok', msg => {
@@ -957,20 +1062,24 @@
                 // Cambiar el foco al nuevo tab (punto opcional)
                 win.focus();
             });
-            window.livewire.on('aperturarCaja', msg => {
-                $('#aperturacaja').modal('show')
-            });
-            //Para mostrar mensaje de caja ya ocupada cuando se desee realizar corte de caja
-            window.livewire.on('caja-ocupada', msg => {
-                swal({
-                    title: 'Caja Ocupada',
-                    text: "Un usuario ya abrio la caja seleccionada",
-                    type: 'info',
-                    showCancelButton: false,
-                    cancelButtonText: 'Aceptar',
+
+
+            //Creando un pdf para la cotizacion
+            window.livewire.on('message-quantity', Msg => {
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
                     padding: '2em'
+                });
+                toast({
+                    type: 'error',
+                    title: @this.mensaje_toast,
+                    padding: '2em',
                 })
             });
+
         });
 
 
@@ -1007,20 +1116,5 @@
             })
         }
 
-        function alerta_apertura(id) {
-            swal({
-                title: '¿Aperturar Caja?',
-                text: "Realizará el corte de caja",
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Aperturar',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('confirmar-Abrir', id)
-                }
-            })
-        }
     </script>
 @endsection

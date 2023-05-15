@@ -291,7 +291,6 @@
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0 mt-0 mb-5">
                     <table class="table align-items-center mb-0">
-
                         <thead>
                             <tr>
                                 <th class="col text-uppercase text-xs text-center">#</th>
@@ -357,16 +356,14 @@
                                         @endif
                                     </td>
                                     <td class="text-sm">
-
                                         @if ($p->nombrecategoria != null)
                                             {{ $p->nombrecategoria }}
                                         @else
                                             S/Categoria
                                         @endif
-
                                     </td>
                                     <td style="text-sm text-align: right;">
-                                        {{ number_format($p->import, 2) }}
+                                        {{number_format($p->import, 2)}}
                                     </td>
 
                                     <td class="text-sm align-middle text-center">
@@ -380,8 +377,8 @@
                                             onclick="Confirm('{{ $p->movid }}')" title="Anular Ingreso/Egreso">
                                             <i class="fas fa-trash text-danger mx-2"></i>
                                         </a>
-                                        <a href="javascript:void(0)" href="javascript:void(0)"
-                                         wire:click='imprimirComprobante({{ $p->movid }})'
+                                        <a href="comprobante/operaciones/{{$p->movid}}" href="javascript:void(0)"
+                                         {{-- wire:click='imprimirComprobante({{ $p->movid }})' --}}
                                              title="Imprimir comprobante">
                                             <i class="fas fa-print text-add mx-2"></i>
                                         </a>

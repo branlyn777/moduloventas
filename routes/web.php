@@ -27,6 +27,7 @@ use App\Http\Livewire\InicioController;
 use App\Http\Controllers\ChartJSController;
 use App\Http\Controllers\ExportCotizationController;
 use App\Http\Controllers\ExportMovDiaResController;
+use App\Http\Controllers\IngresoEgresoPdfController;
 use App\Http\Livewire\CierreCajaController;
 use App\Http\Livewire\CotizationController;
 use App\Http\Livewire\LocalizacionController;
@@ -151,7 +152,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('Transferencia/pdf', [ExportTransferenciaController::class, 'printPdf'])->name('transferencia.pdf');
     Route::get('reporteCompras/pdf/{filtro}/{fecha}/{fromDate}/{toDate}/{data?}', [ExportComprasController::class, 'reporteComprasPdf']);
     Route::get('/report/pdf-ingresos',[ExportIngresosController::class,'reportPDFIngresos'])->name('report.pdf.ingresos');
-    Route::get('comprobante/operaciones', [IngresoEgresoPdfController::class, 'printPdf'])->name('ingreso.egreso.pdf');
+    Route::get('comprobante/operaciones/{idoperacion}', [IngresoEgresoPdfController::class, 'printPdf'])->name('ingreso.egreso.pdf');
 
     Route::get('productos/export/', [ProductsController::class, 'export']);
     Route::get('almacen/export/{destino}/{stock}', [DestinoProductoController::class, 'export']);

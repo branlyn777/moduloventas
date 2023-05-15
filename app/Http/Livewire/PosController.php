@@ -25,6 +25,7 @@ use App\Models\ProcedenciaCliente;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
@@ -107,6 +108,12 @@ class PosController extends Component
     //Guarda el id de una cotizacion
     public $cotization_id;
     public $page = 1;
+    //Variable que guarda lo que hay que buscar en una devolucion en venta
+    public $search_devolution, $date_from_devolution, $date_of_devolution;
+    //Variable que guarda el id y nombre del producto para devolución
+    public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
+     $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution,
+     $list_categories_devolution, $category_id_devolution, $cartera_id_devolution;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -115,9 +122,6 @@ class PosController extends Component
 
     //Cotizacion
     public $finaldatecotization, $product_cost;
-
-    //Variables para el corte de caja
-    public $efectivo_actual, $saldoAcumulado, $idcaja, $conteoinicial, $cajas, $nombre_caja, $id_caja, $nota_ajuste;
 
 
     use WithPagination;
@@ -131,8 +135,16 @@ class PosController extends Component
     }
     public function mount()
     {
+        $this->category_id_devolution = 9;
+        $this->list_categories_devolution = CarteraMovCategoria::where("tipo", "EGRESO")->where("status","ACTIVO")->get();
+        $this->destiny_id_devolution = 1;
+        $this->list_destinations_devolution = Destino::where("sucursal_id", $this->idsucursal())->get();
+        $this->date_from_devolution = Carbon::now()->subDays(4)->format('Y-m-d');
+        $this->date_of_devolution = Carbon::parse(Carbon::now())->format('Y-m-d');
+
+
         $this->extraquantity = 1;
-        $this->selloutofstock = false;
+        $this->selloutofstock = true;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
@@ -177,6 +189,7 @@ class PosController extends Component
                 break;
             }
         }
+        $this->cartera_id_devolution = $this->cartera_id;
         $this->cliente_id = $this->clienteanonimo_id();
         $this->listadestinos = [];
         $this->listasucursales = [];
@@ -209,17 +222,11 @@ class PosController extends Component
 
 
 
-        if($cajausuario->count() > 0)
-        {
+        if ($cajausuario->count() > 0) {
             $this->corte_caja = true;
             $this->caja_abierta_id = $cajausuario->first()->id;
-        }
-        else
-        {
+        } else {
             $this->corte_caja = false;
-            $this->cajas = Caja::where("sucursal_id", $this->idsucursal())
-            ->where("id","<>",1)
-            ->get();
         }
 
 
@@ -279,6 +286,45 @@ class PosController extends Component
         //Actualizar los valores de Total Bs y Total Artículos en una Venta
         $this->actualizarvalores();
 
+
+
+
+        //Devolución en Ventas
+        $list_sales_devolution = Sale::join("sale_details as sd","sd.sale_id","sales.id")
+        ->join("users as u","u.id","sales.user_id")
+        ->join("carteras as c","c.id","sales.cartera_id")
+        ->join("sucursals as s","s.id","sales.sucursal_id")
+        ->join("products as p","p.id","sd.product_id")
+        ->select("sales.id as code","sales.created_at as created","sales.total as total","u.name as user",
+        "c.nombre as wallet","s.name as branch", DB::raw('0 as saledetail'))
+        ->where("sales.status","PAID")
+        ->whereBetween('sales.created_at', [$this->date_from_devolution . ' 00:00:00', $this->date_of_devolution . ' 23:59:59'])
+        ->where(function ($query) {
+            $query->where('p.nombre', 'like', '%' . $this->search_devolution . '%')
+            ->orWhere('p.codigo', 'like', '%' . $this->search_devolution . '%')
+            ->orWhere('sales.id', 'like', '%' . $this->search_devolution . '%');
+        })
+        ->distinct()
+        ->orderBy("sales.created_at", "desc")
+        ->paginate(10);
+
+        foreach($list_sales_devolution as $s)
+        {
+            if($s->code == $this->sale_id_devolution)
+            {
+                $s->saledetail = SaleDetail::join("products as p","p.id","sale_details.product_id")
+                ->select("p.nombre as name_product","sale_details.price as price","sale_details.id as idsaledetail","sale_details.quantity as quantity","p.codigo as code_product")
+                ->where("sale_details.sale_id",$s->code)
+                ->get();
+            }
+        }
+
+
+        //------------------
+
+
+
+
         return view('livewire.pos.component', [
             'denominations' => Denomination::orderBy('id', 'asc')->get(),
             'listaproductos' => $listaproductos,
@@ -288,7 +334,8 @@ class PosController extends Component
             'listaclientes' => $listaclientes,
             'nombrecliente' => Cliente::find($this->cliente_id)->nombre,
             'nombrecartera' => $this->nombrecartera(),
-            'categorias_ie' => $categorias_ie
+            'categorias_ie' => $categorias_ie,
+            'list_sales_devolution' => $list_sales_devolution
 
         ])
             ->extends('layouts.theme.app')
@@ -553,8 +600,7 @@ class PosController extends Component
         'scan-code' => 'ScanCode',
         'clear-Cart' => 'clearcart',
         'clear-Product' => 'clearproduct',
-        'saveSale' => 'savesale',
-        'confirmar-Abrir' => 'confirmarAbrir'
+        'saveSale' => 'savesale'
     ];
     //Recibe el codigo del producto para ponerlo en el Carrito de Ventas (Carrito de Ventas)
     public function ScanCode($barcode, $cant = 1)
@@ -743,22 +789,35 @@ class PosController extends Component
             }
 
             foreach ($productos as $p)
-            {
-                    
+            { 
                 $precio_original = Lote::select("lotes.pv_lote as po")
                 ->where("lotes.product_id", $p->id)
                 ->where("lotes.status", "Activo")
                 ->orderBy("lotes.created_at", "desc")
-                ->first();
-
-                $sd = SaleDetail::create([
-                    'original_price' => $precio_original->po,
-                    'price' => $p->price,
-                    'cost' => 0,
-                    'quantity' => $p->quantity,
-                    'product_id' => $p->id,
-                    'sale_id' => $sale->id,
-                ]);
+                ->get();
+                
+                if($precio_original->count() > 0)
+                {
+                    $sd = SaleDetail::create([
+                        'original_price' => $precio_original->first()->po,
+                        'price' => $p->price,
+                        'cost' => 0,
+                        'quantity' => $p->quantity,
+                        'product_id' => $p->id,
+                        'sale_id' => $sale->id,
+                    ]);
+                }
+                else
+                {
+                    $sd = SaleDetail::create([
+                        'original_price' => 0,
+                        'price' => $p->price,
+                        'cost' => 0,
+                        'quantity' => $p->quantity,
+                        'product_id' => $p->id,
+                        'sale_id' => $sale->id,
+                    ]);
+                }
 
                 //Para obtener la cantidad del producto que se va a vender
                 $cantidad_producto_venta = $p->quantity;
@@ -857,18 +916,6 @@ class PosController extends Component
 
             //verificar que caja esta aperturada
             $cajaId = session('sesionCajaID');
-
-
-
-            //verificar que esta venta no tuvo operaciones en caja general
-            if ($this->listarcarterasg()->contains('idcartera', $this->cartera_id))
-            {
-                $op = OperacionesCarterasCompartidas::create([
-                    'caja_id' => $cajaId,
-                    'cartera_mov_id' => $cv->id
-                ]);
-            }
-
 
             $this->resetUI();
             $this->clearcart();
@@ -1412,180 +1459,198 @@ class PosController extends Component
         
         $this->emit("hide-stockinsuficiente");
     }
-
-    //Mustra la ventana modal para aperturar caja
-    public function confirmarAbrir(Caja $caja)
+    // Muestra la ventana modal de devolución
+    public function showModalDevolution()
     {
-    
-        $this->efectivo_actual=null;
-        $this->idcaja = $caja->id;
-        //obtenemos la cartera efectiva
-        $cajafisica = $caja->carteras->where('tipo', 'efectivo')->first()->saldocartera;
-
-        $this->saldoAcumulado =  $cajafisica;
-
-        $this->emit('aperturarCaja');
-        $this->conteoinicial = true;
+        $this->emit("show-modal-devolution");
     }
-
-    //Realiza la apertura de caja
-    public function corteCaja($idcaja)
+    //Selecciona una venta para devolución
+    public function select_sale($idsale)
+    {
+        if($this->sale_id_devolution == $idsale)
+        {
+            $this->sale_id_devolution = null;
+        }
+        else
+        {
+            $this->sale_id_devolution = $idsale;
+        }
+    }
+    // Selecciona un producto y venta para devolución
+    public function select_product(SaleDetail $sale_detail)
+    {
+        $this->sale_detail_id_devolution = $sale_detail->id;
+        $this->product_name_devolution = Product::find($sale_detail->product_id)->nombre;
+        $this->product_id_devolution = $sale_detail->product_id;
+    }
+    //Guarda una devolución
+    public function save_devolution()
     {
         $rules = [
-            'efectivo_actual' => 'required',
+            'quantity_devolution' => 'required|numeric|min:1',
+            'detail_devolution' => 'required',
+
+            'cartera_id_devolution' => 'not_in:Elegir',
         ];
         $messages = [
-            'efectivo_actual.required' => 'Ingresa un monto para aperturar la caja.',
-        ];
+            'quantity_devolution.required' => 'La cantidad es requerida',
+            'quantity_devolution.numeric' => 'Debe ser un número',
+            'quantity_devolution.min' => 'Debe ser un número positivo',
+            'detail_devolution.required' => 'Motivo requerido',
 
+            'cartera_id_devolution.not_in' => 'Seleccione Tipo Pago',
+
+        ];
         $this->validate($rules, $messages);
 
+        if($this->amount_devolution == null)
+        {
+            $this->amount_devolution = 0;
+        }
 
-        if ($this->VerificarCajaAbierta($idcaja) == false) {
-
-            try {
-                DB::beginTransaction();
-                /* PONER EN INACTIVO TODOS LOS MOVIMIENTOS DE CIERRE DEL USUARIO */
-                $cortes = Movimiento::where('status', 'ACTIVO')
-                    ->where('type', 'CIERRE')
-                    ->where('user_id', Auth()->user()->id)
-                    ->get();
-
-                foreach ($cortes as $c) {
-                    $c->update([
-                        'status' => 'INACTIVO',
-                    ]);
-                    $c->save();
-                }
-
-                /*  CREAR MOVIMIENTOS DE APERTURA CON ESTADO ACTIVO POR CADA CARTERA */
-                $carteras = Cartera::where('caja_id', $idcaja)->where('tipo', 'efectivo')->get();
-
-
-                if ($this->efectivo_actual != $this->saldoAcumulado) {
-
-
-                    $movimiento = Movimiento::create([
-                        'type' => 'APERTURA',
-                        'status' => 'ACTIVO',
-                        'import' => $this->efectivo_actual,
-                        'user_id' => Auth()->user()->id
-                    ]);
-                    CarteraMov::create([
-                        'type' => 'APERTURA',
-                        'tipoDeMovimiento' => 'CORTE',
-                        'comentario' => $this->nota_ajuste ?? 's/n',
-                        'cartera_id' => $carteras->first()->id,
-                        'movimiento_id' => $movimiento->id,
-                    ]);
-
-
-                    $margen = $this->efectivo_actual - $this->saldoAcumulado;
-                    $diferenciaCaja = $margen > 0 ? 'positivo' : 'negativo';
-                    $mvt = Movimiento::create([
-                        'type' => 'TERMINADO',
-                        'status' => 'ACTIVO',
-                        'import' => $margen > 0 ? $margen : $margen * (-1),
-                        'user_id' => Auth()->user()->id,
-                    ]);
-
-                    CarteraMov::create([
-                        'type' => ($diferenciaCaja == 'positivo') ? 'INGRESO' : 'EGRESO',
-                        'tipoDeMovimiento' => ($diferenciaCaja == 'positivo') ? 'SOBRANTE' : 'FALTANTE',
-                        'comentario' => $this->nota_ajuste,
-                        'cartera_id' => $carteras->first()->id,
-                        'movimiento_id' => $mvt->id
-                        
-                    ]);
-
-                    $cartera = Cartera::find($carteras->first()->id);
-
-                    $saldo_cartera = Cartera::find($carteras->first()->id)->saldocartera + $margen;
-
-                    $cartera->update([
-                        'saldocartera' => $saldo_cartera
-                    ]);
-                    $this->saldoAcumulado = $saldo_cartera;
-                }
-
-                else{
-                    $movimiento = Movimiento::create([
-                        'type' => 'APERTURA',
-                        'status' => 'ACTIVO',
-                        'import' => $this->efectivo_actual,
-                        'user_id' => Auth()->user()->id
-                    ]);
-                    CarteraMov::create([
-                        'type' => 'APERTURA',
-                        'tipoDeMovimiento' => 'CORTE',
-                        'comentario' => $this->nota_ajuste ?? 's/n',
-                        'cartera_id' => $carteras->first()->id,
-                        'movimiento_id' => $movimiento->id,
-                    ]);
-
-                }
-
-                /* HABILITAR CAJA */
-                $caja = Caja::find($idcaja);
-                $caja->update([
-                    'estado' => 'Abierto',
-                ]);
-                $caja->save();
-
-
-
-                $this->nombre_caja = $caja->nombre;
-                $this->id_caja = $caja->id;
-
-                session(['sesionCaja' => $caja->nombre]);
-                session(['sesionCajaID' => $caja->id]);
-
-                $this->emit('aperturarCajaCerrar');
-
-                $this->reset('efectivo_actual','nota_ajuste');
-
-
-                DB::commit();
-            } catch (Exception $e) {
-                DB::rollback();
-                $this->mensaje_toast = ": " . $e->getMessage();
-                $this->emit('sale-error');
-            }
-        } else {
-            $this->emit('caja-ocupada');
+        //Buscando si la devolución no se hizo antes
+        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->get();
+        $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
+        if($cont->count() > 0)
+        {
+            $dev = $cont->sum('quantity');
+            $quantity = $sale_detail->quantity - $dev;
+        }
+        else
+        {
+            $quantity = $sale_detail->quantity;
         }
 
 
 
+        if($this->quantity_devolution <= $quantity)
+        {
+            //Incrementando el stock
+            $product_destiny = ProductosDestino::firstOrCreate([
+                "product_id" => $sale_detail->product_id,
+                "destino_id" => $this->destiny_id_devolution
+            ]);
 
+            $stock = $product_destiny->stock + $this->quantity_devolution;
 
+            $product_destiny_update = ProductosDestino::find($product_destiny->id);
+            $product_destiny_update->update([
+                'stock' => $stock
+            ]);
+            $product_destiny_update->save();
 
-
-
-
-
-
-        
-        return Redirect::to('pos');
-    }
-    //Verifica si una caja esta abierta
-    public function VerificarCajaAbierta($idcaja)
-    {
-        $result = false;
-        //Buscando el id usuario que abrio la caja
-        $cajausuario = Caja::join('carteras as c', 'c.caja_id', 'cajas.id')
-            ->join('cartera_movs as cartmovs', 'cartmovs.cartera_id', 'c.id')
-            ->join('movimientos as m', 'm.id', 'cartmovs.movimiento_id')
-            ->join('users as u', 'u.id', 'm.user_id')
-            ->select('u.name as nombreusuario', 'u.id as idusuario')
-            ->where('m.status', 'ACTIVO')
-            ->where('m.type', 'APERTURA')
-            ->where('cajas.id', $idcaja)
+            //Actualizando lotes (Reactivando los lotes necesarios)
+            $sale_detail_lots = SaleLote::where("sale_detail_id", $this->sale_detail_id_devolution)
+            ->orderBy("id", "desc")
             ->get();
+            $cont = $this->quantity_devolution;
+            //Determina la utilidad total que representa la devolución de x cantidad del producto
+            $utility = 0;
+            foreach($sale_detail_lots as $sdl)
+            {
+                if($sdl->cantidad > 0)
+                {
+                    $cont = $cont - $sdl->cantidad;
+                    if($cont <= 0)
+                    {
+                        if($cont == 0)
+                        {
+                            $lot = Lote::find($sdl->lote_id);
+                            $stock_lot = $lot->existencia + $sdl->cantidad;
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
 
-        if ($cajausuario->count() > 0) {
-            $result = true;
+                            $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                        }
+                        else
+                        {
+                            $n_stock = $sdl->cantidad + $cont;
+                            $lot = Lote::find($sdl->lote_id);
+                            $stock_lot = $lot->existencia + $n_stock;
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
+
+                            $utility = $utility + ($sale_detail->price * $n_stock) - ($lot->costo * $n_stock);
+                        }
+                    }
+                    else
+                    {
+                        $lot = Lote::find($sdl->lote_id);
+                        $stock_lot = $lot->existencia + $sdl->cantidad;
+                        $lot->update([
+                            'existencia' => $stock_lot,
+                            'status' => "Activo"
+                        ]);
+                        $lot->save();
+
+                        $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                    }
+                }
+            }
+
+
+            //Generando un egreso si el monto devuelto es mayor que 0
+            if($this->amount_devolution > 0)
+            {
+                $m = Movimiento::create([
+                    'type' => "TERMINADO",
+                    'import' => $this->amount_devolution,
+                    'user_id' => Auth()->user()->id,
+                ]);
+
+                CarteraMov::create([
+                    'type' => "EGRESO",
+                    'tipoDeMovimiento' => "EGRESO/INGRESO",
+                    'comentario' => $this->detail_devolution,
+                    'cartera_id' => $this->cartera_id_devolution,
+                    'movimiento_id' => $m->id,
+                    'cartera_mov_categoria_id' => $this->category_id_devolution
+                ]);
+
+                //Actualizando saldo cartera
+                $wallet = Cartera::find($this->cartera_id_devolution);
+                $balance = $wallet->saldocartera - $this->amount_devolution;
+                $wallet->update([
+                    'saldocartera' => $balance
+                ]);
+                $wallet->save();
+            }
+
+
+            SaleDevolution::create([
+                'quantity' => $this->quantity_devolution,
+                'amount' => $this->amount_devolution,
+                'description' => $this->detail_devolution,
+                'utility' => $utility,
+                'user_id' => Auth()->user()->id,
+                'destino_id' => $this->destiny_id_devolution,
+                'sale_detail_id' => $this->sale_detail_id_devolution,
+                'sucursal_id' => $this->idsucursal()
+            ]);
+    
+            // $this->observacion = "Venta por devolución de la venta : X.";
+    
+            //Reseteando las varibles de devolución
+            $this->search_devolution = "";
+            $this->sale_detail_id_devolution = null;
+            $this->amount_devolution = null;
+            $this->quantity_devolution = "";
+            $this->detail_devolution = "";
+            $this->destino_id = 1;
+            $this->product_id_devolution = null;
+    
+            $this->emit("hide-modal-devolution");
         }
-        return $result;
+        else
+        {
+            $this->mensaje_toast = "La cantidad máxima para devolver es de " . $quantity . " unidades";
+            $this->emit("message-quantity");
+        }
     }
 }

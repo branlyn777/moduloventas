@@ -17,7 +17,7 @@
                     </h6>
 
                     <div class="col-12">
-                      
+
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-1 text-dark text-sm">Efectivo s/Edsoft</h6>
                             <h6 class="text-xs"> Bs. {{ $saldoAcumulado }}</h6>
@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="col-12 mt-3">
-                 
+
                         <div class="d-flex justify-content-between px-3">
                             <h6 class="mb-1 text-dark text-sm">Efectivo Actual</h6>
                             <div class="form-group text-end">
@@ -43,7 +43,7 @@
 
                     @if ($efectivo_actual != null and $efectivo_actual != $saldoAcumulado)
                         <div class="col-12 d-flex align-items-center mb-3">
-                         
+
                             <div class="d-flex flex-column">
                                 <h6 class="mb-1 text-dark text-sm">
                                     <h6>
@@ -72,32 +72,11 @@
                     @endif
 
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-primary" wire:click='corteCaja({{ $idcaja }})'
-                            onclick="inicio">Iniciar sesion caja</button>
+                        <button type="button" class="btn btn-primary"
+                            wire:click='corteCaja({{ $idcaja }})'>Iniciar sesion caja</button>
                     </div>
                 @endif
             </div>
         </div>
     </div>
 </div>
-<script>
-    (function() {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function(form) {
-                form.addEventListener('inicio', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>

@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title text-white" id="exampleModalLabel">Contador de billetes y monedas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -83,9 +83,7 @@
 
                     <div class="col-lg-6">
                         <h5 class="text-center">Billetes</h5>
-                        <div>
 
-                        </div>
                         <table>
                             <tbody>
                                 <tr>
@@ -142,13 +140,9 @@
                 </div>
                 <div class="row justify-content-center">
 
-                    <h5 style="border-color:black;border-bottom: 1rem"> <b> Total Bs.: {{$total}}</b></h5>
+                    <h5 style="border-color:black;border-bottom: 1rem"> <b> Total Bs.: {{ $total }}</b></h5>
 
                 </div>
-
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" wire:click.prevent="resetConteo()"

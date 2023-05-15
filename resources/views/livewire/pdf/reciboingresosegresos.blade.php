@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprobante de Venta</title>
+    <title>Comprobante de {{$tipoMovimiento}}</title>
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 
     <style>
@@ -32,17 +32,31 @@
                 </td>
                 <td colspan="2" style="width: 34%;">
                     <center>
-                        <span style="font-size: 20px; font-weight:bold;">RECIBO</span>
-          
+                        <span style="font-size: 20px; font-weight:bold;">Recibo de Caja {{$tipoMovimiento}}</span>
+                        <p style="font-size: 14px; font-weight:bold;">{{$nombreempresa}}</p>
                     </center>
+                </td>
+                <td style="width: 33%;">
+            
                 </td>
                
             </tr>
             <tr>
                 <td style="width: 35%;">
-                    <b>Fecha Emisión:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y H:i') }}
+                    <b>Fecha:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y H:i') }}
                     <br>
-                    <b>Atendido por:</b> {{$nombreusuario->name}}
+                    <b>Atendido por:</b> {{$nombreusuario}}
+                    <br>
+                    @if ($tipoMovimiento== 'INGRESO')
+                    <b>Recibido de:</b> {{$nombrepersona}}
+                    <br>
+                    @else
+                    <b>Pagado a:</b> {{$nombrepersona}}
+                    <br>
+                    @endif
+                    <b>Atendido por:</b> {{$nombreusuario}}
+                    <br>
+                    <b>Monto Bs.</b>:{{$importe}}
                 </td>
             </tr>
         </table>
@@ -51,45 +65,28 @@
             <table style="width: 100%;">
                 <thead class="text-white" style="background: #3d3d3d; color: aliceblue; ">
                     <tr>
-                        <th colspan="2">DESCRIPCIÓN</th>
-                        <th>PRECIO (Bs)</th>
-                        <th>CANTIDAD</th>
-                        <th>IMPORTE (Bs)</th>
+                        <th>CONCEPTO</th>
+                        
                     </tr>
                 </thead>
                 <tbody style="background-color: rgb(255, 255, 255)">
-                    @foreach ($venta as $item)
+                 
                     <tr>
-                        <td colspan="2">
-                            {{ $item->nombre }}
+                        <td>
+                            {{ $motivo }}
                         </td>
-                        <td style="text-align:right;">
-                            {{ number_format($item->precio, 2, ",", ".")}}
-                        </td>
-                        <td style="text-align:center;">
-                            {{ $item->cantidad }}
-                        </td>
-                        <td style="text-align:right;">
-                            {{ number_format($item->precio *  $item->cantidad, 2, ",", ".")}} Bs
-                        </td>
+                    
                     </tr>
-                    @endforeach
+            
                     <tr style="background: #e4e0e0 ">
                         <td>
-                            <b>TOTALES</b>
+
                         </td>
-                        <td class="text-right">
-                            
+                        <td>
+                            <hr style="margin: 2px; color: black">
+                            <b>Firma del cajero(a)</b>
                         </td>
-                        <td  class="text-center">
-                            
-                        </td>
-                        <td style="text-align:center;">
-                            <b>{{$totalitems}}</b>
-                        </td>
-                        <td style="text-align:right;">
-                            <b>{{ number_format($total, 2, ",", ".")}} Bs</b>
-                        </td>
+                    
                     </tr>
                 </tbody>
             </table>
