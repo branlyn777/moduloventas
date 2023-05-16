@@ -465,36 +465,9 @@
                     </div>
                 </div>
             </div>
-            {{-- @if($this->total_prices_services > 0)
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="badge badge-primary text-lg">
-                                <b>{{$this->total_prices_services}} Bs</b>
-                            </span>
-                            <span>
-                                =
-                            </span>
-                            <span class="badge badge-secondary">
-                                23 Bs
-                            </span>
-                            <span>
-                                +
-                            </span>
-                            <span class="badge badge-secondary">
-                                23 Bs
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif --}}
             <div class="card mb-4">
                 <span wire:loading class="loader"></span>
                 <div class="card-body p-4">
-
-
                     @if($this->total_prices_services > 0)
                         <div class="row">
                             <div class="col-12">
@@ -505,7 +478,7 @@
                                     =
                                 </span>
                                 @foreach ($this->prices_services as $ps)
-                                    <span class="badge badge-secondary">
+                                    <span wire:click.prevent="remove_price_service({{$ps['idservice']}})" class="btn badge-secondary">
                                         {{$ps['price']}} Bs
                                     </span>
                                     <span>
@@ -516,9 +489,6 @@
                         </div>
                         <br>
                     @endif
-
-
-
                     <div class="">
                         <div class="table-style">
                             <table>
@@ -547,7 +517,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="pe-3">
-                                                        <span class="add-price" wire:click.prevent="add_price_service({{$s->price_service}})">+</span>
+                                                        <span class="add-price" wire:click.prevent="add_price_service({{$s->idservice}}, {{$s->price_service}})">+</span>
                                                         <span class="text-sm code dropdown-toggle pointer"
                                                             id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                             aria-expanded="false">

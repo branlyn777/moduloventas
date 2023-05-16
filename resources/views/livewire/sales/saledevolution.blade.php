@@ -79,16 +79,27 @@
                 <div class="card-body">
                     <div class="row justify-content-between">
                         <div class="col-12 col-sm-6 col-md-3">
-                            <span class="text-sm"><b>Buscar:</b></span>
+                            <span class="text-sm">Buscar:</span>
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
                                 <input type="text" wire:model="search" placeholder="Buscar por Producto o Venta..." class="form-control ">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-3">
-                            <span>Sucursal</span>
-                            <select class="form-select">
+                            <span class="text-sm">Fecha Desde:</span>
+                            <input wire:model="dateFrom" class="form-control" type="date">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <span class="text-sm">Fecha Hasta:</span>
+                            <input wire:model="dateTo" class="form-control" type="date">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <span class="text-sm">Sucursal</span>
+                            <select wire:model="branch_id" class="form-select">
                                 <option value="0">Todas</option>
+                                @foreach ($this->list_branchs as $b)
+                                <option value="{{$b->id}}">{{$b->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -116,7 +127,7 @@
                                     <td class="text-center text-sm">
                                         {{ ($list_devolutions->currentpage() - 1) * $list_devolutions->perpage() + $loop->index + 1 }}
                                     </td>
-                                    <td class="text-center text-sm">
+                                    <td class="text-sm">
                                         {{ $d->name_product }}
                                     </td>
                                     <td class="text-center text-sm">
@@ -135,7 +146,7 @@
                                         {{ \Carbon\Carbon::parse($d->created_at)->format('d/m/Y H:i') }}
                                     </td>
                                     <td class="text-center text-sm">
-                                        <button class="btn-delete">
+                                        <button class="btn-delete" onclick="Confirm({{$d->id}})">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                                 <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                               </svg>
@@ -241,14 +252,11 @@
         })
     });
 
-    function Confirm(id, name, venta, compra, transferencia, ingreso)
+    function Confirm(id)
     {
-
-        if (venta !== 0 || compra !== 0 || transferencia !== 0 || ingreso !== 0) {
-            swal({
-                title: '¿Inactivar al usuario "' + name + '"?',
-                text: "El usuario " + name +
-                    " no se puede eliminar, pasara a ser inactivado y bloqueado del sistema.",
+        swal({
+                title: '¿Inactivar la devolución?',
+                text: "Se deshara todos los cambios como el egreso y el producto recibido",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -259,37 +267,5 @@
                     window.livewire.emit('deleteRow', id)
                 }
             })
-
-        } else {
-            swal({
-                title: '¿Eliminar al usuario "' + name + '"?',
-                text: "Eliminar al usuario " + name + " permanentemente del sistema.",
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Aceptar',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('deleteRowPermanently', id)
-                }
-            })
-
-
-            //     const toast = swal.mixin({
-            //     toast: true,    
-            //     position: 'top-end',
-            //     showConfirmButton: false,
-            //     timer: 2500,
-            //     padding: '2em'
-            // });
-            // toast({
-            //     type: 'success',
-            //     title: "Usuario eliminado exitosamente.",
-            //     padding: '2em',
-            // })
-
-        }
-
     }
 </script>

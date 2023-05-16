@@ -698,45 +698,57 @@ class OrderServiceController extends Component
             's_cost_detail.required'=> 'Detalla el motivo del costo'
         ];
         $this->validate($rules, $messages);
-        //Buscando el movimiento PROCESO
-        $motion_process = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
-        ->where("mov_services.service_id", $service->id)
-        ->where("m.type", "PROCESO")
-        ->select("m.*")
-        ->first();
-        $motion = Movimiento::find($motion_process->id);
-        //Actualizando el estado del movimiento PROCESO
-        $motion->update([
-            'status' => 'INACTIVO'
-        ]);
-        $motion->save();
 
-        //CREANDO EL SERVICIO EN TERMINADO
-        $motion_terminated = Movimiento::create([
-            'type' => 'TERMINADO',
-            'status' => 'ACTIVO',
-            'import' => $this->s_price,
-            'on_account' => $motion_process->on_account,
-            'saldo' => $this->s_price - $motion_process->on_account,
-            'user_id' =>  $this->s_id_user_technicial,
-        ]);
-        MovService::create([
-            'movimiento_id' => $motion_terminated->id,
-            'service_id' => $service->id
-        ]);
-        //Obteniendo un objeto de los datos del cliente
-        $client = $this->get_client($service->order_service_id);
-        ClienteMov::create([
-            'movimiento_id' => $motion_terminated->id,
-            'cliente_id' => $client->id
-        ]);
-        //Actualizando el servicio
-        $service->update([
-            'solucion' => $this->s_solution,
-            'costo' => $this->s_cost,
-            'detalle_costo' => $this->s_cost_detail
-        ]);
-        $service->save();
+        //verificando si ya existe el movimiento TERMINADO
+        $v_motion_terminated = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        ->where("mov_services.service_id", $service->id)
+        ->where("m.type", "TERMINADO")
+        ->where("m.status", "ACTIVO")
+        ->select("m.*")
+        ->get();
+
+        //Verificando que no exista un movimiento TERMINADO ACTIVO (Por bug al terminar un servicio con muchos clicks)
+        if($v_motion_terminated->count() == 0)
+        {
+            //Buscando el movimiento PROCESO
+            $motion_process = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+            ->where("mov_services.service_id", $service->id)
+            ->where("m.type", "PROCESO")
+            ->select("m.*")
+            ->first();
+            $motion = Movimiento::find($motion_process->id);
+            //Actualizando el estado del movimiento PROCESO
+            $motion->update([
+                'status' => 'INACTIVO'
+            ]);
+            $motion->save();
+            //CREANDO EL SERVICIO EN TERMINADO
+            $motion_terminated = Movimiento::create([
+                'type' => 'TERMINADO',
+                'status' => 'ACTIVO',
+                'import' => $this->s_price,
+                'on_account' => $motion_process->on_account,
+                'saldo' => $this->s_price - $motion_process->on_account,
+                'user_id' =>  $this->s_id_user_technicial,
+            ]);
+            MovService::create([
+                'movimiento_id' => $motion_terminated->id,
+                'service_id' => $service->id
+            ]);
+            //Obteniendo un objeto de los datos del cliente
+            $client = $this->get_client($service->order_service_id);
+            ClienteMov::create([
+                'movimiento_id' => $motion_terminated->id,
+                'cliente_id' => $client->id
+            ]);
+            //Actualizando el servicio
+            $service->update([
+                'solucion' => $this->s_solution,
+                'costo' => $this->s_cost,
+                'detalle_costo' => $this->s_cost_detail
+            ]);
+            $service->save();
+        }
         //Cerrando la ventana modal
         $this->emit("hide-terminated-service");
     }
@@ -982,13 +994,40 @@ class OrderServiceController extends Component
         $this->emit("hide-edit-service-deliver");
     }
     //Añade el precio al total precio servicios
-    public function add_price_service($price)
+    public function add_price_service($idservice, $price)
     {
-        $this->total_prices_services = $this->total_prices_services + $price;
-
-        $this->prices_services->push([
-            'price' => $price
-        ]);
+        //Buscamos el elemento en la colección
+        $result = $this->prices_services->where('idservice', $idservice)->first();
+        if($result == null)
+        {
+            $this->prices_services->push([
+                'idservice' => $idservice,
+                'price' => $price
+            ]);
+            $this->total_prices_services = 0;
+            foreach($this->prices_services as $ps)
+            {
+                $this->total_prices_services = $this->total_prices_services + $ps['price'];
+            } 
+        }
+        else
+        {
+            $this->message_toast = "El servicio ya fue seleccionado";
+            $this->emit("message-toast");
+        }
+    }
+    //Remueve el precio al total precio servicios
+    public function remove_price_service($idservice)
+    {
+        //Buscamos el elemento en la colección
+        $result = $this->prices_services->where('idservice', $idservice);
+        //Eliminando la fila del elemento en la coleccion
+        $this->prices_services->pull($result->keys()->first());
+        $this->total_prices_services = 0;
+        foreach($this->prices_services as $ps)
+        {
+            $this->total_prices_services = $this->total_prices_services + $ps['price'];
+        }
     }
     protected $listeners = [
         'updateservice' => 'update_service',

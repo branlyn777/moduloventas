@@ -84,8 +84,9 @@ class ImprimirController extends Controller
         ->join("users as u", "u.id", "m.user_id")
         ->select("u.name as user_name")
         ->where("mov_services.service_id", $idservice)
-        ->where("m.status", "ACTIVO")
+        // ->where("m.status", "ACTIVO")
         ->where("m.type", "<>", "PENDIENTE")
+        ->where("m.type", "<>", "ENTREGADO")
         ->orderBy("m.id", "desc")
         ->get();
 
