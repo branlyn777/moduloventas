@@ -115,6 +115,7 @@
                                     <th class="text-uppercase text-center text-sm">Producto</th>
                                     <th class="text-uppercase text-center text-sm">Cantidad</th>
                                     <th class="text-uppercase text-center text-sm">Monto</th>
+                                    <th class="text-uppercase text-center text-sm">Descripción</th>
                                     <th class="text-uppercase text-center text-sm">Usuario</th>
                                     <th class="text-uppercase text-center text-sm">Sucursal</th>
                                     <th class="text-uppercase text-center text-sm">Fecha</th>
@@ -135,6 +136,9 @@
                                     </td>
                                     <td class="text-center text-sm">
                                         {{ number_format($d->amount, 2, ',', '.') }}
+                                    </td>
+                                    <td class="text-center text-sm">
+                                        {{ $d->description }}
                                     </td>
                                     <td class="text-center text-sm">
                                         {{ $d->user }}
@@ -166,8 +170,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        window.livewire.on('item-added', Msg => {
-            $('#formUsers').modal('hide');
+        window.livewire.on('message-toast', Msg => {
             const toast = swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -177,95 +180,35 @@
             });
             toast({
                 type: 'success',
-                title: @this.mensaje_toast,
+                title: 'Acción realizada con éxito',
                 padding: '2em',
             })
         });
-        window.livewire.on('item-updated', Msg => {
-            $('#formUsers').modal('hide')
-            const toast = swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                padding: '2em'
+
+        //Mostrar Mensaje
+        window.livewire.on('message', event => {
+                swal(
+                    @this.message,
+                    'error'
+                )
             });
-            toast({
-                type: 'success',
-                title: @this.mensaje_toast,
-                padding: '2em',
-            })
-        });
-        window.livewire.on('sucursal-actualizada', Msg => {
-            $('#modal-details').modal('hide')
-        })
-        window.livewire.on('atencion', Msg => {
-            const toast = swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2500,
-                padding: '2em'
-            });
-            toast({
-                type: 'info',
-                title: "¡No puedes eliminarte a ti mismo!",
-                padding: '2em',
-            })
-        })
-        window.livewire.on('item-deleted', Msg => {
-            const toast = swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2500,
-                padding: '2em'
-            });
-            toast({
-                type: 'success',
-                title: "¡Acción realizada con éxito!",
-                padding: '2em',
-            })
-        })
-        window.livewire.on('item-error', Msg => {
-            noty(Msg)
-        })
-        window.livewire.on('show-modal', Msg => {
-            $("#im").val('')
-            $('#formUsers').modal('show')
-        })
-        window.livewire.on('hide-modal', Msg => {
-            $('#formUsers').modal('hide')
-        })
-        window.livewire.on('item-error', Msg => {
-            noty(Msg)
-        });
-        window.livewire.on('user-withsales', Msg => {
-            noty(Msg)
-        })
-        window.livewire.on('user-fin', Msg => {
-            $('#modal-details').modal('hide')
-            noty(Msg)
-        })
-        window.livewire.on('show-modal2', Msg => {
-            $('#modal-details').modal('show')
-        })
+
     });
 
     function Confirm(id)
     {
         swal({
-                title: '¿Inactivar la devolución?',
-                text: "Se deshara todos los cambios como el egreso y el producto recibido",
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Inactivar',
-                padding: '2em'
-            }).then(function(result) {
-                if (result.value) {
-                    window.livewire.emit('deleteRow', id)
-                }
-            })
+            title: '¿Eliminar la devolución?',
+            text: "Se deshara todos los cambios como el egreso y el producto recibido",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Eliminar',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                window.livewire.emit('cancelDevolution', id)
+            }
+        })
     }
 </script>

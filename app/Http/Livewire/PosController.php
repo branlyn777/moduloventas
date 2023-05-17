@@ -1489,7 +1489,6 @@ class PosController extends Component
         $rules = [
             'quantity_devolution' => 'required|numeric|min:1',
             'detail_devolution' => 'required',
-
             'cartera_id_devolution' => 'not_in:Elegir',
         ];
         $messages = [
@@ -1509,7 +1508,7 @@ class PosController extends Component
         }
 
         //Buscando si la devolución no se hizo antes
-        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->get();
+        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->where("status","active")->get();
         $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
         if($cont->count() > 0)
         {
@@ -1623,7 +1622,7 @@ class PosController extends Component
             }
 
 
-            SaleDevolution::create([
+            $sale_devolution = SaleDevolution::create([
                 'quantity' => $this->quantity_devolution,
                 'amount' => $this->amount_devolution,
                 'description' => $this->detail_devolution,
@@ -1633,6 +1632,12 @@ class PosController extends Component
                 'sale_detail_id' => $this->sale_detail_id_devolution,
                 'sucursal_id' => $this->idsucursal()
             ]);
+
+            if($this->amount_devolution > 0)
+            {
+                $sale_devolution->walletid  = $this->cartera_id_devolution;
+                $sale_devolution->save(); 
+            }
     
             // $this->observacion = "Venta por devolución de la venta : X.";
     

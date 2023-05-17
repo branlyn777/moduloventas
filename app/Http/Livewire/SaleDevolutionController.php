@@ -9,12 +9,14 @@ use App\Models\ClienteMov;
 use App\Models\Destino;
 use App\Models\DevolutionSale;
 use App\Models\Location;
+use App\Models\Lote;
 use App\Models\Movimiento;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\SaleDevolution;
+use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -22,14 +24,15 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Carbon\Carbon;
-
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class SaleDevolutionController extends Component
 {
     use WithPagination;
     use WithFileUploads;
 
-    public $search, $pagination, $list_branchs, $branch_id, $dateFrom, $dateTo;
+    public $search, $pagination, $list_branchs, $branch_id, $dateFrom, $dateTo, $message;
 
     public function paginationView()
     {
@@ -57,7 +60,8 @@ class SaleDevolutionController extends Component
                 ->join("products as p", "p.id", "sd.product_id")
                 ->join("sucursals as s", "s.id", "sale_devolutions.sucursal_id")
                 ->select("sale_devolutions.created_at as created_at","sale_devolutions.quantity as quantity", "u.name as user", "p.nombre as name_product",
-                "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id")
+                "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id", "sale_devolutions.description as description",
+                "sale_devolutions.walletid as walletid")
                 ->where("sale_devolutions.status", "active")
                 ->whereBetween('sale_devolutions.created_at', [$from, $to])
                 ->orderBy("sale_devolutions.created_at","desc")
@@ -70,7 +74,8 @@ class SaleDevolutionController extends Component
                 ->join("products as p", "p.id", "sd.product_id")
                 ->join("sucursals as s", "s.id", "sale_devolutions.sucursal_id")
                 ->select("sale_devolutions.created_at as created_at","sale_devolutions.quantity as quantity", "u.name as user", "p.nombre as name_product",
-                "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id")
+                "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id", "sale_devolutions.description as description",
+                "sale_devolutions.walletid as walletid")
                 ->where("sale_devolutions.status", "active")
                 ->where("sale_devolutions.sucursal_id", $this->branch_id)
                 ->whereBetween('sale_devolutions.created_at', [$from, $to])
@@ -85,18 +90,155 @@ class SaleDevolutionController extends Component
             ->join("products as p", "p.id", "sd.product_id")
             ->join("sucursals as s", "s.id", "sale_devolutions.sucursal_id")
             ->select("sale_devolutions.created_at as created_at","sale_devolutions.quantity as quantity", "u.name as user", "p.nombre as name_product",
-            "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id")
+            "sale_devolutions.amount as amount","s.name as name_sucursal", "sale_devolutions.id as id", "sale_devolutions.description as description",
+            "sale_devolutions.walletid as walletid")
             ->where("sale_devolutions.status", "active")
             ->where('p.nombre', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
         }
-
-
 
         return view('livewire.sales.saledevolution', [
             'list_devolutions' => $list_devolutions
         ])
         ->extends('layouts.theme.app')
         ->section('content');
+    }
+    protected $listeners = [
+        'cancelDevolution' => 'cancel_devolution'
+    ];
+    // Anula una devolución
+    public function cancel_devolution(SaleDevolution $sale_devolution)
+    {
+        DB::beginTransaction();
+        try
+        {
+            $sale_detail = SaleDetail::find($sale_devolution->sale_detail_id);
+
+            //Eliminando todos los lotes relacionados al detalle venta
+            $sale_lotes = SaleLote::where("sale_detail_id", $sale_devolution->sale_detail_id)->get();
+            $quantity_sl = $sale_devolution->quantity;
+            foreach($sale_lotes as $sl)
+            {
+                $q_sl = $sl->cantidad - $quantity_sl;
+                if($q_sl > 0)
+                {
+                    $s_l = SaleLote::find($sl->id);
+                    $s_l->update([
+                        'cantidad' => $q_sl
+                    ]);
+                    $s_l->save();
+                }
+                else
+                {
+                    $quantity_sl = $quantity_sl - $sl->cantidad;
+                    $s_l = SaleLote::find($sl->id);
+                    $s_l->delete();
+                }
+            }
+
+            $dp = ProductosDestino::where("product_id", $sale_detail->product_id)
+            ->where("destino_id", $sale_devolution->destino_id)
+            ->first();
+
+            
+            $l = Lote::where("product_id", $sale_detail->product_id)
+            ->where("status", "Activo")
+            ->select(DB::raw('SUM(existencia) as totalExistencia'))
+            ->get();
+
+            $totalExistencia = $l[0]->totalExistencia;
+
+            $new_stock_pd = $dp->stock - $sale_devolution->quantity;
+            $new_stock_l = $totalExistencia - $sale_devolution->quantity;
+
+            if($new_stock_pd > 0)
+            {
+                if($new_stock_l > 0)
+                {
+                    $destination_product = ProductosDestino::find($dp->id);
+                    $destination_product->update([
+                        'stock' => $new_stock_pd
+                    ]);
+                    $destination_product->save();
+
+                    $quantity = $sale_devolution->quantity;
+
+                    $lots = Lote::where("product_id", $sale_detail->product_id)->where("status", "Activo")->orderBy("id","desc")->get();
+
+                    foreach($lots as $l)
+                    {
+                        if($quantity > 0)
+                        {
+                            $lot = Lote::find($l->id);
+                            $q = $lot->existencia - $quantity;
+                            if($q > 0)
+                            {
+                                SaleLote::create([
+                                    'sale_detail_id' => $sale_detail->id,
+                                    'lote_id' => $lot->id,
+                                    'cantidad' => $lot->existencia,
+                                ]);
+
+                                $lot->update([
+                                    'existencia' => $q,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+                                break;
+                            }
+                            else
+                            {
+                                SaleLote::create([
+                                    'sale_detail_id' => $sale_detail->id,
+                                    'lote_id' => $lot->id,
+                                    'cantidad' => $lot->existencia,
+                                ]);
+                                
+                                $lot->update([
+                                    'existencia' => 0,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+
+
+
+
+                                $quantity = $quantity - $lot->existencia;
+                            }
+                        }
+                    }
+
+                    $sale_devolution->update([
+                        'status' => "inactive"
+                    ]);
+                    $sale_devolution->save();
+                    
+                    $this->emit("message-toast");
+                }
+                else
+                {
+                    $this->message = "No hay suficiente stock disponible para deshacer esta devolución - L";
+                    $this->emit("message");
+                }
+    
+            }
+            else
+            {
+                $this->message = "No hay suficiente stock disponible para deshacer esta devolución - PD";
+                $this->emit("message");
+            }
+
+
+
+
+            DB::commit();
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $this->message = ": " . $e->getMessage();
+            $this->emit('message');
+        }
+        
     }
 }
