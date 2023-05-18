@@ -13,16 +13,20 @@ use App\Models\Movimiento;
 
 class IngresoEgresoPdfController extends Controller
 {
-    public function printPdf(Movimiento $mov, $nombre)
+    public function printPdf($mov, $nombre)
     {
-        $carteramov = CarteraMov::where('movimiento_id', $mov->id)->first();
+        
+
+        $carteramov = CarteraMov::where('movimiento_id', $mov)->first();
         $tipoMovimiento = $carteramov->type;
         $fecha = $carteramov->created_at;
         $motivo = $carteramov->comentario;
-        $importe = $mov->import;
+        $movimiento=Movimiento::find($mov);
+        $importe=$movimiento->import;
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->image;
         $nombrepersona = $nombre;
+        $nombreusuario=$movimiento->usermov->name;
 
 
 
@@ -30,6 +34,7 @@ class IngresoEgresoPdfController extends Controller
             'livewire.pdf.reciboingresosegresos',
             compact(
                 'tipoMovimiento',
+                'nombrepersona',
                 'fecha',
                 'nombreusuario',
                 'importe',

@@ -21,7 +21,8 @@ class IngresoEgresoController extends Component
 
     public $fromDate, $toDate, $caja, $data, $search, $cv, $sucursal, $sucursales, $balanceTotal, $cantidad, $mov_selected, $cantidad_edit, $comentario_edit, $carterasSucursal, $mensaje_toast, $saldo_cartera_aj;
     public $cot_dolar = 6.96;
-    public $cartera_id_edit, $ingresosTotal, $egresosTotal, $type_edit, $saldosCartera, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected, $cajaselected, $carteraselected, $carterasAjuste;
+    public $cartera_id_edit, $ingresosTotal, $egresosTotal, $type_edit, $saldosCartera, $selected_id, $estado, $opciones, $cartera_id, $type, $comentario, $carterasel, $cartajusteselected,
+     $cajaselected, $carteraselected, $carterasAjuste,$mov_sel,$persona_recibo;
 
     //Para guardar el id de la categoria cartera movimiento
     public $categoria_id, $categoria_ie_id;
@@ -499,5 +500,33 @@ class IngresoEgresoController extends Component
         $this->cajaselected = $this->carteraselected == 'on' ? $this->cajaselected == 'off' : $this->cajaselected == 'on';
         $this->carteraselected = $this->cajaselected == 'on' ? $this->carteraselected == 'off' : $this->carteraselected == 'on';
         dump($this->cajaselected, $this->carteraselected);
+    }
+
+    public function personaOperacion($mov){
+        $this->mov_sel=$mov;
+        $this->emit('form_recibo');
+
+
+    }
+
+    public function generarRecibo(){
+        $rules = 
+        [ /* Reglas de validacion */
+            'persona_recibo' => 'required'
+        ];
+        $messages = [ 
+            /* mensajes de validaciones */
+            'persona_recibo.required' => 'Introduzca el nombre de la persona para emitir el recibo',
+        ];
+
+        $this->validate($rules, $messages);
+        //dd($this->persona_recibo);
+        return Redirect::to('comprobante/operaciones/'.$this->mov_sel.'/'.$this->persona_recibo);
+        $this->resetRecibo();
+    }
+
+    public function resetRecibo(){
+        $this->persona_recibo=null;
+        $this->emit('form_recibo_close');
     }
 }

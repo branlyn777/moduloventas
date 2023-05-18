@@ -291,8 +291,6 @@ class ProductsController extends Component
 
             if ($this->image) {
                 $customFileName = uniqid() . '_.' . $this->image->extension();
-
-
                 $this->image->storeAs('public/productos/', $customFileName);
                 $product->image = $customFileName;
                 $product->save();

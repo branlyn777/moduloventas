@@ -377,10 +377,13 @@
                                             onclick="Confirm('{{ $p->movid }}')" title="Anular Ingreso/Egreso">
                                             <i class="fas fa-trash text-danger mx-2"></i>
                                         </a>
-                                        <a href="comprobante/operaciones/{{$p->movid}}" href="javascript:void(0)"
-                                         {{-- wire:click='imprimirComprobante({{ $p->movid }})' --}}
-                                             title="Imprimir comprobante">
-                                            <i class="fas fa-print text-add mx-2"></i>
+
+                                        
+
+
+                                        <a wire:click="personaOperacion('{{ $p->movid }}')" href="javascript:void(0)"
+                                             title="Generar Recibo">
+                                            <i class="fas fa-file text-add mx-2"></i>
                                         </a>
                                     </td>
 
@@ -398,6 +401,7 @@
     @include('livewire.ingresoegreso.modalDetails')
     @include('livewire.ingresoegreso.modaleditar')
     @include('livewire.ingresoegreso.modalajuste')
+    @include('livewire.ingresoegreso.formrecibo')
 </div>
 
 
@@ -422,6 +426,14 @@
             });
             window.livewire.on('close-ajuste', Msg => {
                 $('#modal-ajuste').modal('hide')
+
+            });
+            window.livewire.on('form_recibo', Msg => {
+                $('#modalreciboform').modal('show')
+
+            });
+            window.livewire.on('form_recibo_close', Msg => {
+                $('#modalreciboform').modal('hide')
 
             });
 
