@@ -298,9 +298,6 @@ class ReporteMovimientoResumenController extends Component
                     ->orderBy('movimientos.created_at', 'asc')
                     ->get();
 
-               
-                
-      
                 $this->operaciones();
 
             } else {

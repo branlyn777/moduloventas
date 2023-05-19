@@ -288,12 +288,12 @@
                                 <span class="sidenav-normal"> Ventas </span>
                             </a>
                         </li>
-                        <li class=@yield('devoli', 'nav-item ')>
+                        {{-- <li class=@yield('devoli', 'nav-item ')>
                             <a class=@yield('devonav', 'nav-link ') href="{{ url('devolucionventa') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Ventas Devolucion </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </li>

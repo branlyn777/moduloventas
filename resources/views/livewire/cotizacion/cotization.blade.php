@@ -50,9 +50,9 @@
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
                 <div class="ms-auto my-auto">
-                    <button wire:click="modalbuscarproducto()" class="btn btn-add mb-0"> <i
+                    {{-- <button wire:click="modalbuscarproducto()" class="btn btn-add mb-0"> <i
                             class="fas fa-plus me-2"></i>
-                        Nueva cotización</button>
+                        Nueva cotización</button> --}}
                 </div>
             </div>
         </div>
@@ -84,9 +84,9 @@
                     <thead>
                         <tr class="text-center">
                             <th>
-                                No
+                                N°
                             </th>
-                            <th>
+                            <th class="text-start ps-1 ms-1">
                                 Cliente
                             </th>
                             <th>
@@ -118,7 +118,7 @@
                             <td>
                                 {{$c->nombrecliente}}
                             </td>
-                            <td style="text-align: right;">
+                            <td class="text-center">
                                 {{ number_format($c->totalbs, 2, ',', '.') }}
                             </td>
                             <td class="text-center">
@@ -132,13 +132,14 @@
                             </td>
                             <td class="text-center">
                                 @if ($c->estado == "ACTIVO")
-                                    <span style="background-color: #4894ef; padding: 2px; border-radius: 7px;">
-                                        ACTIVO
-                                    </span>
+                                <span class="badge badge-sm bg-gradient-success">
+                                    ACTIVO
+                                </span>
+                            
                                 @else
-                                    <span style="background-color: #f3112b; padding: 2px; border-radius: 7px;">
-                                        INACTIVO
-                                    </span>
+                                <span class="badge badge-sm bg-gradient-danger">
+                                    ANULADO
+                                </span>
                                 @endif
                             </td>
                             <td class="text-center">

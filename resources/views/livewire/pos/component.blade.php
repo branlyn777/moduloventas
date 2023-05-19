@@ -435,11 +435,11 @@
                             style="background-color: #2e48dc; color: white;">
                             Cerrar Caja
                         </a>
-                            <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
+                            {{-- <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
                                 <i class="fas fa-plus me-2"></i>
                                 Devolver Producto
-                            </button>
+                            </button> --}}
 
                             <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
