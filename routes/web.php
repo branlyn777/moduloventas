@@ -34,6 +34,8 @@ use App\Http\Controllers\ExportServicioEntregPdfController;
 use App\Http\Controllers\ExportServicioPdfController;
 use App\Http\Controllers\ExportTigoPdfController;
 use App\Http\Controllers\ImprimirController;
+use App\Http\Controllers\ServicioCotizacion1Controller;
+use App\Http\Controllers\ServicioCotizacion2Controller;
 use App\Http\Controllers\ServicioInformeTecnicoController;
 use App\Http\Livewire\ArqueosTigoController;
 use App\Http\Livewire\CatProdServiceController;
@@ -235,6 +237,10 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::get('reporteclientes/export/', [ClientsReportExport::class, 'export']);
         Route::get('informetecnico/pdf/{id}', [ServicioInformeTecnicoController::class, 'print']);
+
+        Route::get('serviciocotizacion1/pdf/{id}', [ServicioCotizacion1Controller::class, 'print']);
+        Route::get('serviciocotizacion2/pdf/{id}', [ServicioCotizacion2Controller::class, 'print']);
+
         Route::get('reporteServicEntreg/pdf/{type}/{f1}/{f2}/{sucursal}/{sE}/{sB}/{caja}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
         Route::get('reporteServicEntreg/pdf/{type}/{sucursal}', [ExportServicioEntregPdfController::class, 'reporteServPDF']);
 

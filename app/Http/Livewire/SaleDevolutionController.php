@@ -115,26 +115,26 @@ class SaleDevolutionController extends Component
             $sale_detail = SaleDetail::find($sale_devolution->sale_detail_id);
 
             //Eliminando todos los lotes relacionados al detalle venta
-            $sale_lotes = SaleLote::where("sale_detail_id", $sale_devolution->sale_detail_id)->get();
-            $quantity_sl = $sale_devolution->quantity;
-            foreach($sale_lotes as $sl)
-            {
-                $q_sl = $sl->cantidad - $quantity_sl;
-                if($q_sl > 0)
-                {
-                    $s_l = SaleLote::find($sl->id);
-                    $s_l->update([
-                        'cantidad' => $q_sl
-                    ]);
-                    $s_l->save();
-                }
-                else
-                {
-                    $quantity_sl = $quantity_sl - $sl->cantidad;
-                    $s_l = SaleLote::find($sl->id);
-                    $s_l->delete();
-                }
-            }
+            // $sale_lotes = SaleLote::where("sale_detail_id", $sale_devolution->sale_detail_id)->get();
+            // $quantity_sl = $sale_devolution->quantity;
+            // foreach($sale_lotes as $sl)
+            // {
+            //     $q_sl = $sl->cantidad - $quantity_sl;
+            //     if($q_sl > 0)
+            //     {
+            //         $s_l = SaleLote::find($sl->id);
+            //         $s_l->update([
+            //             'cantidad' => $q_sl
+            //         ]);
+            //         $s_l->save();
+            //     }
+            //     else
+            //     {
+            //         $quantity_sl = $quantity_sl - $sl->cantidad;
+            //         $s_l = SaleLote::find($sl->id);
+            //         $s_l->delete();
+            //     }
+            // }
 
             $dp = ProductosDestino::where("product_id", $sale_detail->product_id)
             ->where("destino_id", $sale_devolution->destino_id)
@@ -163,7 +163,11 @@ class SaleDevolutionController extends Component
 
                     $quantity = $sale_devolution->quantity;
 
-                    $lots = Lote::where("product_id", $sale_detail->product_id)->where("status", "Activo")->orderBy("id","desc")->get();
+                    $lots = Lote::where("product_id", $sale_detail->product_id)
+                    ->where("status", "Activo")
+                    ->where("existencia", ">", 0)
+                    ->orderBy("id","asc")
+                    ->get();
 
                     foreach($lots as $l)
                     {
@@ -173,37 +177,25 @@ class SaleDevolutionController extends Component
                             $q = $lot->existencia - $quantity;
                             if($q > 0)
                             {
-                                SaleLote::create([
-                                    'sale_detail_id' => $sale_detail->id,
-                                    'lote_id' => $lot->id,
-                                    'cantidad' => $lot->existencia,
-                                ]);
-
-                                $lot->update([
-                                    'existencia' => $q,
-                                    'status' => "Inactivo"
-                                ]);
-                                $lot->save();
-                                break;
+                                if($lot->existencia > 0)
+                                {
+                                    $lot->update([
+                                        'existencia' => $q,
+                                        'status' => "Activo"
+                                    ]);
+                                    $lot->save();
+                                    break;
+                                }
                             }
                             else
                             {
-                                SaleLote::create([
-                                    'sale_detail_id' => $sale_detail->id,
-                                    'lote_id' => $lot->id,
-                                    'cantidad' => $lot->existencia,
-                                ]);
-                                
+                                $quantity = $quantity - $lot->existencia;
                                 $lot->update([
                                     'existencia' => 0,
                                     'status' => "Inactivo"
                                 ]);
                                 $lot->save();
 
-
-
-
-                                $quantity = $quantity - $lot->existencia;
                             }
                         }
                     }

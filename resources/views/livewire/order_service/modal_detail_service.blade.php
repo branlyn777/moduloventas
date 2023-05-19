@@ -102,17 +102,25 @@
                             </ul>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-2 text-center">
-                                
+                            <div class="col-4 text-center">
+                                <a href="serviciocotizacion1/pdf/{{$this->id_service}}" target="_blank" class="btn-formless-technical">
+                                    Cotización 1
+                                </a>
                             </div>
-                            <div class="col-8 text-center">
+                            <div class="col-4 text-center">
                                 <a href="informetecnico/pdf/{{$this->id_service}}" target="_blank" class="btn-formless-technical">
                                     Informe Técnico
                                 </a>
-                                <p class="text-xs mt-2">Tipo de Servicio: {{$this->s_name_type_service}}</p>
                             </div>
-                            <div class="col-2 text-center">
-                                
+                            <div class="col-4 text-center">
+                                <a href="serviciocotizacion2/pdf/{{$this->id_service}}" target="_blank" class="btn-formless-technical">
+                                    Cotización 2
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <p class="text-xs mt-2">Tipo de Servicio: {{$this->s_name_type_service}}</p>
                             </div>
                         </div>
                     </div>
