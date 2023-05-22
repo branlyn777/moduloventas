@@ -15,7 +15,7 @@
                 <div class="row">
                     <h6>{{ $prod_sel }}</h6>
                     <div class="col">
-
+                            
                     </div>
 
 
