@@ -7,6 +7,7 @@ use App\Models\Cartera;
 use App\Models\CarteraMov;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use Livewire\Component;
@@ -430,10 +431,21 @@ class SaleDailyMovementController extends Component
                 foreach ($detalle_venta as $dv)
                 {
                     $costo_producto = SaleLote::join("lotes as l","l.id","sale_lotes.lote_id")
-                    ->select("l.costo as costo")
+                    ->select("l.costo as costo", "sale_lotes.cantidad as cantidad")
                     ->where("sale_lotes.sale_detail_id",$dv->id)
-                    ->first()->costo;
-                    $total_costo = $total_costo + ($costo_producto * $dv->quantity);
+                    ->get();
+
+                    foreach($costo_producto as $cost)
+                    {
+                        $total_costo = $total_costo + ($cost->costo * $cost->cantidad);
+                    }
+
+                    $devolucion = SaleDevolution::where("sale_detail_id", $dv->id)->first();
+
+                    if($devolucion != null)
+                    {
+                        $total_costo = $total_costo - $devolucion->utility;
+                    }
                 }
 
 

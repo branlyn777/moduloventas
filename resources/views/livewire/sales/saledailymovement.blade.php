@@ -201,24 +201,24 @@ true
                                                 </td>
                                                 <td class="text-end">
                                                     @if ($item->tipo == 'INGRESO')
-                                                        {{ ucwords($item->importe) }}
+                                                        {{ number_format($item->importe, 2, ',', '.') }}
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
                                                     @if ($item->tipo == 'EGRESO')
-                                                        {{ ucwords($item->importe) }}
+                                                        {{ number_format($item->importe, 2, ',', '.') }}
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
                                                     {{ ucwords($item->motivo) }}
                                                 </td>
                                                 <td class="text-end">
-                                                    {{$item->costototal}}
+                                                    {{ number_format($item->costototal, 2, ',', '.') }}
                                                 </td>
                                                 @if ($this->verificarpermiso() == true)
                                                     <td class="text-end">
                                                         @if ($this->buscarventa($item->idmovimiento)->count() > 0)
-                                                            {{ number_format($item->importe - $item->costototal, 2) }}
+                                                            {{ number_format($item->importe - $item->costototal, 2, ',', '.') }}
                                                         @endif
                                                     </td>
                                                 @endif
@@ -237,10 +237,10 @@ true
                                                     <b>TOTALES</b>
                                                 </td>
                                                 <td class="text-end">
-                                                    <b>{{$total_costo_general}}</b>
+                                                    <b>{{ number_format($total_costo_general, 2, ',', '.') }}</b>
                                                 </td>
                                                 <td class="text-end">
-                                                    <b>{{ number_format($utilidad, 2) }}</b>
+                                                    <b>{{ number_format($utilidad, 2, ',', '.') }}</b>
                                                 </td>
                                             </tr>
                                             <tr>
