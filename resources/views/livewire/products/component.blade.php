@@ -463,6 +463,14 @@
                     'error'
                 )
             });
+            window.livewire.on('prod_observados', event => {
+                swal(
+                    '¡No se puede eliminar el producto!',
+                    'El producto ' + @this.productError +
+                    ' tiene relacion con otros registros del sistema.',
+                    'error'
+                )
+            });
             window.livewire.on('sin-archivo', Msg => {
                 const toast = swal.mixin({
                     toast: true,
