@@ -114,28 +114,6 @@ class SaleDevolutionController extends Component
         {
             $sale_detail = SaleDetail::find($sale_devolution->sale_detail_id);
 
-            //Eliminando todos los lotes relacionados al detalle venta
-            // $sale_lotes = SaleLote::where("sale_detail_id", $sale_devolution->sale_detail_id)->get();
-            // $quantity_sl = $sale_devolution->quantity;
-            // foreach($sale_lotes as $sl)
-            // {
-            //     $q_sl = $sl->cantidad - $quantity_sl;
-            //     if($q_sl > 0)
-            //     {
-            //         $s_l = SaleLote::find($sl->id);
-            //         $s_l->update([
-            //             'cantidad' => $q_sl
-            //         ]);
-            //         $s_l->save();
-            //     }
-            //     else
-            //     {
-            //         $quantity_sl = $quantity_sl - $sl->cantidad;
-            //         $s_l = SaleLote::find($sl->id);
-            //         $s_l->delete();
-            //     }
-            // }
-
             $dp = ProductosDestino::where("product_id", $sale_detail->product_id)
             ->where("destino_id", $sale_devolution->destino_id)
             ->first();
@@ -177,15 +155,12 @@ class SaleDevolutionController extends Component
                             $q = $lot->existencia - $quantity;
                             if($q > 0)
                             {
-                                if($lot->existencia > 0)
-                                {
-                                    $lot->update([
-                                        'existencia' => $q,
-                                        'status' => "Activo"
-                                    ]);
-                                    $lot->save();
-                                    break;
-                                }
+                                $lot->update([
+                                    'existencia' => $q,
+                                    'status' => "Activo"
+                                ]);
+                                $lot->save();
+                                break;
                             }
                             else
                             {
@@ -195,7 +170,6 @@ class SaleDevolutionController extends Component
                                     'status' => "Inactivo"
                                 ]);
                                 $lot->save();
-
                             }
                         }
                     }
@@ -204,7 +178,16 @@ class SaleDevolutionController extends Component
                         'status' => "inactive"
                     ]);
                     $sale_devolution->save();
-                    
+
+
+                    if($sale_devolution->amount > 0)
+                    {
+                        $motion = Movimiento::find($sale_devolution->motionid);
+                        $motion->update([
+                            'status' => "INACTIVO"
+                        ]);
+                        $motion->save();
+                    }
                     $this->emit("message-toast");
                 }
                 else
@@ -228,7 +211,7 @@ class SaleDevolutionController extends Component
         catch (Exception $e)
         {
             DB::rollback();
-            $this->message = ": " . $e->getMessage();
+            $this->message = "Error: " . $e->getMessage();
             $this->emit('message');
         }
         

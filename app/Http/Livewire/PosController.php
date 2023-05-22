@@ -1556,11 +1556,23 @@ class PosController extends Component
                         {
                             $lot = Lote::find($sdl->lote_id);
                             $stock_lot = $lot->existencia + $sdl->cantidad;
-                            $lot->update([
-                                'existencia' => $stock_lot,
-                                'status' => "Activo"
-                            ]);
-                            $lot->save();
+                            if($stock_lot > 0)
+                            {
+
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Activo"
+                                ]);
+                                $lot->save();
+                            }
+                            else
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+                            }
 
                             $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
                         }
@@ -1569,10 +1581,21 @@ class PosController extends Component
                             $n_stock = $sdl->cantidad + $cont;
                             $lot = Lote::find($sdl->lote_id);
                             $stock_lot = $lot->existencia + $n_stock;
-                            $lot->update([
-                                'existencia' => $stock_lot,
-                                'status' => "Activo"
-                            ]);
+                            if($stock_lot > 0)
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Activo"
+                                ]);
+                            }
+                            else
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+                            }
                             $lot->save();
 
                             $utility = $utility + ($sale_detail->price * $n_stock) - ($lot->costo * $n_stock);
@@ -1582,12 +1605,22 @@ class PosController extends Component
                     {
                         $lot = Lote::find($sdl->lote_id);
                         $stock_lot = $lot->existencia + $sdl->cantidad;
-                        $lot->update([
-                            'existencia' => $stock_lot,
-                            'status' => "Activo"
-                        ]);
-                        $lot->save();
-
+                        if($stock_lot > 0)
+                        {
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
+                        }
+                        else
+                        {
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Inactivo"
+                            ]);
+                            $lot->save();
+                        }
                         $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
                     }
                 }
@@ -1636,7 +1669,8 @@ class PosController extends Component
             if($this->amount_devolution > 0)
             {
                 $sale_devolution->walletid  = $this->cartera_id_devolution;
-                $sale_devolution->save(); 
+                $sale_devolution->motionid  = $m->id;
+                $sale_devolution->save();
             }
     
             // $this->observacion = "Venta por devolución de la venta : X.";
