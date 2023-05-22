@@ -29,7 +29,7 @@
 
     <main class="main-content position-relative border-radius-lg ">
 
-        @include('layouts.theme.header')
+        @livewire('header')
 
         <div class="container-fluid py-4">
           @yield('content')

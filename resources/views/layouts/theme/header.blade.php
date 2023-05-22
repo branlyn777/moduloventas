@@ -20,7 +20,7 @@
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex px-2 align-items-center">
-                    <a class="nav-link text-white font-weight-bold px-0" target="_blank">
+                    <a class="nav-link text-white font-weight-bold px-0">
 
                         <span class="d-sm-inline d-none">{{ auth()->user()->name }}</span>
                     </a>
@@ -39,10 +39,12 @@
                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="btn-inner--icon"><i class="fa fa-bell text-lg"></i></span>
                         <span
-                            class="text-xs badge  badge-circle position-absolute top-10 start-90 translate-middle badge-primary border-white">{{ auth()->user()->unreadNotifications->count()>20?'20+':auth()->user()->unreadNotifications->count()}} </span>
+                            class="text-xs badge  badge-circle position-absolute top-10 start-90 translate-middle badge-primary border-white">{{ auth()->user()->unreadNotifications->count() > 20? '20+': auth()->user()->unreadNotifications->count() }}
+                        </span>
 
 
                     </a>
+
 
 
 
@@ -52,15 +54,12 @@
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                     <div class="d-flex py-1">
-                                        {{-- <div class="my-auto">
-                                            <img src="../../../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 "
-                                                alt="user image">
-                                        </div> --}}
+
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="text-sm font-weight-normal mb-1">
+                                            <p class="text-sm font-weight-normal mb-1">
                                                 <span class="font-weight-bold">Producto agotado
                                                     {{ $value->data['nombre'] }}</span>
-                                            </h6>
+                                                </p>
                                             <p class="text-xs text-secondary mb-0">
                                                 <i class="fa fa-clock me-1" aria-hidden="true"></i>
                                                 {{ $value->created_at->diffForHumans() }}
@@ -78,7 +77,19 @@
                             <p class="text-sm text-secondary m-1">No tiene notificaciones</p>
                         @endforelse
 
+                        <li>
+                            <div class="d-flex flex-column">
+
+                                <a class="btn btn-success btn-sm" href="notificaciones">Ver Todas</a>
+
+                            </div>
+
+
+                        </li>
+
+
                     </ul>
+
 
 
                 </li>
@@ -116,10 +127,10 @@
                                             class="avatar avatar-sm  me-3 " alt="user image">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
+                                        <p class="text-sm mb-1">
                                             <span class="font-weight-bold">{{ auth()->user()->name }}</span> <br>
-                                            {{ auth()->user()->profile }}
-                                        </h6>
+                                          
+                                        </p>
                                         <p class="text-xs text-secondary mb-0">
                                             {{ auth()->user()->email }}
                                         </p>
@@ -136,9 +147,9 @@
                                         <i class="fa-solid fa-right-from-bracket"></i>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-bold mb-1">
+                                        <p class="text-sm mb-1">
                                             Cerrar Sesión
-                                        </h6>
+                                        </p>
                                     </div>
                                 </div>
                             </a>
