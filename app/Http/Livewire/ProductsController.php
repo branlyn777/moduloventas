@@ -37,7 +37,7 @@ class ProductsController extends Component
         $estado_lote, $nuevo_cantidad, $observacion, $prod_stock, $costoAjuste, $pv_lote, $prod_id, $select_operacion, $tipo_proceso,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
-        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta;
+        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta,$pr,$prod_sel;
     public $checkAll = false;
     public $errormessage;
     public $selectedProduct = [];
@@ -115,7 +115,7 @@ class ProductsController extends Component
 
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
             ->join('productos_destinos', 'productos_destinos.product_id', 'products.id')
-            ->select('products.*', 'productos_destinos.stock as cantidad')
+            ->select('products.*',DB::raw("SUM(productos_destinos.stock) as cantidad"))
             ->where('products.status', $this->estados == true ? 'ACTIVO' : 'INACTIVO')
             ->when($this->search != null, function ($query) {
                 $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -141,7 +141,7 @@ class ProductsController extends Component
             })
             ->when($this->selected_mood == 'positivo', function ($query) {
 
-                return $query->where('stock', '>', 0);
+                return $query->where('stock','>', 0);
             })
             ->when($this->selected_mood == 'masvendidosmes', function ($query) {
                 return $query
@@ -177,6 +177,7 @@ class ProductsController extends Component
                     ->where('products.status', 'ACTIVO')
                     ->where('productos_destinos.destino_id', '1');
             })
+            ->groupBy('productos_destinos.product_id')
             ->orderBy('products.created_at', 'desc');
 
 
@@ -1129,5 +1130,11 @@ class ProductsController extends Component
         $this->observacion = null;
         $this->prod_name = null;
         $this->tipo_proceso = null;
+    }
+
+    public function verUbicacion($prod_id){
+        $this->prod_sel=Product::find($prod_id)->nombre;
+        $this->pr=ProductosDestino::where('product_id',$prod_id)->get();
+        $this->emit('abrirUbicacion');
     }
 }

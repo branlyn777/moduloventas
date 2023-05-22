@@ -54,7 +54,7 @@
                             wire:click='resetUI()' data-bs-target="#theModal">
                             <i class="fas fa-plus me-2"></i> Nuevo Producto
                         </a>
-                  
+
                     </div>
                 </div>
             </div>
@@ -69,28 +69,30 @@
                                     <div class="input-group mb-4">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         <input type="text" wire:model="search"
-                                            placeholder="nombre de producto, codigo" wire:keydown.enter="overrideFilter()" class="form-control">
+                                            placeholder="nombre de producto, codigo"
+                                            wire:keydown.enter="overrideFilter()" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-2">
                                     @if (!empty($searchData))
-                                        
-                                    <div class="border border-primary rounded-1 m-1">
 
-                                        <div class="overflow-auto rounded-1 m-1" style="max-width: auto; max-height: 5rem;">
-                                            
-                                            @forelse ($searchData as $key=>$value)
-                                            <span
-                                                class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
-                                                <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
-                                                    wire:click="outSearchData('{{ $value }}')"><i
-                                                        class=" fas fa-times"></i></button></span>
+                                        <div class="border border-primary rounded-1 m-1">
 
-                                        @empty
-                                            <p></p>
-                                        @endforelse
-                                          </div>
-                                    </div>
+                                            <div class="overflow-auto rounded-1 m-1"
+                                                style="max-width: auto; max-height: 5rem;">
+
+                                                @forelse ($searchData as $key=>$value)
+                                                    <span
+                                                        class="badge badge-success pl-2 ps-2 pt-1 pb-1 m-1">{{ $value }}
+                                                        <button class="btn btn-sm btn-info ps-2 pe-2 pt-0 pb-0 m-0"
+                                                            wire:click="outSearchData('{{ $value }}')"><i
+                                                                class=" fas fa-times"></i></button></span>
+
+                                                @empty
+                                                    <p></p>
+                                                @endforelse
+                                            </div>
+                                        </div>
                                     @endif
 
                                 </div>
@@ -120,6 +122,7 @@
                                     @endif
                                 </div>
                             </div>
+
                             <div class="col">
 
                                 <label style="font-size: 1rem">Filtro por Stock</label>
@@ -129,7 +132,8 @@
                                     <option value='cero'>Productos agotados</option>
                                     <option value='bajo'>Productos bajo stock</option>
                                     <option value='masvendidosmes'>Stock de productos mas vendidos ultimo mes</option>
-                                    <option value='masvendidostrimestre'>Stock de productos mas vendidos ultimo trimestre</option>
+                                    <option value='masvendidostrimestre'>Stock de productos mas vendidos ultimo
+                                        trimestre</option>
                                     <option value='masvendidosanio'>Stock de productos mas vendidos ultimo año</option>
                                 </select>
 
@@ -197,17 +201,16 @@
                     </div>
                     <div>
 
-                        <a class="px-2" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="px-2" type="button" data-bs-toggle="dropdown" data-bs-target="#dropdownMenus"
+                            aria-expanded="false">
                             <i style="font-size: 1.6rem" class="fa-sharp fa-solid fa-ellipsis-vertical"></i>
-                    </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenus" id="dropdownMenus">
                             <li><a class="dropdown-item" href="javascript:void(0)"
-                                wire:click="$emit('modal-import')">Importar Archivo Excel</a>
+                                    wire:click="$emit('modal-import')">Importar Archivo Excel</a>
                             </li>
-                            <li><a class="dropdown-item" href='{{ url('productos/export/') }}' 
-                                
-                                 >Exporta Lista excel</a></li>
+                            <li><a class="dropdown-item" href='{{ url('productos/export/') }}'>Exporta Lista excel</a>
+                            </li>
 
                         </ul>
                     </div>
@@ -250,36 +253,51 @@
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="form-check my-auto">
-                                                            <input class="form-check-input" type="checkbox" wire:model="selectedProduct" value="{{ $products->id }}">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                wire:model="selectedProduct"
+                                                                value="{{ $products->id }}">
                                                         </div>
-                                                        <img style="border: 1px solid #aaa9a9;border-radius: 4px;" src="{{ asset('storage/productos/' . $products->imagen) }}" alt="hoodie" width="50" height="50">
+                                                        <img style="border: 1px solid #aaa9a9;border-radius: 4px;"
+                                                            src="{{ asset('storage/productos/' . $products->imagen) }}"
+                                                            alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center mx-2">
-                                                            <label style="font-size: 14px">{{ $products->nombre }}</label>
-                                                            <div style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">{{ $products->caracteristicas }}</div>
-                                                            <div style="font-size: 12px">{{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}</div>
+                                                            <label
+                                                                style="font-size: 14px">{{ $products->nombre }}</label>
+                                                            <div
+                                                                style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">
+                                                                {{ $products->caracteristicas }}</div>
+                                                            <div style="font-size: 12px">
+                                                                {{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </td>                                                
+                                                </td>
                                                 @if ($products->category->subcat != null)
-                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                        class="text-left align-middle">
                                                         {{ $products->category->subcat->name }}
                                                     </td>
-                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                        class="text-left align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
                                                 @else
-                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                        class="text-left align-middle">
                                                         {{ $products->category->name }}
                                                     </td>
-                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-left align-middle">
+                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                        class="text-left align-middle">
                                                         No definido
 
                                                     </td>
                                                 @endif
-                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-center align-middle">
+                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                    class="text-center align-middle">
                                                     {{ $products->codigo }}
                                                 </td>
-                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal" class="text-center align-middle">
+                                                <td style="font-size: 12px;word-wrap: break-word; white-space: normal"
+                                                    class="text-center align-middle">
                                                     {{ $products->cantidad }}
                                                 </td>
 
@@ -312,7 +330,12 @@
                                                         </a>
                                                     @endif
                                                     <a href="javascript:void(0)"
-                                                        wire:click="lotes({{ $products->id }})" class="mx-3"
+                                                        wire:click="verUbicacion({{ $products->id }})" class="mx-2"
+                                                        title="Ubicacion">
+                                                        <i class="fas fa-home text-add"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0)"
+                                                        wire:click="lotes({{ $products->id }})" class="me-2"
                                                         title="Lotes">
                                                         <i class="fas fa-box-open text-info"></i>
                                                     </a>
@@ -320,28 +343,33 @@
 
 
                                                     <button class="btn btn-primary dropdown-toggle p-1" type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                        data-bs-toggle="dropdown" data-bs-target="dropdownMenuButton2"
                                                         aria-expanded="false">
                                                         <i class="fa-solid fa-wrench"></i>
                                                     </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                                                    <ul class="dropdown-menu dropdown-menu-dark"
+                                                        id="dropdownMenuButton2"
+                                                        aria-labelledby="dropdownMenuButton1">
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
-                                                                data-bs-toggle="modal" wire:click='abrirModalAjuste({{$products->id}})'
+                                                                data-bs-toggle="modal"
+                                                                wire:click='abrirModalAjuste({{ $products->id }})'
                                                                 data-bs-target="#ajusteModal">Ajuste de inventarios</a>
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0)"
                                                                 data-bs-toggle="modal"
-                                                                wire:click='abrirModalE_S({{$products->id}})'
+                                                                wire:click='abrirModalE_S({{ $products->id }})'
                                                                 data-bs-target="#entrada_salida_modal">Entrada/Salida
                                                                 Productos</a></li>
-                                                        <li><hr class="dropdown-divider"></li>
-                                                        <li><a class="dropdown-item" href="/operacionesinv"
-                                                          >Historial de Ajuste</a></li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="/operacionesinv">Historial
+                                                                de Ajuste</a></li>
 
                                                     </ul>
 
 
-                                            
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -370,6 +398,7 @@
     @include('livewire.destinoproducto.lotesproductos')
     @include('livewire.products.modalajuste')
     @include('livewire.products.modal_ent_sal')
+    @include('livewire.products.modalUbicacionProducto')
 
 
 
@@ -395,7 +424,10 @@
             window.livewire.on('hide-modal-lote', msg => {
                 $('#lotes').modal('hide')
             });
-         
+            window.livewire.on('abrirUbicacion', msg => {
+                $('#ubicacionProductos').modal('show')
+            });
+
             window.livewire.on('product-added', Msg => {
                 $('#theModal').modal('hide')
                 $("#im").val('');
