@@ -176,7 +176,6 @@ true
                                             <th>CARTERA</th>
                                             <th>CAJA</th>
                                             <th class="text-end">INGRESO (Bs)</th>
-                                            <th class="text-end">EGRESO (Bs)</th>
                                             <th class="text-end">MOTIVO</th>
                                             <th class="text-end">COSTO</th>
                                             @if ($this->verificarpermiso() == true)
@@ -201,12 +200,7 @@ true
                                                 </td>
                                                 <td class="text-end">
                                                     @if ($item->tipo == 'INGRESO')
-                                                        {{ number_format($item->importe, 2, ',', '.') }}
-                                                    @endif
-                                                </td>
-                                                <td class="text-end">
-                                                    @if ($item->tipo == 'EGRESO')
-                                                        {{ number_format($item->importe, 2, ',', '.') }}
+                                                        {{ number_format($item->importe + $item->totalsale, 2, ',', '.') }}
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
@@ -218,7 +212,7 @@ true
                                                 @if ($this->verificarpermiso() == true)
                                                     <td class="text-end">
                                                         @if ($this->buscarventa($item->idmovimiento)->count() > 0)
-                                                            {{ number_format($item->importe - $item->costototal, 2, ',', '.') }}
+                                                            {{ number_format($item->importe + $item->totalsale - $item->costototal, 2, ',', '.') }}
                                                         @endif
                                                     </td>
                                                 @endif
@@ -227,13 +221,13 @@ true
             
             
                                         <tr>
-                                            <td colspan="9"></td>
+                                            <td colspan="8"></td>
                                         </tr>
             
             
                                         @if ($this->verificarpermiso() == true)
                                             <tr class="text-sm">
-                                                <td colspan="7">
+                                                <td colspan="6">
                                                     <b>TOTALES</b>
                                                 </td>
                                                 <td class="text-end">
@@ -244,7 +238,7 @@ true
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="9">
+                                                <td colspan="7">
             
                                                 </td>
                                             </tr>
@@ -252,7 +246,7 @@ true
                                             @foreach ($listacarteras as $cartera)
                                                 @if ($cartera->totales != 0)
                                                     <tr class="text-sm">
-                                                        <td colspan="8"><b>Total en Cartera:
+                                                        <td colspan="7"><b>Total en Cartera:
                                                                 {{ ucwords(strtolower($cartera->nombre)) }}</b></td>
                                                         <td class="text-end"><b>{{ number_format($cartera->totales, 2) }}</b>
                                                         </td>
@@ -260,23 +254,23 @@ true
                                                 @endif
                                             @endforeach
                                             <tr class="text-sm">
-                                                <td colspan="8"><b>TOTAL INGRESOS</b></td>
+                                                <td colspan="7"><b>TOTAL INGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($ingreso, 2) }}</b> </td>
                                             </tr>
             
                                             <tr class="text-sm">
             
-                                                <td colspan="8"><b>TOTAL EGRESOS</b></td>
+                                                <td colspan="7"><b>TOTAL EGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($egreso, 2) }}</b> </td>
                                             </tr>
                                             <tr class="text-sm">
             
-                                                <td colspan="8"><b>TOTAL INGRESOS - EGRESOS</b></td>
+                                                <td colspan="7"><b>TOTAL INGRESOS - EGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($ingreso - $egreso, 2) }}</b> </td>
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="8">
+                                                <td colspan="7">
             
                                                 </td>
                                             </tr>
@@ -300,17 +294,17 @@ true
             
             
                                             <tr class="text-sm">
-                                                <td colspan="7"><b>TOTAL INGRESOS</b></td>
+                                                <td colspan="6"><b>TOTAL INGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($ingreso, 2) }}</b> </td>
                                             </tr>
             
                                             <tr class="text-sm">
             
-                                                <td colspan="7"><b>TOTAL EGRESOS</b></td>
+                                                <td colspan="6"><b>TOTAL EGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($egreso, 2) }}</b> </td>
                                             </tr>
                                             <tr class="text-sm">
-                                                <td colspan="7"><b>TOTAL INGRESOS - EGRESOS</b></td>
+                                                <td colspan="4"><b>TOTAL INGRESOS - EGRESOS</b></td>
                                                 <td class="text-end"> <b>{{ number_format($ingreso - $egreso, 2) }}</b> </td>
                                             </tr>
                                         @endif

@@ -18,7 +18,8 @@ class CreateSaleDevolutionsTable extends Migration
             $table->integer('quantity');
             $table->decimal('amount', 8, 2)->default(0.00);
             $table->text('description');
-            $table->decimal('utility', 8, 2)->default(0.00);
+            $table->decimal('cost', 8, 2)->default(0.00);
+            $table->decimal('price', 8, 2)->default(0.00);
             $table->enum('status',['active','inactive'])->default('active');
             $table->integer('walletid')->default(0);
             $table->integer('motionid')->default(0);

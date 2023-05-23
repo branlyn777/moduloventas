@@ -121,7 +121,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('m.status','<>','INACTIVO')
@@ -140,7 +140,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('ca.id',$this->caja)
@@ -165,7 +165,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -186,7 +186,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -211,7 +211,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -238,7 +238,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('m.status','<>','INACTIVO')
@@ -266,7 +266,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('ca.id',$this->caja)
@@ -301,7 +301,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -332,7 +332,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -347,8 +347,6 @@ class SaleDailyMovementController extends Component
                     ->whereYear('cartera_movs.created_at','<=' , date("Y", strtotime($this->dateTo)))
                     ->whereMonth('cartera_movs.created_at','<=' , date("m", strtotime($this->dateTo)))
                     ->whereDay('cartera_movs.created_at','<=', date("d", strtotime($this->dateTo)))
-
-
                     
                     ->get();
                 }
@@ -367,7 +365,7 @@ class SaleDailyMovementController extends Component
                     ->join("users as u", "u.id", "m.user_id")
                     ->join("cajas as ca", "ca.id", "c.caja_id")
                     ->join("sucursals as s", "s.id", "ca.sucursal_id")
-                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),
+                    ->select('c.id as idcartera','cartera_movs.created_at as fecha','u.name as nombreusuario',DB::raw('0 as costototal'),DB::raw('0 as totalsale'),
                     'cartera_movs.comentario as motivo','m.import as importe','ca.nombre as nombrecaja',
                     'cartera_movs.type as tipo','c.nombre as nombrecartera','s.name as nombresucursal','m.id as idmovimiento')
                     ->where('s.id',$this->sucursal,)
@@ -416,6 +414,7 @@ class SaleDailyMovementController extends Component
         //Obteniendo el total costo de una venta
 
         $total_costo_general = 0;
+        $total_precio_general = 0;
 
         foreach ($data as $d)
         {
@@ -427,6 +426,7 @@ class SaleDailyMovementController extends Component
                 $detalle_venta = SaleDetail::where("sale_details.sale_id", $venta->id)->get();
 
                 $total_costo = 0;
+                $total_precio = 0;
 
                 foreach ($detalle_venta as $dv)
                 {
@@ -444,14 +444,17 @@ class SaleDailyMovementController extends Component
 
                     if($devolucion != null)
                     {
-                        $total_costo = $total_costo - $devolucion->utility;
+                        $total_costo = $total_costo - $devolucion->cost;
+                        $total_precio = $total_precio - $devolucion->price;
                     }
                 }
 
 
                 $d->costototal = $total_costo;
+                $d->totalsale = $total_precio;
 
                 $total_costo_general = $total_costo_general + $total_costo;
+                $total_precio_general = $total_precio_general + $total_precio;
             }
         }
 

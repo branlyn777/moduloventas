@@ -1543,8 +1543,10 @@ class PosController extends Component
             ->orderBy("id", "desc")
             ->get();
             $cont = $this->quantity_devolution;
-            //Determina la utilidad total que representa la devolución de x cantidad del producto
-            $utility = 0;
+            //Determina el costo total que representa la devolución de x cantidad del producto
+            $cost = 0;
+            //Determina el precio total que representa la devolución de x cantidad del producto
+            $price = 0;
             foreach($sale_detail_lots as $sdl)
             {
                 if($sdl->cantidad > 0)
@@ -1558,7 +1560,6 @@ class PosController extends Component
                             $stock_lot = $lot->existencia + $sdl->cantidad;
                             if($stock_lot > 0)
                             {
-
                                 $lot->update([
                                     'existencia' => $stock_lot,
                                     'status' => "Activo"
@@ -1574,7 +1575,8 @@ class PosController extends Component
                                 $lot->save();
                             }
 
-                            $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                            $cost = $cost + ($lot->costo * $sdl->cantidad);
+                            $price = $price + ($sale_detail->price * $sdl->cantidad);
                         }
                         else
                         {
@@ -1598,7 +1600,8 @@ class PosController extends Component
                             }
                             $lot->save();
 
-                            $utility = $utility + ($sale_detail->price * $n_stock) - ($lot->costo * $n_stock);
+                            $cost = $cost + ($lot->costo * $n_stock);
+                            $price = $price + ($sale_detail->price * $n_stock);
                         }
                     }
                     else
@@ -1621,7 +1624,8 @@ class PosController extends Component
                             ]);
                             $lot->save();
                         }
-                        $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                        $cost = $cost + ($lot->costo * $sdl->cantidad);
+                        $price = $price + ($sale_detail->price * $sdl->cantidad);
                     }
                 }
             }
@@ -1659,7 +1663,8 @@ class PosController extends Component
                 'quantity' => $this->quantity_devolution,
                 'amount' => $this->amount_devolution,
                 'description' => $this->detail_devolution,
-                'utility' => $utility,
+                'cost' => $cost,
+                'price' => $price,
                 'user_id' => Auth()->user()->id,
                 'destino_id' => $this->destiny_id_devolution,
                 'sale_detail_id' => $this->sale_detail_id_devolution,
