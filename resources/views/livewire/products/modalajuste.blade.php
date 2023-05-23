@@ -15,6 +15,43 @@
                     <h5 class="text-center">{{ $prod_name }}</h5>
                 </u>
                 <div class="row">
+
+                    <div class="col-6">
+
+                        <div class="form-group">
+
+                            <label>Sucursal</label>
+                            <div class="input-group">
+                            
+
+                                <select wire:model='sucursalAjuste' class="form-select">
+                                    <option value=null selected disabled>Elegir Sucursal</option>
+                                    @foreach ($sucursales as $suc)
+                                        <option value="{{ $suc->id }}">{{ $suc->name }}</option>
+                                    @endforeach
+                            
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+
+                        <div class="form-group">
+
+                            <label>Ubicacion</label>
+                            <div class="input-group">
+                                <select wire:model='destinoAjuste' class="form-select">
+                                    <option value=null selected disabled>Elegir Ubicacion</option>
+                                    @foreach ($destinos as $destino)
+                                        <option value="{{ $destino->id }}">{{ $destino->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="col-6">
 
                         <div class="form-group">
@@ -63,9 +100,9 @@
                             </div>
                         </div>
                         @error('costoAjuste')
-                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                    @enderror
-                
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                        @enderror
+
                     </div>
                     <div class="col-6">
                         <div class="form-group">
@@ -81,9 +118,9 @@
                             </div>
                         </div>
                         @error('pv_lote')
-                        <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                    @enderror
-                  
+                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                        @enderror
+
                     </div>
                 </div>
                 <div class="row">
@@ -107,4 +144,3 @@
         </div>
     </div>
 </div>
-

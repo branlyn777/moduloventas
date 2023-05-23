@@ -12,12 +12,14 @@ use App\Models\DetalleAjustes;
 use App\Models\DetalleEntradaProductos;
 use App\Models\DetalleSalidaProductos;
 use App\Models\IngresoProductos;
+use App\Models\Location;
 use App\Models\Lote;
 use App\Models\Marca;
 use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
+use App\Models\SucursalUser;
 use App\Models\Unidad;
 use Carbon\Carbon;
 use Exception;
@@ -37,7 +39,7 @@ class ProductsController extends Component
         $estado_lote, $nuevo_cantidad, $observacion, $prod_stock, $costoAjuste, $pv_lote, $prod_id, $select_operacion, $tipo_proceso,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
-        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta,$pr,$prod_sel;
+        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta,$pr,$prod_sel,$sucursalAjuste,$destinoAjuste,$sucursales,$destinos;
     public $checkAll = false;
     public $errormessage;
     public $selectedProduct = [];
@@ -64,6 +66,9 @@ class ProductsController extends Component
         $this->imagen = 'noimagenproduct.png';
         $this->stockswitch = false;
         $this->cantidad = 1;
+        $this->pr=collect();
+        $this->sucursalAjuste=null;
+        $this->destinoAjuste=null;
     }
 
 
@@ -110,6 +115,9 @@ class ProductsController extends Component
     public function render()
     {
 
+        $this->sucursales=SucursalUser::all();
+        $this->destinos=Destino::where('sucursal_id',$this->sucursalAjuste);
+
         $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
             ->get();
 
@@ -151,8 +159,7 @@ class ProductsController extends Component
                     ->whereMonth('s.created_at', now())
                     ->groupBy('products.id', 'productos_destinos.stock')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
-                    ->where('products.status', 'ACTIVO')
-                    ->where('productos_destinos.destino_id', '1');
+                    ->where('products.status', 'ACTIVO');
             })
             ->when($this->selected_mood == 'masvendidostrimestre', function ($query) {
                 return $query
@@ -163,8 +170,7 @@ class ProductsController extends Component
                         ->subMonth(3)->startOfDay(), now()->endOfDay()])
                     ->groupBy('products.id', 'productos_destinos.stock')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
-                    ->where('products.status', 'ACTIVO')
-                    ->where('productos_destinos.destino_id', '1');
+                    ->where('products.status', 'ACTIVO');
             })
             ->when($this->selected_mood == 'masvendidosanio', function ($query) {
                 return $query
@@ -174,8 +180,7 @@ class ProductsController extends Component
                     ->whereYear('s.created_at', now())
                     ->groupBy('products.id', 'productos_destinos.stock')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
-                    ->where('products.status', 'ACTIVO')
-                    ->where('productos_destinos.destino_id', '1');
+                    ->where('products.status', 'ACTIVO');
             })
             ->groupBy('productos_destinos.product_id')
             ->orderBy('products.created_at', 'desc');
@@ -1105,6 +1110,7 @@ class ProductsController extends Component
 
     public function abrirModalAjuste($producto)
     {
+        $this->pr=collect();
         $this->resetAjuste();
         $this->prod_stock = ProductosDestino::where('product_id', $producto)->first()->stock;
         $prod = Product::find($producto);
@@ -1134,7 +1140,14 @@ class ProductsController extends Component
 
     public function verUbicacion($prod_id){
         $this->prod_sel=Product::find($prod_id)->nombre;
-        $this->pr=ProductosDestino::where('product_id',$prod_id)->get();
+        $this->pr=ProductosDestino::where('product_id',$prod_id)->select('productos_destinos.*',DB::raw('0 as mob'))->get();
+        
+        foreach ($this->pr as $value) {
+            $value->mob=Location::join('location_productos','location_productos.location','locations.id')
+            ->where('locations.destino_id',$value->destino_id)
+            ->where('location_productos.product',$value->product_id)->get();
+        }
+    
         $this->emit('abrirUbicacion');
     }
 }

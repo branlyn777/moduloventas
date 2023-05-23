@@ -13,14 +13,17 @@ class ProductosDestino extends Model
 
     
     public function productos(){
-       $this->belongsTo(Product::class,'productos_destinos.product_id','id');  
+      return $this->belongsTo(Product::class,'productos_destinos.product_id','id');  
     }
     public function destinos(){
-       $this->belongsTo(Destino::class,'productos_destinos.destino_id','id');  
+      return $this->belongsTo(Destino::class,'destino_id','id');  
     }
 
     public function ingresoproductos()
     {
         return $this->hasMany(IngresoProductos::class,'destino');
+    }
+    public function mobiliario(){
+        return $this->hasMany(LocationProducto::class,'product_id','product');
     }
 }
