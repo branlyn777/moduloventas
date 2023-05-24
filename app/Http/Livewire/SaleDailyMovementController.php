@@ -386,22 +386,6 @@ class SaleDailyMovementController extends Component
                 }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
 
@@ -412,7 +396,6 @@ class SaleDailyMovementController extends Component
 
 
         //Obteniendo el total costo de una venta
-
         $total_costo_general = 0;
         $total_precio_general = 0;
 
@@ -442,7 +425,7 @@ class SaleDailyMovementController extends Component
 
                     $devolucion = SaleDevolution::where("sale_detail_id", $dv->id)->first();
 
-                    if($devolucion != null)
+                    if($devolucion != null && $devolucion->amount > 0)
                     {
                         $total_costo = $total_costo - $devolucion->cost;
                         $total_precio = $total_precio - $devolucion->price;

@@ -1508,7 +1508,7 @@ class PosController extends Component
         }
 
         //Buscando si la devolución no se hizo antes
-        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->where("status","active")->get();
+        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->where("amount",">","0")->where("status","active")->get();
         $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
         if($cont->count() > 0)
         {
