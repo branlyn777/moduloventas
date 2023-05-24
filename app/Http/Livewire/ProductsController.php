@@ -19,6 +19,7 @@ use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\SalidaLote;
 use App\Models\SalidaProductos;
+use App\Models\Sucursal;
 use App\Models\SucursalUser;
 use App\Models\Unidad;
 use Carbon\Carbon;
@@ -39,7 +40,7 @@ class ProductsController extends Component
         $estado_lote, $nuevo_cantidad, $observacion, $prod_stock, $costoAjuste, $pv_lote, $prod_id, $select_operacion, $tipo_proceso,
         $codigo, $lote, $unidad, $industria, $caracteristicas, $status, $categoryid = null, $search, $estado, $stockswitch,
         $image, $imagen, $selected_id, $pageTitle, $componentName, $cate, $marca, $garantia, $stock, $stock_v, $selected_categoria, $selected_sub, $nro = 1, $sub, $change = [], $estados, $searchData = [], $data2, $archivo, $failures, $productError,
-        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta,$pr,$prod_sel,$sucursalAjuste,$destinoAjuste,$sucursales,$destinos;
+        $cantidad, $costoUnitario, $costoTotal, $destinosp, $destino, $precioVenta, $pr, $prod_sel, $sucursalAjuste, $destinoAjuste, $sucursales, $destinos;
     public $checkAll = false;
     public $errormessage;
     public $selectedProduct = [];
@@ -66,9 +67,9 @@ class ProductsController extends Component
         $this->imagen = 'noimagenproduct.png';
         $this->stockswitch = false;
         $this->cantidad = 1;
-        $this->pr=collect();
-        $this->sucursalAjuste=null;
-        $this->destinoAjuste=null;
+        $this->pr = collect();
+        $this->sucursalAjuste = null;
+        $this->destinoAjuste = null;
     }
 
 
@@ -115,15 +116,22 @@ class ProductsController extends Component
     public function render()
     {
 
-        $this->sucursales=SucursalUser::all();
-        $this->destinos=Destino::where('sucursal_id',$this->sucursalAjuste);
+        $this->sucursales = Sucursal::all();
+        $this->destinos = Destino::where('sucursal_id', $this->sucursalAjuste)->get();
 
         $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
             ->get();
 
+        if($this->destinoAjuste != null){
+            $this->prod_stock = ProductosDestino::where('product_id', $this->prod_id)->where('destino_id',$this->destinoAjuste)->get();
+            if ($this->prod_stock->isNotEmpty()) {
+                $this->prod_stock->delete();
+            }
+        }
+
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
             ->join('productos_destinos', 'productos_destinos.product_id', 'products.id')
-            ->select('products.*',DB::raw("SUM(productos_destinos.stock) as cantidad"))
+            ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
             ->where('products.status', $this->estados == true ? 'ACTIVO' : 'INACTIVO')
             ->when($this->search != null, function ($query) {
                 $query->where('products.nombre', 'like', '%' . $this->search . '%')
@@ -149,7 +157,7 @@ class ProductsController extends Component
             })
             ->when($this->selected_mood == 'positivo', function ($query) {
 
-                return $query->where('stock','>', 0);
+                return $query->where('stock', '>', 0);
             })
             ->when($this->selected_mood == 'masvendidosmes', function ($query) {
                 return $query
@@ -735,22 +743,20 @@ class ProductsController extends Component
         foreach ($this->selectedProduct as $data) {
 
             $product = Product::find($data);
-        
+
             $product->detalleCompra->count() > 0 && $auxi++;
             $product->detalleSalida->count() > 0 && $auxi++;
             $product->detalleTransferencia->count() > 0 && $auxi++;
 
-            if ($auxi>0) {
+            if ($auxi > 0) {
                 $this->productError->add($product->nombre);
             }
-            $auxi=0;
-
+            $auxi = 0;
         }
 
-        if ($this->productError->count() >0) {
+        if ($this->productError->count() > 0) {
             $this->emit('prod_observados');
-        }
-        else{
+        } else {
 
             $this->dispatchBrowserEvent(
                 'swal:EliminarSelect',
@@ -760,16 +766,14 @@ class ProductsController extends Component
                 ]
             );
         }
-
     }
 
     public function EliminarSeleccionados()
     {
-            ProductosDestino::whereIn('product_id', $this->selectedProduct)->delete();
-            Product::whereIn('id', $this->selectedProduct)->delete();
-            $this->selectedProduct = [];
-            $this->checkAll = false;
-      
+        ProductosDestino::whereIn('product_id', $this->selectedProduct)->delete();
+        Product::whereIn('id', $this->selectedProduct)->delete();
+        $this->selectedProduct = [];
+        $this->checkAll = false;
     }
     // final Opcion de eliminar multiples datos
 
@@ -903,16 +907,41 @@ class ProductsController extends Component
     public function guardarAjuste()
     {
 
+        $rules = [
+            'sucursalAjuste' => 'required|not_in:null',
+            'destinoAjuste' => 'required|not_in:null',
+            'nuevo_cantidad' => 'required',
+           
+        ];
 
+        if ($this->nuevo_cantidad>$this->prod_stock) {
+            $rules = [
+                'costoAjuste' => 'required',
+                'pv_lote' => 'required',
+            ];
+        }
+
+        $messages = [
+            'sucursalAjuste.required' => 'Selccione una sucursal',
+            'sucursalAjuste.not_in' => 'Elija una sucursal',
+            'destinoAjuste.required' => 'El destino es obligatorio',
+            'destinoAjuste.not_in' => 'Elija un destino',
+            'nuevo_cantidad.required' => 'Ingrese una cantidad de ajuste',
+            'costoAjuste.required'=>'Introduzca un numero valido para el ajuste',
+            'pv_lote.required'=>'Introduzca un numero valido para el ajuste'
+
+        ];
+        $this->validate($rules, $messages);
         try {
+
             $ajuste = Ajustes::create([
-                'destino' => 1,
+                'destino' => $this->destinoAjuste,
                 'user_id' => Auth()->user()->id,
-                'observacion' => $this->observacion
+                'observacion' => $this->observacion ?? 's/n observaciones'
             ]);
 
             DetalleAjustes::create([
-                'product_id' => $this->prod_id,
+                'product_id' => $this->prod_id->id,
                 'recuentofisico' => $this->nuevo_cantidad,
                 'diferencia' => $this->nuevo_cantidad - $this->prod_stock > 0 ? $this->nuevo_cantidad - $this->prod_stock : ($this->nuevo_cantidad - $this->prod_stock) * -1,
                 'tipo' => $this->nuevo_cantidad - $this->prod_stock > 0 ? 'positiva' : 'negativa',
@@ -923,16 +952,16 @@ class ProductsController extends Component
             if ($this->nuevo_cantidad > $this->prod_stock) {
 
 
-                $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->first();
+                $lot = Lote::where('product_id', $this->prod_id->id)->where('status', 'Activo')->first();
                 $lot = Lote::create([
                     'existencia' => $this->nuevo_cantidad - $this->prod_stock,
                     'costo' => $this->costoAjuste,
                     'pv_lote' => $this->pv_lote,
                     'status' => 'Activo',
-                    'product_id' => $this->prod_id
+                    'product_id' => $this->prod_id->id
                 ]);
             } else {
-                $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->get();
+                $lot = Lote::where('product_id', $this->prod_id->id)->where('status', 'Activo')->get();
                 //obtener la cantidad del detalle de la venta 
                 $qq = $this->prod_stock - $this->nuevo_cantidad; //q=8
                 foreach ($lot as $val) {
@@ -966,7 +995,7 @@ class ProductsController extends Component
             }
 
 
-            ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' => 1], ['stock' => $this->nuevo_cantidad]);
+            ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $this->nuevo_cantidad]);
 
 
             DB::commit();
@@ -998,21 +1027,21 @@ class ProductsController extends Component
                     'existencia' => $this->nuevo_cantidad,
                     'costo' => $this->costoAjuste,
                     'status' => 'Activo',
-                    'product_id' => $this->prod_id,
+                    'product_id' => $this->prod_id->id,
                     'pv_lote' => $this->pv_lote
                 ]);
 
                 DetalleEntradaProductos::create([
-                    'product_id' => $this->prod_id,
+                    'product_id' => $this->prod_id->id,
                     'cantidad' => $this->nuevo_cantidad,
                     'costo' => $this->costoAjuste,
                     'id_entrada' => $rs->id,
                     'lote_id' => $lot->id
                 ]);
 
-                $q = ProductosDestino::where('product_id', $this->prod_id)->where('destino_id', 1)->value('stock');
+                $q = ProductosDestino::where('product_id', $this->prod_id->id)->where('destino_id', 1)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' => 1], ['stock' => $q + $this->nuevo_cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $q + $this->nuevo_cantidad]);
 
 
                 DB::commit();
@@ -1041,7 +1070,7 @@ class ProductsController extends Component
                 ]);
 
 
-                $lot = Lote::where('product_id', $this->prod_id)->where('status', 'Activo')->get();
+                $lot = Lote::where('product_id', $this->prod_id->id)->where('status', 'Activo')->get();
 
                 //obtener la cantidad del detalle de la venta 
                 $qq = $this->nuevo_cantidad; //q=8
@@ -1088,13 +1117,13 @@ class ProductsController extends Component
                 }
 
 
-                $q = ProductosDestino::where('product_id', $this->prod_id)
+                $q = ProductosDestino::where('product_id', $this->prod_id->id)
                     ->where('destino_id', 1)->value('stock');
 
                 $varm = $this->nuevo_cantidad;
 
 
-                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id, 'destino_id' => 1], ['stock' => $q - $varm]);
+                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $q - $varm]);
 
 
                 DB::commit();
@@ -1110,20 +1139,19 @@ class ProductsController extends Component
 
     public function abrirModalAjuste($producto)
     {
-        $this->pr=collect();
+
+        $this->pr = collect();
         $this->resetAjuste();
-        $this->prod_stock = ProductosDestino::where('product_id', $producto)->first()->stock;
-        $prod = Product::find($producto);
-        $this->prod_id = $prod->id;
-        $this->prod_name = $prod->nombre;
+        $this->prod_id=$producto;
+        $this->prod_id = Product::find($producto);
     }
 
     public function abrirModalE_S($producto)
     {
         $this->resetEntradaSalida();
-        $prod = Product::find($producto);
-        $this->prod_id = $prod->id;
-        $this->prod_name = $prod->nombre;
+  
+        $this->prod_id = Product::find($producto);
+        $this->prod_name = $this->prod_id->nombre;
     }
 
     public function resetEntradaSalida()
@@ -1138,16 +1166,17 @@ class ProductsController extends Component
         $this->tipo_proceso = null;
     }
 
-    public function verUbicacion($prod_id){
-        $this->prod_sel=Product::find($prod_id)->nombre;
-        $this->pr=ProductosDestino::where('product_id',$prod_id)->select('productos_destinos.*',DB::raw('0 as mob'))->get();
-        
+    public function verUbicacion($prod_id)
+    {
+        $this->prod_sel = Product::find($prod_id)->nombre;
+        $this->pr = ProductosDestino::where('product_id', $prod_id)->select('productos_destinos.*', DB::raw('0 as mob'))->get();
+
         foreach ($this->pr as $value) {
-            $value->mob=Location::join('location_productos','location_productos.location','locations.id')
-            ->where('locations.destino_id',$value->destino_id)
-            ->where('location_productos.product',$value->product_id)->get();
+            $value->mob = Location::join('location_productos', 'location_productos.location', 'locations.id')
+                ->where('locations.destino_id', $value->destino_id)
+                ->where('location_productos.product', $value->product_id)->get();
         }
-    
+
         $this->emit('abrirUbicacion');
     }
 }
