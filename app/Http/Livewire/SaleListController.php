@@ -12,6 +12,7 @@ use App\Models\Movimiento;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use Livewire\Component;
@@ -68,6 +69,10 @@ class SaleListController extends Component
 
     //Fechas
     public $timeFrom, $timeTo;
+
+
+    //Guarda true o false dependiendo si la venta tubo devolución o no
+    public $devolucionsale;
 
     use WithFileUploads;
     use WithPagination;
@@ -528,6 +533,13 @@ class SaleListController extends Component
     //Actualizar las variables globales de los detalles de una venta
     public function detalleventa($idventa)
     {
+        
+
+
+        $this->devolucionsale = false;
+
+
+
         //Listando todos los productos, cantidades, precio, etc...
         $this->detalle_venta = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
         ->join("products as p", "p.id", "sale_details.product_id")
@@ -537,6 +549,18 @@ class SaleListController extends Component
         ->where('sale_details.sale_id', $idventa)
         ->orderBy('sale_details.id', 'asc')
         ->get();
+
+        foreach($this->detalle_venta as $dv)
+        {
+            $devolution = SaleDevolution::where("sale_detail_id", $dv->detalleid)->where("status","active")->get();
+
+            if($devolution->count() > 0)
+            {
+                $this->devolucionsale = true;
+                break;
+            }
+
+        }
 
 
 

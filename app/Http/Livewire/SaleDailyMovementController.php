@@ -423,7 +423,7 @@ class SaleDailyMovementController extends Component
                         $total_costo = $total_costo + ($cost->costo * $cost->cantidad);
                     }
 
-                    $devolucion = SaleDevolution::where("sale_detail_id", $dv->id)->first();
+                    $devolucion = SaleDevolution::where("sale_detail_id", $dv->id)->where("status","active")->first();
 
                     if($devolucion != null && $devolucion->amount > 0)
                     {

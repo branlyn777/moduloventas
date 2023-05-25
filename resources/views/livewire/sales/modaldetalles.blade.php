@@ -132,7 +132,8 @@
                 </div>
                 @else
                     @if($this->desc_rec < 0)
-                    <div style="color: rgb(250, 12, 12);">Esta Venta tuvo un Descuento Total de<b> {{$this->desc_rec}} Bs</b></div>
+                    <div style="color: rgb(250, 12, 12);">Esta Venta tuvo un Descuento Total de<b> {{$this->desc_rec}} Bs</b>
+                    </div>
                     @else
                     <div style="color: #002df3;">Esta Venta tuvo un Recargo Total de<b> {{$this->desc_rec}} Bs</b></div>
                     @endif
@@ -145,6 +146,13 @@
                     @endif
                 @endif
             </div>
+            @if($this->devolucionsale)
+            <div class="text-center">
+                <span class="text-sm text-danger">
+                    Esta venta tuvo devolución total o parcial
+                </span>
+            </div>
+            @endif
             <br>
         </div>
     </div>

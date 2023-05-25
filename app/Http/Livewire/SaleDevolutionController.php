@@ -187,6 +187,13 @@ class SaleDevolutionController extends Component
                             'status' => "INACTIVO"
                         ]);
                         $motion->save();
+
+                        $wallet = Cartera::find($sale_devolution->walletid);
+                        $new_saldo = $wallet->saldocartera - $sale_devolution->amount;
+                        $wallet->update([
+                            'saldocartera' => $new_saldo
+                        ]);
+                        $wallet->save();
                     }
                     $this->emit("message-toast");
                 }
