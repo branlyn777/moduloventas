@@ -77,11 +77,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
-
-
-
                             <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>
                                 <div class="">

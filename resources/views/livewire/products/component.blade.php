@@ -249,7 +249,6 @@
                                                 <td class="text-center">
                                                     {{ ($data->currentpage() - 1) * $data->perpage() + $loop->index + 1 }}
                                                 </td>
-
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="form-check my-auto">
@@ -261,10 +260,8 @@
                                                             src="{{ asset('storage/productos/' . $products->imagen) }}"
                                                             alt="hoodie" width="50" height="50">
                                                         <div class="d-flex flex-column justify-content-center mx-2">
-                                                            <label
-                                                                style="font-size: 14px">{{ $products->nombre }}</label>
-                                                            <div
-                                                                style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">
+                                                            <label style="font-size: 14px;max-width: 100%; word-wrap: break-word; white-space: normal">{{ $products->nombre }}</label>
+                                                            <div style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">
                                                                 {{ $products->caracteristicas }}</div>
                                                             <div style="font-size: 12px">
                                                                 {{ $products->unidad }}|{{ $products->marca }}|{{ $products->industria }}

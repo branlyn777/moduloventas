@@ -12,24 +12,16 @@
             </div>
             <div class="modal-body ms-3 me-3 mt-2">
                 <div class="mb-3">
-
-                    <h7><b>Producto:</b> {{ $prod_id->nombre ?? 's/n producto' }} </h7>
+                    <h7><b>Producto:</b>{{ $prod_id->nombre ?? 's/n producto' }}</h7>
                     <br>
                     <h7 class="mb-1"><b>Codigo:</b> {{ $prod_id->codigo ?? 's/n producto' }}</h7>
-
                     <hr class="mt-1 mb-1" style="height:3px;background-color: black;">
                 </div>
-
                 <div class="row">
-
                     <div class="col-6">
-
                         <div class="form-group">
-
                             <label>Sucursal</label>
                             <div class="input-group">
-
-
                                 <select wire:model='sucursalAjuste' class="form-select">
                                     <option value=null selected disabled>Elegir Sucursal</option>
                                     @foreach ($sucursales as $suc)
@@ -47,7 +39,6 @@
                     <div class="col-6">
 
                         <div class="form-group">
-
                             <label>Ubicacion</label>
                             <div class="input-group">
                                 <select wire:model='destinoAjuste' class="form-select">
@@ -56,35 +47,27 @@
                                         <option value="{{ $destino->id }}">{{ $destino->nombre }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
                             @error('destinoAjuste')
-                            <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
-                        @enderror
+                                <span class="text-danger er" style="font-size: 0.8rem">{{ $message }}</span>
+                            @enderror
                         </div>
 
                     </div>
                     <div class="col-6">
-
                         <div class="form-group">
-
                             <label>Cantidad Sistema</label>
                             <div class="input-group">
-                            
-                                <input type="number" style="max-height: 33px;" wire:model="prod_stock"
+                                <input type="number" style="max-height: 33px;" wire:model="prod_stock" disabled
                                     class="form-control">
-
                                 <span class="input-group-text">Uds.</span>
-
                             </div>
                         </div>
 
                     </div>
 
                     <div class="col-6">
-
                         <div class="form-group">
-
                             <label>Recuento Fisico</label>
                             <div class="input-group">
                                 <input type="number" style="max-height: 33px;" wire:model="nuevo_cantidad"

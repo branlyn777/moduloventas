@@ -70,6 +70,7 @@ class ProductsController extends Component
         $this->pr = collect();
         $this->sucursalAjuste = null;
         $this->destinoAjuste = null;
+        $this->prod_stock=0;
     }
 
 
@@ -118,14 +119,29 @@ class ProductsController extends Component
 
         $this->sucursales = Sucursal::all();
         $this->destinos = Destino::where('sucursal_id', $this->sucursalAjuste)->get();
+        $this->prod_stock=0;
 
-        $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)
+        $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)->get();
+
+        if ($this->destinoAjuste != null) {
+       
+            $this->prod_stock = ProductosDestino::where('product_id', $this->prod_id->id)
+            ->where('destino_id', $this->destinoAjuste)
             ->get();
-
-        if($this->destinoAjuste != null){
-            $this->prod_stock = ProductosDestino::where('product_id', $this->prod_id)->where('destino_id',$this->destinoAjuste)->get();
             if ($this->prod_stock->isNotEmpty()) {
-                $this->prod_stock->delete();
+                $this->prod_stock = $this->prod_stock->first()->stock;
+            }
+            else{
+                $this->prod_stock=0;
+            }
+
+            if ($this->nuevo_cantidad>$this->prod_stock) {
+                $lote=Lote::where('product_id', $this->prod_id->id)->latest()->first();
+                if ($lote != null) {
+              
+                    $this->costoAjuste=$lote->costo;
+                    $this->pv_lote=$lote->pv_lote;
+                }
             }
         }
 
@@ -337,7 +353,6 @@ class ProductsController extends Component
 
                 ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => '1'], ['stock' => $q + $this->cantidad]);
             } else {
-
                 ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => 1], ['stock' => 0]);
             }
 
@@ -902,6 +917,8 @@ class ProductsController extends Component
         $this->prod_id = null;
         $this->prod_name = null;
         $this->tipo_proceso = null;
+        $this->destinoAjuste=null;
+        $this->sucursalAjuste=null;
     }
 
     public function guardarAjuste()
@@ -911,10 +928,10 @@ class ProductsController extends Component
             'sucursalAjuste' => 'required|not_in:null',
             'destinoAjuste' => 'required|not_in:null',
             'nuevo_cantidad' => 'required',
-           
+
         ];
 
-        if ($this->nuevo_cantidad>$this->prod_stock) {
+        if ($this->nuevo_cantidad > $this->prod_stock) {
             $rules = [
                 'costoAjuste' => 'required',
                 'pv_lote' => 'required',
@@ -927,8 +944,8 @@ class ProductsController extends Component
             'destinoAjuste.required' => 'El destino es obligatorio',
             'destinoAjuste.not_in' => 'Elija un destino',
             'nuevo_cantidad.required' => 'Ingrese una cantidad de ajuste',
-            'costoAjuste.required'=>'Introduzca un numero valido para el ajuste',
-            'pv_lote.required'=>'Introduzca un numero valido para el ajuste'
+            'costoAjuste.required' => 'Introduzca un numero valido para el ajuste',
+            'pv_lote.required' => 'Introduzca un numero valido para el ajuste'
 
         ];
         $this->validate($rules, $messages);
@@ -995,7 +1012,7 @@ class ProductsController extends Component
             }
 
 
-            ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $this->nuevo_cantidad]);
+            ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => $this->destinoAjuste], ['stock' => $this->nuevo_cantidad]);
 
 
             DB::commit();
@@ -1010,14 +1027,11 @@ class ProductsController extends Component
 
     public function guardarEntradaSalida()
     {
-
-
-
         if ($this->tipo_proceso == 'INGRESO') {
             DB::beginTransaction();
             try {
                 $rs = IngresoProductos::create([
-                    'destino' => 1,
+                    'destino' => $this->destinoAjuste,
                     'user_id' => Auth()->user()->id,
                     'concepto' => $this->tipo_proceso,
                     'observacion' => $this->observacion
@@ -1039,9 +1053,9 @@ class ProductsController extends Component
                     'lote_id' => $lot->id
                 ]);
 
-                $q = ProductosDestino::where('product_id', $this->prod_id->id)->where('destino_id', 1)->value('stock');
+                $q = ProductosDestino::where('product_id', $this->prod_id->id)->where('destino_id',$this->destinoAjuste)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $q + $this->nuevo_cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => $this->destinoAjuste], ['stock' => $q + $this->nuevo_cantidad]);
 
 
                 DB::commit();
@@ -1051,10 +1065,8 @@ class ProductsController extends Component
             }
         } else {
             try {
-
-
                 $operacion = SalidaProductos::create([
-                    'destino' => 1,
+                    'destino' => $this->destinoAjuste,
                     'user_id' => Auth()->user()->id,
                     'concepto' => 1,
                     'observacion' => $this->observacion
@@ -1111,7 +1123,7 @@ class ProductsController extends Component
                             ]);
                             $val->save();
                             $qq = 0;
-                            //dd("yumi",$this->qq);
+                           
                         }
                     }
                 }
@@ -1139,19 +1151,18 @@ class ProductsController extends Component
 
     public function abrirModalAjuste($producto)
     {
-
         $this->pr = collect();
         $this->resetAjuste();
-        $this->prod_id=$producto;
+        $this->prod_id = $producto;
         $this->prod_id = Product::find($producto);
     }
 
     public function abrirModalE_S($producto)
     {
+        $this->pr = collect();
         $this->resetEntradaSalida();
-  
         $this->prod_id = Product::find($producto);
-        $this->prod_name = $this->prod_id->nombre;
+     
     }
 
     public function resetEntradaSalida()
@@ -1164,6 +1175,10 @@ class ProductsController extends Component
         $this->observacion = null;
         $this->prod_name = null;
         $this->tipo_proceso = null;
+        $this->destinoAjuste=null;
+        $this->sucursalAjuste=null;
+        $this->prod_stock = null;
+     
     }
 
     public function verUbicacion($prod_id)
