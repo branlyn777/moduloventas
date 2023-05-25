@@ -70,7 +70,7 @@ class ProductsController extends Component
         $this->pr = collect();
         $this->sucursalAjuste = null;
         $this->destinoAjuste = null;
-        $this->prod_stock=0;
+        $this->prod_stock = 0;
     }
 
 
@@ -119,28 +119,27 @@ class ProductsController extends Component
 
         $this->sucursales = Sucursal::all();
         $this->destinos = Destino::where('sucursal_id', $this->sucursalAjuste)->get();
-        $this->prod_stock=0;
+        $this->prod_stock = 0;
 
         $this->sub = Category::where('categories.categoria_padre', $this->selected_categoria)->get();
 
         if ($this->destinoAjuste != null) {
-       
+
             $this->prod_stock = ProductosDestino::where('product_id', $this->prod_id->id)
-            ->where('destino_id', $this->destinoAjuste)
-            ->get();
+                ->where('destino_id', $this->destinoAjuste)
+                ->get();
             if ($this->prod_stock->isNotEmpty()) {
                 $this->prod_stock = $this->prod_stock->first()->stock;
-            }
-            else{
-                $this->prod_stock=0;
+            } else {
+                $this->prod_stock = 0;
             }
 
-            if ($this->nuevo_cantidad>$this->prod_stock) {
-                $lote=Lote::where('product_id', $this->prod_id->id)->latest()->first();
+            if ($this->nuevo_cantidad > $this->prod_stock) {
+                $lote = Lote::where('product_id', $this->prod_id->id)->latest()->first();
                 if ($lote != null) {
-              
-                    $this->costoAjuste=$lote->costo;
-                    $this->pv_lote=$lote->pv_lote;
+
+                    $this->costoAjuste = $lote->costo;
+                    $this->pv_lote = $lote->pv_lote;
                 }
             }
         }
@@ -236,6 +235,11 @@ class ProductsController extends Component
             $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
         }
 
+        $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
+        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
+        ->get();
+
+
 
 
         return view('livewire.products.component', [
@@ -326,7 +330,7 @@ class ProductsController extends Component
 
             if ($this->stockswitch === true) {
                 $rs = IngresoProductos::create([
-                    'destino' => 1,
+                    'destino' => $this->destino,
                     'user_id' => Auth()->user()->id,
                     'concepto' => 'INICIAL',
                     'observacion' => 'INVENTARIO INICIAL DE PRODUCTOS'
@@ -349,11 +353,11 @@ class ProductsController extends Component
                 ]);
 
                 $q = ProductosDestino::where('product_id', $product->id)
-                    ->where('destino_id', 1)->value('stock');
+                    ->where('destino_id', $this->destino)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => '1'], ['stock' => $q + $this->cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' =>$this->destino], ['stock' => $q + $this->cantidad]);
             } else {
-                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => 1], ['stock' => 0]);
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => $this->destino], ['stock' => 0]);
             }
 
             DB::commit();
@@ -917,8 +921,8 @@ class ProductsController extends Component
         $this->prod_id = null;
         $this->prod_name = null;
         $this->tipo_proceso = null;
-        $this->destinoAjuste=null;
-        $this->sucursalAjuste=null;
+        $this->destinoAjuste = null;
+        $this->sucursalAjuste = null;
     }
 
     public function guardarAjuste()
@@ -1053,7 +1057,7 @@ class ProductsController extends Component
                     'lote_id' => $lot->id
                 ]);
 
-                $q = ProductosDestino::where('product_id', $this->prod_id->id)->where('destino_id',$this->destinoAjuste)->value('stock');
+                $q = ProductosDestino::where('product_id', $this->prod_id->id)->where('destino_id', $this->destinoAjuste)->value('stock');
 
                 ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => $this->destinoAjuste], ['stock' => $q + $this->nuevo_cantidad]);
 
@@ -1123,19 +1127,18 @@ class ProductsController extends Component
                             ]);
                             $val->save();
                             $qq = 0;
-                           
                         }
                     }
                 }
 
 
                 $q = ProductosDestino::where('product_id', $this->prod_id->id)
-                    ->where('destino_id', 1)->value('stock');
+                    ->where('destino_id',$this->destino)->value('stock');
 
                 $varm = $this->nuevo_cantidad;
 
 
-                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => 1], ['stock' => $q - $varm]);
+                ProductosDestino::updateOrCreate(['product_id' => $this->prod_id->id, 'destino_id' => $this->destinoAjuste], ['stock' => $q - $varm]);
 
 
                 DB::commit();
@@ -1162,7 +1165,6 @@ class ProductsController extends Component
         $this->pr = collect();
         $this->resetEntradaSalida();
         $this->prod_id = Product::find($producto);
-     
     }
 
     public function resetEntradaSalida()
@@ -1175,10 +1177,9 @@ class ProductsController extends Component
         $this->observacion = null;
         $this->prod_name = null;
         $this->tipo_proceso = null;
-        $this->destinoAjuste=null;
-        $this->sucursalAjuste=null;
+        $this->destinoAjuste = null;
+        $this->sucursalAjuste = null;
         $this->prod_stock = null;
-     
     }
 
     public function verUbicacion($prod_id)

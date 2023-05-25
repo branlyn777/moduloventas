@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body ms-3 me-3 mt-2">
                 <div class="mb-3">
-                    <h7><b>Producto:</b>{{ $prod_id->nombre ?? 's/n producto' }}</h7>
+                    <h7><b>Producto:</b>{{$prod_id->nombre ?? 's/n producto'}}</h7>
                     <br>
                     <h7 class="mb-1"><b>Codigo:</b> {{ $prod_id->codigo ?? 's/n producto' }}</h7>
                     <hr class="mt-1 mb-1" style="height:3px;background-color: black;">
