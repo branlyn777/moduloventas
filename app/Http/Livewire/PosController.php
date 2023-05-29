@@ -686,6 +686,69 @@ class PosController extends Component
         DB::beginTransaction();
         try
         {
+            //Buscando todos los lotes de todos los productos ingresados en el Shopping Cart
+            $lista_productos = Cart::getContent();
+            //Verificando que el total existencia activa de la tabla lote coincida en igual o mayor cantidad que el producto del Shopping Cart
+            //En caso de no existir la cantidad necesaria se creará mas lotes para completarlo  (Esto devido a un error de igualdad en las tablas productos_destinos y lotes)
+            foreach($lista_productos as $lp)
+            {
+                $lote_producto = Lote::where('status', 'Activo')->where("product_id", $lp->id)->orderBy("id","desc")->get();
+                $existenciaTotal = $lote_producto->sum('existencia');
+
+                if($existenciaTotal <= $lp->quantity && $lp->attributes->Cantidad <= 0)
+                {
+                    // Ingresando lote del producto
+                    $ip_a = IngresoProductos::create([
+                        'destino' => $this->destino_id,
+                        'user_id' => Auth()->user()->id,
+                        'concepto' => "INGRESO",
+                        'observacion' => "Ingreso ajuste automático del producto para venta",
+                    ]);
+
+                    $cantidad_a_aumentar = $lp->quantity - $existenciaTotal;
+
+                    if($lote_producto->count() > 0)
+                    {
+                        $lote_costo = $lote_producto->first()->costo;
+                        $lote_precio = $lote_producto->first()->pv_lote;
+                    }
+                    else
+                    {
+                        //Buscando el primer lote reciente inactivo para obtener su costo
+                        $lote_producto_c = Lote::where("product_id", $lp->id)->orderBy("id","desc")->get();
+
+                        if($lote_producto_c->count() > 0)
+                        {
+                            $lote_costo = $lote_producto_c->first()->costo;
+                        }
+                        else
+                        {
+                            $lote_costo = 0;
+                        }
+                        $lote_precio = $lp->price;
+                    }
+
+
+                    $lp_a = Lote::create([
+                        'existencia' => $cantidad_a_aumentar,
+                        'costo' => $lote_costo,
+                        'pv_lote' => $lote_precio,
+                        'status' => 'Activo',
+                        'product_id' => $lp->id
+                    ]);
+                    DetalleEntradaProductos::create([
+                        'product_id' => $lp->id,
+                        'cantidad' => $cantidad_a_aumentar,
+                        'costo' => $lote_costo,
+                        'id_entrada' => $ip_a->id,
+                        'lote_id' => $lp_a->id
+                    ]);
+                }
+            }
+
+
+
+
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
@@ -1641,7 +1704,7 @@ class PosController extends Component
                 CarteraMov::create([
                     'type' => "EGRESO",
                     'tipoDeMovimiento' => "EGRESO/INGRESO",
-                    'comentario' => $this->detail_devolution,
+                    'comentario' => "Devolución Venta",
                     'cartera_id' => $this->cartera_id_devolution,
                     'movimiento_id' => $m->id,
                     'cartera_mov_categoria_id' => $this->category_id_devolution
