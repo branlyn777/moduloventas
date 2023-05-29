@@ -648,39 +648,50 @@ class OrderServiceController extends Component
     //Asigna servicio a técnico (Pasa un Servicio de PENDIENTE A PROCESO)
     public function select_responsible_technician(Service $service, $iduser)
     {
-        //Buscando el movimiento PENDIENTE
-        $motion_pending = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+        //verificando si ya existe el movimiento PROCESO
+        $v_motion_process = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
         ->where("mov_services.service_id", $service->id)
-        ->where("m.type", "PENDIENTE")
+        ->where("m.type", "PROCESO")
+        ->where("m.status", "ACTIVO")
         ->select("m.*")
-        ->first();
-        $motion_pending->save();
-        //Obteniendo un objeto de los datos del cliente
-        $client = $this->get_client($service->order_service_id);
-        //Creando el movimiento PROCESO
-        $motion_process = Movimiento::create([
-            'type' => 'PROCESO',
-            'status' => 'ACTIVO',
-            'import' => $motion_pending->import,
-            'on_account' => $motion_pending->on_account,
-            'saldo' => $motion_pending->saldo,
-            'user_id' =>  $iduser,
-        ]);
-        MovService::create([
-            'movimiento_id' => $motion_process->id,
-            'service_id' => $service->id
-        ]);
-        ClienteMov::create([
-            'movimiento_id' => $motion_process->id,
-            'cliente_id' => $client->id
-        ]);
-        
-        $motion = Movimiento::find($motion_pending->id);
-        //Actualizando el estado del movimiento PENDIENTE
-        $motion->update([
-            'status' => 'INACTIVO'
-        ]);
-        $motion->save();
+        ->get();
+        //Verificando que no exista un movimiento TERMINADO ACTIVO (Por bug al terminar un servicio con muchos clicks)
+        if($v_motion_process->count() == 0)
+        {
+            //Buscando el movimiento PENDIENTE
+            $motion_pending = MovService::join("movimientos as m","m.id","mov_services.movimiento_id")
+            ->where("mov_services.service_id", $service->id)
+            ->where("m.type", "PENDIENTE")
+            ->select("m.*")
+            ->first();
+            $motion_pending->save();
+            //Obteniendo un objeto de los datos del cliente
+            $client = $this->get_client($service->order_service_id);
+            //Creando el movimiento PROCESO
+            $motion_process = Movimiento::create([
+                'type' => 'PROCESO',
+                'status' => 'ACTIVO',
+                'import' => $motion_pending->import,
+                'on_account' => $motion_pending->on_account,
+                'saldo' => $motion_pending->saldo,
+                'user_id' =>  $iduser,
+            ]);
+            MovService::create([
+                'movimiento_id' => $motion_process->id,
+                'service_id' => $service->id
+            ]);
+            ClienteMov::create([
+                'movimiento_id' => $motion_process->id,
+                'cliente_id' => $client->id
+            ]);
+
+            $motion = Movimiento::find($motion_pending->id);
+            //Actualizando el estado del movimiento PENDIENTE
+            $motion->update([
+                'status' => 'INACTIVO'
+            ]);
+            $motion->save();
+        }
         $this->emit("hide-assign-technician");
     }
     //Termina un servicio (Pasa un Servicio de PROCESO A TERMINADO)
