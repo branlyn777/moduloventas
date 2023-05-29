@@ -396,9 +396,6 @@
     @include('livewire.products.modalajuste')
     @include('livewire.products.modal_ent_sal')
     @include('livewire.products.modalUbicacionProducto')
-
-
-
 </div>
 @section('javascript')
     <script>

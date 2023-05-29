@@ -104,11 +104,6 @@ class DestinoProductoController extends Component
         if ($this->productid != null) {
             $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
         }
-
-
-
-
-
         return view('livewire.destinoproducto.almacenproductos', [
             'destinos_almacen' => $almacen->paginate($this->pagination),
             'data_suc' =>  $sucursal_ubicacion->get(),

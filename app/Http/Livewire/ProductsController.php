@@ -175,15 +175,27 @@ class ProductsController extends Component
                 return $query->where('stock', '>', 0);
             })
             ->when($this->selected_mood == 'masvendidosmes', function ($query) {
-                return $query
-                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
+                $subquery = Product::join('sale_details', 'sale_details.product_id', '=', 'products.id')
                     ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
                     ->where('s.status', 'PAID')
                     ->whereMonth('s.created_at', now())
-                    ->groupBy('products.id', 'productos_destinos.stock')
+                    ->groupBy('products.id')
+                    ->selectRaw('products.*, SUM(sale_details.quantity) as cant')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
-                    ->where('products.status', 'ACTIVO');
+                    ->getQuery();
+            
+                return $query->joinSub($subquery, 'mas_vendidos', function ($join) {
+                    $join->on('products.id', '=', 'mas_vendidos.id');
+                })
+                ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
+                ->orderBy('mas_vendidos.cant', 'desc')
+                ->where('products.status', 'ACTIVO');
             })
+            
+            
+            
+            
+            
             ->when($this->selected_mood == 'masvendidostrimestre', function ($query) {
                 return $query
                     ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
