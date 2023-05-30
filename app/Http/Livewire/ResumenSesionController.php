@@ -245,8 +245,6 @@ class ResumenSesionController extends Component
                 ->get();
 
 
-
-
             $this->totalesIngresosIE = $IngresosEgresos->where('carteramovtype', 'INGRESO');
 
             //TOTALES EGRESOS
@@ -274,12 +272,6 @@ class ResumenSesionController extends Component
                 $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesServicios->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
 
         }
-
-
-
-
-
-
 
         return view('livewire.reportemovimientoresumen.resumensesion')
             ->extends('layouts.theme.app')
@@ -310,7 +302,7 @@ class ResumenSesionController extends Component
                 ->where("sale_lotes.sale_detail_id", $dx->detalleid)
                 ->first();
 
-            $dx->po = $po->precio_original;
+            $dx->po = $po->precio_original??0;
         }
 
 
@@ -449,9 +441,6 @@ class ResumenSesionController extends Component
 
             ->orderBy('transaccions.id', 'desc')
             ->sum('m.import');
-
-
-
 
 
         $sistema = $ingresosSistema - $egresosSistema;

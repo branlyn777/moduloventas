@@ -94,8 +94,7 @@
 
                         <div class="d-flex bd-highlight mb-1">
                             <div class="me-auto p-2 bd-highlight">
-                                <h6 class="text-lg">Ventas Realizadas durante la
-                                    Sesion: </h6>
+                                <h6 class="text-lg">Ventas Realizadas durante la Sesion: </h6>
                             </div>
                             <div class="p-2 bd-highlight">
                                 <span class="me-4">
@@ -258,8 +257,37 @@
 
 
                         </div>
-          
-                    @endif
+                        
+                        
+                  
+                    
+                        @endif
+                        <div class="d-flex bd-highlight mb-1">
+                            <div class="me-auto p-2 bd-highlight ms-5">
+                                <h6 class="text-lg">Ventas en Efectivo: </h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <span class="me-6">
+                                <b>{{number_format($totalesIngresosV->where('ctipo','efectivo')->sum('importe'), 2)}}</b>
+                                </span>
+                             
+                            </div>
+                            
+                        </div>
+                        <div class="d-flex bd-highlight mb-1">
+                            <div class="me-auto p-2 bd-highlight ms-5">
+                                <h6 class="text-lg">Ventas Digital: </h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <span class="me-6">
+                                    <b>{{number_format($totalesIngresosV->where('ctipo','digital')->sum('importe'), 2)}}</b>
+                                </span>
+                             
+                                
+                                
+                            </div>
+                            
+                        </div>
 
                     <div class="d-flex bd-highlight mb-3">
                         <div class="me-auto p-2 bd-highlight">
@@ -320,7 +348,32 @@
                         </div>
 
                     @endif
-
+                    <div class="d-flex bd-highlight mb-1">
+                        <div class="me-auto p-2 bd-highlight ms-5">
+                            <h6 class="text-lg">Servicios cobrados en Efectivo: </h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <span class="me-6">
+                                <b>{{ number_format($totalesServicios->where('ctipo','efectivo')->sum('importe'), 2) }}</b>
+                            </span>
+                         
+                        </div>
+                        
+                    </div>
+                    <div class="d-flex bd-highlight mb-1">
+                        <div class="me-auto p-2 bd-highlight ms-5">
+                            <h6 class="text-lg">Servicios cobro digital: </h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <span class="me-6">
+                                <b>{{ number_format($totalesServicios->where('ctipo','digital')->sum('importe'), 2) }}</b>
+                            </span>
+                         
+                            
+                            
+                        </div>
+                        
+                    </div>
 
                     <div class="d-flex bd-highlight mb-3">
                         <div class="me-auto p-2 bd-highlight">
@@ -383,6 +436,32 @@
                         </div>
 
                     @endif
+                    <div class="d-flex bd-highlight mb-1">
+                        <div class="me-auto p-2 bd-highlight ms-5">
+                            <h6 class="text-lg">Ingresos cobrados en Efectivo: </h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <span class="me-6">
+                                <b>{{ number_format($totalesIngresosIE->where('ctipo','digital')->sum('importe'), 2) }}</b>
+                            </span>
+                         
+                        </div>
+                        
+                    </div>
+                    <div class="d-flex bd-highlight mb-1">
+                        <div class="me-auto p-2 bd-highlight ms-5">
+                            <h6 class="text-lg">Ingresos cobro digital: </h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <span class="me-6">
+                                <b>{{ number_format($totalesIngresosIE->where('ctipo','digital')->sum('importe'), 2) }}</b>
+                            </span>
+                         
+                            
+                            
+                        </div>
+                        
+                    </div>
 
                     <div class="d-flex bd-highlight mb-3">
                         <div class="me-auto p-2 bd-highlight">
