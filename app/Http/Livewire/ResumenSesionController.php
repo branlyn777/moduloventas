@@ -267,7 +267,7 @@ class ResumenSesionController extends Component
                 ->where("sale_lotes.sale_detail_id", $dx->detalleid)
                 ->first();
 
-            $dx->po = $po->precio_original;
+            $dx->po = $po->precio_original??0;
         }
 
 
