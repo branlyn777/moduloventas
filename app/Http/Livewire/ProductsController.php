@@ -145,17 +145,24 @@ class ProductsController extends Component
         }
 
         $prod = Product::join('categories as c', 'products.category_id', 'c.id')
-            ->join('productos_destinos', 'productos_destinos.product_id', 'products.id')
-            ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
-            ->where('products.status', $this->estados == true ? 'ACTIVO' : 'INACTIVO')
-            ->when($this->search != null, function ($query) {
+        ->join('productos_destinos', 'productos_destinos.product_id', 'products.id')
+        ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
+        ->where('products.status', $this->estados == true ? 'ACTIVO' : 'INACTIVO')
+        ->when($this->search != null, function ($query) {
+            $query->where(function ($query) {
                 $query->where('products.nombre', 'like', '%' . $this->search . '%')
-                    ->orWhere('products.codigo', 'like', '%' . $this->search . '%')
-                    ->orWhere('products.marca', 'like', '%' . $this->search . '%')
                     ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
-                    ->orWhere('products.costo', 'like', '%' . $this->search . '%')
-                    ->orWhere('products.precio_venta', 'like', '%' . $this->search . '%');
+                    ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
             })
+            ->orderByRaw("CASE
+                WHEN products.nombre LIKE '%" . $this->search . "%' THEN 1
+                WHEN products.caracteristicas LIKE '%" . $this->search . "%' THEN 2
+                WHEN products.marca LIKE '%" . $this->search . "%' THEN 3
+                WHEN products.codigo LIKE '%" . $this->search . "%' THEN 4
+                ELSE 5
+            END");
+        })
             ->when($this->selected_categoria != null and $this->selected_sub == null, function ($query) {
                 $query->where('c.id', $this->selected_categoria)
                     ->where('c.categoria_padre', 0);
