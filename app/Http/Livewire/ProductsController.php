@@ -183,39 +183,61 @@ class ProductsController extends Component
                     ->selectRaw('products.*, SUM(sale_details.quantity) as cant')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
                     ->getQuery();
-            
+
                 return $query->joinSub($subquery, 'mas_vendidos', function ($join) {
                     $join->on('products.id', '=', 'mas_vendidos.id');
                 })
-                ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
-                ->orderBy('mas_vendidos.cant', 'desc')
-                ->where('products.status', 'ACTIVO');
+                    ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
+                    ->orderBy('mas_vendidos.cant', 'desc')
+                    ->where('products.status', 'ACTIVO');
             })
-            
-            
-            
-            
-            
+
+
+
+
+
             ->when($this->selected_mood == 'masvendidostrimestre', function ($query) {
-                return $query
-                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
+
+                $subquery = Product::join('sale_details', 'sale_details.product_id', '=', 'products.id')
                     ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
                     ->where('s.status', 'PAID')
                     ->whereBetween('s.created_at', [now()
-                        ->subMonth(3)->startOfDay(), now()->endOfDay()])
-                    ->groupBy('products.id', 'productos_destinos.stock')
+                    ->subMonth(3)->startOfDay(), now()->endOfDay()])
+                    ->groupBy('products.id')
+                    ->selectRaw('products.*, SUM(sale_details.quantity) as cant')
                     ->orderByRaw('SUM(sale_details.quantity) DESC')
+                    ->getQuery();
+
+                return $query->joinSub($subquery, 'mas_vendidos', function ($join) {
+                    $join->on('products.id', '=', 'mas_vendidos.id');
+                })
+                    ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
+                    ->orderBy('mas_vendidos.cant', 'desc')
                     ->where('products.status', 'ACTIVO');
+
+
+
+
+
+              
             })
             ->when($this->selected_mood == 'masvendidosanio', function ($query) {
-                return $query
-                    ->join('sale_details', 'sale_details.product_id', '=', 'products.id')
-                    ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
-                    ->where('s.status', 'PAID')
-                    ->whereYear('s.created_at', now())
-                    ->groupBy('products.id', 'productos_destinos.stock')
-                    ->orderByRaw('SUM(sale_details.quantity) DESC')
-                    ->where('products.status', 'ACTIVO');
+
+                $subquery = Product::join('sale_details', 'sale_details.product_id', '=', 'products.id')
+                ->join('sales as s', 's.id', '=', 'sale_details.sale_id')
+                ->where('s.status', 'PAID')
+                ->whereYear('s.created_at', now())
+                ->groupBy('products.id')
+                ->selectRaw('products.*, SUM(sale_details.quantity) as cant')
+                ->orderByRaw('SUM(sale_details.quantity) DESC')
+                ->getQuery();
+
+            return $query->joinSub($subquery, 'mas_vendidos', function ($join) {
+                $join->on('products.id', '=', 'mas_vendidos.id');
+            })
+                ->select('products.*', DB::raw("SUM(productos_destinos.stock) as cantidad"))
+                ->orderBy('mas_vendidos.cant', 'desc')
+                ->where('products.status', 'ACTIVO');
             })
             ->groupBy('productos_destinos.product_id')
             ->orderBy('products.created_at', 'desc');
@@ -247,9 +269,9 @@ class ProductsController extends Component
             $this->loteproducto = Lote::where('product_id', $this->productid)->where('status', $this->estados)->get();
         }
 
-        $this->destinosp= Destino::join('sucursals as suc','suc.id','destinos.sucursal_id')
-        ->select ('suc.name as sucursal','destinos.nombre as destino','destinos.id as destino_id')
-        ->get();
+        $this->destinosp = Destino::join('sucursals as suc', 'suc.id', 'destinos.sucursal_id')
+            ->select('suc.name as sucursal', 'destinos.nombre as destino', 'destinos.id as destino_id')
+            ->get();
 
 
 
@@ -367,9 +389,12 @@ class ProductsController extends Component
                 $q = ProductosDestino::where('product_id', $product->id)
                     ->where('destino_id', $this->destino)->value('stock');
 
-                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' =>$this->destino], ['stock' => $q + $this->cantidad]);
+                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => $this->destino], ['stock' => $q + $this->cantidad]);
             } else {
-                ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => $this->destino], ['stock' => 0]);
+                foreach (Destino::all() as $destino) {
+                
+                    ProductosDestino::updateOrCreate(['product_id' => $product->id, 'destino_id' => $destino->id], ['stock' => 0]);
+                }
             }
 
             DB::commit();
@@ -1145,7 +1170,7 @@ class ProductsController extends Component
 
 
                 $q = ProductosDestino::where('product_id', $this->prod_id->id)
-                    ->where('destino_id',$this->destino)->value('stock');
+                    ->where('destino_id', $this->destino)->value('stock');
 
                 $varm = $this->nuevo_cantidad;
 
