@@ -20,55 +20,83 @@ class ExportMovDiaSesionController extends Controller
     public function reportPDFMovDiaSesion()
     {
         //Variables para la tbody
-        $totalesIngresosV = session('totalesIngresosV');
+        $totalesIngresosV = session('totalesIngresosVentas');
+        $totalesIngresosS = session('totalesIngresosServicios');
         $totalesIngresosIE = session('totalesIngresosIE');
         $totalesEgresosIE = session('totalesEgresosIE');
         $movimiento = session('movimiento');
         $sobrante = session('sobrante');
         $faltante = session('faltante');
         $cierremonto = session('cierremonto');
-        $total = session('total');
+        $tigo_op = session('tigo');
+
+
 
         $totalesIngresosV_suma = 0;
+        $ingresos_venta = 0;
+        $ingresos_servicios = 0;
 
-        foreach ($totalesIngresosV as $v)
-        {
-            if($v['ctipo'] == "efectivo")
-            {
-                $totalesIngresosV_suma = $totalesIngresosV_suma + $v['importe'];
+        foreach ($totalesIngresosV as $valor) {
+            if ($valor['ctipo'] == 'efectivo') {
+
+                $totalesIngresosV_suma += +$valor['importe'];
             }
         }
+        $totalesIngresosS_suma = 0;
+        foreach ($totalesIngresosS as $valor) {
+            if ($valor['ctipo'] == 'efectivo') {
+
+                $totalesIngresosS_suma += +$valor['importe'];
+            }
+        }
+
+
 
         $totalesIngresosIE_suma = 0;
+        foreach ($totalesIngresosIE as $valor) {
+            if ($valor['ctipo'] == 'efectivo') {
 
-        foreach ($totalesIngresosIE as $ie)
-        {
-            if($ie['ctipo'] == "efectivo")
-            {
-                $totalesIngresosIE_suma = $totalesIngresosIE_suma + $v['importe'];
+                $totalesIngresosIE_suma += +$valor['importe'];
             }
         }
 
-        $totalesEgresosIE_suma = array_sum(array_column($totalesEgresosIE, 'importe'));
+        $totalesEgresosIE_suma = 0;
+        foreach ($totalesEgresosIE as $valor) {
+            if ($valor['ctipo'] == 'efectivo') {
+
+                $totalesEgresosIE_suma += +$valor['importe'];
+            }
+        }
+
+
+
+        // $totalesEgresosIE_suma = array_sum(array_column($totalesEgresosIE, 'importe'));
 
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->horizontal_image;
 
-        $pdf = PDF::loadView('livewire.pdf.reportemovdiasesion',
-        compact('nombreempresa',
-        'logoempresa',
-        'totalesIngresosV',
-        'totalesIngresosIE',
-        'totalesEgresosIE',
-        'totalesIngresosV_suma',
-        'totalesIngresosIE_suma',
-        'totalesEgresosIE_suma',
-        'movimiento',
-        'sobrante',
-        'faltante',
-        'cierremonto',
-        'total'));
 
-        return $pdf->stream('Reporte_Movimiento_Sesion.pdf'); 
+        $pdf = PDF::loadView(
+            'livewire.pdf.reportemovdiasesion',
+            compact(
+                'nombreempresa',
+                'logoempresa',
+                'totalesIngresosV',
+                'totalesIngresosS',
+                'totalesIngresosIE',
+                'totalesEgresosIE',
+                'totalesIngresosV_suma',
+                'totalesIngresosS_suma',
+                'totalesIngresosIE_suma',
+                'totalesEgresosIE_suma',
+                'movimiento',
+                'sobrante',
+                'faltante',
+                'cierremonto',
+                'tigo_op'
+            )
+        );
+
+        return $pdf->stream('Reporte_Movimiento_Sesion.pdf');
     }
 }

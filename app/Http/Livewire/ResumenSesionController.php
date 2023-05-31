@@ -161,7 +161,7 @@ class ResumenSesionController extends Component
                 ->where('u.id', $this->usuario)
                 ->sum('import');
 
-                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesServicios->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
+                $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
 
             } else {
 
@@ -269,7 +269,7 @@ class ResumenSesionController extends Component
                 ->where('u.id', $this->usuario)
                 ->sum('import');
 
-                $this->totalsesion=$this->totalesIngresosV->sum('importe')+$this->totalesServicios->sum('importe')+$this->totalesIngresosIE->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
+                $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->where('ctipo','efectivo')->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
 
         }
 
@@ -334,9 +334,11 @@ class ResumenSesionController extends Component
         return $utilidad;
     }
 
-    public function generarpdf($totalesIngresosV, $totalesIngresosIE, $totalesEgresosIE)
+    public function generarpdf($totalesIngresosV,$totalesServicios,$totalesIngresosIE, $totalesEgresosIE)
     {
-        session(['totalesIngresosV' => $totalesIngresosV]);
+
+        session(['totalesIngresosVentas' => $totalesIngresosV]);
+        session(['totalesIngresosServicios' => $totalesServicios]);
         session(['totalesIngresosIE' => $totalesIngresosIE]);
         session(['totalesEgresosIE' => $totalesEgresosIE]);
         session(['movimiento' => $this->movimiento]);
@@ -344,6 +346,7 @@ class ResumenSesionController extends Component
         session(['faltante' => $this->faltante]);
         session(['cierremonto' => $this->cierremonto]);
         session(['total' => $this->total]);
+        session(['tigo' => $this->operacionestigo]);
 
         $this->emit('opentap');
     }

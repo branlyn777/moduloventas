@@ -48,7 +48,7 @@
                 <div class="ms-auto my-auto mt-lg-0 mt-4">
                     <div class="ms-auto my-auto">
                         <a href="javascript:void(0)" class="btn btn-success mb-0"
-                            wire:click.prevent="generarpdf({{ $totalesIngresosV }},{{ $totalesIngresosIE }},{{ $totalesEgresosIE }})">
+                            wire:click.prevent="generarpdf({{ $totalesIngresosV }},{{ $totalesServicios }},{{ $totalesIngresosIE }},{{ $totalesEgresosIE }})">
                             <i class="fas fa-print"></i> Generar PDF
                         </a>
                     </div>
@@ -447,6 +447,9 @@
                          
                         </div>
                         
+
+
+                        
                     </div>
                     <div class="d-flex bd-highlight mb-1">
                         <div class="me-auto p-2 bd-highlight ms-5">
@@ -586,7 +589,7 @@
             window.livewire.on('opentap', Msg => {
                 var win = window.open('report/pdfmovdiasesion');
                 // Cambiar el foco al nuevo tab (punto opcional)
-                //win.focus();
+              
             });
         });
     </script>
