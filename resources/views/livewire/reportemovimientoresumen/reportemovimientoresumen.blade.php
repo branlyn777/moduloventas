@@ -106,9 +106,7 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-
                             <b class="">Fecha inicial</b>
-
                             <input type="date" wire:model="fromDate" class="form-control">
                             @error('fromDate')
                                 <span class="text-danger">{{ $message }}</span>
@@ -122,7 +120,6 @@
                             @error('toDate')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-
                         </div>
                     </div>
 
@@ -311,6 +308,15 @@
                                                                                                                             {{ number_format($item->pv * $item->cant, 2) }}
                                                                                                                         </td>
                                                                                                                     </tr>
+                                                                                                                    @if($item->devolution != "0")
+                                                                                                                    <tr>
+                                                                                                                        <td colspan="6" class="text-center">
+                                                                                                                            <span class="text-sm text-danger">
+                                                                                                                                {{ $item->devolution }}
+                                                                                                                            </span>
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    @endif
                                                                                                                 @endforeach
                                                                                                             </tbody>
                                                                                                         </table>
