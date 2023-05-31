@@ -21,6 +21,9 @@
             font-size: 12px;
             border-spacing: 0px;
             color: black;
+            margin: auto;
+            border-collapse: collapse;
+            border: 0.5px solid rgb(204, 204, 204);
         }
 
         .estilostable .tablehead {
@@ -109,6 +112,9 @@
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td colspan="5" style="background-color: bisque;margin:auto;">Ventas</td>
+                </tr>
                 @foreach ($totalesIngresosV as $row)
                     <tr class="fuente">
                         <td class="text-center">
@@ -116,7 +122,8 @@
                         </td>
                         <td class="text-center">
                             {{ $row['idventa'] }} {{ $row['tipoDeMovimiento'] }}
-                            {{ $row['ctipo'] == 'CajaFisica' ? 'Efectivo' : $row['ctipo'] }} ({{ $row['nombrecartera'] }})
+                            {{ $row['ctipo'] == 'CajaFisica' ? 'Efectivo' : $row['ctipo'] }}
+                            ({{ $row['nombrecartera'] }})
                         </td>
                         <td style="text-align: right;">
                             {{ $row['importe'] }}
@@ -195,8 +202,38 @@
                         @endif
                     </tr>
                 @endforeach
+                <tr>
+                    <td colspan="5" style="background-color: bisque;margin:auto;">Servicios</td>
+                </tr>
+                @foreach ($totalesIngresosS as $service)
+                    <tr>
+                        <td class="text-center">
+                            {{ \Carbon\Carbon::parse($service['movcreacion'])->format('d/m/Y H:i') }}
+                        </td>
 
-                
+                        <td class="text-center">
+
+                            {{ 'Orden N° ' . $service['order_id'] . ',Servicio de ' . $service['servicio_solucion'] }}{{ $service['ctipo'] == 'efectivo' ? '(Pago en efectivo)' : '(Pago por transaccion de ' . $service['cnombre'] . ')' }}
+                        </td>
+
+                        <td style="text-align: right;">
+                            <span class=" text-sm">
+                                {{ number_format($service['importe'], 2) }}
+                            </span>
+                        </td>
+                        <td>
+
+                        </td>
+                        @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                            <td style="text-align: right;">
+                                {{ number_format($service['importe'], 2) }}
+                            </td>
+                        @endif
+                    </tr>
+                @endforeach
+                <tr>
+                    <td colspan="5" style="background-color: bisque;margin:auto;">Otros Ingresos</td>
+                </tr>
                 @foreach ($totalesIngresosIE as $ie)
                     <tr>
                         <td class="text-center">
@@ -204,7 +241,9 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $ie['ctipo'] == 'CajaFisica' ? 'Efectivo' : $ie['ctipo'] }} ({{ $ie['nombrecartera'] }})
+                            {{ $ie['carteramovtype'] }} en
+                            {{ $ie['ctipo'] == 'CajaFisica' ? 'Efectivo' : $ie['ctipo'] }}
+                            ({{ $ie['nombrecartera'] }})
                         </td>
                         <td style="text-align: right;">
                             {{-- {{ $ie['importe'] }} --}}
@@ -231,7 +270,9 @@
                         @endif
                     </tr>
                 @endforeach
-
+                        <tr>
+                            <td colspan="5" style="background-color: bisque;margin:auto;">Egresos</td>
+                        </tr>
                 @foreach ($totalesEgresosIE as $st)
                     <tr>
                         <td class="text-center">
@@ -239,7 +280,9 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $st['ctipo'] == 'CajaFisica' ? 'Efectivo' : $st['ctipo'] }} ({{ $st['nombrecartera'] }})
+                            {{ $st['carteramovtype'] }} en
+                            {{ $st['ctipo'] == 'CajaFisica' ? 'Efectivo' : $st['ctipo'] }}
+                            ({{ $st['nombrecartera'] }})
                         </td>
                         <td>
 
@@ -265,147 +308,137 @@
                         @endif
                     </tr>
                 @endforeach
-                {{-- <tr>
-                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                        <td colspan="5" style="border-top: 3px solid #dbd4d4">
-
-                        </td>
-                    @else
-                        <td colspan="4" style="border-top: 3px solid #dbd4d4">
-
-                        </td>
-                    @endif
-                </tr>
-                <tr>
-                    <td></td>
-                    <td style="text-align: right;">
-                        TOTAL OPERACIONES
-                    </td>
-                    <td style="text-align: right;">
-                        <b>{{ number_format($subtotalesIngresos, 2) }}</b>
-                    </td>
-                    <td style="text-align: right;">
-                        <b>{{ number_format($EgresosTotales, 2) }}</b>
-                    </td>
-                    @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                        <td style="text-align: right;">
-                            <b>{{ number_format($totalutilidadSV, 2) }}</b>
-                        </td>
-                    @endif
-                </tr> --}}
             </tbody>
 
         </table>
 
         <br>
-        <br>
 
-        <table class="estilostable">
+
+
+        <table class="estilostable" style="width: 300px">
+
             <thead>
                 <tr class="tablehead">
-                    <th class="text-center"></th>
-                    <th class="text-center"></th>
-                    <th style="text-align: right;"></th>
+                    <th class="text-center" colspan="2">Resumen de efectivo</th>
+
                 </tr>
+
             </thead>
             <tbody>
-            </tbody>
-        </table>
-
-
-
-
-
-
-        <br>
-
-
-
-
-
-        <table class="estilostable">
-            <tbody>
-
-                <tr style="height: 2rem"></tr>
-
-                <tr class="p-5">
-                    <td style="text-align: right;">
-                        Total Ingresos
+                <tr>
+                    <td>
+                        Total Ingresos en efectivo
                     </td>
-                    <td style="text-align: right;">
-                        {{ number_format($totalesIngresosV_suma + $totalesIngresosIE_suma, 2) }}
+                    <td>
+                        {{ number_format($totalesIngresosV_suma + $totalesIngresosIE_suma + $totalesIngresosS_suma, 2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 15px">
+                        Ventas
+                    </td>
+                    <td>
+                        {{ number_format($totalesIngresosV_suma, 2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 15px">
+                        Servicios
+                    </td>
+                    <td>
+                        {{ number_format($totalesIngresosS_suma, 2) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 15px">
+                        Otros Ingresos
+                    </td>
+                    <td>
+                        {{ number_format($totalesIngresosIE_suma, 2) }}
                     </td>
                 </tr>
 
-                <tr class="p-5">
-                    <td style="text-align: right;">
-                        Total Egresos
+                <tr>
+                    <td>
+                        Total Egresos en efectivo
                     </td>
-                    <td style="text-align: right;">
+                    <td>
                         {{ number_format($totalesEgresosIE_suma ?? 0, 2) }}
                     </td>
 
                 </tr>
-                <tr class="p-5">
-                    <td style="text-align: right;">
-                        Saldo Total
+
+                <tr>
+                    <td>
+                        Saldo Total de efectivo
                     </td>
-                    <td style="text-align: right;">
-                        {{ number_format($totalesIngresosV_suma + $totalesIngresosIE_suma - $totalesEgresosIE_suma ?? 0, 2) }}
+                    <td>
+                        {{ number_format($totalesIngresosV_suma + $totalesIngresosS_suma + $totalesIngresosIE_suma - $totalesEgresosIE_suma ?? 0, 2) }}
                     </td>
 
                 </tr>
 
-                <tr class="p-5">
-                    <td style="text-align: right;">
+                <tr>
+                    <td>
                         Operaciones Tigo Money
                     </td>
-                    <td style="text-align: right;">
-                        {{ number_format($total,2) }}
+                    <td>
+                        {{ number_format($tigo_op, 2) }}
                     </td>
 
                 </tr>
 
 
-                <tr class="p-5">
-                    <td style="text-align: right;">
+                <tr>
+                    <td>
                         Apertura Caja
                     </td>
-                    <td style="text-align: right;">
-                        @if($movimiento != null)
-                        {{ number_format($movimiento['import'], 2) }}
+                    <td>
+                        @if ($movimiento != null)
+                            {{ number_format($movimiento['import'], 2) }}
                         @endif
                     </td>
 
                 </tr>
 
-                <tr class="p-5">
-                    <td style="text-align: right;">
+                <tr>
+                    <td>
                         Sobrantes
                     </td>
-                    <td style="text-align: right;">
+                    <td>
                         {{ number_format($sobrante, 2) }}
                     </td>
 
 
                 </tr>
-                <tr class="p-5">
-                    <td style="text-align: right;">
+                <tr>
+                    <td>
                         Faltantes
                     </td>
-                    <td style="text-align: right;">
+                    <td>
                         {{ number_format($faltante, 2) }}
                     </td>
 
 
                 </tr>
-                <tr class="p-5">
-                    <td style="text-align: right;">
-                        Saldo al cierre de caja
-                    </td>
-                    <td style="text-align: right;">
-                        Bs. {{ $cierremonto }}
-                    </td>
+                <tr>
+                    @if ($cierremonto == 0)
+                        <td>
+                            Saldo antes del cierre de caja
+                        </td>
+                        <td>
+                            Bs.
+                            {{ number_format($totalesIngresosV_suma + $totalesIngresosS_suma + $totalesIngresosIE_suma - $totalesEgresosIE_suma + $tigo_op + $movimiento['import'] + $sobrante - $faltante ?? 0, 2) }}
+                        </td>
+                    @else
+                        <td>
+                            Saldo al cierre de caja
+                        </td>
+                        <td>
+                            Bs. {{ $cierremonto }}
+                        </td>
+                    @endif
 
                 </tr>
 
