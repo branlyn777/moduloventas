@@ -359,3 +359,22 @@ true
             </div>
         </div>
 </div>
+@section('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            
+            //Llamando a una nueva pestaña donde estará el pdf
+            window.livewire.on('opentap', Msg => {
+                // Abrir nuevo tab $idventa . '/' . $totalitems
+
+                var win = window.open('report/pdfmovdia');
+                // Cambiar el foco al nuevo tab (punto opcional)
+                win.focus();
+
+            });
+
+        });
+
+    </script>
+@endsection

@@ -529,27 +529,6 @@ class SaleDailyMovementController extends Component
         return $utilidad_total;
     }
 
-
-
-    //Buscar la utilidad de una venta mediante el idventa
-    // public function buscarutilidad($idventa)
-    // {
-    //     $utilidadventa = Sale::join('sale_details as sd', 'sd.sale_id', 'sales.id')
-    //     ->join('products as p', 'p.id', 'sd.product_id')
-    //     ->select('sd.quantity as cantidad','sd.price as precio','p.costo as costoproducto')
-    //     ->where('sales.id', $idventa)
-    //     ->get();
-
-    //     $utilidad = 0;
-
-    //     foreach ($utilidadventa as $item)
-    //     {
-    //         $utilidad = $utilidad + ($item->cantidad * $item->precio) - ($item->cantidad * $item->costoproducto);
-    //     }
-
-    //     return $utilidad;
-    // }
-
     //Buscar caja 
     public function verificar_caja_sucursal($idcaja, $idsucursal)
     {
@@ -584,14 +563,44 @@ class SaleDailyMovementController extends Component
     }
     public function generarpdf($data)
     {
-        //dd($data);
-        //$array = mysqli_fetch_array($data);
+        //Creando array asociativo
+
+        if($this->sucursal != "Todos")
+        {
+            $sucursal = Sucursal::find($this->sucursal)->name;
+        }
+        else
+        {
+            $sucursal = "Todos";
+        }
+
+        if($this->caja != "Todos")
+        {
+            $caja = Caja::find($this->caja)->nombre;
+        }
+        else
+        {
+            $caja = "Todos";
+        }
+
+
+
+        $datos = [
+            'sucursal' => $sucursal,
+            'caja' => $caja,
+            'dateFrom' => $this->dateFrom,
+            'dateTo' => $this->dateTo,
+            'timeFrom' => $this->timeFrom,
+            'timeTo' => $this->timeTo,
+        ];
+
+        session(['datostablareporte' => $datos]);
 
         
         session(['tablareporte' => $data]);
 
         //Redireccionando para crear el comprobante con sus respectvas variables
-        return redirect::to('report/pdfmovdia');
+        $this->emit("opentap");
     }
 
 

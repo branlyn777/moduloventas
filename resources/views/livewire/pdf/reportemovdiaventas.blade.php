@@ -4,177 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movimiento Diario</title>
-
-
-    
-
+    <title>Reporte Movimiento Diario Ventas</title>
     <style>
-    .contenedortabla{
-        /* overflow:scroll; */
-        overflow-x:auto;
-        /* max-height: 100%; */
-        /* min-height:200px; */
-        /* max-width: 100%; */
-        /* min-width:100px; */
-    }
+        .mytable table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        
+        .mytable th {
+          font-weight: bold;
+          text-align: center;
+        }
+        
+        .mytable thead th, td {
+          border: 0.5px solid black;
+          padding: 1px;
+          font-size: 11px;
+        }
 
-    .estilostable {
-    width: 100%;
-    font-size: 11px;
-    text-align:center;
-    border-spacing:  0px;
-    /* font-size: 8px; */
-    }
-    .estilostable2 {
-    font-size: 11px;
-    text-align:center;
-    border-spacing:  0px;
-    margin-left: auto;
-    margin-right: auto;
-    }
-    
-    .tablehead{
-        background-color: #383938;
-        color: aliceblue;
-    }
+        .mytable tbody tr, td {
+          border: 0.5px solid black;
+          padding: 1px;
+          font-size: 11px;
+        }
 
 
 
 
+
+
+
+
+
+        
+        .mytabletitle table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10px;
+        }
+        .mytabletitle td {
+            border: 0.5 solid rgb(255, 255, 255);
+        }
+        
+
+
+
+
+
+
+
+        
+
+        .text-center {
+            text-align: center;
+        }
+        .text-right {
+            padding-right: 7px;
+            text-align: right;
+        }
+        .parrafo {
+            font-size: 10px;
+        }
     </style>
-
+      
 </head>
 <body>
-    <div class="widget-heading">
-        <div class="col-12 col-lg-12 col-md-10">
-            <!-- Titulo Detalle Venta -->
-            <center><h4 class="card-title text-center"><b>REPORTE DE MOVIMIENTO DIARIO - VENTAS</b></h4></center>
-    
-        </div>
+
+    <div class="text-center">
+        <h4>Reporte Movimiento Diario Venta</h4>
     </div>
-    <table class="estilostable">
-        <thead>
-          <tr class="tablehead">
-            <th class="text-center">N°</th>
-            <th style="width: 100px;">FECHA</th>
-            <th style="width: 100px;">USUARIO</th>
-            <th>CARTERA</th>
-            <th style="width: 70px;">CAJA</th>
-            <th>MOVIMIENTO</th>
-            <th class="text-right" style="width: 70px;">IMPORTE</th>
-            <th class="text-center" style="width: 90px;">MOTIVO</th>
-            @if($permiso == true)
-            <th class="text-center">UTILIDAD</th>
-            {{-- <th class="text-center" style="width: 90px;">SUCURSAL</th> --}}
-            @endif
-          </tr>
-        </thead>
-        <tbody>
-            @foreach ($value as $item)
+
+    <div class="mytabletitle">
+        <table>
+            <thead>
+                <tr>
+                    <th>SUCURSAL</th>
+                    <th>CAJA</th>
+                    <th>FECHA DESDE</th>
+                    <th>FECHA HASTA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td>
+                        {{$datostablareporte['sucursal']}}
+                    </td>
+                    <td>
+                        {{$datostablareporte['caja']}}
+                    </td>
+                    <td>
+                        {{ \Carbon\Carbon::parse($datostablareporte['dateFrom'])->format('d/m/Y') }}
+                    </td>
+                    <td>
+                        {{ \Carbon\Carbon::parse($datostablareporte['dateTo'])->format('d/m/Y') }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <p class="text-center parrafo">
+        El rango de horas correspondientes a este reporte es desde las {{$datostablareporte['timeFrom']}} hasta las {{$datostablareporte['timeTo']}}
+    </p>
+
+    <div class="mytable">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>FECHA</th>
+                    <th>CARTERA</th>
+                    <th>CAJA</th>
+                    <th>INGRESO(Bs)</th>
+                    <th>EGRESO(Bs)</th>
+                    <th>MOTIVO</th>
+                    <th>UTILIDAD</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $d)
                 <tr>
                     <td class="text-center">
-                        {{$loop->iteration}}
+                        {{ $loop->iteration }}
                     </td>
-                    <td>
-                        {{ date("d/m/Y h:i A", strtotime($item['fecha'])) }}
+                    <td class="text-center">
+                        {{ \Carbon\Carbon::parse($d['fecha'])->format('d/m/Y H:i') }}
                     </td>
-                    <td>
-                        {{ $item['nombreusuario'] }}
+                    <td class="text-center">
+                        {{$d['nombrecartera']}}
                     </td>
-                    <td>
-                        {{ ucwords(strtolower($item['nombrecartera'])) }}
+                    <td class="text-center">
+                        {{$d['nombrecaja']}}
                     </td>
-                    <td>
-                    {{ ucwords(strtolower($item['nombrecaja'])) }}
-                    </td>
-                    @if($item['tipo'] == "INGRESO")
-                    <td style="color: rgb(8, 157, 212)">
-                        <b>{{ $item['tipo'] }}</b>
-                    </td>
-                    @else
-                    <td style="color: rgb(205, 21, 0)">
-                    <b>{{ $item['tipo'] }}</b>
-                    </td>
-                    @endif
                     <td class="text-right">
-                    {{ number_format($item['importe'],2) }} Bs
-                    </td>
-                    <td class="text-center">
-                    {{ ucwords($item['motivo']) }}
-                    </td>
-                    @if($permiso == true)
-                    <td class="text-center">
-                        @if($item['idmovimiento'] != '-')
-                        {{ number_format($item['idmovimiento'],2) }} Bs
+                        @if($d['tipo'] == "INGRESO")
+                            {{ number_format($d['importe'], 2, ',', '.') }}
                         @endif
                     </td>
-                    {{-- <td class="text-center">
-                    {{ ucwords($item['nombresucursal']) }}
-                    </td> --}}
-                    @endif
-                </tr>
-                @endforeach
-
-
-                
-                <tr>
-                    <td colspan="10"></td>
-                </tr>
-
-                <br>
-
-                @if($permiso == true)
-                <tr>
-                    <td colspan="8" class="text-left">
-                        TOTAL UTILIDAD
+                    <td class="text-right">
+                        @if($d['tipo'] == "EGRESO")
+                        {{ number_format($d['importe'], 2, ',', '.') }}
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        {{$d['motivo']}}
                     </td>
                     <td class="text-right">
-                        {{number_format($utilidad,2)}}
+                        {{ number_format($d['utilidad'], 2, ',', '.') }}
                     </td>
                 </tr>
-                @endif
-                <tr>
-                    <td colspan="8">
-
-                    </td>
-                </tr>
-
-                @foreach($listacarteras as $cartera)
-
-                    @if($cartera->totales != 0)
-                    <tr>
-                        <td colspan="8">Total en Cartera: {{ucwords(strtolower($cartera->nombre))}}</td>
-                        <td class="text-right">{{number_format($cartera->totales,2)}}</td>
-                    </tr>
-                    @endif
                 @endforeach
-
-
-
-
-
-
-
-
+            </tbody>
+            <tfoot>
                 <tr>
-
-                    <td colspan="8">TOTAL INGRESOS</td>
-                    <td class="text-right">{{number_format($ingreso,2)}} </td>
-                </tr>
-
-                <tr>
-
-                    <td colspan="8">TOTAL EGRESOS</td>
-                    <td class="text-right">{{number_format($egreso,2)}} </td>
+                    <td class="text-center">|</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
-
-                    <td class="text-letf" colspan="8">TOTAL INGRESOS - EGRESOS</td>
-                    <td class="text-right"> <b>{{number_format( $ingreso - $egreso,2)}}</b> </td>
+                    <td>
+                        
+                    </td>
+                    <td class="text-center">
+                        TOTAL
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($total_ingreso, 2, ',', '.') }}
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($total_egreso, 2, ',', '.') }}
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($total_utilidad, 2, ',', '.') }}
+                    </td>
                 </tr>
-        </tbody>
-    </table>
-
+            </tfoot>
+        </table>
+    </div>
 </body>
 </html>
