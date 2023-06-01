@@ -210,7 +210,6 @@ class ReporteMovimientoResumenController extends Component
                 'movimientos.id as idmov',
                 'order_services.id as order_id',
                 'services.solucion as servicio_solucion',
-                'services.costo as servicio_costo',
                 'c.tipo as ctipo',
                 'c.nombre as cnombre',
                 DB::raw('0 as caja')
@@ -340,7 +339,6 @@ class ReporteMovimientoResumenController extends Component
                         'movimientos.id as idmov',
                         'order_services.id as order_id',
                         'services.solucion as servicio_solucion',
-                        'services.costo as servicio_costo',
                         'c.tipo as ctipo',
                         'c.nombre as cnombre',
                         DB::raw('0 as caja')
@@ -427,7 +425,6 @@ class ReporteMovimientoResumenController extends Component
                     'movimientos.id as idmov',
                     'order_services.id as order_id',
                     'services.solucion as servicio_solucion',
-                    'services.costo as servicio_costo',
                     'c.tipo as ctipo',
                     'c.nombre as cnombre',
                     DB::raw('0 as caja')
@@ -446,14 +443,13 @@ class ReporteMovimientoResumenController extends Component
     public function listardetalleventas($idventa)
     {
         $listadetalles = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-        ->join("products as p", "p.id", "sale_details.product_id")
-        ->select(
+            ->join("products as p", "p.id", "sale_details.product_id")
+            ->select(
                 'sale_details.id as detalleid',
                 'p.nombre as nombre',
                 'sale_details.price as pv',
                 'sale_details.original_price as po',
-                'sale_details.quantity as cant',
-                DB::raw('0 as devolution')
+                'sale_details.quantity as cant'
             )
             ->where('sale_details.sale_id', $idventa)
             ->orderBy('sale_details.id', 'asc')
@@ -468,36 +464,23 @@ class ReporteMovimientoResumenController extends Component
             }
         }   
         return $listadetalles;
+        //dd($this->listadetalles);
     }
     public function utilidadventa($idventa)
     {
         $auxi = 0;
         $utilidad = 0;
 
+
         $salelist = SaleDetail::where('sale_id', $idventa)->get();
-        foreach ($salelist as $data)
-        {
+        foreach ($salelist as $data) {
             $sl = SaleLote::where('sale_detail_id', $data->id)->get();
-            foreach ($sl as $data2)
-            {
+            foreach ($sl as $data2) {
                 $lot = Lote::where('id', $data2->lote_id)->value('costo');
                 $auxi = $data->price * $data2->cantidad - $lot * $data2->cantidad;
                 $utilidad = $utilidad + $auxi;
+                //dd($lot);
             }
-
-            $devolution = SaleDevolution::where("sale_detail_id", $data->id)->where("status", "active")->get();
-
-            if($devolution->count() > 0)
-            {
-                foreach($devolution as $d)
-                {
-                    $utilidad = $utilidad - ($d->price - $d->cost);
-                }
-            }
-
-
-
-
         }
 
         return $utilidad;
@@ -506,6 +489,7 @@ class ReporteMovimientoResumenController extends Component
 
     public function operaciones()
     {
+       
         //Totales carteras tipo Caja Fisica
         $this->ingresosTotalesCF = $this->totalesIngresosV->where('ctipo', 'efectivo')
         ->sum('importe') + $this->totalesIngresosIE->where('ctipo', 'efectivo')->sum('importe') + $this->totalServicios->where('ctipo', 'efectivo')->sum('importe');
@@ -705,6 +689,7 @@ class ReporteMovimientoResumenController extends Component
         session(['totalIngresosS' => $totalServicios]);
         session(['totalIngresosIE' => $totalIE]);
         session(['totalEgresosIE' => $totalegresos]);
+
         session(['totalEgresosV' => $totalegresosv]);
 
         session(['ingresosTotalesBancos' => $this->ingresosTotalesBancos]);
@@ -746,7 +731,6 @@ class ReporteMovimientoResumenController extends Component
             ->where('movimientos.created_at', '<', Carbon::parse($mov->created_at)->toDateTimeString())
             ->select('cajas.id')
             ->value('cajas.id');
-       
 
         if ($caja_abierta != null) {
             return $caja_abierta;

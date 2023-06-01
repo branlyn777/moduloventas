@@ -21,27 +21,64 @@ class ExportMovDiaResController extends Controller
     {
         //Variables para la tbody
         $totalesIngresosV = session('totalIngresosV');
+        $totalesIngresosV_suma = 0;
+        foreach ($totalesIngresosV as $value) {
+            if ($value['ctipo'] == 'efectivo') {
+
+                $totalesIngresosV_suma += +$value['importe'];
+            }
+        }
+
+
+
         $totalesIngresosS = session('totalIngresosS');
+        $totalesIngresosS_suma = 0;
+        foreach ($totalesIngresosS as $value) {
+            if ($value['ctipo'] == 'efectivo') {
+
+                $totalesIngresosS_suma += +$value['importe'];
+            }
+        }
         $totalesIngresosIE = session('totalIngresosIE');
+        $totalesIngresosIE_suma = 0;
+        foreach ($totalesIngresosIE as $value) {
+            if ($value['ctipo'] == 'efectivo') {
+
+                $totalesIngresosIE_suma += +$value['importe'];
+            }
+        }
+
         $totalesEgresosV = session('totalEgresosV');
         $totalesEgresosIE = session('totalEgresosIE');
+
+
+        //dd($totalesEgresosIE);
 
         $ingresosTotalesBancos = session('ingresosTotalesBancos');
         $operacionsob = session('operacionsob');
         $operacionfalt = session('operacionfalt');
-      
+
+
+
+        $totalesEgresosIE_suma = 0;
+        foreach ($totalesEgresosIE as $valor) {
+            if ($valor['ctipo'] == 'efectivo') {
+
+                $totalesEgresosIE_suma += +$valor['importe'];
+            }
+        }
 
 
         //Variables para la tfoot
-        $ingresosTotalesCF = session('ingresosTotalesCF');//
-        $op_recaudo = session('op_recaudo');//
+        $ingresosTotalesCF = session('ingresosTotalesCF'); //
+        $op_recaudo = session('op_recaudo'); //
         $ingresosTotalesNoCFBancos = session('ingresosTotalesNoCFBancos');
         $total = session('total');
         $subtotalcaja = session('subtotalcaja');
         $operacionesefectivas = session('operacionesefectivas');
         $ops = session('ops');
         $operacionesW = session('operacionesW');
-        $EgresosTotales = session('EgresosTotales');
+
         $totalutilidadSV = session('totalutilidadSV');
         $EgresosTotalesCF = session('EgresosTotalesCF');
         $operaciones_tigo = session('op_tigo');
@@ -59,37 +96,31 @@ class ExportMovDiaResController extends Controller
         $fromDate = $caracteristicas[2];
         $toDate = $caracteristicas[3];
 
-        
-        if($sucursal != 'TODAS')
-        {
+
+        if ($sucursal != 'TODAS') {
             //$sucursal = Sucursal::find($sucursal)->name." - ".Sucursal::find($sucursal)->adress;
             $sucursal = Sucursal::find($sucursal)->name;
         }
-        
-        if($caja != 'TODAS')
-        {
+
+        if ($caja != 'TODAS') {
             $caja = Caja::find($caja)->nombre;
         }
 
-        //Calculando el total utilidad en servicios
-        $utilidad_servicios = 0;
-        foreach($totalesIngresosS as $s)
-        {
-            $utilidad_servicios = ($s['importe'] - $s['servicio_costo']) + $utilidad_servicios;
-        }
-
-
-        $totalutilidadSV = $totalutilidadSV + $utilidad_servicios;
 
         $nombreempresa = Company::find(1)->name;
         $logoempresa = Company::find(1)->horizontal_image;
 
-        $pdf = PDF::loadView('livewire.pdf.reportemovdiaresumen',
-        compact('totalesIngresosV','totalesIngresosS','totalesIngresosIE','totalesEgresosV','totalesEgresosIE',
+        $pdf = PDF::loadView(
+            'livewire.pdf.reportemovdiaresumen',
+            compact(
+                'totalesIngresosV',
+                'totalesIngresosS',
+                'totalesIngresosIE',
+                'totalesEgresosV',
+                'totalesEgresosIE',
                 'ingresosTotalesCF',
                 'ingresosTotalesNoCFBancos',
                 'operaciones_tigo',
-                'EgresosTotales',
                 'saldo_acumulado',
                 'EgresosTotalesCF',
                 'op_sob_falt',
@@ -111,10 +142,15 @@ class ExportMovDiaResController extends Controller
                 'operacionsob',
                 'operacionfalt',
                 'total',
-            ));
+                'totalesEgresosIE_suma',
+                'totalesIngresosV_suma',
+                'totalesIngresosS_suma',
+                'totalesIngresosIE_suma'
+            )
+        );
 
 
 
-        return $pdf->stream('Reporte_Movimiento_Diario_Resumen.pdf'); 
+        return $pdf->stream('Reporte_Movimiento_Diario_Resumen.pdf');
     }
 }

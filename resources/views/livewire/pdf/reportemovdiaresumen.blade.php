@@ -21,6 +21,9 @@
             font-size: 12px;
             border-spacing: 0px;
             color: black;
+            border: 0.5px solid rgb(204, 204, 204);
+            border-collapse: collapse;
+            margin: auto;
         }
 
         .estilostable .tablehead {
@@ -172,7 +175,7 @@
                                     @foreach ($row['detalle'] as $item)
                                         <tr class="">
                                             <td class="filarownombre">
-                                         
+
                                                 {{ substr($item['nombre'], 0, 25) }}
                                             </td>
                                             <td class="filarow">
@@ -221,9 +224,10 @@
                         </td>
 
                         <td class="text-center">
-                           Cod. Orden {{ $p['order_id'] }}, Servicio de  {{ ucwords(strtolower($p['servicio_solucion'])) }}
-                     
-                           ({{ $p['cnombre'] }})
+                            Cod. Orden {{ $p['order_id'] }}, Servicio de
+                            {{ ucwords(strtolower($p['servicio_solucion'])) }}
+
+                            ({{ $p['cnombre'] }})
                         </td>
                         <td style="text-align: right;">
                             {{ number_format($p['importe'], 2) }}
@@ -231,10 +235,7 @@
                         <td>
 
                         </td>
-                        <td style="text-align: right;">
-                            {{ number_format($p['importe'] - $p['servicio_costo'] , 2) }}
-                        </td>
-               
+
                     </tr>
                     <tr>
                         <td></td>
@@ -363,7 +364,7 @@
                         <b>{{ number_format($ingresosTotalesCF, 2) }}</b>
                     </td>
                     <td style="text-align: right;">
-                        <b>{{ number_format($EgresosTotales, 2) }}</b>
+                        <b>{{ number_format($totalesEgresosIE_suma, 2) }}</b>
                     </td>
                     @if (@Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
                         <td style="text-align: right;">
@@ -402,130 +403,264 @@
 
 
         <div>
-       
-         
-                <div class="table-responsive">
-                    <table class="estilostable">
-                        <tbody>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS EN EFECTIVO
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF, 2) }}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS POR BANCOS
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($ingresosTotalesBancos, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    INGRESOS TOTALES
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF+$ingresosTotalesBancos, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    EGRESOS TOTALES EN EFECTIVO
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($EgresosTotalesCF, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    SALDO INGRESOS/EGRESOS TOTALES
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF, 2) }}
-                                </td>
-                            </tr>
-                            <tr class="p-5">
-                                <td style="text-align: right; padding-right: 10px;">
-                                    OPERACIONES TIGO MONEY
-                                </td>
-                                <td style="text-align: right;">
-                                    {{number_format($operaciones_tigo,2)}}
-                                </td>
-                            </tr>
-                            <tr class="p-5">
-                                <td style="text-align: right; padding-right: 10px;">
-                                    Saldo Acumulado ant. al Periodo
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{number_format($saldo_acumulado,2)}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; padding-right: 10px;">
-                                    <b>
-                                        Efectivo antes de Ajustes
-                                    </b>
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo+$saldo_acumulado, 2) }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <br>
 
 
-                <div class="table-responsive">
-                    <table class="estilostable">
-                        <tbody>
-                            <tr>
-                                <td style="text-align: right;">
-                                    Recaudo de Efectivo
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($op_recaudo, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                   Efectivo Sobrantes
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($operacionsob, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">
-                                   Efectivo Faltante
-                                </td>
-                                <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
-                                    {{ number_format($operacionfalt, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right; ">
-                                    Total Efectivo
-                                </td>
-                                <td style="text-align: right;">
-                                    {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo-$op_recaudo+$operacionsob-$operacionfalt+$saldo_acumulado, 2) }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-       
+            {{-- <div class="table-responsive">
+                <table class="estilostable">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                INGRESOS EN EFECTIVO
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($ingresosTotalesCF, 2) }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                INGRESOS POR BANCOS
+                            </td>
+                            <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                {{ number_format($ingresosTotalesBancos, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                INGRESOS TOTALES
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($ingresosTotalesCF + $ingresosTotalesBancos, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                EGRESOS TOTALES EN EFECTIVO
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($EgresosTotalesCF, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                SALDO INGRESOS/EGRESOS TOTALES
+                            </td>
+                            <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                {{ number_format($ingresosTotalesCF - $EgresosTotalesCF, 2) }}
+                            </td>
+                        </tr>
+                        <tr class="p-5">
+                            <td style="text-align: right; padding-right: 10px;">
+                                OPERACIONES TIGO MONEY
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($operaciones_tigo, 2) }}
+                            </td>
+                        </tr>
+                        <tr class="p-5">
+                            <td style="text-align: right; padding-right: 10px;">
+                                Saldo Acumulado ant. al Periodo
+                            </td>
+                            <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                {{ number_format($saldo_acumulado, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; padding-right: 10px;">
+                                <b>
+                                    Efectivo antes de Ajustes
+                                </b>
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($ingresosTotalesCF - $EgresosTotalesCF + $operaciones_tigo + $saldo_acumulado, 2) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> --}}
+
+            <br>
+
+
+            {{-- <div class="table-responsive">
+                <table class="estilostable">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: right;">
+                                Recaudo de Efectivo
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($op_recaudo, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                Efectivo Sobrantes
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($operacionsob, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">
+                                Efectivo Faltante
+                            </td>
+                            <td style="text-align: right; border-bottom: 1px solid rgb(0, 0, 0);">
+                                {{ number_format($operacionfalt, 2) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; ">
+                                Total Efectivo
+                            </td>
+                            <td style="text-align: right;">
+                                {{ number_format($ingresosTotalesCF - $EgresosTotalesCF + $operaciones_tigo - $op_recaudo + $operacionsob - $operacionfalt + $saldo_acumulado, 2) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> --}}
+
         </div>
 
 
 
 
     </div>
+
+
+
+    <table class="estilostable" style="width: 300px">
+
+        <thead>
+            <tr class="tablehead">
+                <th class="text-center" colspan="2">Resumen de efectivo</th>
+
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Total Ingresos en efectivo
+                </td>
+                <td>
+                    {{ number_format($ingresosTotalesCF, 2) }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px">
+                    Ventas
+                </td>
+                <td>
+                    {{ number_format($totalesIngresosV_suma, 2) }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px">
+                    Servicios
+                </td>
+                <td>
+                    {{ number_format($totalesIngresosS_suma, 2) }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px">
+                    Otros Ingresos
+                </td>
+                <td>
+                    {{ number_format($totalesIngresosIE_suma, 2) }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Total Egresos en efectivo
+                </td>
+                <td>
+                    {{ number_format($EgresosTotalesCF ?? 0, 2) }}
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    Saldo Total de efectivo
+                </td>
+                <td>
+                    {{ number_format($ingresosTotalesCF - $EgresosTotalesCF ?? 0, 2) }}
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    Operaciones Tigo Money
+                </td>
+                <td>
+                    {{ number_format($operaciones_tigo, 2) }}
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td>
+                    Saldo inicial de caja del periodo
+                </td>
+                <td>
+
+                    {{ number_format($saldo_acumulado, 2) }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    Sobrantes
+                </td>
+                <td>
+                    {{ number_format($operacionsob, 2) }}
+                </td>
+
+
+            </tr>
+            <tr>
+                <td>
+                    Faltantes
+                </td>
+                <td>
+                    {{ number_format($operacionfalt, 2) }}
+                </td>
+
+
+            </tr>
+            <tr>
+                <td>
+                    Recaudo
+                </td>
+                <td>
+                    {{ number_format($op_recaudo, 2) }}
+                </td>
+
+
+            </tr>
+            <tr>
+              
+                    <td>
+                        Saldo final de efectivo
+                    </td>
+                    <td>
+                        Bs. {{ number_format($ingresosTotalesCF-$EgresosTotalesCF+$operaciones_tigo+$operacionsob-$operacionfalt-$op_recaudo+$saldo_acumulado, 2) }}
+                    </td>
+           
+
+            </tr>
+
+        </tbody>
+    </table>
+
 
     <br>
     <br>
