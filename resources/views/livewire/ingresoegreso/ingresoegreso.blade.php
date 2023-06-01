@@ -316,7 +316,7 @@
                                         {{ \Carbon\Carbon::parse($p->movimientoCreacion)->format(' H:i:s') }}
                                     </td>
 
-                                    <td class="text-sm">
+                                    <td class="text-sm" style="word-wrap: break-word; white-space: normal">
                                         {{ $p->usuarioNombre }}
                                     </td>
 
@@ -346,7 +346,7 @@
                                         <br>{{ $p->nombre }}
 
                                     </td>
-                                    <td class="text-sm">
+                                    <td class="text-sm" style="word-wrap: break-word; white-space: normal">
                                         @if ($p->tipoDeMovimiento == 'SOBRANTE')
                                             SOBRANTE:{{ $p->comentario }}
                                         @elseif($p->tipoDeMovimiento == 'FALTANTE')
@@ -429,13 +429,25 @@
 
             });
             window.livewire.on('form_recibo', Msg => {
-                $('#modalreciboform').modal('show')
+                $('#modalreciboform').modal('show');
 
             });
             window.livewire.on('form_recibo_close', Msg => {
-                $('#modalreciboform').modal('hide')
+                $('#modalreciboform').modal('hide');
 
             });
+
+            window.livewire.on('openothertaprecibo', Msg => {
+           
+                var win = window.open('comprobante/operaciones/'+@this.mov_sel+'/'+@this.persona_recibo);
+                // Cambiar el foco al nuevo tab (punto opcional)
+                win.focus();
+
+
+            
+            });
+
+          
 
             window.livewire.on('openothertap', Msg => {
                 var win = window.open('report/pdfingresos');
@@ -443,6 +455,8 @@
                 //win.focus();
 
             });
+
+
 
             function ConfirmarOperacionSinCorte() {
                 swal({

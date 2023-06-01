@@ -360,7 +360,7 @@
                                                         <li>
                                                             <hr class="dropdown-divider">
                                                         </li>
-                                                        <li><a class="dropdown-item" href="/operacionesinv">Historial
+                                                        <li><a class="dropdown-item" href="operacionesinv">Historial
                                                                 de Ajuste</a></li>
 
                                                     </ul>

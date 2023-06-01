@@ -521,8 +521,7 @@ class IngresoEgresoController extends Component
 
         $this->validate($rules, $messages);
         //dd($this->persona_recibo);
-        return Redirect::to('comprobante/operaciones/'.$this->mov_sel.'/'.$this->persona_recibo);
-        $this->resetRecibo();
+       $this->emit('openothertaprecibo');
     }
 
     public function resetRecibo(){

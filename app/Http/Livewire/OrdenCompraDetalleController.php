@@ -36,11 +36,21 @@ public $fecha,$search,$provider,$vs=[],$order=1,$itemsQuantity,$prod,$destino,$o
     {
         if (strlen($this->search) > 0)
         $this->prod = Product::select('products.*')
-        ->where('nombre', 'like', '%' . $this->search . '%')
-        ->where('status','ACTIVO')
-        ->orWhere('codigo','like','%'.$this->search.'%')
-        ->orWhere('marca','like','%'.$this->search.'%')
-        ->orWhere('id','like','%'.$this->search.'%')
+        ->where(function ($query) {
+            $query->where(function ($query) {
+                $query->where('products.nombre', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.caracteristicas', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.marca', 'like', '%' . $this->search . '%')
+                    ->orWhere('products.codigo', 'like', '%' . $this->search . '%');
+            })
+            ->orderByRaw("CASE
+                WHEN products.nombre LIKE '%" . $this->search . "%' THEN 1
+                WHEN products.caracteristicas LIKE '%" . $this->search . "%' THEN 2
+                WHEN products.marca LIKE '%" . $this->search . "%' THEN 3
+                WHEN products.codigo LIKE '%" . $this->search . "%' THEN 4
+                ELSE 5
+            END");
+        })
         ->take(5)
         ->get();
     

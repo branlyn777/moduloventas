@@ -17,11 +17,22 @@
 
             margin: auto;
         }
-        .filarowx{
+
+        .filarowx {
             margin-top: 6rem;
             border: 0.5px solid rgb(255, 255, 255);
             width: 100%;
             text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .izquierda {
+            text-align: left;
+        }
+
+        .derecha {
+            text-align: right;
+            min-width: 400px;
         }
     </style>
 
@@ -30,8 +41,14 @@
 <body>
 
 
+
+
+
     <div class="cajaestilo">
+
+
         <table style="width: 100%;">
+
             <tr class="mb-4">
                 <td style="padding-left: 2px;margin-top: 2px;width: 33%;">
                     <img src="{{ asset('storage/iconos/' . $logoempresa) }}" height="50px">
@@ -47,33 +64,35 @@
                 </td>
 
             </tr>
-            <tr>
-                <td>
-                    <b>Fecha:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}
-                    <br>
-                    <b>Monto Bs.</b>:{{ $importe }}
-                </td>
-                <td>
+        </table>
 
+
+        <table style="width: 100%;">
+
+            <tr>
+                <td class="izquierda">
+                    <b>Fecha:</b> {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}<br>
+                    <b>Monto Bs.</b>: {{ $importe }}
                 </td>
-                <td>
-                    <b>Recibido por:</b>{{ $nombreusuario }}
-                    <br>
+                <td></td>
+                <td class="derecha">
                     @if ($tipoMovimiento == 'INGRESO')
+                        <b>Recibido por:</b> {{ $nombreusuario }}<br>
                         <b>Pago efectuado por:</b> {{ $nombrepersona }}
                     @else
+                        <b>Pago realizado por:</b> {{ $nombreusuario }}<br>
                         <b>Pago efectuado a:</b> {{ $nombrepersona }}
                     @endif
                 </td>
-
-
             </tr>
+
 
 
         </table>
 
         <div>
-            <p style="border-radius: 11px;border: 1px solid #5a5a5a; padding-left: 1.8%; padding-top: 0.4rem; padding-bottom: 3rem">
+            <p
+                style="border-radius: 11px;border: 1px solid #5a5a5a; padding-left: 1.8%; padding-top: 0.4rem; padding-bottom: 3rem">
                 <b>Por Concepto de:</b> {{ $motivo == '' ? S / N : $motivo }}
             </p>
         </div>
@@ -81,28 +100,30 @@
             <tbody>
                 <tr class="filarowx">
                     <td>
-                        
+
                     </td>
                     <td class="text-center">
-                        <hr style="height: 0.5px;
+                        <hr
+                            style="height: 0.5px;
                         width: 150px;
                         background-color: rgb(0, 0, 0);">
                         RECIBIDO POR
                     </td>
                     <td>
-                        
+
                     </td>
                     <td class="text-center">
-                        <hr style="height: 0.5px;
+                        <hr
+                            style="height: 0.5px;
                         width: 150px;
                         background-color: rgb(0, 0, 0);">
-                       ENTREGADO POR
+                        ENTREGADO POR
                     </td>
                     <td>
-                        
+
                     </td>
                 </tr>
-      
+
             </tbody>
         </table>
     </div>
