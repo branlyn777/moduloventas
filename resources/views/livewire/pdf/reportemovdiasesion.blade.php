@@ -423,6 +423,16 @@
 
                 </tr>
                 <tr>
+                    <td>
+                        Recaudo
+                    </td>
+                    <td>
+                        {{ number_format($recaudo, 2) }}
+                    </td>
+
+
+                </tr>
+                <tr>
                     @if ($cierremonto == 0)
                         <td>
                             Saldo antes del cierre de caja

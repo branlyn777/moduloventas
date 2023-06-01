@@ -29,6 +29,7 @@ class ExportMovDiaSesionController extends Controller
         $faltante = session('faltante');
         $cierremonto = session('cierremonto');
         $tigo_op = session('tigo');
+        $recaudo = session('recaudop');
 
 
 
@@ -93,7 +94,8 @@ class ExportMovDiaSesionController extends Controller
                 'sobrante',
                 'faltante',
                 'cierremonto',
-                'tigo_op'
+                'tigo_op',
+                'recaudo'
             )
         );
 

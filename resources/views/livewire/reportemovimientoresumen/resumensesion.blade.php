@@ -553,6 +553,14 @@
                         <div class="p-2 bd-highlight"><span class="me-5"> <b>{{ number_format($faltante, 2) }}</span>
                         </div>
                     </div>
+                    <div class="d-flex bd-highlight mb-3">
+                        <div class="me-auto p-2 bd-highlight">
+                            <h6 class="text-lg">Recaudo: </h6>
+                        </div>
+
+                        <div class="p-2 bd-highlight"><span class="me-5"> <b>{{ number_format($recaudo, 2) }}</span>
+                        </div>
+                    </div>
 
 
 

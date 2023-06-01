@@ -26,7 +26,7 @@ class ResumenSesionController extends Component
 {
     public $cartera_mov;
 
-    public $apertura, $cierre,$apertura_monto ,$movimiento, $usuario, $totalsesion,$totalesServicios, $operacionestigo, $totalesIngresosV, $totalesIngresosIE, $totalesEgresosIE, $sobrante, $faltante, $cierremonto, $total, $caja;
+    public $apertura, $cierre,$apertura_monto ,$recaudo,$movimiento, $usuario, $totalsesion,$totalesServicios, $operacionestigo, $totalesIngresosV, $totalesIngresosIE, $totalesEgresosIE, $sobrante, $faltante, $cierremonto, $total, $caja;
     public function mount($id)
     {
         //se recibe el id de cartera movimiento
@@ -160,8 +160,16 @@ class ResumenSesionController extends Component
                 ->where('movimientos.created_at', '>', Carbon::parse($this->apertura)->toDateTimeString())
                 ->where('u.id', $this->usuario)
                 ->sum('import');
+            $this->recaudo= Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                ->join('carteras', 'carteras.id', 'crms.cartera_id')
+                ->join('users as u', 'u.id', 'movimientos.user_id')
+                ->where('crms.tipoDeMovimiento', 'RECAUDO')
+                ->where('movimientos.created_at', '>', Carbon::parse($this->apertura)->toDateTimeString())
+                ->where('u.id', $this->usuario)
+                ->sum('import');
+            
 
-                $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
+            $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import-$this->recaudo;
 
             } else {
 
@@ -268,8 +276,16 @@ class ResumenSesionController extends Component
                 ->whereBetween('movimientos.created_at', [Carbon::parse($this->apertura)->toDateTimeString(), Carbon::parse($this->cierre)->toDateTimeString()])
                 ->where('u.id', $this->usuario)
                 ->sum('import');
+            $this->recaudo = Movimiento::join('cartera_movs as crms', 'crms.movimiento_id', 'movimientos.id')
+                ->join('carteras', 'carteras.id', 'crms.cartera_id')
+                ->join('users as u', 'u.id', 'movimientos.user_id')
+                ->where('crms.tipoDeMovimiento', 'RECAUDO')
+                ->whereBetween('movimientos.created_at', [Carbon::parse($this->apertura)->toDateTimeString(), Carbon::parse($this->cierre)->toDateTimeString()])
+                ->where('u.id', $this->usuario)
+                ->sum('import');
 
-                $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->where('ctipo','efectivo')->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import;
+
+                $this->totalsesion=$this->totalesIngresosV->where('ctipo','efectivo')->sum('importe')+$this->totalesServicios->where('ctipo','efectivo')->sum('importe')+$this->totalesIngresosIE->where('ctipo','efectivo')->sum('importe')-$this->totalesEgresosIE->where('ctipo','efectivo')->sum('importe')-$this->faltante+$this->sobrante+$this->operacionestigo+$this->movimiento->import-$this->recaudo;
 
         }
 
@@ -347,6 +363,7 @@ class ResumenSesionController extends Component
         session(['cierremonto' => $this->cierremonto]);
         session(['total' => $this->total]);
         session(['tigo' => $this->operacionestigo]);
+        session(['recaudop' => $this->recaudo]);
 
         $this->emit('opentap');
     }
