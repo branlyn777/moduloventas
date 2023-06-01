@@ -322,6 +322,7 @@ class ReporteMovimientoResumenController extends Component
                     )
                     ->where('movimientos.status', 'ACTIVO')
                     ->where('crms.type', 'EGRESO')
+                    ->where('crms.comentario', 'Devolución Venta')
                     ->where('crms.tipoDeMovimiento', 'VENTA')
                     ->where('ca.sucursal_id', $this->sucursal)
                     ->whereBetween('movimientos.created_at', [Carbon::parse($this->fromDate)->format('Y-m-d') . ' 00:00:00', Carbon::parse($this->toDate)->format('Y-m-d') . ' 23:59:59'])
@@ -463,7 +464,7 @@ class ReporteMovimientoResumenController extends Component
             $dev = SaleDevolution::where("sale_detail_id", $ld->detalleid)->where("status","active")->get();
             if($dev->count() > 0)
             {
-                $ld->devolution = "Este producto tuvo devolución de " . $dev->sum("quantity") . " unidades. El dinero devuelto fue de " . $dev->sum("amount") . " Bs";
+                $ld->devolution = "Este producto tiene una devolución de " . $dev->sum("quantity") . " unidades. El dinero devuelto fue de " . $dev->sum("amount") . " Bs";
             }
         }   
         return $listadetalles;
@@ -711,11 +712,12 @@ class ReporteMovimientoResumenController extends Component
         session(['operacionfalt' => $this->operacionfalt]);
 
         session(['ingresosTotalesCF' => $this->ingresosTotalesCF]); //
+        session(['EgresosTotales' => $this->EgresosTotales]); //
         session(['op_recaudo' => $this->op_recaudo]); //
         session(['total' => $this->total]);
-
         session(['totalutilidadSV' => $this->totalutilidadSV]);
         session(['EgresosTotalesCF' => $this->EgresosTotalesCF]);
+
 
         session(['op_tigo' => $this->operaciones_tigo]);
         session(['saldo_acumulado' => $this->saldo_acumulado]);

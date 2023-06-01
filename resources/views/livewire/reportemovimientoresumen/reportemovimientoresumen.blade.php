@@ -441,10 +441,10 @@
                                                                 <th class="text-xs">Fecha</th>
                                                                 <th class="text-xs text-left">Detalle</th>
                                                                 {{-- <th class="text-xs ie">
-                                                @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-                                                    Utilidad
-                                                @endif
-                                            </th> --}}
+                                                                    @if (Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
+                                                                        Utilidad
+                                                                    @endif
+                                                                </th> --}}
                                                                 <th class="text-xs ie">Importe</th>
                                                             </tr>
                                                         </thead>

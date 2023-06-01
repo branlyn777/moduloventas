@@ -195,6 +195,13 @@
                                                 {{ number_format($item['pv'] * $item['cant'], 2) }}
                                             </td>
                                         </tr>
+                                        <tr>
+                                            @if($item['devolution'] != "0")
+                                            <td colspan="6" style="color: red;">
+                                                {{$item['devolution']}}
+                                            </td>
+                                            @endif
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
