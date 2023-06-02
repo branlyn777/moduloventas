@@ -61,6 +61,7 @@ use App\Http\Livewire\TransferirProductoController;
 use App\Http\Livewire\UnidadesController;
 use App\Http\Livewire\UsersController;
 use App\Http\Controllers\ExportIngresosController;
+use App\Http\Controllers\ExportMovDiaSesionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -93,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('sesiones',SesionesListaController::class)->name('sesioneslista');
     Route::get('/sesiones/{id}',ResumenSesionController::class)->name('sesiones');
     Route::get('report/pdfmovdiaresumen', [ExportMovDiaResController::class, 'reportPDFMovDiaResumen']);
+    Route::get('sesiones/report/pdfmovdiasesion', [ExportMovDiaSesionController::class, 'reportPDFMovDiaSesion']);
     Route::get('cotizacion', CotizationController::class)->name('cotizacion');
     Route::get('ingresoegreso', IngresoEgresoController::class)->name('ingreso_egreso');
 

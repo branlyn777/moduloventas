@@ -257,13 +257,13 @@
                                                             <i class="fas fa-bars" style="font-size: 14px"></i>
                                                         </button>
 
-                                                        <button type="button" class="btn btn-danger"
+                                                        {{-- <button type="button" class="btn btn-danger"
                                                         wire:click="Confirm('{{ $item->id }}')"
                                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                                                         title="Anular operacion">
                                                         <i class="fas fa-minus-circle text-white"
                                                             style="font-size: 14px"></i>
-                                                    </button>
+                                                    </button> --}}
 
                                                     </div>
                                                 </td>

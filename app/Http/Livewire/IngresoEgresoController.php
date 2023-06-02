@@ -267,7 +267,7 @@ class IngresoEgresoController extends Component
             'comentario' => $this->comentario,
             'cartera_id' => $this->cartajusteselected,
             'movimiento_id' => $mvt->id,
-            'cartera_mov_categoria_id' => $this->categoria_ie_id
+            'cartera_mov_categoria_id' => $this->cantidad > $this->saldo_cartera_aj ? 'SOBRANTE' : 'FALTANTE'
         ]);
 
         $cartera = Cartera::find($this->cartajusteselected);

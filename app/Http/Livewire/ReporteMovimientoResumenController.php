@@ -606,13 +606,11 @@ class ReporteMovimientoResumenController extends Component
         session(['totalIngresosIE' => $totalIE]);
         session(['totalEgresosIE' => $totalegresos]);
         session(['totalEgresosV' => $totalegresosv]);
-
-        session(['ingresosTotalesBancos' => $this->ingresosTotalesBancos]);
         session(['operacionsob' => $this->operacionsob]); 
         session(['operacionfalt' => $this->operacionfalt]);
 
-        session(['ingresosTotalesCF' => $this->ingresosTotalesCF]); //
-        session(['op_recaudo' => $this->op_recaudo]); //
+        session(['ingresosTotalesCF' => $this->ingresosTotalesCF]);
+        session(['op_recaudo' => $this->op_recaudo]);
         session(['total' => $this->total]);
 
         session(['totalutilidadSV' => $this->totalutilidadSV]);

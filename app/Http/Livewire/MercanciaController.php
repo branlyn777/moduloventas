@@ -101,8 +101,7 @@ class MercanciaController extends Component
                     ->when($this->search != null, function ($query) {
                         return $query->where('users.name', 'like', '%' . $this->search . '%')
                         ->orWhere('destinos.nombre', 'like', '%' . $this->search . '%');
-                    })
-                    ->get();
+                    })->get();
                 }
 
                 break;
