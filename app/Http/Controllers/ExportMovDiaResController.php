@@ -21,6 +21,8 @@ class ExportMovDiaResController extends Controller
     {
         //Variables para la tbody
         $totalesIngresosV = session('totalIngresosV');
+
+
         $totalesIngresosV_suma = 0;
         foreach ($totalesIngresosV as $value) {
             if ($value['ctipo'] == 'efectivo') {
