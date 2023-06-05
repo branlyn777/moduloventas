@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Orden de Compra Código: </h5>
+                <h5 class="modal-title text-white" style="font-size: 14px" id="exampleModalCenterTitle">Detalle Orden de Compra </h5>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr class="text-center" style="font-size: 13px">
-                                            <th>No</th>
+                                            <th>N°</th>
                                             <th style="text-align: left">Nombre</th>
                                             <th>Precio (Bs)</th>
                                             <th>Cantidad</th>

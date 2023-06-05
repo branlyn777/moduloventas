@@ -45,21 +45,23 @@
                             <div class="col-12">
                                 <div class="row">
 
-                                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                                        <div class="ms-auto my-auto">
-                                            <div class="text-center">
-                                                <b>Fecha Inicio</b>
-                                                <div class="form-group">
-                                                    <input type="date" wire:model="fromDate" class="form-control">
-                                                </div>
+                                    <div class="col-6">
+                                        <div class="text-center">
+                                            <label>Fecha Inicio</label>
+                                            <div class="form-group">
+                                                <input type="date" wire:model="fromDate" class="form-control">
                                             </div>
-
-                                            <div class=" text-center">
-                                                <b>Fecha Fin</b>
-                                                <div class="form-group">
-                                                    <input type="date" wire:model="toDate" class="form-control">
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class=" text-center">
+                                            <label>Fecha Fin</label>
+                                            <div class="form-group">
+                                                <input type="date" wire:model="toDate" class="form-control">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">                                        
                                             @if ($errorDate !=null)
                                             <span class="text-danger er">{{ $errorDate }}</span>
                                             @endif
@@ -75,20 +77,23 @@
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <div class="form-group">
-                        <label>Sugerir para:</label>
-                        <div class="input-group mb-4">
-                            <input type="number" wire:model="dias" class="form-control" placeholder="ej: 7">
-                            <span class="input-group-text">
-                                Dias
-                            </span>
+                <div class="row p-2">
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Sugerir para:</label>
+                            <div class="input-group mb-4">
+                                <input type="number" wire:model="dias" class="form-control" placeholder="ej: 7">
+                                <span class="input-group-text">
+                                    Dias
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row justify-content-center m-auto">
-                    <h6 class="col-lg-12">Pronostico del proximo pedido</h6>
+                <div class="row justify-content-center m-auto border rounded-4 mb-2">
+                    <label class="col-lg-12">Pronostico del proximo pedido:</label>
                     <h5>{{ $calculado }} Uds.</h5>
                 </div>
                 <div class="modal-footer">

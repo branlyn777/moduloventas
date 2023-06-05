@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card-header pb-0">
-                <div class="d-lg-flex">
+              
                     <div>
                         <h5 class="mb-0 text-white" style="font-size: 16px">Orden Compra</h5>
                     </div>
@@ -60,7 +60,7 @@
                                 data-bs-target="#theModal">Registrar Producto</a> --}}
                         </div>
                     </div>
-                </div>
+            
             </div><br>
             <div class="card mb-4 py-4">
                 <div class="card-body p-3">
@@ -99,74 +99,90 @@
                             @enderror
                         </div> --}}
 
-                
+
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-4">
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="form-group">
-                                <h6>Busqueda Productos</h6>
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text" style="border-color: #2e48dc; background-color: #2e48dc">
-                                        <i class="fa fa-search text-white"></i>
-                                    </span>
-                                    <input type="text" wire:model="search" placeholder="Buscar nombre o codigo de producto" class="form-control ps-2" style="border-color: #2e48dc" >
+                            <div class="row">
+                                <div class="col">
+        
+                                    <h6>Busqueda Productos</h6>
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-text" style="border-color: #2e48dc; background-color: #2e48dc">
+                                            <i class="fa fa-search text-white"></i>
+                                        </span>
+                                        <input type="text" wire:model="search"
+                                            placeholder="Buscar nombre o codigo de producto" class="form-control ps-2"
+                                            style="border-color: #2e48dc">
+                                    </div>
+        
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+        
+                                    @if (strlen($search) > 0)
+                                        <div class="table-responsive">
+                                            <div class="fixed-columns">
+                                                <div class="dataTable-container">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-xs">Producto</th>
+                                                                <th class="text-xs">Acción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($prod as $producto)
+                                                                <tr>
+                                                                   
 
-                            @if (strlen($search) > 0)
-                                <div class="table-wrapper">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 500px">Producto</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($prod as $producto)
-                                                <tr>
-                                                    <td>
-                                                        <label style="font-size: 14px">
-                                                            {{ $producto->nombre }}    ({{ $producto->codigo }})
-                                                            <h6 class='text-xs'>{{ $producto->caracteristicas }}</h6>
-                                                        
-                                                        </label>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a wire:click="InsertarProducto({{ $producto->id }})"
-                                                            class="btn btn-primary"
-                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                            <i class="fas fa-plus"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal">
+                                                                        <strong>{{ $producto->nombre }}</strong>
+                                                                        ({{ $producto->codigo }})<br>
+                                                                      
+                                                                      </td>
+                                                                    <td class="text-center">
+                                                                        <a wire:click="InsertarProducto({{ $producto->id }})"
+                                                                            class="btn btn-primary"
+                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+        
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8 mb-4 mb-md-0">
+                <div class="col-8 col-sm-8 col-md-8">
                     <div class="card p-3"><br>
                         <div class="text-center">
                             <h6>Detalle Registro Orden de Compra</h6>
                         </div>
                         @if ($cart->isNotEmpty())
-                        <div class="table-responsive">
+                            <div class="table-responsive">
                                 <table class="table mb-4">
                                     <thead>
                                         <tr class="text-center" style="font-size: 14px; color: black;">
+                                            <th class="text-uppercase text-sm">N°</th>
                                             <th class="text-uppercase text-sm text-start ps-2">Producto</th>
-                                            <th class="text-uppercase text-sm ps-2">Precio Compra</th>
+                                            <th class="text-uppercase text-sm text-center ps-2">Precio Compra</th>
                                             <th class="text-uppercase text-sm text-center">Cantidad</th>
                                             <th class="text-uppercase text-sm text-center">Total</th>
                                             <th class="text-uppercase text-sm text-center">Acción</th>
@@ -174,28 +190,33 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($cart->sortBy('order') as $prod)
-                                            <tr style="font-size: 14px; color: black;">
+                                            <tr>
+                                                <td class='text-xs text-center'>
+                                                    {{ $loop->iteration }}
+                                                </td>
                                                 <td>
-                                      
-
-                                                    <h6 class='text-xs'>
+                                                    <h6 class='text-xs'
+                                                        style="font-size: 12px;word-wrap: break-word; white-space: normal">
                                                         {{ $prod['product_name'] }}
-                                                        <br>
+                                                    </h6>
+                                                    <h6 class="text-xs">
+
                                                         ({{ $prod['product_code'] }})
                                                     </h6>
+
                                                 </td>
 
                                                 <td>
                                                     <input type="number" id="r{{ $prod['product_id'] }}"
                                                         wire:change="actualizarPrecio({{ $prod['product_id'] }}, $('#r' + {{ $prod['product_id'] }}).val() )"
-                                                        style="font-size: 0.8rem!important; padding:0!important"
+                                                        style="font-size: 0.8rem!important; padding:0!important;width:120px;margin:auto;"
                                                         class="form-control text-center" value="{{ $prod['price'] }}">
                                                 </td>
 
                                                 <td>
                                                     <input type="number" id="rr{{ $prod['product_id'] }}"
                                                         wire:change="actualizarCantidad({{ $prod['product_id'] }}, $('#rr' + {{ $prod['product_id'] }}).val() )"
-                                                        style="font-size: 0.8rem!important; padding:0!important"
+                                                        style="font-size: 0.8rem!important; padding:0!important;width:120px;margin:auto;"
                                                         class="form-control text-center"
                                                         value="{{ $prod['quantity'] }}">
                                                 </td>
@@ -223,25 +244,29 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <u><h5><b>Total Bs. {{ number_format($total, 2) }}</b></h5></u>
+                                    <u>
+                                        <h5><b>Total Bs. {{ number_format($total, 2) }}</b></h5>
+                                    </u>
                                 </div>
                                 <br>
                                 <div class="p-3 py-3 mb-3">
                                     <strong style="color: rgb(74, 74, 74)">Observación: </strong>
-                                    <textarea wire:model='observacion' class="form-control" aria-label="With textarea" placeholder="Agregar una observacion"></textarea>
+                                    <textarea wire:model='observacion' class="form-control" aria-label="With textarea"
+                                        placeholder="Agregar una observacion"></textarea>
                                     @error('observacion')
                                         <span class="text-danger er">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            @else
-                                <div class="py-8">
-                                    <div class="col-lg-12">
-                                        <div class="row justify-content-center" style="font-size: 20px">LISTA VACIA(0)</div>
+                        @else
+                            <div class="py-8">
+                                <div class="col-lg-12">
+                                    <div class="row justify-content-center" style="font-size: 20px">LISTA VACIA(0)
                                     </div>
                                 </div>
-                            @endif
-                         
+                            </div>
+                        @endif
+
                     </div><br>
 
                     <div class="text-center mb-4">
@@ -253,14 +278,13 @@
                             <button type="button" wire:click="exit()" class="btn btn-secondary"
                                 style="background-color: #2e48dc; color: white;">Ir Orden Compras</button>
 
-                                @if ($cart->count() > 0)
-                                    
+                            @if ($cart->count() > 0)
                                 <button type="button" wire:click="guardarOrdenCompra()"
                                     class="btn btn-success">Finalizar</button>
-                                @endif
+                            @endif
                         </div>
                     </div>
-              
+
                 </div>
             </div>
         </div>
