@@ -144,7 +144,7 @@ class PosController extends Component
 
 
         $this->extraquantity = 1;
-        $this->selloutofstock = true;
+        $this->selloutofstock = false;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
@@ -183,8 +183,10 @@ class PosController extends Component
         $this->observacion = "";
         $this->lotes_producto = [];
         $this->precio_promedio = 0;
-        foreach ($this->listarcarteras() as $list) {
-            if ($list->tipo == 'efectivo') {
+        foreach ($this->listarcarteras() as $list)
+        {
+            if ($list->tipo == 'efectivo')
+            {
                 $this->cartera_id = $list->idcartera;
                 break;
             }

@@ -211,6 +211,10 @@
 
                                         <td class="text-sm mb-0">
                                             {{ $l->codigo_producto }} - {{ $l->nombre_producto }}
+                                            {{-- <br>
+                                            <span class="text-sm text-danger">
+                                                Producto Devuelto :: Cantidad 2 :: Dinero Devuelto
+                                            </span> --}}
                                         </td>
 
                                         {{-- <td class="text-sm mb-0 text-left">
