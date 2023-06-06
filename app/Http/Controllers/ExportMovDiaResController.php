@@ -43,8 +43,10 @@ class ExportMovDiaResController extends Controller
         }
         $totalesIngresosIE = session('totalIngresosIE');
         $totalesIngresosIE_suma = 0;
-        foreach ($totalesIngresosIE as $value) {
-            if ($value['ctipo'] == 'efectivo') {
+        foreach ($totalesIngresosIE as $value)
+        {
+            if ($value['ctipo'] == 'efectivo')
+            {
 
                 $totalesIngresosIE_suma += +$value['importe'];
             }
