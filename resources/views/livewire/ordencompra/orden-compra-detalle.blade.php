@@ -141,12 +141,10 @@
                                                         <tbody>
                                                             @foreach ($prod as $producto)
                                                                 <tr>
-                                                                   
-
-                                                                    <td style="font-size: 12px;word-wrap: break-word; white-space: normal">
+                                                                    <td style="width: 100%;font-size: 12px;word-wrap: break-word; white-space: normal">
                                                                         <strong>{{ $producto->nombre }}</strong>
-                                                                        ({{ $producto->codigo }})<br>
-                                                                      
+                                                                        ({{ $producto->codigo }})
+                                                                        {{ $producto->caracteristicas }}
                                                                       </td>
                                                                     <td class="text-center">
                                                                         <a wire:click="InsertarProducto({{ $producto->id }})"

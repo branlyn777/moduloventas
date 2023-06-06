@@ -55,8 +55,7 @@ class OrdenCompraDetalleController extends Component
         WHEN products.caracteristicas LIKE '%" . $this->search . "%' THEN 2
         WHEN products.marca LIKE '%" . $this->search . "%' THEN 3
         WHEN products.codigo LIKE '%" . $this->search . "%' THEN 4
-        ELSE 5
-    END")
+        ELSE 5 END")
 
                 ->get();
 
