@@ -49,13 +49,13 @@
 
                 <div class="col-12 col-md-2">
                     <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
-                    <button wire:click.prevent="cerrartodo()" class="btn btn-primary form-control">
+                    <button wire:click="cerrartodo()" class="btn btn-primary form-control">
                         Cerrar Todo
                     </button>
                 </div>
                 <div class="col-12 col-md-2">
                     <h6 style="color: rgba(255, 255, 255, 0)">|</h6>
-                    <button wire:click.prevent="ajustarcarteras()" class="btn btn-primary form-control">
+                    <button wire:click="ajustarcarteras()" class="btn btn-primary form-control">
                         Ajustar
                     </button>
                 </div>
@@ -133,7 +133,7 @@
                                         @endif
                                     @else
                                         @if ($c->misucursal)
-                                            <button wire:click.prevent="confirmarAbrir({{ $c->id }})"
+                                            <button wire:click="confirmarAbrir({{ $c->id }})"
                                                 class="btn btn-primary">
                                                 <i class="fas fa-arrow-up"></i>
 
