@@ -302,6 +302,15 @@
                                                                                                                             {{ number_format($item->pv * $item->cant, 2) }}
                                                                                                                         </td>
                                                                                                                     </tr>
+                                                                                                                    @if($item->devolution != "0")
+                                                                                                                    <tr>
+                                                                                                                        <td colspan="6" class="text-center">
+                                                                                                                            <span class="text-sm text-danger">
+                                                                                                                                {{ $item->devolution }}
+                                                                                                                            </span>
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    @endif
                                                                                                                 @endforeach
                                                                                                             </tbody>
                                                                                                         </table>

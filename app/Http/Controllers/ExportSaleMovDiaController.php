@@ -3,85 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cartera;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
+use App\Models\Lote;
 use App\Models\Sale;
-use App\Models\User;
-use App\Models\Sucursal;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\SaleDetail;
+use App\Models\SaleLote;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ExportSaleMovDiaController extends Controller
 {
     public function reportPDFMovDiaVenta()
     {
-        //$value = session('tablareporte');
-        //dd($value);
+        $data = session('tablareporte');
+        $datostablareporte = session('datostablareporte');
 
-        $permiso = $this->verificarpermiso();
 
-        $utilidad = $this->totalutilidad();
-
-        $value = $this->creararray();
-
-        $ingreso = $this->totalingresos();
-
-        $egreso = $this->totalegresos();
-
-        $listacarteras = $this->totalcarteras();
+        $total_ingreso = 0;
+        $total_egreso = 0;
+        $total_utilidad = 0;
 
 
 
-        //Volviendo la variable global en null despues de cumplir su función
-        session(['tablareporte' => null]);
-        $pdf = PDF::loadView('livewire.pdf.reportemovdiaventas', compact('value','permiso','ingreso','egreso','listacarteras','utilidad'));
-        return $pdf->stream('Reporte_Movimiento_Diario.pdf'); 
-    }
-
-
-    //Crear array donde sereeemplazan los id de las movimientos por las utilidades
-    public function creararray()
-    {
-        $contador = 0;
-        $tabla = session('tablareporte');
-        //dd($tabla[0]['idmovimiento']);
-        foreach ($tabla as $item)
+        foreach ($data as &$item)
         {
-            if($this->buscarventa($item['idmovimiento'])->count() > 0 )
+
+            //Obteniendo la utilidad
+            $venta = $this->buscarventa($item['idmovimiento']);
+            if($venta->first() != null)
             {
-                //dd($item);
-                //dd($tabla[array($item)]['idmovimiento']);
-                //dd($item['idmovimiento']);
-                $tabla[$contador]['idmovimiento'] = $this->buscarutilidad($this->buscarventa($item['idmovimiento'])->first()->idventa);
+                $utilidad = $this->buscarutilidad($this->buscarventa($item['idmovimiento'])->first()->idventa);
+                $item['utilidad'] = $utilidad;
             }
             else
             {
-                $tabla[$contador]['idmovimiento'] = '-';
+                $item['utilidad'] = ($item['d_price'] - $item['d_cost']) * -1;
             }
-            $contador++;
-        }
-        return $tabla;
-    }
 
-    //Buscar la utilidad de una venta mediante el idventa
-    public function buscarutilidad($idventa)
-    {
-        $utilidadventa = Sale::join('sale_details as sd', 'sd.sale_id', 'sales.id')
-        ->join('products as p', 'p.id', 'sd.product_id')
-        ->select('sd.quantity as cantidad','sd.price as precio','p.costo as costoproducto')
-        ->where('sales.id', $idventa)
-        ->get();
 
-        $utilidad = 0;
-
-        foreach ($utilidadventa as $item)
-        {
-            $utilidad = $utilidad + ($item->cantidad * $item->precio) - ($item->cantidad * $item->costoproducto);
+            //Obteniendo los totales
+            if($item['tipo'] == "INGRESO")
+            {
+                $total_ingreso = $total_ingreso + $item['importe'];
+            }
+            else
+            {
+                $total_egreso = $total_egreso + $item['importe'];
+            }
+            $total_utilidad = $total_utilidad + $item['utilidad'];
         }
 
-        return $utilidad;
+        // dd($data);
+
+        $pdf = PDF::loadView('livewire.pdf.reportemovdiaventas', compact('data','total_ingreso','total_egreso','total_utilidad','datostablareporte'));
+        return $pdf->stream('Reporte_Movimiento_Diario.pdf'); 
     }
     //Buscar Ventas por Id Movimiento
     public function buscarventa($idmovimiento)
@@ -92,92 +65,29 @@ class ExportSaleMovDiaController extends Controller
                 ->get();
         return $venta;
     }
-     //Metodo para Verificar si el usuario tiene el Permiso para filtrar por Sucursal y ver por utilidad
-     public function verificarpermiso()
-     {
-         if(Auth::user()->hasPermissionTo('VentasMovDiaSucursalUtilidad'))
-         {
-             return true;
-         }
-         return false;
-     }
-
-
-     public function totalingresos()
-     {
-        $totalingreso = 0;
-        $tabla = session('tablareporte');
-        foreach ($tabla as $item)
-        {
-            if($item['tipo'] == 'INGRESO' )
-            {
-                $totalingreso = $totalingreso + $item['importe'];
-            }
-        }
-        return $totalingreso;
-
-     }
-     public function totalegresos()
-     {
-        $totalegreso = 0;
-        $tabla = session('tablareporte');
-        foreach ($tabla as $item)
-        {
-            if($item['tipo'] == 'EGRESO' )
-            {
-                $totalegreso = $totalegreso + $item['importe'];
-            }
-        }
-        return $totalegreso;
-     }
-
-    //Sumar las carteras de la Consulta Principal $DATA 
-    public function totalcarteras()
+    //Devuelve el total utilidad de una venta
+    public function buscarutilidad($idventa)
     {
-        $tabla = session('tablareporte');
-        $carteras = Cartera::select('*', DB::raw('0 as totales'))
-        ->get();
+        $auxi = 0;
 
-        foreach($tabla as $item)
+        $utilidad_total = 0;
+
+        $detalle_venta = SaleDetail::where('sale_id', $idventa)->get();
+        foreach ($detalle_venta as $d) 
         {
-            foreach($carteras as $item2)
+            $sl = SaleLote::where('sale_detail_id', $d->id)->get();
+            foreach ($sl as $s) 
             {
-                if($item['idcartera'] == $item2['id'])
-                {
 
-                    if($item['tipo'] == 'INGRESO')
-                    {
-                        $item2['totales'] = $item2['totales'] + $item['importe'];
-                    }
-                    else
-                    {
-                        $item2['totales'] = $item2['totales'] - $item['importe'];
-                    }
-                    break;
-                }
+                $costo_lote = Lote::where('id', $s->lote_id)->value('costo');
+
+                $auxi = ($d->price * $s->cantidad) - ($costo_lote * $s->cantidad);
+
+                $utilidad_total = $utilidad_total + $auxi;
             }
-       
         }
 
-
-        return $carteras;
-
-        
+        return $utilidad_total;
     }
-    
-    public function totalutilidad()
-    {
-        $totalutilidad = 0;
-
-        $tabla = session('tablareporte');
-
-
-        foreach ($tabla as $item)
-        {
-            $totalutilidad = $this->buscarutilidad($this->buscarventa($item['idmovimiento'])->first()->idventa) + $totalutilidad;
-        }
-        return $totalutilidad;
-    }
-
 
 }

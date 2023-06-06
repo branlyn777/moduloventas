@@ -686,6 +686,69 @@ class PosController extends Component
         DB::beginTransaction();
         try
         {
+            //Buscando todos los lotes de todos los productos ingresados en el Shopping Cart
+            $lista_productos = Cart::getContent();
+            //Verificando que el total existencia activa de la tabla lote coincida en igual o mayor cantidad que el producto del Shopping Cart
+            //En caso de no existir la cantidad necesaria se creará mas lotes para completarlo  (Esto devido a un error de igualdad en las tablas productos_destinos y lotes)
+            foreach($lista_productos as $lp)
+            {
+                $lote_producto = Lote::where('status', 'Activo')->where("product_id", $lp->id)->orderBy("id","desc")->get();
+                $existenciaTotal = $lote_producto->sum('existencia');
+
+                if($existenciaTotal <= $lp->quantity && $lp->attributes->Cantidad <= 0)
+                {
+                    // Ingresando lote del producto
+                    $ip_a = IngresoProductos::create([
+                        'destino' => $this->destino_id,
+                        'user_id' => Auth()->user()->id,
+                        'concepto' => "INGRESO",
+                        'observacion' => "Ingreso ajuste automático del producto para venta",
+                    ]);
+
+                    $cantidad_a_aumentar = $lp->quantity - $existenciaTotal;
+
+                    if($lote_producto->count() > 0)
+                    {
+                        $lote_costo = $lote_producto->first()->costo;
+                        $lote_precio = $lote_producto->first()->pv_lote;
+                    }
+                    else
+                    {
+                        //Buscando el primer lote reciente inactivo para obtener su costo
+                        $lote_producto_c = Lote::where("product_id", $lp->id)->orderBy("id","desc")->get();
+
+                        if($lote_producto_c->count() > 0)
+                        {
+                            $lote_costo = $lote_producto_c->first()->costo;
+                        }
+                        else
+                        {
+                            $lote_costo = 0;
+                        }
+                        $lote_precio = $lp->price;
+                    }
+
+
+                    $lp_a = Lote::create([
+                        'existencia' => $cantidad_a_aumentar,
+                        'costo' => $lote_costo,
+                        'pv_lote' => $lote_precio,
+                        'status' => 'Activo',
+                        'product_id' => $lp->id
+                    ]);
+                    DetalleEntradaProductos::create([
+                        'product_id' => $lp->id,
+                        'cantidad' => $cantidad_a_aumentar,
+                        'costo' => $lote_costo,
+                        'id_entrada' => $ip_a->id,
+                        'lote_id' => $lp_a->id
+                    ]);
+                }
+            }
+
+
+
+
             //Creando Movimiento
             $Movimiento = Movimiento::create([
                 'type' => "VENTAS",
@@ -1489,7 +1552,6 @@ class PosController extends Component
         $rules = [
             'quantity_devolution' => 'required|numeric|min:1',
             'detail_devolution' => 'required',
-
             'cartera_id_devolution' => 'not_in:Elegir',
         ];
         $messages = [
@@ -1497,9 +1559,7 @@ class PosController extends Component
             'quantity_devolution.numeric' => 'Debe ser un número',
             'quantity_devolution.min' => 'Debe ser un número positivo',
             'detail_devolution.required' => 'Motivo requerido',
-
             'cartera_id_devolution.not_in' => 'Seleccione Tipo Pago',
-
         ];
         $this->validate($rules, $messages);
 
@@ -1509,7 +1569,7 @@ class PosController extends Component
         }
 
         //Buscando si la devolución no se hizo antes
-        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->get();
+        $cont = SaleDevolution::where("sale_detail_id", $this->sale_detail_id_devolution)->where("amount",">","0")->where("status","active")->get();
         $sale_detail = SaleDetail::find($this->sale_detail_id_devolution);
         if($cont->count() > 0)
         {
@@ -1544,8 +1604,10 @@ class PosController extends Component
             ->orderBy("id", "desc")
             ->get();
             $cont = $this->quantity_devolution;
-            //Determina la utilidad total que representa la devolución de x cantidad del producto
-            $utility = 0;
+            //Determina el costo total que representa la devolución de x cantidad del producto
+            $cost = 0;
+            //Determina el precio total que representa la devolución de x cantidad del producto
+            $price = 0;
             foreach($sale_detail_lots as $sdl)
             {
                 if($sdl->cantidad > 0)
@@ -1557,39 +1619,74 @@ class PosController extends Component
                         {
                             $lot = Lote::find($sdl->lote_id);
                             $stock_lot = $lot->existencia + $sdl->cantidad;
-                            $lot->update([
-                                'existencia' => $stock_lot,
-                                'status' => "Activo"
-                            ]);
-                            $lot->save();
+                            if($stock_lot > 0)
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Activo"
+                                ]);
+                                $lot->save();
+                            }
+                            else
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+                            }
 
-                            $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                            $cost = $cost + ($lot->costo * $sdl->cantidad);
+                            $price = $price + ($sale_detail->price * $sdl->cantidad);
                         }
                         else
                         {
                             $n_stock = $sdl->cantidad + $cont;
                             $lot = Lote::find($sdl->lote_id);
                             $stock_lot = $lot->existencia + $n_stock;
-                            $lot->update([
-                                'existencia' => $stock_lot,
-                                'status' => "Activo"
-                            ]);
+                            if($stock_lot > 0)
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Activo"
+                                ]);
+                            }
+                            else
+                            {
+                                $lot->update([
+                                    'existencia' => $stock_lot,
+                                    'status' => "Inactivo"
+                                ]);
+                                $lot->save();
+                            }
                             $lot->save();
 
-                            $utility = $utility + ($sale_detail->price * $n_stock) - ($lot->costo * $n_stock);
+                            $cost = $cost + ($lot->costo * $n_stock);
+                            $price = $price + ($sale_detail->price * $n_stock);
                         }
                     }
                     else
                     {
                         $lot = Lote::find($sdl->lote_id);
                         $stock_lot = $lot->existencia + $sdl->cantidad;
-                        $lot->update([
-                            'existencia' => $stock_lot,
-                            'status' => "Activo"
-                        ]);
-                        $lot->save();
-
-                        $utility = $utility + ($sale_detail->price * $sdl->cantidad) - ($lot->costo * $sdl->cantidad);
+                        if($stock_lot > 0)
+                        {
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Activo"
+                            ]);
+                            $lot->save();
+                        }
+                        else
+                        {
+                            $lot->update([
+                                'existencia' => $stock_lot,
+                                'status' => "Inactivo"
+                            ]);
+                            $lot->save();
+                        }
+                        $cost = $cost + ($lot->costo * $sdl->cantidad);
+                        $price = $price + ($sale_detail->price * $sdl->cantidad);
                     }
                 }
             }
@@ -1607,7 +1704,7 @@ class PosController extends Component
                 CarteraMov::create([
                     'type' => "EGRESO",
                     'tipoDeMovimiento' => "EGRESO/INGRESO",
-                    'comentario' => $this->detail_devolution,
+                    'comentario' => "Devolución Venta",
                     'cartera_id' => $this->cartera_id_devolution,
                     'movimiento_id' => $m->id,
                     'cartera_mov_categoria_id' => $this->category_id_devolution
@@ -1623,16 +1720,24 @@ class PosController extends Component
             }
 
 
-            SaleDevolution::create([
+            $sale_devolution = SaleDevolution::create([
                 'quantity' => $this->quantity_devolution,
                 'amount' => $this->amount_devolution,
                 'description' => $this->detail_devolution,
-                'utility' => $utility,
+                'cost' => $cost,
+                'price' => $price,
                 'user_id' => Auth()->user()->id,
                 'destino_id' => $this->destiny_id_devolution,
                 'sale_detail_id' => $this->sale_detail_id_devolution,
                 'sucursal_id' => $this->idsucursal()
             ]);
+
+            if($this->amount_devolution > 0)
+            {
+                $sale_devolution->walletid  = $this->cartera_id_devolution;
+                $sale_devolution->motionid  = $m->id;
+                $sale_devolution->save();
+            }
     
             // $this->observacion = "Venta por devolución de la venta : X.";
     

@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ProductosDestino;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Sucursal;
 use App\Models\User;
@@ -44,6 +45,8 @@ class SaleListProductsController extends Component
     public $cantidad;
     //Guarda mensaje para mostrar por JavaScript
     public $message;
+    //Guarda el total de utilidad negativa por las devoluciones en ventas
+    public $total_utilidad_negativa;
 
     use WithPagination;
 
@@ -75,7 +78,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -99,16 +102,23 @@ class SaleListProductsController extends Component
                             ->join("users as u", "u.id", "s.user_id")
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
-
+                            
                             ->join("sale_lotes as sl", "sl.sale_detail_id", "sd.id")
                             ->join("lotes as l", "l.id", "sl.lote_id")
 
-                            ->select("products.id as idproducto", "sl.cantidad as cantidad_vendida", "l.costo as costo_producto", "sd.price as precio_venta")
+                            ->select("products.id as idproducto", "sl.cantidad as cantidad_vendida", "l.costo as costo_producto", "sd.price as precio_venta", "sd.id as idsaledetail")
                             ->where("s.user_id", $this->user_id)
                             ->where("s.status", "PAID")
                             ->where("s.sucursal_id", $this->sucursal_id)
                             ->whereBetween('s.created_at', [$this->dateFrom . ' 00:00:00', $this->dateTo . ' 23:59:59'])
                             ->get();
+
+                        //Consulta para obtener la utilidad negativa por devoluciones en ventas
+                        
+
+
+
+
                     } else {
                         //Consulta para obtener la lista de productos vendidos que se mostraran en la vista (con paginación)
                         $listaproductos = Product::join("sale_details as sd", "sd.product_id", "products.id")
@@ -117,7 +127,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -159,7 +169,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -199,7 +209,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -241,7 +251,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -285,7 +295,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -329,7 +339,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -371,7 +381,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -417,7 +427,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -473,7 +483,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -529,7 +539,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -583,7 +593,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -639,7 +649,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -697,7 +707,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -755,7 +765,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -811,7 +821,7 @@ class SaleListProductsController extends Component
                             ->join("carteras as c", "c.id", "s.cartera_id")
                             ->join("cajas as cj", "cj.id", "c.caja_id")
                             ->select(
-                                "s.id as codigo",
+                                "s.id as codigo", "sd.id as idsaledetail",
                                 "products.nombre as nombre_producto",
                                 "sd.quantity as cantidad_vendida",
                                 "s.created_at as fecha_creacion",
@@ -861,21 +871,34 @@ class SaleListProductsController extends Component
                 }
             }
         }
+        $this->total_utilidad_negativa = 0;
         //Llenando las columnas adicionales a la lista de ventas ($listaproductos)
-        foreach ($listaproductos as $l) {
+        foreach ($listaproductos as $l)
+        {
             //Obtener el nombre de la sucursal de una venta
             $l->nombresucursal = $this->nombresucursal($l->codigo);
             //Obtener el tiempo de una venta reciente
             $l->ventareciente = $this->ventareciente($l->codigo);
+
+            $devolution = SaleDevolution::where("sale_detail_id", $l->idsaledetail)->where("status","active")->get();
+            if($devolution->count() > 0)
+            {
+                foreach($devolution as $d)
+                {
+                    $this->total_utilidad_negativa = $this->total_utilidad_negativa + ($d->price - $d->cost);
+                }
+            }
         }
         $this->total_precio = 0;
         $this->total_utilidad = 0;
         //Calculando el total utilidad y el total precio ($lista_productos_total)
-        foreach ($lista_productos_total as $l) {
+        foreach ($lista_productos_total as $l)
+        {
             $this->total_utilidad = $this->total_utilidad + (($l->precio_venta - $l->costo_producto) * $l->cantidad_vendida);
 
             $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
         }
+        $this->total_utilidad = $this->total_utilidad - $this->total_utilidad_negativa; 
         return view('livewire..sales.salelistproducts', [
             'listaproductos' => $listaproductos,
             'listasucursales' => Sucursal::all(),

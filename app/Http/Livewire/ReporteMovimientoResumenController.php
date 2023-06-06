@@ -11,6 +11,7 @@ use App\Models\OperacionesCarterasCompartidas;
 use App\Models\OrderService;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\SaleDevolution;
 use App\Models\SaleLote;
 use App\Models\Service;
 use App\Models\ServiceRepVentaInterna;
@@ -368,35 +369,58 @@ class ReporteMovimientoResumenController extends Component
     public function listardetalleventas($idventa)
     {
         $listadetalles = SaleDetail::join('sales as s', 's.id', 'sale_details.sale_id')
-            ->join("products as p", "p.id", "sale_details.product_id")
-            ->select(
+        ->join("products as p", "p.id", "sale_details.product_id")
+        ->select(
                 'sale_details.id as detalleid',
                 'p.nombre as nombre',
                 'sale_details.price as pv',
                 'sale_details.original_price as po',
-                'sale_details.quantity as cant'
+                'sale_details.quantity as cant',
+                DB::raw('0 as devolution')
             )
             ->where('sale_details.sale_id', $idventa)
             ->orderBy('sale_details.id', 'asc')
             ->get();
+
+        foreach($listadetalles as $ld)
+        {
+            $dev = SaleDevolution::where("sale_detail_id", $ld->detalleid)->where("status","active")->get();
+            if($dev->count() > 0)
+            {
+               $ld->devolution = "Este producto tiene una devolución de " . $dev->sum("quantity") . " unidades. El dinero devuelto fue de " . $dev->sum("amount") . " Bs";
+            }
+        }   
         return $listadetalles;
-        //dd($this->listadetalles);
     }
     public function utilidadventa($idventa)
     {
         $auxi = 0;
         $utilidad = 0;
 
-
         $salelist = SaleDetail::where('sale_id', $idventa)->get();
-        foreach ($salelist as $data) {
+        foreach ($salelist as $data)
+        {
             $sl = SaleLote::where('sale_detail_id', $data->id)->get();
-            foreach ($sl as $data2) {
+            foreach ($sl as $data2)
+            {
                 $lot = Lote::where('id', $data2->lote_id)->value('costo');
                 $auxi = $data->price * $data2->cantidad - $lot * $data2->cantidad;
                 $utilidad = $utilidad + $auxi;
-                //dd($lot);
             }
+
+            $devolution = SaleDevolution::where("sale_detail_id", $data->id)->where("status", "active")->get();
+
+            if($devolution->count() > 0)
+            {
+                foreach($devolution as $d)
+                {
+                    $utilidad = $utilidad - ($d->price - $d->cost);
+                }
+            }
+
+
+
+
         }
 
         return $utilidad;

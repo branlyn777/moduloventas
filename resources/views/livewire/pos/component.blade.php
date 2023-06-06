@@ -431,15 +431,11 @@
                     <div class="ms-auto my-auto mt-lg-0 mt-4">
                         <div class="ms-auto my-auto">
 
-                            <a class="btn btn-add mb-0" href="cortecajas"
-                            style="background-color: #2e48dc; color: white;">
-                            Cerrar Caja
-                        </a>
-                            {{-- <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
+                            <button wire:click="showModalDevolution()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
                                 <i class="fas fa-plus me-2"></i>
                                 Devolver Producto
-                            </button> --}}
+                            </button>
 
                             <button wire:click="modalingresoegreso()" class="btn btn-add mb-0"
                                 style="background-color: #2e48dc; color: white;">
@@ -802,8 +798,32 @@
             <button style="cursor: default" class="btn-flotante">Recargo {{ $descuento_recargo * -1 }} Bs</button>
         @endif
     @else
-    <livewire:corte-caja-controller>
-    </livewire:corte-caja-controller>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card  mb-4">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 text-center">
+                                <div class="numbers">
+                                    <a href="{{ url('cortecajas') }}">
+                                        <h5 class="font-weight-bolder">
+                                            NO SE SELECCIONO NINGUNA CAJA
+                                        </h5>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+
+            </div>
+        </div>
+
 
 
     @endif
