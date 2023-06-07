@@ -42,25 +42,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card-header pb-0">
-              
-                    <div>
-                        <h5 class="mb-0 text-white" style="font-size: 16px">Orden Compra</h5>
-                    </div>
 
-                    {{--
+                <div>
+                    <h5 class="mb-0 text-white" style="font-size: 16px">Orden Compra</h5>
+                </div>
+
+                {{--
                         <b style="color: rgb(74, 74, 74)">Fecha: </b>
                         {{Carbon\Carbon::now()->format('Y-m-d')}}<br/>  
                         <b style="color: rgb(74, 74, 74)">Registrado por: </b> 
                         {{Auth()->user()->name}}<br/>
                     --}}
 
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            {{-- <a href="javascript:void(0)" class="btn bg-gradient-light btn-sm mb-0" data-bs-toggle="modal"
+                <div class="ms-auto my-auto mt-lg-0 mt-4">
+                    <div class="ms-auto my-auto">
+                        {{-- <a href="javascript:void(0)" class="btn bg-gradient-light btn-sm mb-0" data-bs-toggle="modal"
                                 data-bs-target="#theModal">Registrar Producto</a> --}}
-                        </div>
                     </div>
-            
+                </div>
+
             </div><br>
             <div class="card mb-4 py-4">
                 <div class="card-body p-3">
@@ -111,57 +111,53 @@
 
                             <div class="row">
                                 <div class="col">
-        
+
                                     <h6>Busqueda Productos</h6>
                                     <div class="input-group mb-4">
-                                        <span class="input-group-text" style="border-color: #2e48dc; background-color: #2e48dc">
+                                        <span class="input-group-text"
+                                            style="border-color: #2e48dc; background-color: #2e48dc">
                                             <i class="fa fa-search text-white"></i>
                                         </span>
                                         <input type="text" wire:model="search"
                                             placeholder="Buscar nombre o codigo de producto" class="form-control ps-2"
                                             style="border-color: #2e48dc">
                                     </div>
-        
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-        
+
                                     @if (strlen($search) > 0)
-                                        <div class="table-responsive">
-                                            <div class="fixed-columns">
-                                                <div class="dataTable-container">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-xs">Producto</th>
-                                                                <th class="text-xs">Acción</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($prod as $producto)
-                                                                <tr>
-                                                                    <td style="width: 100%;font-size: 12px;word-wrap: break-word; white-space: normal">
-                                                                        <strong>{{ $producto->nombre }}</strong>
-                                                                        ({{ $producto->codigo }})
-                                                                        {{ $producto->caracteristicas }}
-                                                                      </td>
-                                                                    <td class="text-center">
-                                                                        <a wire:click="InsertarProducto({{ $producto->id }})"
-                                                                            class="btn btn-primary"
-                                                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                            <i class="fas fa-plus"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+
+                                        <div class="border border-primary rounded-1 m-1">
+
+                                            <div class="overflow-auto rounded-1 m-1"
+                                                style="max-width: auto; max-height: 15rem;">
+
+                                                @forelse ($prod as $producto)
+                                                    <div class="d-flex mb-3">
+                                                        <div class="p-2">
+                                                            <h6 class="text-xs">
+                                                                <h6 class="text-xs">
+                                                                    <strong>{{ $producto->nombre }}</strong>
+                                                                   
+                                                                </h6>
+
+                                                        </div>
+                                                        <div class="ms-auto p-2">
+                                                            <button class="btn btn-xs btn-info">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @empty
+                                                    <p>No hay resultados de busqueda</p>
+                                                @endforelse
                                             </div>
                                         </div>
                                     @endif
-        
+
                                 </div>
                             </div>
                         </div>
