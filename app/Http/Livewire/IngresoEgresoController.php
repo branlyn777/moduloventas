@@ -7,13 +7,11 @@ use App\Models\Cartera;
 use App\Models\CarteraMov;
 use App\Models\CarteraMovCategoria;
 use App\Models\Movimiento;
-use App\Models\OperacionesCarterasCompartidas;
+
 use App\Models\Sucursal;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
+
 use Livewire\Component;
 
 class IngresoEgresoController extends Component
@@ -416,14 +414,17 @@ class IngresoEgresoController extends Component
     {
         $mov->update([
             'status' => 'INACTIVO'
-        ]);
+            ]);
         $mov->save();
-        $carteraid = CarteraMov::where('movimiento_id', $mov->id)->first()->cartera_id;
-        $cartera = Cartera::find($carteraid);
 
-        $cartera->update([
-            'saldocartera' => $cartera->saldocartera - $mov->import
+        $cart=Cartera::join('cartera_movs','cartera_movs.cartera_id','carteras.id')
+        ->where('cartera_movs.movimiento_id',$mov->id)->select('carteras.saldocartera','cartera_movs.type','carteras.id')->first();
+
+        Cartera::where('id',$cart->id)->update([
+            'saldocartera' => $cart->type=='INGRESO'?$cart->saldocartera-$mov->import:$cart->saldocartera+$mov->import
         ]);
+
+
     }
     public function editarOperacion(Movimiento $mov)
     {
