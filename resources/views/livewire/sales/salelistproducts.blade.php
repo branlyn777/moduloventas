@@ -211,10 +211,14 @@
 
                                         <td class="text-sm mb-0">
                                             {{ $l->codigo_producto }} - {{ $l->nombre_producto }}
-                                            {{-- <br>
-                                            <span class="text-sm text-danger">
-                                                Producto Devuelto :: Cantidad 2 :: Dinero Devuelto
-                                            </span> --}}
+                                            @if($l->devolution != "0")
+                                                @if($l->devolution->sum("amount") > 0)
+                                                <br>
+                                                <span class="text-sm text-danger">
+                                                    Producto Devuelto :: Cantidad {{$l->devolution->sum("quantity")}} :: Dinero Devuelto {{$l->devolution->sum("amount")}}Bs
+                                                </span>
+                                                @endif
+                                            @endif
                                         </td>
 
                                         {{-- <td class="text-sm mb-0 text-left">

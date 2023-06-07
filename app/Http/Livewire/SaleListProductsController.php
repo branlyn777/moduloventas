@@ -86,7 +86,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -135,7 +135,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -177,7 +177,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -217,7 +217,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -259,7 +259,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -303,7 +303,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -347,7 +347,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -389,7 +389,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -435,7 +435,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -491,7 +491,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -547,7 +547,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -601,7 +601,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("s.status", "PAID")
@@ -657,7 +657,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -715,7 +715,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -773,7 +773,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -829,7 +829,7 @@ class SaleListProductsController extends Component
                                 "sd.price as precio_venta",
                                 "products.id as idproducto",
                                 "products.codigo as codigo_producto",
-                                DB::raw('0 as nombresucursal'),
+                                DB::raw('0 as nombresucursal'),DB::raw('0 as devolution'),
                                 DB::raw('0 as ventareciente')
                             )
                             ->where("products.category_id", $this->categoria_id)
@@ -885,8 +885,12 @@ class SaleListProductsController extends Component
             {
                 foreach($devolution as $d)
                 {
-                    $this->total_utilidad_negativa = $this->total_utilidad_negativa + ($d->price - $d->cost);
+                    if($d->amount > 0)
+                    {
+                        $this->total_utilidad_negativa = $this->total_utilidad_negativa + ($d->price - $d->cost);
+                    }
                 }
+                $l->devolution = $devolution;
             }
         }
         $this->total_precio = 0;
@@ -895,7 +899,6 @@ class SaleListProductsController extends Component
         foreach ($lista_productos_total as $l)
         {
             $this->total_utilidad = $this->total_utilidad + (($l->precio_venta - $l->costo_producto) * $l->cantidad_vendida);
-
             $this->total_precio = $this->total_precio + ($l->precio_venta * $l->cantidad_vendida);
         }
         $this->total_utilidad = $this->total_utilidad - $this->total_utilidad_negativa; 
@@ -904,8 +907,8 @@ class SaleListProductsController extends Component
             'listasucursales' => Sucursal::all(),
             'listausuarios' => $this->listausuarios(),
         ])
-            ->extends('layouts.theme.app')
-            ->section('content');
+        ->extends('layouts.theme.app')
+        ->section('content');
     }
     //Devuelve el tiempo en minutos de una venta reciente
     public function ventareciente($idventa)
