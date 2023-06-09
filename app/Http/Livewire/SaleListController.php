@@ -519,7 +519,6 @@ class SaleListController extends Component
                 'sale_details.id as detalleid',
                 'p.image as image',
                 'p.nombre as nombre',
-                'p.precio_venta as po',
                 DB::raw('0 as po'),
                 'sale_details.price as pv',
                 'sale_details.quantity as cantidad'

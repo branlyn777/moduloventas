@@ -16,16 +16,13 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',255);
-            $table->decimal('costo',10,2)->nullable();
             $table->string('caracteristicas',255)->nullable();
             $table->string('codigo',45)->nullable();
-            $table->string('lote',255)->nullable();
             $table->string('unidad')->nullable();
             $table->string('marca')->nullable();
             $table->integer('garantia')->default(0)->nullable();
             $table->integer('cantidad_minima')->default(0)->nullable();
             $table->string('industria')->nullable();
-            $table->decimal('precio_venta',10,2)->nullable();
             $table->enum('status', ['ACTIVO','INACTIVO'])->default('ACTIVO');
             $table->enum('control', ['AUTOMATICO','MANUAL'])->default('AUTOMATICO');
             $table->string('image',55)->nullable();

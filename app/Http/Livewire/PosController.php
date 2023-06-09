@@ -114,6 +114,8 @@ class PosController extends Component
     public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
      $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution,
      $list_categories_devolution, $category_id_devolution, $cartera_id_devolution;
+    //Guarda mensaje cuando un producto no tiene lotes
+     public $advertencia_stock;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -242,7 +244,6 @@ class PosController extends Component
                     "products.id as id",
                     "products.nombre as nombre",
                     "products.image as image",
-                    "products.precio_venta as precio_venta",
                     "products.codigo as barcode",
                     "products.status as estado"
                 )
@@ -615,7 +616,6 @@ class PosController extends Component
                 "products.image as image",
                 "des.sucursal_id as sucursal_id",
                 "products.nombre as name",
-                "products.precio_venta as price",
                 "products.codigo",
                 "pd.stock as stock"
             )
@@ -631,10 +631,18 @@ class PosController extends Component
         } else {
             if ($this->stocktienda($product->id, $cant)) {
                 //Añadiendo al Carrrito los Productos
+
+
+                $precio_venta = Lote::where("product_id", $product->id)->orderBy("created_at", "desc")->first();
+
+                // $precio_venta = Lote::where("product_id", $product->id)->lastest("created_at")->first();
+
+
+
                 Cart::add(
                     $product->id,
                     $product->name,
-                    $product->price,
+                    $precio_venta,
                     $cant,
                     $product->image
                 );
@@ -796,7 +804,6 @@ class PosController extends Component
 
             //Variable que guarda que si existe productos con stock mas allá del disponible
             $stock_extra = false;
-
             //Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
             foreach ($productos as $pp)
             {
@@ -813,7 +820,6 @@ class PosController extends Component
                     break;
                 }
             }
-
             if($stock_extra)
             {
                 foreach ($productos as $ppp)
@@ -847,6 +853,8 @@ class PosController extends Component
                     ->where("des.id", $this->destino_id)
                     ->where("des.sucursal_id", $this->idsucursal())
                     ->get()->first();
+
+
                     $tiendaproducto->update([
                         'stock' => $tiendaproducto->stock + $ppp->attributes->Cantidad
                     ]);
@@ -1258,6 +1266,13 @@ class PosController extends Component
     //Método para mostrar una ventana modal cuando no hay stock en Tienda de un producto
     public function modalstockinsuficiente($idproducto)
     {
+        $lotes = Lote::where("product_id", $idproducto)->get();
+
+        if($lotes->count() == 0)
+        {
+            $this->advertencia_stock = "Este producto no tiene lotes, por lo tanto la utilidad será el 100% del precio.";
+        }
+
         $this->producto_id = $idproducto;
 
         // Cambiando la variable $this->stock_disponible a false para que no se pueda mostrar la ventana modal finalizar venta
@@ -1479,15 +1494,31 @@ class PosController extends Component
         {
             //Cantidad extra para incrementar
             $cantidad_previa = $product_cart->attributes->Cantidad;
+
+
+            $destinosucursal =DestinoSucursal::where("sucursal_id", $this->idsucursal())->first();
+
+            $stock_disponible = ProductosDestino::where("destino_id", $destinosucursal->destino_id)
+            ->where("product_id", $this->producto_id)
+            ->first();
+
+
+
+
+
+            $cantidad_final = $this->extraquantity + $cantidad_previa - $stock_disponible->stock ?? 0;
+
+
             $miArray = array(
                 "Imagen" => $producto->image,
-                "Cantidad" => $this->extraquantity + $cantidad_previa,
+                "Cantidad" => $cantidad_final,
                 "Costo" => $this->product_cost
             );
             //Cantidad para vender
             $cantidad_vender = $product_cart->quantity + $this->extraquantity;
 
             $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre) . "'!";
+            Cart::remove($product_cart->id);
             Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cantidad_vender ,$miArray);
             $this->emit('increase-ok');
         }
@@ -1514,7 +1545,13 @@ class PosController extends Component
             }
 
             $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
+
+
             Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity, $miArray);
+
+          
+
+
             $this->emit('increase-ok');
         }
 

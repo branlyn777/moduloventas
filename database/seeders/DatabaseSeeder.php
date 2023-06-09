@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(CarteraSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
-        $this->call(ProductoDestinoSeeder::class);
+        // $this->call(ProductoDestinoSeeder::class);
         $this->call(CarteraMovCategoriaSeeder::class);
         $this->call(ProcedenciaClienteSeeder::class);
 

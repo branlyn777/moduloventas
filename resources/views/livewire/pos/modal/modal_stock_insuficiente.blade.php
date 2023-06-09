@@ -36,6 +36,11 @@ en otros destinos dentro de la misma sucursal --}}
                     <div class="col-7 text-center">
                         <label>CANTIDAD</label>
                         <input class="form-control" wire:model="extraquantity" type="number">
+
+                        <span class="text-sm text-danger text-center">
+                            {{$this->advertencia_stock}}
+                        </span>
+
                     </div>
                     {{-- <div class="col-5 text-center">
                         <label>COSTO</label>

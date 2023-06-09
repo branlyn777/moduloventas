@@ -49,7 +49,6 @@ class SucursalSeeder extends Seeder
         DestinoSucursal::create([
             'destino_id' => $destino->id,
             'sucursal_id' => $sucursal->id,
-            
         ]);
 
 
