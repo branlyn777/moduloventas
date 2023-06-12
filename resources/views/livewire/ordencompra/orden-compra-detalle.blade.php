@@ -38,6 +38,14 @@
     "nav-item active"
 @endsection
 
+@section('css')
+    <style>
+        .item:hover {
+            background-color: rgb(195, 204, 233);
+        }
+    </style>
+@endsection
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -105,7 +113,7 @@
             </div>
 
             <div class="row">
-                <div class="col-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card">
                         <div class="card-body">
 
@@ -122,7 +130,6 @@
                                             placeholder="Buscar nombre o codigo de producto" class="form-control ps-2"
                                             style="border-color: #2e48dc">
                                     </div>
-
                                 </div>
                             </div>
                             <div class="row">
@@ -132,23 +139,20 @@
 
                                         <div class="border border-primary rounded-1 m-1">
 
-                                            <div class="overflow-auto rounded-1 m-1"
-                                                style="max-width: auto; max-height: 15rem;">
+                                            <div class="overflow-auto rounded-1 m-1" style="max-height: 15rem;">
 
                                                 @forelse ($prod as $producto)
-                                                    <div class="d-flex mb-3">
-                                                        <div class="p-2">
-                                                            <h6 class="text-xs">
-                                                                <h6 class="text-xs">
-                                                                    <strong>{{ $producto->nombre }}</strong>
-                                                                   
-                                                                </h6>
-
+                                                    <div class="d-flex mb-3 item">
+                                                        <div class="text-sm" style="width:85%;">
+                                                            <strong>{{ $producto->nombre }}</strong>
+                                                            <br>
+                                                            {{ $producto->caracteristicas }}
                                                         </div>
-                                                        <div class="ms-auto p-2">
-                                                            <button class="btn btn-xs btn-info">
+                                                        <div wire:click="InsertarProducto({{ $producto->id }})"
+                                                            class="ms-auto my-auto p-2">
+                                                            <a class="btn btn-xs btn-info">
                                                                 <i class="fas fa-plus"></i>
-                                                            </button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 @empty
@@ -164,7 +168,7 @@
                     </div>
                 </div>
 
-                <div class="col-8 col-sm-8 col-md-8">
+                <div class="col-sm-12 col-md-8 mt-2">
                     <div class="card p-3"><br>
                         <div class="text-center">
                             <h6>Detalle Registro Orden de Compra</h6>
@@ -238,9 +242,9 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center">
-                                    <u>
-                                        <h5><b>Total Bs. {{ number_format($total, 2) }}</b></h5>
-                                    </u>
+
+                                    <h5><b>Total Bs: {{ number_format($total, 2) }}</b></h5>
+
                                 </div>
                                 <br>
                                 <div class="p-3 py-3 mb-3">

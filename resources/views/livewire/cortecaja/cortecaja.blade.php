@@ -97,21 +97,12 @@
                                             <button wire:click="confirmarAbrir('{{ $c->id }}')"
                                                 class="btn btn-primary">
                                                 <i class="fas fa-arrow-up"></i>
-
                                                 Abrir Caja
-
                                             </button>
                                         @endif
                                     @endif
-
-
                                 @endif
-
                             </div>
-
-
-
-
                         </div>
                     </div>
 

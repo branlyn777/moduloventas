@@ -92,7 +92,7 @@ class ComprasController extends Component
        // dd($datas_compras->get());
 
         $this->totales = $datas_compras->sum('compras.importe_total');
-        $compraproducto='hellos';
+        $compraproducto='';
         if ($this->search2 != null) {
        
 
@@ -105,14 +105,15 @@ class ComprasController extends Component
 
             //dd($compraproducto);
         } 
+        $data='';
         if ($this->search3 != null) {
      
-            $this->productoProveedor = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
+            $data = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->join('providers','providers.id','compras.proveedor_id')
             ->where('products.nombre', 'like', '%' . $this->search3 . '%')
-            ->select('prov.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
-            ->get();
+            ->select('providers.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
+            ->paginate($this->pag);
         }
    
         $usuarios = User::select("users.*")
@@ -123,6 +124,7 @@ class ComprasController extends Component
             'data_compras'=>$datas_compras->paginate($this->pagination), 
             'compra'=>$compraproducto, 
             'totales'=>$this->totales,
+            'productoProveedor'=>$data,
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios,
         

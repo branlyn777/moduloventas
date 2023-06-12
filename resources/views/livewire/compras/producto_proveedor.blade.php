@@ -23,14 +23,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- <div class="col-12 col-sm-6 col-md-6">
-                        <label style="font-size: 1rem;">Filtrar por Fecha</label>
-                        <div class="form-group">
-                            <input type="date"  class="form-control flatpickr">
-                        </div>
-                    </div> --}}
-
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -44,7 +36,7 @@
                             </thead>
 
                             <tbody>
-                                @if ($search3 != null)
+                                @if ($search3 != null and $productoProveedor != null)
                                     @foreach ($productoProveedor as $prp)
                                         <tr>
                                             <td class="text-center">
