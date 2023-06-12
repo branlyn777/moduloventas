@@ -114,6 +114,8 @@ class PosController extends Component
     public $product_id_devolution, $product_name_devolution, $sale_id_devolution, $detail_devolution,
      $list_destinations_devolution, $destiny_id_devolution, $quantity_devolution, $sale_detail_id_devolution, $amount_devolution,
      $list_categories_devolution, $category_id_devolution, $cartera_id_devolution;
+    //Guarda mensaje cuando un producto no tiene lotes
+     public $advertencia_stock;
 
 
     //VARIABLES PARA LOS INGRESOS Y EGRESOS
@@ -144,7 +146,7 @@ class PosController extends Component
 
 
         $this->extraquantity = 1;
-        $this->selloutofstock = true;
+        $this->selloutofstock = false;
         $this->finaldatecotization = Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->tipo_movimiento_ie = "Elegir";
         $this->cartera_id_ie = "Elegir";
@@ -183,8 +185,10 @@ class PosController extends Component
         $this->observacion = "";
         $this->lotes_producto = [];
         $this->precio_promedio = 0;
-        foreach ($this->listarcarteras() as $list) {
-            if ($list->tipo == 'efectivo') {
+        foreach ($this->listarcarteras() as $list)
+        {
+            if ($list->tipo == 'efectivo')
+            {
                 $this->cartera_id = $list->idcartera;
                 break;
             }
@@ -240,7 +244,6 @@ class PosController extends Component
                     "products.id as id",
                     "products.nombre as nombre",
                     "products.image as image",
-                    "products.precio_venta as precio_venta",
                     "products.codigo as barcode",
                     "products.status as estado"
                 )
@@ -613,26 +616,32 @@ class PosController extends Component
                 "products.image as image",
                 "des.sucursal_id as sucursal_id",
                 "products.nombre as name",
-                "products.precio_venta as price",
                 "products.codigo",
                 "pd.stock as stock"
             )
             ->where("products.codigo", $barcode)
             ->where("des.id", $this->destino_id)
             ->where("des.sucursal_id", $this->idsucursal())
-            ->get()->first();
+            ->first();
 
 
-        if ($product == null || empty($product)) {
+        if ($product == null || empty($product))
+        {
             $this->mensaje_toast = "El producto con el código '" . $barcode . "' no existe o no esta registrado";
             $this->emit('increase-notfound');
-        } else {
-            if ($this->stocktienda($product->id, $cant)) {
-                //Añadiendo al Carrrito los Productos
+        }
+        else
+        {
+            if ($this->stocktienda($product->id, $cant))
+            {
+                // Añadiendo al Carrrito los Productos
+                $precio_venta = Lote::where("product_id", $product->id)->orderBy("created_at", "desc")->first();
+
+                // $precio_venta = Lote::where("product_id", $product->id)->lastest("created_at")->first();
                 Cart::add(
                     $product->id,
                     $product->name,
-                    $product->price,
+                    $precio_venta->pv_lote,
                     $cant,
                     $product->image
                 );
@@ -785,69 +794,91 @@ class PosController extends Component
                 'movimiento_id' => $Movimiento->id,
                 'user_id' => Auth()->user()->id
             ]);
-            //Actualizando la variable $this->venta_id para poder crear un comprobante de venta
+            // Actualizando la variable $this->venta_id para poder crear un comprobante de venta
             $this->venta_id = $sale->id;
 
 
-            //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
+            // Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
             $productos = Cart::getContent();
 
-            //Variable que guarda que si existe productos con stock mas allá del disponible
+            // Variable que guarda que si existe productos con stock mas allá del disponible
             $stock_extra = false;
-
-            //Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
+            // Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
             foreach ($productos as $pp)
             {
                 if ($pp->attributes->Cantidad > 0)
                 {
-                    //Registrando Ingreso Producto
-                    $ip = IngresoProductos::create([
-                        'destino' => $this->destino_id,
-                        'user_id' => Auth()->user()->id,
-                        'concepto' => "INGRESO",
-                        'observacion' => "Ingreso automático del producto para venta rápida",
-                    ]);
-                    $stock_extra = true;
-                    break;
+                    $stock_destino = ProductosDestino::join("destino_sucursals as ds", "ds.destino_id", "productos_destinos.destino_id")
+                    ->select("productos_destinos.stock as stock")
+                    ->where("ds.sucursal_id", $this->idsucursal())
+                    ->where("productos_destinos.product_id", $pp->id)
+                    ->first();
+
+                    $stock = $stock_destino->stock - $pp->quantity;
+                    if($stock < 0)
+                    {
+                        //Registrando Ingreso Producto
+                        $ip = IngresoProductos::create([
+                            'destino' => $this->destino_id,
+                            'user_id' => Auth()->user()->id,
+                            'concepto' => "INGRESO",
+                            'observacion' => "Ingreso automático del producto para venta rápida",
+                        ]);
+                        $stock_extra = true;
+                        break;
+                    }
+
                 }
             }
-
             if($stock_extra)
             {
                 foreach ($productos as $ppp)
                 {
-                    $precio_producto = Lote::select("pv_lote")
-                    ->where("lotes.product_id",$ppp->id)
-                    ->orderBy("lotes.created_at","desc")
-                    ->first()->pv_lote;
-                    //Creando el Lote
-                    $l = Lote::create([
-                        'existencia' => $ppp->attributes->Cantidad,
-                        'costo' => $ppp->attributes->Costo,
-                        'pv_lote' => $precio_producto,
-                        'status' => 'Activo',
-                        'product_id' => $ppp->id
-                    ]);
-                    //Creando Detalle entrada producto
-                    DetalleEntradaProductos::create([
-                        'product_id' => $ppp->id,
-                        'cantidad' => $ppp->attributes->Cantidad,
-                        'costo' => $ppp->attributes->Costo,
-                        'id_entrada' => $ip->id,
-                        'lote_id' => $l->id
-                    ]);
-                    //Incrementando el Stock en Tienda
-                    $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-                    ->select("productos_destinos.id as id","p.nombre as name",
-                    "productos_destinos.stock as stock")
-                    ->where("p.id", $ppp->id)
-                    ->where("des.id", $this->destino_id)
-                    ->where("des.sucursal_id", $this->idsucursal())
-                    ->get()->first();
-                    $tiendaproducto->update([
-                        'stock' => $tiendaproducto->stock + $ppp->attributes->Cantidad
-                    ]);
+                    $stock_destino = ProductosDestino::join("destino_sucursals as ds", "ds.destino_id", "productos_destinos.destino_id")
+                    ->select("productos_destinos.stock as stock")
+                    ->where("ds.sucursal_id", $this->idsucursal())
+                    ->where("productos_destinos.product_id", $pp->id)
+                    ->first();
+
+                    $stock = $stock_destino->stock - $pp->quantity;
+                    if($stock < 0)
+                    {
+                        $precio_producto = Lote::select("pv_lote")
+                        ->where("lotes.product_id",$ppp->id)
+                        ->orderBy("lotes.created_at","desc")
+                        ->first()->pv_lote;
+                        //Creando el Lote
+                        $l = Lote::create([
+                            'existencia' => $stock,
+                            'costo' => $ppp->attributes->Costo,
+                            'pv_lote' => $precio_producto,
+                            'status' => 'Activo',
+                            'product_id' => $ppp->id
+                        ]);
+                        //Creando Detalle entrada producto
+                        DetalleEntradaProductos::create([
+                            'product_id' => $ppp->id,
+                            'cantidad' => $stock,
+                            'costo' => $ppp->attributes->Costo,
+                            'id_entrada' => $ip->id,
+                            'lote_id' => $l->id
+                        ]);
+                        //Incrementando el Stock en Tienda
+                        $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                        ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                        ->select("productos_destinos.id as id","p.nombre as name",
+                        "productos_destinos.stock as stock")
+                        ->where("p.id", $ppp->id)
+                        ->where("des.id", $this->destino_id)
+                        ->where("des.sucursal_id", $this->idsucursal())
+                        ->first();
+
+
+
+                        $tiendaproducto->update([
+                            'stock' => $tiendaproducto->stock + ($stock*-1)
+                        ]);
+                    }
                 }
             }
 
@@ -1256,6 +1287,13 @@ class PosController extends Component
     //Método para mostrar una ventana modal cuando no hay stock en Tienda de un producto
     public function modalstockinsuficiente($idproducto)
     {
+        $lotes = Lote::where("product_id", $idproducto)->get();
+
+        if($lotes->count() == 0)
+        {
+            $this->advertencia_stock = "Este producto no tiene lotes, por lo tanto la utilidad será el 100% del precio.";
+        }
+
         $this->producto_id = $idproducto;
 
         // Cambiando la variable $this->stock_disponible a false para que no se pueda mostrar la ventana modal finalizar venta
@@ -1477,15 +1515,31 @@ class PosController extends Component
         {
             //Cantidad extra para incrementar
             $cantidad_previa = $product_cart->attributes->Cantidad;
+
+
+            $destinosucursal =DestinoSucursal::where("sucursal_id", $this->idsucursal())->first();
+
+            $stock_disponible = ProductosDestino::where("destino_id", $destinosucursal->destino_id)
+            ->where("product_id", $this->producto_id)
+            ->first();
+
+
+
+
+
+            $cantidad_final = $this->extraquantity + $cantidad_previa - $stock_disponible->stock ?? 0;
+
+
             $miArray = array(
                 "Imagen" => $producto->image,
-                "Cantidad" => $this->extraquantity + $cantidad_previa,
+                "Cantidad" => $cantidad_final,
                 "Costo" => $this->product_cost
             );
             //Cantidad para vender
             $cantidad_vender = $product_cart->quantity + $this->extraquantity;
 
             $this->mensaje_toast = "¡Cantidad Actualizada: '" . strtolower($producto->nombre) . "'!";
+            Cart::remove($product_cart->id);
             Cart::add($product_cart->id, $product_cart->name, $product_cart->price, $cantidad_vender ,$miArray);
             $this->emit('increase-ok');
         }
@@ -1512,7 +1566,13 @@ class PosController extends Component
             }
 
             $this->mensaje_toast = "¡Agregado correctamente: '" . $producto->nombre . "'!";
+
+
             Cart::add($producto->id, $producto->nombre, $precio, $this->extraquantity, $miArray);
+
+          
+
+
             $this->emit('increase-ok');
         }
 

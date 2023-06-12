@@ -15,6 +15,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class CorteCajaController extends Component
 {
@@ -396,6 +397,7 @@ class CorteCajaController extends Component
 
 
                 DB::commit();
+                return Redirect::to('pos');
             } catch (Exception $e) {
                 DB::rollback();
                 $this->mensaje_toast = ": " . $e->getMessage();
