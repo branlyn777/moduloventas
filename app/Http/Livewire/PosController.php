@@ -622,27 +622,26 @@ class PosController extends Component
             ->where("products.codigo", $barcode)
             ->where("des.id", $this->destino_id)
             ->where("des.sucursal_id", $this->idsucursal())
-            ->get()->first();
+            ->first();
 
 
-        if ($product == null || empty($product)) {
+        if ($product == null || empty($product))
+        {
             $this->mensaje_toast = "El producto con el código '" . $barcode . "' no existe o no esta registrado";
             $this->emit('increase-notfound');
-        } else {
-            if ($this->stocktienda($product->id, $cant)) {
-                //Añadiendo al Carrrito los Productos
-
-
+        }
+        else
+        {
+            if ($this->stocktienda($product->id, $cant))
+            {
+                // Añadiendo al Carrrito los Productos
                 $precio_venta = Lote::where("product_id", $product->id)->orderBy("created_at", "desc")->first();
 
                 // $precio_venta = Lote::where("product_id", $product->id)->lastest("created_at")->first();
-
-
-
                 Cart::add(
                     $product->id,
                     $product->name,
-                    $precio_venta,
+                    $precio_venta->pv_lote,
                     $cant,
                     $product->image
                 );
@@ -795,69 +794,91 @@ class PosController extends Component
                 'movimiento_id' => $Movimiento->id,
                 'user_id' => Auth()->user()->id
             ]);
-            //Actualizando la variable $this->venta_id para poder crear un comprobante de venta
+            // Actualizando la variable $this->venta_id para poder crear un comprobante de venta
             $this->venta_id = $sale->id;
 
 
-            //Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
+            // Obteniendo todos los productos del Carrito de Ventas (Carrito de Ventas)
             $productos = Cart::getContent();
 
-            //Variable que guarda que si existe productos con stock mas allá del disponible
+            // Variable que guarda que si existe productos con stock mas allá del disponible
             $stock_extra = false;
-            //Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
+            // Verificando si entre los productos a vender se tiene alguno que tenga stock extra (Cantidad mas allá del disposable)
             foreach ($productos as $pp)
             {
                 if ($pp->attributes->Cantidad > 0)
                 {
-                    //Registrando Ingreso Producto
-                    $ip = IngresoProductos::create([
-                        'destino' => $this->destino_id,
-                        'user_id' => Auth()->user()->id,
-                        'concepto' => "INGRESO",
-                        'observacion' => "Ingreso automático del producto para venta rápida",
-                    ]);
-                    $stock_extra = true;
-                    break;
+                    $stock_destino = ProductosDestino::join("destino_sucursals as ds", "ds.destino_id", "productos_destinos.destino_id")
+                    ->select("productos_destinos.stock as stock")
+                    ->where("ds.sucursal_id", $this->idsucursal())
+                    ->where("productos_destinos.product_id", $pp->id)
+                    ->first();
+
+                    $stock = $stock_destino->stock - $pp->quantity;
+                    if($stock < 0)
+                    {
+                        //Registrando Ingreso Producto
+                        $ip = IngresoProductos::create([
+                            'destino' => $this->destino_id,
+                            'user_id' => Auth()->user()->id,
+                            'concepto' => "INGRESO",
+                            'observacion' => "Ingreso automático del producto para venta rápida",
+                        ]);
+                        $stock_extra = true;
+                        break;
+                    }
+
                 }
             }
             if($stock_extra)
             {
                 foreach ($productos as $ppp)
                 {
-                    $precio_producto = Lote::select("pv_lote")
-                    ->where("lotes.product_id",$ppp->id)
-                    ->orderBy("lotes.created_at","desc")
-                    ->first()->pv_lote;
-                    //Creando el Lote
-                    $l = Lote::create([
-                        'existencia' => $ppp->attributes->Cantidad,
-                        'costo' => $ppp->attributes->Costo,
-                        'pv_lote' => $precio_producto,
-                        'status' => 'Activo',
-                        'product_id' => $ppp->id
-                    ]);
-                    //Creando Detalle entrada producto
-                    DetalleEntradaProductos::create([
-                        'product_id' => $ppp->id,
-                        'cantidad' => $ppp->attributes->Cantidad,
-                        'costo' => $ppp->attributes->Costo,
-                        'id_entrada' => $ip->id,
-                        'lote_id' => $l->id
-                    ]);
-                    //Incrementando el Stock en Tienda
-                    $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
-                    ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
-                    ->select("productos_destinos.id as id","p.nombre as name",
-                    "productos_destinos.stock as stock")
-                    ->where("p.id", $ppp->id)
-                    ->where("des.id", $this->destino_id)
-                    ->where("des.sucursal_id", $this->idsucursal())
-                    ->get()->first();
+                    $stock_destino = ProductosDestino::join("destino_sucursals as ds", "ds.destino_id", "productos_destinos.destino_id")
+                    ->select("productos_destinos.stock as stock")
+                    ->where("ds.sucursal_id", $this->idsucursal())
+                    ->where("productos_destinos.product_id", $pp->id)
+                    ->first();
+
+                    $stock = $stock_destino->stock - $pp->quantity;
+                    if($stock < 0)
+                    {
+                        $precio_producto = Lote::select("pv_lote")
+                        ->where("lotes.product_id",$ppp->id)
+                        ->orderBy("lotes.created_at","desc")
+                        ->first()->pv_lote;
+                        //Creando el Lote
+                        $l = Lote::create([
+                            'existencia' => $stock,
+                            'costo' => $ppp->attributes->Costo,
+                            'pv_lote' => $precio_producto,
+                            'status' => 'Activo',
+                            'product_id' => $ppp->id
+                        ]);
+                        //Creando Detalle entrada producto
+                        DetalleEntradaProductos::create([
+                            'product_id' => $ppp->id,
+                            'cantidad' => $stock,
+                            'costo' => $ppp->attributes->Costo,
+                            'id_entrada' => $ip->id,
+                            'lote_id' => $l->id
+                        ]);
+                        //Incrementando el Stock en Tienda
+                        $tiendaproducto = ProductosDestino::join("products as p", "p.id", "productos_destinos.product_id")
+                        ->join('destinos as des', 'des.id', 'productos_destinos.destino_id')
+                        ->select("productos_destinos.id as id","p.nombre as name",
+                        "productos_destinos.stock as stock")
+                        ->where("p.id", $ppp->id)
+                        ->where("des.id", $this->destino_id)
+                        ->where("des.sucursal_id", $this->idsucursal())
+                        ->first();
 
 
-                    $tiendaproducto->update([
-                        'stock' => $tiendaproducto->stock + $ppp->attributes->Cantidad
-                    ]);
+
+                        $tiendaproducto->update([
+                            'stock' => $tiendaproducto->stock + ($stock*-1)
+                        ]);
+                    }
                 }
             }
 
