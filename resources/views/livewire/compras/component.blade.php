@@ -39,6 +39,9 @@
 @endsection
 
 
+
+
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -61,21 +64,33 @@
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-start">
                             <div class="col-5 mb-3">
-                                <label for="search-input" class="form-label">Buscar</label>
-                                <div class="input-group">
-                                    <span class="input-group-text border border-primary">
-                                        <i class="fa fa-search"></i>
-                                    </span>
-                                    <input id="search-input" type="text"
-                                        class="form-control border-primary rounded-end" wire:model="search"
-                                        placeholder="nro.documento,proveedor,usuario">
-                                    <select class="form-select border-primary rounded-start" wire:model="tipo_search">
-                                        <option value="codigo"> Cod. Compra</option>
-                                        <option value="proveedor">Proveedor</option>
-                                        <option value="usuario">Usuario</option>
-                                        <option value="documento">Documento</option>
-                                    </select>
+                                <label for="search-input" style="font-size: 1rem;" class="form-label">Buscar</label>
+                                <div class="row">
+                                    <div class="col-md-9 me-0 pe-0">
+                                        <div class="input-group">
+                                            <span class="input-group-text border border-primary">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                            <input id="search-input" type="text"
+                                                class="form-control border-primary me-0 pe-0" wire:model="search"
+                                                placeholder="numero documento,proveedor,usuario">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ms-0 ps-0">
+
+                                        <select class="form-select border-primary dropdown ms-0 ps-2"
+                                            wire:model="tipo_search">
+                                            <option value="codigo"> Cod. Compra</option>
+                                            <option value="proveedor">Proveedor</option>
+                                            <option value="usuario">Usuario</option>
+                                            <option value="documento">Documento</option>
+                                        </select>
+                                    </div>
                                 </div>
+
+
+
+
                             </div>
                             <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Estado</label>
@@ -118,17 +133,12 @@
 
                             <div class="col" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Otros</label>
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="javascript:void(0)" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Mas Filtros
+                                <div>
+                                    <a class="btn btn-secondary" href="javascript:void(0)" role="button"
+                                        wire:click="VerProductosProveedor()">
+                                        Busqueda Avanzada <i class="fas fa-search"></i>
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" wire:click="VerComprasProducto()">Compras por
-                                                producto</a></li>
-                                        <li><a class="dropdown-item" wire:click="VerProductosProveedor()">Productos por
-                                                proveedor</a></li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
@@ -142,16 +152,16 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-sm text-center">N°</th>
-                                    <th class="text-uppercase text-sm ps-2">COD.</th>
-                                    <th class="text-uppercase text-sm ps-2">FECHA</th>
-                                    <th class="text-uppercase text-sm ps-2">PROVEEDOR</th>
-                                    <th class="text-uppercase text-sm ps-2">DOCUMENTO</th>
-                                    <th class="text-uppercase text-sm ps-2">TIPO COMPRA</th>
-                                    <th class="text-uppercase text-sm ps-2">TOTAL COMPRA</th>
-                                    <th class="text-uppercase text-sm ps-2">ESTADO</th>
-                                    <th class="text-uppercase text-sm ps-2">USUARIO</th>
-                                    <th class="text-uppercase text-sm text-center">ACCIONES</th>
+                                    <th class="text-xs text-center">N°</th>
+                                    <th class="text-xs">COD.</th>
+                                    <th class="text-xs">FECHA</th>
+                                    <th class="text-xs">PROVEEDOR</th>
+                                    <th class="text-xs">DOCUMENTO</th>
+                                    <th class="text-xs">TIPO COMPRA</th>
+                                    <th class="text-xs">TOTAL COMPRA</th>
+                                    <th class="text-xs">ESTADO</th>
+                                    <th class="text-xs">USUARIO</th>
+                                    <th class="text-xs text-center">ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -258,8 +268,8 @@
     @include('livewire.compras.verDetallecompra')
     @include('livewire.compras.compra_producto')
     @include('livewire.compras.producto_proveedor')
-  
-  
+
+
 
 </div>
 

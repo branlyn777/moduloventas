@@ -34,7 +34,8 @@ class ComprasController extends Component
             $search,
             $datas_compras,
             $totales,
-            $aprobado,$detalleCompra,$pag,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3;
+            $aprobado,$detalleCompra,$pag,$estado,$ventaTotal,$observacion,$totalitems,$compraTotal,$totalIva,$sucursal_id,$user_id,$tipofecha,$compraproducto,$search2,$tipo_search,$productoProveedor,$search3,
+            $opcionBusquedaAvanzada;
 
     public function paginationView()
     {
@@ -51,6 +52,7 @@ class ComprasController extends Component
         $this->toDate =  Carbon::parse(Carbon::now())->format('Y-m-d');
         $this->sucursal_id=SucursalUser::where('user_id',Auth()->user()->id)->first()->sucursal_id;
         $this->estado='ACTIVO';
+        $this->opcionBusquedaAvanzada='producto';
         
         $this->tipo_search='codigo';
     }
@@ -105,15 +107,26 @@ class ComprasController extends Component
 
             //dd($compraproducto);
         } 
-        $data='';
+        $data=[];
         if ($this->search3 != null) {
      
             $data = Compra::join('compra_detalles','compra_detalles.compra_id','compras.id')
             ->join('products','products.id','compra_detalles.product_id')
             ->join('providers','providers.id','compras.proveedor_id')
-            ->where('products.nombre', 'like', '%' . $this->search3 . '%')
-            ->select('providers.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at')
+            ->when( $this->opcionBusquedaAvanzada=='producto',function ($query){
+                $query->where('products.nombre', 'like', '%' . $this->search3 . '%')
+                ->orWhere('products.codigo', 'like', '%' . $this->search3 . '%');
+            })
+            ->when( $this->opcionBusquedaAvanzada =='proveedor',function ($query){
+                $query->where('providers.nombre_prov', 'like', '%' . $this->search3 . '%');
+            })
+       
+            ->select('products.nombre','products.codigo','providers.nombre_prov as nombre_prov','compra_detalles.cantidad','compras.id','compras.created_at','compra_detalles.precio')
+            ->orderBy('compras.created_at','desc')  
             ->paginate($this->pag);
+
+         
+   
         }
    
         $usuarios = User::select("users.*")
@@ -124,7 +137,7 @@ class ComprasController extends Component
             'data_compras'=>$datas_compras->paginate($this->pagination), 
             'compra'=>$compraproducto, 
             'totales'=>$this->totales,
-            'productoProveedor'=>$data,
+            'prod'=>$data,
             'listasucursales' => Sucursal::all(),
             'usuarios' => $usuarios,
         
@@ -239,6 +252,7 @@ class ComprasController extends Component
     }
     public function VerProductosProveedor()
     {
+        $this->search3=null;
         $this->emit('productoproveedor');
     }
 }

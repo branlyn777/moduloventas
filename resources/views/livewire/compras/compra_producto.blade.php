@@ -67,7 +67,7 @@
                                     {{$compra->links()}}
                             </div>
                         @else
-                            <p class="h1 text-center align-item-center">
+                            <p class="h5 text-center align-item-center">
                                 Buscar...  <i class="fas fa-search"></i>
                             </p>
                         @endif
