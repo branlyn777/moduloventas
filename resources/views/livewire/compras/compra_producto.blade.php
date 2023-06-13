@@ -1,10 +1,10 @@
-<div wire:ignore.self class="modal fade" id="compraprod" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<div wire:ignore.self class="modal fade" id="compraprod" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <div>
-                    <h5 class="mb-0 text-white" style="font-size: 16px">Productos por Compra</h5>
+                    <h5 class="mb-0 text-white" style="font-size: 16px">Historial de compras por producto</h5>
                 </div>
                 <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -12,66 +12,68 @@
             </div>
             <div class="modal-body" style="min-height: 500px; padding-top: 10px;">
                 <div class="row">
-                    <div class="col-12 col-sm-6 col-md-6">
-                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar</label>
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <label class="ml-3 mt-1" style="font-size: 1rem;">Buscar Producto</label>
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                <input type="text" wire:model="search2" placeholder="producto, proveedor"
-                                    class="form-control ">
+                                <input type="text" wire:model="search2"
+                                    placeholder="Buscar nombre,codigo producto..." class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">N°</th>
-                                    <th class="text-uppercase text-sm ps-2">Producto</th>
-                                    <th class="text-uppercase text-sm ps-2">Proveedor</th>
-                                    <th class="text-center">Cantidad</th>
-                                    <th class="text-center">Cod. Compra</th>
-                                    <th class="text-center">Fecha Compra</th>
-                                </tr>
-                            </thead>
+                        @if ($search2 != null)
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-xs">N°</th>
+                                        <th class="text-uppercase text-xs ps-2">Producto</th>
+                                        <th class="text-uppercase text-xs ps-2">PROV.</th>
+                                        <th class="text-center text-xs">CANT.</th>
+                                        <th class="text-center text-xs">COD. COMPRA</th>
+                                        <th class="text-center text-xs">FECHA COMPRA</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                @if ($search2 != null)
-                                    @foreach ($compraproducto as $cp)
+                                <tbody>
+                                    @foreach ($compra as $item)
                                         <tr>
                                             <td class="text-center">
-                                                {{ $loop->index + 1 }}
+                                                {{ $loop->iteration+1}}
                                             </td>
                                             <td class="text-left">
-                                                {{ substr($cp->nombre, 0, 10) }}
+                                                <div style="font-size: 12px; max-width: 100%; word-wrap: break-word; white-space: normal">{{ $item->nombre }}</div>
+        
                                             </td>
                                             <td class="text-left">
-                                                {{ $cp->proveedor->nombre_prov }}
+                                                {{ $item->proveedor->nombre_prov }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->cantidad }}
+                                                {{ $item->cantidad }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->id }}
+                                                {{ $item->id }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $cp->created_at }}
+                                                {{ $item->created_at }}
                                             </td>
                                         </tr>
                                     @endforeach
-                                @else
-                                    <p></p>
 
-                                    {{$compraproducto!=null?$compraproducto->links():''}}
-                                @endif
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                            <div class="table-5">
+                                    {{$compra->links()}}
+                            </div>
+                        @else
+                            <p class="h5 text-center align-item-center">
+                                Buscar...  <i class="fas fa-search"></i>
+                            </p>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
- 
-
 </div>

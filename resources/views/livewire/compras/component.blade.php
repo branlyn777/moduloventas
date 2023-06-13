@@ -60,18 +60,23 @@
                 <div class="card-body p-4">
                     <div class="padding-left: 12px; padding-right: 12px;">
                         <div class="row justify-content-end">
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem;">Buscar</label><br>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                        <input type="text" wire:model="search"
-                                            placeholder="nro.documento,proveedor,usuario" class="form-control">
+                            <div class="col-12 col-sm-6 col-md-4" style="margin-bottom: 7px;">
+                                <label for="search-input" style="font-size: 1rem;" class="form-label">Buscar</label>
+                                <div class="row">
+                                    <div class="col-md-9 me-0 pe-0">
+                                        <div class="input-group">
+                                            <span class="input-group-text border border-primary">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                            <input id="search-input" type="text"
+                                                class="form-control border-primary me-0 pe-0" wire:model="search"
+                                                placeholder="numero documento,proveedor,usuario">
+                                        </div>
                                     </div>
-                                    <div class="input-group mb-4">
-                                        <select wire:model="tipo_search" class="form-select">
+                                    <div class="col-md-3 ms-0 ps-0">
+
+                                        <select class="form-select border-primary dropdown ms-0 ps-2"
+                                            wire:model="tipo_search">
                                             <option value="codigo"> Cod. Compra</option>
                                             <option value="proveedor">Proveedor</option>
                                             <option value="usuario">Usuario</option>
@@ -82,7 +87,7 @@
                             </div>
 
 
-                            <div class="col-12 col-sm-6 col-md-3" style="margin-bottom: 7px;">
+                            <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
                                 <label style="font-size: 1rem;">Seleccionar Sucursal</label>
                                 <div class="">
                                     <select wire:model="sucursal_id" class="form-select">
@@ -134,18 +139,13 @@
                             @endif
 
                             <div class="col-12 col-sm-6 col-md-2" style="margin-bottom: 7px;">
-                                <label style="font-size: 1rem;">Otros</label>
-                                <div class="dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Ver
+                                
+                                <div>
+                                    <a class="btn btn-lg btn-secondary" href="javascript:void(0)" role="button"
+                                        wire:click="VerProductosProveedor()">
+                                        <i class="fas fa-search"></i>Busqueda Avanzada 
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" wire:click="VerComprasProducto()">Compras por
-                                                producto</a></li>
-                                        <li><a class="dropdown-item" wire:click="VerProductosProveedor()">Productos por
-                                                proveedor</a></li>
-                                    </ul>
+
                                 </div>
                             </div>
                         </div>
